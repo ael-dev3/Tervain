@@ -19,3 +19,7 @@ node tools/check-live-crown-masks.mjs --url https://ael-dev3.github.io/Tervain/ 
 ```
 
 It reports each native LOD target's material alpha-test threshold and sampler availability, rejecting unknown leafy materials or required missing masks. Its mask-availability result is not a crown-connectivity or LOD-pop quality gate. The recorded build revision identifies the build actually inspected.
+
+## Published-build check
+
+A native software-WebGL run inspected unmodified 0.0.18 · 421d34b. All three requested LOD cohorts contained 453 masked tree targets each, with zero required missing samplers and zero unknown leafy materials. Full selected-target rows and a compact summary are attached under `proofs/canopy-missing-cutout/`. Missing mask readback is not an observed live cause in this run. This checks readback availability only, not the accuracy/resolution of opaque sampling, floating islands, shader wind or LOD visual transitions. The full world was loaded and frozen before inspecting targets; no hardware performance claim is made.
