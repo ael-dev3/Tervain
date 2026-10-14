@@ -1,0 +1,59 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "casterMeshes": 117,
+  "rows": [
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    },
+    {
+      "shadowTrees": 169,
+      "shadowTris": 712707
+    }
+  ],
+  "scope": "Native published shadow volume, fixed camera position and 12 small rotations; shadow receivers retained for an indoor/window-style view. Retained shadow-tree counts demonstrate the shadow-weight path is active, rather than counting array allocations. Not a heap profile or frame-time measurement.",
+  "pass": true
+}
