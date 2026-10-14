@@ -36,3 +36,14 @@ The earlier [same-build receipt in #461](https://github.com/ael-dev3/Tervain/pul
 Neither cutout connectivity nor that pop count measures alpha-edge aliasing. A motion-compensated crown-edge capture through the native post/MSAA path remains required to attribute edge shimmer. No alpha-edge PASS or overall tree-quality score is claimed here.
 
 Validation: the partial-root fixture has one unsupported sector while retaining zero classified floating-tree candidates; flat/empty controls remain clear. Ten placement/CLI tests and production build pass. The code is offline diagnostic reporting only.
+
+
+## Uploaded playtest crown-motion sample
+
+The uploaded 60 fps video also supplies a native-resolution 120-frame sample from 4.0–5.983 s. The fixed normalized ROI is `[.15,.15,.12,.15]` (230×162 decoded pixels), excluding HUD. Motion-compensated analysis yields 118 usable frame triplets, 99.8165% alignment coverage, mean absolute temporal residual 1.29569/255 and sparkle share 0.014385% at the existing 18/255 bright-residual threshold. These are compressed-video foliage-region statistics; camera parallax, foliage motion, compression and alpha edges can all contribute. They are **not an alpha-only aliasing metric or a before/after visual-fix claim**.
+
+[ROI context](proofs/live18-tree-quality/crown-motion-context.jpg) · [per-frame measurements](proofs/live18-tree-quality/crown-motion.json).
+
+```sh
+node tools/video-shimmer.mjs --input playtest-0.0.18.mp4 --roi .15,.15,.12,.15 --start 4 --max-frames 120 --out crown-motion.json
+```
