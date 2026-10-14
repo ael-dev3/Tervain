@@ -312,3 +312,20 @@ describe('historical source-Pine component render substitution without the Meshy
     forest.dispose!(); vi.unstubAllGlobals();
   });
 });
+
+it('retains every far-LOD pine in audit coverage when its delivered card has no wood', () => {
+  vi.stubGlobal('location', { search: '' });
+  const quality = 'low';
+  const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+    settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+    sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+  try {
+    const near = forest.canopyAuditTargets!(0), far = forest.canopyAuditTargets!(2);
+    expect(far).toHaveLength(forest.counts.trees);
+    expect(far.map(t => t.label).sort()).toEqual(near.map(t => t.label).sort());
+    const unsupported = far.filter(t => !t.wood && t.leaves);
+    expect(unsupported.length).toBeGreaterThan(0);
+    expect(unsupported.some(t => t.species === 'pine')).toBe(true);
+    expect(unsupported.every(t => ['pine', 'fir', 'shorepine'].includes(t.species ?? '') && t.lod === 2)).toBe(true);
+  } finally { forest.dispose!(); vi.unstubAllGlobals(); }
+});

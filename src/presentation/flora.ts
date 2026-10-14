@@ -495,7 +495,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
       return batches.flatMap((b, batch) => {
         const level = b.variant.lods[lod]!, wood = level.wood;
-        if (!wood) return [];
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
