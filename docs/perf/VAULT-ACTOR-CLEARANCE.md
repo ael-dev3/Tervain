@@ -29,3 +29,14 @@ All control rows are identical before/after. Grade/4×MSAA renders validly with 
 A separate published-build run used real keyboard events, native player/physics and three existing field fence segments: both directions, walk/run, and −75°, −45°, 0°, +45°, +75° approaches. **60/60 accepted and landed beyond the planned landing**, with starting heights spanning 1.06–2.35 m. Cargo at the landing was already rejected; absent/nearby cargo controls crossed without deep contacts. The old cargo defect is not reported as still open.
 
 [Published result](proofs/vault-actor-clearance/live-fence-0018.json). The runner was mistakenly selected with its legacy pre-fix expectation; that assertion rejected the already-correct cargo behavior. Its saved observations were checked separately against the post-fix assertions. This full-world run verifies the existing fence controls, not the new occupied-actor scenario. No hardware play-gate PASS or exhaustive all-fence coverage is claimed.
+
+## Published occupied-resident repro and compiled fix
+
+```sh
+node tools/repro-live-vault-actors.mjs --url https://ael-dev3.github.io/Tervain/ --expect before --out published-actors.json
+node tools/repro-live-vault-actors.mjs --url <candidate-build-url> --expect after --out candidate-actors.json
+```
+
+Both full-world probes pass with the delivered hero, a native resident and real jump-key events. Position the resident at the first field fence's planned landing (approximately −4.798, 1.451, 54.052). Other actor-contact sources are excluded to isolate this check. On published 421d34b the occupied vault starts; on compiled c16f01e3f it is rejected. Nearby, hidden and overhead resident controls start on both builds, with identical recorded control rows.
+
+[Published receipt](proofs/vault-actor-clearance/published-actors.json) · [compiled candidate receipt](proofs/vault-actor-clearance/candidate-actors.json). These tests assert initiation; the 72-case fixture above covers the subsequent controller motion. No hardware frame-time claim.

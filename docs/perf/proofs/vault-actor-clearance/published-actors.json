@@ -1,0 +1,89 @@
+{
+  "build": "v0.0.18 \u00b7 421d34b",
+  "nativeHero": true,
+  "rows": [
+    {
+      "scenario": "occupied",
+      "accepted": true,
+      "player": {
+        "x": -4.924338856560766,
+        "y": 1.5144855009575833,
+        "z": 52.4704238525019
+      },
+      "resident": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985,
+        "hidden": false
+      },
+      "plannedLanding": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985
+      }
+    },
+    {
+      "scenario": "nearby",
+      "accepted": true,
+      "player": {
+        "x": -4.924338856560766,
+        "y": 1.5144855009575833,
+        "z": 52.4704238525019
+      },
+      "resident": {
+        "x": -2.803945233207105,
+        "y": 1.4510528270303686,
+        "z": 53.89208958316151,
+        "hidden": false
+      },
+      "plannedLanding": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985
+      }
+    },
+    {
+      "scenario": "hidden",
+      "accepted": true,
+      "player": {
+        "x": -4.924338856560766,
+        "y": 1.5144855009575833,
+        "z": 52.4704238525019
+      },
+      "resident": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985,
+        "hidden": true
+      },
+      "plannedLanding": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985
+      }
+    },
+    {
+      "scenario": "above",
+      "accepted": true,
+      "player": {
+        "x": -4.924338856560766,
+        "y": 1.5144855009575833,
+        "z": 52.4704238525019
+      },
+      "resident": {
+        "x": -4.797548645812344,
+        "y": 7.451052827030368,
+        "z": 54.05191897109985,
+        "hidden": false
+      },
+      "plannedLanding": {
+        "x": -4.797548645812344,
+        "y": 1.4510528270303686,
+        "z": 54.05191897109985
+      }
+    }
+  ],
+  "pass": true,
+  "scope": "Native build player/resident and first field fence with real jump keyboard events. Resident contacts are positioned to controlled occupied/nearby/hidden/above conditions; other actor contacts are excluded. No hardware frame-time claim.",
+  "buildKind": "published"
+}
