@@ -56,10 +56,14 @@ export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
  * the bands end at the old switches' near side (full 12-16 m, middle 60-68 m) so the sun's pass carries no more
  * triangles than the hard switches at 16 and 70 m did. */
 export const FLORA_SHADOW_BANDS = { full: [12, 16], middle: [60, 68] } as const;
-export function floraShadowWeights(distance: number, pine: boolean): readonly [number, number, number] {
+/** The optional destination belongs to the caller; ordinary callers retain independent result arrays. */
+export function floraShadowWeights(distance: number, pine: boolean, out: [number, number, number] = [0, 0, 0]): readonly [number, number, number] {
   const full = smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.full);
   const middle = pine ? 1 : smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.middle);
-  return [full, Math.max(0, middle - full), 1 - Math.max(middle, full)];
+  out[0] = full;
+  out[1] = Math.max(0, middle - full);
+  out[2] = 1 - Math.max(middle, full);
+  return out;
 }
 
 /** How a tree answers the wind, from its kind and its own height. */
@@ -414,6 +418,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     return false;
   };
 
+  // Each tree's weights are consumed before the next tree; no result escapes this module's refresh.
+  const shadowWeights: [number, number, number] = [0, 0, 0];
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
@@ -447,7 +453,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
-          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows);
+          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
           let from = 0, cast = false;
           for (let sl = 0; sl < 3; sl++) {
             const to = from + sw[sl]!;
