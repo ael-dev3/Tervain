@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "ecb8fcd6f3e57ec89957a49cb05b3b07cca67cbcbe04bb82f9d17d4c3a2406ad",
+  "before": {
+    "pool": 48,
+    "idle": {
+      "frames": 120,
+      "uploadBytes": 76800,
+      "perFrameUploadBytes": 640,
+      "matrixWrites": 5760,
+      "versionDelta": 120,
+      "drawCalls": 2,
+      "triangles": 80,
+      "textureCount": 0,
+      "glError": 0,
+      "contextLost": false
+    },
+    "pendingControls": {
+      "accepted": 2,
+      "queued": 1
+    },
+    "statesSha256": "179a39e2b0d9eb26331c82b92ac071f932c1c803c1465f50a35cc2ec39caf039"
+  },
+  "after": {
+    "pool": 48,
+    "idle": {
+      "frames": 120,
+      "uploadBytes": 0,
+      "perFrameUploadBytes": 0,
+      "matrixWrites": 0,
+      "versionDelta": 0,
+      "drawCalls": 2,
+      "triangles": 80,
+      "textureCount": 0,
+      "glError": 0,
+      "contextLost": false
+    },
+    "pendingControls": {
+      "accepted": 2,
+      "queued": 1
+    },
+    "statesSha256": "179a39e2b0d9eb26331c82b92ac071f932c1c803c1465f50a35cc2ec39caf039"
+  },
+  "allFiveStatesBitIdentical": true,
+  "pixelIdentical": true,
+  "nonBackgroundPixels": 394,
+  "scope": "Production struck-tree leaf pool with ten leaves, 120 reduced-motion frames, then queued zero-step and resume controls. Actual software-WebGL buffer bytes. Not a full-scene or hardware timing gate.",
+  "qualityPass": null,
+  "pass": true
+}
