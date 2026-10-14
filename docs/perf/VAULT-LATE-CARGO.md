@@ -16,7 +16,7 @@ An earlier scan of all nine authored fence segments found **450 eligible approac
 
 Before advancing an active vault, sweep the next airborne segment against current loose bodies. Include the full foot volume and a conservative curvature envelope. When newly blocked, retain the last clear position, cancel the vault, zero scripted velocity and leave the player airborne so ordinary falling/collision handling resumes. Clear arcs use the same time, position and facing calculations.
 
-The envelope covers both the original smoothstep and a travel phase shortened to 60% of the arc. The foot padding matters: the existing planning sweep intentionally omits six centimetres below its body capsule; reusing it without that allowance left up to 1.9 cm of penetration in the first experiment.
+The envelope covers both the original smoothstep and a travel phase shortened to 60% of the arc. The foot padding matters: the existing planning sweep intentionally omits three centimetres below its body capsule; reusing it without that allowance left up to 1.9 cm of penetration in the first experiment.
 
 This does not undo cargo already moved into the player's current body, change actor collision, or alter visuals/animation. It adds one loose-body sweep on each active vault step. It does not run during ordinary walking.
 
