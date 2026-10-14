@@ -236,3 +236,14 @@ describe('detached leaves on the realm wind', () => {
     }
   });
 });
+it('draws and uploads only the last non-discarded prefix, retaining stream slots as it grows again',()=>{
+ const variant=source(),trees=Array.from({length:256},(_,i)=>tree(`prefix:${i}`));
+ const leaves=buildFallingLeaves({heightAt:()=>0},'high',trees,()=>variant),mesh=meshOf(leaves),a=opacity(mesh) as THREE.InstancedBufferAttribute;
+ try{let trimmed=false;for(let i=0;i<120;i++){
+   leaves.update(1/60,frame());const values=Array.from(a.array);let last=0;values.forEach((v,j)=>{if(v>.001)last=j+1;});
+   expect(mesh.count).toBe(last);if(last>0){expect(mesh.instanceMatrix.updateRanges).toEqual([{start:0,count:last*16}]);expect(a.updateRanges).toEqual([{start:0,count:last}]);if(last<values.length)trimmed=true;}
+ }
+ expect(trimmed).toBe(true);leaves.update(.1,frame(false,-1000));expect(mesh.count).toBe(0);expect(mesh.visible).toBe(false);
+ leaves.update(.1,frame());expect(mesh.count).toBeGreaterThan(0);expect(mesh.instanceMatrix.updateRanges[0]!.count).toBe(mesh.count*16);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
+});
