@@ -16,3 +16,9 @@ export function summarizePlacementComparison(before,after,roots) {
  const regions=[{name:'walk-fence',x:-2,z:37.25,radius:10},{name:'run-round',x:-12.3,z:44.8,radius:10}].map(route=>({...route,...Object.fromEntries([['before',before],['after',after]].map(([mode,r])=>{const checks=r.checks.filter(c=>Math.hypot(c.position[0]-route.x,c.position[2]-route.z)<=route.radius);return[mode,{checks:checks.length,candidates:checks.filter(c=>c.candidate).length,candidateChecks:checks.filter(c=>c.candidate)}];}))}));
  return {summary:Object.fromEntries([['before',before],['after',after]].map(([mode,r])=>[mode,Object.fromEntries(Object.entries(r).filter(([k])=>k!=='checks'))])),rootSummary:rootsSummary,changes,regions};
 }
+
+/** Keep the review summary small; the companion gzip retains every comparison row. */
+export function compactPlacementComparison(report) {
+ const check=c=>({label:c.label,component:c.component,position:c.position,minGap:c.minGap,maxGap:c.maxGap,unsupportedFraction:c.unsupportedFraction,samples:c.samples,candidate:c.candidate});
+ return{...report,detailFile:'comparison-details.json.gz',changes:{removed:report.changes.removed.length,removedCandidates:report.changes.removed.filter(c=>c.candidate).length,added:report.changes.added.length,candidateChanges:report.changes.candidateChanges.map(c=>({before:check(c.before),after:check(c.after)}))},regions:report.regions.map(r=>({...r,before:{checks:r.before.checks,candidates:r.before.candidates},after:{checks:r.after.checks,candidates:r.after.candidates}}))};
+}
