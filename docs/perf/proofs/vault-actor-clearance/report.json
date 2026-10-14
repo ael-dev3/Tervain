@@ -1,0 +1,1899 @@
+{
+  "baseline": "421d34b",
+  "candidateSourceSha256": "9f678b78bfb182a67e939975a90974cce91c27d543f03e1c5d8ae82e3f55d77b",
+  "before": {
+    "nativeHero": true,
+    "cases": 72,
+    "rows": [
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.5633607131825156,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.5633607131825156,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.5633607131825156,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": -0.020000000000000018,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": -0.020000000000000018,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": -0.020000000000000018,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.031939468880402,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.031939468880402,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 2.031939468880402,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.6138205406203074,
+          "y": 0,
+          "z": 0.4689925488124891
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.6138205406203074,
+          "y": 0,
+          "z": 0.4689925488124891
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.6138205406203074,
+          "y": 0,
+          "z": 0.4689925488124891
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 0.7500000000000001,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 0.7500000000000001,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.75,
+        "final": {
+          "x": 0.7500000000000001,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.75,
+          "y": 0,
+          "z": 0.2133607131825162
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.75,
+          "y": 0,
+          "z": 0.2133607131825162
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": true,
+        "minGap": -0.7499999999999999,
+        "final": {
+          "x": 0.75,
+          "y": 0,
+          "z": 0.2133607131825162
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      }
+    ],
+    "captured": true,
+    "glError": 0,
+    "msaa": 4,
+    "heroMeshes": 24
+  },
+  "after": {
+    "nativeHero": true,
+    "cases": 72,
+    "rows": [
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.8133607131825158,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.6,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.6,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.6,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.21336071318251632,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.2819394688804022,
+          "y": 0,
+          "z": -1.2819394688804022
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.1313708498984762,
+          "y": 0,
+          "z": -1.131370849898476
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.1313708498984762,
+          "y": 0,
+          "z": -1.131370849898476
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 1.1313708498984762,
+          "y": 0,
+          "z": -1.131370849898476
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.2499999999999996,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 0.7853981633974483,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -0.15056861898192567,
+          "y": 0,
+          "z": 0.1505686189819259
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": -1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": 1.1103631965492653e-16,
+          "y": 0,
+          "z": -1.8133607131825158
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 9.797174393178826e-17,
+          "y": 0,
+          "z": -1.6
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "wildlife",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 9.797174393178826e-17,
+          "y": 0,
+          "z": -1.6
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "resident",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "blocked",
+        "accepted": false,
+        "minGap": 0.8700000000000001,
+        "final": {
+          "x": 9.797174393178826e-17,
+          "y": 0,
+          "z": -1.6
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "nearby",
+        "accepted": true,
+        "minGap": 1.25,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "inactive",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      },
+      {
+        "yaw": 1.5707963267948966,
+        "side": 1,
+        "kind": "enemy",
+        "scenario": "above",
+        "accepted": true,
+        "minGap": null,
+        "final": {
+          "x": -1.3064575723138252e-17,
+          "y": 0,
+          "z": 0.21336071318251632
+        }
+      }
+    ],
+    "captured": true,
+    "glError": 0,
+    "msaa": 4,
+    "heroMeshes": 24
+  },
+  "changedRGBChannels": 14520,
+  "pass": true,
+  "scope": "Native Player controller and rendered hero on a controlled level fence, 3 orientations x 2 directions x 3 contact sources x 4 scenarios. Controller jump input; this is not a published-world real-key or hardware timing receipt."
+}
