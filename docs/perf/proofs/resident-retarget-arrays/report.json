@@ -1,0 +1,89 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "7cfbc042fa188248e3fc6188ca0ebaa0c54c8492e334fdde39bbc8da7988b024",
+  "scope": "Delivered resident rig and motion clips; exact output hash and actual temporary number-array inputs passed to Float32Array.set during retargeting. Node wall times are diagnostic only, not hardware frame-time predictions. Later generator stages retain their existing yields.",
+  "rows": [
+    {
+      "name": "walk.quick",
+      "before": {
+        "turns": 59,
+        "inputArrays": 2093,
+        "sourcePoseSamples": 91,
+        "maxSamplesPerTurn": 8,
+        "hash": "182c626ab1f2bd74df014b0982bb444240c502e4c471b3593fb5ad0975012be4",
+        "diagnosticMs": {
+          "p50": 0.20389600000089558,
+          "p95": 2.8844069999995554,
+          "max": 4.428883999999016
+        }
+      },
+      "after": {
+        "turns": 59,
+        "inputArrays": 0,
+        "sourcePoseSamples": 91,
+        "maxSamplesPerTurn": 8,
+        "hash": "182c626ab1f2bd74df014b0982bb444240c502e4c471b3593fb5ad0975012be4",
+        "diagnosticMs": {
+          "p50": 0.08948400000008405,
+          "p95": 2.685788999999204,
+          "max": 21.4311370000014
+        }
+      }
+    },
+    {
+      "name": "talk.chat",
+      "before": {
+        "turns": 32,
+        "inputArrays": 3588,
+        "sourcePoseSamples": 156,
+        "maxSamplesPerTurn": 8,
+        "hash": "1cdbfd405b958e881d1239cc8408835e50a5cf057bfb38b110b144a58290c067",
+        "diagnosticMs": {
+          "p50": 0.2872910000005504,
+          "p95": 0.8995200000008481,
+          "max": 8.78238600000077
+        }
+      },
+      "after": {
+        "turns": 32,
+        "inputArrays": 0,
+        "sourcePoseSamples": 156,
+        "maxSamplesPerTurn": 8,
+        "hash": "1cdbfd405b958e881d1239cc8408835e50a5cf057bfb38b110b144a58290c067",
+        "diagnosticMs": {
+          "p50": 0.20259299999997893,
+          "p95": 1.201773000000685,
+          "max": 4.97406200000114
+        }
+      }
+    },
+    {
+      "name": "sit.idle.m",
+      "before": {
+        "turns": 51,
+        "inputArrays": 7383,
+        "sourcePoseSamples": 321,
+        "maxSamplesPerTurn": 8,
+        "hash": "dbe1add67125f1c7487a321d8b7c59ff04490c42504a167bf3ba2adeb594093e",
+        "diagnosticMs": {
+          "p50": 0.2882720000015979,
+          "p95": 0.8379870000007941,
+          "max": 2.458787999999913
+        }
+      },
+      "after": {
+        "turns": 51,
+        "inputArrays": 0,
+        "sourcePoseSamples": 321,
+        "maxSamplesPerTurn": 8,
+        "hash": "dbe1add67125f1c7487a321d8b7c59ff04490c42504a167bf3ba2adeb594093e",
+        "diagnosticMs": {
+          "p50": 0.21666499999992084,
+          "p95": 0.4857289999999921,
+          "max": 2.577155999999377
+        }
+      }
+    }
+  ],
+  "pass": true
+}

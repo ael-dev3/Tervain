@@ -2926,9 +2926,10 @@ export class App {
     try {
       if (this.grade?.enabled) r.setRenderTarget(this.grade.target);
       const colour = r.compileAsync(object, this.cam.camera, scene);
+      const after = () => compileOnly ? undefined : this.uploadTextures(object, draws, world);
       // The sun's shadow pass draws casters with their depth material: its own, or three's packed depth material on the
       // side opposite the surface, depth unpacked (as WebGLShadowMap picks it). Compiled the same way, so the first shadow does not stall.
-      if (!r.shadowMap.enabled) return colour;
+      if (!r.shadowMap.enabled) return colour.then(after);
       object.traverse((o) => {
         const mesh = o as THREE.Mesh;
         if (!mesh.isMesh || !mesh.castShadow || Array.isArray(mesh.material)) return;
@@ -2947,7 +2948,6 @@ export class App {
         depth.displacementMap = source.displacementMap ?? null;
         restore.push([mesh, mesh.material]); mesh.material = depth;
       });
-      const after = () => compileOnly ? undefined : this.uploadTextures(object, draws, world);
       if (!restore.length) return colour.then(after);
       // The shadow pass draws with no scene, so without fog (its programs key on the fog's kind even where a depth material
       // ignores it), under the lighting left from the previous pass, with or without the point lights: the depth programs
@@ -3005,8 +3005,8 @@ export class App {
   }
 
   /**
-   * Draw each of an arriving object's meshes once, a mesh a frame, into a one-pixel target, in its colour and its shadow
-   * material (A79): the driver finishes a program at its first real draw, which for the animals was a 150 ms frame even
+   * Draw each of an arriving object's meshes once, a mesh a frame, into a one-pixel colour target (shadow programs are compiled separately)
+   * (A79): the driver finishes a program at its first real draw, which for the animals was a 150 ms frame even
    * with every program compiled and every texture uploaded.
    */
   private async firstDraws(object: THREE.Object3D, world = this.world): Promise<void> {
@@ -3024,7 +3024,9 @@ export class App {
         // vertex layouts are exactly the ones its first real frame will use; everything else is hidden for the draw.
         // Only drawable things are hidden, never the groups lights live in (the sun is in the sky's group): the lights the
         // draw sees must be the frame's own, or it builds programs no frame will use.
-        const hidden: THREE.Object3D[] = [], previous = r.getRenderTarget(), shadows = r.shadowMap.autoUpdate, culled = mesh.frustumCulled;
+        const hidden: THREE.Object3D[] = [], revealed: THREE.Object3D[] = [], previous = r.getRenderTarget(), shadows = r.shadowMap.autoUpdate, shadowUpdate = r.shadowMap.needsUpdate, culled = mesh.frustumCulled;
+        const instances = (mesh as THREE.InstancedMesh).isInstancedMesh ? mesh as THREE.InstancedMesh : null, count = instances?.count;
+        const sphere = instances?.boundingSphere, box = instances?.boundingBox;
         scene.traverse((o) => {
           const drawn = (o as THREE.Mesh).isMesh || (o as THREE.Points).isPoints || (o as THREE.Line).isLine || (o as THREE.Sprite).isSprite;
           if (drawn && o.visible) { o.visible = false; hidden.push(o); }
@@ -3033,15 +3035,24 @@ export class App {
         scene.add(object);
         mesh.frustumCulled = false;
         try {
-          r.shadowMap.autoUpdate = false;
+          // Room/animal groups can stay hidden until adoption. A visible leaf under them still draws nothing.
+          for (let parent = mesh.parent; parent && parent !== scene; parent = parent.parent) {
+            if (!parent.visible) { parent.visible = true; revealed.push(parent); }
+            if (parent === object) break;
+          }
+          // Furniture starts with zero shown instances; submit one existing slot to actually prime its program/VAO.
+          if (instances && instances.count === 0 && instances.instanceMatrix.count > 0) instances.count = 1;
+          r.shadowMap.autoUpdate = false; r.shadowMap.needsUpdate = false;
           r.setRenderTarget(target);
           r.render(scene, this.cam.camera);
         } finally {
           mesh.frustumCulled = culled;
+          if (instances) { instances.count = count!; instances.boundingSphere = sphere!; instances.boundingBox = box!; }
+          for (const parent of revealed) parent.visible = false;
           scene.remove(object);
           for (const other of meshes) other.mesh.visible = other.visible;
           for (const o of hidden) o.visible = true;
-          r.setRenderTarget(previous); r.shadowMap.autoUpdate = shadows;
+          r.setRenderTarget(previous); r.shadowMap.autoUpdate = shadows; r.shadowMap.needsUpdate = shadowUpdate;
         }
       }
     } finally {

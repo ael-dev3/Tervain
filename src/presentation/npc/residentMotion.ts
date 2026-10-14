@@ -139,7 +139,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
   const hips = new Float32Array(frames * 3);
   const rawHips: THREE.Vector3[] = [];
   const ws = new Map<ResidentJoint, THREE.Quaternion>(), wt = new Map<ResidentJoint, THREE.Quaternion>();
-  const local = new THREE.Quaternion(), inv = new THREE.Quaternion();
+  const local = new THREE.Quaternion(), inv = new THREE.Quaternion(), identity = new THREE.Quaternion();
   let heading = 0;
   // The face's way (Head to its marker) and the chest's up, in the chest's frame at rest, for limiting the head's pitch.
   const chestUp = UP.clone().applyQuaternion(dest.rotation.get('Spine')!.clone().invert());
@@ -153,15 +153,15 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       if (interpolant) { const v = interpolant.evaluate(t); local.set(v[0]!, v[1]!, v[2]!, v[3]!).normalize(); }
       else local.copy(library.get(joint)!.quaternion);
       const parent = PARENT[joint];
-      const w = (ws.get(joint) ?? new THREE.Quaternion()).copy(parent ? ws.get(parent)! : new THREE.Quaternion()).multiply(local);
+      const w = (ws.get(joint) ?? new THREE.Quaternion()).copy(parent ? ws.get(parent)! : identity).multiply(local);
       ws.set(joint, w);
       const target = (wt.get(joint) ?? new THREE.Quaternion()).copy(w).multiply(correct.get(joint)!);
       wt.set(joint, target);
-      const out = parent ? inv.copy(wt.get(parent)!).invert().multiply(target) : target.clone();
+      const out = parent ? inv.copy(wt.get(parent)!).invert().multiply(target) : inv.copy(target);
       // Keep neighbouring frames in one hemisphere so interpolation between them takes the short way.
       const q = quats.get(joint)!;
       if (f && out.x * q[f * 4 - 4]! + out.y * q[f * 4 - 3]! + out.z * q[f * 4 - 2]! + out.w * q[f * 4 - 1]! < 0) out.set(-out.x, -out.y, -out.z, -out.w);
-      q.set([out.x, out.y, out.z, out.w], f * 4);
+      out.toArray(q, f * 4);
     }
     limitHeadPitch(quats.get('neck')!, quats.get('Head')!, f, target, chestUp, face, restElevation);
     const p = hipsTrack ? hipsTrack.evaluate(t) : [sourceHips.x, sourceHips.y, sourceHips.z];
@@ -171,7 +171,9 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
       const forward = FORWARD.clone().applyQuaternion(local.copy(wt.get(joint)!).multiply(inv.copy(dest.rotation.get(joint)!).invert()));
       return sum + Math.atan2(forward.x, forward.z);
     }, 0) / FACING_JOINTS.length / frames;
-    if ((f + 1) % 8 === 0) yield;
+    // A single pose is the resumable unit: eight head-limit solves could overrun
+    // the arrivals budget before its scheduler could yield back to play.
+    yield;
   }
   // The pace a locomotion clip implies: its drift over the clip (removed), or for a clip made in place, how fast the
   // planted foot slides back under the body.
@@ -201,7 +203,7 @@ export function* retargetClipSteps(clip: THREE.AnimationClip, library: RestPose,
     if (inPlace) p.addScaledVector(drift, -times[f]! / duration);
     const out = p.sub(sourceHips).multiplyScalar(scale).add(targetHips).applyQuaternion(facing);
     out.x -= shift.x; out.z -= shift.y;
-    hips.set([out.x, out.y, out.z], f * 3);
+    out.toArray(hips, f * 3);
     lowest = Math.min(lowest, out.y);
     sumX += out.x; sumZ += out.z;
     if ((f + 1) % 32 === 0) yield;
@@ -324,12 +326,12 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
   action.paused = true;
   const skin = RESIDENT_JOINTS.map(() => new THREE.Matrix4()), p = new THREE.Vector3(), q = new THREE.Vector3(), sum = new THREE.Vector3();
   const heights: number[] = [], depths: number[] = [], sides: number[] = [];
+  const posed: THREE.Vector3[] = [];
   for (const at of moments) {
     action.time = at * clip.clip.duration;
     mixer.update(0);
     root.updateMatrixWorld(true);
     RESIDENT_JOINTS.forEach((joint, j) => skin[j]!.multiplyMatrices(bones.get(joint)!.matrixWorld, bindInverse[j]!));
-    const posed: THREE.Vector3[] = [];
     let done = 0;
     for (const v of candidates) {
       // A few hundred vertices a step: one moment over a whole seat was 10-25 ms, past the arrivals' 3 ms (A115).
@@ -340,7 +342,9 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
         const w = data.weights[v * 4 + s]! / 255;
         if (w > 0) sum.addScaledVector(q.copy(p).applyMatrix4(skin[data.joints[v * 4 + s]!]!), w);
       }
-      posed.push(sum.clone());
+      // Each moment has the same candidate count; overwrite the previous pose in source order before sorting.
+      if (posed[done - 1]) posed[done - 1]!.copy(sum);
+      else posed.push(sum.clone());
     }
     yield;
     posed.sort((a, b) => a.y - b.y);
