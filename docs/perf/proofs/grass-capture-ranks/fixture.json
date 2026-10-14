@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "baselineRef": "9ab40b3",
+  "sourceSha256": "7f93a608a4ac0f333f13e856f35300ec570e6693428361fbf26a73ca5080dc06",
+  "scope": "Native grass shader and clump geometry in a controlled tile, rendered with two cameras through software WebGL. Standalone correctness fixture, not whole-scene post/MSAA, real-time pacing or a whole-world pop-in gate.",
+  "before": {
+    "mode": "baseline",
+    "initialCount": 6,
+    "captureCount": 6,
+    "restoredCount": 6,
+    "captureStats": {
+      "frame": 1,
+      "calls": 1,
+      "triangles": 180,
+      "points": 0,
+      "lines": 0
+    },
+    "captureErrors": [],
+    "main": {
+      "count": 6,
+      "stats": {
+        "frame": 2,
+        "calls": 1,
+        "triangles": 180,
+        "points": 0,
+        "lines": 0
+      }
+    }
+  },
+  "after": {
+    "mode": "candidate",
+    "initialCount": 6,
+    "captureCount": 16,
+    "restoredCount": 6,
+    "captureStats": {
+      "frame": 1,
+      "calls": 1,
+      "triangles": 480,
+      "points": 0,
+      "lines": 0
+    },
+    "captureErrors": [],
+    "main": {
+      "count": 6,
+      "stats": {
+        "frame": 2,
+        "calls": 1,
+        "triangles": 180,
+        "points": 0,
+        "lines": 0
+      }
+    }
+  },
+  "mainPixelIdentical": true,
+  "changedCapturePixels": 491,
+  "pass": true
+}
