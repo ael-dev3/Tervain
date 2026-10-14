@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "baselineRef": "5da2776",
-  "sourceSha256": "ba4ff90fc4237c515271ce1f24ed38166d10765b4a37dd81226058699b76af79",
+  "sourceSha256": "09b59c6cadf6314cb8b82dbb6c708eb10ae3f1da87d90c10abea26d493736127",
   "scope": "Six native cube-camera directions using native middle-model proxies plus the primary camera over the same production forest packing, delivered pine/procedural broadleaf fixture. Software counters, not GPU timings. Uploads exclude uniforms.",
   "baseline": [
     {

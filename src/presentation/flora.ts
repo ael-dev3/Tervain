@@ -204,7 +204,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         geometry.computeBoundingBox();
         box.union(geometry.boundingBox!);
       }
-      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere(), new THREE.Sphere(), new THREE.Sphere()], trees: [], placements: [] };
+      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], trees: [], placements: [] };
       byVariant.set(variant, b);
       batches.push(b);
     }
@@ -428,7 +428,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     shadowTrees = 0;
     shadowTris = 0;
     for (const b of batches) {
-      for (const bound of b.drawBounds) bound.makeEmpty();
       const counts = [0, 0, 0];
       const shadowCounts = [0, 0, 0];
       const v = b.variant;
@@ -475,8 +474,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           if (intervalEnd > intervalStart) {
             const m = b.meshes[l]!, visibility = b.visibility[l]!;
             const i = counts[l]!++;
-            // Source bounds already include all LODs, so reflection proxies fit too.
-            b.drawBounds[l]!.union(sphere);
             for (const part of ['wood', 'leaf'] as const) {
               const mesh = m[part];
               if (!mesh) continue;
@@ -497,6 +494,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       for (let l = 0; l < 3; l++) {
         const m = b.meshes[l]!;
         const previousCount = m.wood?.count ?? m.leaf?.count ?? 0;
+        const source = m.wood ?? m.leaf;
+        if (source && (source.count !== counts[l]! || staticChanged.has(source))) {
+          const bound = b.drawBounds[l]!.makeEmpty(), packed = packedTrees.get(source)!;
+          // Source bounds include every LOD; unchanged packing keeps its bounds without another walk.
+          for (let i = 0; i < counts[l]!; i++) bound.union(b.placements[packed[i]!]!.bounds);
+        }
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;
           mesh.count = counts[l]!;

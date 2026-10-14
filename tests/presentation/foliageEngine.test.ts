@@ -403,9 +403,12 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       const attribute = m.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
       return { count: m.count, version: attribute.version, data: attribute.array.slice() };
     });
+    const unions = vi.spyOn(THREE.Sphere.prototype, 'union');
     camera.position.x += 0.006;
     camera.updateMatrixWorld();
     forest.update(1 / 60, frame);
+    const rebuiltBounds = new Set(unions.mock.contexts);
+    unions.mockRestore();
     let unchanged = 0, savedBytes = 0;
     staticMeshes.forEach((m, i) => {
       const old = staticBefore[i]!;
@@ -413,6 +416,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       unchanged++;
       savedBytes += m.count * (64 + (m.instanceColor ? 12 : 0));
       expect(m.instanceMatrix.version).toBe(old.version);
+      if (m.geometry.hasAttribute('aDistanceCoverage')) expect(rebuiltBounds.has(m.boundingSphere!)).toBe(false);
       if (m.instanceColor) expect(m.instanceColor.version).toBe(old.colourVersion);
     });
     let unchangedCoverage = 0, coverageBytes = 0;
