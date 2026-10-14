@@ -84,17 +84,29 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   const gap=options.gap??.75,woodReach=options.woodReach??1.5,maxOperations=options.maxOperations??20_000_000;
   if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
-  const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
+  type Entry = {maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]};
+  const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,Map<CanopyAuditTarget['cutout'],Entry>>>();
+  const entries=new Map<CanopyAuditTarget,Entry>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');
     const e=m.elements;
     if(e[3]!==0||e[7]!==0||e[11]!==0||e[15]!==1)throw new Error('Unsupported non-affine canopy transform');
     const dot=(i:number,j:number)=>e[i]!*e[j]!+e[i+1]!*e[j+1]!+e[i+2]!*e[j+2]!;
     if(Math.max(Math.abs(dot(0,4)),Math.abs(dot(0,8)),Math.abs(dot(4,8)))>a*a*1e-4)throw new Error('Unsupported sheared canopy transform');return a;};
-  for(const t of targets){if(!t.leaves||!t.wood)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,options.alpha?t.cutout??undefined:undefined),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap,woodReach/scale(t.matrix));entry.minGap=Math.min(entry.minGap,localGap);}
+  for(const t of targets){
+    if(!t.leaves||!t.wood)continue;
+    let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}
+    let variants=leaves.get(t.leaves);if(!variants){variants=new Map();leaves.set(t.leaves,variants);}
+    // Shared positions can be drawn with different alpha maps, UV channels or cutoffs.
+    const cutout=options.alpha?t.cutout??undefined:undefined;
+    let entry=variants.get(cutout);
+    if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,cutout),contacts:[],edges:[]};variants.set(cutout,entry);}
+    entries.set(t,entry);
+    const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap,woodReach/scale(t.matrix));entry.minGap=Math.min(entry.minGap,localGap);
+  }
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
     const woodBounds=triangles.map(t=>new THREE.Box3().setFromPoints([t.a,t.b,t.c])),support=boundsTree(woodBounds,charge),nearest=new THREE.Vector3();
-    for(const entry of leafGroups.values()){
+    for(const variants of leafGroups.values())for(const entry of variants.values()){
       entry.contacts=entry.components.map(c=>{let distance=entry.maxGap,found=false;
         for(const sample of c.samples){
           const visit=(node:LeafNode)=>{charge();if(node.box.distanceToPoint(sample)>distance)return;
@@ -106,7 +118,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
       entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);
     }
   }
-  const trees=targets.map(t=>{const metadata={species:t.species??'unclassified',lod:t.lod??lod};if(!t.wood){scale(t.matrix);return{label:t.label,...metadata,kind:t.kind,missingWood:true,position:t.matrix.elements.slice(12,15),leafless:!t.leaves,components:0,chunks:0,detachedCards:0,detachedClumps:0,maxWoodGap:null,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};}if(!t.leaves)return{label:t.label,...metadata,missingWood:false,leafless:true,components:0,chunks:0,detachedCards:0,detachedClumps:0,maxWoodGap:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=groups.get(t.wood)!.get(t.leaves)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
+  const trees=targets.map(t=>{const metadata={species:t.species??'unclassified',lod:t.lod??lod};if(!t.wood){scale(t.matrix);return{label:t.label,...metadata,kind:t.kind,missingWood:true,position:t.matrix.elements.slice(12,15),leafless:!t.leaves,components:0,chunks:0,detachedCards:0,detachedClumps:0,maxWoodGap:null,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};}if(!t.leaves)return{label:t.label,...metadata,missingWood:false,leafless:true,components:0,chunks:0,detachedCards:0,detachedClumps:0,maxWoodGap:0,candidates:[] as {position:number[];components:number;sampledWoodGap:number|null}[]};const entry=entries.get(t)!,s=scale(t.matrix),limit=gap/s,graph=union(entry.components.length);
     for(const[a,b,d]of entry.edges){charge();if(d<=limit)graph.join(a,b);}const chunks=new Map<number,{box:THREE.Box3;count:number;contact:number}>();
     for(let i=0;i<entry.components.length;i++){const key=graph.find(i),chunk=chunks.get(key)??{box:new THREE.Box3(),count:0,contact:Infinity};chunk.box.union(entry.components[i]!.box);chunk.count++;chunk.contact=Math.min(chunk.contact,entry.contacts[i]!);chunks.set(key,chunk);}
     const candidates=[...chunks.values()].filter(c=>c.contact>limit).map(c=>({position:c.box.getCenter(new THREE.Vector3()).applyMatrix4(t.matrix).toArray(),components:c.count,sampledWoodGap:Number.isFinite(c.contact)?c.contact*s:null}));
