@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><title>Canopy opaque contact regression</title>
+<style>body{margin:0;background:#182329}canvas{display:block}</style>
+<script type="module">
+import * as THREE from 'three';
+import {auditCanopies as before} from '/src/diagnostics/__baseline-opaque.ts';
+import {auditCanopies as after} from '/src/diagnostics/canopyAudit.ts';
+try {
+ const size=128,data=new Uint8Array(size*size*4);
+ for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+  const u=x/(size-1),v=y/(size-1),a=Math.min(Math.hypot(u,v),Math.hypot(u-1,v),Math.hypot(u-.5,v-1))<.1?255:0;
+  data.set([255,255,255,a],(y*size+x)*4);
+ }
+ const texture=new THREE.DataTexture(data,size,size);texture.magFilter=texture.minFilter=THREE.NearestFilter;texture.generateMipmaps=false;texture.needsUpdate=true;
+ const cutout={uv:'uv',cutoff:.5,alpha:(u,v)=>data[(Math.round(THREE.MathUtils.clamp(v,0,1)*(size-1))*size+Math.round(THREE.MathUtils.clamp(u,0,1)*(size-1)))*4+3]/255};
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#182329');const targets=[];
+ for(const [i,label]of ['transparent-centre','opaque-tip-contact','uncut-control'].entries()){
+  const wood=new THREE.BoxGeometry(.35,.35,.35);if(i===1)wood.translate(-3,-3,0);
+  const leaves=new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute([-3,-3,0,3,-3,0,0,3,0],3)).setAttribute('uv',new THREE.Float32BufferAttribute([0,0,1,0,.5,1],2));
+  const matrix=new THREE.Matrix4().makeTranslation((i-1)*8,0,0);
+  const target={label,wood,leaves,matrix,cutout:i===2?undefined:cutout};targets.push(target);
+  const group=new THREE.Group();group.position.x=(i-1)*8;scene.add(group);
+  group.add(new THREE.Mesh(wood,new THREE.MeshBasicMaterial({color:0xa26941})),new THREE.Mesh(leaves,new THREE.MeshBasicMaterial({color:0x82bb53,side:THREE.DoubleSide,map:i===2?null:texture,alphaTest:.5})));
+ }
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(960,360);document.body.append(renderer.domElement);
+ const camera=new THREE.OrthographicCamera(-12,12,4.5,-4.5,.1,100);camera.position.set(0,0,15);camera.lookAt(0,0,0);
+ renderer.render(scene,camera);const initial=renderer.domElement.toDataURL();
+ const snapshot=audit=>Object.fromEntries(targets.map(target=>{const r=audit([target],{alpha:true});return[target.label,{complete:r.complete,candidates:r.summary.candidates,detachedCards:r.summary.detachedCards,components:r.summary.components}];}));
+ const baseline=snapshot(before),fixed=snapshot(after);renderer.render(scene,camera);const image=renderer.domElement.toDataURL();
+ window.opaqueProof={before:baseline,after:fixed,pixelsIdentical:initial===image,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError(),contextLost:renderer.getContext().isContextLost(),image};
+}catch(e){window.opaqueError=String(e?.stack??e);}
+</script>

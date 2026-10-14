@@ -29,7 +29,10 @@ function components(g: THREE.BufferGeometry, charge: () => void, cutout?: Canopy
         const u=w[0]*uv.getX(v[0])+w[1]*uv.getX(v[1])+w[2]*uv.getX(v[2]),t=w[0]*uv.getY(v[0])+w[1]*uv.getY(v[1])+w[2]*uv.getY(v[2]);
         if(cutout.alpha(u,t)<cutout.cutoff)continue;point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(new THREE.Vector3().fromBufferAttribute(p,v[k]!),w[k]!);
         const list=opaque.get(key)??[];list.push(point.clone());opaque.set(key,list);}}
-    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),samples=[box.getCenter(new THREE.Vector3())];
+    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),centre=box.getCenter(new THREE.Vector3());
+      // A cutout can leave the box centre transparent. Only opaque samples may establish wood contact.
+      let nearest=points[0]!;for(const point of points)if(point.distanceToSquared(centre)<nearest.distanceToSquared(centre))nearest=point;
+      const samples=[nearest];
       for(let i=0;i<Math.min(8,points.length);i++)samples.push(points[Math.floor(i*points.length/Math.min(8,points.length))]!);return{box,samples};});}
   // A bounding-box centre can sit in a hole, outside the actual leaf surface. Project it onto its component.
   const triangles=new Map<number,number[]>();
