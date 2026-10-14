@@ -26,7 +26,8 @@
  * - Colour and emissive maps become WebP (EXT_texture_webp, required; decoded natively by three's GLTFLoader). Alpha
  *   is kept lossless with its colour under transparent texels, so leaf cut-outs and coverage sampling keep their edges.
  * - Normal, metal-roughness and occlusion maps become JPEG with full 4:4:4 chroma, so no channel loses resolution.
- * - An image is re-encoded only when it is over its cap, is PNG, or is colour not yet in WebP, so running the tool
+ * - Constant data maps become lossless one-texel PNGs; all decoded channels are retained.
+ * - Other images are re-encoded only when over their cap, PNG, or colour not yet in WebP, so running the tool
  *   again leaves optimised files untouched (no generation loss). An encoding that is not smaller is discarded.
  * - Encoding is deterministic: images shared between a tree's near/mid/far files stay byte-identical, which the tree
  *   texture pool relies on to keep one GPU copy.
@@ -132,6 +133,17 @@ async function encode(input, mime, cap, role) {
   const meta = await sharp(input).metadata();
   const longest = Math.max(meta.width ?? 0, meta.height ?? 0);
   const over = longest > cap;
+  // A constant data map samples the same value at every UV and mip. Keep those decoded
+  // channels exactly, without spending a full-size GPU image on them or re-encoding them as JPEG.
+  if (role === 'data') {
+    if (meta.width === 1 && meta.height === 1 && mime === 'image/png') return null;
+    const stats = await sharp(input).stats();
+    if (stats.channels.every(channel => channel.min === channel.max)) {
+      const pixel = Buffer.from(stats.channels.map(channel => channel.min));
+      const output = await sharp(pixel, { raw: { width: 1, height: 1, channels: pixel.length } }).png().toBuffer();
+      if (output.length < input.length) return { output, target: 'image/png', note: `constant data ${meta.width}x${meta.height} -> lossless 1x1` };
+    }
+  }
   const hasAlpha = !!meta.hasAlpha && !(await sharp(input).stats()).isOpaque;
   // A data map with real alpha cannot become JPEG; it becomes WebP instead.
   const target = role === 'color' || hasAlpha ? 'image/webp' : 'image/jpeg';

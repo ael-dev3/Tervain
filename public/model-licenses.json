@@ -7532,8 +7532,8 @@
     },
     {
       "file": "public/models/animals/boar-1005232450.glb",
-      "bytes": 2765308,
-      "sha256": "42e03c45b1a7692344e8047bb41790f38cada2a5d809918d3eabcfe8fae29346",
+      "bytes": 2758928,
+      "sha256": "78fa25dc7660822fd6f3dca240721a5566a9b2108d0188b86ad8364ab2336f9a",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7651,8 +7651,8 @@
     },
     {
       "file": "public/models/animals/deer-1005232424.glb",
-      "bytes": 2301032,
-      "sha256": "4501c75164d239759e32f5912e5078093cd9b5ec9b688c009096e07fe5271f9d",
+      "bytes": 2294648,
+      "sha256": "135441cb0b9315b78d599f1d37e8d592a5aefe6695f3a44c0b3f8ddc7c3b3898",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7719,8 +7719,8 @@
     },
     {
       "file": "public/models/animals/tiger-1005232739.glb",
-      "bytes": 2549468,
-      "sha256": "fc52666253a8a4a7e22b2ebb5b6d526d02e195a40f0fc24a3469ef91c3102ef4",
+      "bytes": 2543088,
+      "sha256": "1e800e4222f3af1abb923dd0a565545ec0f8e264acf17f01bab717d3e831074a",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7770,8 +7770,8 @@
     },
     {
       "file": "public/models/animals/wolf-1005232644.glb",
-      "bytes": 2543072,
-      "sha256": "8030c38340a68deeaadc69bd90818ca3248263694c14256c7e01a42ee0491702",
+      "bytes": 2536688,
+      "sha256": "48b200c67372d60f93a7aa4afd3aef6206f87331211ef88da15f72575ce3c727",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

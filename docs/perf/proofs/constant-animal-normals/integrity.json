@@ -1,0 +1,34 @@
+{
+  "pass": true,
+  "baseline": "5da2776",
+  "rows": [
+    {
+      "file": "boar-1005232450.glb",
+      "beforeBytes": 2765308,
+      "afterBytes": 2758928,
+      "preservedGeometryAndAnimationViews": 194,
+      "changedConstantNormalImages": 1
+    },
+    {
+      "file": "deer-1005232424.glb",
+      "beforeBytes": 2301032,
+      "afterBytes": 2294648,
+      "preservedGeometryAndAnimationViews": 194,
+      "changedConstantNormalImages": 1
+    },
+    {
+      "file": "tiger-1005232739.glb",
+      "beforeBytes": 2549468,
+      "afterBytes": 2543088,
+      "preservedGeometryAndAnimationViews": 163,
+      "changedConstantNormalImages": 1
+    },
+    {
+      "file": "wolf-1005232644.glb",
+      "beforeBytes": 2543072,
+      "afterBytes": 2536688,
+      "preservedGeometryAndAnimationViews": 163,
+      "changedConstantNormalImages": 1
+    }
+  ]
+}
