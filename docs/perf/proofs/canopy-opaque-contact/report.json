@@ -1,0 +1,51 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "a11e0dd26ab09c852aae048ff58b1723507885b29f7ca977260827602cb3f9df",
+  "scope": "Actual production audits in a native software-WebGL fixture. Cutout texture leaves three distant opaque tips while its bounds centre touches wood. Opaque-tip and uncut controls stay supported. Rendered image is identical before/after audits; not a live forest quality or hardware timing claim.",
+  "before": {
+    "transparent-centre": {
+      "complete": true,
+      "candidates": 0,
+      "detachedCards": 0,
+      "components": 1
+    },
+    "opaque-tip-contact": {
+      "complete": true,
+      "candidates": 0,
+      "detachedCards": 0,
+      "components": 1
+    },
+    "uncut-control": {
+      "complete": true,
+      "candidates": 0,
+      "detachedCards": 0,
+      "components": 1
+    }
+  },
+  "after": {
+    "transparent-centre": {
+      "complete": true,
+      "candidates": 1,
+      "detachedCards": 1,
+      "components": 1
+    },
+    "opaque-tip-contact": {
+      "complete": true,
+      "candidates": 0,
+      "detachedCards": 0,
+      "components": 1
+    },
+    "uncut-control": {
+      "complete": true,
+      "candidates": 0,
+      "detachedCards": 0,
+      "components": 1
+    }
+  },
+  "pixelsIdentical": true,
+  "draws": 6,
+  "triangles": 39,
+  "glError": 0,
+  "contextLost": false,
+  "pass": true
+}
