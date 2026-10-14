@@ -1,0 +1,2470 @@
+{
+  "build": {
+    "version": "0.0.17",
+    "revision": "5da277678"
+  },
+  "program": "tervain-BUerrmRa.js",
+  "expectedTrees": 453,
+  "nearTrees": 453,
+  "farTrees": 453,
+  "expectedPines": 128,
+  "selectedFarPines": 128,
+  "rawComplete": false,
+  "appWrapperComplete": false,
+  "summary": {
+    "trees": 128,
+    "missingWood": 128,
+    "leafless": 0,
+    "components": 0,
+    "chunks": 0,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 0,
+    "detachedClumps": 0,
+    "treesWithDetached": 0
+  },
+  "records": [
+    {
+      "label": "tree:wild:54:3",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -37.604638288147214,
+        12.720140107555451,
+        -143.21020154429604
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:4",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -82.60482968276409,
+        14.313352696946495,
+        -134.62936705667997
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:4",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        40.676286957813026,
+        12.262639426992914,
+        -135.075986799039
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -16.403229852766202,
+        15.5350909575112,
+        -126.15162370795855
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:60:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        2.2147378541664846,
+        11.780171477916728,
+        -123.53519053981645
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:7",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        30.05307828231674,
+        10.567138091318402,
+        -118.3034268531297
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:74:7",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        88.39989639420489,
+        11.409908844682404,
+        -120.94071115117525
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:80:7",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        124.60524193552752,
+        13.762880250425408,
+        -118.70915664046076
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        43.932158432695616,
+        9.963117365922056,
+        -114.55572333779656
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:10",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -104.87144079994454,
+        7.346520205642967,
+        -100.68322016978175
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:71:12",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        67.26903662829154,
+        8.771501878209474,
+        -89.09283311155629
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:83:14",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        142.6714693375021,
+        10.276387606631605,
+        -72.80422614452898
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:19",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -110.43861713793173,
+        1.5871955809076819,
+        -44.9941863874905
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:20:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -121.52289931381522,
+        1.037800597271663,
+        -32.350463838970576
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:21",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -168.19665829044806,
+        6.706036752033864,
+        -31.325527595733305
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:21:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -112.6952835216993,
+        1.2886136032908764,
+        -35.60683248670296
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:21",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -56.118885254022146,
+        1.9309972361674208,
+        -29.900378948366285
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:22:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -226.60088009057748,
+        1.5209472837876579,
+        -30.939531142968345
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:22",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -138.62534823285458,
+        1.5663618405890263,
+        -25.05198728165125
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:23:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -124.61679073662611,
+        1.3691502532751942,
+        -27.831940210938203
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:23",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -72.80512195951813,
+        2.802859512052805,
+        -21.76930198709482
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:25",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -108.8769317716737,
+        0.6294759734259325,
+        -5.052335793310792
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:42:28",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -113.56770170793446,
+        2.574298255256047,
+        10.773149991272932
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:31",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -193.2764827910302,
+        1.7732189574430026,
+        30.992215763330442
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:31",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -183.3405537154855,
+        1.4167957265259215,
+        29.90944663934408
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:31",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -158.95084364215882,
+        7.528374962178014,
+        31.431891554007287
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:34",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -210.75313379478206,
+        0.6896201789709697,
+        48.09378165976609
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:27:34",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -204.05248325843394,
+        0.7420078949570696,
+        51.45478583432733
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:37",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -215.8179387450966,
+        0.8162413481076818,
+        67.43478317601605
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:40",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        98.63113122909758,
+        2.409683936211406,
+        88.53734032332432
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:30",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        52.60966627090238,
+        12.910197160380232,
+        -145.34662469942123
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:31",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -221.16937783407047,
+        13.020798081302905,
+        -128.3990782625042
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:32",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -181.56689131469466,
+        11.584395026716637,
+        -128.6168404717464
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -260.8673370308243,
+        12.27748475474691,
+        -118.94789113407023
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:34",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -86.69474802492186,
+        0.6210816810230626,
+        88.13940753787756
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:35",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        27.22562463930808,
+        0.6163711442845254,
+        103.63435723003931
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:1:36",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        80.49897017376497,
+        1.4120112069226085,
+        98.26935649430379
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:66:3",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        35.60858432326425,
+        12.98051005710663,
+        -144.11426090289376
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:68:4",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        49.13359477164184,
+        13.109789993106771,
+        -136.81116943825506
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:47:5",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -80.40837099414361,
+        13.428598341803447,
+        -128.45550501635304
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:56:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -25.461296981848246,
+        16.514493731965814,
+        -124.09862384264828
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:64:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        25.042999006928472,
+        10.84868745480789,
+        -124.59465026599361
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:50:7",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -63.413591490723604,
+        11.238019669401465,
+        -119.82578764101962
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:60:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        2.510036570000991,
+        12.406958384893368,
+        -111.66073237769311
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:75:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        91.51798713649119,
+        11.565270331681528,
+        -113.39810253517707
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        116.30291954328735,
+        11.632148623206444,
+        -114.3624304866931
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:72:9",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        73.7858101837659,
+        9.2090402581751,
+        -108.2990253354656
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:10",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        16.406060592080063,
+        9.347783082003469,
+        -99.58769302243371
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:10",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        115.48492473589219,
+        1.504009520714431,
+        -101.79190106749073
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:63:11",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        20.650558143951528,
+        9.478313757040725,
+        -94.15091708193071
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:12:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -198.68375308658787,
+        7.848127513277091,
+        -92.0834739523892
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:12",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -72.55525876368438,
+        8.107934947083605,
+        -87.8074131492712
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:79:13",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        116.0379678852806,
+        7.463124630744649,
+        -83.62133507019378
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:82:13",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        135.12144703288058,
+        9.513391707645805,
+        -79.8432491750969
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:82:16",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        138.49154042497238,
+        9.118769256512754,
+        -64.85761532437525
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:20",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -152.45953901940067,
+        5.22611087209154,
+        -37.06967297010125
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:20",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -93.20268039888279,
+        0.9155007255146193,
+        -37.586777926646185
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:21",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -142.42540613111618,
+        3.6972027733929504,
+        -33.85907527915669
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:21",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -136.2568264227458,
+        3.2753260372007347,
+        -33.27118168663235
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:21",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -103.16715262007477,
+        0.57220607348953,
+        -31.592782039186
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:22",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -161.79324968367854,
+        3.5386876377890193,
+        -26.57767907947769
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:23",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -105.92745334346822,
+        0.5329266848000211,
+        -19.01398547328079
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:25",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -169.66640578013883,
+        1.2524885263721324,
+        -9.50424520695118
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:25",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -159.19463785775974,
+        0.6043495126502099,
+        -8.72321921130644
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:25:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -138.95469629388577,
+        1.3993579072066737,
+        -3.9668967300937545
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:46:26",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -85.98571650289973,
+        0.61489725758755,
+        0.7672837988519874
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:28:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -106.8220959597305,
+        0.8532684705958988,
+        7.2280862486227955
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:30:32",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -186.29429010269266,
+        1.9204089744754138,
+        38.210130507647975
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:32",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -162.39789519646243,
+        6.796976282308913,
+        36.656160030183365
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:29:34",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -192.9806685273399,
+        1.9091285633056,
+        50.63569690207484
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:35",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -217.66586305591306,
+        0.8556504676933292,
+        57.052488285196006
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:35",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -171.6202241480587,
+        6.080146772783076,
+        52.3676552036358
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:25:38:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -219.8327756307202,
+        2.056879251882476,
+        77.89140758571078
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:39",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -19.515247455519095,
+        1.249363209736994,
+        78.83774045525584
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:54:43",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -34.569225482158764,
+        0.4522498227752754,
+        106.3199328196235
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:38",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -20.209123890148476,
+        12.602636089067719,
+        -148.75847518560477
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:39",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        159.05361070018262,
+        13.88630792970674,
+        -88.86279876041226
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:40",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        154.3054524618201,
+        10.679509513204515,
+        -74.81677297339775
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:41",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        164.00247250474058,
+        9.987959841911422,
+        -69.1880869094748
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:42",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        166.4485843111761,
+        8.10772253930256,
+        -6.943603664403781
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:3:43",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -137.67409090092406,
+        1.3832713124802425,
+        152.2602537581697
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:70:3",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        61.33451997275425,
+        13.419117350514918,
+        -145.5769638286438
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:4",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        30.32574333634187,
+        10.940612520381919,
+        -136.98810689770156
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:45:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -92.72197210680271,
+        11.51955279891571,
+        -125.6786294186209
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -55.226342773125914,
+        11.358901266863821,
+        -124.34775182013871
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:59:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -4.544391175383174,
+        12.94372890929371,
+        -123.62484555279376
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:67:6",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        43.020116044450155,
+        11.38357829951398,
+        -122.55281627877154
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:46:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -87.11239710541484,
+        8.892009895641102,
+        -114.29311600829479
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:48:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -74.89502923402512,
+        9.59226682410912,
+        -109.79529866916597
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:51:8",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -56.52664190116845,
+        13.113806870456065,
+        -114.03488200948578
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:76:9",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        97.04268654237464,
+        10.470527830372983,
+        -103.70963599906308
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:12",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        29.16108262869489,
+        8.790639692720442,
+        -85.29726575793703
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:38:13",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -137.8700464305612,
+        4.285702935463705,
+        -83.91880303371701
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:65:13",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        33.78639810271055,
+        7.7856765326666935,
+        -80.90310798799158
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:84:16",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        147.47921115731313,
+        8.725111692426461,
+        -60.18857461922805
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:18",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -223.1384617843668,
+        10.233841200820804,
+        -49.55127623640934
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:18",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -117.88246090519752,
+        4.1553270814152725,
+        -50.16969494403342
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:88:18",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        171.73270171410357,
+        11.827548295797268,
+        -49.5005521158362
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:19",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -154.6890188872073,
+        6.097967570945304,
+        -43.94563545079904
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:19",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -142.9332140677892,
+        5.97790281650669,
+        -45.269819526528025
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:20",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -129.09007606630257,
+        2.7543723294544415,
+        -40.364715212956085
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:40:20:sapling",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -125.08877528652026,
+        3.283948786586624,
+        -44.732681757871006
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:41:20",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -116.44296995452183,
+        1.1992140196842078,
+        -36.00992311419455
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:43:22",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -108.06744842142376,
+        0.6551003190671003,
+        -27.589963570018316
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:39:23",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -128.71872610950888,
+        1.0082995607676521,
+        -17.869134152922797
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:25",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -151.54111584874377,
+        3.06319927340801,
+        -4.563138789813982
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:26",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -147.67799898091744,
+        4.418644013737431,
+        -0.4565130233206022
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:37:27",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -140.3011928242449,
+        5.603824285579564,
+        6.497895556432178
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:35:28",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -156.92949393057305,
+        5.566195875704227,
+        9.336758776935731
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:29",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -181.11038632220624,
+        1.1443322626897465,
+        17.182117472747322
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:30",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -196.17760752409728,
+        0.7833393497554872,
+        21.489233074542117
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:33:31",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -169.25536692601665,
+        4.624290240405951,
+        31.225684995707105
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:24:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -220.81052791452063,
+        1.7444113750934498,
+        44.51111458539962
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -211.5888742026317,
+        1.5882801705258551,
+        41.751191321024656
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:28:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -197.35728934364892,
+        1.2486136516461608,
+        40.5258177126618
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:32:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -174.58913871984498,
+        3.4143243068848945,
+        45.192084116823956
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:34:33",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -160.527148275413,
+        7.88006827993164,
+        44.767503133588455
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:31:35",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -182.26524147388096,
+        4.973096361611943,
+        53.96522287916391
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:26:37",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -208.70955649835088,
+        1.5476159774430363,
+        68.0396692984132
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:62:41",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        13.159830085374011,
+        0.8151923497534026,
+        91.77485302246642
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:36:42",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -150.6221384602696,
+        0.7059992932707857,
+        101.13244112248533
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:wild:57:43",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -21.330454273978653,
+        0.5492805784099832,
+        105.0453976052208
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:41",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -4.743297973647714,
+        12.752345494788484,
+        -148.41394719923846
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:42",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        140.97667053504847,
+        12.600815925703452,
+        -103.17972425301559
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:43",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        137.0056026952807,
+        3.3326517980479617,
+        57.60848844377324
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:44",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        109.13973666960374,
+        2.493390320350529,
+        79.55817360221408
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:45",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        -98.39737794990651,
+        0.6533122039292065,
+        114.76009394228458
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:4:46",
+      "species": "pine",
+      "lod": 2,
+      "kind": "pine/procedural",
+      "missingWood": true,
+      "position": [
+        35.42024416313507,
+        1.0954275502573376,
+        106.23359356005676
+      ],
+      "leafless": false,
+      "components": 0,
+      "chunks": 0,
+      "detachedCards": 0,
+      "detachedClumps": 0,
+      "maxWoodGap": null,
+      "candidates": []
+    }
+  ],
+  "scope": "Native compiled forest adapter and diagnostic export, with the requested far-LOD pine cohort. The app wrapper already rejects incomplete population coverage; the fix retains individual unsupported targets and makes missing wood explicit in the lower-level report.",
+  "assertions": {
+    "fullFarPopulation": true,
+    "retainedPines": true,
+    "explicitMissingWood": true,
+    "incompleteSupport": true,
+    "wrapperStillRejects": true
+  },
+  "pass": true,
+  "programSha256": "c1ad6cdbfc2715bb5fb4f029f15514b925cda02408c40859a646575cb1ec81e4"
+}
