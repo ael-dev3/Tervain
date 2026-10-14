@@ -11,7 +11,7 @@ export async function auditLiveCrowns(page,diagnostics) {
  const native=forest.canopyAuditTargets(lod),nativeLod=native.every(t=>t.lod===lod),targets=roots.map((root,i)=>{const family=families.get(root.label),wood=family.find(m=>m.name.endsWith(':'+lod+':wood')),leaf=family.find(m=>m.name.endsWith(':'+lod+':foliage'));
  if(!wood){missing.push({label:root.label,lod,leavesPresent:!!leaf});return null;}
  const prefix=wood.name.split(':')[0],species=nativeLod?native.find(t=>t.label===root.label)?.species:prefix==='solitary-pine'?'pine':prefix;
- return{...root,...(nativeLod?native.find(t=>t.label===root.label):{}),lod,species,kind:prefix,wood:wood.geometry,leaves:leaf?.geometry??null,cutout:leaf?leafCutoutSampler(leaf.material):null};}).filter(Boolean);
+ return{...root,...(nativeLod?native.find(t=>t.label===root.label):{}),lod,species,kind:prefix,wood:wood.geometry,leaves:leaf?.geometry??null,cutout:leaf?leafCutoutSampler(leaf.material):null,cutoutRequired:(leaf?.material?.alphaTest??0)>0};}).filter(Boolean);
  const audit=auditCanopies(targets,{lod,alpha:true,gap:.75,woodReach:1.5,maxOperations:80000000});levels.push({lod,...audit,expectedTrees:roots.length,coveredTrees:targets.length});}
  const snapshot=[],attributes=new Map();forest.group.traverse(o=>{snapshot.push({o,visible:o.visible,count:o.count,range:o.geometry?{...o.geometry.drawRange}:null});for(const a of [o.instanceMatrix,o.instanceColor,...Object.values(o.geometry?.attributes??{})])if(a?.array&&!attributes.has(a))attributes.set(a,{array:a.array.slice(),version:a.version,ranges:a.updateRanges?.map(r=>({...r}))});});
  const camera=T.cam.camera.clone(),focus=T.player.group.position.clone(),transitionRows=[];
