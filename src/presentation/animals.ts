@@ -391,6 +391,7 @@ interface AnimalInstance extends AnimalBody {
 export interface AnimalWildlife extends SceneModule {
   setPeople(people: readonly PhysicalActor[]): void;
   readonly contacts: readonly Collider[];
+  /** Borrowed inputs refreshed on each read; copy values when retaining a historical snapshot. */
   readonly physicalActors: readonly PhysicalActor[];
   snapshot(): AnimalSnapshot[];
   /** `hunter`: where the hunter stands for a restore, so returning animals settle away from him (A101 scout). */
@@ -631,6 +632,9 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
   yield* hunting.prepare(animals);
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
   group.add(hunting.group);
+  const physicalInputs: PhysicalActor[] = [];
+  const physicalRows: PhysicalActor[] = animals.map(animal => ({ id: `animal:${animal.definition.id}`,
+    x: 0, y: 0, z: 0, radius: 0, height: 0, active: true }));
 
   return {
     group,
@@ -668,12 +672,19 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
         minY: animal.root.position.y, maxY: animal.root.position.y + animal.size.y }));
     },
     get physicalActors(): PhysicalActor[] {
-      return animals.filter(animal => hunting.isVisible(animal) && animal !== ridden?.animal).map(animal => {
-        const corpse = hunting.corpseContact(animal);
-        return { id: `animal:${animal.definition.id}`, x: corpse?.x ?? animal.root.position.x, y: corpse?.minY ?? animal.root.position.y, z: corpse?.z ?? animal.root.position.z,
-          radius: corpse ? corpse.kind === 'box' ? Math.max(.18, Math.hypot(corpse.hw, corpse.hd)) : corpse.r : Math.max(.18, animal.size.x * .5),
-          height: corpse ? Math.max(.25, corpse.maxY! - corpse.minY!) : Math.max(animal.size.x, animal.size.y), active: true };
-      });
+      physicalInputs.length = 0;
+      for (let i = 0; i < animals.length; i++) {
+        const animal = animals[i]!;
+        if (!hunting.isVisible(animal) || animal === ridden?.animal) continue;
+        const corpse = hunting.corpseContact(animal), row = physicalRows[i]!;
+        row.x = corpse?.x ?? animal.root.position.x;
+        row.y = corpse?.minY ?? animal.root.position.y;
+        row.z = corpse?.z ?? animal.root.position.z;
+        row.radius = corpse ? corpse.kind === 'box' ? Math.max(.18, Math.hypot(corpse.hw, corpse.hd)) : corpse.r : Math.max(.18, animal.size.x * .5);
+        row.height = corpse ? Math.max(.25, corpse.maxY! - corpse.minY!) : Math.max(animal.size.x, animal.size.y);
+        physicalInputs.push(row);
+      }
+      return physicalInputs;
     },
     snapshot: () => animals.map(animal => ({ id: animal.definition.id, species: animal.definition.species, x: animal.root.position.x,
       y: animal.root.position.y, z: animal.root.position.z, yaw: animal.yaw, radius: animal.home.radius,

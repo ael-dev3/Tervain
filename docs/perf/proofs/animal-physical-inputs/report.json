@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "baseline": "421d34b",
+  "candidateSourceSha256": "42b1bbf017c53ed0b3ffecc470601a3083bf285e6ed0368c9d294148301524b4",
+  "before": {
+    "calls": 120,
+    "animals": 19,
+    "arrayIdentities": 120,
+    "recordIdentities": 2280,
+    "snapshotHash": "37667952f9bfb371ab32ca78c66d67643a8228d946e46c8441cccfc0838c8c43",
+    "drawCalls": 5,
+    "triangles": 47159,
+    "textures": 8,
+    "sourceUploadBytes": 15312478,
+    "texturePayloadBytes": 18335776,
+    "msaa": 4,
+    "glError": 0
+  },
+  "after": {
+    "calls": 120,
+    "animals": 19,
+    "arrayIdentities": 1,
+    "recordIdentities": 19,
+    "snapshotHash": "37667952f9bfb371ab32ca78c66d67643a8228d946e46c8441cccfc0838c8c43",
+    "drawCalls": 5,
+    "triangles": 47159,
+    "textures": 8,
+    "sourceUploadBytes": 15312478,
+    "texturePayloadBytes": 18335776,
+    "msaa": 4,
+    "glError": 0
+  },
+  "changedRGBChannels": 0,
+  "pass": true,
+  "scope": "Actual animal controllers with all 19 delivered rigged GLBs, 120 controlled root translations/readbacks, native Grade/MSAA view. Identity counters count exposed input records only, not total heap allocation; no hardware frame-time claim."
+}
