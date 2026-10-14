@@ -112,7 +112,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   proc.once('error', () => { launchFailed = true; });
   let targets = null;
   // A first launch after a browser update can take well over 15 s.
-  const startupDeadline = Date.now() + 30000;
+  const startupDeadline = Date.now() + Number(process.env.CDP_STARTUP_MS ?? 120000);
   for (let i = 0; i < 120 && !targets && Date.now() < startupDeadline; i++) {
     if (launchFailed || proc.exitCode !== null) break;
     try {
