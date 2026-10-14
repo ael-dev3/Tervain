@@ -62,6 +62,6 @@ Before finding the shadowless return, a separate candidate combined #470/#473/#4
 
 [Control source composition](proofs/shadowless-warming/preparation-control/source.json), [300-render comparison](proofs/shadowless-warming/preparation-control/comparison.json), [thread-CPU comparison](proofs/shadowless-warming/preparation-control/thread-comparison.json). The comparison build is derived from the three public commits listed there; its source hash identifies the exact resident implementation. It does not contain this shadowless fix.
 
-The supplied 0:26–0:28 video is a night-time approach toward the hip-roof house. The exact route/preset and its remaining High-path stall still need a matching reproduction. This PR does not claim a complete hitch fix or steady M5 60 fps. `docs/perf/LATEST.md` remains the separate live16 hardware evidence.
+The supplied 0:26–0:28 video is a night-time approach toward the hip-roof house. The video’s exact route and preset remain unconfirmed, and its night-time stall still needs a matching reproduction. This branch change does not alter the shadow-enabled path. This PR does not claim a complete hitch fix or steady M5 60 fps. `docs/perf/LATEST.md` remains the separate live16 hardware evidence.
 
 Validation: the new regression fails twice on the published source; all 75 preparation/transition/graphics tests pass after the fix, and the production build passes. Native asset and full rendered crossing checks above pass.
