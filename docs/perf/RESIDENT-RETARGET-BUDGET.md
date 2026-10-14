@@ -28,3 +28,21 @@ npm run build
 ```
 
 The first command compares the published source with the candidate using delivered assets; the second profiles the published build itself. Existing preparation and arrivals tests: 15 passed. Production build passed. Hardware/video crossing verification remains open.
+
+## Encoded playtest cadence around the crossing
+
+A separate analysis of the supplied 60 fps playtest counts near-repeat scene-region images, using a mean absolute luma-change threshold of 0.2/255 after a fixed 480×270 analysis scale. The crop excludes the HUD; source timestamps and decoded frame counts must match.
+
+| Interval | Near-repeat pairs / measured pairs | Longest consecutive near-repeat run |
+| --- | ---: | ---: |
+| 24–26 s | 4 / 119 | 1 |
+| 26–28 s | 15 / 120 | 1 |
+| 28–30 s | 4 / 120 | 1 |
+
+This quantifies worse encoded cadence at the reported crossing. The observed near-repeats are isolated in this sample, rather than a long run of unchanged images. Recording/encoding and scene motion can affect the count; it must not be converted into engine frame times or a claimed hardware FPS result. [Per-frame receipt](proofs/resident-retarget-budget/playtest-cadence.json).
+
+```sh
+node tools/analyze-video-cadence.mjs playtest-0.0.18.mp4 cadence.json 24 6
+```
+
+The CPU-only trace above also includes the initial synthetic key event/audio-unlock work and runs its fixed steps synchronously. Async preparations can therefore remain pending across the step batch; it is workload isolation, not a replay of 26 seconds of real rendered play. The source-pose and allocation comparisons remain deterministic proofs of those specific costs, while complete hitch attribution stays open.
