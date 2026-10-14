@@ -53,7 +53,7 @@ node tools/repro-grass-white-attribution.mjs \
 
 The same five-frame window improves **5 → 1** near-white observations when only the `gDry * 0.8` weight is multiplied by the existing `gBladeCov`. Palette constants, geometry, thresholds and the seed-head term are retained. Inactive instrumentation is again pixel-identical; all draws pass the WebGL check. [Window receipt](proofs/grass-white-attribution/straw-coverage-window.json).
 
-This small window is promising, not a full-walk fix receipt. The larger matched walk is being checked separately. To repeat the window:
+The full 31-frame matched walk now confirms **28 → 15** near-white observations and ROI sparkle **0.552% → 0.404%**. All 31 normal images match the original reference exactly before their masks are reused. The actual compiled candidate matches every RGB channel of all five candidate-window frames. [Fix, full receipts and matched clip](https://github.com/ael-dev3/Tervain/pull/452). Fifteen observations remain; this is a partial reduction. To repeat the window:
 
 ```sh
 node tools/repro-grass-white-attribution.mjs \
