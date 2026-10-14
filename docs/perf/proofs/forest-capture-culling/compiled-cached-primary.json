@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.17",
+    "revision": "a842bc5ac"
+  },
+  "programs": [
+    "tervain-Bjkai4Bj.js"
+  ],
+  "colourBatches": 177,
+  "culledBatches": 177,
+  "trees": 453,
+  "scope": "Actual compiled whole scene, frozen native forest packing, six native cube-camera orientations/middle-model proxies and optional primary view. Native post/MSAA/water rendering of each camera, not hardware timings. Control disables only forest batch frustum culling. Source uploads exclude uniforms.",
+  "rows": [
+    {
+      "face": 6,
+      "control": {
+        "drawCalls": 337,
+        "triangles": 5649112,
+        "sourceUploadBytes": 3430500,
+        "textures": 270,
+        "textureImagePayloadBytes": 1285198156,
+        "glError": 0
+      },
+      "actual": {
+        "drawCalls": 206,
+        "triangles": 3998162,
+        "sourceUploadBytes": 0,
+        "textures": 270,
+        "textureImagePayloadBytes": 1285198156,
+        "glError": 0
+      },
+      "changedRGBChannels": 0
+    }
+  ],
+  "pass": true
+}
