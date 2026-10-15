@@ -19,8 +19,8 @@ export interface BranchField {
   readonly height: number;
   /** Number of limbs found (pieces of wood beyond the trunk). */
   readonly limbs: number;
-  /** Nearest wood vertex to a point (exact), or -1 without wood. */
-  nearest(x: number, y: number, z: number): number;
+  /** Nearest wood vertex to a point (exact) within `max` metres, or -1. */
+  nearest(x: number, y: number, z: number, max?: number): number;
   /** Read a wood vertex's branch data. */
   read(vertex: number, wind: THREE.Vector4, pivot: THREE.Vector3): void;
   /** A wood vertex's position. */
@@ -28,6 +28,8 @@ export interface BranchField {
 }
 
 const TAU = Math.PI * 2;
+/** Wood this close (m) to other wood beyond the trunk belongs to the same limb. */
+const JOIN = 0.25;
 /** A vertex with a level at or below this is trunk: it belongs to no limb. */
 const TRUNK_LEVEL = 0.02;
 /** Hash of a quantized point into [0, 1): stable across runs and platforms. */
@@ -81,6 +83,19 @@ export function deriveBranchWood(wood: THREE.BufferGeometry): BranchField | null
     if (level[a]! <= TRUNK_LEVEL || level[b]! <= TRUNK_LEVEL || level[c]! <= TRUNK_LEVEL) continue;
     parent[find(b)] = find(a); parent[find(c)] = find(a);
   }
+  // The models' branches are often separate tubes that meet or overlap at their joints: wood within JOIN of other wood
+  // beyond the trunk is one limb too, so a limb is not shattered into its tubes.
+  const join = new Map<number, number[]>();
+  const jk = (x: number, y: number, z: number) => ((x + 1024) * 2048 + (y + 1024)) * 2048 + (z + 1024);
+  for (let i = 0; i < n; i++) {
+    if (level[i]! <= TRUNK_LEVEL) continue;
+    const gx = Math.floor(px[i]! / JOIN), gy = Math.floor(py[i]! / JOIN), gz = Math.floor(pz[i]! / JOIN);
+    for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) for (let z = -1; z <= 1; z++) {
+      const list = join.get(jk(gx + x, gy + y, gz + z)); if (!list) continue;
+      for (const j of list) if ((px[i]! - px[j]!) ** 2 + (py[i]! - py[j]!) ** 2 + (pz[i]! - pz[j]!) ** 2 <= JOIN * JOIN) { const ra = find(i), rb = find(j); if (ra !== rb) parent[rb] = ra; }
+    }
+    const k = jk(gx, gy, gz), list = join.get(k); if (list) list.push(i); else join.set(k, [i]);
+  }
   // Per limb: its lowest vertex (the pivot) and its centroid (the phase).
   const low = new Int32Array(n).fill(-1), sum = new Float64Array(n * 4);
   const limbIds = new Int32Array(n).fill(-1);
@@ -90,7 +105,7 @@ export function deriveBranchWood(wood: THREE.BufferGeometry): BranchField | null
     const r = find(i);
     if (low[r]! < 0) { limbs++; low[r] = i; }
     else if (py[i]! < py[low[r]!]! || py[i]! === py[low[r]!]! && i < low[r]!) low[r] = i;
-    sum[r * 4] += px[i]!; sum[r * 4 + 1] += py[i]!; sum[r * 4 + 2] += pz[i]!; sum[r * 4 + 3] += 1;
+    { const o = r * 4; sum[o] = sum[o]! + px[i]!; sum[o + 1] = sum[o + 1]! + py[i]!; sum[o + 2] = sum[o + 2]! + pz[i]!; sum[o + 3] = sum[o + 3]! + 1; }
     limbIds[i] = r;
   }
   if (limbs < 1) return null;
@@ -107,29 +122,38 @@ export function deriveBranchWood(wood: THREE.BufferGeometry): BranchField | null
   }
   wood.setAttribute('_wind', new THREE.BufferAttribute(wind, 4));
   wood.setAttribute('_pivot', new THREE.BufferAttribute(pivot, 3));
-  // Nearest-vertex search: a uniform grid, searched in growing shells until no nearer vertex can exist.
-  const cell = Math.max(0.5, top / 40), cells = new Map<number, number[]>();
-  const key = (x: number, y: number, z: number) => ((x + 512) * 1024 + (y + 512)) * 1024 + (z + 512);
-  for (let i = 0; i < n; i++) {
-    const k = key(Math.floor(px[i]! / cell), Math.floor(py[i]! / cell), Math.floor(pz[i]! / cell));
-    const list = cells.get(k); if (list) list.push(i); else cells.set(k, [i]);
-  }
-  const reach = Math.ceil(Math.max(reachMax, top) / cell) + 1;
-  const nearest = (x: number, y: number, z: number): number => {
-    const cx = Math.floor(x / cell), cy = Math.floor(y / cell), cz = Math.floor(z / cell);
+  // Nearest-vertex search: a dense uniform grid (counting-sorted), searched in growing shells until nothing nearer can exist.
+  const cell = Math.max(0.75, top / 30);
+  let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
+  for (let i = 0; i < n; i++) { x0 = Math.min(x0, px[i]!); x1 = Math.max(x1, px[i]!); y0 = Math.min(y0, py[i]!); y1 = Math.max(y1, py[i]!); z0 = Math.min(z0, pz[i]!); z1 = Math.max(z1, pz[i]!); }
+  const nx = Math.floor((x1 - x0) / cell) + 1, ny = Math.floor((y1 - y0) / cell) + 1, nz = Math.floor((z1 - z0) / cell) + 1;
+  const start = new Int32Array(nx * ny * nz + 1), slot = new Int32Array(n);
+  const cellOf = (i: number) => (Math.floor((px[i]! - x0) / cell) * ny + Math.floor((py[i]! - y0) / cell)) * nz + Math.floor((pz[i]! - z0) / cell);
+  for (let i = 0; i < n; i++) { slot[i] = cellOf(i); start[slot[i]! + 1]!++; }
+  for (let k = 0; k < nx * ny * nz; k++) start[k + 1] = start[k + 1]! + start[k]!;
+  const fill = start.slice(0, nx * ny * nz), order = new Int32Array(n);
+  for (let i = 0; i < n; i++) order[fill[slot[i]!]!++] = i;
+  const nearest = (x: number, y: number, z: number, max = Infinity): number => {
+    const cx = Math.floor((x - x0) / cell), cy = Math.floor((y - y0) / cell), cz = Math.floor((z - z0) / cell);
+    const last = Math.min(Math.ceil(max / cell) + 1, Math.max(nx, ny, nz) + Math.max(Math.abs(cx), Math.abs(cy), Math.abs(cz)));
     let best = -1, bd = Infinity;
-    for (let s = 0; s <= reach; s++) {
-      if (best >= 0 && (s - 1) * cell > Math.sqrt(bd)) break;
-      for (let a = -s; a <= s; a++) for (let b = -s; b <= s; b++) for (let c = -s; c <= s; c++) {
-        if (Math.max(Math.abs(a), Math.abs(b), Math.abs(c)) !== s) continue;
-        const list = cells.get(key(cx + a, cy + b, cz + c)); if (!list) continue;
-        for (const i of list) {
-          const d = (px[i]! - x) ** 2 + (py[i]! - y) ** 2 + (pz[i]! - z) ** 2;
-          if (d < bd || d === bd && i < best) { bd = d; best = i; }
-        }
+    const visit = (gx: number, gy: number, gz: number) => {
+      if (gx < 0 || gy < 0 || gz < 0 || gx >= nx || gy >= ny || gz >= nz) return;
+      const c = (gx * ny + gy) * nz + gz;
+      for (let k = start[c]!; k < start[c + 1]!; k++) {
+        const i = order[k]!, d = (px[i]! - x) ** 2 + (py[i]! - y) ** 2 + (pz[i]! - z) ** 2;
+        if (d < bd || d === bd && i < best) { bd = d; best = i; }
+      }
+    };
+    for (let s = 0; s <= last; s++) {
+      if ((s - 1) * cell > Math.min(max, best >= 0 ? Math.sqrt(bd) : Infinity)) break;
+      for (let a = -s; a <= s; a++) for (let b = -s; b <= s; b++) {
+        if (Math.abs(a) === s || Math.abs(b) === s) { for (let c = -s; c <= s; c++) visit(cx + a, cy + b, cz + c); }
+        else if (s > 0) { visit(cx + a, cy + b, cz - s); visit(cx + a, cy + b, cz + s); }
+        else visit(cx, cy, cz);
       }
     }
-    return best;
+    return best >= 0 && bd <= max * max ? best : -1;
   };
   return {
     axis: [ax, az], height: top, limbs, nearest,
@@ -161,9 +185,29 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
     parent[find(b)] = find(a); parent[find(c)] = find(a);
   }
   const sum = new Float64Array(n * 4);
-  for (let i = 0; i < n; i++) { const r = find(i); sum[r * 4] += position.getX(i); sum[r * 4 + 1] += position.getY(i); sum[r * 4 + 2] += position.getZ(i); sum[r * 4 + 3] += 1; }
+  for (let i = 0; i < n; i++) { const r = find(i); { const o = r * 4; sum[o] = sum[o]! + position.getX(i); sum[o + 1] = sum[o + 1]! + position.getY(i); sum[o + 2] = sum[o + 2]! + position.getZ(i); sum[o + 3] = sum[o + 3]! + 1; } }
   const wind = new Float32Array(n * 4), pivot = new Float32Array(n * 3);
-  const p = new THREE.Vector3(), line = new THREE.Line3(), at = new THREE.Vector3(), c = new THREE.Vector3();
+  const p = new THREE.Vector3(), c = new THREE.Vector3();
+  // The twigs as points every TWIG_STEP along their length, in a grid: the nearest one to a card names its twig.
+  const TWIG_STEP = 0.4, TWIG_CELL = 1;
+  const samples = new Map<number, number[]>(), tk = (x: number, y: number, z: number) => ((x + 1024) * 2048 + (y + 1024)) * 2048 + (z + 1024);
+  twigs.forEach((t, k) => {
+    const steps = Math.max(1, Math.ceil(t.from.distanceTo(t.to) / TWIG_STEP));
+    for (let s = 0; s <= steps; s++) {
+      const f = s / steps, x = t.from.x + (t.to.x - t.from.x) * f, y = t.from.y + (t.to.y - t.from.y) * f, z = t.from.z + (t.to.z - t.from.z) * f;
+      const key = tk(Math.floor(x / TWIG_CELL), Math.floor(y / TWIG_CELL), Math.floor(z / TWIG_CELL)), list = samples.get(key);
+      if (list) list.push(k, x, y, z); else samples.set(key, [k, x, y, z]);
+    }
+  });
+  const nearestTwig = (cx: number, cy: number, cz: number, within: number): number => {
+    let best = -1, bd = within * within;
+    const gx = Math.floor(cx / TWIG_CELL), gy = Math.floor(cy / TWIG_CELL), gz = Math.floor(cz / TWIG_CELL), span = Math.ceil(within / TWIG_CELL);
+    for (let a = -span; a <= span; a++) for (let b = -span; b <= span; b++) for (let d = -span; d <= span; d++) {
+      const list = samples.get(tk(gx + a, gy + b, gz + d)); if (!list) continue;
+      for (let i = 0; i < list.length; i += 4) { const dd = (list[i + 1]! - cx) ** 2 + (list[i + 2]! - cy) ** 2 + (list[i + 3]! - cz) ** 2; if (dd < bd) { bd = dd; best = list[i]!; } }
+    }
+    return best;
+  };
   const cardWind = new Map<number, { w: THREE.Vector4; p: THREE.Vector3 }>();
   let cards = 0, found = 0;
   for (let i = 0; i < n; i++) {
@@ -172,15 +216,15 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
     if (!card) {
       const cnt = sum[r * 4 + 3]!;
       c.set(sum[r * 4]! / cnt, sum[r * 4 + 1]! / cnt, sum[r * 4 + 2]! / cnt);
-      let vertex = field.nearest(c.x, c.y, c.z);
+      let vertex = field.nearest(c.x, c.y, c.z, reach);
       card = { w: new THREE.Vector4(), p: new THREE.Vector3() };
       cards++;
       if (vertex >= 0) {
         field.position(vertex, p);
-        let bd = p.distanceToSquared(c), best = -1;
+        const bd = p.distanceToSquared(c);
         // A card nearer a grown twig than the wood hangs from the limb that twig grows from.
-        for (let k = 0; k < twigs.length; k++) { line.set(twigs[k]!.from, twigs[k]!.to).closestPointToPoint(c, true, at); const d = at.distanceToSquared(c); if (d < bd) { bd = d; best = k; } }
-        if (best >= 0) { const from = twigs[best]!.from, vt = field.nearest(from.x, from.y, from.z); if (vt >= 0) vertex = vt; }
+        const best = twigs.length ? nearestTwig(c.x, c.y, c.z, Math.sqrt(bd)) : -1;
+        if (best >= 0) { const from = twigs[best]!.from, vt = field.nearest(from.x, from.y, from.z, 3); if (vt >= 0) vertex = vt; }
         field.read(vertex, card.w, card.p);
         const lever = Math.max(0.5, card.p.distanceTo(c));
         // The seed (1..255) names the card's own flutter; the amplitude (0..1] is scaled to the lever it turns about.

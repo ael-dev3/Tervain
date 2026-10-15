@@ -175,13 +175,15 @@ vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
     w += (axisDown * aLeaf + wdir * aLeaf2 * 0.8 + vec3(0.0, 1.0, 0.0) * aLeaf2 * 0.6) * (0.22 * fl * (0.25 + 0.75 * turbP) * mix(0.35, 1.0, gP));
   }
   w *= drive * uFoliage.y;
+  // A long limb (a derived one) turns through a smaller angle: its tip should not swing farther than a short limb's.
+  vec3 rel = p - pv;
+  w /= 1.0 + 0.25 * max(0.0, length(rel) - 3.0);
   // The pivot itself rides the parent chain's swing, about the trunk's axis.
   vec3 hrel = vec3(pv.x - o.x, 0.0, pv.z - o.z);
   float wr = smoothstep(0.1, 0.4, L);
   float aPar = sin(t * tau * (0.55 + 0.4 * fb) + pp);
   vec3 wp = (axisDown * (steady + aPar) + vec3(0.0, 1.0, 0.0) * aPar * 0.5) * (0.03 * wr * mix(0.6, 1.0, gP)) * drive * uFoliage.y;
   vec3 lift = cross(wp, hrel);
-  vec3 rel = p - pv;
   vec3 c1 = cross(w, rel);
   return lift + c1 + 0.5 * cross(w, c1);
 }
