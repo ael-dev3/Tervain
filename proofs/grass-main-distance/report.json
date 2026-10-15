@@ -1,0 +1,52 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "tiles": 31,
+  "rows": {
+    "native": {
+      "distances": 18,
+      "mainDraws": 18,
+      "captureDraws": 0,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalDistances": 80,
+      "totalMainDraws": 18,
+      "totalCaptureDraws": 62,
+      "statesSha256": "d3b558d928920415dc489923822b995e92ab6bbe94f08d1932af0565652379b3",
+      "nativeStatesMatch": true
+    },
+    "before": {
+      "distances": 18,
+      "mainDraws": 18,
+      "captureDraws": 0,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalDistances": 80,
+      "totalMainDraws": 18,
+      "totalCaptureDraws": 62,
+      "statesSha256": "d3b558d928920415dc489923822b995e92ab6bbe94f08d1932af0565652379b3",
+      "nativeStatesMatch": true
+    },
+    "after": {
+      "distances": 0,
+      "mainDraws": 18,
+      "captureDraws": 0,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalDistances": 62,
+      "totalMainDraws": 18,
+      "totalCaptureDraws": 62,
+      "statesSha256": "d3b558d928920415dc489923822b995e92ab6bbe94f08d1932af0565652379b3",
+      "nativeStatesMatch": true
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "3891f28bb93229c2140e248b87064d0bd3741d981cbef19c62466aaaf84cb08b",
+  "scope": "Actual published grass tile meshes and native renderer. Baseline/candidate onBeforeRender callback bodies transplanted verbatim from source with native layer/tile/geometry bindings; native compiled callback is the control. Native full-scene Grade/post draw plus two controlled capture-camera distances per tile. Counts are distance calls, not hardware timings or a claim that historical stalls are resolved.",
+  "pass": true
+}

@@ -139,12 +139,17 @@ export class TileLayer {
         tile.renderInstances = geo.instanceCount;
         const e = camera.matrixWorld.elements;
         const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
-        this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
-        const distance = this.distTo(tile, this.captureFocus);
-        // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
-        if (!main) geo.instanceCount = this.instanceCountAt(tile, distance);
+        if (main) {
+          // update() already computed this camera's density and blade prefix.
+          if (o.drawCountAt) geo.setDrawRange(0, tile.drawCount);
+        } else {
+          this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
+          const distance = this.distTo(tile, this.captureFocus);
+          // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
+          geo.instanceCount = this.instanceCountAt(tile, distance);
+          if (o.drawCountAt) geo.setDrawRange(0, Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
+        }
         if (o.maxRadius !== undefined && !this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
-        if (o.drawCountAt) geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
       };
       // Captures must not leave their density on the shared main-camera geometry.
       mesh.onAfterRender = () => { geo.instanceCount = tile.renderInstances; };
