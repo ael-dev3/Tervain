@@ -241,9 +241,25 @@ it('draws and uploads only the last non-discarded prefix, retaining stream slots
  const leaves=buildFallingLeaves({heightAt:()=>0},'high',trees,()=>variant),mesh=meshOf(leaves),a=opacity(mesh) as THREE.InstancedBufferAttribute;
  try{let trimmed=false;for(let i=0;i<120;i++){
    leaves.update(1/60,frame());const values=Array.from(a.array);let last=0;values.forEach((v,j)=>{if(v>.001)last=j+1;});
-   expect(mesh.count).toBe(last);if(last>0){expect(mesh.instanceMatrix.updateRanges).toEqual([{start:0,count:last*16}]);expect(a.updateRanges).toEqual([{start:0,count:last}]);if(last<values.length)trimmed=true;}
+   expect(mesh.count).toBe(last);if(last>0){const first=values.findIndex(v=>v>.001);expect(mesh.instanceMatrix.updateRanges).toEqual([{start:first*16,count:(last-first)*16}]);expect(a.updateRanges).toEqual([{start:0,count:last}]);if(last<values.length)trimmed=true;}
  }
  expect(trimmed).toBe(true);leaves.update(.1,frame(false,-1000));expect(mesh.count).toBe(0);expect(mesh.visible).toBe(false);
- leaves.update(.1,frame());expect(mesh.count).toBeGreaterThan(0);expect(mesh.instanceMatrix.updateRanges[0]!.count).toBe(mesh.count*16);
+ leaves.update(.1,frame());expect(mesh.count).toBeGreaterThan(0);expect(mesh.instanceMatrix.updateRanges[0]!.start+mesh.instanceMatrix.updateRanges[0]!.count).toBe(mesh.count*16);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
+});
+
+it('omits hidden leading matrix slots and uploads them when their patch re-enters', () => {
+ const variant=source(),a=tree('leading:a'),b={...tree('leading:b'),x:-102};
+ const leaves=buildFallingLeaves({heightAt:()=>0},'low',[a,b],()=>variant),mesh=meshOf(leaves),alpha=opacity(mesh);
+ try {
+  leaves.update(0,frame(false,-1000));
+  const firstX=positionOf(mesh,0).x,secondX=positionOf(mesh,1).x;
+  expect(Math.abs(firstX-secondX)).toBeGreaterThan(55);
+  for(let i=0;i<100&&alpha.getX(1)<=.001;i++)leaves.update(.1,frame(false,secondX));
+  expect(alpha.getX(0)).toBe(0);expect(alpha.getX(1)).toBeGreaterThan(.001);
+  expect(mesh.instanceMatrix.updateRanges).toEqual([{start:16,count:16}]);
+  for(let i=0;i<100&&alpha.getX(0)<=.001;i++)leaves.update(.1,frame(false,firstX));
+  expect(alpha.getX(1)).toBe(0);expect(alpha.getX(0)).toBeGreaterThan(.001);
+  expect(mesh.instanceMatrix.updateRanges).toEqual([{start:0,count:16}]);
  }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
 });

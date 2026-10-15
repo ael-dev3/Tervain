@@ -214,7 +214,7 @@ export function buildFallingLeaves(
       if (disposed) return;
       if (!frame.reducedMotion && Number.isFinite(dt) && dt > 0 && Number.isFinite(clock + dt)) clock += dt;
       visible = 0;
-      let drawCount = 0;
+      let drawCount = 0, uploadStart = streams.length;
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i]!, age = (clock + stream.phase) % stream.cycle;
         airbornePosition(stream, age, temporary);
@@ -225,6 +225,7 @@ export function buildFallingLeaves(
         alpha.setX(i, coverage);
         if (coverage > 0.001) {
           visible++;
+          uploadStart = Math.min(uploadStart, i);
           drawCount = i + 1;
         }
         const landed = smoothstep(stream.contactTime - 0.25, stream.contactTime + 0.6, age);
@@ -258,7 +259,8 @@ export function buildFallingLeaves(
       mesh.count = drawCount;
       if (visible > 0) {
         mesh.instanceMatrix.clearUpdateRanges();
-        mesh.instanceMatrix.addUpdateRange(0, drawCount * 16);
+        // Leading discarded slots need no fresh pose on the GPU; opacity still clears the full drawn prefix.
+        mesh.instanceMatrix.addUpdateRange(uploadStart * 16, (drawCount - uploadStart) * 16);
         mesh.instanceMatrix.needsUpdate = true;
         alpha.clearUpdateRanges();
         alpha.addUpdateRange(0, drawCount);

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "nonBackgroundPixels": 279,
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "pool": 77,
+  "active": 11,
+  "prefix": 63,
+  "first": 2,
+  "probe": {
+    "index": 32,
+    "opacity": 0.38685306906700134,
+    "projected": [
+      0,
+      -5.02832013424647e-16,
+      0.9738906597947712
+    ]
+  },
+  "sourceCamera": [
+    5,
+    4.056159006476997,
+    3.1865254697361314
+  ],
+  "runs": {
+    "before": {
+      "width": 640,
+      "height": 360,
+      "instances": 63,
+      "uploadBytes": 4284,
+      "triangles": 630,
+      "draws": 1,
+      "glError": 0,
+      "contextLost": false
+    },
+    "after": {
+      "width": 640,
+      "height": 360,
+      "instances": 63,
+      "uploadBytes": 4156,
+      "triangles": 630,
+      "draws": 1,
+      "glError": 0,
+      "contextLost": false
+    }
+  },
+  "pixelIdentical": true,
+  "scope": "Published native leaf snapshot isolated with a diagnostic camera, background and fill light; actual shader, colors, matrices and opacities retained. Compare the existing tail-trimmed matrix upload with the occupied matrix interval; alpha upload and drawn instance prefix stay unchanged. Direct framebuffer readback, not the final post/MSAA path. Not a candidate full-build replay or hardware timing.",
+  "qualityPass": null,
+  "pass": true,
+  "sourceAtProbeSha256": "a2599886f0debedf782d7ac401e7b5c7b50b920c5c1b8e01924d8ca62d293bef"
+}
