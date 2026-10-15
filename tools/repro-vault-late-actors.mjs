@@ -9,13 +9,20 @@ import {openPage} from './cdp.mjs';
 import {installRenderCost} from './render-cost.mjs';
 import {textureUploadBytes} from './webgl-upload-bytes.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((v,i,a)=>v.startsWith('--')?[[v.slice(2),a[i+1]]]:[]));
-const ref=args.baseline??'dcd87c21d',out=args.out??'vault-late-actors-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
+const ref=args['arc-ref']??args.baseline??'dcd87c21d',out=args.out??'vault-late-actors-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
 const baseline=path.resolve('src/presentation/__baseline-player.ts'),source=execFileSync('git',['show',`${ref}:src/presentation/player.ts`],{encoding:'utf8'});
 const production=fs.readFileSync('src/presentation/player.ts','utf8');
 let candidate=production;
+if(args['arc-ref']) {
+ const method=s=>{const from=s.indexOf('  private stepVault('),to=s.indexOf('\n  private tryMove',from);if(from<0||to<0)throw Error('Missing executor boundary');return{from,to};};
+ const base=method(source),current=method(production);
+ const executor=production.slice(current.from,current.to).replace('ease = u * u * (3 - 2 * u)','ease = vaultEase(u)').replace('(v.peak - Math.max(v.from.y, v.to.y))','(v.peak - (v.from.y + v.to.y) / 2)');
+ candidate=(source.slice(0,base.from)+'  private readonly vaultActorSweep = new Colliders();\n'+executor+source.slice(base.to))
+  .replace('import { FENCE_WALL_LIFT }','import { Colliders, FENCE_WALL_LIFT }').replace('import type { Collider, Colliders }','import type { Collider }');
+}
 const candidatePath=path.resolve('src/presentation/__candidate-player.ts');
 const server=await createServer({configFile:false,logLevel:'error',plugins:[{name:'baseline-player',enforce:'pre',resolveId(id){if(id==='/src/presentation/__baseline-player.ts')return baseline;if(id==='/src/presentation/__candidate-player.ts')return candidatePath;},load(id){if(id===baseline)return source;if(id===candidatePath)return candidate;}}],server:{host:'127.0.0.1',port:0,hmr:false,ws:false},optimizeDeps:{include:['three','@dimforge/rapier3d-compat'],noDiscovery:true}});
-let page;const report={baseline:execFileSync('git',['rev-parse',ref],{encoding:'utf8'}).trim(),candidateSourceSha256:createHash('sha256').update(candidate).digest('hex'),productionSourceSha256:createHash('sha256').update(production).digest('hex')};
+let page;const report={baseline:execFileSync('git',['rev-parse',ref],{encoding:'utf8'}).trim(),candidateSourceSha256:createHash('sha256').update(candidate).digest('hex'),productionSourceSha256:createHash('sha256').update(production).digest('hex'),arcIntegration:!!args['arc-ref']};
 try {await server.listen();for(const mode of ['before','after']) {
  page=await openPage(`http://127.0.0.1:${server.httpServer.address().port}/tools/vault-late-actors-fixture.html?mode=${mode}`,{w:640,h:360,init:`(${installRenderCost.toString()})(${textureUploadBytes.toString()});`});
  let ready=false;for(let i=0;i<1200;i++){const error=await page.eval('return window.fixtureError');if(error)throw Error(error);if(await page.eval('return !!window.vaultProof')){ready=true;break;}await page.wait(100);}assert(ready,'fixture ready');

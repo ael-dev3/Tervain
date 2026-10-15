@@ -23,6 +23,15 @@ The first command runs both actual source controllers in headless Chrome/SwiftSh
 | Blocked arcs stopped before contact | 0 | 648 |
 | Clear-control paths changed | — | 0 / 1,944 |
 
+The same 2,592 cases also pass with #475's slope/rail-clearance arc (`a439113f2da59638dbfd6ac95e894699f5008275`): **648 penetrating cases → 0**, with all 1,944 control paths unchanged. [Integration receipt](../../proofs/vault-late-actors/slope-arc/report.json). Reproduce after fetching that branch:
+
+```sh
+git fetch origin codex/vault-slope-clearance
+node tools/repro-vault-late-actors.mjs --arc-ref a439113f2da59638dbfd6ac95e894699f5008275 --out slope-arc-proof
+```
+
+That integration keeps #475's planning and shortened travel/lift functions while substituting the guarded executor, its actor-query field and runtime import. It is an explicit source integration fixture.
+
 Every control finishes grounded. All path coordinates and vault-active flags match exactly for the controls. Three new full-update tests fail before the change and pass afterward, including ordinary falling and landing after cancellation. All **64 player-motion tests pass**; production build/type check passes.
 
 [Report](../../proofs/vault-late-actors/report.json) and [compressed per-step traces](../../proofs/vault-late-actors/traces.json.gz) include hashes of each complete case array. Software-rendered collision diagrams: [before](../../proofs/vault-late-actors/before.png), [after](../../proofs/vault-late-actors/after.png). Cyan is the player capsule, orange the actor volume. Both renders use three draws, 1,860 lines, zero filled triangles/textures and 21,236 initial upload bytes. These diagrams do not measure whole-game rendering cost.
