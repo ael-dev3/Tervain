@@ -6,7 +6,7 @@ The change copies the exact five Float32 channels from a completed neighboring r
 
 ## Matched result
 
-On published 0.0.18 (`421d34b`), refilling 31 native grass tiles (4,088 instances) builds 22 habitat rasters. Actual node evaluations fall **6,358 → 5,793**: 565 fewer (**8.9%**). All 16,089 sampled values, complete rasters, generated buffers and bounds match exactly, as do rendered pixels. Both variants submit 245 draws / 1,889,302 triangles with 174 textures.
+On published 0.0.18 (`421d34b`), refilling 31 native grass tiles (4,088 instances) builds 22 habitat rasters. Actual node evaluations fall **6,358 → 5,793**: 565 fewer (**8.9%**). All 16,089 samples (five channels each), complete rasters, generated buffers and bounds match exactly, as do rendered pixels. Both variants submit 245 draws / 1,889,302 triangles with 174 textures.
 
 ## Reproduce
 
