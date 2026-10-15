@@ -8,8 +8,18 @@ import { COAST, COAST_SHELVES, LIGHTHOUSE, SEA_LEVEL } from './layout';
 
 const P = COAST;
 
+let lastCoastZ = Number.NaN, lastCoastX = 0;
+
 /** Cubic Hermite (Catmull-Rom) through the mean waterline, then a little noise so the edge is never a clean curve. */
 export function coastX(z: number): number {
+  // Raster rows share z; retain only their latest curve value, without a coordinate cache that can grow.
+  if (z === lastCoastZ) return lastCoastX;
+  const x = coastCurveAt(z);
+  lastCoastZ = z; lastCoastX = x;
+  return x;
+}
+
+function coastCurveAt(z: number): number {
   const n = P.length;
   if (z <= P[0]!.z) return P[0]!.x + shoreNoise(z);
   if (z >= P[n - 1]!.z) return P[n - 1]!.x + shoreNoise(z);
