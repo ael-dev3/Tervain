@@ -321,8 +321,25 @@ export class Habitat {
     t = new Float32Array(NODES * NODES * CH);
     const x0 = WORLD.minX + tx * TILE;
     const z0 = WORLD.minZ + tz * TILE;
+    // Completed neighboring rasters already contain the exact same world-fixed edge nodes.
+    // Reuse their Float32 channels rather than repeating terrain, soil, water and crown queries.
+    const west = this.tiles.get(key - 256), east = this.tiles.get(key + 256);
+    const north = this.tiles.get(key - 1), south = this.tiles.get(key + 1);
     for (let j = 0; j < NODES; j++) {
-      for (let i = 0; i < NODES; i++) this.evalNode(x0 + i * STEP, z0 + j * STEP, t, (j * NODES + i) * CH);
+      const row = j === 0 ? north : j === TILE_CELLS ? south : undefined;
+      if (row) {
+        const start = (j === 0 ? TILE_CELLS : 0) * NODES * CH;
+        t.set(row.subarray(start, start + NODES * CH), j * NODES * CH);
+        continue;
+      }
+      for (let i = 0; i < NODES; i++) {
+        const side = i === 0 ? west : i === TILE_CELLS ? east : undefined;
+        const k = (j * NODES + i) * CH;
+        if (side) {
+          const source = (j * NODES + (i === 0 ? TILE_CELLS : 0)) * CH;
+          for (let c = 0; c < CH; c++) t[k + c] = side[source + c]!;
+        } else this.evalNode(x0 + i * STEP, z0 + j * STEP, t, k);
+      }
     }
     this.tiles.set(key, t);
     return t;
