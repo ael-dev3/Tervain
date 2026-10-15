@@ -86,7 +86,7 @@ export class RealmPhysics {
   private woodHandles = new Map<number, string>();
   private rockSurfaces = new RockSurfaces();
   private rocks: { collider: RAPIER.Collider; source: WorldCollider }[] = [];
-  private fixed: { source: WorldCollider; collider: RAPIER.Collider }[] = [];
+  private fixed: { source: WorldCollider; collider: RAPIER.Collider; enabled: boolean }[] = [];
   private actors = new Map<string, ActorContact>();
   private footShape = new RAPIER.Ball(PLAYER_BODY_RADIUS);
   private character: RAPIER.RigidBody;
@@ -125,7 +125,7 @@ export class RealmPhysics {
       if (source.rockMesh) {
         const collider = this.world.createCollider(RAPIER.ColliderDesc.trimesh(source.rockMesh.positions, source.rockMesh.indices)
           .setFriction(.9).setEnabled(source.active));
-        this.fixed.push({ source, collider }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
+        this.fixed.push({ source, collider, enabled: source.active }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
         continue;
       }
       const base = terrain.heightAt(source.x, source.z);
@@ -138,7 +138,7 @@ export class RealmPhysics {
         ? RAPIER.ColliderDesc.cuboid(source.hw, (high - low) / 2, source.hd).setRotation(yawRotation(source.yaw))
         : RAPIER.ColliderDesc.cylinder((high - low) / 2, source.r);
       const collider = this.world.createCollider(desc.setTranslation(source.x, (low + high) / 2, source.z).setFriction(.8).setEnabled(source.active));
-      this.fixed.push({ source, collider });
+      this.fixed.push({ source, collider, enabled: source.active });
     }
     // Medium stones have finite contact geometry without becoming new NPC/navigation fences.
     const installedRocks = new Set(this.rocks.map(rock => rock.source.id));
@@ -147,7 +147,7 @@ export class RealmPhysics {
       const source: WorldCollider = { id: mesh.id, kind: 'circle', x: (mesh.bounds.minX + mesh.bounds.maxX) / 2,
         z: (mesh.bounds.minZ + mesh.bounds.maxZ) / 2, r: 0, active: true, rockMesh: mesh };
       const collider = this.world.createCollider(RAPIER.ColliderDesc.trimesh(mesh.positions, mesh.indices).setFriction(.9));
-      this.fixed.push({ source, collider }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
+      this.fixed.push({ source, collider, enabled: source.active }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
     }
     this.rockSurfaces.register(this.rocks.flatMap(rock => rock.source.rockMesh ? [rock.source.rockMesh] : []));
     for (const tree of wood) {
@@ -399,16 +399,23 @@ export class RealmPhysics {
     return this.props.some(prop => prop.collider.castRay(ray, distance - .01, true) >= 0);
   }
 
+  /** These fixed colliders are owned here; source active flags are the authoritative state.
+   * Avoid a WASM read for every fixed collider on every step and arrow subsegment. */
+  private syncFixedEnabled(): void {
+    for (const fixed of this.fixed) if (fixed.enabled !== fixed.source.active) {
+      fixed.collider.setEnabled(fixed.source.active);
+      fixed.enabled = fixed.source.active;
+      this.projectileQueryDirty.add(fixed.collider);
+    }
+  }
+
   /** Exact finite 3D contacts for an arrow segment, including visible wood, terrain and loose cargo. */
   traceProjectile(from: Vec3, to: Vec3): ProjectileContact | null {
     if (!this.alive || ![from.x, from.y, from.z, to.x, to.y, to.z].every(Number.isFinite)) return null;
     const delta = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
     const length = Math.hypot(delta.x, delta.y, delta.z);
     if (length < 1e-8) return null;
-    for (const fixed of this.fixed) if (fixed.collider.isEnabled() !== fixed.source.active) {
-      fixed.collider.setEnabled(fixed.source.active);
-      this.projectileQueryDirty.add(fixed.collider);
-    }
+    this.syncFixedEnabled();
     const direction = { x: delta.x / length, y: delta.y / length, z: delta.z / length };
     const ray = new RAPIER.Ray(from, direction);
     const actorHandles = this.projectileActorHandles;
@@ -532,10 +539,7 @@ export class RealmPhysics {
   /** Fixed-step simulation, capped time accumulation and pose interpolation; paused time is never accrued. */
   step(dt: number, player: Vec3, yaw: number, pitch: number) {
     if (!Number.isFinite(dt) || dt <= 0 || !this.alive) return;
-    for (const f of this.fixed) if (f.collider.isEnabled() !== f.source.active) {
-      f.collider.setEnabled(f.source.active);
-      this.projectileQueryDirty.add(f.collider);
-    }
+    this.syncFixedEnabled();
     this.world.timestep = STEP;
     this.accumulated = Math.min(.1, this.accumulated + Math.min(.05, dt));
     const count = Math.floor((this.accumulated + 1e-9) / STEP);
