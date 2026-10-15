@@ -174,8 +174,9 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
           out.shape[o] = uYaw * Math.PI * 2; out.shape[o + 1] = radius; out.shape[o + 2] = profile.height * (0.82 + (GRASS_MAX_SCALE.height / 1.6 - 0.82) * uH); out.shape[o + 3] = uSeed;
           out.tint[o] = tint.r * j; out.tint[o + 1] = tint.g * (0.95 + uH * 0.1) * j; out.tint[o + 2] = tint.b * j; out.tint[o + 3] = 1 - S.wood * 0.85;
           out.slope[o] = gx; out.slope[o + 1] = gz; out.slope[o + 2] = profile.dry; out.slope[o + 3] = profile.flowers;
-          out.ymin = Math.min(out.ymin, y - GRASS_CLUMP.radius * 1.5 * Math.hypot(gx, gz));
-          out.ymax = Math.max(out.ymax, y + GRASS_CLUMP.radius * 1.5 * Math.hypot(gx, gz));
+          const slopeReach = GRASS_CLUMP.radius * 1.5 * Math.hypot(gx, gz);
+          out.ymin = Math.min(out.ymin, y - slopeReach);
+          out.ymax = Math.max(out.ymax, y + slopeReach);
           n++;
         }
         return n;

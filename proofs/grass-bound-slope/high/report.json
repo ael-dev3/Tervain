@@ -1,0 +1,54 @@
+{
+  "quality": "high",
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 108,
+      "grassInstances": 63664,
+      "rasterTiles": 120,
+      "boundHypots": null,
+      "generatedSha256": "3501a4c1b0d237d019f6c6d3583b8a6ea8b9f65b5b37d175dba0d5ccaa9a8519",
+      "rasterSha256": "a899e4c0567de659fc855ff9f45037aaf9c801f5de0b2cb8032dd956d074d904",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 404,
+      "triangles": 5558316,
+      "textureCount": 271
+    },
+    "before": {
+      "grassTiles": 108,
+      "grassInstances": 63664,
+      "rasterTiles": 120,
+      "boundHypots": 127328,
+      "generatedSha256": "3501a4c1b0d237d019f6c6d3583b8a6ea8b9f65b5b37d175dba0d5ccaa9a8519",
+      "rasterSha256": "a899e4c0567de659fc855ff9f45037aaf9c801f5de0b2cb8032dd956d074d904",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 404,
+      "triangles": 5558316,
+      "textureCount": 271
+    },
+    "after": {
+      "grassTiles": 108,
+      "grassInstances": 63664,
+      "rasterTiles": 120,
+      "boundHypots": 63664,
+      "generatedSha256": "3501a4c1b0d237d019f6c6d3583b8a6ea8b9f65b5b37d175dba0d5ccaa9a8519",
+      "rasterSha256": "a899e4c0567de659fc855ff9f45037aaf9c801f5de0b2cb8032dd956d074d904",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 404,
+      "triangles": 5558316,
+      "textureCount": 271
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "c9168d0158e7264720fced0181e243faaf5f175834e1bd5f7885b1ef9cc69281",
+  "baselineRevision": "421d34b",
+  "scope": "Native published terrain, Habitat and retained grass tiles. Compile actual baseline/candidate grass fields and install their generation callbacks on the native layers, retaining the original native fill/render path. Refill with cold habitat caches; require identical instance buffers, bounds, complete rasters and native post/MSAA pixels. Count actual bounds-site hypot evaluations. No hardware timing or hitch-resolution claim.",
+  "pass": true
+}
