@@ -260,6 +260,8 @@ export class Habitat {
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
     const biome = biomeAt(x, z);
+    // Soil blending and grass shade use the same planted projection at this raster node.
+    const sampledCanopy = this.plantedCrowns?.coverAt(x, z);
     let open = 1;
     const road = roadWeight(x, z);
     // The worn core stays completely bare. Outside it, continuous pockets interrupt the
@@ -274,7 +276,7 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, undefined, undefined, road);
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, sampledCanopy, undefined, road);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
@@ -304,7 +306,7 @@ export class Habitat {
     o[k] = open * biome.grassDensity;
     o[k + 1] = wet;
     o[k + 2] = dry;
-    o[k + 3] = this.woodAt(x, z);
+    o[k + 3] = sampledCanopy === undefined ? this.woodAt(x, z) : clamp(sampledCanopy, 0, 1);
     o[k + 4] = slope;
   }
 
