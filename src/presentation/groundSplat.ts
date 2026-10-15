@@ -22,12 +22,16 @@ export function streamDistance(x: number, z: number): number {
   return d;
 }
 
+// Authored crop fields are fixed; share their rotations across surface samples.
+const fieldRotations = FIELDS.map(field => ({ field, cosine: Math.cos(field.yaw), sine: Math.sin(field.yaw) }));
+
 function inField(x: number, z: number) {
-  for (const f of FIELDS) {
+  for (const cached of fieldRotations) {
+    const f = cached.field;
     const dx = x - f.x;
     const dz = z - f.z;
-    const lx = dx * Math.cos(f.yaw) - dz * Math.sin(f.yaw);
-    const lz = dx * Math.sin(f.yaw) + dz * Math.cos(f.yaw);
+    const lx = dx * cached.cosine - dz * cached.sine;
+    const lz = dx * cached.sine + dz * cached.cosine;
     if (Math.abs(lx) < f.w / 2 && Math.abs(lz) < f.d / 2) return f;
   }
   return null;
