@@ -125,6 +125,19 @@ export class Splashes {
     geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;
   }
 
+  /** Submit the empty pool once in the actual first view, before play. Its zero-size/fade slot draws no pixels,
+   * but creates the same vertex buffers and layout the first splash will need. Restore state even if drawing fails. */
+  prepareFirstDraw(draw: () => void): void {
+    const geometry = this.points.geometry, { start, count } = geometry.drawRange, visible = this.points.visible;
+    if (count !== 0) { draw(); return; }
+    try {
+      geometry.setDrawRange(0, 1); this.points.visible = true;
+      draw();
+    } finally {
+      geometry.setDrawRange(start, count); this.points.visible = visible;
+    }
+  }
+
   /** How many droplets are in the air (for the developer panel and tests). */
   get active(): number {
     return this.drops.filter((d) => d.life > 0).length;
