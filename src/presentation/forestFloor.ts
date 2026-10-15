@@ -34,6 +34,16 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return local;
   };
+  // Test the same buckets in source order without collecting every nearby tree first.
+  const nearTrunk = (x: number, z: number, margin: number): boolean => {
+    for (let i = Math.floor((x - 16) / 16); i <= Math.floor((x + 16) / 16); i++) {
+      for (let j = Math.floor((z - 16) / 16); j <= Math.floor((z + 16) / 16); j++) {
+        const bucket = hash.get(`${i}:${j}`);
+        if (bucket) for (const t of bucket) if (Math.hypot(t.x - x, t.z - z) < t.radius + margin) return true;
+      }
+    }
+    return false;
+  };
   const canopyAt = (x: number, z: number) => {
     // The loaded world supplies transformed source-leaf envelopes. The fallback is only for the
     // independent authoring tools and synthetic tests that deliberately omit a source model.
@@ -53,7 +63,7 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     if ((kind === 'fern' || kind === 'moss') && (sampledBiome ?? biomeAt(x, z)).weights['sheltered-palms'] > 0.35) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
     if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : kind === 'fern' || kind === 'shrub' ? reach : 0.4)) return;
-    if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
+    if (nearTrunk(x, z, kind === 'log' ? scale * 1.7 + 0.25 : 0.24)) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
     const nz = (terrain.heightAt(x, z - 0.4) - terrain.heightAt(x, z + 0.4)) / 0.8;

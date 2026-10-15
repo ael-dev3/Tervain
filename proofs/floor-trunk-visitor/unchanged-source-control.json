@@ -1,0 +1,36 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "trees": 453,
+  "nativeSelectedPieces": 197,
+  "rows": {
+    "before": {
+      "nearbyCollections": 967,
+      "pieces": 545,
+      "selections": {
+        "low": 197,
+        "medium": 365,
+        "high": 545
+      },
+      "populationAndSelectionsSha256": "eb72325d983dcf4a583a55889a61bdd8d850bddc82273e91056be9c37f7fdbff",
+      "matchesBaseline": true
+    },
+    "after": {
+      "nearbyCollections": 967,
+      "pieces": 545,
+      "selections": {
+        "low": 197,
+        "medium": 365,
+        "high": 545
+      },
+      "populationAndSelectionsSha256": "eb72325d983dcf4a583a55889a61bdd8d850bddc82273e91056be9c37f7fdbff",
+      "matchesBaseline": true
+    }
+  },
+  "sourceSha256": "0f36895c42e3a0876f1c4662162c0d0628e73dadaa63947a5af5e422995ea2ae",
+  "baselineRevision": "421d34b",
+  "scope": "Replay actual baseline/candidate forest-floor population builders with the published world terrain, retained canonical tree population, exclusion object and planted crown field. Compare every piece property and all quality selections. Count executed nearby-list construction sites, not measured heap allocations or GC. No render substitution or hardware timing claim.",
+  "pass": false
+}
