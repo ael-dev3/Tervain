@@ -20,7 +20,8 @@ it('avoids the duplicate direct shoreline lookup per cold node and keeps warm ti
   expect(observed.calls).toBe(3*17*17);
   expect(habitat.sample(-180,12,newSample())).toEqual(first);
   expect(observed.calls).toBe(3*17*17);
-  habitat.sample(-140,12,newSample());expect(observed.calls).toBe(2*3*17*17);
+  // The neighbouring tile shares one completed border column of 17 nodes with the first (reused, not recomputed).
+  habitat.sample(-140,12,newSample());expect(observed.calls).toBe(2*3*17*17-3*17);
 });
 
 it('preserves splat bytes and wetness with shared negative, zero and positive shoreline distances',()=>{
