@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>Placement draw-range diagnostic</title><style>body{margin:0;background:#18222b;color:white;font:16px sans-serif}canvas{display:block}p{margin:12px}</style><p>Grounded prop · root floating 0.3 m. Hidden geometry is outside the draw range.</p><script type="module">
+import * as THREE from 'three';import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
+import {auditPlacements as before} from '/src/diagnostics/__range-before.ts';import {auditPlacements as after} from '/src/diagnostics/__range-after.ts';
+try{
+ const make=(kind,prefix=false,indexed=true)=>{const visible=kind==='root'?new THREE.CylinderGeometry(.5,.5,2,16).translate(0,1.3,0):new THREE.BoxGeometry(1,1,1).translate(0,.5,0),hidden=kind==='root'?new THREE.PlaneGeometry(8,8).rotateX(-Math.PI/2):new THREE.BoxGeometry(1,1,1).translate(3,3,0);const start=prefix?hidden.index.count:0,count=visible.index.count;let g=mergeGeometries(prefix?[hidden,visible]:[visible,hidden]);if(!indexed)g=g.toNonIndexed();g.setDrawRange(start,count);return g;};
+ const mat=new THREE.MeshBasicMaterial({color:0x82b458}),scene=new THREE.Scene();scene.background=new THREE.Color(0x18222b);const box=new THREE.Mesh(make('prop'),mat),root=new THREE.Mesh(make('root'),new THREE.MeshBasicMaterial({color:0x98613f}));box.position.x=-1.3;root.position.x=1.3;box.frustumCulled=root.frustumCulled=false;scene.add(box,root,new THREE.Mesh(new THREE.PlaneGeometry(10,6).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({color:0x737d82,side:THREE.DoubleSide})));
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setPixelRatio(1);renderer.setSize(720,384);document.body.append(renderer.domElement);const camera=new THREE.PerspectiveCamera(40,720/384,.1,100);camera.position.set(3,3,8);camera.lookAt(0,.8,0);
+ const report={rows:{},images:{},draws:{}};
+ for(const[mode,audit]of [['before',before],['after',after]]){
+  report.rows[mode]={};
+  for(const kind of ['prop','root'])for(const prefix of [false,true])for(const indexed of [true,false]){
+   const g=make(kind,prefix,indexed),population={label:'fixture',kind,geometry:g,matrix:new THREE.Matrix4()},s=new THREE.Scene();if(kind==='prop')s.add(new THREE.Mesh(g,mat));const r=audit(s,()=>0,kind==='root'?[population]:[],{kind});
+   report.rows[mode][kind+'-'+(prefix?'prefix':'tail')+'-'+(indexed?'indexed':'vertices')]={complete:r.complete,checks:r.summary.checks,candidates:r.summary.candidates,invalid:r.invalid,minGap:r.checks[0]?.minGap??null};g.dispose();
+  }
+  for(const kind of ['prop','root']){const g=kind==='prop'?new THREE.BoxGeometry(1,1,1).translate(0,.5,0):new THREE.CylinderGeometry(.5,.5,2,16).translate(0,1.3,0),s=new THREE.Scene();if(kind==='prop')s.add(new THREE.Mesh(g,mat));const r=audit(s,()=>0,kind==='root'?[{label:'control',kind,geometry:g,matrix:new THREE.Matrix4()}]:[],{kind});report.rows[mode][kind+'-control']={complete:r.complete,checks:r.summary.checks,candidates:r.summary.candidates,minGap:r.checks[0]?.minGap??null};g.dispose();}
+  renderer.info.reset();renderer.render(scene,camera);report.draws[mode]={calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};report.images[mode]=renderer.domElement.toDataURL('image/png');
+ }
+ const gl=renderer.getContext();window.rangeProof={...report,glError:gl.getError(),contextLost:gl.isContextLost()};
+}catch(error){window.rangeError=String(error.stack??error);}
+</script>
