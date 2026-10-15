@@ -340,3 +340,29 @@ it('retains every far-LOD pine in audit coverage when its delivered card has no 
     expect(unsupported.every(t => ['pine', 'fir', 'shorepine'].includes(t.species ?? '') && t.lod === 2)).toBe(true);
   } finally { forest.dispose!(); vi.unstubAllGlobals(); }
 });
+
+it('keeps fixed tree color-batch local matrices cached while parent transforms still propagate', () => {
+  vi.stubGlobal('location', { search: '' });
+  const quality = 'low';
+  const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+    settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+    sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+  const spies: ReturnType<typeof vi.spyOn>[] = [];
+  try {
+    const parts = forest.group.children.filter(p => (p as THREE.InstancedMesh).isInstancedMesh && /:([012]):(wood|foliage)$/.test(p.name)) as THREE.InstancedMesh[];
+    expect(parts.length).toBeGreaterThan(0);
+    forest.group.updateMatrixWorld(true);
+    const local = parts.map(p => p.matrix.clone()), instances = parts.map(p => p.instanceMatrix.array.slice());
+    for (const p of parts) spies.push(vi.spyOn(p.matrix, 'compose'));
+    for (let i = 0; i < 120; i++) forest.group.updateMatrixWorld(true);
+    expect(spies.reduce((n, spy) => n + spy.mock.calls.length, 0)).toBe(0);
+    forest.group.position.set(3, -2, 7); forest.group.rotation.set(.1, .3, -.2); forest.group.scale.set(2, .8, 1.3);
+    forest.group.updateMatrixWorld(true);
+    parts.forEach((p, i) => {
+      expect(p.matrixAutoUpdate).toBe(false); expect(p.matrixWorldAutoUpdate).toBe(true);
+      expect(p.matrix.equals(local[i]!)).toBe(true);
+      expect(p.matrixWorld.equals(new THREE.Matrix4().multiplyMatrices(forest.group.matrixWorld, local[i]!))).toBe(true);
+      expect(p.instanceMatrix.array).toEqual(instances[i]);
+    });
+  } finally { spies.forEach(s => s.mockRestore()); forest.dispose!(); vi.unstubAllGlobals(); }
+});
