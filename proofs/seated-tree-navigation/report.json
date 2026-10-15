@@ -1,0 +1,549 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeGridMatches": true,
+  "initialRadiusMismatches": 0,
+  "normalQueryMismatches": 0,
+  "addedBlockedCells": 525,
+  "removedBlockedCells": 0,
+  "changedTrees": [
+    {
+      "id": "tree:wild:69:5",
+      "species": "fir",
+      "position": [
+        55.55420533591842,
+        12.505579480527498,
+        -131.64672684391036
+      ],
+      "plantedRadius": 1.2364625580281168,
+      "navigationRadius": 5.974054662452828,
+      "additionalSeat": 0.49492745569785157
+    },
+    {
+      "id": "tree:wild:73:7",
+      "species": "fir",
+      "position": [
+        79.0293043851802,
+        10.92732139233036,
+        -119.96849601552361
+      ],
+      "plantedRadius": 5.047251317227391,
+      "navigationRadius": 6.600760005093959,
+      "additionalSeat": 0.41324748342065654
+    },
+    {
+      "id": "tree:wild:50:9",
+      "species": "fir",
+      "position": [
+        -64.55338762647979,
+        9.720352117570958,
+        -106.04644138813023
+      ],
+      "plantedRadius": 4.75635353399141,
+      "navigationRadius": 6.810856864172886,
+      "additionalSeat": 0.42396489263559367
+    },
+    {
+      "id": "tree:wild:67:10",
+      "species": "fir",
+      "position": [
+        44.42817012836651,
+        7.812809128036433,
+        -97.95576625281949
+      ],
+      "plantedRadius": 1.2388605595951172,
+      "navigationRadius": 5.985947949278853,
+      "additionalSeat": 0.4917403604801276
+    },
+    {
+      "id": "tree:wild:50:11",
+      "species": "fir",
+      "position": [
+        -61.710065657687785,
+        10.45578062706329,
+        -95.21635879034646
+      ],
+      "plantedRadius": 5.65950870385297,
+      "navigationRadius": 8.107437864133503,
+      "additionalSeat": 0.516570546053515
+    },
+    {
+      "id": "tree:wild:79:11",
+      "species": "fir",
+      "position": [
+        118.45922905447856,
+        0.6497698303190682,
+        -92.9927963088034
+      ],
+      "plantedRadius": 4.6566811630655796,
+      "navigationRadius": 6.667765946160128,
+      "additionalSeat": 0.42560038607652695
+    },
+    {
+      "id": "tree:wild:32:12",
+      "species": "fir",
+      "position": [
+        -172.88688573542552,
+        8.935505286840066,
+        -86.34213690930049
+      ],
+      "plantedRadius": 1.3235909920396673,
+      "navigationRadius": 5.850273445816302,
+      "additionalSeat": 0.5737064210516127
+    },
+    {
+      "id": "tree:wild:35:13",
+      "species": "fir",
+      "position": [
+        -155.43289718754164,
+        6.512353575770445,
+        -79.34697272817142
+      ],
+      "plantedRadius": 4.680713012125499,
+      "navigationRadius": 6.702266373024527,
+      "additionalSeat": 0.4274977701253819
+    },
+    {
+      "id": "tree:wild:88:16",
+      "species": "fir",
+      "position": [
+        174.60812556729607,
+        11.461255417572243,
+        -62.54847001494377
+      ],
+      "plantedRadius": 5.262142088082184,
+      "navigationRadius": 7.536973318040026,
+      "additionalSeat": 0.47586848606499466
+    },
+    {
+      "id": "tree:wild:78:19",
+      "species": "fir",
+      "position": [
+        113.37794293484147,
+        4.4666959514917455,
+        -46.50208036891652
+      ],
+      "plantedRadius": 5.483123105580212,
+      "navigationRadius": 7.854216465398443,
+      "additionalSeat": 0.4797101079141237
+    },
+    {
+      "id": "tree:wild:53:21",
+      "species": "fir",
+      "position": [
+        -46.06844401273451,
+        0.5316871845315525,
+        -32.25316200763454
+      ],
+      "plantedRadius": 5.0385432053650145,
+      "navigationRadius": 6.589350185932296,
+      "additionalSeat": 0.4092468287755713
+    },
+    {
+      "id": "tree:wild:86:22",
+      "species": "fir",
+      "position": [
+        161.73569024750918,
+        8.901350715688197,
+        -23.156014867145583
+      ],
+      "plantedRadius": 5.009472789342173,
+      "navigationRadius": 7.174238072810915,
+      "additionalSeat": 0.46179674541747495
+    },
+    {
+      "id": "tree:wild:55:23",
+      "species": "fir",
+      "position": [
+        -33.237431285442256,
+        0.23380242814847857,
+        -20.546919681658053
+      ],
+      "plantedRadius": 5.134793513260929,
+      "navigationRadius": 7.354150091206687,
+      "additionalSeat": 0.4830221957864613
+    },
+    {
+      "id": "tree:wild:88:28",
+      "species": "fir",
+      "position": [
+        171.15599016295235,
+        10.715249238324642,
+        11.099103096006422
+      ],
+      "plantedRadius": 1.323127717276805,
+      "navigationRadius": 5.848176396935881,
+      "additionalSeat": 0.5397004154493654
+    },
+    {
+      "id": "tree:wild:87:29",
+      "species": "fir",
+      "position": [
+        164.72713516969654,
+        8.228143727768307,
+        15.33586773073299
+      ],
+      "plantedRadius": 5.562898962640773,
+      "navigationRadius": 7.968743696124646,
+      "additionalSeat": 0.4933795405400083
+    },
+    {
+      "id": "tree:wild:45:12",
+      "species": "oak",
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "plantedRadius": 8.323685514215969,
+      "navigationRadius": 8.388084173171771,
+      "additionalSeat": 0.5436711093565654
+    },
+    {
+      "id": "tree:wild:23:27",
+      "species": "oak",
+      "position": [
+        -228.27536925175252,
+        1.1699076942916007,
+        5.010601036548598
+      ],
+      "plantedRadius": 2.5563719201814936,
+      "navigationRadius": 8.273518256360722,
+      "additionalSeat": 0.384047493078878
+    },
+    {
+      "id": "tree:wild:32:27",
+      "species": "oak",
+      "position": [
+        -173.93433525357898,
+        0.7065560108221238,
+        7.321394598288445
+      ],
+      "plantedRadius": 3.3364309411971225,
+      "navigationRadius": 10.805546166488412,
+      "additionalSeat": 0.4501575609347057
+    },
+    {
+      "id": "tree:wild:49:39",
+      "species": "oak",
+      "position": [
+        -70.2081679318151,
+        0.22395912814979613,
+        78.3659755239822
+      ],
+      "plantedRadius": 2.7971466280011743,
+      "navigationRadius": 9.044341313683093,
+      "additionalSeat": 0.3792332370033671
+    },
+    {
+      "id": "tree:wild:37:38:sapling",
+      "species": "oak",
+      "position": [
+        -135.35681583600413,
+        1.8508661398431951,
+        75.80693487416289
+      ],
+      "plantedRadius": 2.386194567566766,
+      "navigationRadius": 2.5518924756526062,
+      "additionalSeat": 0.19946087615147823
+    },
+    {
+      "id": "tree:wild:39:25",
+      "species": "oak",
+      "position": [
+        -128.79785517458382,
+        0.7155233550705276,
+        -7.460038355705345
+      ],
+      "plantedRadius": 2.6601115515803473,
+      "navigationRadius": 3.4398065837941587,
+      "additionalSeat": 0.3890667130746581
+    },
+    {
+      "id": "tree:palm:14:49",
+      "species": "palm",
+      "position": [
+        -284.4216485310627,
+        0.3922128945095253,
+        139.28343088010325
+      ],
+      "plantedRadius": 1.2385898373775395,
+      "navigationRadius": 1.2897735153689402,
+      "additionalSeat": 0.3272944959027902
+    }
+  ],
+  "contacts": [
+    {
+      "tree": "tree:wild:23:27",
+      "cell": [
+        78,
+        84
+      ],
+      "position": [
+        -223,
+        2.957679033279419,
+        -1
+      ],
+      "beforeBlocked": false,
+      "afterBlocked": true,
+      "beforeGoal": {
+        "i": 78,
+        "j": 84
+      },
+      "afterGoal": {
+        "i": 79,
+        "j": 83
+      }
+    },
+    {
+      "tree": "tree:wild:23:27",
+      "cell": [
+        79,
+        86
+      ],
+      "position": [
+        -221,
+        3.0170845985412598,
+        3
+      ],
+      "beforeBlocked": false,
+      "afterBlocked": true,
+      "beforeGoal": {
+        "i": 79,
+        "j": 86
+      },
+      "afterGoal": {
+        "i": 80,
+        "j": 85
+      }
+    },
+    {
+      "tree": "tree:wild:32:27",
+      "cell": [
+        106,
+        91
+      ],
+      "position": [
+        -167,
+        4.578564405441284,
+        13
+      ],
+      "beforeBlocked": false,
+      "afterBlocked": true,
+      "beforeGoal": {
+        "i": 106,
+        "j": 91
+      },
+      "afterGoal": {
+        "i": 108,
+        "j": 92
+      }
+    },
+    {
+      "tree": "tree:wild:32:27",
+      "cell": [
+        107,
+        90
+      ],
+      "position": [
+        -165,
+        4.582676887512207,
+        11
+      ],
+      "beforeBlocked": false,
+      "afterBlocked": true,
+      "beforeGoal": {
+        "i": 107,
+        "j": 90
+      },
+      "afterGoal": {
+        "i": 109,
+        "j": 90
+      }
+    },
+    {
+      "tree": "tree:wild:32:27",
+      "cell": [
+        107,
+        91
+      ],
+      "position": [
+        -165,
+        5.055551052093506,
+        13
+      ],
+      "beforeBlocked": false,
+      "afterBlocked": true,
+      "beforeGoal": {
+        "i": 107,
+        "j": 91
+      },
+      "afterGoal": {
+        "i": 108,
+        "j": 92
+      }
+    }
+  ],
+  "routeRows": [
+    {
+      "name": "strand-village",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "strand-lighthouse",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "village-sluice",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "sluice-shrine",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "village-quarry",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry-lever",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry-ledge",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "village-ford",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "rillford_reeve:reeve_door>noticeboard",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "rillford_reeve:noticeboard>dry_channel",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "rillford_reeve:dry_channel>village_square",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "rillford_reeve:village_square>reeve_door",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "spring_steward:shrine_altar>wetland_edge",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "spring_steward:wetland_edge>shrine_steps",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "spring_steward:shrine_steps>steward_cell",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "spring_steward:steward_cell>shrine_altar",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry_foreman:quarry_yard>quarry_office",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry_foreman:quarry_office>crew_bunks",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry_foreman:crew_bunks>quarry_yard",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "shrine_warden:archive_door>archive_back",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "shrine_warden:archive_back>archive_door",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "shrine_warden:archive_door>warden_post",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "shrine_warden:warden_post>archive_door",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry_hand:quarry_face>crew_bunks",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "quarry_hand:crew_bunks>quarry_face",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "village_baker:bakery_door>village_well",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "village_baker:village_well>bakery_door",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "trail_hunter:hunter_station>hunter_shelter",
+      "before": true,
+      "after": true
+    },
+    {
+      "name": "trail_hunter:hunter_shelter>hunter_station",
+      "before": true,
+      "after": true
+    }
+  ],
+  "cameraHashes": {
+    "before": "2ef3d4e0d5da7c40cf04c1a627733cb2e1d93567f52d74ac733086c3f8178fe8",
+    "after": "2ef3d4e0d5da7c40cf04c1a627733cb2e1d93567f52d74ac733086c3f8178fe8"
+  },
+  "identicalPixels": true,
+  "sourceSha256": {
+    "src/presentation/flora.ts": "f870fd66ddcfe6aecbad48df777811b32bfee94aa848bc337d94cab7e51db866",
+    "src/presentation/floraPopulation.ts": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9",
+    "src/world/colliders.ts": "8649efe6f90f96f366639a7d43fbb3a4c7662ba55fab28a36105b0c0af6c841c",
+    "src/world/nav.ts": "7fc8c5fad36b8164f062c347194d06134e1b6d8d9ad90541e0c1c56bc4bb0f08"
+  },
+  "scope": "Published native tree transforms/source wood and standing-player Rapier capsule contacts. Rebuild baseline/candidate full navigation grids from the published collider set; baseline must match the native grid. Candidate registers walking-height radii from final seated transforms through the production registration function. Original collider radii, groundcover inputs, physical triangles and camera collision semantics retained. Before/after native camera path and Grade/post pixels compared. No hardware timing claim.",
+  "pass": true
+}

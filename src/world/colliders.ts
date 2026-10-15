@@ -16,6 +16,8 @@ export interface VerticalBounds {
   excludePrecise?: boolean;
 }
 export interface ColliderBounds extends VerticalBounds {
+  /** Walking-height wood after final seating; other collision/ground-cover queries retain their original radius. */
+  navigationRadius?: number;
   /** Authored standing planks block a rising head/camera, while Terrain owns steps and landing. */
   supportOnly?: boolean;
   /** Retained navigation footprint with a source-exact finite physical counterpart. */
@@ -143,7 +145,7 @@ export class Colliders {
   }
 
   private extent(c: Collider) {
-    return c.kind === 'circle' ? c.r : Math.hypot(c.hw, c.hd);
+    return c.kind === 'circle' ? Math.max(c.r, c.navigationRadius ?? c.r) : Math.hypot(c.hw, c.hd);
   }
 
   add(c: Collider) {
@@ -310,8 +312,8 @@ export class Colliders {
     return best;
   }
 
-  private overlapsDisc(c: Collider, x: number, z: number, radius: number): boolean {
-    if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < c.r + radius - CONTACT_EPS;
+  private overlapsDisc(c: Collider, x: number, z: number, radius: number, navigation = false): boolean {
+    if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < (navigation ? c.navigationRadius ?? c.r : c.r) + radius - CONTACT_EPS;
     const cos = Math.cos(c.yaw);
     const sin = Math.sin(c.yaw);
     const lx = (x - c.x) * cos - (z - c.z) * sin;
@@ -320,9 +322,13 @@ export class Colliders {
     return Math.hypot(Math.max(0, Math.abs(lx) - c.hw), Math.max(0, Math.abs(lz) - c.hd)) < radius - CONTACT_EPS;
   }
 
-  blocked(x: number, z: number, radius: number, bounds?: VerticalBounds): boolean {
+  blockedForNavigation(x: number, z: number, radius: number): boolean {
+    return this.blocked(x, z, radius, undefined, true);
+  }
+
+  blocked(x: number, z: number, radius: number, bounds?: VerticalBounds, navigation = false): boolean {
     // Preserve custom near providers; the normal grid query needs neither a collected list nor a temporary Set.
-    if (this.near !== Colliders.prototype.near) return this.near(x, z, radius).some(c => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius));
+    if (this.near !== Colliders.prototype.near) return this.near(x, z, radius).some(c => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius, navigation));
     // Bound stamps to small integers and clear marks before reusing a stamp.
     if (this.blockedQuery >= 0x3fffffff) { this.blockedQuery = 0; this.blockedSeen = new WeakMap(); }
     const query = ++this.blockedQuery;
@@ -334,7 +340,7 @@ export class Colliders {
       for (const c of bucket) {
         if (!c.active || this.blockedSeen.get(c) === query) continue;
         this.blockedSeen.set(c, query);
-        if (!c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius)) return true;
+        if (!c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius, navigation)) return true;
       }
     }
     return false;
