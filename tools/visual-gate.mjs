@@ -54,6 +54,8 @@ const SPOTS = {
   // B11: the bow's feel. Over the shoulder at the grove's edge: raise, draw, hold, loose into the trunks, twice, the
   // follow camera behind him (`shoot`), with a still at full draw.
   bow: { item: 'Combat: drawing and loosing the bow', hero: [-31, 0, -Math.PI / 2], still: [], shoot: 2 },
+  // B11: two arrows into a grazing doe from 12 m (`hunt`: the hero is stood off the animal and the view laid on its chest).
+  deer: { item: 'Hunting: shooting a deer at 12 m', hero: [0, 0, 0], still: [], shoot: 2, hunt: 'deer' },
   // The inn's hanging sign (A136) hangs out from its east end near the front corner, about (1.9, 32.4).
   sign: { item: 'Props: shop sign and supports', hero: [3.2, 36.6, Math.PI], hide: true, still: [[0.2, 1.7, 0.4, -1.3, 2.9, -4.2], [-3.4, 1.7, -1.2, -1.3, 2.9, -4.2], [1.6, 2.1, -2.6, -1.3, 2.9, -4.2]], path: [[-1.5, 1.7, .3, -1.3, 2.9, -4.2], [1.5, 1.7, .3, -1.3, 2.9, -4.2]] },
 };
@@ -101,6 +103,11 @@ try {
     fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
     // Each spot at the asked hour: the run takes minutes of game time, and residents retire indoors after dark.
     await page.eval(`window.tervain.debugTime?.(${Number(spot.hour ?? args.hour ?? 11)}); return 1`);
+    if (spot.hunt) {
+      const at = await page.eval(`const all = window.tervain.world.animals.snapshot(), a = all.find((s) => s.species === ${JSON.stringify(spot.hunt)} && s.state !== 'Dead'); window.__huntId = a?.id; return a ? [a.x, a.z] : all.map((s) => s.id + ':' + s.species).join(' ')`);
+      if (!Array.isArray(at)) { failures.push(`${id}: no ${spot.hunt} among ${at}`); continue; }
+      spot.hero = [at[0], at[1] - 12, 0];
+    }
     await place(...spot.hero);
     // Scenery spots park the hero out of shot (the game keeps his body visible itself); the cameras stay where they are.
     if (spot.hide) await place(spot.hero[0] + 40, spot.hero[1] + 40, spot.hero[2]);
@@ -121,9 +128,13 @@ try {
         await page.eval('window.tervain.hud.show(true); return 1');
         for (let i = 0; i < spot.shoot; i++) {
           await page.eval(`window.tervain.cam.pitch = ${0.05 - i * 0.06}; window.tervain.cam.yaw += ${i ? 0.25 : 0}; return 1`);
-          await key('rawKeyDown', 'KeyL'); await page.wait(500);
-          await key('rawKeyDown', 'KeyJ'); await page.wait(1300);
+          const aim = () => spot.hunt && page.eval(`const T = window.tervain, a = T.world.animals.snapshot().find((s) => s.id === window.__huntId), c = T.cam.camera.position;
+            if (a) { const dx = a.x - c.x, dy = a.y + .75 - c.y, dz = a.z - c.z; T.cam.yaw = Math.atan2(dx, dz); T.cam.pitch = Math.atan2(-dy, Math.hypot(dx, dz)); } return 1`);
+          await key('rawKeyDown', 'KeyL'); for (let k = 0; k < 8; k++) { await aim(); await page.wait(60); }
+          await key('rawKeyDown', 'KeyJ'); await page.wait(1200);
+          for (let k = 0; k < 3; k++) { await aim(); await page.wait(40); }
           if (i === 0) await capture(path.join(dir, 'still-1.jpg'));
+          (spot.releases ??= []).push(page.frames.length - from);
           await key('keyUp', 'KeyJ'); await page.wait(900);
           await key('keyUp', 'KeyL'); await page.wait(700);
         }
@@ -146,7 +157,7 @@ try {
       }
     }
     const clip = spot.run || spot.shoot ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
-    metrics.spots[id] = { item: spot.item, stills: spot.shoot ? 1 : spot.still.length, frames: n, clip };
+    metrics.spots[id] = { releases: spot.releases, item: spot.item, stills: spot.shoot ? 1 : spot.still.length, frames: n, clip };
   }
   await page.eval('window.tervain.cam.manual = null; return 1');
 

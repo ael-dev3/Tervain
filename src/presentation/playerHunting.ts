@@ -247,6 +247,15 @@ export class PlayerHuntingVisual {
       const tremble = Math.min(1, Math.max(0, this.held - 1.2) / 2) * .006;
       if (tremble > 0) { hand.x += Math.sin(this.clock * 37) * tremble; hand.y += Math.sin(this.clock * 29 + 1.3) * tremble; }
     }
+    if (this.aiming) {
+      // An archer's stance (B11): the chest turns side-on, bow shoulder leading, so the bow arm reaches out past his body and
+      // the bow, string and drawing hand read from the shoulder camera instead of hiding behind his back.
+      const spine = this.joint('Spine') ?? this.rig.torso;
+      if (spine) this.rotate(spine, 0, .24, 0);
+      if (this.rig.torso) this.rotate(this.rig.torso, 0, .16, 0);
+      // The head stays on the mark.
+      if (this.rig.head) this.rotate(this.rig.head, 0, -.36, 0);
+    }
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     // Quaternion getters below refresh the root and grip ancestor paths.
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
-import { CameraRig } from '../../src/presentation/cameraRig';
+import { AIM_VIEW, CameraRig } from '../../src/presentation/cameraRig';
 import { CAMERA_CLEARANCE } from '../../src/presentation/cameraObstruction';
 import { buildStaticColliders, Colliders } from '../../src/world/colliders';
 import { Terrain } from '../../src/world/terrain';
@@ -18,7 +18,7 @@ describe('woodland camera obstruction', () => {
     expect(cam.aimBlend).toBeGreaterThan(0); expect(cam.aimBlend).toBeLessThan(.5);
     expect(cam.lastBoom).toBeGreaterThan(5);
     for (let i = 0; i < 60; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
-    expect(cam.aimBlend).toBe(1); expect(cam.lastBoom).toBeCloseTo(2.8, 5);
+    expect(cam.aimBlend).toBe(1); expect(cam.lastBoom).toBeCloseTo(AIM_VIEW.boom, 5);
     cam.setAiming(true, 1);
     for (let i = 0; i < 120; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
     expect(cam.camera.fov).toBeCloseTo(44, 1);
@@ -39,8 +39,9 @@ describe('woodland camera obstruction', () => {
     const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
     cam.setAiming(true);
     cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
-    expect(cam.camera.position.x).toBeCloseTo(-.42, 8);
-    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+    expect(cam.camera.position.x).toBeCloseTo(-AIM_VIEW.right, 8);
+    expect(cam.camera.position.y).toBeCloseTo(1.55 + AIM_VIEW.up, 8);
+    expect(cam.camera.position.z).toBeCloseTo(-AIM_VIEW.boom, 8);
     expect(cam.camera.fov).toBe(48);
     expect(cam.wantDist).toBe(7);
     expect(cam.camera.getWorldDirection(new THREE.Vector3()).dot(new THREE.Vector3(0, 0, 1))).toBeCloseTo(1, 8);
@@ -62,11 +63,11 @@ describe('woodland camera obstruction', () => {
     cam.follow(1 / 60, 0, 0, 0, flat, wall, true, 0);
     expect(cam.camera.position.x).toBeGreaterThan(-.21);
     expect(near).toHaveBeenCalledTimes(1);
-    const trunk = new Colliders(); trunk.circle('tree:aim-path', -.42, -1.7, .3);
+    const trunk = new Colliders(); trunk.circle('tree:aim-path', -AIM_VIEW.right, -1.7, .3);
     cam.reset(); cam.setAiming(true);
     cam.follow(1 / 60, 0, 0, 0, flat, trunk, true, 0);
     expect(cam.camera.position.z).toBeGreaterThan(-1.05);
-    expect(Math.hypot(cam.camera.position.x + .42, cam.camera.position.z + 1.7)).toBeGreaterThan(.64);
+    expect(Math.hypot(cam.camera.position.x + AIM_VIEW.right, cam.camera.position.z + 1.7)).toBeGreaterThan(.64);
   });
 
   it('keeps an aimed low camera above a rising bank and smooths aim FOV only when motion is enabled', () => {
@@ -85,8 +86,9 @@ describe('woodland camera obstruction', () => {
     const bank = { groundAt: (x: number) => x < -.4 ? 3 : 0 };
     cam.follow(1 / 60, 0, 0, 0, bank, new Colliders(), true, 0);
     expect(cam.camera.position.x).toBeGreaterThan(-.06);
-    expect(cam.camera.position.y).toBeCloseTo(1.55, 8);
-    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+    // The lift follows the shoulder shift: a bank that stops the shift keeps the view at his head.
+    expect(cam.camera.position.y).toBeLessThan(1.55 + AIM_VIEW.up * .2);
+    expect(cam.camera.position.z).toBeCloseTo(-AIM_VIEW.boom, 8);
   });
 
   it('allows a regular upward view of tall landmarks while retaining terrain clearance', () => {
