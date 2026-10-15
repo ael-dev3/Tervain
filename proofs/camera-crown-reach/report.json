@@ -1,0 +1,102 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "crowns": 341,
+  "rows": {
+    "native": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "coreTests": null,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "coreTests": null
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "coreTests": null
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "coreTests": null
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    },
+    "before": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "nativeListsMatch": true,
+      "returnedCrowns": 1137,
+      "coreTests": 35247,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "boomSha256": "0fb6765e4956d7b4568d7506182cb9cbd7858fad19c968d4601b8c934e46213e",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "coreTests": 0
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "coreTests": 0
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "returnedCrowns": 1137,
+          "coreTests": 35247
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    },
+    "after": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "returnedCrowns": 252,
+      "coreTests": 7812,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "boomSha256": "0fb6765e4956d7b4568d7506182cb9cbd7858fad19c968d4601b8c934e46213e",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "coreTests": 0
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "coreTests": 0
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "returnedCrowns": 252,
+          "coreTests": 7812
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "8a4ceb5f7351a6383a5acdbf6c7ed53767c9a0821608f87e69cbd3cfff577e88",
+  "scope": "Native published crown objects and follow-camera, 360 terrain-following walk/turn/look-up updates on three routes. Baseline query lists must match native identity/order. Actual crown-query source per arm; unchanged crownBoom instrumented only to count core tests. Full native camera state and computed booms must match; final native Grade/post pixels compared. No hardware timing claim.",
+  "pass": true
+}

@@ -40,3 +40,32 @@ describe('the follow camera and tree crowns (A82)', () => {
     expect(index.near(200, 200, 2)).toHaveLength(1);
   });
 });
+
+describe('individual crown query reach', () => {
+  it('does not admit a small distant crown just because another tree is wide', () => {
+    const index = new CrownIndex();
+    const small = crown(20, 0, { h: 2 });
+    const edge = crown(18, 0, { h: 12 });
+    index.add(small); index.add(edge); index.add(crown(1000, 0, { h: 40 }));
+    expect(index.near(0, 0, 6)).toEqual([edge]);
+  });
+
+  it('preserves boom clearance against a full population for turning and elevated pivots', () => {
+    const index = new CrownIndex(), all: CameraCrown[] = [];
+    let seed = 3197;
+    const rand = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
+    for (let i = 0; i < 120; i++) {
+      const c = crown((rand() - .5) * 160, (rand() - .5) * 160,
+        { y: 2 + rand() * 20, h: 1 + rand() * 22, v: 1 + rand() * 12, floor: rand() * 6 });
+      index.add(c); all.push(c);
+    }
+    // Match the index's stable cell traversal order; this test isolates filtering from ordering.
+    all.sort((a, b) => Math.floor(a.x / 8) - Math.floor(b.x / 8) || Math.floor(a.z / 8) - Math.floor(b.z / 8));
+    for (let i = 0; i < 600; i++) {
+      const pivot = { x: (rand() - .5) * 100, y: rand() * 20, z: (rand() - .5) * 100 };
+      const yaw = rand() * Math.PI * 2, pitch = (rand() - .5) * Math.PI, boom = .04 + rand() * 14;
+      const dir = { x: Math.sin(yaw) * Math.cos(pitch), y: Math.sin(pitch), z: Math.cos(yaw) * Math.cos(pitch) };
+      expect(crownBoom(pivot, dir, boom, index.near(pivot.x, pivot.z, boom))).toBe(crownBoom(pivot, dir, boom, all));
+    }
+  });
+});
