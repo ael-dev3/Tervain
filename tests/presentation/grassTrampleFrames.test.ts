@@ -58,6 +58,25 @@ describe('grass brush stamps between fixed GPU steps', () => {
     } finally { GPU.halfTargets = half; field.dispose(); previous.dispose(); }
   });
 
+  it('omits footprints outside the current field while retaining edge contacts and consuming queued stamps', () => {
+    const field = new GrassTrample(16, 8), { renderer, passes, previous } = rendererFixture();
+    try {
+      field.setMovers([{ x: 0, z: 0, radius: .5 }, { x: 100, z: 0, radius: .5 },
+        { x: 4.2, z: 0, radius: .5 }, { x: 0, z: -4.2, radius: .5 }]);
+      field.queueStamps([{ x: -100, z: 0, radius: .5 }]);
+      field.update(renderer, 0, 0, 1 / 30);
+      expect(passes[0]!.stamps.map(s => [s.x, s.z])).toEqual([[0, 0], [4.2, 0], [0, -4.2]]);
+      // Filtering is after recentering, not in setMovers against the previous origin.
+      field.setMovers([{ x: 100, z: 0, radius: .5 }]);
+      field.update(renderer, 100, 0, 1 / 30);
+      expect(passes.at(-1)!.stamps.map(s => s.x)).toEqual([100]);
+      field.setMovers([]);
+      field.update(renderer, -100, 0, 1 / 30);
+      expect(passes.at(-1)!.stamps).toEqual([]);
+      expect(renderer.getRenderTarget()).toBe(previous);
+    } finally { field.dispose(); previous.dispose(); }
+  });
+
   it.each([60, 120])('keeps every transient sample across %i Hz frames until the 30 Hz step consumes it', (hz) => {
     const field = new GrassTrample(16, 100, { x: 0, z: 0 });
     const { renderer, passes, previous } = rendererFixture();
