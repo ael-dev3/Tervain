@@ -1,4 +1,4 @@
-import type { Collider } from '../world/colliders';
+import type { BoxCollider, Collider } from '../world/colliders';
 
 export interface CameraPoint { x: number; y: number; z: number }
 
@@ -6,6 +6,10 @@ export interface CameraPoint { x: number; y: number; z: number }
 export const CAMERA_CLEARANCE = 0.34;
 
 type Interval = [number, number];
+
+// Boxes are queried repeatedly along the boom. Doors may rotate in place, so
+// refresh on yaw changes; weak keys allow discarded worlds to be collected.
+const boxRotations = new WeakMap<BoxCollider, { yaw: number; cos: number; sin: number }>();
 
 function slab(origin: number, delta: number, low: number, high: number): Interval | null {
   if (Math.abs(delta) < 1e-10) return origin >= low && origin <= high ? [0, 1] : null;
@@ -47,8 +51,12 @@ export function cameraColliderEntry(a: CameraPoint, b: CameraPoint, c: Collider,
       }
     }
   } else {
-    const cos = Math.cos(c.yaw);
-    const sin = Math.sin(c.yaw);
+    let rotation = boxRotations.get(c);
+    if (!rotation || rotation.yaw !== c.yaw) {
+      rotation = { yaw: c.yaw, cos: Math.cos(c.yaw), sin: Math.sin(c.yaw) };
+      boxRotations.set(c, rotation);
+    }
+    const { cos, sin } = rotation;
     const ox = a.x - c.x;
     const oz = a.z - c.z;
     const x = slab(ox * cos - oz * sin, dx * cos - dz * sin, -c.hw - radius, c.hw + radius);
