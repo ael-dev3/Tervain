@@ -13,9 +13,9 @@ function drawCell(cellPx, index) {
   const row = Math.floor(index / LEAF_ATLAS.cells), col = index % LEAF_ATLAS.cells;
   // Rows: 0 summer, 1 deep summer, 2 spring (young, yellow-green), 3 early autumn (olive with rust touches).
   const pal = [
-    { lit: [118, 160, 58], shade: [52, 94, 34] }, { lit: [92, 138, 52], shade: [36, 74, 30] },
+    { lit: [82, 128, 52], shade: [34, 70, 32] }, { lit: [62, 108, 48], shade: [26, 58, 28] },
     { lit: [156, 188, 72], shade: [88, 128, 44] }, { lit: [150, 150, 56], shade: [78, 92, 34], rust: [176, 108, 42] },
-  ][row];
+  ][index === 3 || index === 15 ? 3 : row === 3 ? 1 : row === 2 ? 0 : row];
   const rgb = new Float32Array(W * W * 3), cov = new Float32Array(W * W);
   const count = rng.int(11, 17) + (col % 2) * 3, spread = rng.range(0.55, 1.0), curve = rng.range(-0.5, 0.5);
   const base = [W * 0.5, W - cellPx * 0.06 * SS];

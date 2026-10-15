@@ -5,9 +5,12 @@ import { LEAF_ATLAS } from './leafAtlas.mjs';
 
 const UP = new THREE.Vector3(0, 1, 0);
 /** Atlas cell choice: mostly mature summer rows, some spring, few autumn (placeholder atlas: rows 0-1 summer, 2 spring, 3 autumn). */
+// The real oak atlas (leafAtlas.ts BROADLEAF_WEIGHTS.oak): twigs of cells 0-2 (young, mid, mature), 12 open, 14 beech, rare autumn 3 and 15.
+const OAK_CELLS = [[0, 0.1], [1, 0.25], [2, 0.3], [3, 0.01], [12, 0.2], [14, 0.0], [15, 0.01]];
 function pickCell(rng) {
-  const r = rng(), row = r < 0.42 ? 0 : r < 0.8 ? 1 : r < 0.93 ? 2 : 3;
-  return row * LEAF_ATLAS.cells + rng.int(0, LEAF_ATLAS.cells - 1);
+  let r = rng() * OAK_CELLS.reduce((s, c) => s + c[1], 0);
+  for (const [cell, w] of OAK_CELLS) { r -= w; if (r <= 0) return cell; }
+  return 2;
 }
 
 /** Candidate attachment points along the leaf-bearing outer part of the skeleton. */
@@ -15,13 +18,13 @@ export function leafCandidates(sk, rng) {
   const out = [];
   for (const b of sk.branches) {
     if (b.level < 1) continue;
-    const from = b.level === 3 ? 0.2 : b.level === 2 ? 0.5 : 0.86, spacing = 0.1, count = Math.floor(b.length * (1 - from) / spacing);
+    const from = b.level === 3 ? 0.15 : b.level === 2 ? 0.12 : 0.4, spacing = 0.1, count = Math.floor(b.length * (1 - from) / spacing);
     for (let i = 0; i <= count; i++) {
       const t = from + (1 - from) * (i / Math.max(1, count)), f = b.at(t);
       // Interior stays bare: the crown carries leaves on its outer shell and ends of limbs only.
       const horiz = Math.hypot(f.p.x - sk.center.x, f.p.z - sk.center.z), rel = f.p.clone().sub(sk.center);
-      const shell = clamp(Math.hypot(horiz / 8.2, rel.y / 7.0), 0, 1.4);
-      if (shell < 0.45 && rng() < 0.7) continue;
+      const shell = clamp(Math.hypot(horiz / sk.Rh, rel.y / sk.Rv), 0, 1.4);
+      if (shell < 0.4 && rng() < 0.25) continue;
       out.push({ p: f.p, tan: f.tan, branch: b, t, tip: b.level === 3 && t > 0.9 });
     }
   }
@@ -47,7 +50,7 @@ export function poisson(cands, radius, rng, max) {
 }
 
 /** Pick the Poisson radius that lands closest to (not above) the wanted cluster count. */
-export function placeClusters(cands, want, rng, rMin = 0.22, rMax = 2.2) {
+export function placeClusters(cands, want, rng, rMin = 0.14, rMax = 2.2) {
   let lo = rMin, hi = rMax, best = poisson(cands, lo, makeRng(11), want);
   for (let it = 0; it < 9; it++) {
     const mid = (lo + hi) / 2, got = poisson(cands, mid, makeRng(11), 1e9);
@@ -69,7 +72,7 @@ export function clusterCards(cl, sk, rng, o) {
     const az = phase + (i / n) * Math.PI * 2 + rng.range(-0.4, 0.4), th = rng.range(40, 70) * Math.PI / 180;
     const d = axis.clone().multiplyScalar(Math.cos(th)).addScaledVector(u, Math.cos(az) * Math.sin(th)).addScaledVector(w, Math.sin(az) * Math.sin(th));
     d.y -= 0.12 + rng() * 0.1; d.normalize();                          // gravity droop
-    const len = rng.range(0.7, 1.5) * o.sizeScale, wid = len * rng.range(0.8, 1.1);
+    const len = rng.range(0.65, 1.25) * o.sizeScale, wid = len * rng.range(0.8, 1.1);
     // Card plane contains d; the width direction is mostly horizontal so the card faces up-and-out; random roll.
     let side = new THREE.Vector3().crossVectors(UP, d); if (side.lengthSq() < 1e-4) side.set(1, 0, 0); side.normalize();
     side.applyAxisAngle(d, rng.range(-1.5, 1.5));

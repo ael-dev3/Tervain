@@ -18,10 +18,11 @@ const views = [ // [name, distance, camera height above ground, look height]
   ['03m', 3, 1.7, 5], ['10m', 10, 1.7, 7], ['30m', 30, 2.5, 8], ['base', 3.2, 1.0, 0.5], ['lookup', 3.4, 1.6, 11], ['f15', 15, 3.0, 7], ['f40', 40, 4.0, 8],
 ];
 const az = Number(flagVal('--az', 0.6));
+const only = flagVal('--views', '').split(',').filter(Boolean);
 for (const hour of hours) {
   const url = new URL(base);
   for (const [k, v] of Object.entries({ shot: '1', quality: 'high', place: 'rillford', settle: '1', hud: '0', hour: String(hour) })) url.searchParams.set(k, v);
-  if (flag) { const [k, v] = flag.split('='); url.searchParams.set(k, v); }
+  for (const f of (flag || '').split('&').filter(Boolean)) { const [k, v] = f.split('='); url.searchParams.set(k, v); }
   const page = await openPage(url.href, { w: 1280, h: 720, requestTimeoutMs: 900000 });
   try {
     for (let i = 0; i < 2400; i++) {
@@ -31,7 +32,7 @@ for (const hour of hours) {
     }
     await page.eval('const T=window.tervain;T.render=()=>{};T.step=()=>{};await T.world.arrived;');
     await page.eval('window.tervain.player.group.visible=false;return 1');
-    for (const [name, dist, ch, lh] of views) {
+    for (const [name, dist, ch, lh] of views.filter((v) => !only.length || only.includes(v[0]))) {
       await page.eval(`const T=window.tervain,p=[${x},${z}],h=T.world.terrain.heightAt(p[0],p[1]);const cx=p[0]+Math.cos(${az})*${dist},cz=p[1]+Math.sin(${az})*${dist};const ch=T.world.terrain.heightAt(cx,cz);T.player.setPosition(cx+3,cz+3,0,T.world.terrain);const camera=T.cam.camera;camera.position.set(cx,ch+${ch},cz);camera.lookAt(p[0],h+${lh},p[1]);camera.updateMatrixWorld();for(const m of T.world.modules)m.module.prepare?.(T.renderer,0);T.world.update(0,T.game.state,T.player.group.position,T.settings,${hour},camera,false);T.grade.render(T.world.scene,camera,0,T.world.waterRenderInputs(T.settings));return 1`);
       const file = path.join(outDir, `${tag}-${name}-h${hour}.png`); await page.shot(file); console.log(file);
     }

@@ -390,6 +390,23 @@ const FAMILIES: Record<Exclude<Species, 'pine'>, readonly string[]> = {
   orchard: ['tree-4949', 'tree-4815', 'tree-4949'], shrub: ['tree-1521', 'tree-4949', 'tree-1521'], dead: ['tree-1537'],
 };
 const HEIGHT: Record<Exclude<Species, 'pine'>, number> = { oak: 18, birch: 16, fir: 24, shorepine: 10, palm: 14, orchard: 7, shrub: 1.5, dead: 13 };
+/**
+ * trimExposedWood for the generated oak, whose index starts with the trunk and limbs (the colliders' prefix, userData.twigIndex): the
+ * prefix and the rest are trimmed apart so the prefix still ends where it did.
+ */
+function trimHeroWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number): THREE.BufferGeometry {
+  const split = wood.userData.twigIndex as number | undefined, index = wood.index;
+  if (!split || !index || split >= index.count) return trimExposedWood(wood, canopy, reach).geometry;
+  const part = (from: number, to: number) => { const g = wood.clone(); g.setIndex(Array.from(index.array.slice(from, to))); return g; };
+  const front = part(0, split), back = part(split, index.count);
+  const a = trimExposedWood(front, canopy, reach).geometry, b = trimExposedWood(back, canopy, reach).geometry;
+  const merged = wood.clone();
+  merged.setIndex([...Array.from(a.index!.array), ...Array.from(b.index!.array)]);
+  merged.userData.twigIndex = a.index!.count;
+  for (const g of new Set([front, back, a, b])) g.dispose();
+  return merged;
+}
+
 export function meshyTreeId(species: Exclude<Species, 'pine'>, variant: number, explicit?: string): string {
   const family = FAMILIES[species]; return explicit ?? family[Math.abs(variant) % family.length]!;
 }
@@ -405,7 +422,7 @@ export const CONIFER_LEAF_LIFT: Partial<Record<Species, THREE.Color>> = {
   fir: new THREE.Color(2.3, 2.45, 2.2), shorepine: new THREE.Color(2.3, 2.45, 2.2),
 };
 /**
- * The fir's attached leaf atlas (8×8 cells) keeps a pale blue-green fern sheet in its top-right cell, unlike every other
+ * The fir's attached leaf atlas (8Ã—8 cells) keeps a pale blue-green fern sheet in its top-right cell, unlike every other
  * cell's dark needles; near firs mapped about a thousand card vertices onto it and, once conifers were lit (0.0.16), it
  * read as a cyan patch in the crown (playtest 8). Those cards take the dense fir sprite two rows down instead.
  */
@@ -509,10 +526,21 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         }
         geometries.add(geometry); return geometry;
       };
-      const clusters = BROADLEAF.has(species) && !hero, materialSpecies = hero ? undefined : species;
+      const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
       const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
-      // The hero leaf cards carry crown AO / thickness / tint in vertex colour for the foliage shader; until it reads them the plain albedo is drawn.
-      if (hero) for (const entry of palette) if (entry.leaf) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
+      // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
+      // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
+      // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod < 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
+      // B12: behind ?leafatlas=1 the hero oak's cards (the same 4 x 4 cells, oak twigs picked by the atlas's own oak weights) take the real atlas.
+      const heroPads = hero ? leafAtlasInUse() : null;
+      if (heroPads) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) {
+        const material = entry.leaf as THREE.MeshStandardMaterial, cutoff = Math.max(0.05, material.alphaTest) / 1.3;
+        broadleafAtlas ??= leafAtlasTexture(heroPads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas');
+        material.map = broadleafAtlas; material.color.setRGB(0.92, 1.0, 0.88);
+        material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' }; material.needsUpdate = true;
+      }
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
@@ -529,7 +557,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
             canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
-            trimmedWood = wood ? trimExposedWood(wood, canopy, shape.clump * 1.6).geometry : null;
+            trimmedWood = wood ? (hero ? trimHeroWood(wood, canopy, shape.clump * 1.6) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;
@@ -540,7 +568,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (wood && trimmedWood !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmedWood!); wood = trimmedWood; }
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
-          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
           return { wood, leaf: canopy, tris };
         }

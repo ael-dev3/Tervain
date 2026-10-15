@@ -11,7 +11,7 @@
  *   _WIND  vec4  x branch level weight 0 trunk .. 1 twig tip, y branch phase (0..2pi, unique per branch),
  *                z parent branch phase, w leaf flutter weight (0 wood, 1 cards)
  *   _PIVOT vec3  attachment point of the branch segment in tree space (a cluster's twig tip for cards)
- *   COLOR_0 on cards: R crown AO (0 inside .. 1 outer rim), G thickness (0 thin .. 1 dense), B per-card tint, A 1
+ *   COLOR_0 on cards: RGB crown shade (about 0.4 inside .. 1 at the outer rim, slightly cool, times a per-card tint), A 1
  *   COLOR_0 on wood:  RGB ground AO = smoothstep(0, 0.5 m, height); A 1 (the soil skirt fades its alpha to 0 at its rim)
  * The wood primitive's extras.tervainWoodCollisionIndex is the index count before roots and skirt: colliders stay trunk-only.
  */
@@ -34,9 +34,9 @@ const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 
 const name = arg('--name', 'hero-oak');
 
 const LODS = {
-  near: { trunk: 16, limb: 8, bough: 4, twig: 3, root: 6, stride: 1, twigs: true, boughs: true, rootRings: 1, clusters: 740, cards: 3, cardRows: 2, sizeScale: 1.0, skirtSeg: 24 },
-  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 4, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 420, cards: 3, cardRows: 1, sizeScale: 1.3, skirtSeg: 16 },
-  far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 72, cards: 3, cardRows: 1, sizeScale: 2.5, skirtSeg: 0 },
+  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 4, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 1800, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 24 },
+  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 4, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 16 },
+  far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
 
 function decimate(b, stride) {
@@ -47,6 +47,14 @@ function decimate(b, stride) {
   o.cum = [0]; for (let i = 1; i < o.points.length; i++) o.cum.push(o.cum[i - 1] + o.points[i].distanceTo(o.points[i - 1]));
   o.tangents = o.points.map((p, i) => o.points[Math.min(o.points.length - 1, i + 1)].clone().sub(o.points[Math.max(0, i - 1)]).normalize());
   return o;
+}
+
+function shortTwig(b, keep, stride) {
+  const o = Object.create(Object.getPrototypeOf(b)); Object.assign(o, b);
+  const a = b.points[0], end = b.at(keep);
+  o.points = [a.clone(), end.p]; o.radii = [b.radii[0], 0.006];
+  o.cum = [0, a.distanceTo(end.p)]; const t = end.p.clone().sub(a).normalize(); o.tangents = [t, t.clone()];
+  void stride; return o;
 }
 
 function buildWood(sk, lod, bark, seedBase, centres = []) {
@@ -64,8 +72,12 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
     if (level === 2 && !P.boughs) continue; if (level === 3 && !P.twigs) continue;
     for (const b0 of sk.branches.filter((b) => b.level === level)) {
       // A twig that ends outside the leaf mass is a bare spike: only twigs ending inside a leaf cluster are grown.
+      // Sprigs (twigs of twigs) only carry leaves: their wood would show as bare dark sticks between the cards.
+      if (level === 3 && b0.parent?.level === 3) continue;
+      if (level === 2 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 1.1 * 1.1)) continue;
       if (level === 3 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 0.7 * 0.7)) continue;
-      const b = decimate(b0, P.stride), sides = sidesFor(b);
+      // Near twigs are one straight, shortened, pointed stick (the leaf cards that sit along them hide it): long full-length ones read as black hairlines.
+      const b = level === 3 ? shortTwig(b0, lod === 'near' ? 0.62 : 1, P.stride) : decimate(b0, P.stride), sides = sidesFor(b);
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
@@ -128,7 +140,8 @@ function buildLeaves(sk, lod, cands, segs, seedBase) {
     const vTop = cy / C + inset, vBot = (cy + 1) / C - inset;
     const half = card.wid / 2, first = mb.vertexCount;
     const wind = [1, cl.branch.phase, cl.branch.parentPhase ?? 0, 1];
-    const col = [Math.round(cl.crownAO * 255), Math.round(cl.thickness * 255), Math.round(card.tint * 255), 255];
+    // Crown shade baked as RGB (the game multiplies it into the albedo): a dark, cool inner crown rising to the full value at the rim.
+    const sh = lerp(0.56, 1, Math.pow(cl.crownAO, 0.8)) * lerp(0.9, 1, card.tint), col = [Math.round(sh * 0.93 * 255), Math.round(sh * 255), Math.round(sh * 0.96 * 255), 255];
     for (let r = 0; r <= rows; r++) {
       const t = r / rows, bend = rows > 1 ? t : 0;
       const centre = card.base.clone().addScaledVector(card.dir, card.len * t); centre.y -= card.len * (0.16 * t * t) * (rows > 1 ? 1 : 0.5);
