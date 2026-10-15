@@ -4,7 +4,7 @@
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
     "publicModelFiles": 122,
-    "publicModelBytes": 162474260,
+    "publicModelBytes": 162829344,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
     "hashesMatchedExistingSourceRecords": 331,
@@ -7812,8 +7812,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-far.glb",
-      "bytes": 156616,
-      "sha256": "4d35a999d7aeca75d3e4cc0fef7a7bb52259a632cd9a75c958cc553cf9cdbc3b",
+      "bytes": 139388,
+      "sha256": "691ae3833afdfa3fabe84656a578ec2203878155cd39b6228e909f49e9133521",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7829,8 +7829,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-mid.glb",
-      "bytes": 1389128,
-      "sha256": "4bedc7253ab1ad09993276d56a5acd708e942ed2309e8b079ae5431dbefe3d6c",
+      "bytes": 1229408,
+      "sha256": "656ccad6a724b181ca427a6b2b821d8fb2aa4f165f6ed2cea58b37f8f1480d16",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7846,8 +7846,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-near.glb",
-      "bytes": 3493060,
-      "sha256": "5a81558ff19d5776579866fe30219def21a82b0de6bd26d5f378b48e7c56af9f",
+      "bytes": 4025092,
+      "sha256": "4c80308ffce9a5e577945c937fde46316a4acf6ee14451d707b6d1a736226d43",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

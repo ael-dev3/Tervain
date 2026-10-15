@@ -28,6 +28,20 @@ export function leafCandidates(sk, rng) {
       out.push({ p: f.p, tan: f.tan, branch: b, t, tip: b.level === 3 && t > 0.9 });
     }
   }
+  // Fill markers: points through the crown volume (outer shell densest, a lighter interior), each hung on its nearest limb or bough, so the
+  // game's crown pass has leaf area to place clumps in the lower and middle crown and not only along the outer limbs.
+  const hosts = sk.branches.filter((b) => b.level === 1 || b.level === 2), pts = [];
+  for (const b of hosts) for (let i = 0; i <= 8; i++) { const f = b.at(i / 8); pts.push({ b, t: i / 8, f }); }
+  const want = Math.round(sk.Rh * sk.Rh * 5.5);
+  for (let k = 0, got = 0; k < want * 6 && got < want; k++) {
+    const u = rng(), v = rng(), w = rng(), r = Math.cbrt(0.1 + 0.9 * u), th = v * Math.PI * 2, ph = Math.acos(2 * w - 1);
+    // Squash toward the shell: radius 0.55..1 of the envelope, density rising outward.
+    const rr = 0.55 + 0.45 * Math.sqrt(r), p = new THREE.Vector3(Math.sin(ph) * Math.cos(th) * rr * sk.Rh, sk.center.y + Math.cos(ph) * rr * sk.Rv * 0.9, Math.sin(ph) * Math.sin(th) * rr * sk.Rh).add(new THREE.Vector3(sk.center.x, 0, sk.center.z));
+    if (p.y < 4.2) continue;
+    let best = null, bd = 1e9; for (const h of pts) { const d = h.f.p.distanceToSquared(p); if (d < bd) { bd = d; best = h; } }
+    if (!best || bd > 3.2 * 3.2) continue;
+    out.push({ p, tan: best.f.tan.clone(), branch: best.b, t: best.t, tip: false }); got++;
+  }
   return out;
 }
 

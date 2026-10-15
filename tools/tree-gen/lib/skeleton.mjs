@@ -50,7 +50,7 @@ class Branch {
 export function growOak(seed, P = OAK) {
   const rng = makeRng(seed), branches = [];
   const center = new THREE.Vector3(rng.range(-0.9, 0.9), 8.0, rng.range(-0.9, 0.9));
-  const Rh = rng.range(10.6, 11.6), Rv = 4.9;
+  const Rh = rng.range(7.4, 8.0), Rv = 5.0;
   // Crown envelope: >1 outside. Noise makes the outline irregular with gaps and asymmetric limbs.
   const envelope = (p) => {
     const m = 0.78 + 0.5 * fbm3(p.x * 0.22, p.y * 0.22, p.z * 0.22, seed, 3);
@@ -75,8 +75,10 @@ export function growOak(seed, P = OAK) {
       const p = last.clone().addScaledVector(d, seg);
       if (level >= 1 && p.y < P.minHeight) { p.y = lerp(p.y, P.minHeight, 0.8); }
       pts.push(p);
+      // Bough and twig tips end inside the crown envelope: nothing bare pokes out of the leaves.
+      if (level >= 2 && i > 2 && envelope(p) > 1.0) break;
     }
-    const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.012, r0 * (1 - taper * Math.pow(i / n, 0.9))));
+    const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.012, r0 * (1 - taper * Math.pow(i / (pts.length - 1), 0.9))));
     if (level === 3) radii[radii.length - 1] = 0.006;   // twigs end in a point
     const b = new Branch({ ...o.meta, level, points: pts, radii, phase: newPhase(), parent: o.parent ?? null, forkT: o.forkT ?? 0, id: branches.length });
     b.finish(); branches.push(b); o.parent?.children.push(b); return b;
@@ -110,7 +112,7 @@ export function growOak(seed, P = OAK) {
     const f = trunk.at(clamp((spec.y + 0.6) / trunk.length, 0, 1));
     const dir = forkDir(f.tan, spec.az, spec.polar);
     const rho = rng.range(...P.murray) * P.lateral[1] * (spec.top ? 1.05 : 1);
-    const length = spec.top ? rng.range(7.5, 9) : rng.range(10, 12.5);
+    const length = spec.top ? rng.range(6, 7.5) : rng.range(7, 8.8);
     // A primary limb runs about 60 % of its reach, then forks in two that carry on to the crown edge: the veteran oak's wide, forked arms.
     const primary = grow({ start: f.p, dir, length: length * 0.6, r0: f.r * rho, taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.05 : 0.03, droop: 0.12, parent: trunk, forkT: spec.y / trunk.length, rMin: 0.08 });
     limbs.push(primary);
@@ -129,7 +131,7 @@ export function growOak(seed, P = OAK) {
       const f = limb.at(t), az = (k % 2 ? 1 : -1) * rng.range(0.5, 2.6) + k * 1.4;
       let dir = forkDir(f.tan, az, rng.range(...P.angle));
       if (dir.y < -0.05) dir = forkDir(f.tan, az + Math.PI, rng.range(...P.angle));
-      const length = rng.range(4.0, 6.4) * (1.15 - 0.35 * t);
+      const length = rng.range(3.0, 4.8) * (1.15 - 0.35 * t);
       const bough = grow({ start: f.p, dir, length, r0: f.r * rng.range(...P.murray) * P.lateral[2], taper: 0.6, level: 2, step: 0.85, wobble: 0.36, tropism: 0.06, droop: 0.3, parent: limb, forkT: t, rMin: 0.04 });
       const nT = rng.int(...P.twigsPerBough);
       for (let m = 0; m < nT; m++) {
