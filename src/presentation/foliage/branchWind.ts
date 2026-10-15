@@ -39,6 +39,12 @@ function hash3(x: number, y: number, z: number): number {
   return (h >>> 0) / 4294967296;
 }
 
+/** How a kind of tree's trunk tapers and its crown reaches: broadleaf by default, a cone for conifers (branches in whorls). */
+export interface BranchShape { readonly taper: number; readonly trunkFloor: number; readonly cone: boolean }
+export const BROADLEAF_BRANCH: BranchShape = { taper: 0.8, trunkFloor: 0.4, cone: false };
+/** A conifer's trunk thins to a spike, and each whorl's branches reach less than the one below: level is judged against the cone's local reach. */
+export const CONIFER_BRANCH: BranchShape = { taper: 0.95, trunkFloor: 0.1, cone: true };
+
 /** Level of a wood vertex: 0 on the trunk, rising with its reach from the axis beyond the trunk's radius and with its height. */
 export function branchLevel(radial: number, heightFraction: number, trunkRadius: number, reachMax: number): number {
   const past = Math.max(0, radial - trunkRadius) / Math.max(1e-3, reachMax - trunkRadius);
@@ -49,7 +55,7 @@ export function branchLevel(radial: number, heightFraction: number, trunkRadius:
  * Add `_wind` and `_pivot` to a wood geometry (tree space, base at y = 0). Returns the field leaves read their anchors
  * from, or null when the wood has no usable limbs (the tree then keeps the whole-crown sway).
  */
-export function deriveBranchWood(wood: THREE.BufferGeometry): BranchField | null {
+export function deriveBranchWood(wood: THREE.BufferGeometry, shape: BranchShape = BROADLEAF_BRANCH): BranchField | null {
   const position = wood.getAttribute('position') as THREE.BufferAttribute | undefined;
   if (!position || position.count < 12 || wood.getAttribute('_wind')) return null;
   const n = position.count, px = new Float32Array(n), py = new Float32Array(n), pz = new Float32Array(n);
@@ -70,9 +76,11 @@ export function deriveBranchWood(wood: THREE.BufferGeometry): BranchField | null
   for (let i = 0; i < n; i++) { radial[i] = Math.hypot(px[i]! - ax, pz[i]! - az); reachMax = Math.max(reachMax, radial[i]!); }
   if (!(reachMax > rootR * 1.5)) return null;
   // The trunk tapers with height: a vertex is trunk wood within the taper at its height.
-  const trunkAt = (h: number) => rootR * Math.max(0.4, 1 - 0.8 * h);
+  const trunkAt = (h: number) => rootR * Math.max(shape.trunkFloor, 1 - shape.taper * h);
+  // A broadleaf crown reaches out as far at any height; a conifer's reach shrinks toward its tip (a cone).
+  const reachAt = (h: number) => shape.cone ? Math.max(rootR * 2, reachMax * (1 - 0.85 * h)) : reachMax;
   const level = new Float32Array(n);
-  for (let i = 0; i < n; i++) { const h = py[i]! / top; level[i] = branchLevel(radial[i]!, h, trunkAt(h) * 1.25, reachMax); }
+  for (let i = 0; i < n; i++) { const h = py[i]! / top; level[i] = branchLevel(radial[i]!, h, trunkAt(h) * 1.25, reachAt(h)); }
   // Limbs: the connected pieces of wood above the trunk threshold.
   const parent = new Int32Array(n).map((_, i) => i);
   const find = (i: number): number => { while (parent[i] !== i) { parent[i] = parent[parent[i]!]!; i = parent[i]!; } return i; };
@@ -217,6 +225,8 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
       const cnt = sum[r * 4 + 3]!;
       c.set(sum[r * 4]! / cnt, sum[r * 4 + 1]! / cnt, sum[r * 4 + 2]! / cnt);
       let vertex = field.nearest(c.x, c.y, c.z, reach);
+      // A card far from any wood still rides the nearest limb, rather than standing still among moving ones.
+      if (vertex < 0) vertex = field.nearest(c.x, c.y, c.z);
       card = { w: new THREE.Vector4(), p: new THREE.Vector3() };
       cards++;
       if (vertex >= 0) {
