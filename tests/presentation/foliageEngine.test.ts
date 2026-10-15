@@ -142,7 +142,8 @@ describe('foliage look', () => {
       expect(frag).toContain('float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;');
       // A133: a stable quarter-step dither inside the ramp only; a fixed-grid dithered cut without multisampling.
       expect(frag).toContain('diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );');
-      expect(frag).toContain('if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;');
+      expect(frag).toContain('if ( tvLowCov <= tvIgn ) discard;');
+      expect(frag).toContain('if ( uFoliageMsaa > 0.5 ) {');
       expect(frag.indexOf('tvCoverageSample <')).toBeGreaterThan(frag.indexOf('tvA *= 1.0 + 0.22 * tvMip;'));
       // Each light's colour is noted before its shadow, so some light still passes through a shaded leaf.
       expect(frag).not.toContain('#include <lights_fragment_begin>');
