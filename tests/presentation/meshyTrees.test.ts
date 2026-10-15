@@ -78,6 +78,12 @@ describe('actual supplied Meshy tree catalog', () => {
     }
   });
 
+  it('gives placement the footprint of the supplied tree: without a generated oak it is the variant itself', () => {
+    const forest = createMeshyForest(templates);
+    expect(forest.footprint('oak', 1, 'tree-0208')).toBe(forest.variant('oak', 1, 'tree-0208'));
+    forest.dispose();
+  });
+
   it('retains prepared asset topology/UVs with one uniform metre-scale transform and owns cloned resources across rebuilds', () => {
     const source = templates.get('tree-0208')!, originals = source.map(meshyTreeParts);
     const originalBounds = new THREE.Box3().setFromObject(source[0].scene);

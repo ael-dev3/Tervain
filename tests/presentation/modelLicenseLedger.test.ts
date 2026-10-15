@@ -88,6 +88,13 @@ describe('distributed model source notices', () => {
     const publicFiles = ledger.assets.filter((asset: { file: string }) => asset.file.startsWith('public/models/'));
     for (const asset of publicFiles) {
       const source = sources[asset.sourceId];
+      // Original procedural output (tools/tree-gen) has its own source: no Meshy or third-party input at all.
+      if (source?.generationService === 'Tervain procedural generator') {
+        expect(asset.license.evidenceStatus, asset.file).toBe('tervain-original-procedural');
+        expect(source.license.evidenceStatus, asset.file).toBe('tervain-original-procedural');
+        expect(asset.file, asset.file).toMatch(/^public\/models\/flora\/hero\/hero-.*\.glb$/);
+        continue;
+      }
       expect(source?.generationService, asset.file).toBe('Meshy');
       expect(asset.license.evidenceStatus, asset.file).toBe(status[source!.provenance.classification]);
     }

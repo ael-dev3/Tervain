@@ -133,14 +133,23 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     }
     return variant;
   };
+  // Placement reads the footprint of the supplied tree a generated model replaces, so swapping a model never moves or removes a tree.
+  const footprints = new Map<string, TreeVariant>();
+  const footprintFor = (tree: Pick<FloraTree, 'sp' | 'v' | 'assetId'>): TreeVariant => {
+    if (usesPine(tree.sp) || !meshy) return variantFor(tree);
+    const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ""}`;
+    let found = footprints.get(key);
+    if (!found) { found = meshy.footprint(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId); footprints.set(key, found); }
+    return found;
+  };
   const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => usesPine(tree.sp)
     ? pine.collisionRadius(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
-    : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
-    (tree) => groundedTreeY(terrain, tree, variantFor(tree)), undefined,
-    meshy ? (tree) => variantFor(tree).crownRadius * tree.s : undefined);
+    : legacyFootprint > 0 ? treeWoodCollisionRadius(footprintFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
+    (tree) => groundedTreeY(terrain, tree, footprintFor(tree)), undefined,
+    meshy ? (tree) => footprintFor(tree).crownRadius * tree.s : undefined);
   // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
   // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
-  seatTreeFlares(population, terrain, variantFor, usesPine);
+  seatTreeFlares(population, terrain, footprintFor, usesPine);
   registerFloraColliders(population, colliders);
   // Static rigid-body contact uses the same complete wood as the visible source tree,
   // rather than treating its broad ground-plane navigation circle as an infinite cylinder.
@@ -201,7 +210,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const x = lineup[0]! + i * 11;
         const z = lineup[1]! + v * 15;
         const tree = { sp, v, x, y: 0, z, s: 1, yaw: 0.3 * v, tint: 1, radius: 0, collisionId: null, decorationRank: 0 };
-        tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+        tree.y = groundedTreeY(terrain, tree, footprintFor(tree));
         trees.push(tree);
       }
     });
