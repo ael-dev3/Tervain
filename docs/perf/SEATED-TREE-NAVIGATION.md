@@ -26,7 +26,7 @@ The script captures the published forest's actual source variants and seated tra
 
 [Receipt](../../proofs/seated-tree-navigation/report.json) · [before](../../proofs/seated-tree-navigation/before.png) · [after](../../proofs/seated-tree-navigation/after.png).
 
-- Open navigation cells intersecting native wood: **5 → 0** among the discovered cases; goal snapping also moves off all five.
+- Open navigation cells intersecting native wood: **5 → 0** among the discovered cases; goal snapping also moves off all five. Actual route endpoints are independently checked against the same finite-wood capsule contacts: **5 intersecting endpoints → 0**.
 - Affected final tree footprints: **22**; pre-seating radius controls all match.
 - Existing checked routes reachable: **29 → 29**.
 - Normal collision query disagreements: **0** across the inspected tree regions.
