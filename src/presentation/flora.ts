@@ -16,8 +16,9 @@ import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceF
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
-import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
+import { crownOf, foliageGeometryFeatures, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
+import { createWindTestTree, windTestRequested } from './foliage/windTestTree';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
 import { leafCutoutSampler } from './leafSurfaceSites';
@@ -333,8 +334,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
-        if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown });
-        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined });
+        if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown, hierarchical: foliageGeometryFeatures(lod.wood).hierarchical });
+        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined, ...foliageGeometryFeatures(lod.leaf) });
       }
       const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
         if (!mesh || !castsShadows) return null;
@@ -352,7 +353,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         c.receiveShadow = false;
         c.name = `${mesh.name}:shadow`;
         const depth = shadowDepthMaterial(mesh.material as THREE.Material);
-        if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf' }, installed[part] ?? undefined);
+        if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf', hierarchical: foliageGeometryFeatures(mesh.geometry).hierarchical }, installed[part] ?? undefined);
         casterCoverage.set(c, attachCasterCoverage(c, depth));
         c.customDepthMaterial = depth;
         shadowCasters.add(c);
@@ -591,6 +592,17 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
     }
   };
+
+  // ?windtest=1 (debug, off by default): the synthetic branch-wise wind tree, placed with ?windat=x,z.
+  if (foliage && windTestRequested()) {
+    const at = (new URLSearchParams(location.search).get('windat') ?? '-60,70').split(',').map(Number);
+    void createWindTestTree(foliage).then((test) => {
+      if (!test || disposed) return;
+      test.group.position.set(at[0]!, terrain.heightAt(at[0]!, at[1]!), at[1]!);
+      group.add(test.group);
+      (window as unknown as { tervainWindTest?: unknown }).tervainWindTest = test;
+    });
+  }
 
   return {
     group,

@@ -20,3 +20,32 @@ export function changeComponents(before,after,width,height,{threshold=20,minPixe
  if(end>=minPixels)events.push({pixels:end,box:[minX,minY,maxX-minX+1,maxY-minY+1]});}
  return{changedPixels,events};
 }
+
+/**
+ * Do the parts of a crown move together? (A135) Splits a crown region into a grid of cells and follows each cell's
+ * horizontal and vertical image motion over the frames (block matching between consecutive grey frames, parabola
+ * sub-pixel), then returns the mean Pearson correlation between the motion signals of every pair of cells that moved.
+ * A crown whose whole mass moves in phase (jelly) scores near 1; branches swinging each at their own phase score lower.
+ * `frames` are grey Uint8Arrays of width x height; `region` is [x, y, w, h].
+ */
+export function regionMotionCorrelation(frames, width, height, region, { grid = 5, search = 4 } = {}) {
+ const [rx,ry,rw,rh]=region,cw=Math.floor(rw/grid),ch=Math.floor(rh/grid),cells=[];
+ for(let gy=0;gy<grid;gy++)for(let gx=0;gx<grid;gx++)cells.push({x:rx+gx*cw,y:ry+gy*ch,dx:[],dy:[]});
+ const sad=(a,b,x,y,ox,oy)=>{let s=0;for(let j=2;j<ch-2;j+=2)for(let i=2;i<cw-2;i+=2)s+=Math.abs(a[(y+j)*width+x+i]-b[(y+j+oy)*width+x+i+ox]);return s;};
+ const sub=(m,z,p)=>{const d=m-2*z+p;return d>1e-9?0.5*(m-p)/d:0;};
+ for(let f=1;f<frames.length;f++)for(const c of cells){
+  if(c.x<search||c.y<search||c.x+cw+search>=width||c.y+ch+search>=height){c.dx.push(0);c.dy.push(0);continue;}
+  const e=[];let best=Infinity,bx=0,by=0;
+  for(let oy=-search;oy<=search;oy++){e[oy+search]=[];for(let ox=-search;ox<=search;ox++){const v=sad(frames[f-1],frames[f],c.x,c.y,ox,oy);e[oy+search][ox+search]=v;if(v<best){best=v;bx=ox;by=oy;}}}
+  const px=bx>-search&&bx<search?sub(e[by+search][bx-1+search],e[by+search][bx+search],e[by+search][bx+1+search]):0;
+  const py=by>-search&&by<search?sub(e[by-1+search][bx+search],e[by+search][bx+search],e[by+1+search][bx+search]):0;
+  c.dx.push(bx+px);c.dy.push(by+py);
+ }
+ const corr=(a,b)=>{const n=a.length;let ma=0,mb=0;for(let i=0;i<n;i++){ma+=a[i];mb+=b[i];}ma/=n;mb/=n;let sab=0,saa=0,sbb=0;for(let i=0;i<n;i++){sab+=(a[i]-ma)*(b[i]-mb);saa+=(a[i]-ma)**2;sbb+=(b[i]-mb)**2;}return saa>1e-9&&sbb>1e-9?sab/Math.sqrt(saa*sbb):null;};
+ const moving=cells.filter(c=>Math.hypot(...c.dx.map(Math.abs),...c.dy.map(Math.abs))>0.5);
+ const pairs=[];for(let i=0;i<moving.length;i++)for(let j=i+1;j<moving.length;j++)for(const k of ['dx','dy']){const r=corr(moving[i][k],moving[j][k]);if(r!==null)pairs.push(r);}
+ const mean=pairs.length?pairs.reduce((a,b)=>a+b,0)/pairs.length:null;
+ const abs=pairs.length?pairs.reduce((a,b)=>a+Math.abs(b),0)/pairs.length:null;
+ const amp=moving.length?moving.reduce((a,c)=>a+Math.sqrt(c.dx.reduce((s,v)=>s+v*v,0)/c.dx.length),0)/moving.length:0;
+ return{cellsMoving:moving.length,cells:cells.length,pairs:pairs.length,meanCorrelation:mean,meanAbsCorrelation:abs,rmsPixelMotionPerFrame:amp};
+}

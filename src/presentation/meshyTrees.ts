@@ -12,6 +12,7 @@ import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
+import { deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
 import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
@@ -71,6 +72,11 @@ export const CANOPY_MID_SHARE = 1.2;
  * becomes a loose volume of smaller cards. Seen square on the pieces still join into the same picture, so nothing opens up;
  * from any other angle they part in depth. Triangles, UVs and normals are unchanged, and small cards are left as they are.
  */
+/** A model that carries its own branch hierarchy (a hero tree) keeps its cards: they are not rebuilt as clumps. */
+const hasBranchData = (geometry: THREE.BufferGeometry): boolean => !!geometry.getAttribute('_wind');
+/** Only a hero tree's far crown keeps the branch data its GLB carries; near and middle crowns are rebuilt by the crown pass and derive it. */
+const ownBranchData = (lod: number, geometry: THREE.BufferGeometry | null | undefined): boolean => lod >= 2 && !!geometry && hasBranchData(geometry);
+
 export function splitSheets(geometry: THREE.BufferGeometry, opts: { readonly minSize: number; readonly piece: number; readonly depth: number; readonly tilt: number }): THREE.BufferGeometry {
   const index = geometry.index;
   if (!index) return geometry;
@@ -511,6 +517,12 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
         if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
+        // A hero tree's branch pivots (_pivot, see foliageWind.ts) are points in the model's space: they follow it.
+        const pivot = geometry.getAttribute('_pivot') as THREE.BufferAttribute | undefined;
+        if (pivot) {
+          pivot.applyMatrix4(part.matrix);
+          for (let i = 0; i < pivot.count; i++) pivot.setXYZ(i, pivot.getX(i) * scale, (pivot.getY(i) - bottom) * scale, pivot.getZ(i) * scale);
+        }
         geometry.translate(0, -bottom, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');
@@ -544,6 +556,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
+        // The shipped models carry no branch data: derive it (branchWind.ts) so the limbs sway on their own, not the crown as one.
+        const branch = clusters && wood && exported && !ownBranchData(lod, exported) ? deriveBranchWood(wood) : null;
+        // A tree whose leaves found no limbs keeps the whole-crown sway: wood and leaves must agree.
+        const settle = <T extends { wood: THREE.BufferGeometry | null; leaf: THREE.BufferGeometry | null }>(v: T): T => {
+          if (v.wood && v.leaf && v.wood.getAttribute('_wind') && !v.leaf.getAttribute('_wind')) { v.wood.deleteAttribute('_wind'); v.wood.deleteAttribute('_pivot'); }
+          return v;
+        };
         // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
         // source sheets only say where the leaves go. Far crowns keep the source cards.
         if (exported && lod < 2 && clusters) {
@@ -568,14 +587,16 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (wood && trimmedWood !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmedWood!); wood = trimmedWood; }
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
+          if (branch) deriveBranchLeaf(canopy, branch, twigs);
           if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
-          return { wood, leaf: canopy, tris };
+          return settle({ wood, leaf: canopy, tris });
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
         const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
-        return { wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) };
+        if (branch && leaf) deriveBranchLeaf(leaf, branch);
+        return settle({ wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) });
       }) as TreeVariant['lods'];
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf
         ? sampleLeafSurfaceSites(lods[0].leaf, palette[0]!.leaf as THREE.MeshStandardMaterial) : [];
