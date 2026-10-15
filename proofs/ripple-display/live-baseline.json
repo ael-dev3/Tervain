@@ -1,0 +1,25 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "size": 256,
+  "extent": 36,
+  "draws": [
+    1,
+    2,
+    1,
+    2,
+    1,
+    2,
+    1,
+    2,
+    1,
+    2,
+    1,
+    2
+  ],
+  "scope": "Published native ripple object, twelve directly driven 1/120 s updates at a fixed focus. Counts renderer calls; this is a solver-subtick repro, not a natural 60 Hz frame-time measurement.",
+  "expect": "before",
+  "pass": true
+}
