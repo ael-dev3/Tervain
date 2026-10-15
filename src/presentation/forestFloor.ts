@@ -45,10 +45,10 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return 1 - Math.exp(-cover);
   };
-  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string) => {
+  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string, sampledCanopy?: number) => {
     const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.75 : kind === 'shrub' ? scale * 1.05 : 0.45;
     if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
-    if (crowns && crowns.coverAt(x, z) < 0.08) return;
+    if (crowns && (sampledCanopy ?? crowns.coverAt(x, z)) < 0.08) return;
     // Dry palm sand carries sparse litter; moist temperate ferns never appear beneath it.
     if ((kind === 'fern' || kind === 'moss') && (sampledBiome ?? biomeAt(x, z)).weights['sheltered-palms'] > 0.35) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
@@ -98,7 +98,7 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const fernGrowth = biome.lowGrowth * (1 - biome.exposure * 0.7);
       const fernRandom = mulberry32(cellSeed ^ 701);
       if (fernRandom() < cover * canopy * (0.38 + colony * 0.62 + wet * 0.3) * fernGrowth) {
-        const fern = put('fern', x, z, 0.66 + fernRandom() * 0.57, Math.floor(fernRandom() * 3), biome, colonyId);
+        const fern = put('fern', x, z, 0.66 + fernRandom() * 0.57, Math.floor(fernRandom() * 3), biome, colonyId, canopy);
         if (fern) for (let child = 0; child < 2; child++) {
           const member = mulberry32(cellSeed ^ Math.imul(child + 1, 92719));
           if (member() >= colony * (0.22 + wet * 0.24)) continue;
@@ -119,8 +119,11 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const litterRandom = mulberry32(cellSeed ^ 704);
       if (litterRandom() < cover * canopy * (0.65 + colony * 0.25)) {
         const [lx, lz] = offset(litterRandom, 0.4, 2.25);
-        const variant = crowns && crowns.broadleafAt(lx, lz) < canopyAt(lx, lz) * 0.3 ? 2 : Math.floor(litterRandom() * 2);
-        put('litter', lx, lz, 0.95 + litterRandom() * 0.75, variant, undefined, colonyId);
+        // Litter selection and placement share a shade sample; keep the original lookup order.
+        const broadleaf = crowns?.broadleafAt(lx, lz);
+        const litterCanopy = crowns ? canopyAt(lx, lz) : undefined;
+        const variant = crowns && broadleaf! < litterCanopy! * 0.3 ? 2 : Math.floor(litterRandom() * 2);
+        put('litter', lx, lz, 0.95 + litterRandom() * 0.75, variant, undefined, colonyId, litterCanopy);
       }
       const logRandom = mulberry32(cellSeed ^ 705);
       if (logRandom() < cover * canopy * 0.05) {
