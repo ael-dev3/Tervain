@@ -18,6 +18,22 @@ describe('continuous camera clearance', () => {
     expect(cameraColliderEntry({x:0,y:3,z:0},{x:0,y:0,z:0},c,0,5,0)).toBeCloseTo(2/3);
     expect(cameraColliderEntry({x:-3,y:3,z:0},{x:3,y:3,z:0},c,0,5)).toBeNull();
   });
+  it('tracks a rotating and moving door without retaining stale box geometry', () => {
+    const door = {id:'door',kind:'box' as const,x:0,z:0,hw:2,hd:0.1,yaw:0,active:true,minY:0,maxY:3};
+    const a={x:0,y:1,z:-4}, b={x:0,y:1,z:4};
+    const entry=()=>cameraColliderEntry(a,b,door,0,3,0);
+    expect(entry()).toBeCloseTo(3.9/8);
+    door.yaw=Math.PI/2;
+    expect(entry()).toBeCloseTo(2/8);
+    door.z=1; door.hw=1;
+    expect(entry()).toBeCloseTo(4/8);
+    door.active=false;
+    expect(entry()).toBeNull();
+    door.active=true; door.minY=2;
+    expect(entry()).toBeNull();
+    door.minY=0; door.yaw=0;
+    expect(entry()).toBeCloseTo(4.9/8);
+  });
   it('snaps the first frame and follows horizontal movement without trailing into corners', () => {
     const cam = new CameraRig();
     cam.follow(1/60,5,2,7,flat,new Colliders(),false,0);
