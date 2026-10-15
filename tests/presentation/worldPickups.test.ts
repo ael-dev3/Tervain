@@ -57,7 +57,7 @@ describe('original loose pickup geometry', () => {
     expect(count / 3).toBeGreaterThan(50);
     expect(count / 3).toBeLessThan(1400);
     expect(Math.max(size.x, size.y, size.z)).toBeGreaterThan(0.1);
-    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(item === 'hunting_bow' ? 1.4 : 0.9);
+    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(item === 'hunting_bow' ? 1.6 : 0.9);
     expect(Math.min(size.x, size.y, size.z)).toBeGreaterThan(0.035);
     for (let i = 0; i < position.count; i++) {
       expect(Number.isFinite(position.getX(i) + position.getY(i) + position.getZ(i)), item).toBe(true);
@@ -70,7 +70,7 @@ describe('original loose pickup geometry', () => {
     const ranges = {
       shore_apple: [0.10, 0.18], bread: [0.40, 0.60], field_mushroom: [0.14, 0.24],
       healing_herb: [0.45, 0.65], iron_scrap: [0.35, 0.60],
-      hunting_bow: [1.2, 1.4], skinning_knife: [.35, .50], arrow: [.60, .80],
+      hunting_bow: [1.4, 1.6], skinning_knife: [.35, .50], arrow: [.60, .80],
     } as const;
     for (const item of WORLD_PICKUP_ITEM_IDS) {
       const { geometry } = pickupGeometry(item);

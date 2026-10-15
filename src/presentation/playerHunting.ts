@@ -1,3 +1,4 @@
+import { BOW_LENGTH } from '../content/bowSize';
 import * as THREE from 'three';
 import type { Rig } from './characters';
 import { createHuntingArrow } from './huntingArrow';
@@ -16,12 +17,12 @@ export const BOW_READY_SECONDS = 2.5;
  * right hip up over his left shoulder, the string outward, away from his back.
  */
 // Out from the spine far enough that the limbs clear the vest and shoulder blade (playtest 5: they cut into his back).
-const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.29);
-/** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
-const SLUNG_SCALE = .82;
+const SLUNG_AT = new THREE.Vector3(.02, 1.2, -.29);
+/** The slung bow is full size (B11): it is carried on the diagonal instead of being shrunk to fit. */
+const SLUNG_SCALE = 1;
 // About 14° off vertical, so both limbs stay between his shoulder blades; at 25° the upper limb crossed his left
 // shoulder's outline (playtest 6).
-const SLUNG_UP = new THREE.Vector3(.25, .97, 0).normalize();
+const SLUNG_UP = new THREE.Vector3(.77, .64, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
@@ -109,18 +110,19 @@ export class PlayerHuntingVisual {
     this.leftPalm = this.palm('Left', this.leftHand);
     this.rightPalm = this.palm('Right', this.rightHand);
     this.bow.name = 'Hunting / bent ash bow in left palm';
-    const wood = new THREE.MeshStandardMaterial({ color: 0x77523a, roughness: .86 });
+    const wood = new THREE.MeshStandardMaterial({ color: 0x4a2f1e, roughness: .86 });
     const grip = new THREE.MeshStandardMaterial({ color: 0x30271e, roughness: .94 });
+    const H = BOW_LENGTH / 2;
     const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, -.65, -.14), new THREE.Vector3(0, -.46, .015),
-      new THREE.Vector3(0, -.23, .055), new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0, .23, .055), new THREE.Vector3(0, .46, .015), new THREE.Vector3(0, .65, -.14),
+      new THREE.Vector3(0, -H, -.16), new THREE.Vector3(0, -H * .7067, .017),
+      new THREE.Vector3(0, -H * .3533, .063), new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, H * .3533, .063), new THREE.Vector3(0, H * .7067, .017), new THREE.Vector3(0, H, -.16),
     ]);
-    const limbs = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, .018, 6, false), wood);
+    const limbs = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, .027, 6, false), wood);
     const handle = new THREE.Mesh(new THREE.CylinderGeometry(.024, .024, .18, 8), grip);
     // A lit hemp cord from tip to nock to tip; a one-pixel unlit line read as a glowing wire beside the bow (playtest 5).
-    const cord = new THREE.MeshStandardMaterial({ color: 0x9c8f72, roughness: .95 });
-    const piece = () => new THREE.Mesh(new THREE.CylinderGeometry(.0035, .0035, 1, 5, 1, true), cord);
+    const cord = new THREE.MeshStandardMaterial({ color: 0xe6dcc0, roughness: .9, emissive: 0x4a4333 });
+    const piece = () => new THREE.Mesh(new THREE.CylinderGeometry(.007, .007, 1, 5, 1, true), cord);
     this.string = new THREE.Group();
     this.string.add(piece(), piece());
     this.string.name = 'Hunting / drawn bow string';
@@ -247,6 +249,15 @@ export class PlayerHuntingVisual {
       const tremble = Math.min(1, Math.max(0, this.held - 1.2) / 2) * .006;
       if (tremble > 0) { hand.x += Math.sin(this.clock * 37) * tremble; hand.y += Math.sin(this.clock * 29 + 1.3) * tremble; }
     }
+    if (this.aiming) {
+      // An archer's stance (B11): the chest turns side-on, bow shoulder leading, so the bow arm reaches out past his body and
+      // the bow, string and drawing hand read from the shoulder camera instead of hiding behind his back.
+      const spine = this.joint('Spine') ?? this.rig.torso;
+      if (spine) this.rotate(spine, 0, .24, 0);
+      if (this.rig.torso) this.rotate(this.rig.torso, 0, .16, 0);
+      // The head stays on the mark.
+      if (this.rig.head) this.rotate(this.rig.head, 0, -.36, 0);
+    }
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     // Quaternion getters below refresh the root and grip ancestor paths.
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
@@ -339,7 +350,7 @@ export class PlayerHuntingVisual {
 
   /** Lays the cord from each tip to the nock, `nock` metres along the bow's z (−0.14 at rest, further back drawn). */
   private setString(nock: number): void {
-    const tips = [_tipLow.set(0, -.65, -.14), _tipHigh.set(0, .65, -.14)], at = _nock.set(0, 0, nock);
+    const tips = [_tipLow.set(0, -BOW_LENGTH / 2, -.16), _tipHigh.set(0, BOW_LENGTH / 2, -.16)], at = _nock.set(0, 0, nock);
     this.string.children.forEach((segment, i) => {
       const tip = tips[i]!;
       segment.position.copy(tip).add(at).multiplyScalar(.5);
