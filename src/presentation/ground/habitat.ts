@@ -348,12 +348,12 @@ export class Habitat {
     const w10 = u * (1 - v);
     const w01 = (1 - u) * v;
     const w11 = u * v;
-    const q = (o: number) => t[a + o]! * w00 + t[b + o]! * w10 + t[c + o]! * w01 + t[d + o]! * w11;
-    out.open = q(0);
-    out.wet = q(1);
-    out.dry = q(2);
-    out.wood = q(3);
-    out.slope = q(4);
+    // Keep channel arithmetic in the original order without a per-sample helper closure.
+    out.open = t[a + 0]! * w00 + t[b + 0]! * w10 + t[c + 0]! * w01 + t[d + 0]! * w11;
+    out.wet = t[a + 1]! * w00 + t[b + 1]! * w10 + t[c + 1]! * w01 + t[d + 1]! * w11;
+    out.dry = t[a + 2]! * w00 + t[b + 2]! * w10 + t[c + 2]! * w01 + t[d + 2]! * w11;
+    out.wood = t[a + 3]! * w00 + t[b + 3]! * w10 + t[c + 3]! * w01 + t[d + 3]! * w11;
+    out.slope = t[a + 4]! * w00 + t[b + 4]! * w10 + t[c + 4]! * w01 + t[d + 4]! * w11;
     return out;
   }
 }
