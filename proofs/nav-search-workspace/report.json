@@ -1,0 +1,767 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "controls": {
+    "before": true,
+    "after": true
+  },
+  "nativeAllocation": {
+    "constructions": 192,
+    "bytes": 28396800
+  },
+  "nativeRoutesSha256": "154328cdc79e042a8f89f085aa7a0e18b6a3d6eea4264aafe599935e1c563dbe",
+  "queries": [
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -2,
+        "z": 34.6
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -4,
+        "z": 46
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -268,
+        "z": 27
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -5.2,
+        "z": -4
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": 20,
+        "z": 25
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 0
+    },
+    {
+      "from": {
+        "x": -30,
+        "z": 30
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -2,
+        "z": 34.6
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -12.3,
+        "z": 44.8
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -4,
+        "z": 46
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -268,
+        "z": 27
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -5.2,
+        "z": -4
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": 20,
+        "z": 25
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -30,
+        "z": 30
+      },
+      "maxExpand": 90000
+    },
+    {
+      "from": {
+        "x": -220,
+        "z": 10
+      },
+      "to": {
+        "x": -220,
+        "z": 10
+      },
+      "maxExpand": 0
+    }
+  ],
+  "rows": {
+    "before": {
+      "queries": 64,
+      "gridCells": 49300,
+      "firstPass": {
+        "constructions": 192,
+        "bytes": 28396800
+      },
+      "repeatedPass": {
+        "constructions": 192,
+        "bytes": 28396800
+      },
+      "nativeRoutesMatch": true,
+      "repeatedRoutesMatch": true,
+      "routesSha256": "154328cdc79e042a8f89f085aa7a0e18b6a3d6eea4264aafe599935e1c563dbe",
+      "reachable": 56,
+      "unreachable": 8,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    },
+    "after": {
+      "queries": 64,
+      "gridCells": 49300,
+      "firstPass": {
+        "constructions": 3,
+        "bytes": 443700
+      },
+      "repeatedPass": {
+        "constructions": 0,
+        "bytes": 0
+      },
+      "nativeRoutesMatch": true,
+      "repeatedRoutesMatch": true,
+      "routesSha256": "154328cdc79e042a8f89f085aa7a0e18b6a3d6eea4264aafe599935e1c563dbe",
+      "reachable": 56,
+      "unreachable": 8,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "fac6496a76c2afb0e58b7171de9df4114b745701a9b4c6f80c2863b650361b0d",
+  "scope": "Actual baseline/candidate NavGrid source on copied published colliders and terrain. Native full grid and each native route are controls. Exact typed-array backing-store bytes at the three search-workspace allocation sites; not heap totals, GC timings, natural route frequency or hardware frame-time evidence. Software-WebGL post-render images compare the unchanged scene.",
+  "pass": true
+}
