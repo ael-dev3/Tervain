@@ -1,0 +1,25 @@
+import {gzipSync} from 'node:zlib';import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createServer,transformWithOxc} from 'vite';import {openPage} from './cdp.mjs';
+const out=process.argv[2]??'vault-landing-state-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
+const server=await createServer({configFile:false,logLevel:'error',server:{host:'127.0.0.1',port:0,hmr:false,ws:false},optimizeDeps:{include:['three'],noDiscovery:true}});
+try{
+ await server.listen();
+ const {Colliders,FENCE_WALL_LIFT}=await server.ssrLoadModule('/src/world/colliders.ts'),{PLAYER_BODY_RADIUS,PLAYER_BODY_HEIGHT,PLAYER_FOOT_CLEARANCE}=await server.ssrLoadModule('/src/world/playerPlacement.ts');
+ const sources={before:execFileSync('git',['show','421d34b:src/presentation/player.ts'],{encoding:'utf8'}),after:fs.readFileSync('src/presentation/player.ts','utf8')},methods={};
+ for(const mode of ['before','after']){const s=sources[mode],a=s.indexOf('  private fenceVault('),b=s.indexOf('\n  /** One step of a vault',a);if(a<0||b<0)throw Error('Missing selector');const code=(await transformWithOxc('class Replay {\n'+s.slice(a,b)+'\n}','replay.ts')).code,decl=s.match(/export const VAULT = (\{[^\n]+\}) as const;/)[1],span=s.match(/const VAULT_NEAR_SPAN = ([^;]+);/)[1];methods[mode]=new Function('FENCE_WALL_LIFT','PLAYER_RADIUS','PLAYER_FOOT_CLEARANCE','PLAYER_BODY_HEIGHT','const VAULT='+decl+';const VAULT_NEAR_SPAN='+span+';'+code+';return Replay.prototype.fenceVault;')(FENCE_WALL_LIFT,PLAYER_BODY_RADIUS,PLAYER_FOOT_CLEARANCE,PLAYER_BODY_HEIGHT);}
+ const rows=[];
+ for(let angle=0;angle<8;angle++)for(const slope of [-.15,0,.15])for(const distance of [.55,1.2,1.85]){
+  const yaw=angle*Math.PI/4,cos=Math.cos(yaw),sin=Math.sin(yaw),ground=(x,z)=>(x*cos-z*sin)*slope,p={x:-distance*cos,z:distance*sin,y:-distance*slope,yaw:Math.PI/2+yaw},colliders=new Colliders(),ctx={terrain:{heightAt:ground,walkable:()=>true},colliders};
+  colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});const clear=methods.before.call(p,ctx);if(!clear)throw Error('No clear control');
+  colliders.box('fence',clear.to.x,clear.to.z,.08,.35,yaw,false);const n=colliders.withId('fence').at(-1);
+  for(const state of ['inactive','overhead','buried','active']){
+   n.active=state!=='inactive';n.minY=state==='overhead'?clear.to.y+5:state==='buried'?clear.to.y-2:clear.to.y;n.maxY=state==='overhead'?clear.to.y+6:state==='buried'?clear.to.y-.1:clear.to.y+1.5;
+   const before=methods.before.call(p,ctx),after=methods.after.call(p,ctx),landingBlocked=colliders.blocked(clear.to.x,clear.to.z,PLAYER_BODY_RADIUS,{minY:clear.to.y+PLAYER_FOOT_CLEARANCE,maxY:clear.to.y+PLAYER_BODY_HEIGHT});
+   rows.push({angle,slope,distance,state,landingBlocked,before,after,clear,beforeMatchesClear:JSON.stringify(before)===JSON.stringify(clear),afterMatchesClear:JSON.stringify(after)===JSON.stringify(clear)});
+  }
+ }
+ const a=rows.filter(r=>r.state!=='active'),b=rows.filter(r=>r.state==='active');const report={baseline:'421d34b',sourceSha256:createHash('sha256').update(sources.after).digest('hex'),cases:rows.length,irrelevantCases:a.length,beforeRejected:a.filter(r=>!r.before).length,beforeChangedVault:a.filter(r=>r.before&&!r.beforeMatchesClear).length,afterMatchesClear:a.filter(r=>r.afterMatchesClear).length,activeCases:b.length,activeBlockedBefore:b.filter(r=>!r.before).length,activeBlockedAfter:b.filter(r=>!r.after).length,scope:'Actual source vault selectors with real Colliders; eight rotations, three terrain slopes and three takeoff distances. Controlled inactive/overhead/buried/active neighboring landing rails. Compares entire selected vault to clear control; does not claim crossed-rail clearance, full real-key play or hardware timing.'};
+ report.pass=rows.length===288&&a.every(r=>!r.landingBlocked&&!r.beforeMatchesClear&&r.afterMatchesClear)&&b.every(r=>r.landingBlocked&&!r.before&&!r.after);
+ const example=rows.find(r=>r.angle===0&&r.slope===0&&r.distance===1.2&&r.state==='inactive');
+ for(const mode of ['before','after']){let page;try{page=await openPage('http://127.0.0.1:'+server.httpServer.address().port+'/tools/vault-landing-state-fixture.html?mode='+mode,{w:640,h:360,init:'window.vaultCase='+JSON.stringify(example)+';'});let ready;for(let i=0;i<300;i++){const error=await page.eval('return window.fixtureError');if(error)throw Error(error);ready=await page.eval('return window.diagramReady');if(ready)break;await page.wait(100);}if(!ready||ready.glError!==0||ready.accepted!==(mode==='after'))throw Error('Invalid diagram');await page.shot(path.join(out,mode+'.png'));}finally{page?.close();}}
+ report.casesSha256=createHash('sha256').update(JSON.stringify(rows)).digest('hex');fs.writeFileSync(path.join(out,'cases.json.gz'),gzipSync(JSON.stringify(rows)));fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(!report.pass)process.exitCode=1;
+}finally{await server.close();}
