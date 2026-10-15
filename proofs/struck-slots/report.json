@@ -1,0 +1,24 @@
+{
+  "baseline": "421d34b",
+  "frozenIntegration": false,
+  "candidateSourceSha256": "9f2a39c808094eae02619fab06b9f478c92e53a61a11cf025b9ff90500b8d3f9",
+  "updates": 240,
+  "nativeCountControl": {
+    "alive": 4,
+    "beforeWrites": 48,
+    "afterWrites": 4
+  },
+  "beforeMatrixWrites": 10416,
+  "afterMatrixWrites": 3990,
+  "identicalStateAndRenderCounters": true,
+  "pixelsEqual": true,
+  "nonblackCaptures": 6,
+  "beforeHeightCalls": 1595,
+  "afterHeightCalls": 1595,
+  "beforeUploadBytes": 13136,
+  "afterUploadBytes": 13136,
+  "draws": 16,
+  "triangles": 1200,
+  "scope": "Actual struck-leaf source modules, software WebGL diagnostic render at nine points. Complete matrix storage, active/draw state, update ranges, versions, sorting sphere, terrain calls, draw/triangle/upload counters match. No full-game image or hardware timing claim.",
+  "pass": true
+}

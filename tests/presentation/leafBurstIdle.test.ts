@@ -54,3 +54,25 @@ it('retains frozen active matrices while presenting pending zero-step releases a
  burst.update(1/60,false);expect(burst.mesh.instanceMatrix.version).toBe(version+2);expect(Buffer.from(burst.mesh.instanceMatrix.array.buffer).toString('hex')).not.toBe(pose);
  }finally{burst.dispose();}
 });
+
+it('retains cleared dead slots while survivors move and reuses expired holes safely', () => {
+  const burst = createLeafBurst({ heightAt: () => 0 }, null);
+  const writes = vi.spyOn(burst.mesh, 'setMatrixAt');
+  try {
+    burst.release(0, 0, 0, 0, 10); burst.update(0, false);
+    expect(writes).toHaveBeenCalledTimes(LEAF_BURST_POOL); // Clear initial unused slots once.
+    burst.release(0, 100, 0, 0, 10); burst.update(0, false);
+    for (let i = 0; i < 60; i++) burst.update(.1, false);
+    expect(burst.active).toBe(10); expect(burst.mesh.count).toBe(20);
+    writes.mockClear();burst.update(1 / 60, false);
+    expect(writes).toHaveBeenCalledTimes(10);
+    for (let i = 0; i < 10; i++) {
+      expect(Array.from(burst.mesh.instanceMatrix.array.slice(i * 16, i * 16 + 16)))
+        .toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
+    }
+    expect(burst.release(0, 1, 0, 0, 3)).toBe(3);
+    writes.mockClear();burst.update(0, false);
+    expect(burst.active).toBe(13);expect(writes).toHaveBeenCalledTimes(13);
+    expect(burst.mesh.instanceMatrix.array[0]).not.toBe(0);
+  } finally { burst.dispose(); }
+});
