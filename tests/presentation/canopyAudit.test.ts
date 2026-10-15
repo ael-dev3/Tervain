@@ -63,3 +63,19 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
 });
+
+it('keeps tighter wood-reach classifications independent of wood triangle order', () => {
+  const near = new THREE.PlaneGeometry(1, 1).translate(0, 0, .1);
+  const far = new THREE.PlaneGeometry(1, 1).translate(0, 0, .5);
+  const leaves = new THREE.PlaneGeometry(.02, .02);
+  const geometries = [mergeGeometries([far, near]), mergeGeometries([near, far]), far.clone()];
+  try {
+    for (const [i, wood] of geometries.entries()) {
+      const r = auditCanopies([{ label: 'tight-reach', wood, leaves, matrix: new THREE.Matrix4() }],
+        { gap: .75, woodReach: .2 });
+      expect(r.summary.candidates).toBe(0); // All three stay connected at the wider connectivity gap.
+      expect(r.summary.detachedCards).toBe(i === 2 ? 1 : 0);
+      expect(r.summary.detachedClumps).toBe(i === 2 ? 1 : 0);
+    }
+  } finally { near.dispose(); far.dispose(); leaves.dispose(); for (const g of geometries) g.dispose(); }
+});
