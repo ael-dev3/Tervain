@@ -1,0 +1,42 @@
+{
+  "build": "v0.0.18 · fca718428",
+  "nativeHero": true,
+  "rows": [
+    {
+      "name": "fence-position-walk-turn",
+      "x": -2,
+      "z": 37,
+      "sprint": false,
+      "steps": 90,
+      "calls": 180,
+      "arrayIdentities": 1,
+      "actorRecordIdentities": 3,
+      "actorIds": 3,
+      "actorRecordReads": 540,
+      "final": {
+        "x": -0.6737082826912228,
+        "y": 1.4491955569288444,
+        "z": 38.74371164245531
+      }
+    },
+    {
+      "name": "run-round-position-turn",
+      "x": -12.3,
+      "z": 44.8,
+      "sprint": true,
+      "steps": 90,
+      "calls": 180,
+      "arrayIdentities": 1,
+      "actorRecordIdentities": 3,
+      "actorIds": 3,
+      "actorRecordReads": 540,
+      "final": {
+        "x": -8.56808971122955,
+        "y": 1.9271734698170098,
+        "z": 48.381027874344724
+      }
+    }
+  ],
+  "pass": true,
+  "scope": "Native complete fixed steps, real movement keys and follow-camera turns at two live16 lead positions; 90 synthetic 60 Hz steps per stage with rendering frozen. Counts identify returned Player contact arrays and resident/enemy records only; wildlife records and diagnostic allocations are excluded. These are not replayed gate traces, real frame-time samples or hardware PASS receipts."
+}

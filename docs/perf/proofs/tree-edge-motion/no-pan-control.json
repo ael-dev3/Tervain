@@ -1,0 +1,13 @@
+{
+  "scope": "Reuse the same native stationary pixels for every claimed pan frame; the validity gate must reject this no-motion control.",
+  "assertions": {
+    "stationaryIdentical": true,
+    "panChanges": false,
+    "stationaryZeroResidual": true,
+    "stationaryZeroSparkle": true,
+    "nativeSamples": true,
+    "minimumAlignment": true,
+    "completeCounts": true
+  },
+  "pass": false
+}

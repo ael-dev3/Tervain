@@ -174,6 +174,7 @@ export class RippleField {
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
     try {
       renderer.autoClear = true;
+      let displayDirty = !this.cleared;
       if (!this.cleared) {
         for (const t of [...this.state, this.display]) { renderer.setRenderTarget(t); renderer.clear(true, false, false); }
         this.cleared = true;
@@ -188,6 +189,7 @@ export class RippleField {
         this.pass(renderer, this.shiftMaterial, this.state[1]);
         this.state = [this.state[1], this.state[0]];
         this.originX = wantX; this.originZ = wantZ;
+        displayDirty = true;
       }
       this.uniform.set(this.originX, this.originZ, this.extent);
       this.accumulated = Math.min(STEP * 3, this.accumulated + (Number.isFinite(dt) && dt > 0 ? dt : 0));
@@ -203,10 +205,14 @@ export class RippleField {
         u.uDropCount!.value = drops.length;
         u.tState!.value = this.state[0].texture;
         this.pass(renderer, this.stepMaterial, this.state[1]);
+        displayDirty = true;
         this.state = [this.state[1], this.state[0]];
       }
-      this.displayMaterial.uniforms.tState!.value = this.state[0].texture;
-      this.pass(renderer, this.displayMaterial, this.display);
+      // The readable slopes/foam only change when the simulation or its origin changes.
+      if (displayDirty) {
+        this.displayMaterial.uniforms.tState!.value = this.state[0].texture;
+        this.pass(renderer, this.displayMaterial, this.display);
+      }
       this.ready = true;
     } finally {
       renderer.autoClear = oldAutoClear;

@@ -60,6 +60,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
   for (let i = 0; i < LEAF_BURST_POOL; i++) mesh.setColorAt(i, colour.setRGB(0.42 + rng() * 0.2, 0.5 + rng() * 0.15, 0.22 + rng() * 0.1));
   const matrix = new THREE.Matrix4(), quat = new THREE.Quaternion(), euler = new THREE.Euler(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   let active = 0;
+  let matricesInitialized = false;
   let pendingRelease = false;
   let disposed = false;
   let reducedMotion = initialReducedMotion;
@@ -94,13 +95,18 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
       if (disposed) return;
       reducedMotion = enabled;
       if (active === 0 && !pendingRelease) return;
-      pendingRelease = false;
       const step = reducedMotion || !Number.isFinite(dt) ? 0 : Math.min(Math.max(dt, 0), 0.1);
+      // No state advances at zero dt, but a newly queued release still needs its first pose.
+      if (step === 0 && !pendingRelease) return;
+      pendingRelease = false;
       const dir = wind?.direction ?? [1, 0];
       let n = 0, drawCount = 0;
       for (let i = 0; i < leaves.length; i++) {
         const leaf = leaves[i]!;
-        if (!leaf.alive) { mesh.setMatrixAt(i, ZERO); continue; }
+        if (!leaf.alive) {
+          if (!matricesInitialized) mesh.setMatrixAt(i, ZERO);
+          continue;
+        }
         if (step > 0) {
           leaf.age += step;
           if (leaf.landed <= 0) {
@@ -128,6 +134,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
         matrix.compose(pos, quat, scl);
         mesh.setMatrixAt(i, matrix);
       }
+      matricesInitialized = true;
       active = n;
       mesh.count = drawCount;
       mesh.visible = n > 0;

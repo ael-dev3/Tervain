@@ -31,6 +31,8 @@ attribute vec4 aSplatB;
 attribute float aWet;
 attribute float aCanopy;
 attribute vec3 aSurface;
+attribute vec4 aMeadow;
+varying vec4 vMeadow;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec3 vWorldPos;
@@ -48,6 +50,7 @@ vWorldNormal = normal;
 vWet = aWet;
 vCanopy = aCanopy;
 vSurface = aSurface;
+vMeadow = aMeadow;
 `;
 
 const FRAG_DECL = /* glsl */ `
@@ -55,6 +58,7 @@ uniform sampler2DArray uAlb;
 uniform sampler2DArray uNrm;
 uniform vec4 uLayer[8];
 uniform vec2 uGrassFar;
+varying vec4 vMeadow;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec3 vWorldPos;
@@ -216,8 +220,26 @@ tAlb = mix(tAlb, tSwardGreen, tSward * 0.72);
 tAlb *= mix(vec3(1.0), vec3(0.84, 0.86, 0.8), tSward * 0.8);
 // Far sward: as the far grass thins out with distance, the meadow floor takes on the blades' own warmer, straw-lit
 // colour, so the grass never ends at a visible line and open fields stay grassy past the blades' range (B10).
-float tFarSward = tSward * smoothstep(uGrassFar.x, uGrassFar.y, length(vViewPosition));
-tAlb *= mix(vec3(1.0), vec3(1.1, 0.9, 0.6), tFarSward * 0.85);
+// B11: the far ground follows the grass that grows there: its own tint (lush green, sun-cured gold, shaded olive, from
+// the habitat, per vertex) and its cover, and at range it carries tuft-scale light and shade that fade out before
+// they are smaller than a pixel, so a far field reads as grassland rather than flat paint.
+float tView = length(vViewPosition);
+bool tHasMeadow = vMeadow.w >= 0.0;
+float tCover = tHasMeadow ? clamp(vMeadow.w, 0.0, 1.0) * (1.0 - tWear * 0.7) : tSward;
+float tFar = smoothstep(uGrassFar.x, uGrassFar.y, tView);
+float tMid = smoothstep(uGrassFar.x * 0.45, uGrassFar.y, tView);
+const vec3 tLumW = vec3(0.2126, 0.7152, 0.0722);
+float tGroundL = dot(tAlb, tLumW);
+vec3 tTint = tHasMeadow ? max(vMeadow.rgb, vec3(1e-4)) : vec3(0.122, 0.178, 0.064);
+vec3 tGrassFar = tGroundL * (tTint / max(dot(tTint, tLumW), 1e-4)) * vec3(1.08, 0.91, 0.68);
+// Tufts and their shade: two noise octaves at clump scale, each faded out by the pixel's ground footprint.
+float tFoot = max(length(tGx), length(tGy));
+float tTuft = (tvn(tXZ / 2.3 + 31.0) - 0.5) * (1.0 - smoothstep(0.5, 1.4, tFoot))
+  + (tvn(tXZ / 0.8 + 57.0) - 0.5) * 0.7 * (1.0 - smoothstep(0.18, 0.5, tFoot));
+// Swathes: denser grass reads a little brighter from afar (blade tops in the light), thin cover shows its floor.
+float tSwathe = tvn(tXZ / 9.0 + 13.0) - 0.5;
+tGrassFar *= 1.0 + 0.32 * tTuft + 0.12 * tSwathe + 0.1 * (tCover - 0.5);
+tAlb = mix(tAlb, tGrassFar, tCover * (tFar * 0.85 + (tMid - tFar) * 0.3));
 tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
 tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
@@ -256,6 +278,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.86, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v9-far-sward';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v10-far-meadow';
   return mat;
 }

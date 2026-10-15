@@ -1,0 +1,1436 @@
+{
+  "schema": 1,
+  "clearance": 0.08,
+  "kind": "prop",
+  "scope": "Inn sign board/chains only; rendered scene support geometry retained, population adapters omitted; directional vertical gaps are candidates, not an anchored-support certification.",
+  "complete": true,
+  "truncated": false,
+  "skipped": [],
+  "invalid": 0,
+  "summary": {
+    "checks": 94,
+    "roots": 0,
+    "props": 94,
+    "candidates": 16
+  },
+  "checks": [
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 0,
+      "position": [
+        1.519968414306641,
+        4.225334444269538,
+        32.45
+      ],
+      "samples": 8,
+      "minGap": 0.004168938520000999,
+      "maxGap": 0.05027619004249595,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 1,
+      "position": [
+        1.5199999898672107,
+        4.163334447145462,
+        32.44996840581298
+      ],
+      "samples": 8,
+      "minGap": 0.00416893951874431,
+      "maxGap": 0.015174617986325465,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 2,
+      "position": [
+        1.519968414306641,
+        4.101334448158741,
+        32.45
+      ],
+      "samples": 8,
+      "minGap": 0.004168933533905019,
+      "maxGap": 0.02289561893949732,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 3,
+      "position": [
+        1.5199999898672107,
+        4.039334441721439,
+        32.44996840581298
+      ],
+      "samples": 8,
+      "minGap": 0.004175796025819743,
+      "maxGap": 0.008984539829731688,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 4,
+      "position": [
+        1.5198992878198627,
+        4.015334445238113,
+        32.45
+      ],
+      "samples": 14,
+      "minGap": 0.016392627826100847,
+      "maxGap": 0.026444169367013215,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 5,
+      "position": [
+        2.279968404769898,
+        4.225334444269538,
+        32.45
+      ],
+      "samples": 8,
+      "minGap": 0.004168938520000999,
+      "maxGap": 0.05027619004249595,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 6,
+      "position": [
+        2.28000001013279,
+        4.163334447145462,
+        32.44996840581298
+      ],
+      "samples": 8,
+      "minGap": 0.00416893951874431,
+      "maxGap": 0.05027620494365714,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 7,
+      "position": [
+        2.279968404769898,
+        4.101334448158741,
+        32.45
+      ],
+      "samples": 8,
+      "minGap": 0.004168933533905019,
+      "maxGap": 0.02289561893949732,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 8,
+      "position": [
+        2.28000001013279,
+        4.039334441721439,
+        32.44996840581298
+      ],
+      "samples": 8,
+      "minGap": 0.004175796025819743,
+      "maxGap": 0.008984539829731688,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 9,
+      "position": [
+        2.279899308085442,
+        4.015334445238113,
+        32.45
+      ],
+      "samples": 14,
+      "minGap": 0.016392627826100847,
+      "maxGap": 0.026444169367013215,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 10,
+      "position": [
+        1.4899999886751178,
+        3.9243344396352766,
+        32.482999998889866
+      ],
+      "samples": 4,
+      "minGap": 0.39800000190734885,
+      "maxGap": 0.39800000190734885,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 11,
+      "position": [
+        1.4899999886751178,
+        3.4263344287872313,
+        32.482999998889866
+      ],
+      "samples": 6,
+      "minGap": 0.03900003433227517,
+      "maxGap": 2.305619135634781,
+      "unsupportedFraction": 0.8333333333333334,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 12,
+      "position": [
+        2.310000011324883,
+        3.9243344396352766,
+        32.482999998889866
+      ],
+      "samples": 4,
+      "minGap": 0.39800000190734885,
+      "maxGap": 0.39800000190734885,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 13,
+      "position": [
+        2.310000011324883,
+        3.4263344287872313,
+        32.482999998889866
+      ],
+      "samples": 6,
+      "minGap": 0.03900003433227517,
+      "maxGap": 2.304274223546662,
+      "unsupportedFraction": 0.8333333333333334,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 14,
+      "position": [
+        1.4899999886751178,
+        3.9243344396352766,
+        32.41700000111014
+      ],
+      "samples": 4,
+      "minGap": 0.39800000190734885,
+      "maxGap": 0.39800000190734885,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 15,
+      "position": [
+        1.4899999886751178,
+        3.4263344287872313,
+        32.41700000111014
+      ],
+      "samples": 6,
+      "minGap": 1.8799732804298401,
+      "maxGap": 2.307523203206106,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 16,
+      "position": [
+        2.310000011324883,
+        3.9243344396352766,
+        32.41700000111014
+      ],
+      "samples": 4,
+      "minGap": 0.39800000190734885,
+      "maxGap": 0.39800000190734885,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:metal",
+      "kind": "prop",
+      "component": 17,
+      "position": [
+        2.310000011324883,
+        3.4263344287872313,
+        32.41700000111014
+      ],
+      "samples": 6,
+      "minGap": 0.03900003433227517,
+      "maxGap": 2.3063526049955834,
+      "unsupportedFraction": 0.8333333333333334,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:planks",
+      "kind": "prop",
+      "component": 0,
+      "position": [
+        1.9000000000000004,
+        3.9201677694916723,
+        32.45
+      ],
+      "samples": 4,
+      "minGap": 0.005999982357025367,
+      "maxGap": 0.005999982357025367,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:planks",
+      "kind": "prop",
+      "component": 1,
+      "position": [
+        1.9000000000000004,
+        3.6753344416618345,
+        32.45
+      ],
+      "samples": 4,
+      "minGap": 0.005999982357025367,
+      "maxGap": 0.005999982357025367,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:planks",
+      "kind": "prop",
+      "component": 2,
+      "position": [
+        1.9000000000000004,
+        3.4605011224746702,
+        32.45
+      ],
+      "samples": 4,
+      "minGap": 0.0019999742507936773,
+      "maxGap": 1.8589733123779297,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 0,
+      "position": [
+        1.9000000000000004,
+        3.6653344511985777,
+        32.47799999993295
+      ],
+      "samples": 4,
+      "minGap": 0.022000014781952126,
+      "maxGap": 0.04499995708465554,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 1,
+      "position": [
+        1.626666666567326,
+        3.920334446430206,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.005000025033951026,
+      "maxGap": 0.07548212336788462,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 2,
+      "position": [
+        1.9000000000000004,
+        3.920334446430206,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.01999998092651345,
+      "maxGap": 0.2711953774749907,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 3,
+      "position": [
+        2.1733333334326748,
+        3.920334446430206,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.01999998092651345,
+      "maxGap": 0.3624679277118028,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 4,
+      "position": [
+        1.626666666567326,
+        3.430334436893463,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.07999998331069924,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 5,
+      "position": [
+        2.1733333334326748,
+        3.430334436893463,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 2.3443973488998453,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 6,
+      "position": [
+        1.5050000041723255,
+        3.8286677628755568,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 7,
+      "position": [
+        1.5050000041723255,
+        3.6753344416618345,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 8,
+      "position": [
+        1.5050000041723255,
+        3.522001105546951,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.004999995231628638,
+      "maxGap": 0.04599994421005271,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 9,
+      "position": [
+        2.294999995827675,
+        3.6753344416618345,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 10,
+      "position": [
+        2.294999995827675,
+        3.522001105546951,
+        32.47900000009686
+      ],
+      "samples": 4,
+      "minGap": 0.004999995231628638,
+      "maxGap": 0.04599994421005271,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 11,
+      "position": [
+        1.8099999982863668,
+        3.6453344404697416,
+        32.48300000075251
+      ],
+      "samples": 4,
+      "minGap": 0.04699999094009377,
+      "maxGap": 0.04699999094009377,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 12,
+      "position": [
+        1.8100000020116571,
+        3.7353344440460203,
+        32.48500000108034
+      ],
+      "samples": 4,
+      "minGap": 0.00498967519800053,
+      "maxGap": 0.153999984264374,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 13,
+      "position": [
+        1.8100000020116571,
+        3.555334436893463,
+        32.48500000108034
+      ],
+      "samples": 4,
+      "minGap": 0.008483844327828784,
+      "maxGap": 2.4712499761754567,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 14,
+      "position": [
+        1.9758221037685875,
+        3.6453344404697416,
+        32.48652786370367
+      ],
+      "samples": 5,
+      "minGap": 0.0032084584236147223,
+      "maxGap": 2.4745355716787296,
+      "unsupportedFraction": 0.4,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 15,
+      "position": [
+        1.721573652327061,
+        3.8003344416618345,
+        32.48765384200961
+      ],
+      "samples": 3,
+      "minGap": 0.019999980926513894,
+      "maxGap": 2.6971527679707323,
+      "unsupportedFraction": 0.3333333333333333,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 16,
+      "position": [
+        1.7820009976625446,
+        3.8123344510793684,
+        32.486749487742784
+      ],
+      "samples": 1,
+      "minGap": 0.014999985694885034,
+      "maxGap": 0.014999985694885034,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 17,
+      "position": [
+        1.8455979382619265,
+        3.8003344416618345,
+        32.48715751599521
+      ],
+      "samples": 2,
+      "minGap": 0.019999980926513894,
+      "maxGap": 0.019999980926513894,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 18,
+      "position": [
+        1.9045886356383566,
+        3.8123344510793684,
+        32.48681672830135
+      ],
+      "samples": 2,
+      "minGap": 0.001295088039368732,
+      "maxGap": 0.014999985694885034,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 19,
+      "position": [
+        2.07612486332655,
+        3.66545917391777,
+        32.48099999949336
+      ],
+      "samples": 4,
+      "minGap": 0.1295813322067263,
+      "maxGap": 2.4420409108556145,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 20,
+      "position": [
+        2.1504506260156635,
+        3.7453344643115996,
+        32.48399330750108
+      ],
+      "samples": 7,
+      "minGap": 0.16558923371554068,
+      "maxGap": 2.6577040578249487,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 21,
+      "position": [
+        2.019727358222008,
+        3.625334459543228,
+        32.483936400897804
+      ],
+      "samples": 7,
+      "minGap": 0.0075110979957033735,
+      "maxGap": 2.539407871205024,
+      "unsupportedFraction": 0.42857142857142855,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 22,
+      "position": [
+        2.099670143425465,
+        3.585334438085556,
+        32.483906381577256
+      ],
+      "samples": 6,
+      "minGap": 0.04096008810019147,
+      "maxGap": 2.483973222928188,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 23,
+      "position": [
+        2.1402537018060688,
+        3.545334446430206,
+        32.48400614857674
+      ],
+      "samples": 4,
+      "minGap": 0.07000005245208762,
+      "maxGap": 2.443942289636014,
+      "unsupportedFraction": 0.75,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 24,
+      "position": [
+        2.068823160231114,
+        3.5253344655036924,
+        32.484123862162235
+      ],
+      "samples": 6,
+      "minGap": 0.05300003290176414,
+      "maxGap": 2.42704996630348,
+      "unsupportedFraction": 0.3333333333333333,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 25,
+      "position": [
+        1.727285118401051,
+        3.860774818062782,
+        32.478500000014904
+      ],
+      "samples": 8,
+      "minGap": 0.011039167642593604,
+      "maxGap": 0.058063149452209695,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 26,
+      "position": [
+        1.8568486874923114,
+        3.890347275137901,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.019109487533569558,
+      "maxGap": 0.023447334766387717,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 27,
+      "position": [
+        1.8782298211939636,
+        3.6218366503715513,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.04476708173751853,
+      "maxGap": 0.04476708173751853,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 28,
+      "position": [
+        1.7084902018308643,
+        3.8291378647089003,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.004235441579044654,
+      "maxGap": 0.02058285474777244,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 29,
+      "position": [
+        1.525060081481934,
+        3.7284454584121702,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.027481079101562278,
+      "maxGap": 0.27418559789657615,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 30,
+      "position": [
+        2.2277787715196613,
+        3.7346968233585356,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.279957175254822,
+      "maxGap": 0.279957175254822,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 31,
+      "position": [
+        1.8613347062841061,
+        3.7506980776786802,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.010497212409972924,
+      "maxGap": 0.010497212409972924,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 32,
+      "position": [
+        1.5866029202938083,
+        3.8385807454586027,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.37614819407463096,
+      "maxGap": 0.37614819407463096,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 33,
+      "position": [
+        1.8812807154376063,
+        3.8467938929796217,
+        32.478500000014904
+      ],
+      "samples": 4,
+      "minGap": 0.0012583322656889422,
+      "maxGap": 0.03547570109367393,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 34,
+      "position": [
+        1.4818458348512653,
+        3.930334451794624,
+        32.477500000782314
+      ],
+      "samples": 4,
+      "minGap": 0.5009027123451235,
+      "maxGap": 0.5009027123451235,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 35,
+      "position": [
+        2.309581527113915,
+        3.930334451794624,
+        32.477500000782314
+      ],
+      "samples": 4,
+      "minGap": 0.05314156413078286,
+      "maxGap": 0.46885845065116905,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 36,
+      "position": [
+        1.9000000000000004,
+        3.6653344511985777,
+        32.42200000006706
+      ],
+      "samples": 4,
+      "minGap": 0.022000014781952126,
+      "maxGap": 2.33631145528636,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 37,
+      "position": [
+        1.626666666567326,
+        3.920334446430206,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.005000025033951026,
+      "maxGap": 0.07556085178229721,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 38,
+      "position": [
+        1.9000000000000004,
+        3.920334446430206,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.01999998092651345,
+      "maxGap": 0.27049070222278293,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 39,
+      "position": [
+        2.1733333334326748,
+        3.920334446430206,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.005000025033951026,
+      "maxGap": 0.3624679277118028,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 40,
+      "position": [
+        1.9000000000000004,
+        3.430334436893463,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 2.3462318949838163,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 41,
+      "position": [
+        2.1733333334326748,
+        3.430334436893463,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 2.346187066306433,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 42,
+      "position": [
+        1.5050000041723255,
+        3.8286677628755568,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 43,
+      "position": [
+        1.5050000041723255,
+        3.6753344416618345,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.1983333230018618,
+      "maxGap": 0.19933331012725852,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 44,
+      "position": [
+        2.294999995827675,
+        3.8286677628755568,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 45,
+      "position": [
+        2.294999995827675,
+        3.6753344416618345,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.009999990463257056,
+      "maxGap": 0.009999990463257056,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 46,
+      "position": [
+        2.294999995827675,
+        3.522001105546951,
+        32.420999999903145
+      ],
+      "samples": 4,
+      "minGap": 0.004999995231628638,
+      "maxGap": 0.04599994421005271,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 47,
+      "position": [
+        1.8099999982863668,
+        3.6453344404697416,
+        32.416999999247494
+      ],
+      "samples": 4,
+      "minGap": 0.04699999094009377,
+      "maxGap": 0.04699999094009377,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 48,
+      "position": [
+        1.8100000020116571,
+        3.7353344440460203,
+        32.41499999891967
+      ],
+      "samples": 4,
+      "minGap": 0.004989674157652722,
+      "maxGap": 0.153999984264374,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 49,
+      "position": [
+        1.8100000020116571,
+        3.555334436893463,
+        32.41499999891967
+      ],
+      "samples": 4,
+      "minGap": 0.008483840961425628,
+      "maxGap": 2.473732487541732,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 50,
+      "position": [
+        1.9758221037685875,
+        3.6453344404697416,
+        32.41652786526829
+      ],
+      "samples": 5,
+      "minGap": 0.0032084584236147223,
+      "maxGap": 2.4770737931354203,
+      "unsupportedFraction": 0.6,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 51,
+      "position": [
+        1.7222485780715946,
+        3.8003344416618345,
+        32.41260477323085
+      ],
+      "samples": 4,
+      "minGap": 0.019999980926513894,
+      "maxGap": 2.6998688409849807,
+      "unsupportedFraction": 0.25,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 52,
+      "position": [
+        1.7841530866920952,
+        3.8123344510793684,
+        32.41228904183954
+      ],
+      "samples": 6,
+      "minGap": 0.0006358607369094677,
+      "maxGap": 2.7118106922482683,
+      "unsupportedFraction": 0.16666666666666666,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 53,
+      "position": [
+        1.846323020383716,
+        3.8003344416618345,
+        32.41337988600135
+      ],
+      "samples": 5,
+      "minGap": 0.019999980926513894,
+      "maxGap": 2.6998159653831557,
+      "unsupportedFraction": 0.4,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 54,
+      "position": [
+        1.907240312173963,
+        3.8123344510793684,
+        32.41286749839783
+      ],
+      "samples": 2,
+      "minGap": 0.014999985694885034,
+      "maxGap": 2.7118073789453527,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 55,
+      "position": [
+        2.07612486332655,
+        3.66545917391777,
+        32.41900000050664
+      ],
+      "samples": 4,
+      "minGap": 0.06758135557174705,
+      "maxGap": 2.443955342956645,
+      "unsupportedFraction": 0.75,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 56,
+      "position": [
+        2.1504506260156635,
+        3.7453344643115996,
+        32.415993308462205
+      ],
+      "samples": 7,
+      "minGap": 0.16558923658216806,
+      "maxGap": 2.6600541652094924,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 57,
+      "position": [
+        2.019727358222008,
+        3.625334459543228,
+        32.415936400927606
+      ],
+      "samples": 7,
+      "minGap": 0.007343527760196309,
+      "maxGap": 2.5414855504384084,
+      "unsupportedFraction": 0.2857142857142857,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 58,
+      "position": [
+        2.099670143425465,
+        3.585334438085556,
+        32.415906380675736
+      ],
+      "samples": 6,
+      "minGap": 0.04096007604396301,
+      "maxGap": 2.486238945639877,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 59,
+      "position": [
+        2.1402537018060688,
+        3.545334446430206,
+        32.41600614767522
+      ],
+      "samples": 4,
+      "minGap": 2.4457582684407444,
+      "maxGap": 2.4460565908376037,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 60,
+      "position": [
+        2.068823160231114,
+        3.5253344655036924,
+        32.41612386219204
+      ],
+      "samples": 6,
+      "minGap": 0.05300003290176414,
+      "maxGap": 2.4293359056521147,
+      "unsupportedFraction": 0.3333333333333333,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 61,
+      "position": [
+        2.248237425088883,
+        3.7938896894454954,
+        32.4214999999851
+      ],
+      "samples": 8,
+      "minGap": 0.34112781286239646,
+      "maxGap": 0.34112781286239646,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 62,
+      "position": [
+        1.8152195081114773,
+        3.793995130062103,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.003943380844004583,
+      "maxGap": 0.009329795837402123,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 63,
+      "position": [
+        1.9796832926571373,
+        3.571907240152359,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.0008644423770400849,
+      "maxGap": 0.0410866687115925,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 64,
+      "position": [
+        1.8924901463091377,
+        3.6248267769813536,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.04712313413620017,
+      "maxGap": 0.04712313413620017,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 65,
+      "position": [
+        2.0369637884199623,
+        3.5606103122234343,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.0013993241403504868,
+      "maxGap": 0.06919090493265823,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 66,
+      "position": [
+        2.089547657966614,
+        3.8814166665077208,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.03814044594764687,
+      "maxGap": 0.03814044594764687,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 67,
+      "position": [
+        1.736225122213364,
+        3.6598216772079466,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.07371705770492532,
+      "maxGap": 0.07371705770492532,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 68,
+      "position": [
+        1.5714874356985096,
+        3.762060451507568,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.34877949953079246,
+      "maxGap": 2.6851403591335115,
+      "unsupportedFraction": 1,
+      "candidate": true
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 69,
+      "position": [
+        1.8141327142715458,
+        3.6145067691802977,
+        32.4214999999851
+      ],
+      "samples": 4,
+      "minGap": 0.03132641315460227,
+      "maxGap": 0.03132641315460227,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 70,
+      "position": [
+        1.4982676595449451,
+        3.930334436893463,
+        32.42249999921769
+      ],
+      "samples": 4,
+      "minGap": 0.018806368112563865,
+      "maxGap": 0.018806368112563865,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 71,
+      "position": [
+        2.314850935339928,
+        3.930334436893463,
+        32.42249999921769
+      ],
+      "samples": 4,
+      "minGap": 0.0386276841163633,
+      "maxGap": 0.4783723056316378,
+      "unsupportedFraction": 0.5,
+      "candidate": false
+    },
+    {
+      "label": "inn-sign-inn:vc",
+      "kind": "prop",
+      "component": 72,
+      "position": [
+        1.9000000000000004,
+        3.3683344602584837,
+        32.45
+      ],
+      "samples": 4,
+      "minGap": 1.8569733381271363,
+      "maxGap": 2.282718273718067,
+      "unsupportedFraction": 1,
+      "candidate": true
+    }
+  ],
+  "revision": "421d34b",
+  "version": "0.0.18",
+  "furnitureReady": true,
+  "targetMeshes": [
+    "inn-sign-inn:metal",
+    "inn-sign-inn:planks",
+    "inn-sign-inn:vc"
+  ]
+}

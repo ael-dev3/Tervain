@@ -1,0 +1,51 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {RealmPhysics, initializePhysics, PHYSICAL_PROPS} from '/src/world/physics.ts';
+import {Colliders} from '/src/world/colliders.ts';
+import {createHeroRig} from '/src/presentation/hero/rig.ts';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+try {
+await initializePhysics();
+const mode=new URLSearchParams(location.search).get('mode');
+const {Player}=await import(mode==='before'?'/src/presentation/__baseline-player.ts':'/src/presentation/__candidate-player.ts');
+const player=new Player(createHeroRig(await createGltfLoader().loadAsync('/models/hero/weathered-wanderer-hero-sealed.glb')));
+const terrainBase={nx:1,nz:1,vertexX:i=>i*20-10,vertexZ:i=>i*20-10,vertexHeight:()=>0,heightAt:()=>0,groundAt:()=>0,supportAt:()=>0,walkable:()=>true};
+const rows=[];let shown;
+for(const yaw of [0,Math.PI/4])for(const slope of [-.15,0,.15]) {
+ const ground=(x,z)=>(x*Math.cos(yaw)-z*Math.sin(yaw))*slope;
+ const terrain={...terrainBase,vertexHeight:(i,j)=>ground(i*20-10,j*20-10),heightAt:ground,groundAt:ground,supportAt:ground};
+ const colliders=new Colliders();colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});
+ const spec={...PHYSICAL_PROPS.find(p=>p.kind==='crate'),x:8,z:8};
+ const phys=new RealmPhysics(terrain,colliders,[spec]),initial=phys.snapshot(),crate=phys.props[0],cos=Math.cos(yaw),sin=Math.sin(yaw);
+ const ctx={terrain,colliders,physics:phys,audio:{land(){}},npcs:[],enemies:[]};
+ for(const hz of [30,60,120])for(const distance of [.55,.8,1.5,1.85])for(const lateAt of [.2,.4,.6])for(const cargo of ['absent','landing','nearby']) {
+  phys.restore(initial);player.setPosition(-distance*cos,distance*sin,Math.PI/2+yaw,terrain);
+  const v=player.fenceVault(ctx);if(!v)throw Error('Initially clear vault rejected');player.vault=v;player.grounded=false;
+  const path=[];let injected=false,minimum=0,deepFrames=0,aborted=false,steps=0,injectionOverlap=false,position;
+  while(player.vault&&steps++<1000) {
+   if(!injected&&v.t>=lateAt) {
+    injected=true;if(cargo!=='absent'){const poses=phys.snapshot();poses[0].position={x:v.to.x+(cargo==='nearby'?2*sin:0),y:v.to.y+spec.height/2+.01,z:v.to.z+(cargo==='nearby'?2*cos:0)};poses[0].rotation={x:0,y:0,z:0,w:1};phys.restore(poses);}
+    const start=crate.collider.contactShape(phys.characterCollider.shape,{x:player.x,y:player.y+.975,z:player.z},{x:0,y:0,z:0,w:1},0);injectionOverlap=!!start&&start.distance<-.001;
+   }
+   player.stepVault(1/hz,ctx);path.push([player.x,player.y,player.z,!!player.vault]);
+   const hit=crate.collider.contactShape(phys.characterCollider.shape,{x:player.x,y:player.y+.975,z:player.z},{x:0,y:0,z:0,w:1},0);
+   if(hit&&hit.distance<minimum){minimum=hit.distance;position={x:player.x,y:player.y,z:player.z};}if(hit&&hit.distance<-.02)deepFrames++;
+   if(!player.vault&&v.t<1){aborted=true;position={x:player.x,y:player.y,z:player.z};}
+  }
+  if(steps>=1000)throw Error('Vault did not terminate');
+  rows.push({path,yaw,slope,hz,distance,lateAt,cargo,minimum,deepFrames,aborted,grounded:player.grounded,injectionOverlap,final:{x:player.x,y:player.y,z:player.z}});
+  if(yaw===0&&slope===0&&hz===60&&distance===.8&&lateAt===.2&&cargo==='landing')shown={position:position??{x:player.x,y:player.y,z:player.z},crate:{x:v.to.x,y:spec.height/2+.01,z:v.to.z},width:spec.width,depth:spec.depth,height:spec.height};
+ }
+ phys.dispose();
+}
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x252c35);
+const add=(geometry,color,position)=>{const mesh=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color,wireframe:true}));mesh.position.copy(position);scene.add(mesh);};
+add(new THREE.BoxGeometry(.24,1.1,6),0xb2905e,new THREE.Vector3(0,.55,0));
+add(new THREE.BoxGeometry(shown.width,shown.height,shown.depth),0xffb347,shown.crate);
+add(new THREE.CapsuleGeometry(.4,1.15,8,16),0x56bdda,new THREE.Vector3(shown.position.x,shown.position.y+.975,shown.position.z));
+const camera=new THREE.PerspectiveCamera(45,640/360,.1,100);camera.position.set(4,3.5,5);camera.lookAt(0,1,0);renderer.render(scene,camera);
+const costs=globalThis.__renderCostStates.get(renderer.getContext());
+window.vaultProof={diagnosticRender:{drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,lines:renderer.info.render.lines,textures:renderer.info.memory.textures,uploadBytes:costs.uploads},rows,nativeHero:!!player.rig.hero,cases:rows.length,penetratingCases:rows.filter(r=>r.minimum<-.02).length,worstPenetration:Math.min(...rows.map(r=>r.minimum)),blockedAborts:rows.filter(r=>r.cargo==='landing'&&r.aborted).length,clearAborts:rows.filter(r=>r.cargo!=='landing'&&r.aborted).length,glError:renderer.getContext().getError(),scope:'Delivered hero/controller and actual RealmPhysics capsule sweeps; late crate pose changes after takeoff, with no initial overlaps. Diagnostic capsule image, not visual approval, organic gameplay or hardware timing.'};
+}catch(e){window.fixtureError=e.stack??String(e);}
+</script></body></html>

@@ -370,8 +370,9 @@ export class WorldScene {
       // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
       const contacts = createGroundContactField(terrain, colliders.rockMeshes);
       await checkpoint('physics', 'Preparing terrain surface');
+      const grassCover = modules.find((m) => m.name === 'groundcover')?.module as Groundcover | undefined;
       const terrainMesh = await buildTerrainTilesAsync(terrain, terrainTex, ctx.plantedCrowns, undefined, contacts, {
-        ...options, onProgress: progress => phase('physics', progress.phase === 'surface' ? 'Preparing terrain surface' : 'Ground tiles'),
+        ...options, meadow: grassCover?.meadowAt, onProgress: progress => phase('physics', progress.phase === 'surface' ? 'Preparing terrain surface' : 'Ground tiles'),
       });
       scene.add(terrainMesh);
       await checkpoint('physics', 'Physical contacts');

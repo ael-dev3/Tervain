@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "candidateSourceSha256": "a2599886f0debedf782d7ac401e7b5c7b50b920c5c1b8e01924d8ca62d293bef",
+  "nonBackgroundPixels": 225,
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "pool": 153,
+  "active": 21,
+  "prefix": 125,
+  "probe": {
+    "index": 52,
+    "opacity": 0.6169849634170532,
+    "projected": [
+      0,
+      -5.028320134246457e-16,
+      0.9738906597947712
+    ]
+  },
+  "sourceCamera": [
+    5,
+    4.056159006476997,
+    3.1865254697361314
+  ],
+  "runs": {
+    "before": {
+      "width": 640,
+      "height": 360,
+      "instances": 153,
+      "uploadBytes": 10404,
+      "triangles": 1530,
+      "draws": 1,
+      "glError": 0,
+      "contextLost": false
+    },
+    "after": {
+      "width": 640,
+      "height": 360,
+      "instances": 125,
+      "uploadBytes": 8500,
+      "triangles": 1250,
+      "draws": 1,
+      "glError": 0,
+      "contextLost": false
+    }
+  },
+  "pixelIdentical": true,
+  "scope": "Published native leaf snapshot isolated with a diagnostic camera, background and fill light; actual shader, colors, matrices and opacities retained. Compare full pool versus discarded-tail draw count and upload ranges. Direct framebuffer readback, not the final post/MSAA path. Not a candidate full-build replay or hardware timing.",
+  "qualityPass": null,
+  "pass": true
+}

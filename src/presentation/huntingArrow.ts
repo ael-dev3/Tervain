@@ -86,6 +86,8 @@ export class HuntingArrows {
   private disposed = false;
   /** Stuck shafts shiver unless motion is reduced (B11). */
   quiver = true;
+  private readonly forwardAxis = new THREE.Vector3(0, 0, 1);
+  private readonly orientationDirection = new THREE.Vector3();
 
   constructor(private readonly maxFlights = 12, private readonly maxLodged = 24) {
     this.group.name = 'Hunting / swept arrow flights';
@@ -222,7 +224,7 @@ export class HuntingArrows {
   }
 
   private orient(mesh: THREE.Object3D, velocity: THREE.Vector3): void {
-    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), velocity.clone().normalize());
+    mesh.quaternion.setFromUnitVectors(this.forwardAxis, this.orientationDirection.copy(velocity).normalize());
   }
 
   private remove(mesh: THREE.Object3D): void {

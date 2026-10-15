@@ -1,17 +1,16 @@
+import {crownCoverageComplete} from './crown-source-coverage.mjs';
 import fs from 'node:fs';import {pathToFileURL} from 'node:url';import {liveProofPage} from './live-proof-page.mjs';
 export async function auditLiveCrowns(page,diagnostics) {
  return await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest')?.module;if(!forest)throw new Error('No forest module');
  const {auditCanopies}=await import(${JSON.stringify(diagnostics+'/src/diagnostics/canopyAudit.ts')});
  const {leafCutoutSampler}=await import(${JSON.stringify(diagnostics+'/src/presentation/leafSurfaceSites.ts')});
+ const {canopySourceTargets}=await import(${JSON.stringify(diagnostics+'/tools/crown-source-coverage.mjs')});
  const {floraLodWeightsFor,FLORA_LOD_BANDS,SHRUB_LOD_BANDS}=await import(${JSON.stringify(diagnostics+'/src/presentation/floraPopulation.ts')});
  const roots=forest.canopyAuditTargets(0),meshes=forest.group.children.filter(o=>o.isInstancedMesh&&/:([012]):(wood|foliage)$/.test(o.name));
  const families=new Map();for(const t of roots){const near=meshes.find(m=>m.geometry===t.wood&&m.name.endsWith(':0:wood'));if(!near)throw new Error('Near geometry missing');const start=meshes.indexOf(near);let end=meshes.findIndex((m,i)=>i>start&&m.name.endsWith(':0:wood'));if(end<0)end=meshes.length;families.set(t.label,meshes.slice(start,end));}
  const levels=[],missing=[];
  for(let lod=0;lod<3;lod++){
- const native=forest.canopyAuditTargets(lod),nativeLod=native.every(t=>t.lod===lod),targets=roots.map((root,i)=>{const family=families.get(root.label),wood=family.find(m=>m.name.endsWith(':'+lod+':wood')),leaf=family.find(m=>m.name.endsWith(':'+lod+':foliage'));
- if(!wood){missing.push({label:root.label,lod,leavesPresent:!!leaf});return null;}
- const prefix=wood.name.split(':')[0],species=nativeLod?native.find(t=>t.label===root.label)?.species:prefix==='solitary-pine'?'pine':prefix;
- return{...root,...(nativeLod?native.find(t=>t.label===root.label):{}),lod,species,kind:prefix,wood:wood.geometry,leaves:leaf?.geometry??null,cutout:leaf?leafCutoutSampler(leaf.material):null};}).filter(Boolean);
+ const native=forest.canopyAuditTargets(lod),source=canopySourceTargets(roots,native,families,lod,leafCutoutSampler),targets=source.targets;missing.push(...source.missing);
  const audit=auditCanopies(targets,{lod,alpha:true,gap:.75,woodReach:1.5,maxOperations:80000000});levels.push({lod,...audit,expectedTrees:roots.length,coveredTrees:targets.length});}
  const snapshot=[],attributes=new Map();forest.group.traverse(o=>{snapshot.push({o,visible:o.visible,count:o.count,range:o.geometry?{...o.geometry.drawRange}:null});for(const a of [o.instanceMatrix,o.instanceColor,...Object.values(o.geometry?.attributes??{})])if(a?.array&&!attributes.has(a))attributes.set(a,{array:a.array.slice(),version:a.version,ranges:a.updateRanges?.map(r=>({...r}))});});
  const camera=T.cam.camera.clone(),focus=T.player.group.position.clone(),transitionRows=[];
@@ -28,7 +27,7 @@ export async function auditLiveCrowns(page,diagnostics) {
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));if(!args.diagnostics)throw new Error('Supply --diagnostics with the running diagnostic-module server origin');
 const page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'high'});try{const report=await auditLiveCrowns(page,args.diagnostics);
- report.measurementPass=report.levels.every(l=>l.complete)&&report.transitionSamples===report.expectedTrees*14;
+ report.measurementPass=crownCoverageComplete(report);
  fs.writeFileSync(args.out??'live-crown-transitions.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({build:report.build,levels:report.levels.map(l=>({lod:l.lod,covered:l.coveredTrees,...l.summary})),missing:report.missing.length,transitionSamples:report.transitionSamples,unpairedSamples:report.unpairedSamples,emptyTransitionSamples:report.emptyTransitionSamples,measurementPass:report.measurementPass}));if(!report.measurementPass)process.exitCode=1;
 }finally{page.close();}
 }

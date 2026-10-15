@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "54707a9e0122cfbe5bba6a280c73ad3ccd22b0462cb4c58fe149c99383798730",
+  "before": {
+    "rows": [
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650985,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2635923,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650929,
+        "glError": 0
+      },
+      {
+        "phase": "blend-entry",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 9112,
+        "unchanged": 7,
+        "unnecessaryVersions": 7,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      },
+      {
+        "phase": "blend-move",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 385,
+        "coverageUploadBytes": 6328,
+        "unchanged": 29,
+        "unnecessaryVersions": 29,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      }
+    ],
+    "stateSha256": "4c08a535f5b16840bfcdd258cbdddd1f9c8b44c6faa4bc95a8021ad2a42f1af8",
+    "weightValuesSha256": "00ef354bfda7421db75d3144216f4a08c375265dffcd5be64041cba09ebfcf2c",
+    "receiverFramesSha256": "1e2871ab3e84c7e36d50d8e1a4a383174b0cbad103cbe8e2bf84da61608c7d52",
+    "pass": true
+  },
+  "after": {
+    "rows": [
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650985,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2635923,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650957,
+        "glError": 0
+      },
+      {
+        "phase": "pan",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6200,
+        "unchanged": 65,
+        "unnecessaryVersions": 65,
+        "drawCalls": 131,
+        "triangles": 2650929,
+        "glError": 0
+      },
+      {
+        "phase": "blend-entry",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 9112,
+        "unchanged": 7,
+        "unnecessaryVersions": 7,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      },
+      {
+        "phase": "blend-move",
+        "weightCalls": 385,
+        "distinctWeightOutputs": 1,
+        "coverageUploadBytes": 6328,
+        "unchanged": 29,
+        "unnecessaryVersions": 29,
+        "drawCalls": 145,
+        "triangles": 3419101,
+        "glError": 0
+      }
+    ],
+    "stateSha256": "4c08a535f5b16840bfcdd258cbdddd1f9c8b44c6faa4bc95a8021ad2a42f1af8",
+    "weightValuesSha256": "00ef354bfda7421db75d3144216f4a08c375265dffcd5be64041cba09ebfcf2c",
+    "receiverFramesSha256": "1e2871ab3e84c7e36d50d8e1a4a383174b0cbad103cbe8e2bf84da61608c7d52",
+    "pass": true
+  },
+  "weightValuesIdentical": true,
+  "casterBuffersBitIdentical": true,
+  "receiverFramesIdentical": true,
+  "pixelIdentical": true,
+  "scope": "Source-backed High forest with supplied pine models and procedural catalog, actual shadow-only hooks, five fixed-position camera turns plus two near shadow-LOD blend controls. Diagnostic output identity counters, actual caster coverage WebGL uploads; rendered receiver images at every step. Not heap profiling, final post/MSAA or hardware timing.",
+  "qualityPass": null,
+  "nonBackgroundPixels": 35818,
+  "pass": true
+}

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import RAPIER from '@dimforge/rapier3d-compat';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
@@ -47,6 +48,32 @@ beforeEach(() => vi.clearAllMocks());
 beforeAll(() => initializePhysics());
 
 describe('player motion and action contacts', () => {
+  it('refreshes borrowed body contacts, exclusions and replacement identities without mixing players', () => {
+    const s = setup(), other = setup();
+    const id = Object.keys(s.ctx.game.state.npcs)[0]! as keyof typeof s.ctx.game.state.npcs;
+    const resident = { id, x: 1, y: 2, z: 3, hidden: false } as NpcActor;
+    const enemy = { id: 'contact-enemy', x: 4, y: 5, z: 6, radius: .4, alive: true };
+    const animal = { id: 'animal:test', kind: 'circle' as const, x: 8, z: 0, r: .5, active: true };
+    s.ctx.npcs = [resident]; s.ctx.enemies = [enemy as unknown as EnemyActor]; s.ctx.wildlifeContacts = [animal];
+    const read = (player = s.player, ctx = s.ctx) => Reflect.get(player, 'contacts').call(player, ctx) as import('../../src/world/colliders').Collider[];
+    const rows = read(), person = rows[1], foe = rows[2];
+    resident.x = 10; resident.y = 11; enemy.radius = .8; enemy.y = 12;
+    expect(read()).toBe(rows); expect(rows[0]).toBe(animal); expect(rows[1]).toBe(person); expect(rows[2]).toBe(foe);
+    expect(rows[1]).toMatchObject({ x: 10, minY: 11, maxY: 13.1 });
+    expect(rows[2]).toMatchObject({ r: .8, minY: 12, maxY: 14.1 });
+    const secondRows = read(other.player, s.ctx);
+    expect(secondRows).not.toBe(rows); expect(secondRows[1]).not.toBe(person);
+    resident.hidden = true; enemy.alive = false;
+    expect(read()).toEqual([animal]);
+    resident.hidden = false; s.ctx.game.state.npcs[id]!.available = false;
+    expect(read()).toEqual([animal]);
+    s.ctx.game.state.npcs[id]!.available = true;
+    s.ctx.npcs = [{ ...resident, x: 20 } as NpcActor];
+    expect(read()[1]).not.toBe(person); expect(rows[1]).toMatchObject({ x: 20 });
+    s.ctx.npcs = []; s.ctx.wildlifeContacts = undefined;
+    expect(read()).toEqual([]);
+  });
+
   it('keeps bow input out of the legacy fist/sword attack and block paths', () => {
     const s = setup();
     s.ctx.game.state.inventory.hunting_bow = 1;
@@ -306,6 +333,30 @@ describe('player motion and action contacts', () => {
     expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
   }, 60_000);
 
+  it('keeps the player capsule clear of the drawn rail on rising and falling vaults', () => {
+    const penetrations: string[] = [];
+    for (const distance of [.55, 1.1, 1.8]) for (const rise of [-.55, 0, .55]) for (const yaw of [0, Math.PI / 4, Math.PI / 2]) {
+      const slope = rise / (distance + .82), cos = Math.cos(yaw), sin = Math.sin(yaw);
+      const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+      const s = setup(ground); s.ctx.terrain.heightAt = ground;
+      s.ctx.colliders.box('fence', 0, 0, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.setPosition(-distance * cos, distance * sin, Math.PI / 2 + yaw, s.ctx.terrain);
+      const rail = new RAPIER.Cuboid(.12, .55, 3), capsule = new RAPIER.Capsule(.575, .4);
+      const rotation = { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) };
+      s.presses.add('jump'); s.tick(); expect(s.player.vault).not.toBeNull();
+      let deepest = 0;
+      for (let i = 0; i < 180 && s.player.vault; i++) {
+        const p = s.player;
+        const hit = rail.contactShape({ x: 0, y: .55, z: 0 }, rotation, capsule,
+          { x: p.x, y: p.y + .975, z: p.z }, { x: 0, y: 0, z: 0, w: 1 }, 0);
+        if (hit) deepest = Math.min(deepest, hit.distance);
+        s.tick();
+      }
+      if (deepest < -.005) penetrations.push(`distance=${distance} rise=${rise} yaw=${yaw}: ${deepest}`);
+    }
+    expect(penetrations, penetrations.join('\n')).toEqual([]);
+  });
+
   it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
@@ -386,6 +437,51 @@ describe('player motion and action contacts', () => {
       for (let i = 0; i < 60; i++) s.tick();
       if (cargo === 'landing') expect(s.player.x).toBeLessThan(.8);
       else expect(s.player.x).toBeGreaterThan(.8);
+    } finally { physics.dispose(); }
+  });
+
+  it.each(['resident', 'enemy', 'wildlife'] as const)('stops before a %s entering the vault after takeoff', kind => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+    const planned = s.player.vault!; expect(planned).not.toBeNull();
+    for (let i = 0; i < 8; i++) s.tick();
+    const actor = { x: planned.to.x, y: planned.to.y, z: planned.to.z };
+    if (kind === 'resident') {
+      const id = Object.keys(s.ctx.game.state.npcs)[0]!;
+      (s.ctx.game.state.npcs as Record<string, { available: boolean }>)[id]!.available = true;
+      s.ctx.npcs = [{ ...actor, id, hidden: false } as NpcActor];
+    } else if (kind === 'enemy') s.ctx.enemies = [{ ...actor, id: 'late-enemy', alive: true, radius: .35 } as unknown as EnemyActor];
+    else s.ctx.wildlifeContacts = [{ ...actor, id: 'late-animal', active: true, kind: 'circle', r: .35, minY: actor.y, maxY: actor.y + 2.1 }];
+    for (let i = 0; i < 90 && s.player.vault; i++) s.tick();
+    expect(planned.t).toBeLessThan(1);
+    expect(s.player.grounded).toBe(false);
+    expect(Math.hypot(s.player.x - actor.x, s.player.z - actor.z)).toBeGreaterThanOrEqual(.75);
+    for (let i = 0; i < 120; i++) s.tick();
+    expect(s.player.grounded).toBe(true);
+  });
+
+  it('stops an airborne vault before cargo entering after takeoff, then returns to ordinary falling', () => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    const floor = { nx: 1, nz: 1, vertexX: (i: number) => i * 20 - 10, vertexZ: (i: number) => i * 20 - 10,
+      vertexHeight: () => 0, heightAt: () => 0, groundAt: () => 0 } as unknown as Terrain;
+    const physics = new RealmPhysics(floor, new Colliders(), [{ id: 'crate', name: 'Crate', kind: 'crate',
+      x: 5, z: 5, width: .86, height: .57, depth: .62, yaw: 0, mass: 12 }]);
+    s.ctx.physics = physics;
+    try {
+      s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+      const planned = s.player.vault!; expect(planned).not.toBeNull();
+      for (let i = 0; i < 8; i++) s.tick();
+      const poses = physics.snapshot(); poses[0]!.position = { x: planned.to.x, y: .295, z: planned.to.z };
+      physics.restore(poses);
+      for (let i = 0; i < 60 && s.player.vault; i++) s.tick();
+      expect(s.player.vault).toBeNull(); expect(planned.t).toBeLessThan(1);
+      expect(s.player.grounded).toBe(false);
+      expect([s.player.vx, s.player.vy, s.player.vz]).toEqual([0, 0, 0]);
+      for (let i = 0; i < 120; i++) s.tick();
+      expect(s.player.grounded).toBe(true);
+      expect(Number.isFinite(s.player.y)).toBe(true);
     } finally { physics.dispose(); }
   });
 

@@ -1,0 +1,10 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "fences": 9,
+  "attempts": 450,
+  "accepted": 420,
+  "failures": []
+}

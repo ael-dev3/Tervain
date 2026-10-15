@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "baseline": "421d34b",
+  "sourceSha256": "e8cbb0c9cc4dcef7c01456f70dbbc7bb43e5da1ee090d94d048b2433086fbc50",
+  "updates": 120,
+  "beforeSubmitted": 5644,
+  "afterSubmitted": 896,
+  "identicalFieldStatesAndOtherCounters": true,
+  "identicalPixels": true,
+  "scope": "Actual grass trample classes, four field sizes, moving focus and queued multi-batch strokes. Full float field readback after every update, diagnostic previews, source upload bytes excluding uniforms, and nominal two RGBA16F field-target payload bytes excluding readback targets/driver overhead. Software WebGL, not hardware timing.",
+  "pass": true,
+  "beforeRowsSha256": "b6c5867a590f2cf94fab155502b95a46dded8d0653bfaa20bab1db6c3890a240",
+  "afterRowsSha256": "ddc502b305cbe8de2aa9cc91c3d94235fbe3c8c0bd1fc3cf7951561457b12ada",
+  "profiles": [
+    {
+      "size": 16,
+      "extent": 8,
+      "updates": 30,
+      "beforeSubmitted": 1411,
+      "afterSubmitted": 224,
+      "draws": 34,
+      "triangles": 34,
+      "sourceUploadBytes": 0,
+      "fieldTexturePayloadBytes": 4096
+    },
+    {
+      "size": 64,
+      "extent": 28,
+      "updates": 30,
+      "beforeSubmitted": 1411,
+      "afterSubmitted": 224,
+      "draws": 34,
+      "triangles": 34,
+      "sourceUploadBytes": 0,
+      "fieldTexturePayloadBytes": 65536
+    },
+    {
+      "size": 128,
+      "extent": 40,
+      "updates": 30,
+      "beforeSubmitted": 1411,
+      "afterSubmitted": 224,
+      "draws": 34,
+      "triangles": 34,
+      "sourceUploadBytes": 0,
+      "fieldTexturePayloadBytes": 262144
+    },
+    {
+      "size": 256,
+      "extent": 48,
+      "updates": 30,
+      "beforeSubmitted": 1411,
+      "afterSubmitted": 224,
+      "draws": 34,
+      "triangles": 34,
+      "sourceUploadBytes": 0,
+      "fieldTexturePayloadBytes": 1048576
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {createHeroRig} from '/src/presentation/hero/rig.ts';
+import {fitHeroFingers} from '/src/presentation/hero/fingerFit.ts';
+import {PlayerHuntingVisual} from '/src/presentation/playerHunting.ts';
+import {dualQuaternionSkinOf,blendDualQuaternions} from '/src/presentation/npc/dualQuaternionSkinning.ts';
+import {auditBowSurfaces} from '/tools/bow-surface-program.mjs';
+try {
+const asset=await createGltfLoader().loadAsync('/models/hero/weathered-wanderer-hero-sealed.glb');fitHeroFingers(asset);const rig=createHeroRig(asset),visual=new PlayerHuntingVisual(rig);visual.setEquipped(true);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(480,480);document.body.append(renderer.domElement);const scene=new THREE.Scene();scene.background=new THREE.Color(0x303943);scene.add(rig.root,new THREE.HemisphereLight(0xffffff,0x303035,2));const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(3,5,4);scene.add(light);const camera=new THREE.PerspectiveCamera(40,1,.1,100);camera.position.set(1.8,1.4,3.2);camera.lookAt(0,1.1,0);const markers=new THREE.Group();scene.add(markers);const captures=[];
+const report=await auditBowSurfaces({THREE,rig,visual,dualQuaternionSkinOf,blendDualQuaternions,onSample:async row=>{if(row.time!==1||!['idle','aim-low','aim-level'].includes(row.state))return;markers.clear();for(const sample of row.samples){const sphere=new THREE.Mesh(new THREE.SphereGeometry(.012,8,6),new THREE.MeshBasicMaterial({color:0xff3333,depthTest:false}));sphere.position.fromArray(sample.point);markers.add(sphere)}renderer.render(scene,camera);captures.push({state:row.state,image:renderer.domElement.toDataURL('image/png'),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError()});}});
+window.bowSurfaceProof={...report,captures,nativeHero:!!rig.hero};
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script></body></html>

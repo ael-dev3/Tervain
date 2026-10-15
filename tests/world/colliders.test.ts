@@ -44,6 +44,16 @@ describe('swept scenery contacts', () => {
     expect(c.blocked(m.x, m.z, 0.4)).toBe(false);
   });
 
+  it('preserves custom near queries, equal-hit order and ignored collider identities with actor extras', () => {
+    const c = new Colliders();
+    const scenery = { id: 'same-id', kind: 'circle' as const, x: 2, z: 0, r: .5, active: true };
+    const actor = { ...scenery };
+    c.near = () => [scenery];
+    expect(c.cast(0, 0, 4, 0, .4, undefined, undefined, [actor])?.collider).toBe(scenery);
+    expect(c.cast(0, 0, 4, 0, .4, new Set([scenery]), undefined, [actor])?.collider).toBe(actor);
+    expect(c.cast(0, 0, 4, 0, .4, new Set(['same-id']), undefined, [actor])).toBeNull();
+  });
+
   it('finds the earliest collider across spatial cells and honours dynamic gates', () => {
     const c = new Colliders();
     c.circle('later', 21, 0, 1);

@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
 export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry | null; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
+  /** Material requires alpha testing; an unavailable mask must not silently become opaque. */
+  cutoutRequired?: boolean;
   /** The leaf material's alpha cutout; used only with `alpha: true`. */
   cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
 export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
@@ -23,13 +25,17 @@ function components(g: THREE.BufferGeometry, charge: () => void, cutout?: Canopy
   const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
   // Alpha mode: each triangle's opaque texels are their own part; welded quads no longer join leaves that do not touch.
   if(cutout){const uv=g.getAttribute(cutout.uv);if(!uv)throw new Error('Missing leaf UVs for alpha audit');
-    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3();
+    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3(),corners=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
     for(let i=0;i+2<(index?.count??p.count);i+=3){const v=[0,1,2].map(j=>index?.getX(i+j)??i+j) as [number,number,number],key=i;
-      charge();for(let a=0;a<=N;a++)for(let b=0;a+b<=N;b++){const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
+      charge();for(let k=0;k<3;k++)corners[k]!.fromBufferAttribute(p,v[k]!);
+      for(let a=0;a<=N;a++)for(let b=0;a+b<=N;b++){const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
         const u=w[0]*uv.getX(v[0])+w[1]*uv.getX(v[1])+w[2]*uv.getX(v[2]),t=w[0]*uv.getY(v[0])+w[1]*uv.getY(v[1])+w[2]*uv.getY(v[2]);
-        if(cutout.alpha(u,t)<cutout.cutoff)continue;point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(new THREE.Vector3().fromBufferAttribute(p,v[k]!),w[k]!);
+        if(cutout.alpha(u,t)<cutout.cutoff)continue;point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(corners[k]!,w[k]!);
         const list=opaque.get(key)??[];list.push(point.clone());opaque.set(key,list);}}
-    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),samples=[box.getCenter(new THREE.Vector3())];
+    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),centre=box.getCenter(new THREE.Vector3());
+      // A cutout can leave the box centre transparent. Only opaque samples may establish wood contact.
+      let nearest=points[0]!;for(const point of points)if(point.distanceToSquared(centre)<nearest.distanceToSquared(centre))nearest=point;
+      const samples=[nearest];
       for(let i=0;i<Math.min(8,points.length);i++)samples.push(points[Math.floor(i*points.length/Math.min(8,points.length))]!);return{box,samples};});}
   // A bounding-box centre can sit in a hole, outside the actual leaf surface. Project it onto its component.
   const triangles=new Map<number,number[]>();
@@ -84,6 +90,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   const gap=options.gap??.75,woodReach=options.woodReach??1.5,maxOperations=options.maxOperations??20_000_000;
   if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
+  if(options.alpha)for(const target of targets)if(target.leaves&&target.cutoutRequired&&!target.cutout)throw new Error(`Missing required leaf cutout: ${target.label}`);
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');
     const e=m.elements;

@@ -10,6 +10,7 @@ import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
+import { parseTreeLab, pickLabSpot } from './treeLab';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
@@ -56,10 +57,14 @@ export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
  * the bands end at the old switches' near side (full 12-16 m, middle 60-68 m) so the sun's pass carries no more
  * triangles than the hard switches at 16 and 70 m did. */
 export const FLORA_SHADOW_BANDS = { full: [12, 16], middle: [60, 68] } as const;
-export function floraShadowWeights(distance: number, pine: boolean): readonly [number, number, number] {
+/** The optional destination belongs to the caller; ordinary callers retain independent result arrays. */
+export function floraShadowWeights(distance: number, pine: boolean, out: [number, number, number] = [0, 0, 0]): readonly [number, number, number] {
   const full = smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.full);
   const middle = pine ? 1 : smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.middle);
-  return [full, Math.max(0, middle - full), 1 - Math.max(middle, full)];
+  out[0] = full;
+  out[1] = Math.max(0, middle - full);
+  out[2] = 1 - Math.max(middle, full);
+  return out;
 }
 
 /** How a tree answers the wind, from its kind and its own height. */
@@ -200,6 +205,21 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         trees.push(tree);
       }
     });
+  }
+
+  /* Developer aid for tools/tree-lab.mjs: `?treelab=species[:assetId][@x,z]` leaves exactly one tree, on a cleared meadow. */
+  const lab = typeof location !== 'undefined' ? parseTreeLab(location.search) : null;
+  if (lab) {
+    let spot: { x: number; z: number } | null = lab.x !== undefined && lab.z !== undefined ? { x: lab.x, z: lab.z } : null;
+    for (const pad of [25, 8, 0]) spot ??= pickLabSpot(terrain, (x, z, r) => colliders.blocked(x, z, r) || excl.blocked(x, z, Math.min(r, pad)));
+    console.info(`[treelab] ${lab.species}:${lab.assetId ?? '-'} spot ${spot ? `${spot.x},${spot.z}` : 'none found'}`);
+    if (spot) {
+      trees.length = 0;
+      const tree: FloraTree = { sp: lab.species, v: 0, x: spot.x, y: 0, z: spot.z, s: lab.scale, yaw: 0, tint: 1, radius: 0, collisionId: null, decorationRank: 0, ...(lab.assetId ? { assetId: lab.assetId } : {}) };
+      tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+      trees.push(tree);
+      (globalThis as { __treelab?: unknown }).__treelab = { x: tree.x, y: tree.y, z: tree.z, groundY: terrain.heightAt(tree.x, tree.z), species: tree.sp, assetId: tree.assetId ?? null, scale: tree.s };
+    }
   }
 
   /* ---- Build the meshes ---- */
@@ -427,6 +447,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     return false;
   };
 
+  // Each tree's weights are consumed before the next tree; no result escapes this module's refresh.
+  const shadowWeights: [number, number, number] = [0, 0, 0];
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
@@ -460,7 +482,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
-          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows);
+          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
           let from = 0, cast = false;
           for (let sl = 0; sl < 3; sl++) {
             const to = from + sw[sl]!;
@@ -469,7 +491,16 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const i = shadowCounts[sl]!++;
               packStatic(c.wood, i, treeIndex, mtx);
               packStatic(c.leaf, i, treeIndex, mtx);
-              for (const mesh of [c.wood, c.leaf]) { const cov = mesh && casterCoverage.get(mesh); if (cov) cov.setXY(i, from, to >= 0.9999 ? 1 : to); }
+              for (const mesh of [c.wood, c.leaf]) {
+                const cov = mesh && casterCoverage.get(mesh);
+                if (!cov) continue;
+                // Match the stored precision: stable blends must not dirty a GPU buffer on every camera turn.
+                const start = Math.fround(from), end = Math.fround(to >= 0.9999 ? 1 : to);
+                if (cov.getX(i) !== start || cov.getY(i) !== end) {
+                  cov.setXY(i, start, end);
+                  coverageChanged.add(cov);
+                }
+              }
               cast = true;
             }
             from = to;
@@ -537,13 +568,14 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (c) {
           for (const mesh of [c.wood, c.leaf]) {
             if (!mesh) continue;
+            const previousCasterCount = mesh.count;
             mesh.count = shadowCounts[l]!;
             mesh.visible = shadowCounts[l]! > 0;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
             const cov = casterCoverage.get(mesh);
-            if (cov) uploadPrefix(cov, mesh.count);
+            if (cov && (coverageChanged.has(cov) || mesh.count > previousCasterCount)) uploadPrefix(cov, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
@@ -561,7 +593,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
-          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], cutoutRequired: ((b.meshes[Math.min(lod, b.meshes.length - 1)]?.leaf?.material as THREE.Material | undefined)?.alphaTest ?? 0) > 0, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets() {

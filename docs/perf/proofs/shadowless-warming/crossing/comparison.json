@@ -1,0 +1,249 @@
+{
+  "scope": "Matched-input rendered route comparison. Validates replay conditions and route/camera agreement, not a hardware performance pass. Capture runs cannot prove stall removal.",
+  "beforeRevision": "v0.0.18 · 421d34b · pre-alphaPlay menu music",
+  "afterRevision": "v0.0.18 · 97ce41a2d · pre-alphaPlay menu music",
+  "frames": 30,
+  "capture": true,
+  "pixels": [
+    {
+      "i": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 1,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 2,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 3,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 4,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 5,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 6,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 7,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 8,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 9,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 10,
+      "changedPixels": 1,
+      "maxChannelDelta": 2
+    },
+    {
+      "i": 11,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 12,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 13,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 14,
+      "changedPixels": 1,
+      "maxChannelDelta": 1
+    },
+    {
+      "i": 15,
+      "changedPixels": 2,
+      "maxChannelDelta": 2
+    },
+    {
+      "i": 16,
+      "changedPixels": 1,
+      "maxChannelDelta": 1
+    },
+    {
+      "i": 17,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 18,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 19,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 20,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 21,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 22,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 23,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 24,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 25,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 26,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 27,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 28,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "i": 29,
+      "changedPixels": 0,
+      "maxChannelDelta": 0
+    }
+  ],
+  "maxRouteError": 0,
+  "maxCameraError": 0,
+  "maxCameraQuaternionError": 0,
+  "maxWaterDepthError": 0,
+  "before": {
+    "simulationMs": {
+      "p50": 78.19999998807907,
+      "p95": 214.40000000596046,
+      "max": 333.40000000596046
+    },
+    "maxStepMs": {
+      "p50": 20.69999998807907,
+      "p95": 51.400000005960464,
+      "max": 166.30000001192093
+    },
+    "renderSubmitMs": {
+      "p50": 12.599999994039536,
+      "p95": 131.19999998807907,
+      "max": 1700.0999999940395
+    },
+    "arrivalMs": {
+      "p50": 3.600000023841858,
+      "p95": 33.30000001192093,
+      "max": 39.599999994039536
+    },
+    "maxAdvanceMs": {
+      "p50": 3.600000023841858,
+      "p95": 33.30000001192093,
+      "max": 39.5
+    },
+    "uploads": {
+      "p50": 18580,
+      "p95": 37102216,
+      "max": 51187382
+    },
+    "draws": {
+      "p50": 221,
+      "p95": 231,
+      "max": 234
+    },
+    "triangles": {
+      "p50": 1172417,
+      "p95": 1185074,
+      "max": 1185398
+    }
+  },
+  "after": {
+    "simulationMs": {
+      "p50": 76.40000000596046,
+      "p95": 227.5,
+      "max": 255.09999999403954
+    },
+    "maxStepMs": {
+      "p50": 23.900000005960464,
+      "p95": 103.90000000596046,
+      "max": 122.90000000596046
+    },
+    "renderSubmitMs": {
+      "p50": 9.900000005960464,
+      "p95": 42,
+      "max": 42.19999998807907
+    },
+    "arrivalMs": {
+      "p50": 3.4000000059604645,
+      "p95": 86.19999998807907,
+      "max": 94
+    },
+    "maxAdvanceMs": {
+      "p50": 3.4000000059604645,
+      "p95": 86.19999998807907,
+      "max": 94
+    },
+    "uploads": {
+      "p50": 18580,
+      "p95": 665768,
+      "max": 2119618
+    },
+    "draws": {
+      "p50": 221,
+      "p95": 231,
+      "max": 234
+    },
+    "triangles": {
+      "p50": 1172417,
+      "p95": 1185074,
+      "max": 1185398
+    }
+  },
+  "matched": true,
+  "hitchFixed": null
+}

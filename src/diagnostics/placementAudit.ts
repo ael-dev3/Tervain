@@ -13,6 +13,21 @@ interface Check {
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
 }
 
+/** Partial root exposure must remain visible even below the per-tree floater threshold. */
+export function rootCoverage(checks: readonly Pick<Check, 'kind' | 'samples' | 'unsupportedFraction' | 'maxGap'>[]) {
+  const roots = checks.filter(c => c.kind === 'root');
+  if (!roots.length) return null;
+  let samples = 0, unsupportedSamples = 0, rootsWithUnsupportedSamples = 0, maxGap = -Infinity;
+  for (const root of roots) {
+    const unsupported = Math.round(root.unsupportedFraction * root.samples);
+    samples += root.samples; unsupportedSamples += unsupported;
+    if (unsupported) rootsWithUnsupportedSamples++;
+    maxGap = Math.max(maxGap, root.maxGap);
+  }
+  return { samples, unsupportedSamples, rootsWithUnsupportedSamples,
+    supportedFraction: samples ? (samples - unsupportedSamples) / samples : null, maxGap };
+}
+
 /** Weld coincident vertices, so a box's six split-normal faces are audited as one component. */
 interface Component { vertices: number[]; faces: Set<number> }
 function components(geometry: THREE.BufferGeometry): Component[] {
@@ -81,6 +96,11 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
     if (options.kind === 'root') return;
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh || skeletal(mesh)) return;
+    // Static batching retains hidden lookup parts. They are not independent supports for their rendered copies.
+    const merged = mesh.userData.mergedInto as THREE.Mesh | undefined;
+    if (!mesh.visible && merged?.isMesh) {
+      for (let parent: THREE.Object3D | null = merged; parent; parent = parent.parent) if (parent === scene) return;
+    }
     const label = mesh.name || `mesh-${mesh.id}`;
     if (!omitted.test(label) || /terrain/i.test(label)) {
       const instances = mesh as THREE.InstancedMesh;
@@ -114,22 +134,27 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   // Vertical support probes only need geometry whose world bounds overlap their X/Z position.
   // Expand instances once, so Three's InstancedMesh raycaster cannot scan an entire forest per sample.
   const cellSize = 16, cells = new Map<string, THREE.Mesh[]>(), wide: THREE.Mesh[] = [];
-  const bounds = new Map<THREE.Mesh, THREE.Box3>(), releaseIndexes: (() => void)[] = [];
+  const bounds = new Map<THREE.Mesh, THREE.Box3>(), indexable = new Set<THREE.Mesh>(), releaseIndexes: (() => void)[] = [];
   for (const mesh of supports) {
     if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
     const box = mesh.geometry.boundingBox!.clone().applyMatrix4(mesh.matrixWorld).expandByScalar(1e-5);
     bounds.set(mesh, box);
     const x0 = Math.floor(box.min.x / cellSize), x1 = Math.floor(box.max.x / cellSize);
     const z0 = Math.floor(box.min.z / cellSize), z1 = Math.floor(box.max.z / cellSize);
-    if ((x1-x0+1)*(z1-z0+1)>4) releaseIndexes.push(indexVerticalSupport(mesh,cellSize));
+    if ((x1-x0+1)*(z1-z0+1)>4) indexable.add(mesh);
     if (![x0, x1, z0, z1].every(Number.isFinite) || (x1 - x0 + 1) * (z1 - z0 + 1) > 256) { wide.push(mesh); continue; }
     for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
       const key = `${x},${z}`, bucket = cells.get(key) ?? [];
       bucket.push(mesh); cells.set(key, bucket);
     }
   }
-  const nearby = (x: number, z: number) => [...(cells.get(`${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`) ?? []), ...wide]
-    .filter(mesh => { const box = bounds.get(mesh)!; return x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z; });
+  const nearby = (x: number, z: number) => {
+    const candidates = [...(cells.get(`${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`) ?? []), ...wide]
+      .filter(mesh => { const box = bounds.get(mesh)!; return x >= box.min.x && x <= box.max.x && z >= box.min.z && z <= box.max.z; });
+    // Most supports are distant from every prop probe. Index their triangles only on first use.
+    for (const mesh of candidates) if (indexable.delete(mesh)) releaseIndexes.push(indexVerticalSupport(mesh, cellSize));
+    return candidates;
+  };
   const ray = new THREE.Raycaster(), down = new THREE.Vector3(0, -1, 0), origin = new THREE.Vector3();
   const componentCache = new Map<THREE.BufferGeometry, Component[]>(), rootCache = new Map<THREE.BufferGeometry, THREE.Vector3[]>();
   const checks: Check[] = [];
@@ -180,7 +205,8 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
           }
           if (Number.isFinite(gap)) gaps.push(gap);
         }
-        if (!gaps.length) { invalid++; continue; }
+        // A partly unavailable footprint is not evidence that the whole object is supported.
+        if (!gaps.length || gaps.length !== samples.length) { invalid++; continue; }
         const minGap = Math.min(...gaps), maxGap = Math.max(...gaps);
         const unsupportedFraction = gaps.filter(g => g > clearance).length / gaps.length;
         checks.push({ label: target.label, kind: target.kind, component, position: box.getCenter(new THREE.Vector3()).toArray(),
@@ -193,5 +219,5 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
-      candidates: checks.filter(c => c.candidate).length }, checks };
+      candidates: checks.filter(c => c.candidate).length, rootCoverage: rootCoverage(checks) }, checks };
 }

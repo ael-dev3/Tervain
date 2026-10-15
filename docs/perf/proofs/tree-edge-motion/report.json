@@ -1,0 +1,205 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "size": [
+    640,
+    360
+  ],
+  "requestedSamples": 4,
+  "postEnabled": true,
+  "shadows": "frozen after first capture",
+  "maxSamples": 4,
+  "observedSamples": [
+    4
+  ],
+  "captures": [
+    {
+      "route": "stationary",
+      "i": 0,
+      "drawCalls": 90,
+      "triangles": 2502617,
+      "glError": 0,
+      "contextLost": false
+    },
+    {
+      "route": "stationary",
+      "i": 1,
+      "drawCalls": 55,
+      "triangles": 2185016,
+      "glError": 0,
+      "contextLost": false
+    },
+    {
+      "route": "stationary",
+      "i": 2,
+      "drawCalls": 55,
+      "triangles": 2185016,
+      "glError": 0,
+      "contextLost": false
+    },
+    {
+      "route": "pan",
+      "i": 0,
+      "drawCalls": 55,
+      "triangles": 2185016,
+      "glError": 0,
+      "contextLost": false
+    },
+    {
+      "route": "pan",
+      "i": 1,
+      "drawCalls": 55,
+      "triangles": 2185016,
+      "glError": 0,
+      "contextLost": false
+    },
+    {
+      "route": "pan",
+      "i": 2,
+      "drawCalls": 55,
+      "triangles": 2185016,
+      "glError": 0,
+      "contextLost": false
+    }
+  ],
+  "route": {
+    "frames": 3,
+    "degrees": 0.3,
+    "x": -40,
+    "z": 0,
+    "hour": 12
+  },
+  "programSha256": "bf36d3c32f68a697f6a10a93a07d16236ee1e81efea94182d146a7a381089466",
+  "scope": "Isolated native forest foliage through real preset post/MSAA and water input path; tree wood and other drawables hidden after every update; frozen simulation and shader time; deterministic synthetic pan. Measures leaf-surface temporal residual including alpha edges and shading, not alpha-only attribution, full-scene appearance or hardware frame pacing.",
+  "metrics": {
+    "stationary": {
+      "schema": 1,
+      "roi": [
+        0.05,
+        0.05,
+        0.9,
+        0.9
+      ],
+      "nativeSize": [
+        640,
+        360
+      ],
+      "analyzedSize": [
+        576,
+        324
+      ],
+      "sourceAverageFps": 60,
+      "analysisFps": 60,
+      "nativeCadence": true,
+      "start": 0,
+      "decodedFrames": 3,
+      "truncated": true,
+      "interpretation": "motion/exposure-adjusted video residuals in the selected ROI; diagnostic only, no calibrated pass threshold",
+      "summary": {
+        "frames": 1,
+        "usableFrames": 1,
+        "shimmerMean": 0,
+        "shimmerFrameP95": 0,
+        "sparkleShare": 0,
+        "alignmentShare": 0.99375,
+        "peaks": [
+          {
+            "time": 0.017,
+            "validPixels": 181896,
+            "validShare": 0.99375,
+            "sparklePixels": 0,
+            "sparkleShare": 0,
+            "shimmerMean": 0,
+            "shimmerP95": 0,
+            "exposurePrevious": 0,
+            "exposureNext": 0
+          }
+        ]
+      },
+      "samples": [
+        {
+          "time": 0.017,
+          "validPixels": 181896,
+          "validShare": 0.99375,
+          "sparklePixels": 0,
+          "sparkleShare": 0,
+          "shimmerMean": 0,
+          "shimmerP95": 0,
+          "exposurePrevious": 0,
+          "exposureNext": 0
+        }
+      ]
+    },
+    "pan": {
+      "schema": 1,
+      "roi": [
+        0.05,
+        0.05,
+        0.9,
+        0.9
+      ],
+      "nativeSize": [
+        640,
+        360
+      ],
+      "analyzedSize": [
+        576,
+        324
+      ],
+      "sourceAverageFps": 60,
+      "analysisFps": 60,
+      "nativeCadence": true,
+      "start": 0,
+      "decodedFrames": 3,
+      "truncated": true,
+      "interpretation": "motion/exposure-adjusted video residuals in the selected ROI; diagnostic only, no calibrated pass threshold",
+      "summary": {
+        "frames": 1,
+        "usableFrames": 1,
+        "shimmerMean": 3.6633251855650775,
+        "shimmerFrameP95": 3.6633251855650775,
+        "sparkleShare": 0.019874488524192394,
+        "alignmentShare": 0.990701486013986,
+        "peaks": [
+          {
+            "time": 0.017,
+            "validPixels": 181338,
+            "validShare": 0.990701486013986,
+            "sparklePixels": 3604,
+            "sparkleShare": 0.019874488524192394,
+            "shimmerMean": 3.6633251855650775,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0
+          }
+        ]
+      },
+      "samples": [
+        {
+          "time": 0.017,
+          "validPixels": 181338,
+          "validShare": 0.990701486013986,
+          "sparklePixels": 3604,
+          "sparkleShare": 0.019874488524192394,
+          "shimmerMean": 3.6633251855650775,
+          "shimmerP95": 17,
+          "exposurePrevious": 0,
+          "exposureNext": 0
+        }
+      ]
+    }
+  },
+  "assertions": {
+    "stationaryIdentical": true,
+    "panChanges": true,
+    "stationaryZeroResidual": true,
+    "stationaryZeroSparkle": true,
+    "nativeSamples": true,
+    "minimumAlignment": true,
+    "completeCounts": true
+  },
+  "pass": true,
+  "qualityPass": null
+}
