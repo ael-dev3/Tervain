@@ -286,7 +286,8 @@ export class TileLayer {
       t.drawCount = drawCount;
       if (o.drawCountAt) t.geo.setDrawRange(0, drawCount);
       // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
-      if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
+      // Only tiles whose nearest point is inside the inner cutoff can lie wholly inside it.
+      if (o.band && (d > o.band.end || (d < o.band.start && this.farthest(t, cam) < o.band.start))) {
             t.geo.instanceCount = 0;
         t.mesh.visible = false;
         continue;
