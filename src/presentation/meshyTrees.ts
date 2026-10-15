@@ -395,6 +395,8 @@ export function meshyTreeId(species: Exclude<Species, 'pine'>, variant: number, 
 }
 export interface MeshyForest {
   variant(species: Exclude<Species, 'pine'>, seed: number, assetId?: string): TreeVariant;
+  /** The variant whose size and shape placement, spacing and colliders use: the supplied tree a generated one replaces. */
+  footprint(species: Exclude<Species, 'pine'>, seed: number, assetId?: string): TreeVariant;
   materialsFor(variant: TreeVariant): readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[];
   dispose(): void;
 }
@@ -403,7 +405,7 @@ export const CONIFER_LEAF_LIFT: Partial<Record<Species, THREE.Color>> = {
   fir: new THREE.Color(2.3, 2.45, 2.2), shorepine: new THREE.Color(2.3, 2.45, 2.2),
 };
 /**
- * The fir's attached leaf atlas (8Ã—8 cells) keeps a pale blue-green fern sheet in its top-right cell, unlike every other
+ * The fir's attached leaf atlas (8×8 cells) keeps a pale blue-green fern sheet in its top-right cell, unlike every other
  * cell's dark needles; near firs mapped about a thousand card vertices onto it and, once conifers were lit (0.0.16), it
  * read as a cyan patch in the crown (playtest 8). Those cards take the dense fir sprite two rows down instead.
  */
@@ -475,12 +477,10 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.needsUpdate = true;
     return material;
   };
-  let disposed = false;
-  return {
-    variant(species, seed, explicit) {
+    const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
-      const id = species === 'oak' && templates.has(HERO_OAK_ID) ? HERO_OAK_ID : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = species === 'oak' && !forceLive && templates.has(HERO_OAK_ID) ? HERO_OAK_ID : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
@@ -553,7 +553,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         ? sampleLeafSurfaceSites(lods[0].leaf, palette[0]!.leaf as THREE.MeshStandardMaterial) : [];
       const variant: TreeVariant = { species, assetId: id, leafSurfaceSites, height, crownRadius, trunkRadius, bark: species === 'fir' || species === 'shorepine' ? 'pine' : species === 'dead' ? 'dead' : 'oak', leafTexture: 'oak', crownTexture: 'crown', lods };
       variants.set(key, variant); palettes.set(key, palette); return variant;
-    },
+    };
+  let disposed = false;
+  return {
+    variant(species, seed, explicit) { return build(species, seed, explicit, false); },
+    // Swapping a model must not move or remove a tree: spacing, clearing guards, colliders and grounding read the footprint of the tree
+    // the generated oak replaces (its own model only changes how the tree looks).
+    footprint(species, seed, explicit) { return build(species, seed, explicit, true); },
     materialsFor(variant) { const found = palettes.get(`${variant.species}:${variant.assetId}`); if (!found) throw new Error('No owned materials for this tree.'); return found; },
     dispose() {
       if (disposed) return; disposed = true;
