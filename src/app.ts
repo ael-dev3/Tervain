@@ -858,7 +858,12 @@ export class App {
     const preset = presetPixelRatio(q, dpr);
     this.renderScale.floor = renderScaleFloor(preset);
     if (this.settings.dynamicResolution === false) this.renderScale.reset();
-    this.renderer.setPixelRatio(preset * Math.max(this.renderScale.floor, this.renderScale.scale));
+    // ?renderscale=0.75 fixes the multiplier (a debug aid for comparing stills); otherwise the dynamic scale decides.
+    const forced = Number(new URLSearchParams(location.search).get('renderscale'));
+    const scale = forced > 0 && forced <= 1 ? forced : Math.max(this.renderScale.floor, this.renderScale.scale);
+    this.renderer.setPixelRatio(preset * scale);
+    // ?sharpen=1 (off by default): a contrast-adaptive sharpen in the final pass while the drawing resolution is lowered.
+    this.grade.sharpen = new URLSearchParams(location.search).get('sharpen') === '1' && scale < 0.9 ? Math.min(1, (1 - scale) * 2) : 0;
     RENDER_PX.value = this.renderer.getPixelRatio();
   }
 
