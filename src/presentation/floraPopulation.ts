@@ -270,9 +270,14 @@ export function selectFloraPopulation(population: readonly FloraTree[], quality:
 }
 
 /** Add stable obstacles before graphics selection. Imported trees can supply a matching wood footprint. */
-export function registerFloraColliders(population: readonly FloraTree[], colliders: Pick<Colliders, 'circle'>, radiusFor: (tree: FloraTree) => number = (tree) => tree.radius): void {
+export function registerFloraColliders(population: readonly FloraTree[], colliders: Pick<Colliders, 'circle'>, radiusFor: (tree: FloraTree) => number = (tree) => tree.radius,
+  navigationRadiusFor?: (tree: FloraTree) => number): void {
   for (const tree of population) {
-    if (tree.collisionId && tree.radius > 0) colliders.circle(tree.collisionId, tree.x, tree.z, radiusFor(tree));
+    if (!tree.collisionId || tree.radius <= 0) continue;
+    const radius = radiusFor(tree);
+    if (navigationRadiusFor) colliders.circle(tree.collisionId, tree.x, tree.z, radius, true,
+      { navigationRadius: Math.max(radius, navigationRadiusFor(tree)) });
+    else colliders.circle(tree.collisionId, tree.x, tree.z, radius);
   }
 }
 // Keep trees beyond the playable realm, then fade only into dense distance haze.

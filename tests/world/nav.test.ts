@@ -14,3 +14,15 @@ describe('nav routes', () => {
     expect(nav.findPath({ x: .1, z: .1 }, { x: 2.1, z: .1 })).toEqual([{ x: 2.1, z: .1 }]);
   });
 });
+
+it('does not route or snap goals into a seated tree walking-height footprint', () => {
+  const colliders = new Colliders();
+  colliders.circle('tree:seated', 0, 0, .5, true, { navigationRadius: 8 });
+  const nav = new NavGrid({ nx: (WORLD.maxX - WORLD.minX) / WORLD.cell, nz: (WORLD.maxZ - WORLD.minZ) / WORLD.cell,
+    groundAt: () => 0, walkable: () => true } as unknown as Terrain, colliders);
+  const cell = nav.toCell(5, 1);
+  expect(colliders.blocked(5, 1, .55)).toBe(false);
+  expect(nav.isBlocked(cell.i, cell.j)).toBe(true);
+  expect(nav.nearestOpen(5, 1)).not.toEqual(cell);
+  expect(nav.findPath({ x: -15, z: 1 }, { x: 15, z: 1 })).not.toBeNull();
+});
