@@ -32,7 +32,7 @@ function obstacleHeight(c: Collider): number {
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
 /** The aim view (B11): boom length, shift to the screen's right and lift of the pivot, in metres. */
-export const AIM_VIEW = { boom: 2.6, right: 0.78, up: 0.3 };
+export const AIM_VIEW = { boom: 2.3, right: 1.0, up: 0.3 };
 
 export class CameraRig {
   readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
@@ -161,7 +161,7 @@ export class CameraRig {
 
     const aimTarget = this.aiming ? 1 : 0;
     this.aimBlend = !this.initialized || reducedMotion ? aimTarget
-      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 11));
+      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 20));
     if (Math.abs(this.aimBlend - aimTarget) < 1e-3) this.aimBlend = aimTarget;
     const aimEase = this.aimBlend * this.aimBlend * (3 - 2 * this.aimBlend);
     const boomDistance = this.wantDist + (AIM_VIEW.boom - this.wantDist) * aimEase + RIDE_CAMERA.back * this.rideBlend;

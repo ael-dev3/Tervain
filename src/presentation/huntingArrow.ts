@@ -24,9 +24,9 @@ export function createHuntingArrow(): THREE.Group {
   arrow.traverse((object) => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = true; });
   // A faint streak behind the fletching while the arrow flies fast (B11). It is always part of the arrow, at no length on
   // the string, so its program is linked with the nocked arrow's and the first loose compiles nothing.
-  const trailGeometry = new THREE.CylinderGeometry(.0035, .0005, 1, 4, 1, true);
+  const trailGeometry = new THREE.CylinderGeometry(.011, .0008, 1, 6, 1, true);
   trailGeometry.rotateX(-Math.PI / 2); trailGeometry.translate(0, 0, -.5);
-  const trail = new THREE.Mesh(trailGeometry, new THREE.MeshBasicMaterial({ color: 0xe9dfc8, transparent: true, opacity: .32, depthWrite: false }));
+  const trail = new THREE.Mesh(trailGeometry, new THREE.MeshBasicMaterial({ color: 0xe9dfc8, transparent: true, opacity: .6, depthWrite: false }));
   trail.name = ARROW_TRAIL;
   trail.position.z = -.68;
   trail.scale.set(1, 1, 1e-4);
@@ -187,9 +187,9 @@ export class HuntingArrows {
       else if (shot.age >= 7) { this.remove(shot.mesh); this.flights.splice(i, 1); }
       else {
         shot.mesh.position.copy(shot.position); this.orient(shot.mesh, shot.velocity);
-        // Up to ~1.6 m behind a full-speed arrow, nothing once it slows, never longer than the path it has flown.
+        // Up to ~3 m behind a full-speed arrow, nothing once it slows, never longer than the path it has flown.
         const speed = shot.velocity.length();
-        setTrail(shot.mesh, shot.wet ? 0 : Math.min(shot.age * speed, Math.max(0, speed - 15) * .032));
+        setTrail(shot.mesh, shot.wet ? 0 : Math.min(shot.age * speed, Math.max(0, speed - 15) * .06));
       }
     }
   }
