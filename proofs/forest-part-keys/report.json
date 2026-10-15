@@ -1,0 +1,34 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "batches": 20,
+      "refreshes": 120,
+      "partKeyListConstructions": 7946,
+      "nativeControlMatches": true,
+      "statesSha256": "eafba06b5ff2e60c1f22fde55adcfc3c4ed755de2f768a883f9b2a03f824ac17",
+      "drawCalls": 255,
+      "triangles": 1313876,
+      "textureCount": 180,
+      "bufferUploadBytes": 0
+    },
+    "after": {
+      "batches": 20,
+      "refreshes": 120,
+      "partKeyListConstructions": 0,
+      "nativeControlMatches": true,
+      "statesSha256": "eafba06b5ff2e60c1f22fde55adcfc3c4ed755de2f768a883f9b2a03f824ac17",
+      "drawCalls": 255,
+      "triangles": 1313876,
+      "textureCount": 180,
+      "bufferUploadBytes": 0
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "f17ce8bcde83651373b4e556def9394693f134a308f7e8efd7f8b385335281e3",
+  "scope": "Actual baseline/candidate forest refresh block, including its original packing and upload helpers, executed on native published forest batches and camera path. Only wood/leaf key-list literals instrumented to count constructions. Counts are source-level temporary lists, not measured heap bytes or GC pauses. 120 turning/walking refreshes; active matrices/colors/coverage/counts/visibility/bounds/statistics compared each update, plus native Grade/post final pixels. Low-quality color path; no hardware timing or shadow-pass performance claim.",
+  "pass": true
+}
