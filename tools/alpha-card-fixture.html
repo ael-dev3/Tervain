@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0}canvas{display:block}</style></head><body><script type="module">
+import * as THREE from 'three';
+import {auditCanopies} from '/src/diagnostics/canopyAudit.ts';
+import {alphaCardGeometry} from '/src/diagnostics/alphaCardGeometry.ts';
+const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(512,256);document.body.append(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xffffff);
+const camera=new THREE.OrthographicCamera(-.8,4.8,2.4,-.4,.1,20);camera.position.set(0,0,5);camera.lookAt(0,0,0);
+const wood=new THREE.BoxGeometry(.4,2,.4).translate(0,1,0),card=new THREE.PlaneGeometry(4,.5).translate(2,1,.21);
+scene.add(new THREE.Mesh(wood,new THREE.MeshBasicMaterial({color:0x666666})));
+const alpha=new Uint8Array(16);alpha.fill(255,0,2);alpha.fill(255,13);
+const pixels=new Uint8Array(64);for(let i=0;i<16;i++)pixels.set([32,110,45,alpha[i]],i*4);
+const texture=new THREE.DataTexture(pixels,16,1);texture.magFilter=texture.minFilter=THREE.NearestFilter;texture.needsUpdate=true;
+scene.add(new THREE.Mesh(card,new THREE.MeshBasicMaterial({map:texture,alphaTest:.42,side:THREE.DoubleSide})));
+const target=leaves=>[{label:'transparent-card-fixture',wood,leaves,matrix:new THREE.Matrix4()}];
+const before=auditCanopies(target(card)),clipped=alphaCardGeometry(card,{width:16,height:1,alpha,cutoff:.42}),visible=auditCanopies(target(clipped.geometry));
+const restored=alphaCardGeometry(card,{width:16,height:1,alpha:new Uint8Array(16).fill(255),cutoff:.42});
+const restoredAudit=auditCanopies(target(restored.geometry));renderer.render(scene,camera);
+window.alphaCardRepro={report:{schema:1,before:before.summary,alphaAware:visible.summary,restored:restoredAudit.summary,cells:clipped.cells,visibleTriangles:clipped.triangles,pass:before.summary.candidates===0&&visible.summary.candidates===1&&restoredAudit.summary.candidates===0,scope:'Controlled nearest-filter base-mip card. Transparent geometry connects a wood-supported region to a visible detached island; no real-tree visual verdict.'},restore(){for(let i=0;i<16;i++)pixels[i*4+3]=255;texture.needsUpdate=true;renderer.render(scene,camera);}};
+</script></body></html>
