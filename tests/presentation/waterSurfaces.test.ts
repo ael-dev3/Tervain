@@ -227,3 +227,20 @@ describe('arrows and water', () => {
     } finally { arrows.dispose(); }
   });
 });
+
+
+describe('spray first-view preparation',()=>{
+  it.each([false,true])('submits one invisible pool slot and restores empty state (draw throws=%s)',throws=>{
+    const spray=new Splashes(),g=spray.points.geometry,versions=Object.values(g.attributes).map(a=>(a as THREE.BufferAttribute).version),positions=Array.from(g.attributes.position!.array);
+    const draw=vi.fn(()=>{expect(spray.points.visible).toBe(true);expect(g.drawRange).toEqual({start:0,count:1});expect(g.attributes.aSize!.getX(0)).toBe(0);expect(g.attributes.aFade!.getX(0)).toBe(0);if(throws)throw Error('draw failed');});
+    try{
+      if(throws)expect(()=>spray.prepareFirstDraw(draw)).toThrow('draw failed');else spray.prepareFirstDraw(draw);
+      expect(draw).toHaveBeenCalledOnce();expect(spray.points.visible).toBe(false);expect(g.drawRange).toEqual({start:0,count:0});expect(spray.active).toBe(0);
+      expect(Object.values(g.attributes).map(a=>(a as THREE.BufferAttribute).version)).toEqual(versions);expect(Array.from(g.attributes.position!.array)).toEqual(positions);
+    }finally{spray.dispose();}
+  });
+  it('leaves an already-active pool unchanged during preparation',()=>{
+    const spray=new Splashes();spray.emit(0,1,0,24,2);spray.update(1/60);const range={...spray.points.geometry.drawRange};
+    try{const draw=vi.fn(()=>{expect(spray.points.geometry.drawRange).toEqual(range);expect(spray.points.visible).toBe(true);expect(spray.active).toBe(24);});spray.prepareFirstDraw(draw);expect(draw).toHaveBeenCalledOnce();expect(spray.points.geometry.drawRange).toEqual(range);}finally{spray.dispose();}
+  });
+});

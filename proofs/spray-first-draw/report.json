@@ -1,0 +1,89 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "prep": {
+        "bufferDataCalls": 0,
+        "bufferDataBytes": 0,
+        "subDataBytes": 0,
+        "links": 0,
+        "vaos": 0,
+        "draws": 121,
+        "points": 1600,
+        "glError": 0
+      },
+      "first": {
+        "bufferDataCalls": 3,
+        "bufferDataBytes": 9600,
+        "subDataBytes": 0,
+        "links": 0,
+        "vaos": 1,
+        "draws": 122,
+        "points": 1624,
+        "glError": 0
+      },
+      "repeat": {
+        "bufferDataCalls": 0,
+        "bufferDataBytes": 0,
+        "subDataBytes": 0,
+        "links": 0,
+        "vaos": 0,
+        "draws": 122,
+        "points": 1624,
+        "glError": 0
+      },
+      "restored": true,
+      "emittedStateSha256": "1e35832e488af52cb0cb178936dc6196de9e5df3144e252a67e7747b93fde44c"
+    },
+    "after": {
+      "prep": {
+        "bufferDataCalls": 3,
+        "bufferDataBytes": 9600,
+        "subDataBytes": 0,
+        "links": 0,
+        "vaos": 1,
+        "draws": 122,
+        "points": 1601,
+        "glError": 0
+      },
+      "first": {
+        "bufferDataCalls": 0,
+        "bufferDataBytes": 0,
+        "subDataBytes": 9600,
+        "links": 0,
+        "vaos": 0,
+        "draws": 122,
+        "points": 1624,
+        "glError": 0
+      },
+      "repeat": {
+        "bufferDataCalls": 0,
+        "bufferDataBytes": 0,
+        "subDataBytes": 0,
+        "links": 0,
+        "vaos": 0,
+        "draws": 122,
+        "points": 1624,
+        "glError": 0
+      },
+      "restored": true,
+      "emittedStateSha256": "1e35832e488af52cb0cb178936dc6196de9e5df3144e252a67e7747b93fde44c"
+    }
+  },
+  "identicalPixels": {
+    "empty": true,
+    "splash": true
+  },
+  "splashChangedPixels": {
+    "before": 274,
+    "after": 274
+  },
+  "emittedStateIdentical": true,
+  "sourceSha256": "78a179fbc05a1c7733c9d2a47ea2ccdccdbef70fa4cf058e867cd4354c0809f7",
+  "appSourceSha256": "50a50d5c1ec9bbec80dfedb0b3d9c986a7f45c7b9347e190714afa6073b842f4",
+  "scope": "Two fresh native spray pools in the published Low-preset world, actual native shader/renderer/Grade path and deterministic 24-drop emission. Candidate borrows actual prepareFirstDraw method before emission; native already-compiled program cache is shared. Counts establish cold buffer/layout preparation only, not shader-link reduction, hardware timings, full candidate startup, or resolution of the mud hitch.",
+  "pass": true
+}
