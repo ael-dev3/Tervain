@@ -51,6 +51,10 @@ export class WaterRenderPass {
   private reflectionCameraRotation = new THREE.Quaternion();
   private currentCameraPosition = new THREE.Vector3();
   private currentCameraRotation = new THREE.Quaternion();
+  private readonly meshMasks: number[] = [];
+  private readonly overlayMasks: number[] = [];
+  private readonly reflectionVisible: boolean[] = [];
+  private readonly reflectionShown: boolean[] = [];
   private reflectionProjection = new THREE.Matrix4();
   private inverseReflectionWorld = new THREE.Matrix4();
   private visibilityFrustum = new THREE.Frustum();
@@ -225,8 +229,10 @@ export class WaterRenderPass {
     // Stationary scene animation keeps the bounded refresh cadence, including
     // a frozen valid image for Reduced Motion. Camera movement never waits.
     if (!this.reflectionValid || moved || this.reflectionAge >= interval && (lightingChanged || !input.reducedMotion)) {
-      const visible = input.meshes.map(mesh => mesh.visible);
-      const unreflected = input.unreflected ?? [], shown = unreflected.map(object => object.visible);
+      const visible = this.reflectionVisible; visible.length = input.meshes.length;
+      for (let i = 0; i < input.meshes.length; i++) visible[i] = input.meshes[i]!.visible;
+      const unreflected = input.unreflected ?? [], shown = this.reflectionShown; shown.length = unreflected.length;
+      for (let i = 0; i < unreflected.length; i++) shown[i] = unreflected[i]!.visible;
       let restoreDetail: (() => void) | null = null, hiddenDetail: THREE.Object3D[] = [];
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
       const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;
@@ -292,8 +298,10 @@ export class WaterRenderPass {
     this.prepare(source);
     this.gather(scene, dt);
     const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
-    const oldMask = camera.layers.mask, meshMasks = input.meshes.map(mesh => mesh.layers.mask);
-    const overlays = input.overlays ?? [], overlayMasks = overlays.map(o => o.layers.mask);
+    const oldMask = camera.layers.mask, meshMasks = this.meshMasks; meshMasks.length = input.meshes.length;
+    for (let i = 0; i < input.meshes.length; i++) meshMasks[i] = input.meshes[i]!.layers.mask;
+    const overlays = input.overlays ?? [], overlayMasks = this.overlayMasks; overlayMasks.length = overlays.length;
+    for (let i = 0; i < overlays.length; i++) overlayMasks[i] = overlays[i]!.layers.mask;
     try {
       camera.updateMatrixWorld();
       this.captureReflection(renderer, scene, camera, source, dt, input);

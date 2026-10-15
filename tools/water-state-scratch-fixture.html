@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><title>Water state allocation replay</title><style>body{margin:0}canvas{display:block}</style>
+<script type="module">
+import * as THREE from 'three';
+import {WaterRenderPass as Before} from '/src/presentation/__baseline-state.ts';
+import {WaterRenderPass as After} from '/src/presentation/waterRenderPass.ts';
+import {makeWaterOpticsUniforms,detachWaterOptics} from '/src/presentation/waterOptics.ts';
+try {
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(320,180);renderer.info.autoReset=false;document.body.append(renderer.domElement);
+ const displayScene=new THREE.Scene(),displayCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1),displayMaterial=new THREE.MeshBasicMaterial({depthTest:false,depthWrite:false});displayScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),displayMaterial));
+ const run=Pass=>{
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x8a9ba3);const camera=new THREE.PerspectiveCamera(55,320/180,.1,100);camera.layers.enable(5);
+  const source=new THREE.WebGLRenderTarget(320,180,{depthTexture:new THREE.DepthTexture(320,180,THREE.UnsignedIntType)}),pass=new Pass();
+  const shader=()=>new THREE.ShaderMaterial({uniforms:makeWaterOpticsUniforms(),side:THREE.DoubleSide,
+   vertexShader:'varying vec3 vWorld;void main(){vec4 p=modelMatrix*vec4(position,1.);vWorld=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
+   fragmentShader:'varying vec3 vWorld;uniform float uWaterCapture,uWaterReflectionReady;uniform vec2 uWaterResolution;uniform sampler2D tWaterColor,tWaterReflection;uniform mat4 uWaterReflectionMatrix;void main(){vec3 c=vec3(.08,.26,.31);if(uWaterCapture>.5){c=mix(texture2D(tWaterColor,gl_FragCoord.xy/uWaterResolution).rgb,c,.65);if(uWaterReflectionReady>0.)c=mix(c,texture2DProj(tWaterReflection,uWaterReflectionMatrix*vec4(vWorld,1.)).rgb,.25);}gl_FragColor=vec4(c,1.);}'});
+  const sea=new THREE.Mesh(new THREE.PlaneGeometry(18,18),shader());sea.name='sea';sea.rotation.x=-Math.PI/2;scene.add(sea);
+  const stream=new THREE.Mesh(new THREE.PlaneGeometry(2,2),shader());stream.rotation.x=-Math.PI/2;stream.position.set(1,.03,-1);stream.layers.enable(6);scene.add(stream);
+  const cube=(color,x,y,z,size=1)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(size,size,size),new THREE.MeshBasicMaterial({color}));o.position.set(x,y,z);scene.add(o);return o;};
+  cube(0x78523a,-1,.8,-1,1.6);const omitted=cube(0x5d8b44,1,.5,-2),hidden=cube(0xa55288,2,.5,-2);hidden.visible=false;
+  const overlay=cube(0xc89942,.4,.3,.2,.3);overlay.layers.enable(5);
+  let maps=0;const tracked=a=>{Object.defineProperty(a,'map',{value:function(...args){maps++;return Array.prototype.map.apply(this,args);}});return a;};
+  const input={meshes:tracked([sea,stream]),seaMaterial:sea.material,overlays:tracked([overlay]),unreflected:tracked([omitted,hidden]),quality:'high',enabled:true,reducedMotion:false};
+  const frames=[],images=[];let statePass=true;
+  for(let i=0;i<24;i++){
+   if(i===8){input.overlays.push(hidden);input.unreflected.push(overlay);}if(i===16){input.overlays.length=1;input.unreflected.length=1;}
+   const masks=Array.from(input.meshes,m=>m.layers.mask),overlayMasks=Array.from(input.overlays,m=>m.layers.mask),shown=Array.from(input.unreflected,o=>o.visible),oldMask=camera.layers.mask;
+   camera.position.set(.2+i*.01,2.3,4);camera.lookAt(0,.3,-1);camera.updateMatrixWorld();scene.updateMatrixWorld(true);renderer.info.reset();
+   pass.render(renderer,scene,camera,source,1/60,input);frames.push({draws:renderer.info.render.calls,triangles:renderer.info.render.triangles});
+   statePass&&=camera.layers.mask===oldMask&&input.meshes.every((m,j)=>m.layers.mask===masks[j])&&input.overlays.every((m,j)=>m.layers.mask===overlayMasks[j])&&input.unreflected.every((o,j)=>o.visible===shown[j])&&renderer.getRenderTarget()===null;
+   if(i===0||i===12||i===23){displayMaterial.map=pass.composite.texture;displayMaterial.needsUpdate=true;renderer.setRenderTarget(null);renderer.render(displayScene,displayCamera);images.push(renderer.domElement.toDataURL());}
+  }
+  const glError=renderer.getContext().getError(),contextLost=renderer.getContext().isContextLost();
+  for(const m of input.meshes)detachWaterOptics(m.material);pass.dispose();source.dispose();scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});
+  return{frames:24,snapshotMapAllocations:maps,statePass,renderFrames:frames,glError,contextLost,images};
+ };
+ const before=run(Before),after=run(After);window.waterStateProof={before,after};
+}catch(e){window.waterStateError=String(e?.stack??e);}
+</script>

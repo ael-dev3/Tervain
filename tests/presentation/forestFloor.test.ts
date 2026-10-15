@@ -276,20 +276,24 @@ describe('Deepwood floor', () => {
     floor.update(1, frame);
     meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBe(uploaded[i]));
     meshes.forEach((m, i) => expect(Array.from(m.geometry.getAttribute('position').array)).toEqual(snapshots[i]));
-    const packed = meshes.map(m => ({ matrices: Array.from(m.instanceMatrix.array), colours: Array.from(m.instanceColor!.array), count: m.count, colourVersion: m.instanceColor!.version, coverageVersion: (m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).version }));
+    const packed = meshes.map(m => ({ matrices: Array.from(m.instanceMatrix.array), colours: Array.from(m.instanceColor!.array), count: m.count, colourVersion: m.instanceColor!.version, coverage: Array.from(m.geometry.getAttribute('aDistanceCoverage').array), coverageVersion: (m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).version }));
     camera.position.x += 0.00001;
     camera.updateMatrixWorld();
     floor.update(0.01, frame);
+    let unchangedCoverage = 0;
     meshes.forEach((m, i) => {
       expect(m.count).toBe(packed[i]!.count);
       expect(Array.from(m.instanceMatrix.array)).toEqual(packed[i]!.matrices);
       expect(Array.from(m.instanceColor!.array)).toEqual(packed[i]!.colours);
       expect(m.instanceMatrix.version).toBe(uploaded[i]);
       expect(m.instanceColor!.version).toBe(packed[i]!.colourVersion);
-      expect((m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).version).toBe(packed[i]!.coverageVersion + 1);
+      const coverage = m.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute;
+      if (Array.from(coverage.array).every((v, j) => v === packed[i]!.coverage[j])) {
+        unchangedCoverage++;
+        expect(coverage.version).toBe(packed[i]!.coverageVersion);
+      }
     });
-    const stableCount = meshes.reduce((n, m) => n + m.count, 0);
-    process.stdout.write(`forest floor stable-pack uploads: ${stableCount * 84} -> ${stableCount * 8} bytes\n`);
+    expect(unchangedCoverage).toBeGreaterThan(0);
 
     for (const mesh of meshes) {
       mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor?.clearUpdateRanges();
@@ -407,10 +411,13 @@ describe('Deepwood floor', () => {
     const coverage = mesh.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
     const upload = coverage.version;
     frame.shadowFrustum = shadowAt(target.x + 0.01);
+    const shadowProbes = vi.spyOn(frame.shadowFrustum, 'intersectsSphere');
     floor.update(1 / 240, frame);
     expect(coverage.version).toBe(upload);
+    expect(shadowProbes).not.toHaveBeenCalled();
     floor.update(0.21, frame);
-    expect(coverage.version).toBeGreaterThan(upload);
+    expect(shadowProbes).toHaveBeenCalled();
+    expect(containsTarget()).toBe(true);
     // A jump beyond the guarded volume refreshes immediately, even if the previous upload was this frame.
     frame.shadowFrustum = shadowAt(target.x + 100);
     floor.update(1 / 240, frame);

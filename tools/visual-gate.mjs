@@ -57,6 +57,10 @@ const SPOTS = {
   door_out: { item: 'Camera: walking out through the inn door', hero: [-4.74, 31, 0], still: [], run: 5200, keys: ['KeyW'] },
   door_in_dusk: { item: 'Camera: walking in through the inn door at dusk', hero: [-4.74, 39, Math.PI], hour: 19.5, still: [], run: 5600, keys: ['KeyW'] },
   door_out_dusk: { item: 'Camera: walking out through the inn door at dusk', hero: [-4.74, 31, 0], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
+  door_bakery_out: { item: 'Camera: walking out through the bakery door', hero: [14.7, 16.88, -0.54], still: [], run: 5200, keys: ['KeyW'] },
+  door_bakery_out_dusk: { item: 'Camera: walking out through the bakery door at dusk', hero: [14.7, 16.88, -0.54], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
+  door_house_e_out: { item: 'Camera: walking out through the house_e door', hero: [24.73, 29.21, -0.259], still: [], run: 5200, keys: ['KeyW'] },
+  door_house_e_out_dusk: { item: 'Camera: walking out through the house_e door at dusk', hero: [24.73, 29.21, -0.259], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
   // B11: the bow's feel. Over the shoulder at the grove's edge: raise, draw, hold, loose into the trunks, twice, the
   // follow camera behind him (`shoot`), with a still at full draw.
   bow: { item: 'Combat: drawing and loosing the bow', hero: [-31, 0, -Math.PI / 2], still: [], shoot: 2 },

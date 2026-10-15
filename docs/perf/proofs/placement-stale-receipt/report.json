@@ -1,0 +1,60 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "e4b9200d26af003c7530eeb9693abf273bb84330e7411b0fe46bc4cc8b77863b",
+  "scope": "Actual Node CLI, injected deterministic CDP failures; verifies artifact lifecycle, not live rendering or placement.",
+  "before": [
+    {
+      "failure": "open",
+      "exitCode": 1,
+      "staleReceiptRemains": true
+    },
+    {
+      "failure": "unsupported",
+      "exitCode": 1,
+      "staleReceiptRemains": true
+    },
+    {
+      "failure": "query",
+      "exitCode": 1,
+      "staleReceiptRemains": true
+    },
+    {
+      "failure": "timeout",
+      "exitCode": 1,
+      "staleReceiptRemains": true
+    },
+    {
+      "failure": "invalid",
+      "exitCode": 1,
+      "staleReceiptRemains": true
+    }
+  ],
+  "after": [
+    {
+      "failure": "open",
+      "exitCode": 1,
+      "staleReceiptRemains": false
+    },
+    {
+      "failure": "unsupported",
+      "exitCode": 1,
+      "staleReceiptRemains": false
+    },
+    {
+      "failure": "query",
+      "exitCode": 1,
+      "staleReceiptRemains": false
+    },
+    {
+      "failure": "timeout",
+      "exitCode": 1,
+      "staleReceiptRemains": false
+    },
+    {
+      "failure": "invalid",
+      "exitCode": 1,
+      "staleReceiptRemains": false
+    }
+  ],
+  "pass": true
+}

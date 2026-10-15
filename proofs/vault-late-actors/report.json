@@ -1,0 +1,43 @@
+{
+  "baseline": "dcd87c21d642eeb9400e2fc96efd73c1fa684a36",
+  "candidateSourceSha256": "524b85f01d3003e76cce4a11562d63a8c7f05ee7c7f24d5398ac6b5210995505",
+  "productionSourceSha256": "524b85f01d3003e76cce4a11562d63a8c7f05ee7c7f24d5398ac6b5210995505",
+  "before": {
+    "diagnosticRender": {
+      "drawCalls": 3,
+      "triangles": 0,
+      "lines": 1860,
+      "textures": 0,
+      "uploadBytes": 21236
+    },
+    "nativeHero": true,
+    "cases": 2592,
+    "penetratingCases": 648,
+    "worstPenetration": -0.75,
+    "blockedAborts": 0,
+    "clearAborts": 0,
+    "glError": 0,
+    "scope": "Delivered hero/controller and ordinary actor collision volumes, inserted after takeoff outside the current player body. Controlled contact replay; wireframe diagnostic image, not visual approval or hardware timing.",
+    "caseRowsSha256": "7e97fefd4df6f3672c617d11201aced1360d8c86d0b3451b5f5e574f5ead418b"
+  },
+  "after": {
+    "diagnosticRender": {
+      "drawCalls": 3,
+      "triangles": 0,
+      "lines": 1860,
+      "textures": 0,
+      "uploadBytes": 21236
+    },
+    "nativeHero": true,
+    "cases": 2592,
+    "penetratingCases": 0,
+    "worstPenetration": 0,
+    "blockedAborts": 648,
+    "clearAborts": 0,
+    "glError": 0,
+    "scope": "Delivered hero/controller and ordinary actor collision volumes, inserted after takeoff outside the current player body. Controlled contact replay; wireframe diagnostic image, not visual approval or hardware timing.",
+    "caseRowsSha256": "ff58f66dd9dddf251f461d228e893f151105cb1416867dbd9c911338ee25fb2f"
+  },
+  "clearTrajectoriesIdentical": true,
+  "pass": true
+}

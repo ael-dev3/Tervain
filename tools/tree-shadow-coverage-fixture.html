@@ -1,0 +1,43 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {PINE_FILES} from '/src/presentation/solitaryPine.ts';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {buildFlora as current} from '/src/presentation/flora.ts';
+import {buildFlora as baseline} from '/@baseline-flora';
+import {Terrain} from '/src/world/terrain.ts';
+import {Colliders} from '/src/world/colliders.ts';
+import {Exclusions} from '/src/presentation/vegetation.ts';
+import {AssetLibrary} from '/src/presentation/assets/library.ts';
+import {defaultSettings} from '/src/platform/settings.ts';
+import {createFoliageField} from '/src/presentation/foliage/foliageWind.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+import {REALM_WIND} from '/src/presentation/realmWind.ts';
+import {installShadowOnlyGroup} from '/src/presentation/foliage/shadowCasters.ts';
+import {worldView} from '/src/game/worldView.ts';
+import {createInitialState} from '/src/game/state.ts';
+try {
+  const build = new URLSearchParams(location.search).get('mode') === 'baseline' ? baseline : current;
+  const terrain = new Terrain(), wind = new GrassWind(REALM_WIND);
+  const templates=await Promise.all(PINE_FILES.map(file=>createGltfLoader().loadAsync('/models/flora/'+file)));
+  const forest = build({terrain, excl:new Exclusions(terrain), colliders:new Colliders(), quality:'high', settings:defaultSettings(), library:AssetLibrary.empty(), sway:{uTime:{value:0},uWind:{value:0}},foliage:createFoliageField(wind)},templates);
+  const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(320,240);document.body.append(renderer.domElement);
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x738397);scene.add(forest.group,new THREE.HemisphereLight(0xffffff,0x454545,2));
+  const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(50,120,80);sun.target.position.set(18,0,20);sun.castShadow=true;sun.shadow.mapSize.set(128,128);Object.assign(sun.shadow.camera,{left:-150,right:150,top:150,bottom:-150,near:.1,far:500});sun.shadow.camera.updateProjectionMatrix();scene.add(sun,sun.target);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;installShadowOnlyGroup(scene,sun,forest.shadowCasters);sun.updateMatrixWorld();sun.target.updateMatrixWorld();sun.shadow.updateMatrices(sun);
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(300,300),new THREE.MeshStandardMaterial({color:0x817568}));ground.rotation.x=-Math.PI/2;ground.position.set(18,terrain.heightAt(18,20)-.3,20);ground.receiveShadow=true;scene.add(ground);
+  const camera=new THREE.PerspectiveCamera(58,4/3,.1,1400),x=18,z=20,y=terrain.heightAt(x,z);
+  camera.position.set(x,y+3,z+12);camera.lookAt(x,y+6,z);camera.updateMatrixWorld();
+  const frame={camera,quality:'high',time:1,focus:camera.position.clone(),nightness:0,sunDir:new THREE.Vector3(0,1,0),reducedMotion:true,hour:11,view:worldView(createInitialState()),shadowFrustum:sun.shadow.getFrustum(),shadowsForViewOnly:false};
+  const meshes=forest.shadowCasters.children.filter(m=>m.isInstancedMesh&&m.geometry.hasAttribute('aDistanceCoverage'));
+  const arrays=new Set(meshes.map(m=>m.geometry.getAttribute('aDistanceCoverage').array)),gl=renderer.getContext();let coverageBytes=0;
+  for(const name of ['bufferData','bufferSubData']){const old=gl[name];gl[name]=function(...a){const data=name==='bufferData'?a[1]:a[2];if(arrays.has(data)){const start=name==='bufferSubData'?(a[3]??0):0,count=name==='bufferSubData'?(a[4]||data.length-start):data.length;coverageBytes+=count*data.BYTES_PER_ELEMENT;}return old.apply(this,a);};}
+  forest.update(0,frame);renderer.render(scene,camera);
+  const rows=[],states=[],receiverFrames=[];
+  const words=(a,n)=>Array.from(new Uint32Array(a.array.buffer,a.array.byteOffset,n));
+  const step=phase=>{const previous=meshes.map(m=>{const a=m.geometry.getAttribute('aDistanceCoverage');return{count:m.count,version:a.version,bits:words(a,m.count*2)};});coverageBytes=0;forest.update(0,frame);renderer.render(scene,camera);let unchanged=0,unnecessaryVersions=0;meshes.forEach((m,i)=>{const a=m.geometry.getAttribute('aDistanceCoverage'),p=previous[i];if(m.count>0&&m.count===p.count&&JSON.stringify(words(a,m.count*2))===JSON.stringify(p.bits)){unchanged++;unnecessaryVersions+=a.version-p.version;}});rows.push({phase,coverageUploadBytes:coverageBytes,unchanged,unnecessaryVersions,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:gl.getError()});states.push(meshes.map(m=>({name:m.name,count:m.count,coverage:words(m.geometry.getAttribute('aDistanceCoverage'),m.count*2),matrices:words(m.instanceMatrix,m.count*16)})));receiverFrames.push(renderer.domElement.toDataURL('image/png'));};
+  for(let i=0;i<5;i++){camera.rotation.y+=.006;camera.updateMatrix();camera.updateMatrixWorld(true);step('pan');}
+  // Save the pan image before the blend-band controls move the camera.
+  const panImage=renderer.domElement.toDataURL('image/png');
+  const target=forest.canopyAuditTargets(0).find(t=>t.species==='pine'&&frame.shadowFrustum.containsPoint(new THREE.Vector3().setFromMatrixPosition(t.matrix)));if(!target)throw Error('No conifer inside fixture shadow volume');const p=new THREE.Vector3().setFromMatrixPosition(target.matrix);camera.position.set(p.x+14,p.y+3,p.z);camera.lookAt(p.clone().add(new THREE.Vector3(0,5,0)));camera.updateMatrix();camera.updateMatrixWorld(true);step('blend-entry');camera.position.x+=.1;camera.updateMatrix();camera.updateMatrixWorld(true);step('blend-move');
+  window.shadowCoverageProof={rows,states,receiverFrames,panImage,pass:rows.every(r=>r.glError===0)&&rows.slice(0,5).every(r=>r.unchanged>0)&&rows.at(-1).coverageUploadBytes>0};
+} catch(error){window.fixtureError=error.stack??String(error);}
+</script></body></html>

@@ -1,0 +1,16 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "target": "tree:wild:54:3",
+  "accepted": true,
+  "pool": 48,
+  "active": 4,
+  "drawn": 4,
+  "frames": 120,
+  "matrixWrites": 5760,
+  "versionDelta": 120,
+  "rawMatrixBitsIdentical": true
+}

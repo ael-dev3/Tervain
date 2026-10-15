@@ -208,12 +208,17 @@ export function buildFallingLeaves(
       : colour.setRGB(0.91 + (tint - 0.5) * 0.1, 0.84 - (tint - 0.5) * 0.5, 0.45 - (tint - 0.5) * 0.3));
   }
   let clock = 0, visible = 0, disposed = false;
+  let lastClock = NaN, lastEyeX = NaN, lastEyeZ = NaN;
   return {
     group,
     update(dt, frame) {
       if (disposed) return;
       if (!frame.reducedMotion && Number.isFinite(dt) && dt > 0 && Number.isFinite(clock + dt)) clock += dt;
+      const eye = frame.camera.position;
+      // Leaf poses depend on this clock; coverage depends only on horizontal eye distance.
+      if (clock === lastClock && eye.x === lastEyeX && eye.z === lastEyeZ) return;
       visible = 0;
+      let drawCount = 0, uploadStart = streams.length;
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i]!, age = (clock + stream.phase) % stream.cycle;
         airbornePosition(stream, age, temporary);
@@ -224,7 +229,12 @@ export function buildFallingLeaves(
         alpha.setX(i, coverage);
         if (coverage > 0.001) {
           visible++;
+          uploadStart = Math.min(uploadStart, i);
+          drawCount = i + 1;
         }
+        // Hidden poses still initialize the renderer's cached transparent-sort sphere. Once it exists,
+        // discarded instances need no pose until they re-enter coverage; opacity is always current.
+        if (coverage <= 0.001 && mesh.boundingSphere !== null) continue;
         const landed = smoothstep(stream.contactTime - 0.25, stream.contactTime + 0.6, age);
         euler.set((0.5 + Math.sin(age * 1.1 + stream.flutter) * 0.38) * (1 - landed) + Math.PI / 2 * landed,
           stream.yaw + age * 0.29, Math.sin(age * 0.8 + stream.flutter) * 0.5 * (1 - landed));
@@ -253,10 +263,19 @@ export function buildFallingLeaves(
       // Below the discard cutoff the whole batch is empty. Keep it out of render lists;
       // the latest opacity and matrices are uploaded as soon as any leaf is visible again.
       mesh.visible = visible > 0;
-      if (visible > 0) mesh.instanceMatrix.needsUpdate = true;
+      mesh.count = drawCount;
+      if (visible > 0) {
+        mesh.instanceMatrix.clearUpdateRanges();
+        // Leading discarded slots need no fresh pose on the GPU; opacity still clears the full drawn prefix.
+        mesh.instanceMatrix.addUpdateRange(uploadStart * 16, (drawCount - uploadStart) * 16);
+        mesh.instanceMatrix.needsUpdate = true;
+        alpha.clearUpdateRanges();
+        alpha.addUpdateRange(0, drawCount);
+      }
       alpha.needsUpdate = true;
+      lastClock = clock; lastEyeX = eye.x; lastEyeZ = eye.z;
     },
-    stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10 }),
+    stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10, fallingLeafDrawnTris: mesh.count * 10 }),
     dispose() {
       if (disposed) return;
       disposed = true;

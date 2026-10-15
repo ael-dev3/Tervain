@@ -1,3 +1,4 @@
+import { mergeStaticParts } from '../../src/presentation/staticMerge';
 import { buildFurniture, deferredFurniture } from '../../src/presentation/furniture';
 import { FURNITURE } from '../../src/world/furniture';
 import type { RoomLocator } from '../../src/world/interiors';
@@ -136,4 +137,51 @@ it('does not clear root coverage after discarding invalid basal samples', () => 
   expect(report.complete).toBe(false);
   expect(report.invalid).toBe(1);
   expect(report.checks).toHaveLength(0);
+});
+
+it('indexes large support triangles only when a footprint probe needs them', () => {
+  const scene = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(128, 128, 32, 32).rotateX(-Math.PI / 2);
+  for (let i=0;i<100;i++) {
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    mesh.name = 'terrain support'; mesh.position.set(i * 512, 1, 0); scene.add(mesh);
+  }
+  scene.add(box(0, 1.5));
+  const apply = THREE.Vector3.prototype.applyMatrix4;
+  let transformed = 0;
+  THREE.Vector3.prototype.applyMatrix4 = function(m) { transformed++; return apply.call(this, m); };
+  try {
+    const report = auditPlacements(scene, () => 0);
+    expect(report.complete).toBe(true);
+    expect(report.summary.props).toBe(1);
+    expect(report.summary.candidates).toBe(0);
+    expect(transformed).toBeLessThan(20_000);
+  } finally {
+    THREE.Vector3.prototype.applyMatrix4 = apply;
+    geometry.dispose();
+    for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+  }
+});
+
+it('does not let hidden merged source parts support their own rendered copies', () => {
+  const scene = new THREE.Scene(), group = new THREE.Group(), material = new THREE.MeshBasicMaterial(); scene.add(group);
+  const geometry = new THREE.BoxGeometry(1,1,1);
+  for (const x of [0,3]) { const part = new THREE.Mesh(geometry,material); part.position.set(x,2,0); group.add(part); }
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+});
+
+it('retains hidden prop coverage without an attached replacement batch', () => {
+  const scene = new THREE.Scene(), part = box(0,2); part.visible=false; scene.add(part);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+  part.userData.mergedInto=new THREE.Mesh(part.geometry,part.material);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+});
+it('retains grounded and independently supported batched props', () => {
+  const scene=new THREE.Scene(),group=new THREE.Group(),material=new THREE.MeshBasicMaterial();scene.add(group);
+  for(const [x,y]of [[0,.5],[3,1.5]]){const part=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),material);part.position.set(x!,y!,0);group.add(part);}
+  const support=box(3,.5);scene.add(support);
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:3,candidates:0});
 });

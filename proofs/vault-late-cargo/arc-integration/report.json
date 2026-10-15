@@ -1,0 +1,44 @@
+{
+  "baseline": "a439113f2da59638dbfd6ac95e894699f5008275",
+  "candidateSourceSha256": "d7dd06d20fae977a731be71ba00a4efbf844af2c1657657739dcacbafba9f3a7",
+  "productionSourceSha256": "f669d25717b04ff33b7e1083f470e058d976f26f601b411f58ff9a4a0c0597c9",
+  "arcIntegration": true,
+  "before": {
+    "diagnosticRender": {
+      "drawCalls": 3,
+      "triangles": 0,
+      "lines": 1704,
+      "textures": 0,
+      "uploadBytes": 18180
+    },
+    "nativeHero": true,
+    "cases": 648,
+    "penetratingCases": 216,
+    "worstPenetration": -0.5799999237060547,
+    "blockedAborts": 0,
+    "clearAborts": 0,
+    "glError": 0,
+    "scope": "Delivered hero/controller and actual RealmPhysics capsule sweeps; late crate pose changes after takeoff, with no initial overlaps. Diagnostic capsule image, not visual approval, organic gameplay or hardware timing.",
+    "caseRowsSha256": "e9bb5258fe704e5cde29b6dcc53127fe5b9a56e760d1667ced14b88f5ea87568"
+  },
+  "after": {
+    "diagnosticRender": {
+      "drawCalls": 3,
+      "triangles": 0,
+      "lines": 1704,
+      "textures": 0,
+      "uploadBytes": 18180
+    },
+    "nativeHero": true,
+    "cases": 648,
+    "penetratingCases": 0,
+    "worstPenetration": 0,
+    "blockedAborts": 216,
+    "clearAborts": 0,
+    "glError": 0,
+    "scope": "Delivered hero/controller and actual RealmPhysics capsule sweeps; late crate pose changes after takeoff, with no initial overlaps. Diagnostic capsule image, not visual approval, organic gameplay or hardware timing.",
+    "caseRowsSha256": "20abc695d12b54b0bc337eefbeab42c0012d2583dbd38190383793032d18c804"
+  },
+  "clearTrajectoriesIdentical": true,
+  "pass": true
+}

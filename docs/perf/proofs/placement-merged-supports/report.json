@@ -1,0 +1,73 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "6c450ea23e6fce6d7d960931750f996e2f5d85b9682e8bf0c58fcb52cc511156",
+  "scope": "Actual production static batching and placement audits in native software WebGL. Hidden source parts falsely supported their rendered replacement. Unmerged control unchanged; pixels identical before/after audits. Not a live placement fix or hardware timing claim.",
+  "before": {
+    "unmerged-floating": {
+      "complete": true,
+      "checks": 2,
+      "candidates": 2,
+      "gaps": [
+        1.5,
+        1.5
+      ]
+    },
+    "merged-floating": {
+      "complete": true,
+      "checks": 4,
+      "candidates": 0,
+      "gaps": [
+        1.734723475976807e-18,
+        1.734723475976807e-18,
+        1.734723475976807e-18,
+        1.734723475976807e-18
+      ]
+    },
+    "merged-mixed": {
+      "complete": true,
+      "checks": 4,
+      "candidates": 0,
+      "gaps": [
+        0,
+        1.734723475976807e-18,
+        0,
+        1.734723475976807e-18
+      ]
+    }
+  },
+  "after": {
+    "unmerged-floating": {
+      "complete": true,
+      "checks": 2,
+      "candidates": 2,
+      "gaps": [
+        1.5,
+        1.5
+      ]
+    },
+    "merged-floating": {
+      "complete": true,
+      "checks": 2,
+      "candidates": 2,
+      "gaps": [
+        1.5,
+        1.5
+      ]
+    },
+    "merged-mixed": {
+      "complete": true,
+      "checks": 2,
+      "candidates": 1,
+      "gaps": [
+        0,
+        1.5
+      ]
+    }
+  },
+  "pixelsIdentical": true,
+  "draws": 5,
+  "triangles": 74,
+  "glError": 0,
+  "contextLost": false,
+  "pass": true
+}

@@ -1,0 +1,32 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "scope": "Published forest native adapter and selected material readback. Rest-source mask availability only, not alpha connectivity or visual quality.",
+  "levels": [
+    {
+      "lod": 0,
+      "trees": 453,
+      "masked": 453,
+      "missingRequired": 0,
+      "unknownMaterial": 0
+    },
+    {
+      "lod": 1,
+      "trees": 453,
+      "masked": 453,
+      "missingRequired": 0,
+      "unknownMaterial": 0
+    },
+    {
+      "lod": 2,
+      "trees": 453,
+      "masked": 453,
+      "missingRequired": 0,
+      "unknownMaterial": 0
+    }
+  ],
+  "qualityPass": null,
+  "rawSha256": "79b3586e84bdf4e5ca8da6b1e43a3ef6ca5e97d98fbe0756ff0dfa8813291795"
+}

@@ -1,0 +1,46 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "5ba5c1b1364f251ce94529e87be8b64781f928cde8957c3513022179c6405a15",
+  "scope": "Actual production generator, delivered resident geometry and original skin joints, default body axis. Instrumented due-call counts and a deterministic work clock replace elapsed time in both sources. Exact hidden-mask hashes; no hardware or complete night-hitch claim.",
+  "rows": [
+    {
+      "model": "ash-recorder",
+      "vertices": 35677,
+      "triangles": 34220,
+      "before": {
+        "maxWorkPerTurn": 260,
+        "work": 51376,
+        "turns": 203,
+        "maskSha256": "4dedd7a5ff56b5d256ad9af2da3ffb2ab5c64846b643acc0e2486d0d5ec82526",
+        "hiddenVertices": 360
+      },
+      "after": {
+        "maxWorkPerTurn": 32,
+        "work": 51376,
+        "turns": 1609,
+        "maskSha256": "4dedd7a5ff56b5d256ad9af2da3ffb2ab5c64846b643acc0e2486d0d5ec82526",
+        "hiddenVertices": 360
+      }
+    },
+    {
+      "model": "village-baker",
+      "vertices": 39935,
+      "triangles": 45998,
+      "before": {
+        "maxWorkPerTurn": 313,
+        "work": 69305,
+        "turns": 273,
+        "maskSha256": "c1f4edb51f41194c1005b6728716c6861424c7c20e05aa84b96178e6e802d15c",
+        "hiddenVertices": 2065
+      },
+      "after": {
+        "maxWorkPerTurn": 32,
+        "work": 69305,
+        "turns": 2169,
+        "maskSha256": "c1f4edb51f41194c1005b6728716c6861424c7c20e05aa84b96178e6e802d15c",
+        "hiddenVertices": 2065
+      }
+    }
+  ],
+  "pass": true
+}

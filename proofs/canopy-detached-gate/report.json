@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "scope": "Production detector on controlled chained leaf geometry. Gate-only change; no rendering, asset, live-tree count or hardware timing claim.",
+  "sourceSha256": "56fe4d7bba771186616e3897ca493f6514061be5880b5fe3a3a7e63ca0083a03",
+  "unsupported": {
+    "trees": 1,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 5,
+    "chunks": 1,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 2,
+    "detachedClumps": 1,
+    "treesWithDetached": 1
+  },
+  "before": {
+    "pass": true
+  },
+  "after": {
+    "pass": false,
+    "reasons": [
+      "Unsupported foliage remains"
+    ],
+    "regressions": []
+  },
+  "supportedControl": {
+    "pass": true,
+    "reasons": [],
+    "regressions": []
+  },
+  "pass": true
+}

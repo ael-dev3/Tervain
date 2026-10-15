@@ -195,7 +195,8 @@ export class CameraRig {
     let pitch = this.pitch;
     if (this.interiorBlend > 0 && Number.isFinite(this.interiorCap)) {
       const rise = (this.interiorCap - this.smoothTarget.y) / boomDistance;
-      const cap = Math.max(Math.asin(Math.max(-1, Math.min(1, rise))), Math.min(this.pitch, 0.1));
+      // A low room (a store or hut) leaves little over the hero's head: the view may level out or look slightly up at him to fit.
+      const cap = Math.max(Math.asin(Math.max(-1, Math.min(1, rise))), -0.3);
       const ease = this.interiorBlend * this.interiorBlend * (3 - 2 * this.interiorBlend);
       if (cap < pitch) pitch += (cap - pitch) * ease;
     }

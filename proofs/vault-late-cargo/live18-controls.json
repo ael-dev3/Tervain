@@ -1,0 +1,14 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "fences": 9,
+  "attempts": 450,
+  "accepted": 420,
+  "aborted": 0,
+  "scope": "Published authored field scene and preflight planner, with the candidate executor transpiled from source and borrowed for each 60 Hz step. Existing cargo unchanged; a component override, not a complete candidate build or real-key playthrough.",
+  "candidateSourceSha256": "f669d25717b04ff33b7e1083f470e058d976f26f601b411f58ff9a4a0c0597c9",
+  "pass": true,
+  "caseRowsSha256": "2a0c07ba4bb8f839c61d57f88729f3cff5e0a73ec945fa3d963ac72eb8c0ca8d"
+}
