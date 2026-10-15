@@ -1,0 +1,104 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rail": {
+    "x": -4.863078694867066,
+    "z": 53.23454157193171,
+    "yaw": 1.6507963267948966
+  },
+  "rows": [
+    {
+      "state": "inactive",
+      "landingBlocked": false,
+      "before": null,
+      "after": {
+        "t": 0,
+        "from": {
+          "x": -4.924613009223329,
+          "y": 1.3994703318183792,
+          "z": 52.46700425807869
+        },
+        "to": {
+          "x": -4.797548645812344,
+          "y": 1.4510528270303686,
+          "z": 54.05191897109985
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.6158450704225347
+      },
+      "beforeMatchesClear": false,
+      "afterMatchesClear": true
+    },
+    {
+      "state": "overhead",
+      "landingBlocked": false,
+      "before": {
+        "t": 0,
+        "from": {
+          "x": -4.924613009223329,
+          "y": 1.3994703318183792,
+          "z": 52.46700425807869
+        },
+        "to": {
+          "x": -4.735215184516389,
+          "y": 1.4740034348815048,
+          "z": 54.829424302015894
+        },
+        "peak": 7.101052827030369,
+        "seconds": 0.9179577464788726
+      },
+      "after": {
+        "t": 0,
+        "from": {
+          "x": -4.924613009223329,
+          "y": 1.3994703318183792,
+          "z": 52.46700425807869
+        },
+        "to": {
+          "x": -4.797548645812344,
+          "y": 1.4510528270303686,
+          "z": 54.05191897109985
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.6158450704225347
+      },
+      "beforeMatchesClear": false,
+      "afterMatchesClear": true
+    },
+    {
+      "state": "buried",
+      "landingBlocked": false,
+      "before": null,
+      "after": {
+        "t": 0,
+        "from": {
+          "x": -4.924613009223329,
+          "y": 1.3994703318183792,
+          "z": 52.46700425807869
+        },
+        "to": {
+          "x": -4.797548645812344,
+          "y": 1.4510528270303686,
+          "z": 54.05191897109985
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.6158450704225347
+      },
+      "beforeMatchesClear": false,
+      "afterMatchesClear": true
+    },
+    {
+      "state": "active",
+      "landingBlocked": true,
+      "before": null,
+      "after": null,
+      "beforeMatchesClear": false,
+      "afterMatchesClear": false
+    }
+  ],
+  "sourceSha256": "73c5cb40f9accbe64bfdab95393e2dddaa7e9daf65edd7f2f3e1c02c0df05894",
+  "scope": "Published native controller, context and authored field rail. Controlled neighboring fence collider placed at its landing, toggled inactive/overhead/buried/active. Candidate borrows only the actual source vault-selector method. No organic occurrence, full candidate world, visual or hardware timing claim.",
+  "pass": true
+}

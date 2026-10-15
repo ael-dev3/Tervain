@@ -1,0 +1,26 @@
+<!doctype html><script type="module">
+import * as THREE from 'three';
+import {Splashes as Before} from '/@baseline-spray';
+import {Splashes as After} from '/src/presentation/water/splashes.ts';
+try{
+ const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(320,240);renderer.setClearColor(0);document.body.append(renderer.domElement);
+ const camera=new THREE.PerspectiveCamera(48,4/3,.1,100);camera.position.set(3,3,7);camera.lookAt(0,1.5,0);camera.updateMatrixWorld();
+ const hash=async arrays=>{const length=arrays.reduce((n,a)=>n+a.byteLength,0),data=new Uint8Array(length);let offset=0;for(const a of arrays){data.set(new Uint8Array(a.buffer,a.byteOffset,a.byteLength),offset);offset+=a.byteLength;}return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data))).map(v=>v.toString(16).padStart(2,'0')).join('');},rows=[],images={};
+ for(const [mode,Class]of [['before',Before],['after',After]]){
+  const spray=new Class(),scene=new THREE.Scene();scene.add(spray.points);
+  for(let i=0;i<240;i++){
+   if(i===0)spray.emit(0,2,0,24,2);
+   if(i===5)spray.emit(0,4,0,4,3);
+   if([35,45,55,65].includes(i))spray.emit(0,2,0,120,2);
+   if(i===210)spray.emit(0,2,0,6,1);
+   if(i%17===0){spray.update(1/120);spray.update(1/120);}else spray.update(i===90?0:i===91?NaN:1/60);
+   const g=spray.points.geometry,cost=window.__renderCostStates.get(renderer.getContext()),start=cost?.uploads??0;
+   renderer.render(scene,camera);
+   rows.push({mode,i,count:g.drawRange.count,visible:spray.points.visible,active:spray.active,sha:await hash(['position','aSize','aFade'].map(n=>g.attributes[n].array)),versions:['position','aSize','aFade'].map(n=>g.attributes[n].version),draws:renderer.info.render.calls,points:renderer.info.render.points,textures:renderer.info.memory.textures,uploadBytes:(cost?.uploads??0)-start,glError:renderer.getContext().getError()});
+   if([0,30,70,130,200,215].includes(i))images[mode+'-'+i]=renderer.domElement.toDataURL();
+  }
+  spray.dispose();
+ }
+ window.sprayProof={rows,images};renderer.dispose();
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script>

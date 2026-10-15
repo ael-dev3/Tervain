@@ -1,0 +1,15 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "73c5cb40f9accbe64bfdab95393e2dddaa7e9daf65edd7f2f3e1c02c0df05894",
+  "cases": 288,
+  "irrelevantCases": 216,
+  "beforeRejected": 216,
+  "beforeChangedVault": 0,
+  "afterMatchesClear": 216,
+  "activeCases": 72,
+  "activeBlockedBefore": 72,
+  "activeBlockedAfter": 72,
+  "scope": "Actual source vault selectors with real Colliders; eight rotations, three terrain slopes and three takeoff distances. Controlled inactive/overhead/buried/active neighboring landing rails. Compares entire selected vault to clear control; does not claim crossed-rail clearance, full real-key play or hardware timing.",
+  "pass": true,
+  "casesSha256": "1b65adc2401b4157644530d71e1faa40eb87b5fc5bdac2e296044249c678c81f"
+}

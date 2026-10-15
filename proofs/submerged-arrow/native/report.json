@@ -1,0 +1,60 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "wading": {
+    "x": -298,
+    "y": -1.3575620651245117,
+    "z": 0,
+    "depth": 1.2342058590358602,
+    "swimming": false,
+    "travelAllowed": true
+  },
+  "muzzle": {
+    "position": [
+      -297.85442486588886,
+      -0.3957704790492481,
+      0.5217663990217956
+    ],
+    "direction": [
+      0,
+      -0.7071067811865476,
+      0.7071067811865476
+    ],
+    "depth": 0.26607788336296345
+  },
+  "rows": {
+    "before": {
+      "wet": false,
+      "speed": 65.05783166060455,
+      "position": [
+        -297.85442486588886,
+        -0.7791272771919613,
+        0.9047825721645089
+      ],
+      "age": 0.008333333333333333,
+      "splashes": 0,
+      "impacts": 0,
+      "active": 1,
+      "groundClearance": 0.5670862742560121
+    },
+    "after": {
+      "wet": true,
+      "speed": 60.31673538165554,
+      "position": [
+        -297.85442486588886,
+        -0.7788718084419614,
+        0.9047825721645089
+      ],
+      "age": 0.008333333333333333,
+      "splashes": 0,
+      "impacts": 0,
+      "active": 1,
+      "groundClearance": 0.567341743006012
+    }
+  },
+  "sourceSha256": "77c5190027eb6718948cf48d6e83f85d5086a82a690aaafdd53bb55d48efa4f5",
+  "scope": "Published native hero wading pose/release, native projectile pool, water sampling and hunting collision sweep. Same muzzle/aim, one 1/120 s step; candidate borrows only the source projectile update. No full input sequence, candidate world, visual or hardware timing claim.",
+  "pass": true
+}

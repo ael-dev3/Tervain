@@ -422,6 +422,29 @@ describe('player motion and action contacts', () => {
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
   });
 
+  it.each(Array.from({ length: 8 }, (_, i) => i * Math.PI / 4).flatMap(yaw =>
+    ['inactive', 'overhead', 'buried', 'active'].map(state => ({ yaw, state }))))(
+    'uses body contact rules for neighboring fence landings (yaw=$yaw, state=$state)', ({ yaw, state }) => {
+      const s = setup(); s.ctx.terrain.heightAt = () => 0;
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
+      s.ctx.colliders.box('fence', .8 * cos, -.8 * sin, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.yaw = Math.PI / 2 + yaw;
+      const clear = s.player['fenceVault'](s.ctx)!;
+      expect(clear).not.toBeNull();
+      s.ctx.colliders.box('fence', 1.62 * cos, -1.62 * sin, .08, .35, yaw, state !== 'inactive', {
+        minY: state === 'overhead' ? 5 : state === 'buried' ? -2 : 0,
+        maxY: state === 'overhead' ? 6 : state === 'buried' ? -.1 : 1.5,
+      });
+      s.player.yaw = Math.PI / 2 + yaw;
+      s.presses.add('jump'); s.tick();
+      if (state === 'active') expect(s.player.vault).toBeNull();
+      else {
+        expect(s.player.vault).not.toBeNull();
+        expect(s.player.vault!.to).toEqual(clear.to);
+        expect(s.player.vault!.peak).toBe(clear.peak);
+      }
+    });
+
   it.each(['absent', 'landing', 'nearby'])('checks loose cargo before a scripted fence crossing (cargo=%s)', cargo => {
     const s = setup(); s.ctx.terrain.heightAt = () => 0;
     s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
