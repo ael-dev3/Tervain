@@ -1,0 +1,998 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "applyCalls": 120,
+      "scalarMeshes": 24,
+      "arrayMeshes": 0,
+      "applySingleMaterialLists": 2880,
+      "patchAllSingleMaterialLists": 24,
+      "states": [
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        }
+      ],
+      "patchCalls": 2928,
+      "patchOrderSha256": "acc2fe992994d9ef869a04182015b79f2c2ea0fd1caf42bb7668dae46e5d54ae"
+    },
+    "after": {
+      "applyCalls": 120,
+      "scalarMeshes": 24,
+      "arrayMeshes": 0,
+      "applySingleMaterialLists": 0,
+      "patchAllSingleMaterialLists": 0,
+      "states": [
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        },
+        {
+          "coverage": 1,
+          "visible": true
+        },
+        {
+          "coverage": 0.75,
+          "visible": true
+        },
+        {
+          "coverage": 0.5,
+          "visible": true
+        },
+        {
+          "coverage": 0.1,
+          "visible": true
+        },
+        {
+          "coverage": 0,
+          "visible": false
+        }
+      ],
+      "patchCalls": 2928,
+      "patchOrderSha256": "acc2fe992994d9ef869a04182015b79f2c2ea0fd1caf42bb7668dae46e5d54ae"
+    }
+  },
+  "pixelIdentical": true,
+  "patchOrderIdentical": true,
+  "statesIdentical": true,
+  "sourceSha256": "edcb3b4d1fc3fcb37971aff548ba1af4cc738295b9ac154c215513f5b6815dbf",
+  "scope": "Published native hero hierarchy/materials and native fade patcher; actual before/after apply and patchAll methods with source-level counts of their single-material list expressions. Frozen native Grade/post software-WebGL captures at half coverage. Not total allocations, heap bytes, hardware timings, or a full candidate-build playthrough.",
+  "pass": true,
+  "patchOrderFile": "patch-order.json.gz",
+  "patchOrderSha256": "ed8a7fa92c330b161e017d50cfae97b106584e798ae893602371abf8aca254d4"
+}
