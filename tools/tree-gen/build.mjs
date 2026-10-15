@@ -74,7 +74,8 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       // A twig that ends outside the leaf mass is a bare spike: only twigs ending inside a leaf cluster are grown.
       // Sprigs (twigs of twigs) only carry leaves: their wood would show as bare dark sticks between the cards.
       if (level === 3 && b0.parent?.level === 3) continue;
-      if (level === 2 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 1.1 * 1.1)) continue;
+      // A bough is kept only while every point past its root lies in leaf cover (within 1.3 m of a clump), so no bare stick shows between the leaves.
+      if (level === 2 && !b0.points.slice(1).every((pt) => centres.some((c) => c.distanceToSquared(pt) < 1.3 * 1.3))) continue;
       if (level === 3 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 0.7 * 0.7)) continue;
       // Near twigs are one straight, shortened, pointed stick (the leaf cards that sit along them hide it): long full-length ones read as black hairlines.
       const b = level === 3 ? shortTwig(b0, lod === 'near' ? 0.62 : 1, P.stride) : decimate(b0, P.stride), sides = sidesFor(b);

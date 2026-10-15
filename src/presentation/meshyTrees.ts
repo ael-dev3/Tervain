@@ -28,7 +28,8 @@ export function heroOakEnabled(search: string | undefined = typeof location === 
   try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
 }
 /** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
-function heroNoTwigs(): boolean { try { return new URLSearchParams(location.search).get('heronotwigs') === '1'; } catch { return false; } }
+function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
+const heroNoTwigs = () => heroFlag('heronotwigs');
 /** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
 export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
   return enabled ? [...MESHY_TREE_IDS, ...HERO_TREE_IDS] : MESHY_TREE_IDS;
@@ -578,7 +579,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
             canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
-            trimmedWood = wood ? (hero ? trimHeroWood(wood, canopy, shape.clump * 1.15) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
+            trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15)) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;
