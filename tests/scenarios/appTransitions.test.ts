@@ -818,7 +818,8 @@ describe('actual application world transitions', () => {
     app.mode = 'title';
     Reflect.set(app, 'quietStart', true);
     Reflect.set(app, 'prepareMainHero', vi.fn().mockResolvedValue(undefined));
-    const staged = { ...nextWorld(), colliders: [], update: vi.fn() };
+    const prepareSpray = vi.fn((draw: () => void) => draw());
+    const staged = { ...nextWorld(), colliders: [], update: vi.fn(), water: { splashes: { prepareFirstDraw: prepareSpray } } };
     Reflect.set(app, 'buildWorld', vi.fn(async () => Reflect.set(app, 'world', staged)));
     const compiled = deferred<void>();
     // A108: the first view is compiled into the grade's target, as it is drawn: compiled for the canvas, every program was
@@ -847,6 +848,7 @@ describe('actual application world transitions', () => {
     expect(app.input.uiOpen).toBe(true);
     compiled.resolve();
     await vi.waitFor(() => expect(render).toHaveBeenCalledOnce());
+    expect(prepareSpray).toHaveBeenCalledOnce();
     await vi.waitFor(() => expect(paints).toHaveLength(1));
     expect(app.mode).toBe('title');
     expect(Reflect.get(app, 'initialJourneyLoading')).toBe(true);

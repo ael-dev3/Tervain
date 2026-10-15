@@ -663,7 +663,7 @@ export class App {
     if (typeof (this.renderer as Partial<THREE.WebGLRenderer>).compileAsync === 'function') await this.warmShaders(this.world.scene, this.world.scene, false, this.world, true);
     this.world.warmPasses?.(this.renderer);
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 1, total: textureCount + 3, detail: 'Preparing the first view…' });
-    this.renderWorld();
+    this.world.water.splashes.prepareFirstDraw(() => this.renderWorld());
     this.loadingScreen?.update({ phase: 'graphics', completed: textureCount + 2, total: textureCount + 3, detail: 'Finishing the first view…' });
     // Shader completion precedes uploads and draws. Wait for the submitted view before enabling input.
     const context = this.renderer.getContext?.();
