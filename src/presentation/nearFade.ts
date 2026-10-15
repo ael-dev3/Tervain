@@ -30,7 +30,8 @@ export class NearFade {
     group.traverse((object) => {
       const mesh = object as THREE.Mesh;
       if (!mesh.isMesh) return;
-      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) this.patch(material);
+      if (Array.isArray(mesh.material)) for (const material of mesh.material) this.patch(material);
+      else this.patch(mesh.material);
     });
   }
 
@@ -40,7 +41,8 @@ export class NearFade {
     object.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
-      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) this.patch(material);
+      if (Array.isArray(mesh.material)) for (const material of mesh.material) this.patch(material);
+      else this.patch(mesh.material);
     });
   }
 
