@@ -109,6 +109,8 @@ export function foliageGeometryFeatures(geometry: THREE.BufferGeometry | null | 
  * Leaves between the lens and the wanderer fade there, as a game camera's occluders do, so from under a crown he is not
  * lost behind a screen of leaf masses. One value for every leaf material; the app sets it for each picture of the world.
  */
+/** 1 while the scene is drawn into a multisampled target (alpha to coverage resolves leaf edges), 0 without (Low): the leaf cut-out then dithers. Set by Grade. */
+export const FOLIAGE_MSAA: THREE.IUniform<number> = { value: 1 };
 export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
 
 /**
@@ -212,6 +214,7 @@ uniform float uFoliageShadeThrough;
 uniform vec4 uFoliageClump;
 uniform vec2 uFoliageEdgeOn;
 uniform vec4 uFoliageFocus;
+uniform float uFoliageMsaa;
 uniform highp sampler3D uFoliageClumpNoise;
 varying vec3 vTvWorld;
 varying vec3 vCrownN;
@@ -310,18 +313,29 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
     float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
     float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;
-    // A133: four samples give only five coverage steps, which read as a pixel staircase along every card edge. A stable
-    // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
-    // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
     float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
-    float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
-    diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
-    if ( diffuseColor.a <= 0.0 ) discard;
+    if ( uFoliageMsaa > 0.5 ) {
+      // A133: four samples give only five coverage steps, which read as a pixel staircase along every card edge. A stable
+      // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
+      // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
+      float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
+      diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
+      if ( diffuseColor.a <= 0.0 ) discard;
+    } else {
+      // Low has no multisampling, so alpha to coverage would cut at one threshold: a one-pixel staircase with the texture's
+      // dark rim round every card at full strength. The same coverage is resolved here by the dither instead: a pixel on the
+      // ramp is drawn with the probability its coverage gives, so the edge dissolves over about two pixels of fine stipple.
+      // A narrower ramp than the multisampled one: fewer stippled pixels to flicker as the edge moves.
+      float tvLowCov = ( tvA - alphaTest ) / max( 1.2 * fwidth( tvA ), 1e-4 ) + 0.5;
+      diffuseColor.a = 1.0;
+      if ( tvLowCov <= tvIgn ) discard;
+    }
   #else
-    // A133: without multisampling (Low) the cut is dithered over about a pixel and a half of alpha, so edges break
-    // into a fine stable stipple rather than a hard staircase.
+    // Plain cut-out (no alpha to coverage): the same stipple.
+    float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
+    float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;
     float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
-    if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;
+    if ( tvCov <= tvIgn ) discard;
   #endif
 }
 #endif
@@ -451,6 +465,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
     uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
     uFoliageFocus: FOLIAGE_FOCUS,
+    uFoliageMsaa: FOLIAGE_MSAA,
     uFoliageClumpNoise: { value: clumpNoiseTexture() },
   };
   let failed = false;

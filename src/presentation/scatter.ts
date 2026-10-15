@@ -193,7 +193,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   const matVc = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, flatShading: false });
   const matLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
   const shoreLeafTexture = buildForestLeafTexture(128);
-  const matShoreLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, map: shoreLeafTexture, alphaTest: 0.35, roughness: 1, metalness: 0, envMapIntensity: 0.2, side: THREE.DoubleSide });
+  const matShoreLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, map: shoreLeafTexture, alphaTest: 0.35, alphaToCoverage: true, roughness: 1, metalness: 0, envMapIntensity: 0.2, side: THREE.DoubleSide });
   // Shore logs retain their authored supports/UVs, but weathered bark now carries their long fibres instead of
   // leaving pale, untextured cylinders against the worn sand. These texture references belong to this module.
   const cachedBark = makeTexPair('bark', 256, 8);
