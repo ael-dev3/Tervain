@@ -40,7 +40,7 @@ export class CrownIndex {
 
   get size() { let n = 0; for (const list of this.cells.values()) n += list.length; return n; }
 
-  /** The crowns whose centres lie within `r` (plus the widest crown) of (x, z). The list is reused between calls. */
+  /** Crowns whose horizontal extent can reach within `r` of (x, z). The list is reused between calls. */
   near(x: number, z: number, r: number): readonly CameraCrown[] {
     this.found.length = 0;
     const reach = r + this.largest;
@@ -48,7 +48,9 @@ export class CrownIndex {
     const z0 = Math.floor((z - reach) / this.cell), z1 = Math.floor((z + reach) / this.cell);
     for (let ix = x0; ix <= x1; ix++) for (let iz = z0; iz <= z1; iz++) {
       const list = this.cells.get(this.key(ix, iz));
-      if (list) for (const c of list) if (Math.hypot(c.x - x, c.z - z) <= reach) this.found.push(c);
+      // The widest crown sizes the cell scan, not every candidate's own reach. A small distant crown
+      // cannot meet this boom and otherwise enters dozens of sampled core tests on every camera turn.
+      if (list) for (const c of list) if (Math.hypot(c.x - x, c.z - z) <= r + c.h) this.found.push(c);
     }
     return this.found;
   }
