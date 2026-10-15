@@ -47,7 +47,8 @@ export function mergeStaticParts(group: THREE.Object3D, options: { skip?: (mesh:
     mesh.castShadow = cast; mesh.receiveShadow = receive;
     mesh.userData.mergedParts = parts.length;
     group.add(mesh);
-    for (const part of parts) { part.visible = false; part.userData.mergedInto = mesh; }
+    // Fixed source poses are retained for lookups; parent world transforms still propagate.
+    for (const part of parts) { part.visible = false; part.userData.mergedInto = mesh; part.matrixAutoUpdate = false; }
     merged.push(mesh);
   }
   group.updateMatrixWorld(true);
