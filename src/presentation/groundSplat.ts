@@ -45,6 +45,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 export interface GroundSurfaceSample {
   readonly slope: number;
   readonly carve: number;
+  readonly shoreDistance?: number;
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
@@ -59,7 +60,7 @@ export function groundSplat(
   const nLow = fbm(x / 40, z / 40, 3, 21) * 0.5 + 0.5;
   const nMid = fbm(x / 11, z / 11, 3, 23) * 0.5 + 0.5;
   const nHi = fbm(x / 3.3, z / 3.3, 2, 27) * 0.5 + 0.5;
-  const sd = shoreDistance(x, z);
+  const sd = sampledSurface?.shoreDistance ?? shoreDistance(x, z);
   const nearSea = sd < 90;
   const cl = nearSea ? cliffiness(z) : 0;
   const sDist = streamDistance(x, z);
@@ -106,7 +107,7 @@ export function groundSplat(
     // Horizontal distance alone marks the entire lighthouse cliff as soaked. Only the actual tidal/splash band is wet;
     // elevated stone remains dry even when it stands directly above the shoreline.
     const splash = 1 - smoothstep(0.55, 2.4, h - SEA_LEVEL);
-    const sw = seaWetness(x, z) * splash;
+    const sw = seaWetness(x, z, sd) * splash;
     wet = sw;
     blend(w, LAYER.wetsand, sw * (1 - cl * 0.85));
     // The raised lighthouse outcrop reaches seaward of the approximate horizontal coastline. Only genuinely submerged

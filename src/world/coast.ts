@@ -106,7 +106,7 @@ export function lighthouseRock(x: number, z: number): number {
 }
 
 /** 0..1 how wet the ground is from the sea (wet sand line, spray on the rocks). */
-export function seaWetness(x: number, z: number): number {
-  const sd = shoreDistance(x, z);
+export function seaWetness(x: number, z: number, sampledShoreDistance?: number): number {
+  const sd = sampledShoreDistance ?? shoreDistance(x, z);
   return 1 - smoothstep(-2, 5.5 + 2.5 * fbm(x / 6, z / 6, 2, 79), sd);
 }
