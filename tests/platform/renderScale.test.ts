@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { RenderScale, renderScaleFloor, presetPixelRatio } from '../../src/platform/renderScale';
+import { readFileSync } from 'node:fs';
+import { RenderScale, renderScaleFloor, presetPixelRatio, sharpenStrength } from '../../src/platform/renderScale';
 
 const feed = (r: RenderScale, ms: number, n: number) => { let changes = 0; for (let i = 0; i < n; i++) if (r.sample(ms)) changes++; return changes; };
 
@@ -66,4 +67,32 @@ it('caps high-density fill cost without supersampling ordinary screens', () => {
     expect(presetPixelRatio('medium', ratio)).toBe(Math.min(ratio, 1.5));
     expect(presetPixelRatio('high', ratio)).toBe(Math.min(ratio, 1.5));
   }
+});
+
+describe('final-pass sharpen (A142)', () => {
+  it('is on below 0.9 by default and grows as the scale falls', () => {
+    expect(sharpenStrength(0.85)).toBeCloseTo(0.3);
+    expect(sharpenStrength(0.75)).toBeCloseTo(0.5);
+    expect(sharpenStrength(0.5)).toBe(1);
+    expect(sharpenStrength(0.3)).toBe(1);
+  });
+
+  it('is off at and above 0.9, including full resolution', () => {
+    expect(sharpenStrength(1)).toBe(0);
+    expect(sharpenStrength(0.9)).toBe(0);
+  });
+
+  it('?sharpen=0 disables it and ?sharpen=1 forces the formula', () => {
+    expect(sharpenStrength(0.5, '0')).toBe(0);
+    expect(sharpenStrength(0.75, '1')).toBeCloseTo(0.5);
+    expect(sharpenStrength(0.95, '1')).toBeCloseTo(0.1);
+    expect(sharpenStrength(1, '1')).toBe(0);
+  });
+
+  it('rides the existing final pass: no extra render pass or material', () => {
+    const src = readFileSync('src/presentation/grade.ts', 'utf8');
+    expect(src.split('new THREE.ShaderMaterial(').length - 1).toBe(2); // the grade material and the bloom pass helper, as before
+    expect(src.split('this.quad.material = ').length - 1).toBe(3); // bright, blur, final: unchanged
+    expect(src).toContain('uniform float uSharpen;');
+  });
 });

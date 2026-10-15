@@ -55,7 +55,7 @@ import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { BUILD_LABEL, GAME_VERSION, SOURCE_REVISION as REVISION } from './version';
-import { RenderScale, renderScaleFloor, presetPixelRatio } from './platform/renderScale';
+import { RenderScale, renderScaleFloor, presetPixelRatio, sharpenStrength } from './platform/renderScale';
 import { fetchLiveBuild, newerBuild, shouldReloadFor, type LiveBuild } from './platform/buildCheck';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig, type MainHeroRig } from './presentation/hero/rig';
@@ -862,8 +862,8 @@ export class App {
     const forced = Number(new URLSearchParams(location.search).get('renderscale'));
     const scale = forced > 0 && forced <= 1 ? forced : Math.max(this.renderScale.floor, this.renderScale.scale);
     this.renderer.setPixelRatio(preset * scale);
-    // ?sharpen=1 (off by default): a contrast-adaptive sharpen in the final pass while the drawing resolution is lowered.
-    this.grade.sharpen = new URLSearchParams(location.search).get('sharpen') === '1' && scale < 0.9 ? Math.min(1, (1 - scale) * 2) : 0;
+    // A142: a contrast-adaptive sharpen in the final pass while the drawing resolution is lowered (?sharpen=0 off, =1 forced).
+    this.grade.sharpen = sharpenStrength(scale, new URLSearchParams(location.search).get('sharpen'));
     RENDER_PX.value = this.renderer.getPixelRatio();
   }
 
