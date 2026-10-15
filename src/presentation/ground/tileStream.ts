@@ -326,6 +326,8 @@ export class TileLayer {
     const limit = q * RANK_HEADROOM + 1e-6;
     // Binary search: first instance whose rank >= limit.
     const base = t.attrs[0]!.array as Float32Array;
+    // Fully dense tiles normally retain their whole sorted prefix. Check its highest rank once.
+    if (q >= 1 && t.count > 0 && base[(t.count - 1) * 4 + 3]! < limit) return t.count;
     let lo = 0;
     let hi = t.count;
     while (lo < hi) {
