@@ -506,7 +506,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
-      const id = species === 'oak' && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = species === 'oak' && !explicit && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
