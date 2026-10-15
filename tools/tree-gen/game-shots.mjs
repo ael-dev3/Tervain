@@ -15,7 +15,7 @@ const base = args[0], outDir = args[1], hours = (args[2] && !args[2].startsWith(
 const [x, z] = [Number(flagVal('--x', -70.2)), Number(flagVal('--z', 78.4))], flag = flagVal('--flag', 'herooak=1'), tag = flagVal('--tag', 'game');
 fs.mkdirSync(outDir, { recursive: true });
 const views = [ // [name, distance, camera height above ground, look height]
-  ['03m', 3, 1.7, 5], ['10m', 10, 1.7, 7], ['30m', 30, 2.5, 8], ['base', 3.2, 1.0, 0.5], ['lookup', 3.4, 1.6, 11], ['f15', 15, 3.0, 7], ['f40', 40, 4.0, 8],
+  ['03m', 3, 1.7, 5], ['10m', 10, 1.7, 7], ['30m', 30, 2.5, 8], ['base', 3.2, 1.0, 0.5], ['lookup', 3.4, 1.6, 11], ['f15', 15, 3.0, 7], ['f40', 40, 4.0, 8], ['100m', 100, 6, 9],
 ];
 const az = Number(flagVal('--az', 0.6));
 const only = flagVal('--views', '').split(',').filter(Boolean);

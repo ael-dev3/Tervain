@@ -36,7 +36,7 @@ export function leafCandidates(sk, rng) {
   for (let k = 0, got = 0; k < want * 6 && got < want; k++) {
     const u = rng(), v = rng(), w = rng(), r = Math.cbrt(0.1 + 0.9 * u), th = v * Math.PI * 2, ph = Math.acos(2 * w - 1);
     // Squash toward the shell: radius 0.55..1 of the envelope, density rising outward.
-    const rr = 0.55 + 0.45 * Math.sqrt(r), p = new THREE.Vector3(Math.sin(ph) * Math.cos(th) * rr * sk.Rh, sk.center.y + Math.cos(ph) * rr * sk.Rv * 0.9, Math.sin(ph) * Math.sin(th) * rr * sk.Rh).add(new THREE.Vector3(sk.center.x, 0, sk.center.z));
+    const rr = 0.55 + 0.45 * Math.sqrt(r), p = new THREE.Vector3(Math.sin(ph) * Math.cos(th) * rr * sk.Rh, sk.center.y + Math.cos(ph) * rr * sk.Rv * (Math.cos(ph) > 0 ? 1.0 : 0.72), Math.sin(ph) * Math.sin(th) * rr * sk.Rh).add(new THREE.Vector3(sk.center.x, 0, sk.center.z));
     if (p.y < 4.2) continue;
     let best = null, bd = 1e9; for (const h of pts) { const d = h.f.p.distanceToSquared(p); if (d < bd) { bd = d; best = h; } }
     if (!best || bd > 3.2 * 3.2) continue;

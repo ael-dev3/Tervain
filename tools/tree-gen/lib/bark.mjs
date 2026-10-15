@@ -83,6 +83,7 @@ export function generateBark(size = BARK_SIZE, seed = 7) {
     R = lerp(R, 150, lichen); G = lerp(G, 152, lichen); B = lerp(B, 128, lichen);
     const pt2 = plateTone[n]; R *= pt2; G *= pt2; B *= pt2;
     R *= (1 + tint * 0.12) * cavity; G *= (1 + tint * 0.05) * cavity; B *= (1 - tint * 0.05) * cavity;
+    R *= 1.4; G *= 1.38; B *= 1.34;   // lifted: the game reads bark darker than the atlas
     albedo[n * 3] = clamp(Math.round(R), 0, 255); albedo[n * 3 + 1] = clamp(Math.round(G), 0, 255); albedo[n * 3 + 2] = clamp(Math.round(B), 0, 255);
     colLum[i] += (R * 0.3 + G * 0.59 + B * 0.11) / S;
   }

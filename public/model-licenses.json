@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 122,
-    "publicModelBytes": 162829344,
+    "publicModelFiles": 128,
+    "publicModelBytes": 173595420,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 331,
+    "hashesMatchedExistingSourceRecords": 337,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer’s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis “owner recollection, not individually verified”, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero’s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source’s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
@@ -7811,9 +7811,111 @@
       "modified": true
     },
     {
+      "file": "public/models/flora/hero/hero-oak-b-far.glb",
+      "bytes": 144728,
+      "sha256": "7a6e1fa63a6573d98ba092d2544aaae2f4e53b04908c1f0c1f28618802409000",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-b-mid.glb",
+      "bytes": 1193660,
+      "sha256": "f6d3257531bf645487cec3e54f5680be94ec1f76c8d9ed8ae5aa5c584ebc936e",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-b-near.glb",
+      "bytes": 4057456,
+      "sha256": "768f3d6d04c5e9d669df6d2186b408675cb7b552bff5a57abb3884755bf2761d",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-far.glb",
+      "bytes": 139340,
+      "sha256": "881dd0cf398af954b2b6c308c2045712004699c17819bc6060c58b664423cf53",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-mid.glb",
+      "bytes": 1157744,
+      "sha256": "c37ab5b4dfbb0984057ecd6de003d6e6a557e7695bd30e83a19c815a5572ba36",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-near.glb",
+      "bytes": 4024724,
+      "sha256": "5554640a8ad3109aba7e339a5b1df79c6e8daf9028b3c2d4f178571a1d861baa",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
       "file": "public/models/flora/hero/hero-oak-far.glb",
-      "bytes": 139388,
-      "sha256": "691ae3833afdfa3fabe84656a578ec2203878155cd39b6228e909f49e9133521",
+      "bytes": 148840,
+      "sha256": "ed3ff6f999f240944b25923b55848dd913be7547b892405989a2364577916336",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7829,8 +7931,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-mid.glb",
-      "bytes": 1229408,
-      "sha256": "656ccad6a724b181ca427a6b2b821d8fb2aa4f165f6ed2cea58b37f8f1480d16",
+      "bytes": 1217968,
+      "sha256": "d81cd5f3037c3869ba26fec92fde98138d8e9670a2fb88cb819777a4737bd3c3",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7846,8 +7948,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-near.glb",
-      "bytes": 4025092,
-      "sha256": "4c80308ffce9a5e577945c937fde46316a4acf6ee14451d707b6d1a736226d43",
+      "bytes": 4075504,
+      "sha256": "289cc4470f7a5e1d206a11fb53046f331850d9c27459df8bc3bf5461496bb9bf",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

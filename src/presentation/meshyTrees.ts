@@ -20,7 +20,7 @@ export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan'
  * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. Behind the `?herooak=1`
  * query for now (default off); their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
-export const HERO_TREE_IDS = ['hero-oak'] as const;
+export const HERO_TREE_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
@@ -497,7 +497,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
-      const id = species === 'oak' && !forceLive && templates.has(HERO_OAK_ID) ? HERO_OAK_ID : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = species === 'oak' && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
