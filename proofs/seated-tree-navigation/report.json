@@ -295,7 +295,17 @@
       "afterGoal": {
         "i": 79,
         "j": 83
-      }
+      },
+      "beforeEndpoint": {
+        "x": -223,
+        "z": -1
+      },
+      "afterEndpoint": {
+        "x": -221,
+        "z": -3
+      },
+      "beforeEndpointInWood": true,
+      "afterEndpointInWood": false
     },
     {
       "tree": "tree:wild:23:27",
@@ -317,7 +327,17 @@
       "afterGoal": {
         "i": 80,
         "j": 85
-      }
+      },
+      "beforeEndpoint": {
+        "x": -221,
+        "z": 3
+      },
+      "afterEndpoint": {
+        "x": -219,
+        "z": 1
+      },
+      "beforeEndpointInWood": true,
+      "afterEndpointInWood": false
     },
     {
       "tree": "tree:wild:32:27",
@@ -339,7 +359,17 @@
       "afterGoal": {
         "i": 108,
         "j": 92
-      }
+      },
+      "beforeEndpoint": {
+        "x": -167,
+        "z": 13
+      },
+      "afterEndpoint": {
+        "x": -163,
+        "z": 15
+      },
+      "beforeEndpointInWood": true,
+      "afterEndpointInWood": false
     },
     {
       "tree": "tree:wild:32:27",
@@ -361,7 +391,17 @@
       "afterGoal": {
         "i": 109,
         "j": 90
-      }
+      },
+      "beforeEndpoint": {
+        "x": -165,
+        "z": 11
+      },
+      "afterEndpoint": {
+        "x": -161,
+        "z": 11
+      },
+      "beforeEndpointInWood": true,
+      "afterEndpointInWood": false
     },
     {
       "tree": "tree:wild:32:27",
@@ -383,7 +423,17 @@
       "afterGoal": {
         "i": 108,
         "j": 92
-      }
+      },
+      "beforeEndpoint": {
+        "x": -165,
+        "z": 13
+      },
+      "afterEndpoint": {
+        "x": -163,
+        "z": 15
+      },
+      "beforeEndpointInWood": true,
+      "afterEndpointInWood": false
     }
   ],
   "routeRows": [
