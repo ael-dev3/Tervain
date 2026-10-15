@@ -1,12 +1,12 @@
 import { ROCK_STEP_HEIGHT } from '../world/rockContacts';
-import { FENCE_WALL_LIFT } from '../world/colliders';
+import { Colliders, FENCE_WALL_LIFT } from '../world/colliders';
 import { roomFloorSurface } from './sound/soundscape';
 import * as THREE from 'three';
 import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
 import type { Input } from '../platform/input';
 import type { Settings } from '../platform/settings';
-import type { CircleCollider, Collider, Colliders } from '../world/colliders';
+import type { CircleCollider, Collider } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
 import { LIGHTHOUSE, SEA_LEVEL, WORLD } from '../world/layout';
@@ -784,7 +784,10 @@ export class Player {
     return null;
   }
 
-  /** Advance the planned arc only while moving cargo still leaves the next segment clear. */
+  /** Actor-only sweeps must not collide with the rail this vault deliberately crosses. */
+  private readonly vaultActorSweep = new Colliders();
+
+  /** Advance the planned arc only while actors and moving cargo leave the next segment clear. */
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
     const nextT = Math.min(1, v.t + dt / v.seconds);
@@ -800,8 +803,12 @@ export class Player {
     const liftBound = Math.abs(lift) + Math.abs(v.to.y - v.from.y);
     // The planning sweep omits the foot clearance; an airborne body must enclose the full foot too.
     const padding = PLAYER_FOOT_CLEARANCE + du * du * (span * 6 / (VAULT_TRAVEL_SPAN * VAULT_TRAVEL_SPAN) + liftBound * Math.PI * Math.PI) / 8;
-    if (ctx.physics?.propsBlockBodySweep?.({ x: this.x, y: this.y, z: this.z }, { x, y, z }, padding)) {
-      // Cargo can enter after takeoff. Stay at the last clear pose, then fall through ordinary collision handling.
+    const actors = this.contacts(ctx);
+    const actorBounds = { minY: Math.min(this.y, y) - padding,
+      maxY: Math.max(this.y, y) + PLAYER_BODY_HEIGHT + padding };
+    if (this.vaultActorSweep.cast(this.x, this.z, x, z, PLAYER_RADIUS + padding, undefined, actorBounds, actors) ||
+      ctx.physics?.propsBlockBodySweep?.({ x: this.x, y: this.y, z: this.z }, { x, y, z }, padding)) {
+      // Actors or cargo can enter after takeoff. Stay at the last clear pose, then fall through ordinary collision handling.
       this.vault = null;
       this.vx = this.vz = this.vy = 0;
       this.grounded = false;
