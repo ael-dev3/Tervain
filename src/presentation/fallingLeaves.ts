@@ -218,7 +218,7 @@ export function buildFallingLeaves(
       // Leaf poses depend on this clock; coverage depends only on horizontal eye distance.
       if (clock === lastClock && eye.x === lastEyeX && eye.z === lastEyeZ) return;
       visible = 0;
-      let drawCount = 0;
+      let drawCount = 0, uploadStart = streams.length;
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i]!, age = (clock + stream.phase) % stream.cycle;
         airbornePosition(stream, age, temporary);
@@ -229,6 +229,7 @@ export function buildFallingLeaves(
         alpha.setX(i, coverage);
         if (coverage > 0.001) {
           visible++;
+          uploadStart = Math.min(uploadStart, i);
           drawCount = i + 1;
         }
         // Hidden poses still initialize the renderer's cached transparent-sort sphere. Once it exists,
@@ -265,7 +266,8 @@ export function buildFallingLeaves(
       mesh.count = drawCount;
       if (visible > 0) {
         mesh.instanceMatrix.clearUpdateRanges();
-        mesh.instanceMatrix.addUpdateRange(0, drawCount * 16);
+        // Leading discarded slots need no fresh pose on the GPU; opacity still clears the full drawn prefix.
+        mesh.instanceMatrix.addUpdateRange(uploadStart * 16, (drawCount - uploadStart) * 16);
         mesh.instanceMatrix.needsUpdate = true;
         alpha.clearUpdateRanges();
         alpha.addUpdateRange(0, drawCount);
