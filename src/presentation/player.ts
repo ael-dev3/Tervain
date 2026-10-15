@@ -815,7 +815,8 @@ export class Player {
     if (u >= 1) {
       this.vault = null;
       this.y = this.supportAt(this.x, this.z, ctx);
-      this.vy = 0;
+      // The smoothstep arc ends at rest; its average travel speed must not carry him past the checked landing.
+      this.vx = this.vy = this.vz = 0;
       this.grounded = true;
       ctx.audio.land(this.surface, 3.5);
     }
