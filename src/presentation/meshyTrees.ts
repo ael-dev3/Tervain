@@ -27,6 +27,8 @@ const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[])
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
 }
+/** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
+function heroNoTwigs(): boolean { try { return new URLSearchParams(location.search).get('heronotwigs') === '1'; } catch { return false; } }
 /** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
 export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
   return enabled ? [...MESHY_TREE_IDS, ...HERO_TREE_IDS] : MESHY_TREE_IDS;
@@ -588,7 +590,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
-          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }

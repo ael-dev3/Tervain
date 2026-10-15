@@ -8,10 +8,10 @@ const UP = new THREE.Vector3(0, 1, 0);
 
 export const OAK = {
   height: 15,
-  trunkTop: 3.4,            // veteran oak: a short, thick bole that dissolves into the primary limbs at about this height
+  trunkTop: 5.6,            // veteran oak: a short, thick bole that dissolves into the primary limbs at about this height
   trunkRadius: 0.82,        // radius at 1.5 m before the flare, metres
-  flareGain: 0.9, flareDecay: 1.0,
-  limbs: 7, boughsPerLimb: [3, 5], twigsPerBough: [9, 13],
+  flareGain: 0.55, flareDecay: 1.1,
+  limbs: 10, boughsPerLimb: [3, 5], twigsPerBough: [9, 13],
   murray: [0.75, 0.8], lateral: { 1: 1.0, 2: 0.82, 3: 0.6 },
   angle: [35, 60],
   minHeight: 2.4,           // wood stays above the player slab (colliders are trunk-only)
@@ -85,9 +85,9 @@ export function growOak(seed, P = OAK) {
       if (level >= 1 && p.y < P.minHeight) { p.y = lerp(p.y, P.minHeight, 0.8); }
       pts.push(p);
       // Bough and twig tips end inside the crown envelope: nothing bare pokes out of the leaves.
-      if (level >= 2 && i > 2 && envelope(p) > 1.0) break;
+      if (level >= 2 && i > 2 && envelope(p) > 0.9) break;
       // A limb ends at the foliage envelope too, so no bare arm reaches past the leaves.
-      if (level === 1 && i > 2 && envelope(p) > 0.92) break;
+      if (level === 1 && i > 2 && envelope(p) > 0.8) break;
     }
     const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.012, r0 * (1 - taper * Math.pow(i / (pts.length - 1), 0.9))));
     if (level === 3) radii[radii.length - 1] = 0.006;   // twigs end in a point
@@ -97,7 +97,7 @@ export function growOak(seed, P = OAK) {
 
   // Trunk (not an envelope-bound path: it leans a little and wobbles low-frequency).
   const trunkPts = [], trunkRadii = [];
-  const rings = [-1.8, -1.2, -0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.5, 3.0, P.trunkTop];
+  const rings = [-1.8, -1.2, -0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.6, 3.2, 3.9, 4.6, 5.2, P.trunkTop];
   const leanX = rng.range(-0.35, 0.35), leanZ = rng.range(-0.35, 0.35);
   for (const y of rings) {
     const t = Math.max(0, y) / P.trunkTop;
@@ -108,24 +108,28 @@ export function growOak(seed, P = OAK) {
   trunk.finish(); branches.push(trunk);
 
   // Limbs: lateral ones peel off the upper trunk on a golden-angle spiral, then the leaders at the top.
-  const heights = [2.3, 2.65, 2.95, 3.2, 3.35];
+  const heights = [2.6, 3.0, 3.9, 4.3, 5.0, 5.4];   // staggered in three bands, a golden angle apart in azimuth
   const az0 = rng() * Math.PI * 2, golden = 2.399963;
   const limbSpecs = [];
   heights.forEach((y, i) => limbSpecs.push({ y, az: az0 + i * golden + rng.range(-0.3, 0.3), polar: rng.range(P.angle[0] + 4, P.angle[1] - 6), top: false }));
-  limbSpecs.push({ y: P.trunkTop, az: az0 + 5 * golden, polar: rng.range(45, 58), top: true });
-  limbSpecs.push({ y: P.trunkTop, az: az0 + 5 * golden + Math.PI + rng.range(-0.4, 0.4), polar: rng.range(48, 62), top: true });
+  limbSpecs.push({ y: P.trunkTop, az: az0 + 6 * golden, polar: rng.range(40, 52), top: true });
+  limbSpecs.push({ y: P.trunkTop, az: az0 + 6 * golden + Math.PI + rng.range(-0.4, 0.4), polar: rng.range(44, 56), top: true });
+  // Secondary stems: upright co-dominant leaders that part from the bole a little below its top.
+  limbSpecs.push({ y: 4.7, az: az0 + 7 * golden, polar: rng.range(22, 30), top: true });
+  limbSpecs.push({ y: 5.3, az: az0 + 8 * golden, polar: rng.range(24, 32), top: true });
   const frame = (tan) => { const ref = Math.abs(tan.y) < 0.95 ? UP : new THREE.Vector3(1, 0, 0); const u = new THREE.Vector3().crossVectors(ref, tan).normalize(), w = new THREE.Vector3().crossVectors(tan, u); return [u, w]; };
   const forkDir = (tan, az, polarDeg) => { const [u, w] = frame(tan), th = polarDeg * Math.PI / 180; return tan.clone().multiplyScalar(Math.cos(th)).addScaledVector(u, Math.cos(az) * Math.sin(th)).addScaledVector(w, Math.sin(az) * Math.sin(th)).normalize(); };
 
   const limbs = [];
   const k0 = (spec) => spec.az * 0.37;
   for (const spec of limbSpecs.slice(0, P.limbs)) {
-    const f = trunk.at(clamp((spec.y + 0.6) / trunk.length, 0, 1));
+    const tAtY = (y) => { let i = 1; while (i < trunk.points.length - 1 && trunk.points[i].y < y) i++; const p0 = trunk.points[i - 1], p1 = trunk.points[i], f = clamp((y - p0.y) / Math.max(1e-6, p1.y - p0.y), 0, 1); return (trunk.cum[i - 1] + f * (trunk.cum[i] - trunk.cum[i - 1])) / trunk.length; };
+    const f = trunk.at(tAtY(spec.y));
     const dir = forkDir(f.tan, spec.az, spec.polar);
     const rho = rng.range(...P.murray) * P.lateral[1] * (spec.top ? 1.05 : 1);
     const length = spec.top ? rng.range(6, 7.5) : rng.range(7, 8.8);
     // A primary limb runs about 60 % of its reach, then forks in two that carry on to the crown edge: the veteran oak's wide, forked arms.
-    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: f.r * rho, taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.08 : 0.06, droop: 0.06, parent: trunk, forkT: spec.y / trunk.length, rMin: 0.08 });
+    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: f.r * rho, taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.08 : 0.06, droop: 0.06, parent: trunk, forkT: tAtY(spec.y), rMin: 0.08 });
     limbs.push(primary);
     const end = primary.at(1);
     for (const sgn of [-1, 1]) {

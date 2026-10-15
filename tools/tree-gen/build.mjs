@@ -34,8 +34,8 @@ const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 
 const name = arg('--name', 'hero-oak');
 
 const LODS = {
-  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 4, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 24 },
-  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 4, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 16 },
+  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 24 },
+  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 16 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
 
@@ -61,10 +61,10 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
   const P = LODS[lod], rng = makeRng(seedBase + 77), mb = new MeshBuilder(), seam = [];
   const rootAz = []; if (P.root) { const n = rng.int(5, 7), a0 = rng() * Math.PI * 2; for (let k = 0; k < n; k++) rootAz.push(a0 + (k / n) * Math.PI * 2 + rng.range(-0.25, 0.25)); }
   const trunkShape = (r, y, ang, i, dir) => {
-    if (y > 2.2) return r;
+    if (y > 4.5) return r;
     const az = Math.atan2(dir.z, dir.x); let lobe = 0;
     for (const a of rootAz) { let d = az - a; d = Math.atan2(Math.sin(d), Math.cos(d)); lobe += Math.exp(-(d * d) / (2 * 0.32 * 0.32)); }
-    return r * (1 + 0.2 * lobe * Math.exp(-Math.max(y, 0) / 0.8));
+    return r * (1 + 0.3 * lobe * Math.exp(-Math.max(y, 0) / 1.0));
   };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);

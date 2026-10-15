@@ -89,18 +89,18 @@ export function addTube(mb, branch, o, bark) {
 export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
   const roots = [];
   for (const az of azimuths) {
-    const reach = rng.range(2.1, 3.3), r0 = rng.range(0.3, 0.42), rise = rng.range(0.75, 1.15);
+    const reach = rng.range(2.6, 3.8), r0 = rng.range(0.34, 0.46), rise = rng.range(0.8, 1.2);
     const pts = [], radii = [], N = 6;
     const sway = rng.range(-0.5, 0.5);
     for (let i = 0; i <= N; i++) {
       const t = i / N;
-      const dist = lerp(trunkR * 0.45, reach, Math.pow(t, 0.85));
+      const dist = lerp(trunkR * 0.7, reach, Math.pow(t, 0.85));
       const a = az + sway * t * t;
-      const y = lerp(rise, -0.32, Math.pow(t, 0.55)) + (t < 0.5 ? 0 : -0.0);
+      const y = lerp(rise, -0.7, Math.pow(t, 0.7)) + (t < 0.5 ? 0 : -0.0);
       pts.push(new THREE.Vector3(Math.cos(a) * dist, y, Math.sin(a) * dist));
       radii.push(Math.max(0.05, r0 * (1 - 0.82 * Math.pow(t, 0.8))));
     }
-    const b = { level: 0, points: pts, radii, phase: 0, parentPhase: 0 };
+    const b = { level: 0, id: 500 + roots.length, points: pts, radii, phase: 0, parentPhase: 0 };
     b.cum = [0]; for (let i = 1; i < pts.length; i++) b.cum.push(b.cum[i - 1] + pts[i].distanceTo(pts[i - 1]));
     b.tangents = pts.map((p, i) => pts[Math.min(pts.length - 1, i + 1)].clone().sub(pts[Math.max(0, i - 1)]).normalize());
     b.pivot = new THREE.Vector3(0, 0, 0);
@@ -117,7 +117,7 @@ export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
  */
 export function addSkirt(mb, bark, rng, trunkFootR, seg = 24) {
   const rings = [
-    { r: trunkFootR * 0.94, y: 0.08, a: 255, k: 0.6 },
+    { r: trunkFootR * 0.7, y: 0.0, a: 255, k: 0.6 },
     { r: trunkFootR + 0.35, y: 0.045, a: 235, k: 0.62 },
     { r: trunkFootR + 0.75, y: -0.01, a: 150, k: 0.66 },
     { r: trunkFootR + 1.15, y: -0.14, a: 0, k: 0.7 },
