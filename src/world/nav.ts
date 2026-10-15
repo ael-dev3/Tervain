@@ -34,6 +34,8 @@ export class NavGrid {
   readonly h: number;
   private blocked: Uint8Array;
   private readonly widerGrids = new Map<number, NavGrid>();
+  // Route searches are synchronous; retain scratch buffers rather than allocating the whole grid per actor retry.
+  private searchWorkspace?: { gScore: Float32Array; came: Int32Array; closed: Uint8Array };
   builtVersion = -1;
 
   constructor(private terrain: Terrain, private colliders: Colliders, private radius = 0.55, prepared?: { blocked: Uint8Array; version: number }) {
@@ -142,9 +144,12 @@ export class NavGrid {
     if (!s || !g) return null;
     const W = this.w;
     const total = W * this.h;
-    const gScore = new Float32Array(total).fill(Infinity);
-    const came = new Int32Array(total).fill(-1);
-    const closed = new Uint8Array(total);
+    const { gScore, came, closed } = this.searchWorkspace ??= {
+      gScore: new Float32Array(total), came: new Int32Array(total), closed: new Uint8Array(total),
+    };
+    gScore.fill(Infinity);
+    came.fill(-1);
+    closed.fill(0);
     const startIdx = s.j * W + s.i;
     const goalIdx = g.j * W + g.i;
     gScore[startIdx] = 0;
