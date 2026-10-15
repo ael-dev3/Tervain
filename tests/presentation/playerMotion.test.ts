@@ -752,3 +752,20 @@ describe('explicit player equipment', () => {
   });
 
 });
+
+
+it.each([30,60,120])('stops a released-input fence vault at its checked landing (%i Hz)',hz=>{
+  for(const distance of [.55,1.2,1.85])for(const yaw of [0,.7,Math.PI/2]){
+    const s=setup();s.ctx.terrain.heightAt=()=>0;
+    s.ctx.colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});
+    const cos=Math.cos(yaw),sin=Math.sin(yaw);
+    s.player.setPosition(distance*cos,-distance*sin,Math.atan2(-cos,sin),s.ctx.terrain);
+    s.presses.add('jump');s.tick(1/hz);
+    expect(s.player.vault).not.toBeNull();const landing={...s.player.vault!.to};
+    for(let i=0;s.player.vault&&i<hz*3;i++)s.tick(1/hz);
+    expect(s.player.grounded).toBe(true);
+    expect(Math.hypot(s.player.vx,s.player.vz)).toBeLessThan(1e-8);
+    for(let i=0;i<hz;i++)s.tick(1/hz);
+    expect(Math.hypot(s.player.x-landing.x,s.player.z-landing.z)).toBeLessThan(1e-8);
+  }
+});
