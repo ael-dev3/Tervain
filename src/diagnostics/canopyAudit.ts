@@ -129,7 +129,13 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
     // `woodReach` from the wood are grouped (by the same proximity links) into detached clumps.
     const reach=woodReach/s,far=union(entry.components.length),isFar=(i:number)=>!(entry.contacts[i]!<=reach);let farCards=0,maxWoodGap=0;
     for(let i=0;i<entry.components.length;i++)if(isFar(i)){farCards++;maxWoodGap=Math.max(maxWoodGap,Number.isFinite(entry.contacts[i]!)?entry.contacts[i]!*s:Infinity);}
-    for(const[a,b,d]of entry.edges){charge();if(d<=limit&&isFar(a)&&isFar(b))far.join(a,b);}
+    // A spanning tree preserves connectivity only before vertices are removed. A supported card can be the
+    // shortcut between two detached cards, hiding their direct link when that supported card is excluded.
+    if(farCards===entry.components.length){for(const[a,b,d]of entry.edges){charge();if(d<=limit)far.join(a,b);}}
+    else if(farCards>1){
+      const ids=entry.components.flatMap((_,i)=>isFar(i)?[i]:[]);
+      for(const[a,b]of spanningLeafEdges(ids.map(i=>entry.components[i]!),limit,charge))far.join(ids[a]!,ids[b]!);
+    }
     const farClumps=new Set<number>();for(let i=0;i<entry.components.length;i++)if(isFar(i))farClumps.add(far.find(i));
     return{label:t.label,...metadata,kind:t.kind,missingWood:false,leafless:false,components:entry.components.length,chunks:chunks.size,detachedCards:farCards,detachedClumps:farClumps.size,maxWoodGap:Number.isFinite(maxWoodGap)?maxWoodGap:null,candidates};});
   const bySpecies:Record<string,{trees:number;leafless:number;candidates:number}>={};for(const t of trees){const group=bySpecies[t.species]??={trees:0,leafless:0,candidates:0};group.trees++;group.leafless+=Number(t.leafless);group.candidates+=t.candidates.length;}
