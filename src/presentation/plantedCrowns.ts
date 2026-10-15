@@ -14,11 +14,20 @@ type Crown = Placement & { cos: number; sin: number; mask: Mask; broadleaf: bool
 const GRID = 24, HASH = 32;
 const masks = new WeakMap<THREE.BufferGeometry, Mask>();
 
-function edgeDistance(x: number, z: number, ax: number, az: number, bx: number, bz: number): number {
+/** Test a projected edge radius without a norm except at floating-point boundaries. */
+export function projectedEdgeWithin(x: number, z: number, ax: number, az: number, bx: number, bz: number, radius: number): boolean {
+  if (radius < 0) return false;
   const dx = bx - ax, dz = bz - az;
   const d = dx * dx + dz * dz;
   const t = d > 0 ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / d)) : 0;
-  return Math.hypot(x - ax - dx * t, z - az - dz * t);
+  const px = x - ax - dx * t, pz = z - az - dz * t;
+  const squared = px * px + pz * pz, limit = radius * radius;
+  // Preserve the norm's decision when squaring overflows/underflows or rounding can cross the boundary.
+  if (!Number.isFinite(squared) || !Number.isFinite(limit) || squared < Number.MIN_VALUE / Number.EPSILON
+    || limit < Number.MIN_VALUE / Number.EPSILON || Math.abs(squared - limit) <= 8 * Number.EPSILON * Math.max(squared, limit)) {
+    return Math.hypot(px, pz) <= radius;
+  }
+  return squared < limit;
 }
 
 /** Rasterize actual leaf triangles once per shared source geometry. Thin upright cards
@@ -50,7 +59,8 @@ function crownMask(geometry: THREE.BufferGeometry): Mask {
       const w = (ax - cx) * (z - cz) - (az - cz) * (x - cx);
       const area = (bx - ax) * (cz - az) - (bz - az) * (cx - ax);
       const inside = Math.abs(area) > 1e-10 && ((u >= 0 && v >= 0 && w >= 0) || (u <= 0 && v <= 0 && w <= 0));
-      if (inside || Math.min(edgeDistance(x, z, ax, az, bx, bz), edgeDistance(x, z, bx, bz, cx, cz), edgeDistance(x, z, cx, cz, ax, az)) <= pad) raw[at] = 1;
+      if (inside || projectedEdgeWithin(x, z, ax, az, bx, bz, pad)
+        || projectedEdgeWithin(x, z, bx, bz, cx, cz, pad) || projectedEdgeWithin(x, z, cx, cz, ax, az, pad)) raw[at] = 1;
     }
   }
   for (let z = 1; z < GRID - 1; z++) for (let x = 1; x < GRID - 1; x++) {
@@ -73,7 +83,7 @@ function localCover(mask: Mask, x: number, z: number): number {
 
 /** Contains only accepted, planted trees, identical across graphics presets. */
 export class PlantedCrownIndex implements PlantedCrownField {
-  private buckets = new Map<string, Crown[]>();
+  private buckets = new Map<number, Map<number, Crown[]>>();
   add(species: Species, placement: Placement, geometry: THREE.BufferGeometry): void {
     if (!(placement.s > 0) || ![placement.x, placement.z, placement.s, placement.yaw].every(Number.isFinite)) throw new Error('Invalid planted crown transform.');
     const mask = crownMask(geometry), cos = Math.cos(placement.yaw), sin = Math.sin(placement.yaw);
@@ -82,16 +92,23 @@ export class PlantedCrownIndex implements PlantedCrownField {
     const corners = xs.flatMap(x => zs.map(z => [placement.x + placement.s * (x * cos + z * sin), placement.z + placement.s * (z * cos - x * sin)]));
     const minX = Math.floor(Math.min(...corners.map(p => p[0]!)) / HASH), maxX = Math.floor(Math.max(...corners.map(p => p[0]!)) / HASH);
     const minZ = Math.floor(Math.min(...corners.map(p => p[1]!)) / HASH), maxZ = Math.floor(Math.max(...corners.map(p => p[1]!)) / HASH);
-    for (let z = minZ; z <= maxZ; z++) for (let x = minX; x <= maxX; x++) {
-      const key = `${x}:${z}`, bucket = this.buckets.get(key);
-      if (bucket) bucket.push(crown); else this.buckets.set(key, [crown]);
+    for (let z = minZ; z <= maxZ; z++) {
+      let row = this.buckets.get(z);
+      if (!row) this.buckets.set(z, row = new Map());
+      for (let x = minX; x <= maxX; x++) {
+        const bucket = row.get(x);
+        if (bucket) bucket.push(crown); else row.set(x, [crown]);
+      }
     }
   }
   coverAt(x: number, z: number): number { return this.sample(x, z, false); }
   broadleafAt(x: number, z: number): number { return this.sample(x, z, true); }
   private sample(x: number, z: number, broadleafOnly: boolean): number {
+    // Separate numeric axes avoid constructing a coordinate string for every shade query.
+    const bucket = this.buckets.get(Math.floor(z / HASH))?.get(Math.floor(x / HASH));
+    if (!bucket) return 0;
     let transmission = 1;
-    for (const crown of this.buckets.get(`${Math.floor(x / HASH)}:${Math.floor(z / HASH)}`) ?? []) {
+    for (const crown of bucket) {
       if (broadleafOnly && !crown.broadleaf) continue;
       const dx = (x - crown.x) / crown.s, dz = (z - crown.z) / crown.s;
       transmission *= 1 - localCover(crown.mask, dx * crown.cos - dz * crown.sin, dz * crown.cos + dx * crown.sin);

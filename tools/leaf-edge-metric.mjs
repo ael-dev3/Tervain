@@ -56,7 +56,7 @@ const find = (x, z, az) => {
 
 const url = (hour) => {
   const u = new URL(base);
-  for (const [k, v] of Object.entries({ shot: '1', quality: 'high', place: 'rillford', settle: '1', hud: '0', hour: String(hour), leafatlas: flag })) u.searchParams.set(k, v);
+  for (const [k, v] of Object.entries({ shot: '1', quality: args.quality ?? 'high', place: 'rillford', settle: '1', hud: '0', hour: String(hour), leafatlas: flag })) u.searchParams.set(k, v);
   return u.href;
 };
 

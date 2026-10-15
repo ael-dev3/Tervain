@@ -25,6 +25,8 @@ export function horizontalSphereIntersects(frustum: THREE.Frustum, sphere: THREE
     const y = n.x * e[4] + n.y * e[5] + n.z * e[6];
     const z = n.x * e[8] + n.y * e[9] + n.z * e[10];
     const distance = x * c.x + y * c.y + z * c.z + plane.constant + n.x * e[12] + n.y * e[13] + n.z * e[14];
+    // A nonempty clipped sphere contains its centre, so this plane already accepts it.
+    if (distance >= -1e-6 && sphere.radius >= 0 && half >= 0) continue;
     if (distance + sphereSlabSupport(x, y, z, sphere.radius, half) < -1e-6) return false;
   }
   return true;

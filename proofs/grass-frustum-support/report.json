@@ -1,0 +1,58 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "tiles": 31,
+  "rows": {
+    "native": {
+      "planeSupportTests": null,
+      "tileTests": 18,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalSupportTests": null,
+      "totalTileTests": 80,
+      "visibleTests": 74,
+      "rejectedTests": 6,
+      "statesSha256": "e9b744d068181aa9816d3b7ec2975e5ecd2bef186ff730e9099e16dc85258813",
+      "nativeStatesMatch": true
+    },
+    "before": {
+      "planeSupportTests": 81,
+      "tileTests": 18,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalSupportTests": 453,
+      "totalTileTests": 80,
+      "visibleTests": 74,
+      "rejectedTests": 6,
+      "statesSha256": "e9b744d068181aa9816d3b7ec2975e5ecd2bef186ff730e9099e16dc85258813",
+      "nativeStatesMatch": true
+    },
+    "after": {
+      "planeSupportTests": 12,
+      "tileTests": 18,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174,
+      "totalSupportTests": 12,
+      "totalTileTests": 80,
+      "visibleTests": 74,
+      "rejectedTests": 6,
+      "statesSha256": "e9b744d068181aa9816d3b7ec2975e5ecd2bef186ff730e9099e16dc85258813",
+      "nativeStatesMatch": true
+    }
+  },
+  "synthetic": {
+    "cases": 2000,
+    "visible": 305,
+    "rejected": 1695,
+    "matches": true
+  },
+  "identicalPixels": true,
+  "sourceSha256": "b673ccc2299e93fbf9c15828a31ad7a4386cc4c7dad96da2b4cc07dc0e784ddf",
+  "scope": "Actual published grass tiles, native callbacks and full-scene post-processing. Only layer inHorizontalView is replaced by the actual source method bound to its native layer, with baseline/candidate extent helper. Native compiled method is the control. Support-function entry counts; controlled capture cameras; 2000 deterministic sheared/scaled/translated cases. No hardware frame-time claim.",
+  "pass": true
+}
