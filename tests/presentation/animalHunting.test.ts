@@ -332,7 +332,11 @@ describe('posed triangle arrow contacts', () => {
     const scaled = surface.trace(new THREE.Vector3(0, .77, 3), direction, 5)!;
     expect(scaled.zone).toBe('head'); expect(scaled.point.z).toBeCloseTo(1.3);
     source.scene.scale.set(1, 1, 1); source.scene.updateMatrixWorld(true);
-
+    expect(surface.trace(new THREE.Vector3(.7, 1.1, 3), direction, 5)).toBeNull();
+    mesh.skeleton.bones[2]!.position.x = .7; source.scene.updateMatrixWorld(true); mesh.skeleton.update();
+    const movedHead = surface.trace(new THREE.Vector3(.7, 1.1, 3), direction, 5)!;
+    expect(movedHead.zone).toBe('head'); expect(movedHead.point.x).toBeCloseTo(.7);
+    expect(surface.trace(new THREE.Vector3(0, 1.1, 3), direction, 5)).toBeNull();
 
     const root = new THREE.Group(); root.add(source.scene); root.updateMatrixWorld(true);
     const effects = new AnimalImpactEffects(terrain);
