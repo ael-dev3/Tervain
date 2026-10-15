@@ -88,3 +88,19 @@ it('rejects unavailable required cutouts rather than claiming opaque coverage in
  const decoded={...t,cutout:{uv:'uv',cutoff:.5,alpha:()=>1}};expect(auditCanopies([decoded],{alpha:true}).complete).toBe(true);
  const leafless={...t,leaves:null};expect(auditCanopies([leafless],{alpha:true}).complete).toBe(true);
 });
+
+it('keeps tighter wood-reach classifications independent of wood triangle order', () => {
+  const near = new THREE.PlaneGeometry(1, 1).translate(0, 0, .1);
+  const far = new THREE.PlaneGeometry(1, 1).translate(0, 0, .5);
+  const leaves = new THREE.PlaneGeometry(.02, .02);
+  const geometries = [mergeGeometries([far, near]), mergeGeometries([near, far]), far.clone()];
+  try {
+    for (const [i, wood] of geometries.entries()) {
+      const r = auditCanopies([{ label: 'tight-reach', wood, leaves, matrix: new THREE.Matrix4() }],
+        { gap: .75, woodReach: .2 });
+      expect(r.summary.candidates).toBe(0); // All three stay connected at the wider connectivity gap.
+      expect(r.summary.detachedCards).toBe(i === 2 ? 1 : 0);
+      expect(r.summary.detachedClumps).toBe(i === 2 ? 1 : 0);
+    }
+  } finally { near.dispose(); far.dispose(); leaves.dispose(); for (const g of geometries) g.dispose(); }
+});
