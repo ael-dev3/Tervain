@@ -1,3 +1,4 @@
+import { BOW_LENGTH } from '../content/bowSize';
 import * as THREE from 'three';
 import { isWorldPickupItem, WORLD_PICKUP_ITEM_IDS, type WorldPickupItem } from '../content/pickups';
 import { WORLD, type PICKUP_LOCATIONS } from '../world/layout';
@@ -53,16 +54,16 @@ export function pickupGeometry(item: WorldPickupItem): { geometry: THREE.BufferG
       b.blob(0.035, 0.009, 0.027, Math.cos(a) * rr, 0.645 - rr * 0.27, Math.sin(a) * rr, 0xbdac83, { seg: 5, rings: 3, lump: 0, seed: i });
     }
   } else if (item === 'hunting_bow') {
-    // A hand-carved 1.3 m bow laid on its side: solid wooden limbs, a pale string and a wrapped grip.
-    const segments = 12;
+    // A hand-carved bow (BOW_LENGTH) laid on its side: solid wooden limbs, a pale string and a wrapped grip.
+    const segments = 12, L = BOW_LENGTH, bulge = .25 * L / 1.28;
     for (let i = 0; i < segments; i++) {
       const t0 = i / segments, t1 = (i + 1) / segments;
-      const x0 = Math.sin(t0 * Math.PI) * 0.25, x1 = Math.sin(t1 * Math.PI) * 0.25;
-      b.rod(x0, 0.039, (t0 - .5) * 1.28, x1, 0.039, (t1 - .5) * 1.28, .019, 6, 0x856345);
+      const x0 = Math.sin(t0 * Math.PI) * bulge, x1 = Math.sin(t1 * Math.PI) * bulge;
+      b.rod(x0, 0.039, (t0 - .5) * L, x1, 0.039, (t1 - .5) * L, .019, 6, 0x856345);
     }
-    b.rod(0, .039, -.64, 0, .039, .64, .0055, 5, 0xdfd1ae);
+    b.rod(0, .039, -L / 2, 0, .039, L / 2, .0055, 5, 0xdfd1ae);
     for (let i = -3; i <= 3; i++) {
-      const z = i * .022, x = Math.cos(z / 1.28 * Math.PI) * .25;
+      const z = i * .022, x = Math.cos(z / L * Math.PI) * bulge;
       b.rod(x, .039, z - .008, x, .039, z + .008, .026, 6, i % 2 ? 0x4d3e31 : 0xada084);
     }
   } else if (item === 'skinning_knife') {
