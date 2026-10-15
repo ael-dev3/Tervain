@@ -24,7 +24,7 @@ function components(g: THREE.BufferGeometry, charge: () => void, cutout?: Canopy
   if(cutout){
     for(let i=0;i<p.count;i++)if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');
     const uv=g.getAttribute(cutout.uv);if(!uv)throw new Error('Missing leaf UVs for alpha audit');
-    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3(),corners=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
+    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3(),corners=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()],edgeA=new THREE.Vector3(),edgeB=new THREE.Vector3();
     // Atlas cards repeat UV triangles. Cache only their opaque weights within this cutout's scan.
     const patterns=new Map<string,[number,number,number][]>();
     for(let i=0;i+2<(index?.count??p.count);i+=3){const v=[0,1,2].map(j=>index?.getX(i+j)??i+j) as [number,number,number],key=i;
@@ -36,7 +36,19 @@ function components(g: THREE.BufferGeometry, charge: () => void, cutout?: Canopy
         const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
         if(cutout.alpha(w[0]*u0+w[1]*u1+w[2]*u2,w[0]*t0+w[1]*t1+w[2]*t2)<cutout.cutoff)continue;
         weights.push(w);
-      }patterns.set(patternKey,weights);}
+      }
+      // A clear coarse grid does not prove a clear card: thin needles can lie between its samples.
+      // Positive witnesses make that omission explicit. Cache unwitnessed patterns too.
+      if(!weights.length){
+        // Do not seed the empty-pattern cache from a collapsed card: a real card can reuse its UVs later.
+        if(edgeA.subVectors(corners[1]!,corners[0]!).cross(edgeB.subVectors(corners[2]!,corners[0]!)).lengthSq()===0)continue;
+        for(let a=0;a<=48;a++)for(let b=0;a+b<=48;b++){
+          charge();const w0=a/48,w1=b/48,w2=(48-a-b)/48;
+          if(cutout.alpha(w0*u0+w1*u1+w2*u2,w0*t0+w1*t1+w2*t2)>=cutout.cutoff)
+            throw new Error('Canopy alpha sampling missed opaque foliage');
+        }
+      }
+      patterns.set(patternKey,weights);}
       for(const w of weights){point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(corners[k]!,w[k]!);
         const list=opaque.get(key)??[];list.push(point.clone());opaque.set(key,list);}}
     return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),centre=box.getCenter(new THREE.Vector3());
