@@ -165,9 +165,11 @@ vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
   w += (axisDown * (steady + aBough) + vec3(0.0, 1.0, 0.0) * aBough * 0.4) * (0.07 * wb * mix(0.5, 1.0, gP));
   w += (axisDown * (steady + aTwig) + wdir * aTwig * 0.5) * (0.09 * wt * mix(0.4, 1.0, turbP));
   // Cards: each flutters about the tip of its own twig, at its own quick rate.
-  float fl = tvHW.w;
+  // w is the flutter amplitude (0 wood, 1 a card at its twig tip); a derived card adds its own seed: w = seed + amplitude.
+  float flRaw = tvHW.w;
+  float fl = flRaw > 0.0 ? flRaw - ceil(flRaw) + 1.0 : 0.0;
   if (fl > 0.0) {
-    float seed = tvHHash(dot(pv, vec3(12.7, 3.1, 7.9)));
+    float seed = tvHHash(dot(pv, vec3(12.7, 3.1, 7.9)) + (ceil(flRaw) - 1.0) * 1.37);
     float aLeaf = sin(t * tau * (3.5 + 2.5 * seed) + seed * 40.0);
     float aLeaf2 = sin(t * tau * (4.1 + 2.0 * fract(seed * 7.31)) + seed * 17.0);
     w += (axisDown * aLeaf + wdir * aLeaf2 * 0.8 + vec3(0.0, 1.0, 0.0) * aLeaf2 * 0.6) * (0.22 * fl * (0.25 + 0.75 * turbP) * mix(0.35, 1.0, gP));
