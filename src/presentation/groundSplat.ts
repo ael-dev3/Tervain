@@ -41,11 +41,21 @@ function blend(w: Float32Array, layer: number, a: number) {
   w[layer]! += Math.min(1, a);
 }
 
+/** Surface values already evaluated at the same world point, kept at ordinary number precision. */
+export interface GroundSurfaceSample {
+  readonly slope: number;
+  readonly carve: number;
+}
+
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>, sampledRoad?: number): number {
+export function groundSplat(
+  terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField,
+  sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>,
+  sampledRoad?: number, sampledSurface?: GroundSurfaceSample,
+): number {
   const h = terrain.heightAt(x, z);
-  const slope = terrain.slopeAt(x, z);
-  const carve = terrain.carveAt(x, z);
+  const slope = sampledSurface?.slope ?? terrain.slopeAt(x, z);
+  const carve = sampledSurface?.carve ?? terrain.carveAt(x, z);
   const nLow = fbm(x / 40, z / 40, 3, 21) * 0.5 + 0.5;
   const nMid = fbm(x / 11, z / 11, 3, 23) * 0.5 + 0.5;
   const nHi = fbm(x / 3.3, z / 3.3, 2, 27) * 0.5 + 0.5;
