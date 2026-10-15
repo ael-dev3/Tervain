@@ -251,7 +251,8 @@ export class GrassTrample {
       while (this.accumulated >= STEP) {
         this.accumulated -= STEP;
         const n = Math.min(TRAMPLE_MAX_MOVERS - this.movers.length, this.pendingStamps.length);
-        this.stampPass(renderer, [...this.movers, ...this.pendingStamps.slice(0, n)],
+        // Most steps have no queued brush samples; pass the owned mover list directly.
+        this.stampPass(renderer, n === 0 ? this.movers : [...this.movers, ...this.pendingStamps.slice(0, n)],
           Math.exp(-STEP / TRAMPLE_RECOVERY.push), Math.exp(-STEP / TRAMPLE_RECOVERY.flat));
         this.pendingStamps.splice(0, n);
         // More than one frame of a quick stroke can exceed a shader batch. Stamp the rest without extra recovery.
