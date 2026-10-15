@@ -1,0 +1,93 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "crowns": 253,
+  "masks": 18,
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "emptyProbes": {
+        "samples": [
+          0,
+          0
+        ],
+        "queries": 2,
+        "stringKeys": null,
+        "emptyLists": null
+      },
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "before": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "queries": 12716,
+      "stringKeys": 12716,
+      "emptyLists": 0,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "emptyProbes": {
+        "samples": [
+          0,
+          0
+        ],
+        "queries": 2,
+        "stringKeys": 2,
+        "emptyLists": 2
+      },
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "queries": 12716,
+      "stringKeys": 0,
+      "emptyLists": 0,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "emptyProbes": {
+        "samples": [
+          0,
+          0
+        ],
+        "queries": 2,
+        "stringKeys": 0,
+        "emptyLists": 0
+      },
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "162a229108aac9628bc47fac633971ade49e1198582c6b91d6ff0a2f67360327",
+  "scope": "Native published grass generator, Habitat, retained canopy masks, tile meshes and post-processing. Baseline/candidate actual Index.add rebuild bucket layouts using retained masks seeded into their mask cache; a topological order preserves every native bucket order. No mask rasterization or visual geometry change. Actual source sample methods count coordinate-string expressions and empty fallback lists during native tile generation, plus separate controlled empty-cell probes; these are source operation counts, not heap/GC/hardware timings.",
+  "pass": true
+}

@@ -73,7 +73,7 @@ function localCover(mask: Mask, x: number, z: number): number {
 
 /** Contains only accepted, planted trees, identical across graphics presets. */
 export class PlantedCrownIndex implements PlantedCrownField {
-  private buckets = new Map<string, Crown[]>();
+  private buckets = new Map<number, Map<number, Crown[]>>();
   add(species: Species, placement: Placement, geometry: THREE.BufferGeometry): void {
     if (!(placement.s > 0) || ![placement.x, placement.z, placement.s, placement.yaw].every(Number.isFinite)) throw new Error('Invalid planted crown transform.');
     const mask = crownMask(geometry), cos = Math.cos(placement.yaw), sin = Math.sin(placement.yaw);
@@ -82,16 +82,23 @@ export class PlantedCrownIndex implements PlantedCrownField {
     const corners = xs.flatMap(x => zs.map(z => [placement.x + placement.s * (x * cos + z * sin), placement.z + placement.s * (z * cos - x * sin)]));
     const minX = Math.floor(Math.min(...corners.map(p => p[0]!)) / HASH), maxX = Math.floor(Math.max(...corners.map(p => p[0]!)) / HASH);
     const minZ = Math.floor(Math.min(...corners.map(p => p[1]!)) / HASH), maxZ = Math.floor(Math.max(...corners.map(p => p[1]!)) / HASH);
-    for (let z = minZ; z <= maxZ; z++) for (let x = minX; x <= maxX; x++) {
-      const key = `${x}:${z}`, bucket = this.buckets.get(key);
-      if (bucket) bucket.push(crown); else this.buckets.set(key, [crown]);
+    for (let z = minZ; z <= maxZ; z++) {
+      let row = this.buckets.get(z);
+      if (!row) this.buckets.set(z, row = new Map());
+      for (let x = minX; x <= maxX; x++) {
+        const bucket = row.get(x);
+        if (bucket) bucket.push(crown); else row.set(x, [crown]);
+      }
     }
   }
   coverAt(x: number, z: number): number { return this.sample(x, z, false); }
   broadleafAt(x: number, z: number): number { return this.sample(x, z, true); }
   private sample(x: number, z: number, broadleafOnly: boolean): number {
+    // Separate numeric axes avoid constructing a coordinate string for every shade query.
+    const bucket = this.buckets.get(Math.floor(z / HASH))?.get(Math.floor(x / HASH));
+    if (!bucket) return 0;
     let transmission = 1;
-    for (const crown of this.buckets.get(`${Math.floor(x / HASH)}:${Math.floor(z / HASH)}`) ?? []) {
+    for (const crown of bucket) {
       if (broadleafOnly && !crown.broadleaf) continue;
       const dx = (x - crown.x) / crown.s, dz = (z - crown.z) / crown.s;
       transmission *= 1 - localCover(crown.mask, dx * crown.cos - dz * crown.sin, dz * crown.cos + dx * crown.sin);
