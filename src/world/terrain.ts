@@ -188,6 +188,9 @@ interface Pad {
 let pads: Pad[] | null = null;
 
 const archive = BUILDINGS.find((b) => b.kind === 'archive')!;
+const archiveCos = Math.cos(archive.yaw), archiveSin = Math.sin(archive.yaw);
+// Authored support transforms stay fixed for the lifetime of the terrain.
+const deckFrames = DECKS.map(deck => ({ deck, cos: Math.cos(deck.yaw), sin: Math.sin(deck.yaw) }));
 let archivePadLevel: number | null = null;
 
 /** A cut-and-filled terrace supports the archive and both entrances, including the terrain grid's interpolation margin. */
@@ -605,11 +608,11 @@ export class Terrain {
   }
 
   deckAt(x: number, z: number) {
-    for (const d of DECKS) {
+    for (const { deck: d, cos, sin } of deckFrames) {
       const dx = x - d.x;
       const dz = z - d.z;
-      const lx = dx * Math.cos(d.yaw) - dz * Math.sin(d.yaw);
-      const lz = dx * Math.sin(d.yaw) + dz * Math.cos(d.yaw);
+      const lx = dx * cos - dz * sin;
+      const lz = dx * sin + dz * cos;
       if (Math.abs(lx) <= d.hx && Math.abs(lz) <= d.hz) return d;
     }
     return null;
@@ -630,8 +633,8 @@ export class Terrain {
     }
     const dx = x - archive.x;
     const dz = z - archive.z;
-    const c = Math.cos(archive.yaw);
-    const s = Math.sin(archive.yaw);
+    const c = archiveCos;
+    const s = archiveSin;
     const lx = dx * c - dz * s;
     const lz = dx * s + dz * c;
     const hd = archive.d / 2;
