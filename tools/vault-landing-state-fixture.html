@@ -1,0 +1,16 @@
+<!doctype html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+try{
+ const c=window.vaultCase,mode=new URLSearchParams(location.search).get('mode'),v=c[mode],clear=c.clear;
+ const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x202630);
+ const add=(g,color,p)=>{const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color,wireframe:true}));m.position.copy(p);scene.add(m)};
+ add(new THREE.BoxGeometry(.24,1.1,6),0xb79262,new THREE.Vector3(0,.55,0));
+ // The gray wire box represents the controlled inactive collider, not a drawn production fence.
+ add(new THREE.BoxGeometry(.16,1.5,.7),0x555a64,new THREE.Vector3(clear.to.x,.75,clear.to.z));
+ const u=.5,ease=u*u*(3-2*u),p=v?new THREE.Vector3(v.from.x+(v.to.x-v.from.x)*ease,v.from.y+(v.to.y-v.from.y)*u+(v.peak-Math.max(v.from.y,v.to.y))*Math.sin(Math.PI*u),v.from.z+(v.to.z-v.from.z)*ease):new THREE.Vector3(clear.from.x,clear.from.y,clear.from.z);
+ add(new THREE.CapsuleGeometry(.4,1.15,8,16),v?0x68c6b1:0xf39c78,p.clone().add(new THREE.Vector3(0,.975,0)));
+ const camera=new THREE.PerspectiveCamera(48,640/360,.1,100);camera.position.set(4,3.5,6);camera.lookAt(0,1,0);renderer.render(scene,camera);
+ window.diagramReady={accepted:!!v,glError:renderer.getContext().getError()};
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script>
