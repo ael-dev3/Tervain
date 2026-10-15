@@ -427,9 +427,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     drawTris = 0;
     shadowTrees = 0;
     shadowTris = 0;
+    const counts = [0, 0, 0], shadowCounts = [0, 0, 0];
     for (const b of batches) {
-      const counts = [0, 0, 0];
-      const shadowCounts = [0, 0, 0];
+      counts.fill(0); shadowCounts.fill(0);
       const v = b.variant;
       const pineShadows = usesPine(v.species);
       for (let treeIndex = 0; treeIndex < b.trees.length; treeIndex++) {
