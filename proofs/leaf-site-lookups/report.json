@@ -1,0 +1,748 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "results": {
+    "before": {
+      "rows": [
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "48ed919c5115a691ab3abec99c902375f778d3387dcf5f8b70123e9c55260c1b"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "1910364d3d45d768122a2a881c6a6039bb82db9a20b22ab4a38186dcc1b7aae6"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "449f0d1c0efad06d90a921a0e4aedc2eafa01af17f82df66882bffe71a1d1187"
+        },
+        {
+          "name": "fir-spire:0:foliage",
+          "triangles": 5936,
+          "sites": 140,
+          "sha256": "48aa14b96ce262784307557497cf7ffde5312a894819746a2830df5bc2a43f22"
+        },
+        {
+          "name": "fir-spire:1:foliage",
+          "triangles": 3216,
+          "sites": 167,
+          "sha256": "d134f3ef350be09166ee8e7ec51efb1d54faa3588a71a45e29958aee07c37664"
+        },
+        {
+          "name": "fir-spire:2:foliage",
+          "triangles": 1204,
+          "sites": 163,
+          "sha256": "b643d92c4e4940a6c761de5d6158a33e84cd73130e605fd7e2569bc32a8feec0"
+        },
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "96e29c28d9e2f1822f12d748d2169a40aba1d793a4a432e4a1f0f53b98dc3933"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "351eccab58044a238a3b886b2f9d680ec72e3b06edc432594042e9d21f0fe313"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "55186ebf2be4ef1d1ef529d48194da0c6bee7c7febded1734339b645ff4f8193"
+        },
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "46278ab58f8a989b5349156aecfc240a42e8d01967c6eca22d84dcf34708e912"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "0e2b04ff6d22739b98353e22ef22d8e97a1347c75e3c1a33db5bb4c4084cd616"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "c68cbb95dda4b0a9b6ae9f18f78334e5dc1358b29f6464e343adef40d3f8e1bd"
+        },
+        {
+          "name": "tree-1521:0:foliage",
+          "triangles": 6412,
+          "sites": 149,
+          "sha256": "abffb4df343c155bdf7f8cbe8ecf4444dacc0931a8609752646b1d1a995fab8c"
+        },
+        {
+          "name": "tree-1521:1:foliage",
+          "triangles": 3624,
+          "sites": 156,
+          "sha256": "e59ae0e691f960c93007586acb2e2a5d778250dc83d7c43ca9b42db85c785497"
+        },
+        {
+          "name": "tree-1521:2:foliage",
+          "triangles": 1442,
+          "sites": 258,
+          "sha256": "27a54f75374984497e7ddd8e911498d28dab2befa6bd2f23eb2e78d83ea33fc6"
+        },
+        {
+          "name": "verdant-sentinel:0:foliage",
+          "triangles": 11138,
+          "sites": 375,
+          "sha256": "79e9396f70612e2bd9d1ee4faaeaac567525f43a666ef36585ebe75f80ea9d3f"
+        },
+        {
+          "name": "verdant-sentinel:1:foliage",
+          "triangles": 4348,
+          "sites": 306,
+          "sha256": "9b118304bd014ea0b2df2113afc1671e83e5e2b7e3692776a4ca20489f5b0282"
+        },
+        {
+          "name": "verdant-sentinel:2:foliage",
+          "triangles": 1442,
+          "sites": 273,
+          "sha256": "918e4bf710de352a91976bd48bdebe3860776198eca04b15ea9d6f9bd4b548a8"
+        },
+        {
+          "name": "tree-1527:0:foliage",
+          "triangles": 12000,
+          "sites": 376,
+          "sha256": "cdd8724520ba04ab697f843e9b9b63612a1a2f39d18922a64875c920c9610c54"
+        },
+        {
+          "name": "tree-1527:1:foliage",
+          "triangles": 8394,
+          "sites": 301,
+          "sha256": "9d1ae915eb990d792c3bb6e7a08c0774cca5cf9cb976380aa5d6eded5b2e54d8"
+        },
+        {
+          "name": "tree-1527:2:foliage",
+          "triangles": 2103,
+          "sites": 183,
+          "sha256": "076d5b7f813277bc45737eb23bca6b884b340e0c5f90d6daa323c4430d432478"
+        },
+        {
+          "name": "oak-elder:0:foliage",
+          "triangles": 10958,
+          "sites": 376,
+          "sha256": "a20ce232c1410544b387bc31a84756cb4cb873527be000fa5872ec8764e3e26a"
+        },
+        {
+          "name": "oak-elder:1:foliage",
+          "triangles": 3398,
+          "sites": 302,
+          "sha256": "bb2a5b93cc1c01788771a69562069a1e9b5321651d15a57b23f5a72584f0a659"
+        },
+        {
+          "name": "oak-elder:2:foliage",
+          "triangles": 980,
+          "sites": 219,
+          "sha256": "794ee21b31c7191d24cc9f1098088467706be768ee53050fe984b8f83562daa7"
+        },
+        {
+          "name": "tree-4815:0:foliage",
+          "triangles": 10812,
+          "sites": 380,
+          "sha256": "88b78267fffea61602ee20392ab2bc328296547bd540cdf95921ae9b4476255f"
+        },
+        {
+          "name": "tree-4815:1:foliage",
+          "triangles": 3398,
+          "sites": 299,
+          "sha256": "4688de6f0d7370d86dd2b78f53eeb8b0713d2f0fe797bb78a5efd5fc509aa49f"
+        },
+        {
+          "name": "tree-4815:2:foliage",
+          "triangles": 980,
+          "sites": 236,
+          "sha256": "b506f419014c8c204087b879157fedfbb9028a38b172cb22ef1800c6a5a09003"
+        },
+        {
+          "name": "tree-4949:0:foliage",
+          "triangles": 5544,
+          "sites": 120,
+          "sha256": "405e9a97937f3dc9172a8cdb51d47d3af4f246c689311e948fa233cfb8e7cf08"
+        },
+        {
+          "name": "tree-4949:1:foliage",
+          "triangles": 2880,
+          "sites": 142,
+          "sha256": "4259656262ffc167a6f33012da53e63d0b522c5609292a47f33d46f559135b19"
+        },
+        {
+          "name": "tree-4949:2:foliage",
+          "triangles": 1008,
+          "sites": 225,
+          "sha256": "bf54c4d9c8245bfbd6f6e6e6f110f51df7c55235f20c516709820b02d684944d"
+        },
+        {
+          "name": "tree-1521:0:foliage",
+          "triangles": 10684,
+          "sites": 319,
+          "sha256": "7f9a029ddb4957a07f6cd33e09a8991ed38a2b6878d15a211f3900060aacaafe"
+        },
+        {
+          "name": "tree-1521:1:foliage",
+          "triangles": 4348,
+          "sites": 297,
+          "sha256": "d4297d25ca60f0233d03a7de2d99c86d5fe0429641deceebabfa87691e104ef7"
+        },
+        {
+          "name": "tree-1521:2:foliage",
+          "triangles": 1442,
+          "sites": 258,
+          "sha256": "8bcaf9f45600d79fe1caf2a3b60da8527d62a0f5725822e389fbeac73867166a"
+        },
+        {
+          "name": "tree-0208:0:foliage",
+          "triangles": 11168,
+          "sites": 393,
+          "sha256": "3b6ec84e600d8c6532b42be57f119c1ff7a54fd7ec51900647ea056019f38942"
+        },
+        {
+          "name": "tree-0208:1:foliage",
+          "triangles": 3312,
+          "sites": 314,
+          "sha256": "e3b46f092383358c96799b481162918f37a55d99352d3e4e04b29a8d5ad8f33b"
+        },
+        {
+          "name": "tree-0208:2:foliage",
+          "triangles": 938,
+          "sites": 188,
+          "sha256": "5c9f926771a6d8918b92e4a23c59fc3ce9120948cb61d3c1eab9fb7d6b23186b"
+        },
+        {
+          "name": "verdant-sentinel:0:foliage",
+          "triangles": 10772,
+          "sites": 358,
+          "sha256": "3bd8e840b4fbd5527dcc78d50155110066dd1aaf76f81c16e5f5dbcc23b3b3e0"
+        },
+        {
+          "name": "verdant-sentinel:1:foliage",
+          "triangles": 4348,
+          "sites": 302,
+          "sha256": "17b9a0cf67eeeef5efd2d091f36ea97b9645f53c555627e9d5152cc0c6e2fc1c"
+        },
+        {
+          "name": "verdant-sentinel:2:foliage",
+          "triangles": 1442,
+          "sites": 273,
+          "sha256": "0dbf25573474b886037f0196b92502bc1a928bb72f293589b1032140094d614b"
+        },
+        {
+          "name": "tree-1505:0:foliage",
+          "triangles": 10534,
+          "sites": 325,
+          "sha256": "dcfe56bc9b6a7d716186f449a148a48bfaf90650ee3d916d8e5f85fde1f9bee2"
+        },
+        {
+          "name": "tree-1505:1:foliage",
+          "triangles": 3398,
+          "sites": 310,
+          "sha256": "5f93beb6d65e20ae290c3f64ba598aa4c149764f7246522e733117d916a39c63"
+        },
+        {
+          "name": "tree-1505:2:foliage",
+          "triangles": 980,
+          "sites": 224,
+          "sha256": "d1598de3727019df909dca090c6ac36dacedbc52f15bf96337e58bba556cd234"
+        },
+        {
+          "name": "palm-fan:0:foliage",
+          "triangles": 5488,
+          "sites": 160,
+          "sha256": "6e6601c16ba9610d7996183835dae7c5b8ca9faa163ccd37a8f614bbd346df04"
+        },
+        {
+          "name": "palm-fan:1:foliage",
+          "triangles": 2832,
+          "sites": 191,
+          "sha256": "3ddaffe3b9f3f97861ebc4c82ddf4b1079c1fce95b3886727d424e7be07c7099"
+        },
+        {
+          "name": "palm-fan:2:foliage",
+          "triangles": 980,
+          "sites": 261,
+          "sha256": "0435b604bd8144d23e3d2303952fe2626c2c7e2839ae1f7276d0de186cd4bbc6"
+        },
+        {
+          "name": "palm-lean:0:foliage",
+          "triangles": 5488,
+          "sites": 160,
+          "sha256": "9d55e8a4cd1da8d6de32e7cf5fb32bb2d6f35600acb3d6f606a026b4a15ab670"
+        },
+        {
+          "name": "palm-lean:1:foliage",
+          "triangles": 2832,
+          "sites": 179,
+          "sha256": "0c0a1f6149fed5d5257b0dd25ce2c09036f2e19612b2d3a06009c3a5bb9c173c"
+        },
+        {
+          "name": "palm-lean:2:foliage",
+          "triangles": 980,
+          "sites": 244,
+          "sha256": "46699b9804f9dd7e8501f9e8e4288edf563837925c56aa928112c5d14530ffa9"
+        },
+        {
+          "name": "palm-date:0:foliage",
+          "triangles": 7982,
+          "sites": 493,
+          "sha256": "db82b4ac317bbaed2c864b43d6e672a41461f676a3bae09fa27827b335af5301"
+        },
+        {
+          "name": "palm-date:1:foliage",
+          "triangles": 7059,
+          "sites": 499,
+          "sha256": "d6bcfdb3f79ca661214a1b920e1a01f6e07c201ff769077da45fd2ab0640c735"
+        },
+        {
+          "name": "palm-date:2:foliage",
+          "triangles": 2439,
+          "sites": 488,
+          "sha256": "46478cb6075a6ad22bdd0ec2648dcc205a7344a614e85c7f7a437399cb3a3a5c"
+        },
+        {
+          "name": "fir-spire:0:foliage",
+          "triangles": 5936,
+          "sites": 140,
+          "sha256": "b1a20fa5b54f66c68597915fffced76e2e742497ddd2fc9a9e7660db79e0d52c"
+        },
+        {
+          "name": "fir-spire:1:foliage",
+          "triangles": 3216,
+          "sites": 167,
+          "sha256": "b3b667120cdd0740cb390148e98be43278196a8a09ca78804affa8eec7df713a"
+        },
+        {
+          "name": "fir-spire:2:foliage",
+          "triangles": 1204,
+          "sites": 163,
+          "sha256": "87ec8a026ac4b4c22530c32d2561aa5bfdc52a0883d67eb2cf6a7b79b09231c8"
+        },
+        {
+          "name": "tree-4949:0:foliage",
+          "triangles": 11802,
+          "sites": 368,
+          "sha256": "f5ddf73da69eb0ff2a6e916a9f4280ed2aaf17c66b718514422ebcebe10e42a1"
+        },
+        {
+          "name": "tree-4949:1:foliage",
+          "triangles": 3456,
+          "sites": 295,
+          "sha256": "ff8ac2d15efa16dd3023a214765279c94ef86883b240b6b1e6a3ce434e27cb80"
+        },
+        {
+          "name": "tree-4949:2:foliage",
+          "triangles": 1008,
+          "sites": 225,
+          "sha256": "83d1c36bd217c8eb7bc57dc84e8e710ea56064716fc2ec9a3419306df768fb84"
+        },
+        {
+          "name": "tree-4815:0:foliage",
+          "triangles": 11348,
+          "sites": 314,
+          "sha256": "1c19ba5801baa875da21304c5f8e6366db79592d0f355d4a752813cb81908a49"
+        },
+        {
+          "name": "tree-4815:1:foliage",
+          "triangles": 3398,
+          "sites": 275,
+          "sha256": "8a6585f93b8abfd41d73463084cc6fcd08829ba02b0a3ecc49aadde57a43277c"
+        },
+        {
+          "name": "tree-4815:2:foliage",
+          "triangles": 980,
+          "sites": 236,
+          "sha256": "c2023d94ca5982127363cd0c1131c6c591fbf49526a925de8ed6fa92795c770c"
+        }
+      ],
+      "matrixCalls": 27623,
+      "uvVectors": 27623,
+      "sites": 15395
+    },
+    "after": {
+      "rows": [
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "48ed919c5115a691ab3abec99c902375f778d3387dcf5f8b70123e9c55260c1b"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "1910364d3d45d768122a2a881c6a6039bb82db9a20b22ab4a38186dcc1b7aae6"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "449f0d1c0efad06d90a921a0e4aedc2eafa01af17f82df66882bffe71a1d1187"
+        },
+        {
+          "name": "fir-spire:0:foliage",
+          "triangles": 5936,
+          "sites": 140,
+          "sha256": "48aa14b96ce262784307557497cf7ffde5312a894819746a2830df5bc2a43f22"
+        },
+        {
+          "name": "fir-spire:1:foliage",
+          "triangles": 3216,
+          "sites": 167,
+          "sha256": "d134f3ef350be09166ee8e7ec51efb1d54faa3588a71a45e29958aee07c37664"
+        },
+        {
+          "name": "fir-spire:2:foliage",
+          "triangles": 1204,
+          "sites": 163,
+          "sha256": "b643d92c4e4940a6c761de5d6158a33e84cd73130e605fd7e2569bc32a8feec0"
+        },
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "96e29c28d9e2f1822f12d748d2169a40aba1d793a4a432e4a1f0f53b98dc3933"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "351eccab58044a238a3b886b2f9d680ec72e3b06edc432594042e9d21f0fe313"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "55186ebf2be4ef1d1ef529d48194da0c6bee7c7febded1734339b645ff4f8193"
+        },
+        {
+          "name": "solitary-pine:0:foliage",
+          "triangles": 5328,
+          "sites": 197,
+          "sha256": "46278ab58f8a989b5349156aecfc240a42e8d01967c6eca22d84dcf34708e912"
+        },
+        {
+          "name": "solitary-pine:1:foliage",
+          "triangles": 1332,
+          "sites": 391,
+          "sha256": "0e2b04ff6d22739b98353e22ef22d8e97a1347c75e3c1a33db5bb4c4084cd616"
+        },
+        {
+          "name": "solitary-pine:2:foliage",
+          "triangles": 48,
+          "sites": 22,
+          "sha256": "c68cbb95dda4b0a9b6ae9f18f78334e5dc1358b29f6464e343adef40d3f8e1bd"
+        },
+        {
+          "name": "tree-1521:0:foliage",
+          "triangles": 6412,
+          "sites": 149,
+          "sha256": "abffb4df343c155bdf7f8cbe8ecf4444dacc0931a8609752646b1d1a995fab8c"
+        },
+        {
+          "name": "tree-1521:1:foliage",
+          "triangles": 3624,
+          "sites": 156,
+          "sha256": "e59ae0e691f960c93007586acb2e2a5d778250dc83d7c43ca9b42db85c785497"
+        },
+        {
+          "name": "tree-1521:2:foliage",
+          "triangles": 1442,
+          "sites": 258,
+          "sha256": "27a54f75374984497e7ddd8e911498d28dab2befa6bd2f23eb2e78d83ea33fc6"
+        },
+        {
+          "name": "verdant-sentinel:0:foliage",
+          "triangles": 11138,
+          "sites": 375,
+          "sha256": "79e9396f70612e2bd9d1ee4faaeaac567525f43a666ef36585ebe75f80ea9d3f"
+        },
+        {
+          "name": "verdant-sentinel:1:foliage",
+          "triangles": 4348,
+          "sites": 306,
+          "sha256": "9b118304bd014ea0b2df2113afc1671e83e5e2b7e3692776a4ca20489f5b0282"
+        },
+        {
+          "name": "verdant-sentinel:2:foliage",
+          "triangles": 1442,
+          "sites": 273,
+          "sha256": "918e4bf710de352a91976bd48bdebe3860776198eca04b15ea9d6f9bd4b548a8"
+        },
+        {
+          "name": "tree-1527:0:foliage",
+          "triangles": 12000,
+          "sites": 376,
+          "sha256": "cdd8724520ba04ab697f843e9b9b63612a1a2f39d18922a64875c920c9610c54"
+        },
+        {
+          "name": "tree-1527:1:foliage",
+          "triangles": 8394,
+          "sites": 301,
+          "sha256": "9d1ae915eb990d792c3bb6e7a08c0774cca5cf9cb976380aa5d6eded5b2e54d8"
+        },
+        {
+          "name": "tree-1527:2:foliage",
+          "triangles": 2103,
+          "sites": 183,
+          "sha256": "076d5b7f813277bc45737eb23bca6b884b340e0c5f90d6daa323c4430d432478"
+        },
+        {
+          "name": "oak-elder:0:foliage",
+          "triangles": 10958,
+          "sites": 376,
+          "sha256": "a20ce232c1410544b387bc31a84756cb4cb873527be000fa5872ec8764e3e26a"
+        },
+        {
+          "name": "oak-elder:1:foliage",
+          "triangles": 3398,
+          "sites": 302,
+          "sha256": "bb2a5b93cc1c01788771a69562069a1e9b5321651d15a57b23f5a72584f0a659"
+        },
+        {
+          "name": "oak-elder:2:foliage",
+          "triangles": 980,
+          "sites": 219,
+          "sha256": "794ee21b31c7191d24cc9f1098088467706be768ee53050fe984b8f83562daa7"
+        },
+        {
+          "name": "tree-4815:0:foliage",
+          "triangles": 10812,
+          "sites": 380,
+          "sha256": "88b78267fffea61602ee20392ab2bc328296547bd540cdf95921ae9b4476255f"
+        },
+        {
+          "name": "tree-4815:1:foliage",
+          "triangles": 3398,
+          "sites": 299,
+          "sha256": "4688de6f0d7370d86dd2b78f53eeb8b0713d2f0fe797bb78a5efd5fc509aa49f"
+        },
+        {
+          "name": "tree-4815:2:foliage",
+          "triangles": 980,
+          "sites": 236,
+          "sha256": "b506f419014c8c204087b879157fedfbb9028a38b172cb22ef1800c6a5a09003"
+        },
+        {
+          "name": "tree-4949:0:foliage",
+          "triangles": 5544,
+          "sites": 120,
+          "sha256": "405e9a97937f3dc9172a8cdb51d47d3af4f246c689311e948fa233cfb8e7cf08"
+        },
+        {
+          "name": "tree-4949:1:foliage",
+          "triangles": 2880,
+          "sites": 142,
+          "sha256": "4259656262ffc167a6f33012da53e63d0b522c5609292a47f33d46f559135b19"
+        },
+        {
+          "name": "tree-4949:2:foliage",
+          "triangles": 1008,
+          "sites": 225,
+          "sha256": "bf54c4d9c8245bfbd6f6e6e6f110f51df7c55235f20c516709820b02d684944d"
+        },
+        {
+          "name": "tree-1521:0:foliage",
+          "triangles": 10684,
+          "sites": 319,
+          "sha256": "7f9a029ddb4957a07f6cd33e09a8991ed38a2b6878d15a211f3900060aacaafe"
+        },
+        {
+          "name": "tree-1521:1:foliage",
+          "triangles": 4348,
+          "sites": 297,
+          "sha256": "d4297d25ca60f0233d03a7de2d99c86d5fe0429641deceebabfa87691e104ef7"
+        },
+        {
+          "name": "tree-1521:2:foliage",
+          "triangles": 1442,
+          "sites": 258,
+          "sha256": "8bcaf9f45600d79fe1caf2a3b60da8527d62a0f5725822e389fbeac73867166a"
+        },
+        {
+          "name": "tree-0208:0:foliage",
+          "triangles": 11168,
+          "sites": 393,
+          "sha256": "3b6ec84e600d8c6532b42be57f119c1ff7a54fd7ec51900647ea056019f38942"
+        },
+        {
+          "name": "tree-0208:1:foliage",
+          "triangles": 3312,
+          "sites": 314,
+          "sha256": "e3b46f092383358c96799b481162918f37a55d99352d3e4e04b29a8d5ad8f33b"
+        },
+        {
+          "name": "tree-0208:2:foliage",
+          "triangles": 938,
+          "sites": 188,
+          "sha256": "5c9f926771a6d8918b92e4a23c59fc3ce9120948cb61d3c1eab9fb7d6b23186b"
+        },
+        {
+          "name": "verdant-sentinel:0:foliage",
+          "triangles": 10772,
+          "sites": 358,
+          "sha256": "3bd8e840b4fbd5527dcc78d50155110066dd1aaf76f81c16e5f5dbcc23b3b3e0"
+        },
+        {
+          "name": "verdant-sentinel:1:foliage",
+          "triangles": 4348,
+          "sites": 302,
+          "sha256": "17b9a0cf67eeeef5efd2d091f36ea97b9645f53c555627e9d5152cc0c6e2fc1c"
+        },
+        {
+          "name": "verdant-sentinel:2:foliage",
+          "triangles": 1442,
+          "sites": 273,
+          "sha256": "0dbf25573474b886037f0196b92502bc1a928bb72f293589b1032140094d614b"
+        },
+        {
+          "name": "tree-1505:0:foliage",
+          "triangles": 10534,
+          "sites": 325,
+          "sha256": "dcfe56bc9b6a7d716186f449a148a48bfaf90650ee3d916d8e5f85fde1f9bee2"
+        },
+        {
+          "name": "tree-1505:1:foliage",
+          "triangles": 3398,
+          "sites": 310,
+          "sha256": "5f93beb6d65e20ae290c3f64ba598aa4c149764f7246522e733117d916a39c63"
+        },
+        {
+          "name": "tree-1505:2:foliage",
+          "triangles": 980,
+          "sites": 224,
+          "sha256": "d1598de3727019df909dca090c6ac36dacedbc52f15bf96337e58bba556cd234"
+        },
+        {
+          "name": "palm-fan:0:foliage",
+          "triangles": 5488,
+          "sites": 160,
+          "sha256": "6e6601c16ba9610d7996183835dae7c5b8ca9faa163ccd37a8f614bbd346df04"
+        },
+        {
+          "name": "palm-fan:1:foliage",
+          "triangles": 2832,
+          "sites": 191,
+          "sha256": "3ddaffe3b9f3f97861ebc4c82ddf4b1079c1fce95b3886727d424e7be07c7099"
+        },
+        {
+          "name": "palm-fan:2:foliage",
+          "triangles": 980,
+          "sites": 261,
+          "sha256": "0435b604bd8144d23e3d2303952fe2626c2c7e2839ae1f7276d0de186cd4bbc6"
+        },
+        {
+          "name": "palm-lean:0:foliage",
+          "triangles": 5488,
+          "sites": 160,
+          "sha256": "9d55e8a4cd1da8d6de32e7cf5fb32bb2d6f35600acb3d6f606a026b4a15ab670"
+        },
+        {
+          "name": "palm-lean:1:foliage",
+          "triangles": 2832,
+          "sites": 179,
+          "sha256": "0c0a1f6149fed5d5257b0dd25ce2c09036f2e19612b2d3a06009c3a5bb9c173c"
+        },
+        {
+          "name": "palm-lean:2:foliage",
+          "triangles": 980,
+          "sites": 244,
+          "sha256": "46699b9804f9dd7e8501f9e8e4288edf563837925c56aa928112c5d14530ffa9"
+        },
+        {
+          "name": "palm-date:0:foliage",
+          "triangles": 7982,
+          "sites": 493,
+          "sha256": "db82b4ac317bbaed2c864b43d6e672a41461f676a3bae09fa27827b335af5301"
+        },
+        {
+          "name": "palm-date:1:foliage",
+          "triangles": 7059,
+          "sites": 499,
+          "sha256": "d6bcfdb3f79ca661214a1b920e1a01f6e07c201ff769077da45fd2ab0640c735"
+        },
+        {
+          "name": "palm-date:2:foliage",
+          "triangles": 2439,
+          "sites": 488,
+          "sha256": "46478cb6075a6ad22bdd0ec2648dcc205a7344a614e85c7f7a437399cb3a3a5c"
+        },
+        {
+          "name": "fir-spire:0:foliage",
+          "triangles": 5936,
+          "sites": 140,
+          "sha256": "b1a20fa5b54f66c68597915fffced76e2e742497ddd2fc9a9e7660db79e0d52c"
+        },
+        {
+          "name": "fir-spire:1:foliage",
+          "triangles": 3216,
+          "sites": 167,
+          "sha256": "b3b667120cdd0740cb390148e98be43278196a8a09ca78804affa8eec7df713a"
+        },
+        {
+          "name": "fir-spire:2:foliage",
+          "triangles": 1204,
+          "sites": 163,
+          "sha256": "87ec8a026ac4b4c22530c32d2561aa5bfdc52a0883d67eb2cf6a7b79b09231c8"
+        },
+        {
+          "name": "tree-4949:0:foliage",
+          "triangles": 11802,
+          "sites": 368,
+          "sha256": "f5ddf73da69eb0ff2a6e916a9f4280ed2aaf17c66b718514422ebcebe10e42a1"
+        },
+        {
+          "name": "tree-4949:1:foliage",
+          "triangles": 3456,
+          "sites": 295,
+          "sha256": "ff8ac2d15efa16dd3023a214765279c94ef86883b240b6b1e6a3ce434e27cb80"
+        },
+        {
+          "name": "tree-4949:2:foliage",
+          "triangles": 1008,
+          "sites": 225,
+          "sha256": "83d1c36bd217c8eb7bc57dc84e8e710ea56064716fc2ec9a3419306df768fb84"
+        },
+        {
+          "name": "tree-4815:0:foliage",
+          "triangles": 11348,
+          "sites": 314,
+          "sha256": "1c19ba5801baa875da21304c5f8e6366db79592d0f355d4a752813cb81908a49"
+        },
+        {
+          "name": "tree-4815:1:foliage",
+          "triangles": 3398,
+          "sites": 275,
+          "sha256": "8a6585f93b8abfd41d73463084cc6fcd08829ba02b0a3ecc49aadde57a43277c"
+        },
+        {
+          "name": "tree-4815:2:foliage",
+          "triangles": 980,
+          "sites": 236,
+          "sha256": "c2023d94ca5982127363cd0c1131c6c591fbf49526a925de8ed6fa92795c770c"
+        }
+      ],
+      "matrixCalls": 60,
+      "uvVectors": 60,
+      "sites": 15395
+    }
+  },
+  "identicalSites": true,
+  "identicalPixels": true,
+  "quality": "low",
+  "sourceSha256": "d6467dfe753cb38b5cb2649a189d3f7a8dfe2514beee6226df8de0b30c54bd41",
+  "scope": "Published prepared masked forest geometries/materials replayed through both actual emission-site samplers. Source-level texture-transform and UV-vector construction counts, not total allocations or hardware timing. Read-only sampling, followed by frozen native Grade/post/MSAA captures; no geometry or material changes.",
+  "pass": true
+}
