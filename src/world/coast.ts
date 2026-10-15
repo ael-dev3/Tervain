@@ -8,8 +8,18 @@ import { COAST, COAST_SHELVES, LIGHTHOUSE, SEA_LEVEL } from './layout';
 
 const P = COAST;
 
+let lastCoastZ = Number.NaN, lastCoastX = 0;
+
 /** Cubic Hermite (Catmull-Rom) through the mean waterline, then a little noise so the edge is never a clean curve. */
 export function coastX(z: number): number {
+  // Raster rows share z; retain only their latest curve value, without a coordinate cache that can grow.
+  if (z === lastCoastZ) return lastCoastX;
+  const x = coastCurveAt(z);
+  lastCoastZ = z; lastCoastX = x;
+  return x;
+}
+
+function coastCurveAt(z: number): number {
   const n = P.length;
   if (z <= P[0]!.z) return P[0]!.x + shoreNoise(z);
   if (z >= P[n - 1]!.z) return P[n - 1]!.x + shoreNoise(z);
@@ -106,7 +116,7 @@ export function lighthouseRock(x: number, z: number): number {
 }
 
 /** 0..1 how wet the ground is from the sea (wet sand line, spray on the rocks). */
-export function seaWetness(x: number, z: number): number {
-  const sd = shoreDistance(x, z);
+export function seaWetness(x: number, z: number, sampledShoreDistance?: number): number {
+  const sd = sampledShoreDistance ?? shoreDistance(x, z);
   return 1 - smoothstep(-2, 5.5 + 2.5 * fbm(x / 6, z / 6, 2, 79), sd);
 }

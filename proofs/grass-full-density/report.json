@@ -1,0 +1,50 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "updates": 120,
+  "nativeQueries": 7909,
+  "nonemptyQueries": 7636,
+  "rows": {
+    "native": {
+      "nativeCountsMatch": true,
+      "countsSha256": "ca36ddf839bf8a7b28dfc0abfa8c6185dc07c89c0df9cc088a59622aa25218e3",
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    },
+    "before": {
+      "nativeCountsMatch": true,
+      "countsSha256": "ca36ddf839bf8a7b28dfc0abfa8c6185dc07c89c0df9cc088a59622aa25218e3",
+      "queries": 7909,
+      "zeroQueries": 4335,
+      "rankReads": 23295,
+      "zeroRankReads": 0,
+      "fullQueries": 1521,
+      "fullRankReads": 8541,
+      "tailReads": 0,
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    },
+    "after": {
+      "nativeCountsMatch": true,
+      "countsSha256": "ca36ddf839bf8a7b28dfc0abfa8c6185dc07c89c0df9cc088a59622aa25218e3",
+      "queries": 7909,
+      "zeroQueries": 4335,
+      "rankReads": 16275,
+      "zeroRankReads": 0,
+      "fullQueries": 1521,
+      "fullRankReads": 1521,
+      "tailReads": 1521,
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "65118575d1c09090c6a54c9e8e7e856dcf1a4c73b8ad742d845e7814c2052ed9",
+  "pass": true,
+  "scope": "Native published density calls captured during 120 turning grove updates; copied native rank buffers preserve recycled tile contents. Exact count replay and frozen endpoint image controls; not independent motion clips or hardware timing."
+}

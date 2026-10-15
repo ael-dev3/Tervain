@@ -98,12 +98,12 @@ export function growOak(seed, P = OAK) {
 
   // Trunk (not an envelope-bound path: it leans a little and wobbles low-frequency).
   const trunkPts = [], trunkRadii = [];
-  const rings = [-1.8, -1.2, -0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.6, 3.2, 3.9, 4.6, 5.2, P.trunkTop];
+  const rings = [-1.8, -1.2, -0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.6, 3.2, 3.9, 4.6, 5.2, P.trunkTop, P.trunkTop + 0.3];   // the last ring closes the leader's head under the limb bases
   const leanX = rng.range(-0.35, 0.35), leanZ = rng.range(-0.35, 0.35);
   for (const y of rings) {
     const t = Math.max(0, y) / P.trunkTop;
     trunkPts.push(new THREE.Vector3(leanX * t * t + (fbm3(y * 0.4, 1, 0, seed) - 0.5) * 0.35 * t, y, leanZ * t * t + (fbm3(y * 0.4, 7, 0, seed + 3) - 0.5) * 0.35 * t));
-    trunkRadii.push(trunkRadiusAt(Math.max(y, 0.0), P) * (y < 0 ? 1.0 : 1));
+    trunkRadii.push(y > P.trunkTop ? 0.04 : trunkRadiusAt(Math.max(y, 0.0), P));
   }
   const trunk = new Branch({ level: 0, points: trunkPts, radii: trunkRadii, phase: 0, parent: null, forkT: 0, id: 0, isTrunk: true });
   trunk.finish(); branches.push(trunk);

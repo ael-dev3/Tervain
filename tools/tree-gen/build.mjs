@@ -74,7 +74,7 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
     return r * (1 + 0.3 * lobe * Math.exp(-Math.max(y, 0) / 1.0));
   };
   // Wood deep inside the canopy sits in leaf shadow: dark and cool, full value at the crown rim.
-  const crownShade = (p) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(0.4, 0.8, smoothstep(0.45, 1.0, d)); };
+  const crownShade = (p, b) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(b.isTrunk || b.level === 1 ? 0.66 : 0.45, 0.85, smoothstep(0.45, 1.0, d)); };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);
   for (const level of [0, 1, 2, 3]) {

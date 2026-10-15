@@ -1,0 +1,41 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeQueries": 600,
+  "strikeAccepted": true,
+  "textureSha256": "073d1700db8d9b70c494bbb1355ba057b6c235ba9860fbfd07afb1cc028d0d5c",
+  "rows": {
+    "native": {
+      "nativeValuesMatch": true,
+      "valuesSha256": "d317d21afa40d5b3ec56866b945de5c67a7a78c77b6fb4184304dcdfea9f9271",
+      "drawCalls": 138,
+      "triangles": 900011,
+      "textureCount": 110
+    },
+    "before": {
+      "nativeValuesMatch": true,
+      "valuesSha256": "d317d21afa40d5b3ec56866b945de5c67a7a78c77b6fb4184304dcdfea9f9271",
+      "queries": 600,
+      "closures": 600,
+      "remainders": 9600,
+      "drawCalls": 138,
+      "triangles": 900011,
+      "textureCount": 110
+    },
+    "after": {
+      "nativeValuesMatch": true,
+      "valuesSha256": "d317d21afa40d5b3ec56866b945de5c67a7a78c77b6fb4184304dcdfea9f9271",
+      "queries": 600,
+      "closures": 0,
+      "remainders": 0,
+      "drawCalls": 138,
+      "triangles": 900011,
+      "textureCount": 110
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "488cd170aedad590d09113f21f86d57f2e97a66f5f2876e72d3de6e7789e1f9f",
+  "pass": true
+}

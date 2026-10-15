@@ -319,11 +319,15 @@ export class TileLayer {
 
   private instanceCountAt(t: Tile, d: number): number {
     const q = Math.pow(1 - smoothstep(this.o.fadeStart, this.o.fadeEnd, d), this.o.power);
+    // Reserve tiles beyond the fade contain no visible ranks; avoid searching their buffers.
+    if (q <= 0) return 0;
     // gKeep = smoothstep(0,.12,gQ*RANK_HEADROOM-rank) has zero coverage when rank >= gQ*RANK_HEADROOM. The nearest
     // anchor interval is conservative for every patch, so no extra rank tail needs to be submitted.
     const limit = q * RANK_HEADROOM + 1e-6;
     // Binary search: first instance whose rank >= limit.
     const base = t.attrs[0]!.array as Float32Array;
+    // Fully dense tiles normally retain their whole sorted prefix. Check its highest rank once.
+    if (q >= 1 && t.count > 0 && base[(t.count - 1) * 4 + 3]! < limit) return t.count;
     let lo = 0;
     let hi = t.count;
     while (lo < hi) {
@@ -331,7 +335,7 @@ export class TileLayer {
       if (base[mid * 4 + 3]! < limit) lo = mid + 1;
       else hi = mid;
     }
-    return q <= 0 ? 0 : lo;
+    return lo;
   }
 
   dispose() {
