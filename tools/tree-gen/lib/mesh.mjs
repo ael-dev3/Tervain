@@ -90,7 +90,7 @@ export function addTube(mb, branch, o, bark) {
 export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
   const roots = [];
   for (const az of azimuths) {
-    const reach = rng.range(2.6, 3.8), r0 = rng.range(0.34, 0.46), rise = rng.range(0.8, 1.2);
+    const big = Math.max(0, trunkR - 1.3), reach = rng.range(2.6, 3.8) + big * 1.1, r0 = rng.range(0.34, 0.46) * (1 + 0.45 * big), rise = rng.range(0.8, 1.2);
     const pts = [], radii = [], N = 6;
     const sway = rng.range(-0.5, 0.5);
     for (let i = 0; i <= N; i++) {

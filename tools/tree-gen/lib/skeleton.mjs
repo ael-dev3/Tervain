@@ -130,7 +130,7 @@ export function growOak(seed, P = OAK) {
     const rho = rng.range(...P.murray) * P.lateral[1] * (spec.top ? 1.05 : 1);
     const length = spec.top ? rng.range(6, 7.5) : rng.range(7, 8.8);
     // A primary limb runs about 60 % of its reach, then forks in two that carry on to the crown edge: the veteran oak's wide, forked arms.
-    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: f.r * rho, taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.08 : 0.06, droop: 0.06, parent: trunk, forkT: tAtY(spec.y), rMin: 0.08 });
+    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: Math.min(f.r * rho, 0.9), taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.08 : 0.06, droop: 0.06, parent: trunk, forkT: tAtY(spec.y), rMin: 0.08 });
     limbs.push(primary);
     const end = primary.at(1);
     for (const sgn of [-1, 1]) {

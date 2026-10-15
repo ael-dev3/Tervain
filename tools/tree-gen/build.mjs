@@ -30,6 +30,13 @@ import { writeGlb } from './lib/glb.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2), arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
+// Each hero variant takes the trunk profile of the supplied oak it replaces (a: oak-elder, b: tree-0208, the giant, c: tree-1521), so a giant stays giant.
+const TRUNK_PROFILES = {
+  'hero-oak': { trunkRadius: 0.88, flareGain: 0.25, flareDecay: 1.0 },
+  'hero-oak-b': { trunkRadius: 1.85, flareGain: 1.0, flareDecay: 0.9 },
+  'hero-oak-c': { trunkRadius: 1.5, flareGain: 1.2, flareDecay: 0.8 },
+};
+Object.assign(OAK, TRUNK_PROFILES[arg('--name', 'hero-oak')] ?? {});
 const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 'public/models/flora/hero'));
 const name = arg('--name', 'hero-oak');
 
@@ -85,7 +92,7 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
-        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
+        sides, uTiles: trunk ? Math.max(1, Math.round(trunkRadiusAt(2, OAK) * Math.PI * 2 / 5.2)) : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
         shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3,
       }, bark);
       seam.push(...sm);
