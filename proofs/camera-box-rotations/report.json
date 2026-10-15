@@ -1,0 +1,47 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "published": {
+      "cameraSteps": 120,
+      "cameraTrig": 258398,
+      "cameraSha256": "7409984304a94b5b83af9149d90018b722cebec467185a0fbf5472de351ef0aa"
+    },
+    "before": {
+      "cameraSteps": 120,
+      "cameraTrig": 258398,
+      "cameraSha256": "7409984304a94b5b83af9149d90018b722cebec467185a0fbf5472de351ef0aa"
+    },
+    "after": {
+      "cameraSteps": 120,
+      "cameraTrig": 248506,
+      "cameraSha256": "7409984304a94b5b83af9149d90018b722cebec467185a0fbf5472de351ef0aa"
+    },
+    "mutableBox": {
+      "before": [
+        0.497,
+        0.4968597451953857,
+        0.45251644137499997,
+        0.497,
+        0.5469999999999999,
+        null,
+        null
+      ],
+      "after": [
+        0.497,
+        0.4968597451953857,
+        0.45251644137499997,
+        0.497,
+        0.5469999999999999,
+        null,
+        null
+      ]
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "cc2ced0ed04b89ecd4c66bed6731fa59b5cf0de6642bab9429268e156708481e",
+  "scope": "Actual baseline/candidate camera follow and obstruction source borrowed onto the published native camera, terrain and colliders, 120 fixed fence-route steps; published follow is an independent control. Whole Math.sin/cos counts include cold cache initialization. Exact path hashes, mutable-box outcomes and Grade/post pixels must match. Source-level work count, not frame time, total allocations, hardware FPS or a complete candidate build",
+  "pass": true
+}
