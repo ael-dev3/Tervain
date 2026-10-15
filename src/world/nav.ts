@@ -254,7 +254,8 @@ export class NavGrid {
     // grid's: when the leg before it already reaches the goal, the route goes straight there instead of stepping up to
     // a point as much as 1.4 m aside and turning back (A69).
     const last = out[out.length - 1];
-    if (last && this.lineClear(last, to)) {
+    // Grid sampling omits the endpoint; never replace a safe snapped goal with an obstructed exact point.
+    if (last && !this.colliders.blockedForNavigation(to.x, to.z, this.radius) && this.lineClear(last, to)) {
       if (this.lineClear(out.length > 1 ? out[out.length - 2]! : from, to)) out[out.length - 1] = { x: to.x, z: to.z };
       else out.push({ x: to.x, z: to.z });
     }

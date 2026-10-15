@@ -1,0 +1,190 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeGridMatches": true,
+  "probes": 10185,
+  "contacts": [
+    {
+      "id": "bell_tower",
+      "start": {
+        "x": -1,
+        "z": 7
+      },
+      "requested": {
+        "x": -0.4833773663071287,
+        "z": 5.247237368890237
+      },
+      "beforeEndpoint": {
+        "x": -0.4833773663071287,
+        "z": 5.247237368890237
+      },
+      "afterEndpoint": {
+        "x": -1,
+        "z": 7
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "bell_tower",
+      "start": {
+        "x": -1,
+        "z": 7
+      },
+      "requested": {
+        "x": -0.7366280652782267,
+        "z": 5.324060128544361
+      },
+      "beforeEndpoint": {
+        "x": -0.7366280652782267,
+        "z": 5.324060128544361
+      },
+      "afterEndpoint": {
+        "x": -1,
+        "z": 7
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "well",
+      "start": {
+        "x": -3,
+        "z": 17
+      },
+      "requested": {
+        "x": -4.65,
+        "z": 18
+      },
+      "beforeEndpoint": {
+        "x": -4.65,
+        "z": 18
+      },
+      "afterEndpoint": {
+        "x": -3,
+        "z": 17
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "well",
+      "start": {
+        "x": -5,
+        "z": 21
+      },
+      "requested": {
+        "x": -5.249980185423537,
+        "z": 19.122483976608436
+      },
+      "beforeEndpoint": {
+        "x": -5.249980185423537,
+        "z": 19.122483976608436
+      },
+      "afterEndpoint": {
+        "x": -5,
+        "z": 21
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "sluice_post_e",
+      "start": {
+        "x": 13,
+        "z": -61
+      },
+      "requested": {
+        "x": 12.990883117545685,
+        "z": -59.009116882454315
+      },
+      "beforeEndpoint": {
+        "x": 12.990883117545685,
+        "z": -59.009116882454315
+      },
+      "afterEndpoint": {
+        "x": 13,
+        "z": -61
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "sluice_post_e",
+      "start": {
+        "x": 13,
+        "z": -61
+      },
+      "requested": {
+        "x": 13.099989432225886,
+        "z": -59.098658120857834
+      },
+      "beforeEndpoint": {
+        "x": 13.099989432225886,
+        "z": -59.098658120857834
+      },
+      "afterEndpoint": {
+        "x": 13,
+        "z": -61
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "tree:wild:55:3",
+      "start": {
+        "x": -23,
+        "z": -147
+      },
+      "requested": {
+        "x": -24.724648912544534,
+        "z": -146.42770145965378
+      },
+      "beforeEndpoint": {
+        "x": -24.724648912544534,
+        "z": -146.42770145965378
+      },
+      "afterEndpoint": {
+        "x": -23,
+        "z": -147
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    },
+    {
+      "id": "tree:wild:69:5",
+      "start": {
+        "x": 57,
+        "z": -129
+      },
+      "requested": {
+        "x": 56.34108528943687,
+        "z": -130.8598468903919
+      },
+      "beforeEndpoint": {
+        "x": 56.34108528943687,
+        "z": -130.8598468903919
+      },
+      "afterEndpoint": {
+        "x": 57,
+        "z": -129
+      },
+      "beforeInWoodOrScenery": true,
+      "afterInWoodOrScenery": false,
+      "nativePathMatches": true
+    }
+  ],
+  "identicalPixels": true,
+  "sourceSha256": "80bbb671258d9eb86e3fbd8b31c3328ba7c7dba834838d5c931ed07d7b9161af",
+  "scope": "Published native navigation grid and finite Rapier scenery/wood contacts. Baseline reconstruction must match native full grid and each discovered native route exactly. Actual before/after NavGrid implementations on the same copied published colliders. A standing-player capsule must intersect each original endpoint and clear the corrected endpoint. Software-WebGL scene images are unchanged because only path endpoints change; no hardware timing claim.",
+  "pass": true
+}
