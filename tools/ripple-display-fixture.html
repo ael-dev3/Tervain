@@ -1,0 +1,27 @@
+<!doctype html><title>Ripple display reuse proof</title><script type="module">
+import * as THREE from 'three';
+import {RippleField as Before} from '/@baseline-ripple';
+import {RippleField as After} from '/src/presentation/water/ripples.ts';
+try {
+ const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(256,256);renderer.setClearColor(0);renderer.info.autoReset=false;document.body.append(renderer.domElement);
+ const gl=renderer.getContext(), rows=[],images={};
+ const hash=async a=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',a))).map(x=>x.toString(16).padStart(2,'0')).join('');
+ for(const size of [64,256,512]) for(const [mode,Class]of [['before',Before],['after',After]]){
+  const f=new Class(size,44);f.warm(renderer);f.update(renderer,0,0,0);
+  for(let i=0;i<48;i++){
+   // 120Hz render cadence, then frozen frames, moving field, catch-up, invalid dt and invalid dt.
+   const dt=i<24?1/120:i<28?0:i===28?.1:i===29?NaN:1/60;
+   const x=i<26?0:20;
+   if(i===0||i===25||i===31)for(let j=0;j<19;j++)f.drop({x:x+(j%3)*.3,z:(j%5)*.3,radius:.8,strength:.02,foam:.25});
+   const cost=window.__renderCostStates.get(gl),uploads=cost.uploads;
+   renderer.info.reset();f.update(renderer,x,0,dt);
+   const draws=renderer.info.render.calls,triangles=renderer.info.render.triangles;
+   const data=new Uint16Array(size*size*4);renderer.readRenderTargetPixels(f.display,0,0,size,size,data);
+   rows.push({size,mode,i,draws,triangles,uploads:cost.uploads-uploads,textureCount:renderer.info.memory.textures,sha:await hash(data),nonzero:data.some(v=>v!==0),error:gl.getError()});
+  }
+  const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-1,1,1,-1,0,1),mat=new THREE.ShaderMaterial({uniforms:{t:{value:f.texture}},vertexShader:'varying vec2 v; void main(){v=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:'uniform sampler2D t;varying vec2 v;void main(){vec4 a=texture2D(t,v);gl_FragColor=vec4(.5+a.x*5.,a.y,.5+a.z*2.,1.);}'}),geo=new THREE.PlaneGeometry(2,2);
+  scene.add(new THREE.Mesh(geo,mat));renderer.setRenderTarget(null);renderer.render(scene,camera);images[mode+'-'+size]=renderer.domElement.toDataURL();mat.dispose();geo.dispose();f.dispose();
+ }
+ window.rippleProof={rows,images};renderer.dispose();
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script>

@@ -1,0 +1,51 @@
+{
+  "baseline": "421d34b",
+  "candidateSourceSha256": "8a1a71c757ba4b0c3329f4bac27983a6c5c41c2be67f8adf5c52dfd1372a70e2",
+  "scope": "Actual source classes on software WebGL; full RGBA16F display readback after each update. Draws include simulation and display. Upload bytes exclude uniforms/warmup. Nominal three-target texture payload excludes driver overhead. No hardware timing or full-game FPS claim.",
+  "profiles": [
+    {
+      "size": 64,
+      "updates": 48,
+      "beforeDraws": 82,
+      "afterDraws": 66,
+      "beforeTriangles": 82,
+      "afterTriangles": 66,
+      "beforeUploadBytes": 0,
+      "afterUploadBytes": 0,
+      "fieldTexturePayloadBytes": 98304,
+      "allFieldHashesEqual": true,
+      "nonzero": true,
+      "noGlErrors": true
+    },
+    {
+      "size": 256,
+      "updates": 48,
+      "beforeDraws": 82,
+      "afterDraws": 66,
+      "beforeTriangles": 82,
+      "afterTriangles": 66,
+      "beforeUploadBytes": 0,
+      "afterUploadBytes": 0,
+      "fieldTexturePayloadBytes": 1572864,
+      "allFieldHashesEqual": true,
+      "nonzero": true,
+      "noGlErrors": true
+    },
+    {
+      "size": 512,
+      "updates": 48,
+      "beforeDraws": 82,
+      "afterDraws": 66,
+      "beforeTriangles": 82,
+      "afterTriangles": 66,
+      "beforeUploadBytes": 0,
+      "afterUploadBytes": 0,
+      "fieldTexturePayloadBytes": 6291456,
+      "allFieldHashesEqual": true,
+      "nonzero": true,
+      "noGlErrors": true
+    }
+  ],
+  "pixelsEqual": true,
+  "pass": true
+}
