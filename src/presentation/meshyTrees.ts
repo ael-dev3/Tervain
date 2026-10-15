@@ -18,15 +18,18 @@ import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOP
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 /**
- * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. Behind the `?herooak=1`
- * query for now (default off); their files live in flora/hero/ and are not part of the supplied-tree manifest.
+ * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. On by default; `?herooak=0` is the escape hatch (the supplied oaks).
+ * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_TREE_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
-  try { return new URLSearchParams(search ?? '').get('herooak') === '1'; } catch { return false; }
+  try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
 }
+/** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
+function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
+const heroNoTwigs = () => heroFlag('heronotwigs');
 /** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
 export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
   return enabled ? [...MESHY_TREE_IDS, ...HERO_TREE_IDS] : MESHY_TREE_IDS;
@@ -503,7 +506,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
-      const id = species === 'oak' && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = species === 'oak' && !explicit && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
@@ -576,7 +579,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
             canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
-            trimmedWood = wood ? (hero ? trimHeroWood(wood, canopy, shape.clump * 1.6) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
+            trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15)) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;
@@ -588,7 +591,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
-          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }

@@ -38,7 +38,7 @@ export const windLevel = (level, t) => clamp((level + 0.75 * t) / 3.75, 0, 1);
  * sides: ring vertex count. uTiles: how often the bark tile repeats around the girth. Returns the first/last ring indices.
  */
 export function addTube(mb, branch, o, bark) {
-  const { sides, uTiles, uOff, vOff, ringStep, relief, shape, lumps = 0, seed = 1, noRelief = false } = o;
+  const { sides, uTiles, uOff, vOff, ringStep, relief, shape, lumps = 0, seed = 1, noRelief = false, vScale = 1, crownShade = null } = o;
   const pts = branch.points, rad = branch.radii, n = pts.length;
   // Frames by parallel transport along the polyline.
   const tans = branch.tangents, frames = [];
@@ -57,7 +57,7 @@ export function addTube(mb, branch, o, bark) {
     const [N, B] = frames[i], c = pts[i];
     const t = i / (n - 1), y = c.y;
     const wind = [windLevel(branch.level, t), branch.phase, branch.parentPhase ?? 0, 0];
-    const v = vOff + branch.cum[i] / 2.0;
+    const v = vOff + branch.cum[i] / 2.0 * vScale;
     for (let s = 0; s <= sides; s++) {
       const ang = a0 + (s / sides) * Math.PI * 2, dx = Math.cos(ang), dy = Math.sin(ang);
       const dir = N.clone().multiplyScalar(dx).addScaledVector(B, dy);
@@ -71,10 +71,11 @@ export function addTube(mb, branch, o, bark) {
       const ao = groundAO(p.y) * 255;
       // Warm brown-olive wood with moss on the upper side and the lower trunk, varying limb to limb.
       const lv = ((branch.id * 2654435761) % 1000) / 1000, mossN = fbm3(c.x * 0.9 + dir.x, c.y * 0.9, c.z * 0.9 + dir.z, seed + 11, 2);
-      const moss = clamp((0.55 * clamp(dir.y, 0, 1) + (branch.isTrunk ? 0.5 * (1 - smoothstep(0.2, 3.2, y)) : 0.1) + 0.35 * (lv - 0.5)) * (0.4 + 1.2 * mossN), 0, 0.65);
-      const warm = [0.96, 0.86 + 0.04 * lv, 0.74 + 0.08 * lv], mossC = [0.74, 0.94, 0.6];
+      const moss = clamp((0.55 * clamp(dir.y, 0, 1) + (branch.isTrunk ? 0.5 * (1 - smoothstep(0.2, 3.2, y)) : 0.1) + 0.35 * (lv - 0.5)) * (0.4 + 1.2 * mossN), 0, 0.5);
+      const warm = [0.94, 0.84 + 0.03 * lv, 0.76 + 0.08 * lv], mossC = [0.76, 0.9, 0.66];
       const tr = lerp(warm[0], mossC[0], moss), tg = lerp(warm[1], mossC[1], moss), tb = lerp(warm[2], mossC[2], moss);
-      const vi = mb.vertex(p, [u, v], [Math.round(ao * tr), Math.round(ao * tg), Math.round(ao * tb), 255], wind, pivot, [dir.x, dir.y, dir.z]);
+      const sh = crownShade ? crownShade(p) : 1, cool = [lerp(0.82, 1, sh), 1, lerp(0.9, 1, sh)];
+      const vi = mb.vertex(p, [u, v], [Math.round(ao * tr * sh * cool[0]), Math.round(ao * tg * sh * cool[1]), Math.round(ao * tb * sh * cool[2]), 255], wind, pivot, [dir.x, dir.y, dir.z]);
       if (s === 0) seam.push([vi, vi + sides]);
     }
   }
@@ -89,18 +90,18 @@ export function addTube(mb, branch, o, bark) {
 export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
   const roots = [];
   for (const az of azimuths) {
-    const reach = rng.range(2.1, 3.3), r0 = rng.range(0.3, 0.42), rise = rng.range(0.75, 1.15);
+    const reach = rng.range(2.6, 3.8), r0 = rng.range(0.34, 0.46), rise = rng.range(0.8, 1.2);
     const pts = [], radii = [], N = 6;
     const sway = rng.range(-0.5, 0.5);
     for (let i = 0; i <= N; i++) {
       const t = i / N;
-      const dist = lerp(trunkR * 0.45, reach, Math.pow(t, 0.85));
+      const dist = lerp(trunkR * 0.7, reach, Math.pow(t, 0.85));
       const a = az + sway * t * t;
-      const y = lerp(rise, -0.32, Math.pow(t, 0.55)) + (t < 0.5 ? 0 : -0.0);
+      const y = lerp(rise, -0.7, Math.pow(t, 0.7)) + (t < 0.5 ? 0 : -0.0);
       pts.push(new THREE.Vector3(Math.cos(a) * dist, y, Math.sin(a) * dist));
       radii.push(Math.max(0.05, r0 * (1 - 0.82 * Math.pow(t, 0.8))));
     }
-    const b = { level: 0, points: pts, radii, phase: 0, parentPhase: 0 };
+    const b = { level: 0, id: 500 + roots.length, points: pts, radii, phase: 0, parentPhase: 0 };
     b.cum = [0]; for (let i = 1; i < pts.length; i++) b.cum.push(b.cum[i - 1] + pts[i].distanceTo(pts[i - 1]));
     b.tangents = pts.map((p, i) => pts[Math.min(pts.length - 1, i + 1)].clone().sub(pts[Math.max(0, i - 1)]).normalize());
     b.pivot = new THREE.Vector3(0, 0, 0);
@@ -117,7 +118,7 @@ export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
  */
 export function addSkirt(mb, bark, rng, trunkFootR, seg = 24) {
   const rings = [
-    { r: trunkFootR * 0.94, y: 0.08, a: 255, k: 0.6 },
+    { r: trunkFootR * 0.7, y: 0.0, a: 255, k: 0.6 },
     { r: trunkFootR + 0.35, y: 0.045, a: 235, k: 0.62 },
     { r: trunkFootR + 0.75, y: -0.01, a: 150, k: 0.66 },
     { r: trunkFootR + 1.15, y: -0.14, a: 0, k: 0.7 },

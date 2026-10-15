@@ -20,7 +20,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as THREE from 'three';
 import sharp from 'sharp';
-import { makeRng, clamp, lerp } from './lib/util.mjs';
+import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
 import { generateBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
 import { growOak, trunkRadiusAt, OAK } from './lib/skeleton.mjs';
@@ -34,8 +34,8 @@ const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 
 const name = arg('--name', 'hero-oak');
 
 const LODS = {
-  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 4, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 24 },
-  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 4, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 16 },
+  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 24 },
+  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 16 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
 
@@ -61,11 +61,13 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
   const P = LODS[lod], rng = makeRng(seedBase + 77), mb = new MeshBuilder(), seam = [];
   const rootAz = []; if (P.root) { const n = rng.int(5, 7), a0 = rng() * Math.PI * 2; for (let k = 0; k < n; k++) rootAz.push(a0 + (k / n) * Math.PI * 2 + rng.range(-0.25, 0.25)); }
   const trunkShape = (r, y, ang, i, dir) => {
-    if (y > 2.2) return r;
+    if (y > 4.5) return r;
     const az = Math.atan2(dir.z, dir.x); let lobe = 0;
     for (const a of rootAz) { let d = az - a; d = Math.atan2(Math.sin(d), Math.cos(d)); lobe += Math.exp(-(d * d) / (2 * 0.32 * 0.32)); }
-    return r * (1 + 0.2 * lobe * Math.exp(-Math.max(y, 0) / 0.8));
+    return r * (1 + 0.3 * lobe * Math.exp(-Math.max(y, 0) / 1.0));
   };
+  // Wood deep inside the canopy sits in leaf shadow: dark and cool, full value at the crown rim.
+  const crownShade = (p) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(0.4, 0.8, smoothstep(0.45, 1.0, d)); };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);
   for (const level of [0, 1, 2, 3]) {
@@ -74,14 +76,16 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       // A twig that ends outside the leaf mass is a bare spike: only twigs ending inside a leaf cluster are grown.
       // Sprigs (twigs of twigs) only carry leaves: their wood would show as bare dark sticks between the cards.
       if (level === 3 && b0.parent?.level === 3) continue;
-      if (level === 2 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 1.1 * 1.1)) continue;
+      // A bough is kept only while every point past its root lies in leaf cover (within 1.3 m of a clump), so no bare stick shows between the leaves.
+      if (level === 2 && sk.envelope(b0.points[b0.points.length - 1]) > 0.85) continue;
+      if (level === 2 && !b0.points.slice(1).every((pt) => centres.some((c) => c.distanceToSquared(pt) < 1.3 * 1.3))) continue;
       if (level === 3 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 0.7 * 0.7)) continue;
       // Near twigs are one straight, shortened, pointed stick (the leaf cards that sit along them hide it): long full-length ones read as black hairlines.
       const b = level === 3 ? shortTwig(b0, lod === 'near' ? 0.62 : 1, P.stride) : decimate(b0, P.stride), sides = sidesFor(b);
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
-        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : clamp(circ / 2.0, 0.12, 1), uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
+        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
         shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3,
       }, bark);
       seam.push(...sm);

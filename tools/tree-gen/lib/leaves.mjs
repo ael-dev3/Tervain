@@ -28,6 +28,12 @@ export function leafCandidates(sk, rng) {
       out.push({ p: f.p, tan: f.tan, branch: b, t, tip: b.level === 3 && t > 0.9 });
     }
   }
+  // The last 40 cm of every bough and limb end is wrapped in leaves: three extra tip markers around the end.
+  for (const b of sk.branches) {
+    if (!(b.level === 2 || (b.level === 1 && !b.parent))) continue;
+    const e = b.at(1), ref = Math.abs(e.tan.y) < 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0), u = new THREE.Vector3().crossVectors(ref, e.tan).normalize(), w = new THREE.Vector3().crossVectors(e.tan, u);
+    for (let k = 0; k < 3; k++) { const a = k * 2.094 + rng() * 0.6; out.push({ p: e.p.clone().addScaledVector(u, Math.cos(a) * 0.25).addScaledVector(w, Math.sin(a) * 0.25).addScaledVector(e.tan, -0.15 * k), tan: e.tan, branch: b, t: 1, tip: true }); }
+  }
   // Fill markers: points through the crown volume (outer shell densest, a lighter interior), each hung on its nearest limb or bough, so the
   // game's crown pass has leaf area to place clumps in the lower and middle crown and not only along the outer limbs.
   const hosts = sk.branches.filter((b) => b.level === 1 || b.level === 2), pts = [];
