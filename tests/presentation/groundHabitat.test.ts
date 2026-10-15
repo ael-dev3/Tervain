@@ -112,3 +112,24 @@ it('reuses same-point road samples, including zero, without changing ground-laye
     expect(Array.from(new Uint32Array(sampled.buffer))).toEqual(Array.from(new Uint32Array(ordinary.buffer)));
   }
 });
+
+it('reuses same-point slope and carve samples without changing ground-layer words', () => {
+  const terrain = new Terrain(), ordinary = new Float32Array(8), reused = new Float32Array(8);
+  for (let z = -64; z <= 64; z += 23) for (let x = -280; x <= 80; x += 37) {
+    const surface = {slope: terrain.slopeAt(x, z), carve: terrain.carveAt(x, z)};
+    const wet = groundSplat(terrain, x, z, ordinary);
+    expect(groundSplat(terrain, x, z, reused, undefined, undefined, undefined, undefined, undefined, surface)).toBe(wet);
+    expect(Array.from(new Uint32Array(reused.buffer))).toEqual(Array.from(new Uint32Array(ordinary.buffer)));
+  }
+});
+
+it('accepts zero-valued surface samples without falling back to terrain derivatives', () => {
+  const terrain = new Terrain(), reference = Object.create(terrain) as Terrain;
+  reference.slopeAt = () => 0; reference.carveAt = () => 0;
+  const a = new Float32Array(8), b = new Float32Array(8), x = -180, z = 12;
+  const wet = groundSplat(reference, x, z, a);
+  terrain.slopeAt = () => { throw Error('unexpected slope resample'); };
+  terrain.carveAt = () => { throw Error('unexpected carve resample'); };
+  expect(groundSplat(terrain, x, z, b, undefined, undefined, undefined, undefined, undefined, {slope:0, carve:0})).toBe(wet);
+  expect(Array.from(new Uint32Array(b.buffer))).toEqual(Array.from(new Uint32Array(a.buffer)));
+});

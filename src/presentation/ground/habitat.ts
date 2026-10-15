@@ -256,6 +256,7 @@ export class Habitat {
 
   private scratch = new Float32Array(8);
   private streamCentre = new Float64Array(1);
+  private readonly surfaceSample = { slope: 0, carve: 0 };
 
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
@@ -276,7 +277,9 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, sampledCanopy, undefined, road);
+      this.surfaceSample.slope = slope;
+      this.surfaceSample.carve = carve;
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, sampledCanopy, undefined, road, this.surfaceSample);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
