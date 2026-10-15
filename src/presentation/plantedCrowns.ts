@@ -14,11 +14,20 @@ type Crown = Placement & { cos: number; sin: number; mask: Mask; broadleaf: bool
 const GRID = 24, HASH = 32;
 const masks = new WeakMap<THREE.BufferGeometry, Mask>();
 
-function edgeDistance(x: number, z: number, ax: number, az: number, bx: number, bz: number): number {
+/** Test a projected edge radius without a norm except at floating-point boundaries. */
+export function projectedEdgeWithin(x: number, z: number, ax: number, az: number, bx: number, bz: number, radius: number): boolean {
+  if (radius < 0) return false;
   const dx = bx - ax, dz = bz - az;
   const d = dx * dx + dz * dz;
   const t = d > 0 ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / d)) : 0;
-  return Math.hypot(x - ax - dx * t, z - az - dz * t);
+  const px = x - ax - dx * t, pz = z - az - dz * t;
+  const squared = px * px + pz * pz, limit = radius * radius;
+  // Preserve the norm's decision when squaring overflows/underflows or rounding can cross the boundary.
+  if (!Number.isFinite(squared) || !Number.isFinite(limit) || squared < Number.MIN_VALUE / Number.EPSILON
+    || limit < Number.MIN_VALUE / Number.EPSILON || Math.abs(squared - limit) <= 8 * Number.EPSILON * Math.max(squared, limit)) {
+    return Math.hypot(px, pz) <= radius;
+  }
+  return squared < limit;
 }
 
 /** Rasterize actual leaf triangles once per shared source geometry. Thin upright cards
@@ -50,7 +59,8 @@ function crownMask(geometry: THREE.BufferGeometry): Mask {
       const w = (ax - cx) * (z - cz) - (az - cz) * (x - cx);
       const area = (bx - ax) * (cz - az) - (bz - az) * (cx - ax);
       const inside = Math.abs(area) > 1e-10 && ((u >= 0 && v >= 0 && w >= 0) || (u <= 0 && v <= 0 && w <= 0));
-      if (inside || Math.min(edgeDistance(x, z, ax, az, bx, bz), edgeDistance(x, z, bx, bz, cx, cz), edgeDistance(x, z, cx, cz, ax, az)) <= pad) raw[at] = 1;
+      if (inside || projectedEdgeWithin(x, z, ax, az, bx, bz, pad)
+        || projectedEdgeWithin(x, z, bx, bz, cx, cz, pad) || projectedEdgeWithin(x, z, cx, cz, ax, az, pad)) raw[at] = 1;
     }
   }
   for (let z = 1; z < GRID - 1; z++) for (let x = 1; x < GRID - 1; x++) {

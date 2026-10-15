@@ -1,0 +1,65 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "crowns": 253,
+  "masks": 18,
+  "matchedNativeGeometries": 18,
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "before": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "edgeTests": 535578,
+      "hypots": 535596,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "coverCalls": 12716,
+      "broadleafCalls": 0,
+      "edgeTests": 527235,
+      "hypots": 18,
+      "bucketLayoutMatches": true,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "89d0b5e11850b56f102875e25a79bad47752a5cba964e293903242844e15f4ce",
+  "scope": "Native published near-LOD foliage geometry, retained masks, grass generator, Habitat, tile meshes and post-processing. All retained masks must match native near-LOD geometries. Baseline/candidate actual Index.add re-rasterizes the real geometries; topological insertion preserves every bucket order. Actual projected-edge tests and Math.hypot calls during mask construction, not timings. Complete mask data/bucket manifests and native generated raster/buffer/pixel controls must match. No hardware frame-time claim.",
+  "pass": true
+}
