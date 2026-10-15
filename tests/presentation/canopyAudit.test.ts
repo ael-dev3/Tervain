@@ -63,3 +63,14 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
 });
+
+it('connects detached cards directly even when the full crown spanning tree routes through supported leaves',()=>{
+  for(const scale of [.5,1,2])for(const reverse of [false,true]){
+    const cards=[new THREE.PlaneGeometry(.02,.02).translate(0,0,1),new THREE.PlaneGeometry(.02,.02).translate(-.3,0,1.2),new THREE.PlaneGeometry(.02,.02).translate(.3,0,1.2)];
+    const wood=new THREE.PlaneGeometry(4,4),leaves=mergeGeometries(reverse?cards.reverse():cards),target={label:'supported-shortcut',wood,leaves,matrix:new THREE.Matrix4().makeScale(scale,scale,scale)};
+    try{
+      expect(auditCanopies([target],{gap:.75*scale,woodReach:1.05*scale}).summary).toMatchObject({components:3,chunks:1,candidates:1,detachedCards:2,detachedClumps:1});
+      expect(auditCanopies([target],{gap:.4*scale,woodReach:1.05*scale}).summary).toMatchObject({detachedCards:2,detachedClumps:2});
+    }finally{wood.dispose();leaves.dispose();cards.forEach(g=>g.dispose());}
+  }
+});
