@@ -1,0 +1,491 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 1,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 2,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 3,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 4,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 5,
+      "pool": 153,
+      "visible": 19,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 134,
+      "boundsCached": true
+    },
+    {
+      "frame": 6,
+      "pool": 153,
+      "visible": 18,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 135,
+      "boundsCached": true
+    },
+    {
+      "frame": 7,
+      "pool": 153,
+      "visible": 18,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 135,
+      "boundsCached": true
+    },
+    {
+      "frame": 8,
+      "pool": 153,
+      "visible": 18,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 135,
+      "boundsCached": true
+    },
+    {
+      "frame": 9,
+      "pool": 153,
+      "visible": 18,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 135,
+      "boundsCached": true
+    },
+    {
+      "frame": 10,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 11,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 12,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 13,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 14,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 15,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 16,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 17,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 18,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 19,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 20,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 21,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 22,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 23,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 24,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 25,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 26,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 27,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 28,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 29,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 30,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 31,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 32,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 33,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 34,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 35,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 36,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 37,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 38,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 39,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 40,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 41,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 42,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 43,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 44,
+      "pool": 153,
+      "visible": 17,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 136,
+      "boundsCached": true
+    },
+    {
+      "frame": 45,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 46,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 47,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 48,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 49,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 50,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 51,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 52,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 53,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 54,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 55,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 56,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 57,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 58,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    },
+    {
+      "frame": 59,
+      "pool": 153,
+      "visible": 16,
+      "matrixWrites": 153,
+      "hiddenMatrixWrites": 137,
+      "boundsCached": true
+    }
+  ],
+  "scope": "Native published High forest module with the camera at the prior run-round hero XZ; not its recorded follow-camera pose. One native render establishes sorting bounds; sixty advancing 60 Hz forest updates with small camera turns follow with drawing frozen. Pose-write counts, not hardware timings or actual upload bytes.",
+  "expectation": "before",
+  "pass": true
+}
