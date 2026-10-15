@@ -31,6 +31,6 @@ Full grass attributes/bounds and all raster channels match the published referen
 
 Run `node tools/repro-live-coastal-shelf.mjs --url https://ael-dev3.github.io/Tervain/ --out coastal-shelf-proof` with the repository's Chromium/software-WebGL prerequisites. The script exits unsuccessfully if native output equality or the four-to-one noise reduction fails. It uses the published version in its report; rebaseline explicitly when Pages changes.
 
-As an unchanged-source control, add `--candidate-ref 2edff1ffb`: this must fail the reduction assertion while retaining equal output. An unchanged implementation must not earn a performance PASS.
+As an unchanged-source control, add `--candidate-ref 2edff1ffb`: this must fail the reduction assertion while retaining equal output. The [executed control receipt](../../proofs/coastal-shelf-noise/unchanged-source-control.json) fails as expected: 8,996 → 8,996 evaluations, equal buffers/rasters/pixels. An unchanged implementation must not earn a performance PASS.
 
 Validation: 27 tests across coastal shelf equivalence, coast-row cache, habitat reuse, coastal terrain/dressing and terrain visuals; production build passes. Shelf equivalence covers centres, noisy rims, 2,000 deterministic additional points, signed zero and nonfinite/extreme inputs. No hardware play-gate receipt yet.
