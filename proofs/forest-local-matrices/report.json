@@ -1,0 +1,42 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "colorBatches": 117,
+  "matrixWalks": 120,
+  "rows": {
+    "native": {
+      "localCompositions": 14040,
+      "autoUpdatingParts": 117,
+      "matricesSha256": "9c222d2838ebcdeb45c2b7861b56e8645b4246dfbeb934d3af561c0e7e699069",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    },
+    "before": {
+      "localCompositions": 14040,
+      "autoUpdatingParts": 117,
+      "matricesSha256": "9c222d2838ebcdeb45c2b7861b56e8645b4246dfbeb934d3af561c0e7e699069",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    },
+    "after": {
+      "localCompositions": 0,
+      "autoUpdatingParts": 0,
+      "matricesSha256": "9c222d2838ebcdeb45c2b7861b56e8645b4246dfbeb934d3af561c0e7e699069",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "d3202a52894626dd9e18df71c1c0835da9b8841af6d274ae569aa6649ec2b2dc",
+  "baselineRevision": "421d34b",
+  "scope": "Published forest wood/foliage color batches at all detail levels. Execute the exact baseline/candidate local initialization policy on existing native batches, then count their actual Matrix4.compose calls during 120 forced scene matrix walks. Whole-builder behavior is tested separately. Preserve local/world matrices and full native endpoint pixels. Not 120 rendered frames or a hardware timing/FPS claim.",
+  "pass": true
+}
