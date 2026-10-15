@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { WaterRenderPass, type WaterRenderInputs, type WaterUnder } from './waterRenderPass';
 import { detachWaterOptics } from './waterOptics';
+import { FOLIAGE_MSAA } from './foliage/foliageMaterial';
 
 /**
  * The final image. The scene is drawn into a half-float target (multisampled where the quality allows), then one
@@ -190,6 +191,7 @@ export class Grade {
     // Half-float targets need a WebGL2 colour-buffer extension; without one fall back to 8 bits (sun highlights clip, nothing else breaks).
     const half = renderer.extensions.has('EXT_color_buffer_float') || renderer.extensions.has('EXT_color_buffer_half_float');
     this.target = new THREE.WebGLRenderTarget(4, 4, { type: half ? THREE.HalfFloatType : THREE.UnsignedByteType, samples: opts.msaa ? 4 : 0, depthBuffer: true, colorSpace: THREE.LinearSRGBColorSpace });
+    FOLIAGE_MSAA.value = opts.msaa ? 1 : 0;
     this.target.texture.minFilter = THREE.LinearFilter;
     this.target.texture.magFilter = THREE.LinearFilter;
     this.material = new THREE.ShaderMaterial({
@@ -287,6 +289,7 @@ export class Grade {
   /** Turn multisampling on or off (quality setting). */
   setMsaa(on: boolean) {
     const samples = on ? 4 : 0;
+    FOLIAGE_MSAA.value = on ? 1 : 0;
     if (this.target.samples === samples) return;
     this.target.samples = samples;
     this.target.dispose();
