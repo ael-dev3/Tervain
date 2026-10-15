@@ -162,6 +162,23 @@ describe('Ground vegetation visibility', () => {
     } finally { now.mockRestore(); a.layer.dispose(); b.layer.dispose(); }
   });
 
+  it('restores draw state when a settled stationary layer is reenabled', () => {
+    const { layer, generate } = fixture();
+    const camera = new THREE.Vector3(0, 1, 0);
+    try {
+      layer.update(camera); layer.update(camera);
+      const expected = { instances: layer.visibleInstances, triangles: layer.visibleTriangles, draws: layer.drawCalls };
+      expect(expected.instances).toBeGreaterThan(0);
+      const generated = generate.mock.calls.length;
+      layer.enabled = false; layer.update(camera);
+      expect(layer.group.visible).toBe(false); expect(layer.visibleInstances).toBe(0);
+      layer.enabled = true; layer.update(camera);
+      expect(layer.group.visible).toBe(true);
+      expect({ instances: layer.visibleInstances, triangles: layer.visibleTriangles, draws: layer.drawCalls }).toEqual(expected);
+      expect(generate).toHaveBeenCalledTimes(generated);
+    } finally { layer.dispose(); }
+  });
+
   it('does not regenerate the same horizontally nearby high-ground tiles every frame', () => {
     const { layer, generate } = fixture(1000);
     const camera = new THREE.Vector3(0, 1, 0);

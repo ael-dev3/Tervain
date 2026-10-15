@@ -231,49 +231,54 @@ export class TileLayer {
       return;
     }
     this.group.visible = true;
+    const streamChanged = this.first || !this.drawFocus.equals(cam) || this.wantList.length > 0;
     this.drawFocus.copy(cam);
-    const T = o.tileSize;
-    // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
-    // horizontal distance: high terrain must not be released and immediately regenerated every frame.
-    const visibleEnd = Math.min(o.fadeEnd, o.band?.end ?? Infinity);
-    const reach = visibleEnd + T * 2;
-    const tx0 = Math.floor((cam.x - reach) / T);
-    const tx1 = Math.floor((cam.x + reach) / T);
-    const tz0 = Math.floor((cam.z - reach) / T);
-    const tz1 = Math.floor((cam.z + reach) / T);
+    // A stationary, fully prepared view has no new requests. Keep polling while
+    // reserve work is pending; per-tile distance/rank selection still runs below.
+    if (streamChanged) {
+      const T = o.tileSize;
+      // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
+      // horizontal distance: high terrain must not be released and immediately regenerated every frame.
+      const visibleEnd = Math.min(o.fadeEnd, o.band?.end ?? Infinity);
+      const reach = visibleEnd + T * 2;
+      const tx0 = Math.floor((cam.x - reach) / T);
+      const tx1 = Math.floor((cam.x + reach) / T);
+      const tz0 = Math.floor((cam.z - reach) / T);
+      const tz1 = Math.floor((cam.z + reach) / T);
 
-    // Drop tiles that are far behind us (hysteresis keeps a border from thrashing).
-    const drop = reach + T * 1.5;
-    for (const t of this.tiles.values()) {
-      if (tileHorizontalDistance(t.x0, t.z0, T, cam) > drop) this.release(t);
-    }
-
-    // Build the missing tiles the camera can see, nearest first.
-    const want = this.wantList;
-    want.length = 0;
-    for (let tz = tz0; tz <= tz1; tz++) {
-      for (let tx = tx0; tx <= tx1; tx++) {
-        if (this.tiles.has(this.key(tx, tz))) continue;
-        const d = tileHorizontalDistance(tx * T, tz * T, T, cam);
-        if (d < reach) want.push({ tx, tz, d });
+      // Drop tiles that are far behind us (hysteresis keeps a border from thrashing).
+      const drop = reach + T * 1.5;
+      for (const t of this.tiles.values()) {
+        if (tileHorizontalDistance(t.x0, t.z0, T, cam) > drop) this.release(t);
       }
-    }
-    if (want.length) {
-      want.sort((a, b) => a.d - b.d);
-      const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
-      // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
-      // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
-      for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
-        const w = want[i]!;
-        if (!this.first && w.d >= visibleEnd && reserve) {
-          if (reserve.remaining <= 0 || (reserve.deadline !== undefined && performance.now() >= reserve.deadline)) break;
-          reserve.remaining--;
+
+      // Build the missing tiles the camera can see, nearest first.
+      const want = this.wantList;
+      want.length = 0;
+      for (let tz = tz0; tz <= tz1; tz++) {
+        for (let tx = tx0; tx <= tx1; tx++) {
+          if (this.tiles.has(this.key(tx, tz))) continue;
+          const d = tileHorizontalDistance(tx * T, tz * T, T, cam);
+          if (d < reach) want.push({ tx, tz, d });
         }
-        const t = this.acquire();
-        this.fill(t, w.tx, w.tz);
-        this.tiles.set(t.key, t);
       }
-      this.first = false;
+      if (want.length) {
+        want.sort((a, b) => a.d - b.d);
+        const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
+        // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
+        // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
+        for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
+          const w = want[i]!;
+          if (!this.first && w.d >= visibleEnd && reserve) {
+            if (reserve.remaining <= 0 || (reserve.deadline !== undefined && performance.now() >= reserve.deadline)) break;
+            reserve.remaining--;
+          }
+          const t = this.acquire();
+          this.fill(t, w.tx, w.tz);
+          this.tiles.set(t.key, t);
+        }
+        this.first = false;
+      }
     }
 
     // Set every tile's instance count from the camera distance and show only what could be on screen.
