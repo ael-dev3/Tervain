@@ -461,6 +461,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
 
   // Each tree's weights are consumed before the next tree; no result escapes this module's refresh.
   const shadowWeights: [number, number, number] = [0, 0, 0];
+  // Reuse the fixed part order across every visible tree and LOD refresh.
+  const colourParts = ['wood', 'leaf'] as const;
+
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
@@ -530,7 +533,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           if (intervalEnd > intervalStart) {
             const m = b.meshes[l]!, visibility = b.visibility[l]!;
             const i = counts[l]!++;
-            for (const part of ['wood', 'leaf'] as const) {
+            for (const part of colourParts) {
               const mesh = m[part];
               if (!mesh) continue;
               packStatic(mesh, i, treeIndex, mtx, col);
