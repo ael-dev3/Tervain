@@ -16,7 +16,7 @@ function* navigationSteps(terrain: Terrain, colliders: Colliders, radius: number
       // Sample the whole cell: 2 m cells would otherwise let a route slip through a thin wall.
       for (let k = 0; !bad && k < 9; k++) {
         const ox = ((k % 3) - 1) * (WORLD.cell * 0.45), oz = (Math.floor(k / 3) - 1) * (WORLD.cell * 0.45);
-        if (colliders.blocked(x + ox, z + oz, radius)) bad = true;
+        if (colliders.blockedForNavigation(x + ox, z + oz, radius)) bad = true;
       }
       blocked[j * terrain.nx + i] = bad ? 1 : 0;
     }

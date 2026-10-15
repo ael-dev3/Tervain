@@ -49,7 +49,9 @@ beforeAll(async () => {
     : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
     tree => groundedTreeY(terrain, tree, variantFor(tree)));
   seatTreeFlares(population, terrain, variantFor, isPineSpecies);
-  registerFloraColliders(population, canonical);
+  // Navigation sees final seated wood; visual/physical planting radii remain canonical.
+  registerFloraColliders(population, canonical, undefined, tree => isPineSpecies(tree.sp) ? tree.radius
+    : treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
   source.dispose();
   for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
 });
