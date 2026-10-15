@@ -1,3 +1,4 @@
+import { BOW_LENGTH } from '../content/bowSize';
 import * as THREE from 'three';
 import type { FurnitureId } from '../world/furnitureSizes';
 import type { HungKind } from '../world/dressing';
@@ -151,11 +152,12 @@ export function hungGeometry(kind: HungKind): THREE.BufferGeometry {
       cyl(0.006, 0.48, 0, -0.24, 0.04, ROPE);
       for (let i = 0; i < 9; i++) parts.push([new THREE.SphereGeometry(0.035, 6, 4).scale(1, 0.9, 1).translate(((i % 3) - 1) * 0.03, -0.08 - i * 0.045, 0.045 + (i % 2) * 0.012), ONION]);
       break;
-    // A140: a hunter's longbow, about 1.1 m, its string to the wall side, and a leather quiver of arrows.
+    // A140: a hunter's longbow, BOW_LENGTH, its string to the wall side, and a leather quiver of arrows.
     case 'bow': {
-      parts.push([new THREE.TorusGeometry(0.7, 0.014, 4, 18, 1.8).rotateZ(Math.PI - 0.9).translate(0.435, -0.56, 0.03), WOOD]);
-      cyl(0.0025, 1.1, 0, -0.56, 0.03, ROPE);
-      cyl(0.02, 0.12, -0.265, -0.56, 0.03, LEATHER);
+      const k = BOW_LENGTH / 1.097;
+      parts.push([new THREE.TorusGeometry(0.7 * k, 0.014, 4, 18, 1.8).rotateZ(Math.PI - 0.9).translate(0.435 * k, -0.56 * k, 0.03), WOOD]);
+      cyl(0.0025, BOW_LENGTH, 0, -0.56 * k, 0.03, ROPE);
+      cyl(0.02, 0.12, -0.265 * k, -0.56 * k, 0.03, LEATHER);
       break;
     }
     case 'quiver': {

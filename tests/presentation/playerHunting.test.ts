@@ -1,3 +1,4 @@
+import { BOW_LENGTH } from '../../src/content/bowSize';
 import * as THREE from 'three';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -213,8 +214,8 @@ describe('carrying the bow (A75)', () => {
     const stringMid = s.rig.root.worldToLocal(string.localToWorld(new THREE.Vector3(0, 0, -.14)));
     expect(Math.abs(stringMid.z - grip.z)).toBeLessThan(.03);
     const tip = (y: number) => s.rig.root.worldToLocal(s.visual.bow.localToWorld(new THREE.Vector3(0, y, -.14)));
-    expect(Math.min(tip(-.65).y, tip(.65).y)).toBeGreaterThan(.7);
-    expect(tip(-.65).distanceTo(tip(.65))).toBeLessThan(1.12);
+    expect(Math.min(tip(-BOW_LENGTH / 2).y, tip(BOW_LENGTH / 2).y)).toBeGreaterThan(.6);
+    expect(tip(-BOW_LENGTH / 2).distanceTo(tip(BOW_LENGTH / 2))).toBeLessThan(1.6);
     // No grip asked of the free hands while it is slung.
     expect(s.rig.hero.gripOf('Left')).toEqual(s.rig.hero.gripOf('Right'));
     s.visual.setAim(new THREE.Vector3(0, 0, 1), .5);

@@ -52,6 +52,7 @@ export class Splashes {
   private readonly positions = new Float32Array(MAX * 3);
   private readonly sizes = new Float32Array(MAX);
   private readonly fades = new Float32Array(MAX);
+  private readonly uploadAttributes: THREE.BufferAttribute[];
   private readonly random = mulberry32(5501);
   private next = 0;
   private initialized = false;
@@ -65,6 +66,7 @@ export class Splashes {
     geo.setAttribute('position', new THREE.BufferAttribute(this.positions, 3).setUsage(THREE.DynamicDrawUsage));
     geo.setAttribute('aSize', new THREE.BufferAttribute(this.sizes, 1).setUsage(THREE.DynamicDrawUsage));
     geo.setAttribute('aFade', new THREE.BufferAttribute(this.fades, 1).setUsage(THREE.DynamicDrawUsage));
+    this.uploadAttributes = [geo.attributes.position, geo.attributes.aSize, geo.attributes.aFade] as THREE.BufferAttribute[];
     geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e6);
     const material = new THREE.ShaderMaterial({
       uniforms: { uScale: { value: 700 }, uSunColor: SKY.sunColor, uSunI: SKY.sunI, uNight: SKY.night, uAmbient: SKY.ambient },
@@ -121,8 +123,24 @@ export class Splashes {
     this.points.visible = drawn > 0;
     this.idle = drawn === 0;
     if (!changed) return;
-    const geo = this.points.geometry;
-    geo.attributes.position!.needsUpdate = geo.attributes.aSize!.needsUpdate = geo.attributes.aFade!.needsUpdate = true;
+    for (const attribute of this.uploadAttributes) {
+      attribute.clearUpdateRanges();
+      if (drawn > 0) attribute.addUpdateRange(0, drawn * attribute.itemSize);
+      attribute.needsUpdate = true;
+    }
+  }
+
+  /** Submit the empty pool once in the actual first view, before play. Its zero-size/fade slot draws no pixels,
+   * but creates the same vertex buffers and layout the first splash will need. Restore state even if drawing fails. */
+  prepareFirstDraw(draw: () => void): void {
+    const geometry = this.points.geometry, { start, count } = geometry.drawRange, visible = this.points.visible;
+    if (count !== 0) { draw(); return; }
+    try {
+      geometry.setDrawRange(0, 1); this.points.visible = true;
+      draw();
+    } finally {
+      geometry.setDrawRange(start, count); this.points.visible = visible;
+    }
   }
 
   /** How many droplets are in the air (for the developer panel and tests). */

@@ -31,6 +31,9 @@ function obstacleHeight(c: Collider): number {
  * A stable third-person camera. Obstruction shortens the boom immediately but lets it
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
+/** The aim view (B11): boom length, shift to the screen's right and lift of the pivot, in metres. */
+export const AIM_VIEW = { boom: 2.3, right: 1.0, up: 0.3 };
+
 export class CameraRig {
   readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
   yaw = 0;
@@ -158,12 +161,12 @@ export class CameraRig {
 
     const aimTarget = this.aiming ? 1 : 0;
     this.aimBlend = !this.initialized || reducedMotion ? aimTarget
-      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 11));
+      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 20));
     if (Math.abs(this.aimBlend - aimTarget) < 1e-3) this.aimBlend = aimTarget;
     const aimEase = this.aimBlend * this.aimBlend * (3 - 2 * this.aimBlend);
-    const boomDistance = this.wantDist + (2.8 - this.wantDist) * aimEase + RIDE_CAMERA.back * this.rideBlend;
+    const boomDistance = this.wantDist + (AIM_VIEW.boom - this.wantDist) * aimEase + RIDE_CAMERA.back * this.rideBlend;
     this.lastBoom = boomDistance;
-    const aimOffset = 0.42 * aimEase;
+    const aimOffset = AIM_VIEW.right * aimEase;
     this.followPivot.copy(this.smoothTarget);
     // A rail fence is seen through (A125): its wall above the rails keeps the hero off them, not the camera, which pulled
     // in to a metre from his back whenever it swung across one.
@@ -245,6 +248,8 @@ export class CameraRig {
         previousShoulder = fraction;
       }
       this.followPivot.addScaledVector(offset, shoulderFraction);
+      // Over the shoulder and a little above it, so the drawn bow ahead of him is framed, not hidden by his back (B11).
+      this.followPivot.y += AIM_VIEW.up * aimEase * shoulderFraction;
     }
     // A doorway's lintel is the one wall a boom can pass under: lower the view, continuously, just enough for the boom to
     // clear it, rather than shortening the boom to nothing the moment it would touch (a cut).

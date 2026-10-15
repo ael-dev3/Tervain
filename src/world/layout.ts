@@ -387,7 +387,7 @@ export function hunterStationPoint(localX: number, localZ: number): V2 {
 }
 
 export const PICKUP_LOCATIONS: (WorldPoint & { item: ItemId; qty: number; nameKey: string; yaw?: number; support?: 'hunter_table' })[] = [
-  { id: 'hunter_bow', ...hunterStationPoint(-.64, 0), r: 2.4, item: 'hunting_bow', qty: 1, nameKey: 'pickup.hunter_bow', yaw: HUNTER_TABLE.yaw, support: 'hunter_table' },
+  { id: 'hunter_bow', ...hunterStationPoint(-.4, 0), r: 2.4, item: 'hunting_bow', qty: 1, nameKey: 'pickup.hunter_bow', yaw: HUNTER_TABLE.yaw + Math.PI / 2, support: 'hunter_table' },
   { id: 'hunter_knife', ...hunterStationPoint(.58, -.36), r: 2.4, item: 'skinning_knife', qty: 1, nameKey: 'pickup.hunter_knife', yaw: HUNTER_TABLE.yaw + .22, support: 'hunter_table' },
   { id: 'hunter_arrows', ...hunterStationPoint(.55, .30), r: 2.4, item: 'arrow', qty: 24, nameKey: 'pickup.hunter_arrows', yaw: HUNTER_TABLE.yaw - .13, support: 'hunter_table' },
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },

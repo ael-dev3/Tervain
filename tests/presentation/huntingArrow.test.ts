@@ -153,3 +153,36 @@ describe('seventh scout fixes: no splash under a deck the arrow strikes (A100)',
     arrows.dispose();
   });
 });
+
+describe('lodged arrows and the loose read at a distance (B11)', () => {
+  it('a stuck shaft shivers by several centimetres at the tail, then settles within half a second', () => {
+    const arrows = new HuntingArrows();
+    const shot = arrows.launch(new THREE.Vector3(), new THREE.Vector3(0, 0, 1), 65)!;
+    arrows.update(1 / 60, (_from, to) => ({ point: to.clone() }));
+    const rest = shot.mesh.quaternion.clone();
+    let widest = 0;
+    for (let i = 0; i < 20; i++) {
+      arrows.update(1 / 120, () => null);
+      widest = Math.max(widest, rest.angleTo(shot.mesh.quaternion));
+    }
+    expect(widest * .7).toBeGreaterThan(.02);
+    for (let i = 0; i < 60; i++) arrows.update(1 / 60, () => null);
+    expect(rest.angleTo(shot.mesh.quaternion)).toBeLessThan(1e-6);
+    arrows.dispose();
+  });
+});
+
+it('applies water drag to a submerged muzzle without a fictitious surface-entry splash', () => {
+  for (const hz of [30, 60, 120]) {
+    const arrows = new HuntingArrows(), enter = vi.fn();
+    try {
+      const shot = arrows.launch(new THREE.Vector3(0, -.2, 0), new THREE.Vector3(0, -.2, 1), 65)!;
+      for (let i = 0; i < hz / 2; i++) arrows.update(1 / hz, () => null, undefined,
+        { sample: () => ({ surface: 0, flowX: 0, flowZ: 0 }), enter });
+      expect(enter).not.toHaveBeenCalled();
+      expect(arrows.floatingCount).toBe(1);
+      expect(arrows.activeCount).toBe(0);
+      expect(shot.position.z).toBeLessThan(8);
+    } finally { arrows.dispose(); }
+  }
+});

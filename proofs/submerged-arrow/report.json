@@ -1,0 +1,407 @@
+{
+  "rows": [
+    {
+      "mode": "before",
+      "kind": "submerged",
+      "hz": 30,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "1568c8357ecf55a1e375953001795d3ff5666fdd1a7d97e5fd365c8e6769e95e",
+      "pathSamples": 16
+    },
+    {
+      "mode": "before",
+      "kind": "submerged",
+      "hz": 60,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "render": {
+        "draws": 8,
+        "triangles": 118,
+        "lines": 750,
+        "textures": 1,
+        "glError": 0
+      },
+      "pathSha256": "08c1961afd5ea04c4701de52cb37e71b63d0d73f9e612a78e7144cb77f5528c2",
+      "pathSamples": 31
+    },
+    {
+      "mode": "before",
+      "kind": "submerged",
+      "hz": 120,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "c0007382f3c0cdf3c8a94ef1308637a4f7fef0471825cc3f6e24b1060410d430",
+      "pathSamples": 61
+    },
+    {
+      "mode": "before",
+      "kind": "air",
+      "hz": 30,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "f7a25ac6bf0b7fed3d45b08ea17274148f39cf0a1ac31f279ac14799bcb6e815",
+      "pathSamples": 16
+    },
+    {
+      "mode": "before",
+      "kind": "air",
+      "hz": 60,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "6d0c7eb1ae8be13df17ba520cabc18fa9cc03935b0c18b394c3c44b93f872d97",
+      "pathSamples": 31
+    },
+    {
+      "mode": "before",
+      "kind": "air",
+      "hz": 120,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "bd4a95127c49941727990dc81be395b80faed6621badb933e88f0e90d1888921",
+      "pathSamples": 61
+    },
+    {
+      "mode": "before",
+      "kind": "entry",
+      "hz": 30,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "00cd4139798da2c66f23a3a0834b4b14d65debfcc3ca659caf83f9369f8d903a",
+      "pathSamples": 16
+    },
+    {
+      "mode": "before",
+      "kind": "entry",
+      "hz": 60,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "c7e4c7e5c6ba64197c56d969f5884cc9e196a8b8db1c63391d33b023253491e4",
+      "pathSamples": 31
+    },
+    {
+      "mode": "before",
+      "kind": "entry",
+      "hz": 120,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "abca242c42f65f2a4bce0203199ec4bc5843cb45c48a8ede0749b6c04da2246e",
+      "pathSamples": 61
+    },
+    {
+      "mode": "before",
+      "kind": "dry",
+      "hz": 30,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "1568c8357ecf55a1e375953001795d3ff5666fdd1a7d97e5fd365c8e6769e95e",
+      "pathSamples": 16
+    },
+    {
+      "mode": "before",
+      "kind": "dry",
+      "hz": 60,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "08c1961afd5ea04c4701de52cb37e71b63d0d73f9e612a78e7144cb77f5528c2",
+      "pathSamples": 31
+    },
+    {
+      "mode": "before",
+      "kind": "dry",
+      "hz": 120,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "c0007382f3c0cdf3c8a94ef1308637a4f7fef0471825cc3f6e24b1060410d430",
+      "pathSamples": 61
+    },
+    {
+      "mode": "after",
+      "kind": "submerged",
+      "hz": 30,
+      "enters": 0,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.741589784772819,
+        7.232049178538621
+      ],
+      "speed": 1.1299805746471168,
+      "pathSha256": "cb7e649fe30cdd083cd9b7c22863dbdfcb2fe03ac54e035b2c08bd8c966ffe14",
+      "pathSamples": 16
+    },
+    {
+      "mode": "after",
+      "kind": "submerged",
+      "hz": 60,
+      "enters": 0,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.741589784772819,
+        7.232049178538621
+      ],
+      "speed": 1.1299805746471168,
+      "render": {
+        "draws": 8,
+        "triangles": 118,
+        "lines": 750,
+        "textures": 1,
+        "glError": 0
+      },
+      "pathSha256": "9d837134844712ca49e90b6dfde9081fea9da1c65c9816c8f2963ec107ef9545",
+      "pathSamples": 31
+    },
+    {
+      "mode": "after",
+      "kind": "submerged",
+      "hz": 120,
+      "enters": 0,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.741589784772819,
+        7.232049178538621
+      ],
+      "speed": 1.1299805746471168,
+      "pathSha256": "30a367c93724292442507a50540237a6a20fa891060de595e1d606914db260c7",
+      "pathSamples": 61
+    },
+    {
+      "mode": "after",
+      "kind": "air",
+      "hz": 30,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "f7a25ac6bf0b7fed3d45b08ea17274148f39cf0a1ac31f279ac14799bcb6e815",
+      "pathSamples": 16
+    },
+    {
+      "mode": "after",
+      "kind": "air",
+      "hz": 60,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "6d0c7eb1ae8be13df17ba520cabc18fa9cc03935b0c18b394c3c44b93f872d97",
+      "pathSamples": 31
+    },
+    {
+      "mode": "after",
+      "kind": "air",
+      "hz": 120,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        2.3999756080090364,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "bd4a95127c49941727990dc81be395b80faed6621badb933e88f0e90d1888921",
+      "pathSamples": 61
+    },
+    {
+      "mode": "after",
+      "kind": "entry",
+      "hz": 30,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "00cd4139798da2c66f23a3a0834b4b14d65debfcc3ca659caf83f9369f8d903a",
+      "pathSamples": 16
+    },
+    {
+      "mode": "after",
+      "kind": "entry",
+      "hz": 60,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "c7e4c7e5c6ba64197c56d969f5884cc9e196a8b8db1c63391d33b023253491e4",
+      "pathSamples": 31
+    },
+    {
+      "mode": "after",
+      "kind": "entry",
+      "hz": 120,
+      "enters": 1,
+      "active": 0,
+      "floating": 1,
+      "position": [
+        0,
+        -1.5157627672766814,
+        9.356640642535613
+      ],
+      "speed": 1.1325735032790654,
+      "pathSha256": "abca242c42f65f2a4bce0203199ec4bc5843cb45c48a8ede0749b6c04da2246e",
+      "pathSamples": 61
+    },
+    {
+      "mode": "after",
+      "kind": "dry",
+      "hz": 30,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "1568c8357ecf55a1e375953001795d3ff5666fdd1a7d97e5fd365c8e6769e95e",
+      "pathSamples": 16
+    },
+    {
+      "mode": "after",
+      "kind": "dry",
+      "hz": 60,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "08c1961afd5ea04c4701de52cb37e71b63d0d73f9e612a78e7144cb77f5528c2",
+      "pathSamples": 31
+    },
+    {
+      "mode": "after",
+      "kind": "dry",
+      "hz": 120,
+      "enters": 0,
+      "active": 1,
+      "floating": 0,
+      "position": [
+        0,
+        -7.800024391990971,
+        31.86887195995489
+      ],
+      "speed": 66.13707340494332,
+      "pathSha256": "c0007382f3c0cdf3c8a94ef1308637a4f7fef0471825cc3f6e24b1060410d430",
+      "pathSamples": 61
+    }
+  ],
+  "controlsIdentical": true,
+  "sourceSha256": "77c5190027eb6718948cf48d6e83f85d5086a82a690aaafdd53bb55d48efa4f5",
+  "baseline": "421d34b",
+  "scope": "Actual projectile classes in a controlled pond; 0.5 s at 30/60/120 Hz. Air, dry and ordinary surface-entry controls compare complete paths. Software-WebGL trajectory diagrams include the actual arrow mesh; not production visual approval or hardware timing.",
+  "pass": true
+}

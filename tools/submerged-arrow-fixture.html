@@ -1,0 +1,14 @@
+<!doctype html><script type="module">
+import * as THREE from 'three';import{HuntingArrows as Before}from'/@baseline-arrow';import{HuntingArrows as After}from'/src/presentation/huntingArrow.ts';
+try{
+ const rows=[],images={};const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,360);document.body.append(renderer.domElement);const camera=new THREE.PerspectiveCamera(48,640/360,.1,150);camera.position.set(32,12,16);camera.lookAt(0,-3,16);camera.updateMatrixWorld();
+ for(const [mode,Class]of[['before',Before],['after',After]])for(const kind of ['submerged','air','entry','dry'])for(const hz of [30,60,120]){
+  const arrows=new Class();let enters=0;const sample=()=>kind==='dry'?null:{surface:0,flowX:0,flowZ:0},shot=arrows.launch(new THREE.Vector3(0,kind==='air'?10:kind==='entry'?.5:-.2,0),new THREE.Vector3(0,-.2,1),65),path=[shot.position.toArray()];
+  for(let i=0;i<hz/2;i++){arrows.update(1/hz,()=>null,undefined,{sample,enter(){enters++}});path.push(shot.position.toArray());}
+  const row={mode,kind,hz,enters,active:arrows.activeCount,floating:arrows.floatingCount,position:shot.position.toArray(),speed:shot.velocity.length(),path};
+  if(kind==='submerged'&&hz===60){const scene=new THREE.Scene();scene.background=new THREE.Color(0x202630);scene.add(arrows.group,new THREE.AmbientLight(0xffffff,2));const water=new THREE.Mesh(new THREE.PlaneGeometry(12,40,6,20),new THREE.MeshBasicMaterial({color:0x54788a,wireframe:true}));water.rotation.x=-Math.PI/2;water.position.z=15;scene.add(water);const geometry=new THREE.BufferGeometry().setFromPoints(path.map(p=>new THREE.Vector3(...p)));scene.add(new THREE.Line(geometry,new THREE.LineBasicMaterial({color:mode==='before'?0xf8a477:0x69c6ae})));const marker=new THREE.Mesh(new THREE.SphereGeometry(.18,8,6),new THREE.MeshBasicMaterial({color:mode==='before'?0xf8a477:0x69c6ae}));marker.position.copy(shot.position);scene.add(marker);renderer.render(scene,camera);row.render={draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,lines:renderer.info.render.lines,textures:renderer.info.memory.textures,glError:renderer.getContext().getError()};images[mode]=renderer.domElement.toDataURL();geometry.dispose();water.geometry.dispose();water.material.dispose();}
+  rows.push(row);arrows.dispose();
+ }
+ window.arrowProof={rows,images};renderer.dispose();
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script>

@@ -5,10 +5,10 @@ import { NearFade } from './nearFade';
 export function createHuntingArrow(): THREE.Group {
   const arrow = new THREE.Group();
   arrow.name = 'Hunting / wooden arrow';
-  const wood = new THREE.MeshStandardMaterial({ color: 0x72513a, roughness: .88 });
-  const steel = new THREE.MeshStandardMaterial({ color: 0x747471, roughness: .72, metalness: .5 });
-  const feather = new THREE.MeshStandardMaterial({ color: 0xcabfa7, roughness: .95, side: THREE.DoubleSide });
-  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, .72, 6), wood);
+  const wood = new THREE.MeshStandardMaterial({ color: 0xd2b27c, roughness: .8, emissive: 0x2a2012 });
+  const steel = new THREE.MeshStandardMaterial({ color: 0xd9dadb, roughness: .5, metalness: .3, emissive: 0x303030 });
+  const feather = new THREE.MeshStandardMaterial({ color: 0xf4efe2, roughness: .95, emissive: 0x302d26, side: THREE.DoubleSide });
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.009, .009, .72, 6), wood);
   shaft.rotation.x = Math.PI / 2;
   shaft.position.z = -.385;
   const tip = new THREE.Mesh(new THREE.ConeGeometry(.019, .05, 4), steel);
@@ -16,7 +16,7 @@ export function createHuntingArrow(): THREE.Group {
   tip.position.z = -.025;
   arrow.add(shaft, tip);
   for (let i = 0; i < 3; i++) {
-    const fin = new THREE.Mesh(new THREE.PlaneGeometry(.07, .025), feather);
+    const fin = new THREE.Mesh(new THREE.PlaneGeometry(.085, .035), feather);
     fin.rotation.set(0, Math.PI / 2, i * Math.PI * 2 / 3);
     fin.position.z = -.64;
     arrow.add(fin);
@@ -24,9 +24,9 @@ export function createHuntingArrow(): THREE.Group {
   arrow.traverse((object) => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = true; });
   // A faint streak behind the fletching while the arrow flies fast (B11). It is always part of the arrow, at no length on
   // the string, so its program is linked with the nocked arrow's and the first loose compiles nothing.
-  const trailGeometry = new THREE.CylinderGeometry(.0035, .0005, 1, 4, 1, true);
+  const trailGeometry = new THREE.CylinderGeometry(.011, .0008, 1, 6, 1, true);
   trailGeometry.rotateX(-Math.PI / 2); trailGeometry.translate(0, 0, -.5);
-  const trail = new THREE.Mesh(trailGeometry, new THREE.MeshBasicMaterial({ color: 0xe9dfc8, transparent: true, opacity: .32, depthWrite: false }));
+  const trail = new THREE.Mesh(trailGeometry, new THREE.MeshBasicMaterial({ color: 0xe9dfc8, transparent: true, opacity: .6, depthWrite: false }));
   trail.name = ARROW_TRAIL;
   trail.position.z = -.68;
   trail.scale.set(1, 1, 1e-4);
@@ -132,6 +132,12 @@ export class HuntingArrows {
     }
     for (let i = this.flights.length - 1; i >= 0; i--) {
       const shot = this.flights[i]!;
+      // A downward aim while wading can put the muzzle below water before release.
+      // It is already immersed, so apply drag without inventing a surface-entry splash.
+      if (water && !shot.wet && shot.age === 0) {
+        const launchWater = water.sample(shot.position.x, shot.position.z);
+        if (launchWater && shot.position.y < launchWater.surface) shot.wet = true;
+      }
       let remaining = Math.min(dt, Math.max(0, 7 - shot.age));
       let hit = false;
       while (remaining > 1e-8) {
@@ -187,9 +193,9 @@ export class HuntingArrows {
       else if (shot.age >= 7) { this.remove(shot.mesh); this.flights.splice(i, 1); }
       else {
         shot.mesh.position.copy(shot.position); this.orient(shot.mesh, shot.velocity);
-        // Up to ~1.6 m behind a full-speed arrow, nothing once it slows, never longer than the path it has flown.
+        // Up to ~3 m behind a full-speed arrow, nothing once it slows, never longer than the path it has flown.
         const speed = shot.velocity.length();
-        setTrail(shot.mesh, shot.wet ? 0 : Math.min(shot.age * speed, Math.max(0, speed - 15) * .032));
+        setTrail(shot.mesh, shot.wet ? 0 : Math.min(shot.age * speed, Math.max(0, speed - 15) * .06));
       }
     }
   }

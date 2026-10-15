@@ -1,0 +1,351 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "i": 0,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 1,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 2,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 3,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 4,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 5,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 6,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 7,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 8,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 9,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 10,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 11,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 12,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 13,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 14,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 15,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 16,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 17,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 18,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    },
+    {
+      "i": 19,
+      "count": 24,
+      "active": 24,
+      "before": {
+        "uploadBytes": 9600,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      },
+      "after": {
+        "uploadBytes": 480,
+        "draws": 1,
+        "points": 24,
+        "glError": 0
+      }
+    }
+  ],
+  "identicalPixels": true,
+  "scope": "Published native spray pool and shader; controlled 24-drop emission, 20 advancing frames. Same-frame full upload vs proposed prefix-range intervention using unchanged CPU data and the same renderer. Isolated native sprite render, not whole-scene Grade/MSAA, candidate build or hardware timing. Warmup excluded.",
+  "pass": true
+}

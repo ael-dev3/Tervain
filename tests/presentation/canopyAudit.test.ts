@@ -88,3 +88,30 @@ it('rejects unavailable required cutouts rather than claiming opaque coverage in
  const decoded={...t,cutout:{uv:'uv',cutoff:.5,alpha:()=>1}};expect(auditCanopies([decoded],{alpha:true}).complete).toBe(true);
  const leafless={...t,leaves:null};expect(auditCanopies([leafless],{alpha:true}).complete).toBe(true);
 });
+
+it('keeps tighter wood-reach classifications independent of wood triangle order', () => {
+  const near = new THREE.PlaneGeometry(1, 1).translate(0, 0, .1);
+  const far = new THREE.PlaneGeometry(1, 1).translate(0, 0, .5);
+  const leaves = new THREE.PlaneGeometry(.02, .02);
+  const geometries = [mergeGeometries([far, near]), mergeGeometries([near, far]), far.clone()];
+  try {
+    for (const [i, wood] of geometries.entries()) {
+      const r = auditCanopies([{ label: 'tight-reach', wood, leaves, matrix: new THREE.Matrix4() }],
+        { gap: .75, woodReach: .2 });
+      expect(r.summary.candidates).toBe(0); // All three stay connected at the wider connectivity gap.
+      expect(r.summary.detachedCards).toBe(i === 2 ? 1 : 0);
+      expect(r.summary.detachedClumps).toBe(i === 2 ? 1 : 0);
+    }
+  } finally { near.dispose(); far.dispose(); leaves.dispose(); for (const g of geometries) g.dispose(); }
+});
+
+it('connects detached cards directly even when the full crown spanning tree routes through supported leaves',()=>{
+  for(const scale of [.5,1,2])for(const reverse of [false,true]){
+    const cards=[new THREE.PlaneGeometry(.02,.02).translate(0,0,1),new THREE.PlaneGeometry(.02,.02).translate(-.3,0,1.2),new THREE.PlaneGeometry(.02,.02).translate(.3,0,1.2)];
+    const wood=new THREE.PlaneGeometry(4,4),leaves=mergeGeometries(reverse?cards.reverse():cards),target={label:'supported-shortcut',wood,leaves,matrix:new THREE.Matrix4().makeScale(scale,scale,scale)};
+    try{
+      expect(auditCanopies([target],{gap:.75*scale,woodReach:1.05*scale}).summary).toMatchObject({components:3,chunks:1,candidates:1,detachedCards:2,detachedClumps:1});
+      expect(auditCanopies([target],{gap:.4*scale,woodReach:1.05*scale}).summary).toMatchObject({detachedCards:2,detachedClumps:2});
+    }finally{wood.dispose();leaves.dispose();cards.forEach(g=>g.dispose());}
+  }
+});

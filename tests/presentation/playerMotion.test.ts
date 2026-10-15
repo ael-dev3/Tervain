@@ -422,6 +422,29 @@ describe('player motion and action contacts', () => {
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
   });
 
+  it.each(Array.from({ length: 8 }, (_, i) => i * Math.PI / 4).flatMap(yaw =>
+    ['inactive', 'overhead', 'buried', 'active'].map(state => ({ yaw, state }))))(
+    'uses body contact rules for neighboring fence landings (yaw=$yaw, state=$state)', ({ yaw, state }) => {
+      const s = setup(); s.ctx.terrain.heightAt = () => 0;
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
+      s.ctx.colliders.box('fence', .8 * cos, -.8 * sin, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.yaw = Math.PI / 2 + yaw;
+      const clear = s.player['fenceVault'](s.ctx)!;
+      expect(clear).not.toBeNull();
+      s.ctx.colliders.box('fence', 1.62 * cos, -1.62 * sin, .08, .35, yaw, state !== 'inactive', {
+        minY: state === 'overhead' ? 5 : state === 'buried' ? -2 : 0,
+        maxY: state === 'overhead' ? 6 : state === 'buried' ? -.1 : 1.5,
+      });
+      s.player.yaw = Math.PI / 2 + yaw;
+      s.presses.add('jump'); s.tick();
+      if (state === 'active') expect(s.player.vault).toBeNull();
+      else {
+        expect(s.player.vault).not.toBeNull();
+        expect(s.player.vault!.to).toEqual(clear.to);
+        expect(s.player.vault!.peak).toBe(clear.peak);
+      }
+    });
+
   it.each(['absent', 'landing', 'nearby'])('checks loose cargo before a scripted fence crossing (cargo=%s)', cargo => {
     const s = setup(); s.ctx.terrain.heightAt = () => 0;
     s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
@@ -860,4 +883,21 @@ describe('explicit player equipment', () => {
     expect(s.player.stamina).toBe(stamina); expect(s.player.drawn).toBe(true);
   });
 
+});
+
+
+it.each([30,60,120])('stops a released-input fence vault at its checked landing (%i Hz)',hz=>{
+  for(const distance of [.55,1.2,1.85])for(const yaw of [0,.7,Math.PI/2]){
+    const s=setup();s.ctx.terrain.heightAt=()=>0;
+    s.ctx.colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});
+    const cos=Math.cos(yaw),sin=Math.sin(yaw);
+    s.player.setPosition(distance*cos,-distance*sin,Math.atan2(-cos,sin),s.ctx.terrain);
+    s.presses.add('jump');s.tick(1/hz);
+    expect(s.player.vault).not.toBeNull();const landing={...s.player.vault!.to};
+    for(let i=0;s.player.vault&&i<hz*3;i++)s.tick(1/hz);
+    expect(s.player.grounded).toBe(true);
+    expect(Math.hypot(s.player.vx,s.player.vz)).toBeLessThan(1e-8);
+    for(let i=0;i<hz;i++)s.tick(1/hz);
+    expect(Math.hypot(s.player.x-landing.x,s.player.z-landing.z)).toBeLessThan(1e-8);
+  }
 });

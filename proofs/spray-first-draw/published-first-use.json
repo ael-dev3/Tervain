@@ -1,0 +1,37 @@
+{
+  "version": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "active": 24,
+  "rows": [
+    {
+      "phase": "empty",
+      "bytes": 0,
+      "subBytes": 0,
+      "links": 0,
+      "sprayLinks": 0,
+      "vaos": 0,
+      "draws": 121
+    },
+    {
+      "phase": "first",
+      "bytes": 9600,
+      "subBytes": 0,
+      "links": 0,
+      "sprayLinks": 0,
+      "vaos": 1,
+      "draws": 122
+    },
+    {
+      "phase": "repeat",
+      "bytes": 0,
+      "subBytes": 0,
+      "links": 0,
+      "sprayLinks": 0,
+      "vaos": 0,
+      "draws": 122
+    }
+  ],
+  "scope": "Published native pool, motion enabled, controlled first 24-drop emission through native Grade/post. No shader link was recorded; this is a cold buffer/layout count, not a hardware timing receipt."
+}

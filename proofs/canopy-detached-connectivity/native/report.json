@@ -1,0 +1,414 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "results": {
+    "before": [
+      {
+        "label": "tree:wild:54:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 143,
+          "detachedClumps": 131,
+          "treesWithDetached": 1
+        },
+        "operations": 1815034,
+        "sha256": "c1115808e9f4df1d456aec2f2bb93ce8ac2d5854f24c6265e405fc4c7493f8a1",
+        "invariantsSha256": "8726d4a9b4d1f3daf49319aee11740304a565b7e96648e26fc4ae3063203ee1c"
+      },
+      {
+        "label": "tree:wild:66:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 113,
+          "detachedClumps": 104,
+          "treesWithDetached": 1
+        },
+        "operations": 1805769,
+        "sha256": "925bfe2318b727c6930f092f64ca0104bfc70536b27ed2d7ab6e50121a426386",
+        "invariantsSha256": "51c7cd0315fd9a940fd7f88542ba8216a5baa67296708ae201369123f53c5dc6"
+      },
+      {
+        "label": "tree:wild:70:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 1374485,
+        "sha256": "51642df19947c9a4c867c2dc9af1d34be3d5870754188bd9c9783a97de666110",
+        "invariantsSha256": "112e7b7c2d2b86d79b49c21652079c94b74b752dc20b593573eab1424ebbe471"
+      },
+      {
+        "label": "tree:wild:54:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 2,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 461991,
+        "sha256": "3dbe003c5dfd11afe8f322ae3fd3cd770055acf62957e77de1c65082aebe3e7f",
+        "invariantsSha256": "bbc3586375a7dad04767ba136b05eaa702310ec4c20762a9d3931a4d896e2895"
+      },
+      {
+        "label": "tree:wild:66:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 2,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 455639,
+        "sha256": "cd9ed2084da24da686f6a939bc2d486f46c101c9e76bf460d920496e03bebf5e",
+        "invariantsSha256": "76e12110e3ec148d4d686c30440c72ab53129d9f2b4421f59443c960632ec294"
+      },
+      {
+        "label": "tree:wild:70:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 326767,
+        "sha256": "267acfd0492356ec52f9c6608d593f373cf9776bb6394958c29f963c1f5e70bd",
+        "invariantsSha256": "cd6d30c7a1771ab3baf3d32c16001a549b34147fefa472e8c259b1e11d1179ad"
+      },
+      {
+        "label": "tree:wild:57:20",
+        "species": "oak",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 653,
+          "chunks": 16,
+          "candidates": 11,
+          "woodReach": 1.5,
+          "detachedCards": 144,
+          "detachedClumps": 34,
+          "treesWithDetached": 1
+        },
+        "operations": 105171,
+        "sha256": "c6cdac678d5dc878092987f68928d014baab477985c3687e547f59cf1ff1f7b1",
+        "invariantsSha256": "a309984e15d75ece764b134da3bbe6bd568fde5e9ce6252c57d45d3663602074"
+      },
+      {
+        "label": "tree:wild:45:12",
+        "species": "oak",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 771,
+          "chunks": 22,
+          "candidates": 18,
+          "woodReach": 1.5,
+          "detachedCards": 237,
+          "detachedClumps": 77,
+          "treesWithDetached": 1
+        },
+        "operations": 180535,
+        "sha256": "ad7eaced67c86c07284c4da861ce540368be191d32a5d10ab00c6df9110b5215",
+        "invariantsSha256": "bf9a80923b365aef711d6f715a316a9a8c520bb986909239366da9b2144b6b0b"
+      },
+      {
+        "label": "tree:wild:61:12",
+        "species": "birch",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 805,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 184,
+          "detachedClumps": 82,
+          "treesWithDetached": 1
+        },
+        "operations": 149508,
+        "sha256": "362921a45b7c540b5e106e1361eda27238c3b007ab4e344b7d32d6bf6b232780",
+        "invariantsSha256": "bc982729e7750cba5576f004f4ed50b7d5fb8c38fce087433fbf29a6f224a7ab"
+      }
+    ],
+    "after": [
+      {
+        "label": "tree:wild:54:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 143,
+          "detachedClumps": 27,
+          "treesWithDetached": 1
+        },
+        "operations": 1822762,
+        "sha256": "467cf15747b8bbcc9b4cee7fce3f1e64ac7790be52b2cd29a96fc566bbdc88bd",
+        "invariantsSha256": "8726d4a9b4d1f3daf49319aee11740304a565b7e96648e26fc4ae3063203ee1c"
+      },
+      {
+        "label": "tree:wild:66:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 113,
+          "detachedClumps": 26,
+          "treesWithDetached": 1
+        },
+        "operations": 1807375,
+        "sha256": "7391f330dd6386f5b619a5229483e0a92cb8a382e8b8e842e1720a560197af7c",
+        "invariantsSha256": "51c7cd0315fd9a940fd7f88542ba8216a5baa67296708ae201369123f53c5dc6"
+      },
+      {
+        "label": "tree:wild:70:3",
+        "species": "pine",
+        "lod": 0,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 5328,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 1369158,
+        "sha256": "0e951c10d57a8840f5227f0aca5703ad40fc7e23aa695c6b8f4f38b74a41968c",
+        "invariantsSha256": "112e7b7c2d2b86d79b49c21652079c94b74b752dc20b593573eab1424ebbe471"
+      },
+      {
+        "label": "tree:wild:54:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 2,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 460660,
+        "sha256": "e6ed723e82366387d7f6417e8d0660b23e37185d0bb2ad3dc76f597e22f50001",
+        "invariantsSha256": "bbc3586375a7dad04767ba136b05eaa702310ec4c20762a9d3931a4d896e2895"
+      },
+      {
+        "label": "tree:wild:66:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 2,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 454308,
+        "sha256": "6a3996aa64b7632bc95294da6889759b4254a25d9b631878b3eb65a79ae11893",
+        "invariantsSha256": "76e12110e3ec148d4d686c30440c72ab53129d9f2b4421f59443c960632ec294"
+      },
+      {
+        "label": "tree:wild:70:3",
+        "species": "pine",
+        "lod": 1,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 1332,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 0,
+          "detachedClumps": 0,
+          "treesWithDetached": 0
+        },
+        "operations": 325436,
+        "sha256": "09883010ba47fc726c0b5c377503e51d27c1af348b54cec31cf1ae1bded5b0ca",
+        "invariantsSha256": "cd6d30c7a1771ab3baf3d32c16001a549b34147fefa472e8c259b1e11d1179ad"
+      },
+      {
+        "label": "tree:wild:57:20",
+        "species": "oak",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 653,
+          "chunks": 16,
+          "candidates": 11,
+          "woodReach": 1.5,
+          "detachedCards": 144,
+          "detachedClumps": 14,
+          "treesWithDetached": 1
+        },
+        "operations": 115267,
+        "sha256": "a98d76d38f87ac53f44a0b315ddb1b152ba6e24dfccbd9902ad88c92464db45b",
+        "invariantsSha256": "a309984e15d75ece764b134da3bbe6bd568fde5e9ce6252c57d45d3663602074"
+      },
+      {
+        "label": "tree:wild:45:12",
+        "species": "oak",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 771,
+          "chunks": 22,
+          "candidates": 18,
+          "woodReach": 1.5,
+          "detachedCards": 237,
+          "detachedClumps": 33,
+          "treesWithDetached": 1
+        },
+        "operations": 199511,
+        "sha256": "ca4f449a13bc99362389b2bbce19071e4adc4a604bf5db52009f579448162814",
+        "invariantsSha256": "bf9a80923b365aef711d6f715a316a9a8c520bb986909239366da9b2144b6b0b"
+      },
+      {
+        "label": "tree:wild:61:12",
+        "species": "birch",
+        "lod": 2,
+        "woodReach": 1.5,
+        "complete": true,
+        "summary": {
+          "trees": 1,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 805,
+          "chunks": 1,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 184,
+          "detachedClumps": 17,
+          "treesWithDetached": 1
+        },
+        "operations": 167170,
+        "sha256": "6f79408db51b585537544c3d9c050d92b106818e09f8785e23e6ad9bae76e037",
+        "invariantsSha256": "bc982729e7750cba5576f004f4ed50b7d5fb8c38fce087433fbf29a6f224a7ab"
+      }
+    ]
+  },
+  "invariantsIdentical": true,
+  "beforeDetachedClumps": 428,
+  "afterDetachedClumps": 117,
+  "sourceSha256": "2d572207b25549a902b083519b358efbb906cb09734d980ecc9f080c6a3a80b0",
+  "scope": "Actual audit source on up to three smallest native masked targets per retained Low LOD, default gap/reach. Rest-geometry diagnostic counts; no renderer or tree changes and no full-population clearance.",
+  "pass": true
+}
