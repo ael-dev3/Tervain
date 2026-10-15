@@ -1,0 +1,105 @@
+{
+  "baselineRevision": "544b4e4b8",
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "crowns": 341,
+  "rows": {
+    "native": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "lookups": null
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "lookups": null
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "lookups": null
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    },
+    "before": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "nativePolicyListsMatch": true,
+      "returnedCrowns": 252,
+      "cellLookups": 14819,
+      "totalLookups": 14819,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "listsSha256": "892ab5b401f7e900027dcc6a32e5b460e6d694b1f64f14c23a293e92d1168cfe",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "lookups": 4794
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "lookups": 5092
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "returnedCrowns": 252,
+          "lookups": 4933
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    },
+    "after": {
+      "frames": 360,
+      "nativeCameraMatches": true,
+      "nativePolicyListsMatch": true,
+      "returnedCrowns": 252,
+      "cellLookups": 452,
+      "totalLookups": 452,
+      "cameraSha256": "20358e43aff5282f424679602358ba36d35e0a18f32015020a5c30d87be41bba",
+      "listsSha256": "892ab5b401f7e900027dcc6a32e5b460e6d694b1f64f14c23a293e92d1168cfe",
+      "perRoute": [
+        {
+          "name": "walk-fence",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "lookups": 78
+        },
+        {
+          "name": "forest-resume",
+          "frames": 120,
+          "returnedCrowns": 0,
+          "lookups": 169
+        },
+        {
+          "name": "grove",
+          "frames": 120,
+          "returnedCrowns": 252,
+          "lookups": 205
+        }
+      ],
+      "drawCalls": 124,
+      "triangles": 668471,
+      "textureCount": 114
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "2227719ab1a459bd7c79aa405fb2abbb7e7fd20d5cf2b68123e93989dd86d2d7",
+  "scope": "Native published crown objects, follow camera and terrain. 360 terrain-following turn/look-up updates on three routes. Actual source query indexes; cell Map.get counts measured only inside query calls after construction. Baseline is the individual-reach query from #538 (544b4e4b8); baseline/candidate identities and ordering must match the native query filtered by that existing reach policy on every update. Full native camera states and final native Grade/post pixels must match. No hardware timing or historical-hitch resolution claim.",
+  "pass": true
+}
