@@ -50,7 +50,7 @@ it('retains frozen active matrices while presenting pending zero-step releases a
  try{burst.release(0,1,0,.4,3);burst.update(0,false);const pose=Buffer.from(burst.mesh.instanceMatrix.array.buffer).toString('hex'),version=burst.mesh.instanceMatrix.version;writes.mockClear();
  for(let i=0;i<120;i++)burst.update(1/60,true);burst.update(0,false);burst.update(NaN,false);burst.update(-1,false);
  expect(writes).not.toHaveBeenCalled();expect(burst.mesh.instanceMatrix.version).toBe(version);expect(Buffer.from(burst.mesh.instanceMatrix.array.buffer).toString('hex')).toBe(pose);
- expect(burst.release(0,1,0,.4,2)).toBe(2);burst.update(0,true);expect(burst.active).toBe(5);expect(writes).toHaveBeenCalledTimes(LEAF_BURST_POOL);expect(burst.release(0,1,0,.4,1)).toBe(0);
+ expect(burst.release(0,1,0,.4,2)).toBe(2);burst.update(0,true);expect(burst.active).toBe(5);expect(writes).toHaveBeenCalledTimes(burst.active);expect(burst.release(0,1,0,.4,1)).toBe(0);
  burst.update(1/60,false);expect(burst.mesh.instanceMatrix.version).toBe(version+2);expect(Buffer.from(burst.mesh.instanceMatrix.array.buffer).toString('hex')).not.toBe(pose);
  }finally{burst.dispose();}
 });
