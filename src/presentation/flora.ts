@@ -274,6 +274,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       for (const m of [wood, leaf]) {
         if (!m) continue;
+        // Tree placement lives in instance matrices; the batch's local pose stays fixed.
+        m.updateMatrix();
+        m.matrixAutoUpdate = false;
         m.count = 0;
         // Secondary cameras need their own culling of the main view's packed instances.
         m.frustumCulled = true;
