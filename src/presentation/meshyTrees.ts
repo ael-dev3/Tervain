@@ -18,14 +18,14 @@ import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOP
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 /**
- * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. Behind the `?herooak=1`
- * query for now (default off); their files live in flora/hero/ and are not part of the supplied-tree manifest.
+ * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. On by default; `?herooak=0` is the escape hatch (the supplied oaks).
+ * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_TREE_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
-  try { return new URLSearchParams(search ?? '').get('herooak') === '1'; } catch { return false; }
+  try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
 }
 /** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
 export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
@@ -576,7 +576,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
             canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
-            trimmedWood = wood ? (hero ? trimHeroWood(wood, canopy, shape.clump * 1.6) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
+            trimmedWood = wood ? (hero ? trimHeroWood(wood, canopy, shape.clump * 1.15) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;

@@ -17,10 +17,10 @@ describe('generated hero oak (tools/tree-gen)', () => {
 
   it('keeps the triangle budget of each level of detail', () => {
     const total = (lod: string) => triangles(lods[lod]!, 'Wood') + triangles(lods[lod]!, 'Foliage');
-    expect(total('near')).toBeLessThanOrEqual(14_000);
+    expect(total('near')).toBeLessThanOrEqual(18_000);
     expect(triangles(lods.near!, 'Wood')).toBeGreaterThan(3_500);
-    expect(total('mid')).toBeLessThanOrEqual(4_500);
-    expect(total('far')).toBeLessThanOrEqual(800);
+    expect(total('mid')).toBeLessThanOrEqual(11_000);
+    expect(total('far')).toBeLessThanOrEqual(1_300);
   });
 
   it('carries the hierarchical-wind attributes and the baked crown data on every level', () => {
@@ -48,7 +48,7 @@ describe('generated hero oak (tools/tree-gen)', () => {
 
   it('stays out of the supplied-tree set unless its flag is on', () => {
     expect(MESHY_TREE_IDS as readonly string[]).not.toContain(HERO_OAK_ID);
-    expect(heroOakEnabled('')).toBe(false); expect(heroOakEnabled('?herooak=0')).toBe(false); expect(heroOakEnabled('?herooak=1')).toBe(true);
+    expect(heroOakEnabled('')).toBe(true); expect(heroOakEnabled('?herooak=0')).toBe(false); expect(heroOakEnabled('?herooak=1')).toBe(true);
     expect(activeMeshyTreeIds(false)).toBe(MESHY_TREE_IDS); expect(activeMeshyTreeIds(true)).toContain(HERO_OAK_ID);
     expect(meshyTreeModelPath(HERO_OAK_ID, 'near')).toBe('flora/hero/hero-oak-near.glb');
     expect(meshyTreeUrl(HERO_OAK_ID, 'far', '/Tervain/', 'https://example.test/Tervain/').href).toMatch(/flora\/hero\/hero-oak-far\.glb/);

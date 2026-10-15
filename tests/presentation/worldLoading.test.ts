@@ -8,7 +8,7 @@ import type { AssetLibrary } from '../../src/presentation/assets/library';
 import type { SceneModule } from '../../src/presentation/context';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { PINE_FILES } from '../../src/presentation/solitaryPine';
-import { MESHY_TREE_IDS, MESHY_TREE_LODS } from '../../src/presentation/meshyTrees';
+import { activeMeshyTreeIds, MESHY_TREE_LODS } from '../../src/presentation/meshyTrees';
 import { ANIMALS } from '../../src/presentation/animals/catalog';
 import { WORLD } from '../../src/world/layout';
 
@@ -94,7 +94,7 @@ vi.mock('../../src/presentation/solitaryPine', async importOriginal => ({
 }));
 vi.mock('../../src/presentation/meshyTrees', async importOriginal => ({
   ...await importOriginal<typeof import('../../src/presentation/meshyTrees')>(), loadMeshyTrees: async (_ids: unknown, progress?: (loaded: number, total: number) => void) => {
-    await modelFamily('trees', MESHY_TREE_IDS.length, progress); return [];
+    await modelFamily('trees', activeMeshyTreeIds().length, progress); return [];
   },
 }));
 vi.mock('../../src/presentation/sourceRockPile', () => ({ loadSourceRockPile: async (progress?: (loaded: number, total: number) => void) => {
@@ -153,18 +153,18 @@ describe('world load and activation boundary', () => {
     const phases: WorldBuildProgress[] = [], legacy = vi.fn();
     const pending = WorldScene.create(createInitialState(), defaultSettings(), library(), legacy, undefined, { yieldNow: async () => {}, onPhase: p => phases.push(p) });
     await started.promise;
-    const expectedTotal = PINE_FILES.length + 1 + MESHY_TREE_IDS.length * MESHY_TREE_LODS.length + ANIMALS.length + 1;
+    const expectedTotal = PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length + 1;
     expect(phases.at(-1)).toMatchObject({ phase: 'models', completed: 0, total: expectedTotal });
     controls.modelCallbacks.pine!(2, PINE_FILES.length);
     expect(phases.at(-1)!.completed).toBe(2);
-    controls.modelCallbacks.trees!(3, MESHY_TREE_IDS.length);
+    controls.modelCallbacks.trees!(3, activeMeshyTreeIds().length);
     expect(phases.at(-1)!.completed).toBe(2 + 3 * MESHY_TREE_LODS.length);
     controls.modelCallbacks.animals!(5, ANIMALS.length);
     controls.modelCallbacks.stone!(1, 1);
     const previous = phases.at(-1)!.completed;
     controls.modelCallbacks.pine!(0, PINE_FILES.length); // An older cached observer cannot move the bar backwards.
     expect(phases.at(-1)!.completed).toBe(previous);
-    expect(legacy).toHaveBeenCalledWith({ loaded: 3, total: MESHY_TREE_IDS.length, label: 'Woodland models' });
+    expect(legacy).toHaveBeenCalledWith({ loaded: 3, total: activeMeshyTreeIds().length, label: 'Woodland models' });
     gate.resolve();
     const world = await pending;
     try {
@@ -183,7 +183,7 @@ describe('world load and activation boundary', () => {
       yieldNow: async () => {}, deferFurniture: true, onPhase: p => phases.push(p),
     });
     try {
-      const expectedTotal = PINE_FILES.length + 1 + MESHY_TREE_IDS.length * MESHY_TREE_LODS.length + ANIMALS.length;
+      const expectedTotal = PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length;
       expect(phases.filter(p => p.phase === 'models').at(-1)).toMatchObject({ completed: expectedTotal, total: expectedTotal });
       expect(controls.modelCallbacks.furniture).toBeUndefined();
       const module = world.modules.find(entry => entry.name === 'furniture')!.module as SceneModule & { arrived: boolean };

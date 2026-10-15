@@ -7813,7 +7813,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-b-far.glb",
       "bytes": 144728,
-      "sha256": "7a6e1fa63a6573d98ba092d2544aaae2f4e53b04908c1f0c1f28618802409000",
+      "sha256": "726340dcaf19f2e3c95da0b4edfcd246104f79862e2b52cdc434dc2412d9afe2",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7830,7 +7830,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-b-mid.glb",
       "bytes": 1193660,
-      "sha256": "f6d3257531bf645487cec3e54f5680be94ec1f76c8d9ed8ae5aa5c584ebc936e",
+      "sha256": "892eea0256eaad6d41040353ca72a9acfe1486ed630470a5a5dbff20c64698b9",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7847,7 +7847,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-b-near.glb",
       "bytes": 4057456,
-      "sha256": "768f3d6d04c5e9d669df6d2186b408675cb7b552bff5a57abb3884755bf2761d",
+      "sha256": "2bf1cc5fd510cef037e28f571f0d279f682bc056cc111f5da9385ec08c3397dc",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7864,7 +7864,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-c-far.glb",
       "bytes": 139340,
-      "sha256": "881dd0cf398af954b2b6c308c2045712004699c17819bc6060c58b664423cf53",
+      "sha256": "dc780130a0e88e95d16bca63f7ece0c744288f8669cfbd26a4fec405465144ae",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7881,7 +7881,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-c-mid.glb",
       "bytes": 1157744,
-      "sha256": "c37ab5b4dfbb0984057ecd6de003d6e6a557e7695bd30e83a19c815a5572ba36",
+      "sha256": "f92706ac9de8a07a2c429e43f973698b3afe541c46b3a13144346e2b9d2afb85",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7898,7 +7898,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-c-near.glb",
       "bytes": 4024724,
-      "sha256": "5554640a8ad3109aba7e339a5b1df79c6e8daf9028b3c2d4f178571a1d861baa",
+      "sha256": "fbc58409439050b15ba72afcbd8c248a05795e9168181aab6e0c4084a762a5f5",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7915,7 +7915,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-far.glb",
       "bytes": 148840,
-      "sha256": "ed3ff6f999f240944b25923b55848dd913be7547b892405989a2364577916336",
+      "sha256": "f3dd4331683195446ee5475255f68b81d0f6323a6c1c304d5b561c677d14fd34",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7932,7 +7932,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-mid.glb",
       "bytes": 1217968,
-      "sha256": "d81cd5f3037c3869ba26fec92fde98138d8e9670a2fb88cb819777a4737bd3c3",
+      "sha256": "5049a98449e59f31e990acc70182c9a0d27bed63fade0996d9a5aae52a0d4f87",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7949,7 +7949,7 @@
     {
       "file": "public/models/flora/hero/hero-oak-near.glb",
       "bytes": 4075504,
-      "sha256": "289cc4470f7a5e1d206a11fb53046f331850d9c27459df8bc3bf5461496bb9bf",
+      "sha256": "7babb922df9349cac92007e5bc4e08296259336e5f0cf56f108e4ae593797b56",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

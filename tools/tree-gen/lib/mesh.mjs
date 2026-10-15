@@ -71,8 +71,8 @@ export function addTube(mb, branch, o, bark) {
       const ao = groundAO(p.y) * 255;
       // Warm brown-olive wood with moss on the upper side and the lower trunk, varying limb to limb.
       const lv = ((branch.id * 2654435761) % 1000) / 1000, mossN = fbm3(c.x * 0.9 + dir.x, c.y * 0.9, c.z * 0.9 + dir.z, seed + 11, 2);
-      const moss = clamp((0.55 * clamp(dir.y, 0, 1) + (branch.isTrunk ? 0.5 * (1 - smoothstep(0.2, 3.2, y)) : 0.1) + 0.35 * (lv - 0.5)) * (0.4 + 1.2 * mossN), 0, 0.65);
-      const warm = [0.96, 0.86 + 0.04 * lv, 0.74 + 0.08 * lv], mossC = [0.74, 0.94, 0.6];
+      const moss = clamp((0.55 * clamp(dir.y, 0, 1) + (branch.isTrunk ? 0.5 * (1 - smoothstep(0.2, 3.2, y)) : 0.1) + 0.35 * (lv - 0.5)) * (0.4 + 1.2 * mossN), 0, 0.5);
+      const warm = [0.94, 0.84 + 0.03 * lv, 0.76 + 0.08 * lv], mossC = [0.76, 0.9, 0.66];
       const tr = lerp(warm[0], mossC[0], moss), tg = lerp(warm[1], mossC[1], moss), tb = lerp(warm[2], mossC[2], moss);
       const vi = mb.vertex(p, [u, v], [Math.round(ao * tr), Math.round(ao * tg), Math.round(ao * tb), 255], wind, pivot, [dir.x, dir.y, dir.z]);
       if (s === 0) seam.push([vi, vi + sides]);
