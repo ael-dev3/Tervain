@@ -1,0 +1,75 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "updates": 120,
+  "nativeQueries": 12457,
+  "rows": {
+    "native": {
+      "nativeDecisionsMatch": true,
+      "decisionsSha256": "f1598cb99a720a8624e0a27ccebdaabdb2eb2378a905d4e231107003b1ba31a5",
+      "farthestCalls": 7795,
+      "layers": [
+        {
+          "name": "grass-near",
+          "queries": 5689,
+          "farthestCalls": 1027
+        },
+        {
+          "name": "grass-far",
+          "queries": 6768,
+          "farthestCalls": 6768
+        }
+      ],
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    },
+    "before": {
+      "nativeDecisionsMatch": true,
+      "decisionsSha256": "f1598cb99a720a8624e0a27ccebdaabdb2eb2378a905d4e231107003b1ba31a5",
+      "farthestCalls": 7795,
+      "layers": [
+        {
+          "name": "grass-near",
+          "queries": 5689,
+          "farthestCalls": 1027
+        },
+        {
+          "name": "grass-far",
+          "queries": 6768,
+          "farthestCalls": 6768
+        }
+      ],
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    },
+    "after": {
+      "nativeDecisionsMatch": true,
+      "decisionsSha256": "f1598cb99a720a8624e0a27ccebdaabdb2eb2378a905d4e231107003b1ba31a5",
+      "farthestCalls": 7795,
+      "layers": [
+        {
+          "name": "grass-near",
+          "queries": 5689,
+          "farthestCalls": 1027
+        },
+        {
+          "name": "grass-far",
+          "queries": 6768,
+          "farthestCalls": 6768
+        }
+      ],
+      "drawCalls": 119,
+      "triangles": 788902,
+      "textureCount": 120
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "7f93a608a4ac0f333f13e856f35300ec570e6693428361fbf26a73ca5080dc06",
+  "baselineRevision": "421d34b",
+  "scope": "120 scripted native follow-camera/grass updates. Replay actual update methods on each recorded native retained tile, preserving source options, buffers and distance helpers. Suppress request generation by treating request keys as resident; test only the retained-tile culling/count loop. Every decision must match the recorded native state. Images are frozen full-scene endpoint controls, not independent movement simulations. Count farthest-distance evaluations, not hardware timing.",
+  "pass": false
+}
