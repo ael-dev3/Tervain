@@ -97,7 +97,7 @@ export function growOak(seed, P = OAK) {
 
   // Trunk (not an envelope-bound path: it leans a little and wobbles low-frequency).
   const trunkPts = [], trunkRadii = [];
-  const rings = [-0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.5, 3.0, P.trunkTop];
+  const rings = [-1.8, -1.2, -0.6, -0.2, 0.2, 0.6, 1.0, 1.5, 2.0, 2.5, 3.0, P.trunkTop];
   const leanX = rng.range(-0.35, 0.35), leanZ = rng.range(-0.35, 0.35);
   for (const y of rings) {
     const t = Math.max(0, y) / P.trunkTop;
