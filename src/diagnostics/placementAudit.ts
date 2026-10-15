@@ -28,35 +28,45 @@ export function rootCoverage(checks: readonly Pick<Check, 'kind' | 'samples' | '
     supportedFraction: samples ? (samples - unsupportedSamples) / samples : null, maxGap };
 }
 
+/** Three renders only complete triangles inside this index/vertex window. */
+function triangleRange(geometry: THREE.BufferGeometry): { start: number; end: number } {
+  const { start, count } = geometry.drawRange;
+  if (!Number.isSafeInteger(start) || start < 0 || !(count === Infinity || Number.isSafeInteger(count) && count >= 0))
+    throw new Error('Invalid placement draw range');
+  return { start, end: Math.min(geometry.index?.count ?? geometry.getAttribute('position').count, start + count) };
+}
+
 /** Weld coincident vertices, so a box's six split-normal faces are audited as one component. */
 interface Component { vertices: number[]; faces: Set<number> }
 function components(geometry: THREE.BufferGeometry): Component[] {
-  const p = geometry.getAttribute('position'), index = geometry.index;
+  const p = geometry.getAttribute('position'), index = geometry.index, { start, end } = triangleRange(geometry);
   const parent = Array.from({ length: p.count }, (_, i) => i);
   const find = (i: number): number => { while (parent[i] !== i) { parent[i] = parent[parent[i]!]!; i = parent[i]!; } return i; };
   const join = (a: number, b: number) => { parent[find(a)] = find(b); };
-  const welded = new Map<string, number>();
+  const welded = new Map<string, number>(), referenced = new Set<number>();
+  for (let i = start; i + 2 < end; i += 3) for (let k = 0; k < 3; k++) referenced.add(index?.getX(i + k) ?? i + k);
   for (let i = 0; i < p.count; i++) {
+    if (!referenced.has(i)) continue;
     const key = `${Math.round(p.getX(i) * 1e4)},${Math.round(p.getY(i) * 1e4)},${Math.round(p.getZ(i) * 1e4)}`;
     const other = welded.get(key);
     if (other !== undefined) join(i, other); else welded.set(key, i);
   }
-  for (let i = 0; i + 2 < (index?.count ?? p.count); i += 3) {
+  for (let i = start; i + 2 < end; i += 3) {
     const a = index?.getX(i) ?? i, b = index?.getX(i + 1) ?? i + 1, c = index?.getX(i + 2) ?? i + 2;
     join(a, b); join(a, c);
   }
   const groups = new Map<number, number[]>();
   for (const i of welded.values()) { const root = find(i), group = groups.get(root) ?? []; group.push(i); groups.set(root, group); }
   const result = new Map([...groups].map(([root, vertices]) => [root, { vertices, faces: new Set<number>() }]));
-  for (let i = 0; i + 2 < (index?.count ?? p.count); i += 3) result.get(find(index?.getX(i) ?? i))!.faces.add(i / 3);
+  for (let i = start; i + 2 < end; i += 3) result.get(find(index?.getX(i) ?? i))!.faces.add(Math.floor(i / 3));
   return [...result.values()].filter(component => component.faces.size > 0);
 }
 
 /** Lowest points of the outer basal ring, rather than elevated trunk/root-flare faces. */
 function rootSamples(geometry: THREE.BufferGeometry): THREE.Vector3[] {
   const p = geometry.getAttribute('position'), index = geometry.index, referenced = new Set<number>();
-  const count = index?.count ?? p.count;
-  for (let i=0;i+2<count;i+=3) for (let k=0;k<3;k++) referenced.add(index?.getX(i+k) ?? i+k);
+  const { start, end } = triangleRange(geometry);
+  for (let i=start;i+2<end;i+=3) for (let k=0;k<3;k++) referenced.add(index?.getX(i+k) ?? i+k);
   const box = new THREE.Box3(), point = new THREE.Vector3();
   for (const i of referenced) box.expandByPoint(point.fromBufferAttribute(p, i));
   const points: THREE.Vector3[] = [];
