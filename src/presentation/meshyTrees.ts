@@ -12,7 +12,7 @@ import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
-import { deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
+import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
 import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
@@ -40,6 +40,8 @@ const pending = new Map<string, Promise<GLTF>>();
 
 /** Broadleaf kinds whose exported leaflets leave a thin crown (A70). */
 const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
+/** Conifers derive per-branch wind too, judged against the cone of their crown (branchWind.ts). Their cards stay as authored. */
+const CONIFER = new Set<Species>(['fir', 'shorepine']);
 /** Kinds whose trunks take the metre-scale bark detail (A133). */
 const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
 /** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
@@ -560,7 +562,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
         // The shipped models carry no branch data: derive it (branchWind.ts) so the limbs sway on their own, not the crown as one.
-        const branch = clusters && wood && exported && !ownBranchData(lod, exported) ? deriveBranchWood(wood) : null;
+        const branch = (clusters || CONIFER.has(species)) && wood && exported && !ownBranchData(lod, exported) ? deriveBranchWood(wood, clusters ? undefined : CONIFER_BRANCH) : null;
         // A tree whose leaves found no limbs keeps the whole-crown sway: wood and leaves must agree.
         const settle = <T extends { wood: THREE.BufferGeometry | null; leaf: THREE.BufferGeometry | null }>(v: T): T => {
           if (v.wood && v.leaf && v.wood.getAttribute('_wind') && !v.leaf.getAttribute('_wind')) { v.wood.deleteAttribute('_wind'); v.wood.deleteAttribute('_pivot'); }

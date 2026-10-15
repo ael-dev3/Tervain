@@ -31,6 +31,22 @@ beforeAll(async () => {
 afterAll(() => { meshy?.dispose(); pine?.dispose(); });
 
 describe('0.0.12 real source forest and connected habitats', () => {
+  it('derives per-branch wind for fir and shorepine wood and needle cards, agreeing between wood and leaves', () => {
+    for (const species of ['fir', 'shorepine'] as const) {
+      const tree = population.find(t => t.sp === species && t.radius > 0);
+      expect(tree, species).toBeTruthy();
+      const lods = variantFor(tree!).lods;
+      let derived = 0;
+      for (const lod of lods) {
+        const { wood, leaf } = lod;
+        if (!wood || !leaf) continue;
+        const woodWind = !!wood.getAttribute('_wind') && !!wood.getAttribute('_pivot'), leafWind = !!leaf.getAttribute('_wind') && !!leaf.getAttribute('_pivot');
+        expect(woodWind, `${species} wood and leaf agree`).toBe(leafWind);
+        if (woodWind) derived++;
+      }
+      expect(derived, species).toBeGreaterThan(0);
+    }
+  });
   it('retains broad accepted companion bodies and a varied lower warm canopy after actual source rejection', () => {
     for (const id of ['swale_oaks', 'eastern_oaks']) {
       const stand = population.filter(tree => tree.radius > 0 && tree.sp === 'oak' && tree.standId === id);
