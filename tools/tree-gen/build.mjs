@@ -20,7 +20,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as THREE from 'three';
 import sharp from 'sharp';
-import { makeRng, clamp, lerp } from './lib/util.mjs';
+import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
 import { generateBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
 import { growOak, trunkRadiusAt, OAK } from './lib/skeleton.mjs';
@@ -66,6 +66,8 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
     for (const a of rootAz) { let d = az - a; d = Math.atan2(Math.sin(d), Math.cos(d)); lobe += Math.exp(-(d * d) / (2 * 0.32 * 0.32)); }
     return r * (1 + 0.3 * lobe * Math.exp(-Math.max(y, 0) / 1.0));
   };
+  // Wood deep inside the canopy sits in leaf shadow: dark and cool, full value at the crown rim.
+  const crownShade = (p) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(0.4, 1, smoothstep(0.45, 1.0, d)); };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);
   for (const level of [0, 1, 2, 3]) {
@@ -82,7 +84,7 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
-        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : clamp(circ / 2.0, 0.12, 1), uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
+        sides, uTiles: trunk ? 1 : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
         shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3,
       }, bark);
       seam.push(...sm);

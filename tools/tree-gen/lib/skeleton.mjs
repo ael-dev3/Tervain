@@ -91,6 +91,7 @@ export function growOak(seed, P = OAK) {
     }
     const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.012, r0 * (1 - taper * Math.pow(i / (pts.length - 1), 0.9))));
     if (level === 3) radii[radii.length - 1] = 0.006;   // twigs end in a point
+    if (level === 2 || o.tip) radii[radii.length - 1] = 0.012;   // boughs and limb ends close to a point, never a cut end
     const b = new Branch({ ...o.meta, level, points: pts, radii, phase: newPhase(), parent: o.parent ?? null, forkT: o.forkT ?? 0, id: branches.length });
     b.finish(); branches.push(b); o.parent?.children.push(b); return b;
   }
@@ -135,7 +136,7 @@ export function growOak(seed, P = OAK) {
     for (const sgn of [-1, 1]) {
       const fd = forkDir(end.tan, (sgn < 0 ? 0 : Math.PI) + rng.range(-0.5, 0.5) + k0(spec), rng.range(24, 40));
       if (fd.y < 0.05) fd.y = 0.05; fd.normalize();
-      limbs.push(grow({ start: end.p, dir: fd, length: length * rng.range(0.5, 0.65), r0: end.r * rng.range(...P.murray) * 1.05, taper: 0.8, level: 1, step: 1.0, wobble: 0.32, tropism: 0.06, droop: 0.08, parent: primary, forkT: 1, rMin: 0.06 }));
+      limbs.push(grow({ tip: true, start: end.p, dir: fd, length: length * rng.range(0.5, 0.65), r0: end.r * rng.range(...P.murray) * 1.05, taper: 0.8, level: 1, step: 1.0, wobble: 0.32, tropism: 0.06, droop: 0.08, parent: primary, forkT: 1, rMin: 0.06 }));
     }
   }
   // Boughs along each limb, twigs along each bough.
