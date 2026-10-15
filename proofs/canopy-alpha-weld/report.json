@@ -1,0 +1,111 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "targets": [
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "vertices": 21916,
+      "triangles": 10958,
+      "masked": true
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "vertices": 22276,
+      "triangles": 11138,
+      "masked": true
+    },
+    {
+      "label": "tree:wild:54:3",
+      "species": "pine",
+      "vertices": 5994,
+      "triangles": 5328,
+      "masked": true
+    }
+  ],
+  "rows": {
+    "before": {
+      "alpha": {
+        "weldRoundCalls": 150558,
+        "complete": true,
+        "reportSha256": "13ab200c9103ae0b83e798674b15ea8ef1ab82e06509f09d8aa1ce5105ae1d09",
+        "summary": {
+          "trees": 3,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 27424,
+          "chunks": 6,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 940,
+          "detachedClumps": 564,
+          "treesWithDetached": 2
+        },
+        "operations": 9546689
+      },
+      "unmasked": {
+        "weldRoundCalls": 150558,
+        "complete": true,
+        "reportSha256": "48baef4b29ff8b6752050866c1c63726e34aa8bee505d49cd080f7a640270869",
+        "summary": {
+          "trees": 3,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 11714,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 277,
+          "detachedClumps": 209,
+          "treesWithDetached": 1
+        },
+        "operations": 1892013
+      }
+    },
+    "after": {
+      "alpha": {
+        "weldRoundCalls": 0,
+        "complete": true,
+        "reportSha256": "13ab200c9103ae0b83e798674b15ea8ef1ab82e06509f09d8aa1ce5105ae1d09",
+        "summary": {
+          "trees": 3,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 27424,
+          "chunks": 6,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 940,
+          "detachedClumps": 564,
+          "treesWithDetached": 2
+        },
+        "operations": 9546689
+      },
+      "unmasked": {
+        "weldRoundCalls": 150558,
+        "complete": true,
+        "reportSha256": "48baef4b29ff8b6752050866c1c63726e34aa8bee505d49cd080f7a640270869",
+        "summary": {
+          "trees": 3,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 11714,
+          "chunks": 3,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 277,
+          "detachedClumps": 209,
+          "treesWithDetached": 1
+        },
+        "operations": 1892013
+      }
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "91f34293ddfab7fa0b8c9208979aca8f4d319a6d33418d14a61eb2c512c7c044",
+  "scope": "Actual baseline/candidate crown audit source on three native masked near-LOD tree geometries (oak, birch, pine) from published Low. Cold full alpha-aware and unmasked audits, exact complete report hashes including candidates and operation counts, native Grade/post pixels. Math.round calls inside the audit count the discarded coordinate-weld work, not total allocations or elapsed time. This improves offline diagnosis cost, not live rendering or hardware frame time.",
+  "pass": true
+}
