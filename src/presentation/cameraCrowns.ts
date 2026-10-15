@@ -68,7 +68,12 @@ function inCore(c: CameraCrown, x: number, y: number, z: number): boolean {
 export function crownBoom(pivot: { x: number; y: number; z: number }, dir: { x: number; y: number; z: number }, boom: number,
   crowns: readonly CameraCrown[]): number {
   let allowed = boom;
+  const endY = pivot.y + dir.y * boom;
+  const minY = Math.min(pivot.y, endY) - 1e-6, maxY = Math.max(pivot.y, endY) + 1e-6;
   for (const c of crowns) {
+    // Keep tangent/rounding cases on the original sampled path; only a disjoint height range is skipped.
+    const halfHeight = Math.abs(c.v * CROWN_CORE);
+    if (maxY < c.floor || maxY < c.y - halfHeight || minY > c.y + halfHeight) continue;
     if (inCore(c, pivot.x, pivot.y, pivot.z)) continue;
     for (let d = 0.2; d <= allowed; d += 0.2) {
       if (!inCore(c, pivot.x + dir.x * d, pivot.y + dir.y * d, pivot.z + dir.z * d)) continue;
