@@ -46,9 +46,10 @@ function shoreNoise(z: number) {
 /** Grassy bench cover shared by physical terrain and its surface paint. The noisy radius breaks a smooth oval lip. */
 export function coastalShelfAt(x: number, z: number): number {
   let cover = 0;
+  const noise = fbm(x / 12, z / 14, 2, 211) * 0.075;
   for (const shelf of COAST_SHELVES) {
     const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
-      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+      + noise;
     cover = Math.max(cover, 1 - smoothstep(1 - shelf.edge, 1, d));
   }
   return cover;
@@ -57,9 +58,10 @@ export function coastalShelfAt(x: number, z: number): number {
 /** Height of the original bench tops. Cut roads and source-tree grounding still sample the final physical grid. */
 export function coastalShelfHeight(x: number, z: number): number {
   let height = 0;
+  const noise = fbm(x / 12, z / 14, 2, 211) * 0.075;
   for (const shelf of COAST_SHELVES) {
     const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
-      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+      + noise;
     height = Math.max(height, shelf.height * (1 - smoothstep(1 - shelf.edge, 1, d)));
   }
   return height;
