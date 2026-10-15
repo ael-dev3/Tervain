@@ -722,12 +722,6 @@ export class Player {
       const ground = ctx.terrain.heightAt(land.x, land.z);
       // The far side must be open ground at about this height, and clear of any other fence.
       if (!Number.isFinite(ground) || Math.abs(ground - this.y) > VAULT.step || !ctx.terrain.walkable(land.x, land.z)) continue;
-      const blocked = ctx.colliders.withId('fence').some((o) => {
-        if (o === c || o.kind !== 'box') return false;
-        const ox = (land.x - o.x) * Math.cos(o.yaw) - (land.z - o.z) * Math.sin(o.yaw), oz = (land.x - o.x) * Math.sin(o.yaw) + (land.z - o.z) * Math.cos(o.yaw);
-        return Math.abs(ox) < o.hw + PLAYER_RADIUS && Math.abs(oz) < o.hd + PLAYER_RADIUS;
-      });
-      if (blocked) continue;
       const landingBounds = { minY: ground + PLAYER_FOOT_CLEARANCE, maxY: ground + PLAYER_BODY_HEIGHT };
       if (ctx.colliders.blocked(land.x, land.z, PLAYER_RADIUS, landingBounds)) continue;
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
