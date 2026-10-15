@@ -104,6 +104,12 @@ export class HuntingArrows {
     }
     for (let i = this.flights.length - 1; i >= 0; i--) {
       const shot = this.flights[i]!;
+      // A downward aim while wading can put the muzzle below water before release.
+      // It is already immersed, so apply drag without inventing a surface-entry splash.
+      if (water && !shot.wet && shot.age === 0) {
+        const launchWater = water.sample(shot.position.x, shot.position.z);
+        if (launchWater && shot.position.y < launchWater.surface) shot.wet = true;
+      }
       let remaining = Math.min(dt, Math.max(0, 7 - shot.age));
       let hit = false;
       while (remaining > 1e-8) {
