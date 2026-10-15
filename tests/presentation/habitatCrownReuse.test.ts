@@ -30,3 +30,16 @@ describe('habitat crown sampling', () => {
     }
   });
 });
+
+it('shares one slope query per cold habitat raster node', () => {
+  const terrain = new Terrain(), originalSlope = terrain.slopeAt;
+  let slopeCalls = 0;
+  terrain.slopeAt = function(x, z) { slopeCalls++; return originalSlope.call(this, x, z); };
+  const habitat = new Habitat({terrain, colliders: new Colliders(), excl: new Exclusions(terrain),
+    plantedCrowns: {coverAt: () => .35, broadleafAt: () => 0}});
+  slopeCalls = 0;
+  const sample = {...habitat.sample(-180, 12, newSample())};
+  expect(slopeCalls).toBe(17 * 17);
+  expect(habitat.sample(-180, 12, newSample())).toEqual(sample);
+  expect(slopeCalls).toBe(17 * 17);
+});
