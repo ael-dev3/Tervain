@@ -205,11 +205,18 @@ export class GrassTrample {
   private stampPass(renderer: THREE.WebGLRenderer, stamps: readonly GrassMover[], keepPush: number, keepFlat: number) {
     const u = this.stepMaterial.uniforms;
     const movers = u.uMovers!.value as THREE.Vector4[], vel = u.uMoverVel!.value as THREE.Vector2[];
-    stamps.forEach((m, i) => {
-      movers[i]!.set(m.x, m.z, m.radius, Math.min(1, Math.max(0, m.weight ?? 0.7)));
-      vel[i]!.set(Number.isFinite(m.vx) ? m.vx! : 0, Number.isFinite(m.vz) ? m.vz! : 0);
-    });
-    u.uMoverCount!.value = stamps.length;
+    // CPU and shader coordinates can round differently: keep a texel plus a float-precision guard at the boundary.
+    const fieldGuard = this.texel + (Math.abs(this.originX) + Math.abs(this.originZ) + this.extent) * 2 ** -20;
+    let count = 0;
+    for (const m of stamps) {
+      const guard = fieldGuard + (Math.abs(m.x) + Math.abs(m.z) + m.radius) * 2 ** -20;
+      if (m.x + m.radius < this.originX - guard || m.x - m.radius > this.originX + this.extent + guard ||
+        m.z + m.radius < this.originZ - guard || m.z - m.radius > this.originZ + this.extent + guard) continue;
+      movers[count]!.set(m.x, m.z, m.radius, Math.min(1, Math.max(0, m.weight ?? 0.7)));
+      vel[count]!.set(Number.isFinite(m.vx) ? m.vx! : 0, Number.isFinite(m.vz) ? m.vz! : 0);
+      count++;
+    }
+    u.uMoverCount!.value = count;
     (u.uKeep!.value as THREE.Vector2).set(keepPush, keepFlat);
     u.tPrev!.value = this.targets[0].texture;
     (u.uShift!.value as THREE.Vector2).set(0, 0);
