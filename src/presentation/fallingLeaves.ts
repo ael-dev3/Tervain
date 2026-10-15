@@ -225,6 +225,9 @@ export function buildFallingLeaves(
         if (coverage > 0.001) {
           visible++;
         }
+        // Hidden poses still initialize the renderer's cached transparent-sort sphere. Once it exists,
+        // discarded instances need no pose until they re-enter coverage; opacity is always current.
+        if (coverage <= 0.001 && mesh.boundingSphere !== null) continue;
         const landed = smoothstep(stream.contactTime - 0.25, stream.contactTime + 0.6, age);
         euler.set((0.5 + Math.sin(age * 1.1 + stream.flutter) * 0.38) * (1 - landed) + Math.PI / 2 * landed,
           stream.yaw + age * 0.29, Math.sin(age * 0.8 + stream.flutter) * 0.5 * (1 - landed));
