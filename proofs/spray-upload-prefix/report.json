@@ -1,0 +1,17 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "63562207ca42057c4391e3e9a756c039fd4242ebc7c14bbb26b6a9115770b6ed",
+  "updates": 240,
+  "beforeUploadBytes": 1708800,
+  "afterUploadBytes": 1003900,
+  "initialUploadBytes": 9600,
+  "draws": 178,
+  "points": 49739,
+  "textureCount": 0,
+  "identicalStateAndDraws": true,
+  "pixelsEqual": true,
+  "nonblackCaptures": 5,
+  "scope": "Actual spray classes; 240 software-WebGL updates/renders including overlapping emission, ring wrap, expiry, catch-up without a render, frozen/invalid dt and reuse. Full CPU attribute hashes and draw counters compared; six diagnostic image pairs. No hardware timing or full-game FPS claim.",
+  "pass": true,
+  "exactPrefixBytes": true
+}
