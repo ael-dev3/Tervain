@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { buildFallingLeaves, fallingLeafCanopySites, FALLING_LEAF_LIMIT } from '../../src/presentation/fallingLeaves';
 import type { FloraTree } from '../../src/presentation/floraPopulation';
 import type { TreeVariant } from '../../src/presentation/treeGen';
@@ -52,6 +52,35 @@ describe('gentle detached broadleaf shedding', () => {
       expect((opacity(mesh) as THREE.BufferAttribute).version).toBeGreaterThan(opacityVersion);
       expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
     } finally { leaves.dispose?.(); variant.lods[0].leaf!.dispose(); }
+  });
+
+  it('keeps first-sort poses and refreshes re-entering leaves while skipping cached discarded poses', () => {
+    const variant = source(), trees = Array.from({ length: 256 }, (_, i) => tree(`oak:${i}`));
+    const leaves = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant);
+    const reference = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant);
+    const mesh = meshOf(leaves), full = meshOf(reference), writes = vi.spyOn(mesh, 'setMatrixAt');
+    try {
+      const far = frame(false, -1000);
+      leaves.update(1 / 60, far); reference.update(1 / 60, far);
+      expect(mesh.boundingSphere).toBeNull();
+      expect(writes).toHaveBeenCalledTimes(256); // Initial sorting data remains complete.
+      mesh.computeBoundingSphere(); const bounds = mesh.boundingSphere!.clone();
+      const matrix = new THREE.Matrix4(), expected = new THREE.Matrix4();
+      let shown = false;
+      for (let i = 0; i < 120; i++) {
+        const f = i < 20 || i >= 60 && i < 80 ? far : frame();
+        writes.mockClear(); leaves.update(.25, f); reference.update(.25, f);
+        expect(Array.from(opacity(mesh).array)).toEqual(Array.from(opacity(full).array));
+        const visible = Array.from(opacity(mesh).array).filter(a => a > .001).length;
+        expect(writes).toHaveBeenCalledTimes(visible);
+        shown ||= visible > 0;
+        for (let j = 0; j < mesh.count; j++) if (opacity(mesh).getX(j) > .001) {
+          mesh.getMatrixAt(j, matrix); full.getMatrixAt(j, expected); expect(matrix.elements).toEqual(expected.elements);
+        }
+        expect(mesh.boundingSphere!.equals(bounds)).toBe(true);
+      }
+      expect(shown).toBe(true);
+    } finally { leaves.dispose?.(); reference.dispose?.(); variant.lods[0].leaf!.dispose(); }
   });
 
   it('releases from exact source-card centres with grounded yaw/uniform scale, without editing any source buffers', () => {
