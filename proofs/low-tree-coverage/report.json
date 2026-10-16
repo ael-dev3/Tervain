@@ -1,0 +1,5775 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "quality": "low",
+  "rows": {
+    "before": {
+      "low": {
+        "draws": [
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4815:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": true,
+            "alphaToCoverage": true
+          }
+        ],
+        "cost": {
+          "drawCalls": 184,
+          "triangles": 1166205
+        },
+        "fractionalAlphaPixels": 76768
+      },
+      "medium": {
+        "draws": [
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          }
+        ],
+        "cost": {
+          "drawCalls": 184,
+          "triangles": 1166205
+        },
+        "fractionalAlphaPixels": 69908
+      }
+    },
+    "after": {
+      "low": {
+        "draws": [
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4815:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 0,
+            "coverage": false,
+            "alphaToCoverage": false
+          }
+        ],
+        "cost": {
+          "drawCalls": 184,
+          "triangles": 1166205
+        },
+        "fractionalAlphaPixels": 0
+      },
+      "medium": {
+        "draws": [
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "solitary-pine:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1527:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "oak-elder:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-4949:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1521:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-0208:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "verdant-sentinel:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "tree-1505:1:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-fan:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-lean:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "palm-date:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          },
+          {
+            "name": "fir-spire:2:foliage",
+            "samples": 4,
+            "coverage": true,
+            "alphaToCoverage": true
+          }
+        ],
+        "cost": {
+          "drawCalls": 184,
+          "triangles": 1166205
+        },
+        "fractionalAlphaPixels": 69908
+      }
+    }
+  },
+  "meshCount": 60,
+  "geometryBefore": "3719661eee33a726ae38ac43868fec8c75e9f65d6d6a7bab7ca6d28ae8f35018",
+  "geometryAfter": "3719661eee33a726ae38ac43868fec8c75e9f65d6d6a7bab7ca6d28ae8f35018",
+  "lowChangedChannels": 115574,
+  "mediumChangedChannels": 0,
+  "sourceSha256": {
+    "before": "45d8fdded0c0d904cbc569c373b1d3ca935031b8a949647fc27cb4320cd16ab2",
+    "after": "90ab59f3231dea3dc6882c998e49f15377a4c20314ba8b625a4da31a11df6b3d"
+  },
+  "publishedFloraSha256": "41471ea5e483df9d23f12c5719302ecd2405426f3e19df7566f7b462c89375f6",
+  "candidateFloraSha256": "15c276a746a885a98ff6550b3165eac69bd83fbb77bc7f1395e6ed111e0a7dba",
+  "scope": "Published Low native forest, geometry/textures/hooks retained; actual original/candidate profile-material cloning functions. GL sample and coverage state is read after native main-target leaf draws. Fractional-alpha pixels on a zero-sample opaque scene target witness unsupported coverage. Medium is a controlled four-sample renderer/material-policy check on the same geometry, not a full Medium rebuild. Offline camera-pan clips are 17 frames at 8 fps, not real-time frame pacing or a hardware score.",
+  "pass": true
+}
