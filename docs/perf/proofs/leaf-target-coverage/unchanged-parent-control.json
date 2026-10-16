@@ -1,0 +1,188 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "producerTargets": {
+    "main": {
+      "samples": 0
+    },
+    "window": {
+      "samples": 0,
+      "cube": true
+    }
+  },
+  "rows": {
+    "direct": {
+      "native": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        }
+      },
+      "before": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        }
+      },
+      "after": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107926,
+          "fractionalPixels": 256,
+          "maskSha256": "3e5d179596e044a33153e8475281f873e78a72ef7fe9e1b4420518ee208da339",
+          "coverageUniform": null
+        }
+      },
+      "reference": {
+        "single": {
+          "samples": 0,
+          "coveredPixels": 103047,
+          "fractionalPixels": 0,
+          "maskSha256": "d9dc11d3e27495c1206fe16c59b68275603fe7c25f50f9b853bb93708b2e0bfd",
+          "coverageUniform": null
+        }
+      }
+    },
+    "prepass": {
+      "native": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        }
+      },
+      "before": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        }
+      },
+      "after": {
+        "multi": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        },
+        "single": {
+          "samples": 0,
+          "coveredPixels": 107814,
+          "fractionalPixels": 0,
+          "maskSha256": "5f73b52f47a4b58def4f0f7db4d368f0ad3efa8378052e35d72cb80763cd81ce",
+          "coverageUniform": null
+        },
+        "multiAgain": {
+          "samples": 0,
+          "coveredPixels": 107132,
+          "fractionalPixels": 13498,
+          "maskSha256": "7d53bea15de174bf0a01783f1fafebdf5ff67a3a6356d79bff2b1a18555ee683",
+          "coverageUniform": null
+        }
+      },
+      "reference": {
+        "single": {
+          "samples": 0,
+          "coveredPixels": 103047,
+          "fractionalPixels": 0,
+          "maskSha256": "d9dc11d3e27495c1206fe16c59b68275603fe7c25f50f9b853bb93708b2e0bfd",
+          "coverageUniform": null
+        }
+      }
+    }
+  },
+  "geometryHash": "9b4768edcdff03b67273c5a2a0998140c012812d9166a7616689f5de3db26276",
+  "geometryAfter": "9b4768edcdff03b67273c5a2a0998140c012812d9166a7616689f5de3db26276",
+  "sourceSha256": {
+    "native": "86aa6dc5bca43d1aacba401639d2f898e57257dc109a1635ab4b0b3214ae1996",
+    "before": "3af760c1d47406f4a8b318fef464d644acac12fd53663d9f3aa72903820df101",
+    "after": "3af760c1d47406f4a8b318fef464d644acac12fd53663d9f3aa72903820df101",
+    "helper": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Published native oak geometry, atlas and material hooks. Controlled High-style alpha-to-coverage materials on four/zero-sample targets, in direct and real split-depth pipelines; a reference disables alpha-to-coverage for the existing single-sample cutout. Target sequence 4→0→4 checks per-pass selection and depth-clone callbacks. Captures isolate one native crown rather than rebuilding a full High world or claiming hardware performance.",
+  "pass": false
+}

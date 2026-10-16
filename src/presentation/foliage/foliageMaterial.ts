@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { installLeafTargetCoverage } from './leafTargetCoverage';
 import { foliageUniforms, patchFoliageVertex, type FoliageField, type FoliageResponse } from './foliageWind';
 
 /**
@@ -287,6 +288,7 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     #endif
   #endif
   #ifdef ALPHA_TO_COVERAGE
+  if ( uFoliageMsaa > 0.5 ) {
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
     // A107: on the crown's outer shell the ramp widens to about three and a half pixels, so the silhouette against the sky feathers
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
@@ -299,12 +301,17 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
     diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
     if ( diffuseColor.a <= 0.0 ) discard;
-  #else
+  } else
+  #endif
+  {
     // A133: without multisampling (Low) the cut is dithered over about a pixel and a half of alpha, so edges break
     // into a fine stable stipple rather than a hard staircase.
     float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
     if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;
-  #endif
+    #ifdef TV_FOLIAGE_OPAQUE
+    diffuseColor.a = 1.0;
+    #endif
+  }
 }
 #endif
 `;
@@ -414,6 +421,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
   };
   let failed = false;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
+  if (opts.leaf) installLeafTargetCoverage(material);
   const compile = material.onBeforeCompile;
   const programKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
@@ -472,7 +480,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v5-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
