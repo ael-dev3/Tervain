@@ -349,9 +349,10 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
 
 /**
  * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch
- * tips are covered first). Positions are in the same space as the inputs.
+ * tips are covered first). Positions are in the same space as the inputs. An anchor may be shared between retries
+ * only while that source wood stays unchanged.
  */
-export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions): THREE.BufferGeometry {
+export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions, anchor = woodAnchor(wood)): THREE.BufferGeometry {
   const random = canopyRandom(opts.seed);
   const crown = canopyCrown(leaf);
   // Cards per clump vary with depth: a full shell, a thin heart.
@@ -363,7 +364,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   // growTwigs), from the nearest bough or an earlier twig, nearest clumps first, so twigs branch from each other rather
   // than fanning out of one point. It is drawn a little fuller, and smaller clumps along the twig hide it in leaves (a
   // bare twig read as a dark spike against the sky). Only a clump far out is dropped.
-  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
+  const hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
   let dropped = 0;
   const twigs: CanopyTwig[] = [], grown = new Set<THREE.Vector3>(), placedIn = new Set<THREE.Vector3>();
   const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random);
