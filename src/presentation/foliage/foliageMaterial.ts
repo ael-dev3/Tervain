@@ -472,7 +472,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v4-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v5-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
@@ -494,7 +494,7 @@ export function installFoliageShadow(material: THREE.Material, opts: Pick<Foliag
     compile.call(this, shader, renderer);
     if (!patchFoliageVertex(shader, wind, opts.leaf, opts.weight)) failed = true;
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v3-shadow-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight)}`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v4-shadow-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight)}`; };
   material.needsUpdate = true;
   installed.set(material, { uniforms: { uFoliage: wind.uFoliage }, ok: () => !failed });
 }
