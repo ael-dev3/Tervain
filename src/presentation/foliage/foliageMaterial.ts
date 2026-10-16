@@ -320,7 +320,6 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     #endif
   #endif
   #ifdef ALPHA_TO_COVERAGE
-  if ( uFoliageMsaa > 0.5 ) {
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
     // A107: on the crown's outer shell the ramp widens to about three and a half pixels, so the silhouette against the sky feathers
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
