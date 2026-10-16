@@ -1,4 +1,4 @@
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { anchorLeafIslands } from '../../src/presentation/leafIslands';
@@ -28,4 +28,19 @@ it('links cards by opaque texels only, and drops a far island', () => {
   const far = new THREE.PlaneGeometry(1, 1).translate(9, 3, 0);
   expect(anchorLeafIslands(far, trunk(), null, { drop: 4 })).toMatchObject({ dropped: 1 });
   expect(far.index!.count).toBe(0);
+});
+
+it('uses one scratch point across triangles while retaining independent opaque samples', () => {
+  const leaf = mergeGeometries([new THREE.PlaneGeometry(1, 1).translate(0.1, 3, 0), new THREE.PlaneGeometry(1, 1).translate(0.2, 2, 0)]);
+  const wood = trunk(), before = leaf.getAttribute('position').array.slice(), points = new Set<THREE.Vector3Like>();
+  const expand = THREE.Box3.prototype.expandByPoint;
+  const spy = vi.spyOn(THREE.Box3.prototype, 'expandByPoint').mockImplementation(function(this: THREE.Box3, point: THREE.Vector3Like) {
+    points.add(point); return expand.call(this, point);
+  });
+  try {
+    expect(anchorLeafIslands(leaf, wood, { uv: 'uv', cutoff: 0.42, alpha: () => 1 })).toEqual({ islands: 0, moved: 0, dropped: 0 });
+    expect(leaf.getAttribute('position').array).toEqual(before);
+    expect(spy.mock.calls.length).toBeGreaterThan(4);
+    expect(points.size).toBe(1);
+  } finally { spy.mockRestore(); leaf.dispose(); wood.dispose(); }
 });
