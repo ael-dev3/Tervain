@@ -1,0 +1,38 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeTextureSha256": "dd720e07a2ae8b947629a9f1731da03799ddad0b526ede2ee7ee6ed5e2ee41fa",
+  "textureWidth": 128,
+  "textureHeight": 128,
+  "rows": {
+    "before": {
+      "helperDefinitions": 98304,
+      "bytes": 65536,
+      "dataSha256": "dd720e07a2ae8b947629a9f1731da03799ddad0b526ede2ee7ee6ed5e2ee41fa",
+      "matchesNative": true,
+      "sameCachedObject": true,
+      "warmHelperDefinitions": 0,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "helperDefinitions": 6,
+      "bytes": 65536,
+      "dataSha256": "dd720e07a2ae8b947629a9f1731da03799ddad0b526ede2ee7ee6ed5e2ee41fa",
+      "matchesNative": true,
+      "sameCachedObject": true,
+      "warmHelperDefinitions": 0,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "7992d15554416978d8b36a90d478ffc7dc9bd32a2dd0f2f51c0fd1fd13b7d787",
+  "baselineRevision": "421d34b",
+  "scope": "Fresh actual baseline/candidate gustField generation compared byte-for-byte to the published native wind texture. Count lattice lookup helper definition-site executions, not measured heap/GC or hardware timing. Re-upload each generated field into the native grass/foliage wind texture and compare full-scene post/MSAA pixels; restore original data afterward. Verify warm calls reuse the same cached field without new helper definitions.",
+  "pass": true
+}

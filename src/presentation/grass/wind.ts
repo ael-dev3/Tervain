@@ -29,10 +29,10 @@ function periodicValueNoise(size: number, period: number, seed: number): Float32
   }
   const out = new Float32Array(size * size);
   const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
+  const at = (i: number, j: number) => lattice[((j % period + period) % period) * period + ((i % period + period) % period)]!;
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
     const gx = (x / size) * period, gy = (y / size) * period;
     const x0 = Math.floor(gx), y0 = Math.floor(gy), fx = fade(gx - x0), fy = fade(gy - y0);
-    const at = (i: number, j: number) => lattice[((j % period + period) % period) * period + ((i % period + period) % period)]!;
     const a = at(x0, y0), b = at(x0 + 1, y0), c = at(x0, y0 + 1), d = at(x0 + 1, y0 + 1);
     out[y * size + x] = a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
   }
