@@ -1,0 +1,55 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "inputSource": "saved-native-receipt",
+  "copied": "tree:wild:54:3",
+  "omitted": "tree:wild:47:4",
+  "baseline": {
+    "complete": true,
+    "expectedRoots": 341,
+    "checks": 341,
+    "roots": 341,
+    "props": 0,
+    "candidates": 0,
+    "uniqueRoots": 341
+  },
+  "duplicate": {
+    "complete": true,
+    "expectedRoots": 341,
+    "checks": 341,
+    "roots": 341,
+    "props": 0,
+    "candidates": 0,
+    "uniqueRoots": 340
+  },
+  "rows": {
+    "before": {
+      "identity": {
+        "pass": true,
+        "rootCandidates": 0
+      },
+      "duplicate": {
+        "pass": true,
+        "rootCandidates": 0
+      }
+    },
+    "after": {
+      "identity": {
+        "pass": true,
+        "rootCandidates": 0
+      },
+      "duplicate": {
+        "pass": true,
+        "rootCandidates": 0
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": "9c0cde81defdbe4713bfc0484c683ad3f37f16b8798d13ccf5bf6d6eede09420",
+    "after": "9c0cde81defdbe4713bfc0484c683ad3f37f16b8798d13ccf5bf6d6eede09420"
+  },
+  "scope": "Controlled native audit-adapter fault: replace one full-population root target with a duplicate of another real root, retaining the total count. Actual published placement audits and baseline/candidate root gate functions. Adapter restored in finally; no geometry or rendering changed. Normal live audit is the positive control, not a claim that duplicate roots already exist in the unmodified live adapter.",
+  "pass": false
+}
