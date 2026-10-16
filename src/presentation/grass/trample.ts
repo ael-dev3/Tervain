@@ -88,6 +88,7 @@ export interface GrassTrampleUniforms {
 export class GrassTrample {
   readonly uniforms: GrassTrampleUniforms;
   private targets: [THREE.WebGLRenderTarget, THREE.WebGLRenderTarget];
+  private readonly shift = new THREE.Vector2();
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   private readonly quad: THREE.Mesh;
@@ -202,6 +203,12 @@ export class GrassTrample {
     renderer.render(this.scene, this.camera);
   }
 
+  private swapTargets() {
+    const previous = this.targets[0];
+    this.targets[0] = this.targets[1];
+    this.targets[1] = previous;
+  }
+
   private stampPass(renderer: THREE.WebGLRenderer, stamps: readonly GrassMover[], keepPush: number, keepFlat: number) {
     const u = this.stepMaterial.uniforms;
     const movers = u.uMovers!.value as THREE.Vector4[], vel = u.uMoverVel!.value as THREE.Vector2[];
@@ -221,7 +228,7 @@ export class GrassTrample {
     u.tPrev!.value = this.targets[0].texture;
     (u.uShift!.value as THREE.Vector2).set(0, 0);
     this.pass(renderer, this.stepMaterial, this.targets[1]);
-    this.targets = [this.targets[1], this.targets[0]];
+    this.swapTargets();
   }
 
   /** Follow the focus (unless fixed), then advance the field at its own rate. */
@@ -235,7 +242,7 @@ export class GrassTrample {
         for (const t of this.targets) { renderer.setRenderTarget(t); renderer.clear(true, false, false); }
         this.cleared = true;
       }
-      const shift = new THREE.Vector2();
+      const shift = this.shift.set(0, 0);
       if (!this.centre && Number.isFinite(focusX) && Number.isFinite(focusZ)) {
         const snap = (v: number) => Math.round(v / this.texel) * this.texel;
         const wantX = snap(focusX - this.extent / 2), wantZ = snap(focusZ - this.extent / 2);
@@ -250,7 +257,7 @@ export class GrassTrample {
         this.shiftMaterial.uniforms.tPrev!.value = this.targets[0].texture;
         (this.shiftMaterial.uniforms.uShift!.value as THREE.Vector2).copy(shift);
         this.pass(renderer, this.shiftMaterial, this.targets[1]);
-        this.targets = [this.targets[1], this.targets[0]];
+        this.swapTargets();
       }
       this.accumulated = Math.min(STEP * 4, this.accumulated + (Number.isFinite(dt) && dt > 0 ? dt : 0));
       const u = this.stepMaterial.uniforms;
