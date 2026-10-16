@@ -13,7 +13,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, woodAnchor, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -578,9 +578,11 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
           // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
+          // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
+          const anchor = woodAnchor(wood);
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
-            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) });
+            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
             trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15)) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
