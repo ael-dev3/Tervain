@@ -99,6 +99,12 @@ export class GrassTrample {
   private readonly movers: GrassMover[] = [];
   private readonly moverCandidates: GrassMover[] = [];
   private readonly pendingStamps: GrassMover[] = [];
+  private readonly moverData = new Float32Array(TRAMPLE_MAX_MOVERS * 4);
+  private readonly velocityData = new Float32Array(TRAMPLE_MAX_MOVERS * 2);
+  // Three uploads flat arrays at their supplied length. Cache every nonempty prefix;
+  // zero movers use one unused slot so flatten() never receives an empty array.
+  private readonly moverPrefixes = Array.from({ length: TRAMPLE_MAX_MOVERS }, (_, i) => this.moverData.subarray(0, (i + 1) * 4));
+  private readonly velocityPrefixes = Array.from({ length: TRAMPLE_MAX_MOVERS }, (_, i) => this.velocityData.subarray(0, (i + 1) * 2));
   private originX = Number.NaN;
   private originZ = Number.NaN;
   private accumulated = 0;
@@ -122,8 +128,8 @@ export class GrassTrample {
       uniforms: {
         tPrev: { value: null }, uShift: { value: new THREE.Vector2() }, uField: { value: new THREE.Vector3(0, 0, extent) },
         uKeep: { value: new THREE.Vector2(1, 1) },
-        uMovers: { value: Array.from({ length: TRAMPLE_MAX_MOVERS }, () => new THREE.Vector4()) },
-        uMoverVel: { value: Array.from({ length: TRAMPLE_MAX_MOVERS }, () => new THREE.Vector2()) },
+        uMovers: { value: this.moverPrefixes[0]! },
+        uMoverVel: { value: this.velocityPrefixes[0]! },
         uMoverCount: { value: 0 },
       },
       vertexShader: QUAD_VERT, fragmentShader: STEP_FRAG, depthTest: false, depthWrite: false, blending: THREE.NoBlending,
@@ -206,7 +212,7 @@ export class GrassTrample {
 
   private stampPass(renderer: THREE.WebGLRenderer, stamps: readonly GrassMover[], keepPush: number, keepFlat: number) {
     const u = this.stepMaterial.uniforms;
-    const movers = u.uMovers!.value as THREE.Vector4[], vel = u.uMoverVel!.value as THREE.Vector2[];
+    const movers = this.moverData, vel = this.velocityData;
     let count = 0;
     for (const m of stamps) {
       // Keep a texel and a float-upload margin around the field, including footprints crossing its edge.
@@ -215,11 +221,16 @@ export class GrassTrample {
       const reach = m.radius + pad;
       if (m.x + reach < this.originX || m.x - reach > this.originX + this.extent
         || m.z + reach < this.originZ || m.z - reach > this.originZ + this.extent) continue;
-      movers[count]!.set(m.x, m.z, m.radius, Math.min(1, Math.max(0, m.weight ?? 0.7)));
-      vel[count]!.set(Number.isFinite(m.vx) ? m.vx! : 0, Number.isFinite(m.vz) ? m.vz! : 0);
+      const p = count * 4, v = count * 2;
+      movers[p] = m.x; movers[p + 1] = m.z; movers[p + 2] = m.radius;
+      movers[p + 3] = Math.min(1, Math.max(0, m.weight ?? 0.7));
+      vel[v] = Number.isFinite(m.vx) ? m.vx! : 0;
+      vel[v + 1] = Number.isFinite(m.vz) ? m.vz! : 0;
       count++;
     }
     u.uMoverCount!.value = count;
+    u.uMovers!.value = this.moverPrefixes[Math.max(1, count) - 1]!;
+    u.uMoverVel!.value = this.velocityPrefixes[Math.max(1, count) - 1]!;
     (u.uKeep!.value as THREE.Vector2).set(keepPush, keepFlat);
     u.tPrev!.value = this.targets[0].texture;
     (u.uShift!.value as THREE.Vector2).set(0, 0);

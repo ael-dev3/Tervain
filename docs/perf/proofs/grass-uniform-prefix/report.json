@@ -1,0 +1,246 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "position": {
+    "x": 18,
+    "y": 1.1747645139694214,
+    "z": 20
+  },
+  "size": 64,
+  "extent": 28,
+  "nativeMoverCount": 32,
+  "rows": {
+    "native": {
+      "uploads": {
+        "moverBytes": 26112,
+        "velocityBytes": 13056,
+        "calls": 68
+      },
+      "activeCounts": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        48,
+        48,
+        39,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 1127,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    },
+    "before": {
+      "uploads": {
+        "moverBytes": 26112,
+        "velocityBytes": 13056,
+        "calls": 68
+      },
+      "activeCounts": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        18,
+        48,
+        39,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 167,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    },
+    "after": {
+      "uploads": {
+        "moverBytes": 2672,
+        "velocityBytes": 1336,
+        "calls": 68
+      },
+      "activeCounts": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        18,
+        48,
+        39,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 167,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    }
+  },
+  "counts": {
+    "0": {
+      "before": {
+        "submittedMovers": 0,
+        "uploads": {
+          "moverBytes": 768,
+          "velocityBytes": 384,
+          "calls": 2
+        },
+        "fieldSha256": "947e6b2751b673852ccc0b4c9e0ae4371c22b13d2c529aa0a92338f0f1c9d43c"
+      },
+      "after": {
+        "submittedMovers": 0,
+        "uploads": {
+          "moverBytes": 16,
+          "velocityBytes": 8,
+          "calls": 2
+        },
+        "fieldSha256": "947e6b2751b673852ccc0b4c9e0ae4371c22b13d2c529aa0a92338f0f1c9d43c"
+      }
+    },
+    "1": {
+      "before": {
+        "submittedMovers": 1,
+        "uploads": {
+          "moverBytes": 768,
+          "velocityBytes": 384,
+          "calls": 2
+        },
+        "fieldSha256": "5d0b729b8701cb9e5e5bc2ea4b077a1258e0a4c6b1f47eb12019b782817b8bc5"
+      },
+      "after": {
+        "submittedMovers": 1,
+        "uploads": {
+          "moverBytes": 16,
+          "velocityBytes": 8,
+          "calls": 2
+        },
+        "fieldSha256": "5d0b729b8701cb9e5e5bc2ea4b077a1258e0a4c6b1f47eb12019b782817b8bc5"
+      }
+    },
+    "48": {
+      "before": {
+        "submittedMovers": 48,
+        "uploads": {
+          "moverBytes": 768,
+          "velocityBytes": 384,
+          "calls": 2
+        },
+        "fieldSha256": "a204b9a8aeceb889cdf4e8276602e46cd0edc6d0fac0c4b04d38b89570e9cb4c"
+      },
+      "after": {
+        "submittedMovers": 48,
+        "uploads": {
+          "moverBytes": 768,
+          "velocityBytes": 384,
+          "calls": 2
+        },
+        "fieldSha256": "a204b9a8aeceb889cdf4e8276602e46cd0edc6d0fac0c4b04d38b89570e9cb4c"
+      }
+    }
+  },
+  "changedChannels": {
+    "before": 0,
+    "after": 0
+  },
+  "sourceSha256": {
+    "original": "e4e8b5b093fc7b86bf8a432fe2c90b68aa6ff292a5793805dbc30b15e6f45069",
+    "before": "033b66d3d08600149a703aa7ffbdc7fd392116919e02944d6e7ec0cb6ab53e89",
+    "after": "89ffe97bf83520569e24140b72f9b11c15add6cbddb411d03055583d02f32fbe"
+  },
+  "scope": "Published native mover snapshot and field; native original, parent and candidate replay 60 updates including walking, scrolling, a 103-stamp burst and catch-up. Exact half-float fields and pass sequence must match. Intercept actual WebGL uniform4fv/uMovers and uniform2fv/uMoverVel payloads for the source-model passes; Cached published-program uniform locations are seeded from the native material, so native-original payloads are tracked too. Controlled 0/1/48-mover cases check both empty and full capacity. Bytes are WebGL API uniform payload bytes, not driver memory traffic or hardware time.",
+  "pass": true
+}
