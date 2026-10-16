@@ -109,6 +109,10 @@ function woodRadius(lods: TreeVariant['lods'], top: number): number {
     const positions = geometry.getAttribute('position'), index = geometry.index;
     const count = index?.count ?? positions.count;
     for (let i = 0; i < count; i += 3) {
+      const ai = index ? index.getX(i) : i, bi = index ? index.getX(i + 1) : i + 1, ci = index ? index.getX(i + 2) : i + 2;
+      // A triangle wholly above the clearance plane cannot enter the footprint.
+      // Keep crossing edges on the original path, including their exact interpolation.
+      if (positions.getY(ai) > top && positions.getY(bi) > top && positions.getY(ci) > top) continue;
       for (let edge = 0; edge < 3; edge++) {
         const ai = index ? index.getX(i + edge) : i + edge;
         const bi = index ? index.getX(i + (edge + 1) % 3) : i + (edge + 1) % 3;
