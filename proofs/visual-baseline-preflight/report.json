@@ -1,0 +1,118 @@
+{
+  "rows": {
+    "before": {
+      "missing": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": false,
+        "baselineTruthy": false,
+        "outputCreated": true
+      },
+      "null": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": false,
+        "baselineTruthy": false,
+        "outputCreated": true
+      },
+      "array": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": true,
+        "outputCreated": true
+      },
+      "number": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": false,
+        "outputCreated": true
+      },
+      "boolean": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": false,
+        "outputCreated": true
+      },
+      "missingChecks": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": true,
+        "outputCreated": true
+      },
+      "invalidJson": {
+        "reachedBrowserBoundary": false,
+        "errorType": "SyntaxError",
+        "outputCreated": false
+      },
+      "valid": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": true,
+        "outputCreated": true
+      },
+      "omitted": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": false,
+        "baselineTruthy": false,
+        "outputCreated": true
+      }
+    },
+    "after": {
+      "missing": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "null": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "array": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "number": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "boolean": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "missingChecks": {
+        "reachedBrowserBoundary": false,
+        "errorType": "Error",
+        "outputCreated": false
+      },
+      "invalidJson": {
+        "reachedBrowserBoundary": false,
+        "errorType": "SyntaxError",
+        "outputCreated": false
+      },
+      "valid": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": true,
+        "baselineTruthy": true,
+        "outputCreated": true
+      },
+      "omitted": {
+        "reachedBrowserBoundary": true,
+        "baselinePresent": false,
+        "baselineTruthy": false,
+        "outputCreated": true
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": "aeea1aefe4f011f01c12906dbd768bd0ec4e167bcd3c26ee098ac256de459f19",
+    "after": "10a4ac95c9fdcd30864ba4c09a233bc6ae8d85dbf236b5ebc19a446e2bbb6458"
+  },
+  "helperSourceHashes": {
+    "before": null,
+    "after": "6716b88a9f74d9ed5a81b06dc0986911d249bc32c502a8de9624b99ab6a83e5c"
+  },
+  "scope": "Execute the exact visual-gate initialization through the point immediately before openPage. Real file reads and output-directory setup with controlled temporary fixtures; Chrome is deliberately not launched. Reproduce missing/malformed requested baseline fail-open and preserve valid/omitted baseline controls. No build rendering or hardware timing claim.",
+  "pass": true
+}

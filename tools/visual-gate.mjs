@@ -17,6 +17,7 @@
  * report afterwards; the gate cannot judge art.
  */
 import { shimmerVerdict } from './shimmer-verdict.mjs';
+import { readVisualBaseline } from './read-visual-baseline.mjs';
 import { rootAuditVerdict, rootBaselineLabels } from './root-audit-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -28,7 +29,7 @@ const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
 const TAG = args.tag ?? `vg-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
 const OUT = path.join(path.resolve(args.out ?? 'visual-gate-runs'), TAG);
 const PROFILE = { mac: { w: 1440, h: 900, dpr: 2 }, desktop: { w: 1280, h: 720, dpr: 1 } }[args.profile ?? 'mac'];
-const baseline = args.baseline && fs.existsSync(args.baseline) ? JSON.parse(fs.readFileSync(args.baseline, 'utf8')) : null;
+const baseline = readVisualBaseline(args.baseline);
 
 /** The playtest's spots. `hero`: [x, z, yaw]; `still`: fixed cameras [px, py, pz, lx, ly, lz] relative to the hero's
  * ground; `path`: a camera move (start and end camera) for the clip, or `run` to record the hero running through. */
