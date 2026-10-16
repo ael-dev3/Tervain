@@ -170,6 +170,8 @@ vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
     vec4 m = uFoliageMovers[i];
     vec3 d = p - m.xyz;
     d.y *= 0.6;
+    // Outside the mover's box the spherical response is zero; avoid its distance and falloff work.
+    if (m.w > 0.0 && max(max(abs(d.x), abs(d.y)), abs(d.z)) > m.w) continue;
     float dist = length(d);
     float k = 1.0 - smoothstep(m.w * 0.35, m.w, dist);
     if (k > 0.0) off += normalize(vec3(d.x, 0.15, d.z) + 1e-4) * k * k * min(0.5, m.w * 0.55) * (0.3 + 0.7 * leaf) * uFoliageWind;
