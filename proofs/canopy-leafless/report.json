@@ -1,0 +1,88 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "inputSource": "saved-native-receipt",
+  "label": "tree:wild:54:3",
+  "baseline": {
+    "trees": 341,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 643165,
+    "chunks": 349,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 9766,
+    "detachedClumps": 6172,
+    "treesWithDetached": 115
+  },
+  "dropped": {
+    "trees": 341,
+    "missingWood": 0,
+    "leafless": 1,
+    "components": 642499,
+    "chunks": 348,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 9766,
+    "detachedClumps": 6172,
+    "treesWithDetached": 115
+  },
+  "rows": {
+    "before": {
+      "dropped": {
+        "exitCode": 0,
+        "pass": true,
+        "comparison": {
+          "pass": true,
+          "reasons": [],
+          "regressions": []
+        }
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "comparison": {
+          "pass": true,
+          "reasons": [],
+          "regressions": []
+        }
+      }
+    },
+    "after": {
+      "dropped": {
+        "exitCode": 1,
+        "pass": false,
+        "comparison": {
+          "pass": false,
+          "reasons": [
+            "Tree lost foliage: tree:wild:54:3"
+          ],
+          "regressions": []
+        }
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "comparison": {
+          "pass": true,
+          "reasons": [],
+          "regressions": []
+        }
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": {
+      "audit-canopy.mjs": "77085477a6ea734aba2d5752731fe5f794b1124671a259a6bb05e4d39f3250e7",
+      "canopy-baseline.mjs": "f2f9150230cef135157e1b83a156eedf2c53d5d82f989e3688bcd416b90ce58f"
+    },
+    "after": {
+      "audit-canopy.mjs": "77085477a6ea734aba2d5752731fe5f794b1124671a259a6bb05e4d39f3250e7",
+      "canopy-baseline.mjs": "2e4e3bbec1003850ddda467b575a8c1cc365150d6a8730da1f4dc2a39099fcb5"
+    }
+  },
+  "scope": "Controlled audit-adapter fault on the published full forest: one real leafy target loses its leaves reference, restored in finally. Actual native audits and actual CLI versions; no production geometry/rendering changed. This demonstrates a gate false PASS, not a claim that this tree is currently leafless on screen.",
+  "pass": true
+}

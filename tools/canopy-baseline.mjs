@@ -8,13 +8,18 @@ export function compareCanopyBaseline(before, after) {
         report.trees.length !== report.expectedTrees || report.summary?.trees !== report.expectedTrees) {
       reasons.push(`${name}: incomplete or invalid population`); return trees;
     }
-    let total = 0;
+    let total = 0, leafless = 0;
     for (const tree of report.trees) {
       if (typeof tree.label !== 'string' || !tree.label || trees.has(tree.label) || !Array.isArray(tree.candidates)) {
         reasons.push(`${name}: invalid or duplicate tree label`); continue;
       }
-      trees.set(tree.label, tree.candidates.length); total += tree.candidates.length;
+      if (typeof tree.leafless !== 'boolean') {
+        reasons.push(`${name}: invalid leafless flag for ${tree.label}`); continue;
+      }
+      trees.set(tree.label, { candidates: tree.candidates.length, leafless: tree.leafless });
+      total += tree.candidates.length; leafless += Number(tree.leafless);
     }
+    if (leafless !== report.summary.leafless) reasons.push(`${name}: leafless summary mismatch`);
     if (total !== report.summary.candidates) reasons.push(`${name}: candidate summary mismatch`);
     return trees;
   };
@@ -24,7 +29,10 @@ export function compareCanopyBaseline(before, after) {
   for (const [label, count] of newTrees) {
     const previous = oldTrees.get(label);
     if (previous === undefined) reasons.push(`Tree absent from baseline: ${label}`);
-    else if (count > previous) regressions.push({ label, before: previous, after: count });
+    else {
+      if (!previous.leafless && count.leafless) reasons.push(`Tree lost foliage: ${label}`);
+      if (count.candidates > previous.candidates) regressions.push({ label, before: previous.candidates, after: count.candidates });
+    }
   }
   for (const label of oldTrees.keys()) if (!newTrees.has(label)) reasons.push(`Tree missing from current audit: ${label}`);
   return { pass: reasons.length === 0 && regressions.length === 0, reasons, regressions };
