@@ -1,0 +1,1408 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "inputSource": "live-pages",
+  "nativeDataSha256": "b9ca87017ceb288fe1d933c6d3f28e52cd76da2fb39307b3e76b286637d53c6d",
+  "baseline": {
+    "complete": true,
+    "summary": {
+      "trees": 341,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 643165,
+      "chunks": 349,
+      "candidates": 0,
+      "woodReach": 3,
+      "detachedCards": 1252,
+      "detachedClumps": 557,
+      "treesWithDetached": 65
+    }
+  },
+  "current": {
+    "complete": true,
+    "summary": {
+      "trees": 341,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 643165,
+      "chunks": 349,
+      "candidates": 0,
+      "woodReach": 1.5,
+      "detachedCards": 9766,
+      "detachedClumps": 6172,
+      "treesWithDetached": 115
+    }
+  },
+  "rows": {
+    "before": {
+      "absolute": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "changedReach": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      }
+    },
+    "after": {
+      "absolute": {
+        "exitCode": 1,
+        "pass": false,
+        "reasons": [],
+        "regressions": []
+      },
+      "changedReach": {
+        "exitCode": 1,
+        "pass": false,
+        "reasons": [
+          "Audit population or scope changed"
+        ],
+        "regressions": [
+          {
+            "label": "tree:wild:55:3",
+            "metric": "detachedCards",
+            "before": 7,
+            "after": 22
+          },
+          {
+            "label": "tree:wild:55:3",
+            "metric": "detachedClumps",
+            "before": 6,
+            "after": 9
+          },
+          {
+            "label": "tree:wild:63:4",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:63:4",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:55:5",
+            "metric": "detachedCards",
+            "before": 12,
+            "after": 25
+          },
+          {
+            "label": "tree:wild:55:5",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 11
+          },
+          {
+            "label": "tree:wild:69:5",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:wild:69:5",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:74:5",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:74:5",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:62:6",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:62:6",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:49:7",
+            "metric": "detachedCards",
+            "before": 7,
+            "after": 24
+          },
+          {
+            "label": "tree:wild:49:7",
+            "metric": "detachedClumps",
+            "before": 6,
+            "after": 11
+          },
+          {
+            "label": "tree:wild:73:7",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:73:7",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:50:9",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:50:9",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:62:9",
+            "metric": "detachedCards",
+            "before": 12,
+            "after": 25
+          },
+          {
+            "label": "tree:wild:62:9",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 11
+          },
+          {
+            "label": "tree:wild:66:9",
+            "metric": "detachedCards",
+            "before": 21,
+            "after": 34
+          },
+          {
+            "label": "tree:wild:66:9",
+            "metric": "detachedClumps",
+            "before": 8,
+            "after": 9
+          },
+          {
+            "label": "tree:wild:69:9",
+            "metric": "detachedCards",
+            "before": 2,
+            "after": 7
+          },
+          {
+            "label": "tree:wild:69:9",
+            "metric": "detachedClumps",
+            "before": 1,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:74:9",
+            "metric": "detachedCards",
+            "before": 3,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:74:9",
+            "metric": "detachedClumps",
+            "before": 2,
+            "after": 9
+          },
+          {
+            "label": "tree:wild:67:10",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:wild:67:10",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:50:11",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 38
+          },
+          {
+            "label": "tree:wild:79:11",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:79:11",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:30:12",
+            "metric": "detachedCards",
+            "before": 21,
+            "after": 33
+          },
+          {
+            "label": "tree:wild:30:12",
+            "metric": "detachedClumps",
+            "before": 8,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:32:12",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 39
+          },
+          {
+            "label": "tree:wild:28:13",
+            "metric": "detachedCards",
+            "before": 21,
+            "after": 34
+          },
+          {
+            "label": "tree:wild:28:13",
+            "metric": "detachedClumps",
+            "before": 8,
+            "after": 9
+          },
+          {
+            "label": "tree:wild:33:13",
+            "metric": "detachedCards",
+            "before": 21,
+            "after": 33
+          },
+          {
+            "label": "tree:wild:33:13",
+            "metric": "detachedClumps",
+            "before": 8,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:35:13",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:35:13",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:36:13:sapling",
+            "metric": "detachedCards",
+            "before": 1,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:36:13:sapling",
+            "metric": "detachedClumps",
+            "before": 1,
+            "after": 5
+          },
+          {
+            "label": "tree:wild:77:14",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 34
+          },
+          {
+            "label": "tree:wild:39:15",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:39:15",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:41:16",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 36
+          },
+          {
+            "label": "tree:wild:41:16",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 11
+          },
+          {
+            "label": "tree:wild:88:16",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:wild:88:16",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:38:18",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:38:18",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:86:18",
+            "metric": "detachedCards",
+            "before": 21,
+            "after": 34
+          },
+          {
+            "label": "tree:wild:86:18",
+            "metric": "detachedClumps",
+            "before": 8,
+            "after": 9
+          },
+          {
+            "label": "tree:wild:27:19:sapling",
+            "metric": "detachedCards",
+            "before": 3,
+            "after": 8
+          },
+          {
+            "label": "tree:wild:27:19:sapling",
+            "metric": "detachedClumps",
+            "before": 2,
+            "after": 7
+          },
+          {
+            "label": "tree:wild:78:19",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:wild:78:19",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:83:20",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:83:20",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:53:21",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 35
+          },
+          {
+            "label": "tree:wild:53:21",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:wild:86:22",
+            "metric": "detachedCards",
+            "before": 23,
+            "after": 36
+          },
+          {
+            "label": "tree:wild:86:22",
+            "metric": "detachedClumps",
+            "before": 10,
+            "after": 11
+          },
+          {
+            "label": "tree:wild:55:23",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:wild:55:23",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:90:25",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 34
+          },
+          {
+            "label": "tree:wild:88:28",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 39
+          },
+          {
+            "label": "tree:wild:87:29",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 38
+          },
+          {
+            "label": "tree:wild:87:31",
+            "metric": "detachedCards",
+            "before": 1,
+            "after": 7
+          },
+          {
+            "label": "tree:wild:87:31",
+            "metric": "detachedClumps",
+            "before": 1,
+            "after": 6
+          },
+          {
+            "label": "tree:1:38",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:1:38",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:1:39",
+            "metric": "detachedCards",
+            "before": 30,
+            "after": 45
+          },
+          {
+            "label": "tree:1:39",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 16
+          },
+          {
+            "label": "tree:1:40",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 38
+          },
+          {
+            "label": "tree:1:41",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 40
+          },
+          {
+            "label": "tree:1:42",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 39
+          },
+          {
+            "label": "tree:1:43",
+            "metric": "detachedCards",
+            "before": 30,
+            "after": 45
+          },
+          {
+            "label": "tree:1:43",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 16
+          },
+          {
+            "label": "tree:1:44",
+            "metric": "detachedCards",
+            "before": 31,
+            "after": 45
+          },
+          {
+            "label": "tree:1:44",
+            "metric": "detachedClumps",
+            "before": 12,
+            "after": 16
+          },
+          {
+            "label": "tree:1:45",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 37
+          },
+          {
+            "label": "tree:1:45",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:1:46",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 40
+          },
+          {
+            "label": "tree:1:47",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 39
+          },
+          {
+            "label": "tree:1:48",
+            "metric": "detachedCards",
+            "before": 30,
+            "after": 44
+          },
+          {
+            "label": "tree:1:48",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 15
+          },
+          {
+            "label": "tree:1:49",
+            "metric": "detachedCards",
+            "before": 27,
+            "after": 43
+          },
+          {
+            "label": "tree:1:49",
+            "metric": "detachedClumps",
+            "before": 10,
+            "after": 14
+          },
+          {
+            "label": "tree:1:50",
+            "metric": "detachedCards",
+            "before": 25,
+            "after": 41
+          },
+          {
+            "label": "tree:1:50",
+            "metric": "detachedClumps",
+            "before": 11,
+            "after": 12
+          },
+          {
+            "label": "tree:1:51",
+            "metric": "detachedCards",
+            "before": 18,
+            "after": 30
+          },
+          {
+            "label": "tree:1:52",
+            "metric": "detachedCards",
+            "before": 31,
+            "after": 45
+          },
+          {
+            "label": "tree:1:52",
+            "metric": "detachedClumps",
+            "before": 12,
+            "after": 16
+          },
+          {
+            "label": "tree:1:53",
+            "metric": "detachedCards",
+            "before": 24,
+            "after": 38
+          },
+          {
+            "label": "tree:1:54",
+            "metric": "detachedCards",
+            "before": 32,
+            "after": 46
+          },
+          {
+            "label": "tree:1:54",
+            "metric": "detachedClumps",
+            "before": 12,
+            "after": 16
+          },
+          {
+            "label": "tree:1:55",
+            "metric": "detachedCards",
+            "before": 20,
+            "after": 33
+          },
+          {
+            "label": "tree:1:55",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 10
+          },
+          {
+            "label": "tree:1:56",
+            "metric": "detachedCards",
+            "before": 22,
+            "after": 36
+          },
+          {
+            "label": "tree:1:56",
+            "metric": "detachedClumps",
+            "before": 9,
+            "after": 11
+          },
+          {
+            "label": "tree:1:57",
+            "metric": "detachedCards",
+            "before": 31,
+            "after": 45
+          },
+          {
+            "label": "tree:1:57",
+            "metric": "detachedClumps",
+            "before": 12,
+            "after": 16
+          },
+          {
+            "label": "tree:wild:71:20",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 76
+          },
+          {
+            "label": "tree:wild:71:20",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 63
+          },
+          {
+            "label": "tree:wild:75:37",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 4
+          },
+          {
+            "label": "tree:wild:75:37",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 4
+          },
+          {
+            "label": "tree:wild:65:14",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:wild:65:14",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:wild:58:16",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 55
+          },
+          {
+            "label": "tree:wild:58:16",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 43
+          },
+          {
+            "label": "tree:wild:31:26",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 29
+          },
+          {
+            "label": "tree:wild:31:26",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 19
+          },
+          {
+            "label": "tree:wild:70:28",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 31
+          },
+          {
+            "label": "tree:wild:70:28",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 21
+          },
+          {
+            "label": "tree:wild:45:12",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 277
+          },
+          {
+            "label": "tree:wild:45:12",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 209
+          },
+          {
+            "label": "tree:wild:23:27",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 262
+          },
+          {
+            "label": "tree:wild:23:27",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 202
+          },
+          {
+            "label": "tree:wild:32:27",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 1158
+          },
+          {
+            "label": "tree:wild:32:27",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 632
+          },
+          {
+            "label": "tree:wild:49:39",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 514
+          },
+          {
+            "label": "tree:wild:49:39",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 351
+          },
+          {
+            "label": "tree:wild:42:45",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 901
+          },
+          {
+            "label": "tree:wild:42:45",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 536
+          },
+          {
+            "label": "tree:wild:61:12",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:wild:61:12",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:wild:63:14",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 46
+          },
+          {
+            "label": "tree:wild:63:14",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 38
+          },
+          {
+            "label": "tree:wild:68:13",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 395
+          },
+          {
+            "label": "tree:wild:68:13",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 306
+          },
+          {
+            "label": "tree:wild:75:14",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 26
+          },
+          {
+            "label": "tree:wild:75:14",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 20
+          },
+          {
+            "label": "tree:wild:65:16",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 23
+          },
+          {
+            "label": "tree:wild:65:16",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 17
+          },
+          {
+            "label": "tree:wild:69:26",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 239
+          },
+          {
+            "label": "tree:wild:69:26",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 198
+          },
+          {
+            "label": "tree:wild:86:33",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 23
+          },
+          {
+            "label": "tree:wild:86:33",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 17
+          },
+          {
+            "label": "tree:wild:48:37",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 40
+          },
+          {
+            "label": "tree:wild:48:37",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 32
+          },
+          {
+            "label": "tree:wild:64:39",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 39
+          },
+          {
+            "label": "tree:wild:64:39",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 31
+          },
+          {
+            "label": "tree:wild:43:43",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:43:43",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:27:22",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 240
+          },
+          {
+            "label": "tree:wild:27:22",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 193
+          },
+          {
+            "label": "tree:wild:79:22",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 973
+          },
+          {
+            "label": "tree:wild:79:22",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 588
+          },
+          {
+            "label": "tree:wild:26:25",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 161
+          },
+          {
+            "label": "tree:wild:26:25",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 140
+          },
+          {
+            "label": "tree:wild:80:25",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 83
+          },
+          {
+            "label": "tree:wild:80:25",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 74
+          },
+          {
+            "label": "tree:wild:75:27",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 3
+          },
+          {
+            "label": "tree:wild:75:27",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 3
+          },
+          {
+            "label": "tree:wild:35:34",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 56
+          },
+          {
+            "label": "tree:wild:35:34",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 50
+          },
+          {
+            "label": "tree:wild:40:35",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:40:35",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 12
+          },
+          {
+            "label": "tree:wild:55:37",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 26
+          },
+          {
+            "label": "tree:wild:55:37",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 24
+          },
+          {
+            "label": "tree:wild:73:37",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 222
+          },
+          {
+            "label": "tree:wild:73:37",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 182
+          },
+          {
+            "label": "tree:wild:36:23",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 496
+          },
+          {
+            "label": "tree:wild:36:23",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 362
+          },
+          {
+            "label": "tree:wild:38:24",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 67
+          },
+          {
+            "label": "tree:wild:38:24",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 64
+          },
+          {
+            "label": "tree:wild:70:35",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 171
+          },
+          {
+            "label": "tree:wild:70:35",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 142
+          },
+          {
+            "label": "tree:wild:85:30",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:wild:85:30",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:wild:40:40",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:40:40",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:wild:40:42",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:wild:40:42",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "label": "tree:palm:16:6",
+            "metric": "detachedCards",
+            "before": 2,
+            "after": 15
+          },
+          {
+            "label": "tree:palm:16:6",
+            "metric": "detachedClumps",
+            "before": 2,
+            "after": 10
+          },
+          {
+            "label": "tree:palm:18:9",
+            "metric": "detachedCards",
+            "before": 4,
+            "after": 27
+          },
+          {
+            "label": "tree:palm:18:9",
+            "metric": "detachedClumps",
+            "before": 4,
+            "after": 15
+          },
+          {
+            "label": "tree:palm:16:10",
+            "metric": "detachedCards",
+            "before": 4,
+            "after": 25
+          },
+          {
+            "label": "tree:palm:16:10",
+            "metric": "detachedClumps",
+            "before": 4,
+            "after": 15
+          },
+          {
+            "label": "tree:palm:17:11",
+            "metric": "detachedCards",
+            "before": 4,
+            "after": 23
+          },
+          {
+            "label": "tree:palm:17:11",
+            "metric": "detachedClumps",
+            "before": 4,
+            "after": 15
+          },
+          {
+            "label": "tree:palm:13:13",
+            "metric": "detachedCards",
+            "before": 7,
+            "after": 28
+          },
+          {
+            "label": "tree:palm:13:13",
+            "metric": "detachedClumps",
+            "before": 6,
+            "after": 16
+          },
+          {
+            "label": "tree:palm:14:49",
+            "metric": "detachedCards",
+            "before": 3,
+            "after": 19
+          },
+          {
+            "label": "tree:palm:14:49",
+            "metric": "detachedClumps",
+            "before": 3,
+            "after": 14
+          },
+          {
+            "label": "tree:palm:15:8",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 12
+          },
+          {
+            "label": "tree:palm:15:8",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 11
+          },
+          {
+            "label": "tree:palm:17:12",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 11
+          },
+          {
+            "label": "tree:palm:17:12",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 10
+          },
+          {
+            "label": "tree:palm:17:20",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:palm:17:20",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 6
+          },
+          {
+            "label": "tree:palm:17:9",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:palm:17:9",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:palm:20:17",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:palm:20:17",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 1
+          },
+          {
+            "label": "tree:edge:1:2",
+            "metric": "detachedCards",
+            "before": 3,
+            "after": 8
+          },
+          {
+            "label": "tree:edge:1:2",
+            "metric": "detachedClumps",
+            "before": 2,
+            "after": 7
+          },
+          {
+            "label": "tree:orchard:0:0",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 34
+          },
+          {
+            "label": "tree:orchard:0:0",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 31
+          },
+          {
+            "label": "tree:orchard:1:2",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 106
+          },
+          {
+            "label": "tree:orchard:1:2",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 96
+          },
+          {
+            "label": "tree:orchard:2:1",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 208
+          },
+          {
+            "label": "tree:orchard:2:1",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 165
+          },
+          {
+            "label": "tree:orchard:4:2",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 18
+          },
+          {
+            "label": "tree:orchard:4:2",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 18
+          },
+          {
+            "label": "tree:orchard:4:5",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 46
+          },
+          {
+            "label": "tree:orchard:4:5",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 42
+          },
+          {
+            "label": "tree:orchard:0:2",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 298
+          },
+          {
+            "label": "tree:orchard:0:2",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 253
+          },
+          {
+            "label": "tree:orchard:1:0",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 75
+          },
+          {
+            "label": "tree:orchard:1:0",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 74
+          },
+          {
+            "label": "tree:orchard:3:1",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 13
+          },
+          {
+            "label": "tree:orchard:3:1",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 13
+          },
+          {
+            "label": "tree:orchard:3:2",
+            "metric": "detachedCards",
+            "before": 0,
+            "after": 151
+          },
+          {
+            "label": "tree:orchard:3:2",
+            "metric": "detachedClumps",
+            "before": 0,
+            "after": 136
+          }
+        ]
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": {
+      "audit-canopy.mjs": "77085477a6ea734aba2d5752731fe5f794b1124671a259a6bb05e4d39f3250e7",
+      "canopy-baseline.mjs": "f2f9150230cef135157e1b83a156eedf2c53d5d82f989e3688bcd416b90ce58f"
+    },
+    "after": {
+      "audit-canopy.mjs": "90e964b71f2ef8554fd095e9bdb25fe35cb5ade0ee6b6d9ba62351ae5260001d",
+      "canopy-baseline.mjs": "08115873244544a67f8688fee8c007a9e0803cadf20354b17fafce4d112a5960"
+    }
+  },
+  "identicalPixels": true,
+  "cost": {
+    "before": {
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "scope": "Actual CLI and baseline comparator replay captured native full-forest reports. Default geometry-only rest audit, not alpha/mip/wind visibility proof; detached counts are diagnostic candidates, not confirmed visible floaters. Absolute gate and changed-threshold baseline must reject; an identical nonzero baseline remains valid. Images are frozen native endpoint controls, not candidate tree rendering or hardware timing.",
+  "pass": true
+}

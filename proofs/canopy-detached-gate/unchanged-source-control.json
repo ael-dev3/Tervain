@@ -1,0 +1,103 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "inputSource": "saved-native-receipt",
+  "nativeDataSha256": "b9ca87017ceb288fe1d933c6d3f28e52cd76da2fb39307b3e76b286637d53c6d",
+  "baseline": {
+    "complete": true,
+    "summary": {
+      "trees": 341,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 643165,
+      "chunks": 349,
+      "candidates": 0,
+      "woodReach": 3,
+      "detachedCards": 1252,
+      "detachedClumps": 557,
+      "treesWithDetached": 65
+    }
+  },
+  "current": {
+    "complete": true,
+    "summary": {
+      "trees": 341,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 643165,
+      "chunks": 349,
+      "candidates": 0,
+      "woodReach": 1.5,
+      "detachedCards": 9766,
+      "detachedClumps": 6172,
+      "treesWithDetached": 115
+    }
+  },
+  "rows": {
+    "before": {
+      "absolute": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "changedReach": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      }
+    },
+    "after": {
+      "absolute": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "changedReach": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      },
+      "identity": {
+        "exitCode": 0,
+        "pass": true,
+        "reasons": [],
+        "regressions": []
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": {
+      "audit-canopy.mjs": "77085477a6ea734aba2d5752731fe5f794b1124671a259a6bb05e4d39f3250e7",
+      "canopy-baseline.mjs": "f2f9150230cef135157e1b83a156eedf2c53d5d82f989e3688bcd416b90ce58f"
+    },
+    "after": {
+      "audit-canopy.mjs": "77085477a6ea734aba2d5752731fe5f794b1124671a259a6bb05e4d39f3250e7",
+      "canopy-baseline.mjs": "f2f9150230cef135157e1b83a156eedf2c53d5d82f989e3688bcd416b90ce58f"
+    }
+  },
+  "identicalPixels": true,
+  "cost": {
+    "before": {
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "scope": "Actual CLI and baseline comparator replay captured native full-forest reports. Default geometry-only rest audit, not alpha/mip/wind visibility proof; detached counts are diagnostic candidates, not confirmed visible floaters. Absolute gate and changed-threshold baseline must reject; an identical nonzero baseline remains valid. Images are frozen native endpoint controls, not candidate tree rendering or hardware timing.",
+  "pass": false
+}
