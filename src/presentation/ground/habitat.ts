@@ -281,12 +281,15 @@ export class Habitat {
       open *= clamp(soil, 0, 1);
       if (sd < 8) open = 0;
     }
-    const soft = this.softCircleHash.get(this.cell(x, z));
+    // Once bare, further exclusion factors cannot reduce openness any further. Other habitat channels still run.
+    const soft = open > 0 ? this.softCircleHash.get(this.cell(x, z)) : undefined;
     if (soft) for (const c of soft) {
+      if (open === 0) break;
       const d = Math.hypot(x - c.x, z - c.z) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }
     for (const f of fieldRotations) {
+      if (open === 0) break;
       const dx = x - f.x;
       const dz = z - f.z;
       const lx = dx * f.cosine - dz * f.sine;
