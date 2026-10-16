@@ -129,7 +129,7 @@ describe('foliage look', () => {
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
       expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v3-leaf\|foliage-options:\[null,null\]$/);
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v3-leaf-focus-world1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       expect(frag).toContain('#define RE_Direct RE_Direct_Foliage');
       expect(frag.indexOf('void RE_Direct_Foliage')).toBeGreaterThan(frag.indexOf('#include <lights_physical_pars_fragment>'));
@@ -175,7 +175,11 @@ describe('foliage look', () => {
     shader.defines = { ...(shader.defines ?? {}), USE_ALPHATEST: '' };
     leaf.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.uniforms.uFoliageFocus).toBe(FOLIAGE_FOCUS);
-    expect(shader.vertexShader).toContain('vTvWorld = tvP;');
+    const focusPosition = shader.vertexShader.indexOf('vTvWorld = (tvFocusWorld * vec4(transformed, 1.0)).xyz;');
+    // Clearance follows the rendered leaf after wind; crown lighting and noise stay in rest space.
+    expect(focusPosition).toBeGreaterThan(shader.vertexShader.indexOf('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;'));
+    expect(focusPosition).toBeLessThan(shader.vertexShader.indexOf('#include <project_vertex>'));
+    expect(shader.vertexShader.indexOf('vTvLeafP =')).toBeLessThan(shader.vertexShader.indexOf('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;'));
     expect(shader.fragmentShader).toContain('if ( uFoliageFocus.w > 0.0 ) tvNearEnd = clamp(');
     expect(shader.fragmentShader).toContain('smoothstep( 0.6, tvNearEnd, length( vViewPosition ) )');
     expect(FOLIAGE_FOCUS.value.w).toBe(0);
@@ -365,7 +369,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v3-leaf\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v3-wood-fill1\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v3-leaf-focus-world1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v3-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
