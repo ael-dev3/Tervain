@@ -16,8 +16,9 @@ describe('habitat crown sampling', () => {
     expect(calls).toBe(17 * 17);
     expect(habitat.sample(-180, 12, newSample())).toEqual(first);
     expect(calls).toBe(17 * 17);
+    // The neighbouring tile shares one completed border column of 17 nodes with the first, reused and not resampled.
     habitat.sample(-140, 12, newSample());
-    expect(calls).toBe(2 * 17 * 17);
+    expect(calls).toBe(2 * 17 * 17 - 17);
   });
 
   it('retains the source-free woodland fallback for authoring fixtures', () => {
