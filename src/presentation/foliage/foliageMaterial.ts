@@ -253,7 +253,8 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   // with sky between them instead of the cards' own edges; the cards' straight cut is roughened at leaf scale, fading
   // out once a pixel covers several leaves so it never shimmers.
   float tvShell = smoothstep( 0.6, 1.02, vCrownDepth );
-  tvA *= 1.0 - uFoliageClump.x * tvShell * smoothstep( 0.5, 0.27, tvClump );
+  // Negate the domain for the descending ramp: smoothstep requires ascending edges on every driver.
+  tvA *= 1.0 - uFoliageClump.x * tvShell * smoothstep( -0.5, -0.27, -tvClump );
   // A card seen edge-on smears its texture into streaks; it fades out as it turns away, and the cards behind fill in.
   float tvFacing = abs( dot( normalize( cross( dFdx( vViewPosition ), dFdy( vViewPosition ) ) ), normalize( vViewPosition ) ) );
   tvA *= smoothstep( uFoliageEdgeOn.x, uFoliageEdgeOn.y, tvFacing );
@@ -471,7 +472,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf-focus-world1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
