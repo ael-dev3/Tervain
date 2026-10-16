@@ -284,14 +284,19 @@ export class CameraRig {
       z: this.followPivot.z + dirZ * boomDistance,
     };
     // Begin easing before a turn brings the boom into narrow doorway trim; hard clearance still wins.
-    const yawStep = Number.isFinite(this.lastFollowYaw)
-      ? Math.atan2(Math.sin(this.yaw - this.lastFollowYaw), Math.cos(this.yaw - this.lastFollowYaw)) : 0;
+    const previousYaw = this.lastFollowYaw;
     this.lastFollowYaw = this.yaw;
-    const futureYaw = this.yaw + Math.max(-4, Math.min(4, yawStep / Math.max(dt, 1 / 120))) * .25;
-    const future = { x: this.followPivot.x - Math.sin(futureYaw) * cp * boomDistance,
-      y: desired.y, z: this.followPivot.z - Math.cos(futureYaw) * cp * boomDistance };
+    let future: { x: number; y: number; z: number } | null = null;
     let trimTarget = boomDistance;
     for (const c of candidates) if (c.id.endsWith(':doorframe')) {
+      if (!future) {
+        // Keep yaw history everywhere, but build the lookahead only when doorway trim can use it.
+        const yawStep = Number.isFinite(previousYaw)
+          ? Math.atan2(Math.sin(this.yaw - previousYaw), Math.cos(this.yaw - previousYaw)) : 0;
+        const futureYaw = this.yaw + Math.max(-4, Math.min(4, yawStep / Math.max(dt, 1 / 120))) * .25;
+        future = { x: this.followPivot.x - Math.sin(futureYaw) * cp * boomDistance,
+          y: desired.y, z: this.followPivot.z - Math.cos(futureYaw) * cp * boomDistance };
+      }
       const t = cameraColliderEntry(this.followPivot, future, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
       if (t !== null) trimTarget = Math.min(trimTarget, Math.max(.04, t * boomDistance - .025));
     }
