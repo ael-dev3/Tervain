@@ -5,7 +5,7 @@ import { createHuntingArrow } from './huntingArrow';
 import type { HeroGrip } from './hero/animation';
 
 /** The arrow's line while the bow is held ready after a shot: forward, a little out from the leg and a touch down. */
-const BOW_AT_REST = new THREE.Vector3(.14, -.1, .98).normalize();
+const BOW_AT_REST = new THREE.Vector3(.55, -.1, .83).normalize();
 /**
  * How long the bow stays in hand after the last aim or shot before it goes back on his back (A75). As in Gothic 3 the
  * bow is carried slung on the back and taken in hand to shoot; walking and running with it hanging by the leg left
