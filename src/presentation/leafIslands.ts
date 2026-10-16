@@ -21,12 +21,11 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const index = leaf.index, triangles = Math.floor((index?.count ?? p.count) / 3), at = (t: number, k: number) => index ? index.getX(t * 3 + k) : t * 3 + k;
   // Each triangle's opaque coverage is its own part (a quad can touch its neighbour while its leaves do not).
   const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();
-  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
   for (let t = 0; t < triangles; t++) {
     const v0 = at(t, 0), v1 = at(t, 1), v2 = at(t, 2);
     let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;
     a.fromBufferAttribute(p, v0); b.fromBufferAttribute(p, v1); c.fromBufferAttribute(p, v2);
-    const q = new THREE.Vector3();
     const add = (w0: number, w1: number, w2: number, keep: boolean) => {
       q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);
       if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [t] }; opaque.set(t, part); }
