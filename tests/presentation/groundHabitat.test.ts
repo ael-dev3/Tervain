@@ -133,3 +133,37 @@ it('accepts zero-valued surface samples without falling back to terrain derivati
   expect(groundSplat(terrain, x, z, b, undefined, undefined, undefined, undefined, undefined, {slope:0, carve:0})).toBe(wet);
   expect(Array.from(new Uint32Array(b.buffer))).toEqual(Array.from(new Uint32Array(a.buffer)));
 });
+
+it('skips soft-exclusion bucket lookups on already bare ocean nodes', () => {
+  const terrain = new Terrain(), colliders = new Colliders(), excl = new Exclusions(terrain);
+  const habitat = new Habitat({ terrain, colliders, excl, plantedCrowns: { coverAt: () => 0, broadleafAt: () => 0 } });
+  let lookups = 0;
+  Reflect.get(habitat, 'softCircleHash').get = () => { lookups++; return []; };
+  const out = new Float32Array(5);
+  Reflect.get(habitat, 'evalNode').call(habitat, -370, 0, out, 0);
+  expect(out[0]).toBe(0);
+  expect(Array.from(out).every(Number.isFinite)).toBe(true);
+  expect(lookups).toBe(0);
+});
+
+it('stops overlapping soft exclusions once one clears the node, retaining other habitat channels', () => {
+  const terrain = new Terrain(), colliders = new Colliders(), excl = new Exclusions(terrain);
+  const habitat = new Habitat({ terrain, colliders, excl, plantedCrowns: { coverAt: () => 0, broadleafAt: () => 0 } });
+  const hash = Reflect.get(habitat, 'softCircleHash'), evaluate = Reflect.get(habitat, 'evalNode');
+  hash.get = () => [];
+  const ordinary = new Float32Array(5);
+  let selected: [number, number] | null = null;
+  search: for (let z = 50; z <= 86; z += 2) for (let x = 30; x <= 66; x += 2) {
+    evaluate.call(habitat, x, z, ordinary, 0);
+    if (ordinary[0]! > 0.05) { selected = [x, z]; break search; }
+  }
+  expect(selected).not.toBeNull();
+  const [x, z] = selected!;
+  let redundantReads = 0;
+  hash.get = () => [{ x, z, hard: 1 }, { get x() { redundantReads++; return x; }, z, hard: 2 }];
+  const cleared = new Float32Array(5);
+  evaluate.call(habitat, x, z, cleared, 0);
+  expect(cleared[0]).toBe(0);
+  expect(cleared.slice(1)).toEqual(ordinary.slice(1));
+  expect(redundantReads).toBe(0);
+});
