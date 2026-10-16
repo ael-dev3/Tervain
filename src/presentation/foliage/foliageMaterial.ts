@@ -546,7 +546,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v3-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v4-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;
@@ -570,7 +570,7 @@ export function installFoliageShadow(material: THREE.Material, opts: Pick<Foliag
     compile.call(this, shader, renderer);
     if (!patchFoliageVertex(shader, wind, opts.leaf, opts.weight, opts.hierarchical === true)) failed = true;
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v2-shadow-${opts.leaf ? 'leaf' : 'wood'}${opts.hierarchical ? '-hier' : ''}${foliageOptionsKey(opts.weight)}`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v3-shadow-${opts.leaf ? 'leaf' : 'wood'}${opts.hierarchical ? '-hier' : ''}${foliageOptionsKey(opts.weight)}`; };
   material.needsUpdate = true;
   installed.set(material, { uniforms: { uFoliage: wind.uFoliage }, ok: () => !failed });
 }
