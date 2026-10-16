@@ -1,0 +1,1033 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 0,
+      "twigs": 58,
+      "normalMapped": false,
+      "sourceVertices": 15217,
+      "native": {
+        "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+        "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+        "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+        "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+      },
+      "nativeRendered": {
+        "indexCount": 25764,
+        "normal": "e466bdcedf4333d3b4f18ff6bf6740e707f1ccefd5a45aba9240e2bafb493a6c",
+        "position": "67b3ed629c8195b246607bf923dd95c1f0af49576515ec4ad52ef9a9f943d5f5"
+      },
+      "nativePrefix": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+            "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+            "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+            "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+          },
+          "rendered": {
+            "indexCount": 25764,
+            "normal": "e466bdcedf4333d3b4f18ff6bf6740e707f1ccefd5a45aba9240e2bafb493a6c",
+            "position": "67b3ed629c8195b246607bf923dd95c1f0af49576515ec4ad52ef9a9f943d5f5"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+            "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+            "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+            "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+          },
+          "rendered": {
+            "indexCount": 25764,
+            "normal": "e466bdcedf4333d3b4f18ff6bf6740e707f1ccefd5a45aba9240e2bafb493a6c",
+            "position": "67b3ed629c8195b246607bf923dd95c1f0af49576515ec4ad52ef9a9f943d5f5"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 0,
+      "twigs": 428,
+      "normalMapped": false,
+      "sourceVertices": 1626,
+      "native": {
+        "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+        "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+        "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+        "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+      },
+      "nativeRendered": {
+        "indexCount": 11760,
+        "normal": "2956b233bc20b1d5dd69619258c46c2cc5b7bf6ae34d7f2939b11131f2584dc6",
+        "position": "d0eab2cc4a6b19259b4ca8a9890d9570b2a86c357ed6fa1ce92c4e1d0119ecf4"
+      },
+      "nativePrefix": {
+        "normal": "2ee3704c0183ad4d5f0be9982dc13649d77fac7cfbd43f8efca077eada3d432c",
+        "position": "b53333ada875ff37d4e12caceeb2ce7b8d7c128718fd328e7d5635a7d2b83518",
+        "uv": "1a406fd3832dc0b3172b35523ba710da3d66c0d8ead044cfca7f1c00a4fa9c57"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+            "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+            "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+            "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+          },
+          "rendered": {
+            "indexCount": 11760,
+            "normal": "2956b233bc20b1d5dd69619258c46c2cc5b7bf6ae34d7f2939b11131f2584dc6",
+            "position": "d0eab2cc4a6b19259b4ca8a9890d9570b2a86c357ed6fa1ce92c4e1d0119ecf4"
+          },
+          "prefix": {
+            "normal": "2ee3704c0183ad4d5f0be9982dc13649d77fac7cfbd43f8efca077eada3d432c",
+            "position": "b53333ada875ff37d4e12caceeb2ce7b8d7c128718fd328e7d5635a7d2b83518",
+            "uv": "1a406fd3832dc0b3172b35523ba710da3d66c0d8ead044cfca7f1c00a4fa9c57"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+            "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+            "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+            "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+          },
+          "rendered": {
+            "indexCount": 11760,
+            "normal": "2956b233bc20b1d5dd69619258c46c2cc5b7bf6ae34d7f2939b11131f2584dc6",
+            "position": "d0eab2cc4a6b19259b4ca8a9890d9570b2a86c357ed6fa1ce92c4e1d0119ecf4"
+          },
+          "prefix": {
+            "normal": "2ee3704c0183ad4d5f0be9982dc13649d77fac7cfbd43f8efca077eada3d432c",
+            "position": "b53333ada875ff37d4e12caceeb2ce7b8d7c128718fd328e7d5635a7d2b83518",
+            "uv": "1a406fd3832dc0b3172b35523ba710da3d66c0d8ead044cfca7f1c00a4fa9c57"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 0,
+      "twigs": 45,
+      "normalMapped": true,
+      "sourceVertices": 13821,
+      "native": {
+        "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+        "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+        "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+        "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+        "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+      },
+      "nativeRendered": {
+        "indexCount": 26394,
+        "normal": "32b2b44edb9044414bccc97dc390195acb49b4073b267208ef492b74a1e998c8",
+        "position": "7da37029a42f288d8be9107ffd7dc7fa9413ae4271d1c2afa173a40fc622e67b"
+      },
+      "nativePrefix": {
+        "normal": "1f114c1f8e82cfc5cda70916dfc48f2357a317320b8f4cc20a3964f741f7de08",
+        "position": "5392f75e7b2f9874f3cd2b66c20d5bda83ef2cc78404ed8c67b1963e0c41be2c",
+        "tangent": "3e1515dd1ab00e0db54ef6fb5d29867302627f7356d73ffdb61c64a41722e482",
+        "uv": "bfe09516009bf7faad68f5649c40406bf0a30217e884464b756d2403dea8fbc4"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+            "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+            "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+            "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+            "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+          },
+          "rendered": {
+            "indexCount": 26394,
+            "normal": "32b2b44edb9044414bccc97dc390195acb49b4073b267208ef492b74a1e998c8",
+            "position": "7da37029a42f288d8be9107ffd7dc7fa9413ae4271d1c2afa173a40fc622e67b"
+          },
+          "prefix": {
+            "normal": "1f114c1f8e82cfc5cda70916dfc48f2357a317320b8f4cc20a3964f741f7de08",
+            "position": "5392f75e7b2f9874f3cd2b66c20d5bda83ef2cc78404ed8c67b1963e0c41be2c",
+            "tangent": "3e1515dd1ab00e0db54ef6fb5d29867302627f7356d73ffdb61c64a41722e482",
+            "uv": "bfe09516009bf7faad68f5649c40406bf0a30217e884464b756d2403dea8fbc4"
+          },
+          "frame": {
+            "vertices": 288,
+            "maxAngle": 104.10873809317889,
+            "meanAngle": 89.99997338828749,
+            "wrongHandedness": 288,
+            "foldedSeams": 96
+          },
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+            "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+            "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+            "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+            "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+          },
+          "rendered": {
+            "indexCount": 26394,
+            "normal": "32b2b44edb9044414bccc97dc390195acb49b4073b267208ef492b74a1e998c8",
+            "position": "7da37029a42f288d8be9107ffd7dc7fa9413ae4271d1c2afa173a40fc622e67b"
+          },
+          "prefix": {
+            "normal": "1f114c1f8e82cfc5cda70916dfc48f2357a317320b8f4cc20a3964f741f7de08",
+            "position": "5392f75e7b2f9874f3cd2b66c20d5bda83ef2cc78404ed8c67b1963e0c41be2c",
+            "tangent": "3e1515dd1ab00e0db54ef6fb5d29867302627f7356d73ffdb61c64a41722e482",
+            "uv": "bfe09516009bf7faad68f5649c40406bf0a30217e884464b756d2403dea8fbc4"
+          },
+          "frame": {
+            "vertices": 288,
+            "maxAngle": 104.10873809317889,
+            "meanAngle": 89.99997338828749,
+            "wrongHandedness": 288,
+            "foldedSeams": 96
+          },
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 0,
+      "twigs": 73,
+      "normalMapped": true,
+      "sourceVertices": 12750,
+      "native": {
+        "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+        "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+        "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+        "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+        "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+      },
+      "nativeRendered": {
+        "indexCount": 26688,
+        "normal": "605deaa583f1059d7b0a4fe0e9a1749c27f303bea21f470a5083041d62d9b7ef",
+        "position": "16e075d3f2962cf7d74cc1b6f1b493299cbc124ccf884a0dc731717e84b811d2"
+      },
+      "nativePrefix": {
+        "normal": "6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9",
+        "position": "f4b79acddc3482d3f0e3d5b62593d2c73903951e0d6a34836ad1d53ceb934889",
+        "tangent": "ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e",
+        "uv": "c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+            "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+            "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+            "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+            "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+          },
+          "rendered": {
+            "indexCount": 26688,
+            "normal": "605deaa583f1059d7b0a4fe0e9a1749c27f303bea21f470a5083041d62d9b7ef",
+            "position": "16e075d3f2962cf7d74cc1b6f1b493299cbc124ccf884a0dc731717e84b811d2"
+          },
+          "prefix": {
+            "normal": "6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9",
+            "position": "f4b79acddc3482d3f0e3d5b62593d2c73903951e0d6a34836ad1d53ceb934889",
+            "tangent": "ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e",
+            "uv": "c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d"
+          },
+          "frame": {
+            "vertices": 441,
+            "maxAngle": 104.10820649605657,
+            "meanAngle": 89.99999452918132,
+            "wrongHandedness": 441,
+            "foldedSeams": 147
+          },
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+            "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+            "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+            "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+            "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+          },
+          "rendered": {
+            "indexCount": 26688,
+            "normal": "605deaa583f1059d7b0a4fe0e9a1749c27f303bea21f470a5083041d62d9b7ef",
+            "position": "16e075d3f2962cf7d74cc1b6f1b493299cbc124ccf884a0dc731717e84b811d2"
+          },
+          "prefix": {
+            "normal": "6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9",
+            "position": "f4b79acddc3482d3f0e3d5b62593d2c73903951e0d6a34836ad1d53ceb934889",
+            "tangent": "ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e",
+            "uv": "c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d"
+          },
+          "frame": {
+            "vertices": 441,
+            "maxAngle": 104.10820649605657,
+            "meanAngle": 89.99999452918132,
+            "wrongHandedness": 441,
+            "foldedSeams": 147
+          },
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 0,
+      "twigs": 136,
+      "normalMapped": false,
+      "sourceVertices": 9933,
+      "native": {
+        "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+        "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+        "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+        "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+      },
+      "nativeRendered": {
+        "indexCount": 26547,
+        "normal": "53d4f15aa04371634ff0cd86f90b4d195f7c1c21f5749dd78c8cebda766824ea",
+        "position": "709f97bd22d5e2b65d897ba27d18ffb59b2e9fd5833e5aa0ef529304c088ec58"
+      },
+      "nativePrefix": {
+        "normal": "0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2",
+        "position": "43296fbd9b61040ed7b2df161735a4a536c70460b5528b3056d2a539f1606c35",
+        "uv": "2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+            "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+            "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+            "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+          },
+          "rendered": {
+            "indexCount": 26547,
+            "normal": "53d4f15aa04371634ff0cd86f90b4d195f7c1c21f5749dd78c8cebda766824ea",
+            "position": "709f97bd22d5e2b65d897ba27d18ffb59b2e9fd5833e5aa0ef529304c088ec58"
+          },
+          "prefix": {
+            "normal": "0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2",
+            "position": "43296fbd9b61040ed7b2df161735a4a536c70460b5528b3056d2a539f1606c35",
+            "uv": "2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+            "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+            "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+            "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+          },
+          "rendered": {
+            "indexCount": 26547,
+            "normal": "53d4f15aa04371634ff0cd86f90b4d195f7c1c21f5749dd78c8cebda766824ea",
+            "position": "709f97bd22d5e2b65d897ba27d18ffb59b2e9fd5833e5aa0ef529304c088ec58"
+          },
+          "prefix": {
+            "normal": "0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2",
+            "position": "43296fbd9b61040ed7b2df161735a4a536c70460b5528b3056d2a539f1606c35",
+            "uv": "2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 0,
+      "twigs": 87,
+      "normalMapped": false,
+      "sourceVertices": 11701,
+      "native": {
+        "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+        "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+        "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+        "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+      },
+      "nativeRendered": {
+        "indexCount": 25674,
+        "normal": "36936b4e0890d7efb743965bfba06ca86602a53df37dfca294eb7cb527f7d24d",
+        "position": "6313279e0c1204ee4b1ee5222a7b59c64cc7640d4d2351945ce4ddd29095a91b"
+      },
+      "nativePrefix": {
+        "normal": "b7994aef9aa5b9118c37a18b77f394de4fd863cbdc58bac94b002266bd18ccf1",
+        "position": "464f99e62d4911bc28ec973ee7369c042d7051a95794653a51f48f556cfb6440",
+        "uv": "d4442bf0676473d71f086933d660330ccdb7609b7e0f79d8334e86c71a5616e0"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+            "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+            "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+            "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+          },
+          "rendered": {
+            "indexCount": 25674,
+            "normal": "36936b4e0890d7efb743965bfba06ca86602a53df37dfca294eb7cb527f7d24d",
+            "position": "6313279e0c1204ee4b1ee5222a7b59c64cc7640d4d2351945ce4ddd29095a91b"
+          },
+          "prefix": {
+            "normal": "b7994aef9aa5b9118c37a18b77f394de4fd863cbdc58bac94b002266bd18ccf1",
+            "position": "464f99e62d4911bc28ec973ee7369c042d7051a95794653a51f48f556cfb6440",
+            "uv": "d4442bf0676473d71f086933d660330ccdb7609b7e0f79d8334e86c71a5616e0"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+            "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+            "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+            "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+          },
+          "rendered": {
+            "indexCount": 25674,
+            "normal": "36936b4e0890d7efb743965bfba06ca86602a53df37dfca294eb7cb527f7d24d",
+            "position": "6313279e0c1204ee4b1ee5222a7b59c64cc7640d4d2351945ce4ddd29095a91b"
+          },
+          "prefix": {
+            "normal": "b7994aef9aa5b9118c37a18b77f394de4fd863cbdc58bac94b002266bd18ccf1",
+            "position": "464f99e62d4911bc28ec973ee7369c042d7051a95794653a51f48f556cfb6440",
+            "uv": "d4442bf0676473d71f086933d660330ccdb7609b7e0f79d8334e86c71a5616e0"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 0,
+      "twigs": 116,
+      "normalMapped": false,
+      "sourceVertices": 15217,
+      "native": {
+        "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+        "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+        "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+        "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+      },
+      "nativeRendered": {
+        "indexCount": 26736,
+        "normal": "d261e021ff18f1cd2cbfec0719ca51d74b4a041b88b7231732461f1d2428ca41",
+        "position": "017be6ab74411f191ce8f4faf4d18e2be69e1778d4db85c04592a6f3ee17f1ca"
+      },
+      "nativePrefix": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+            "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+            "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+            "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+          },
+          "rendered": {
+            "indexCount": 26736,
+            "normal": "d261e021ff18f1cd2cbfec0719ca51d74b4a041b88b7231732461f1d2428ca41",
+            "position": "017be6ab74411f191ce8f4faf4d18e2be69e1778d4db85c04592a6f3ee17f1ca"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+            "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+            "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+            "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+          },
+          "rendered": {
+            "indexCount": 26736,
+            "normal": "d261e021ff18f1cd2cbfec0719ca51d74b4a041b88b7231732461f1d2428ca41",
+            "position": "017be6ab74411f191ce8f4faf4d18e2be69e1778d4db85c04592a6f3ee17f1ca"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 0,
+      "twigs": 89,
+      "normalMapped": false,
+      "sourceVertices": 12864,
+      "native": {
+        "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+        "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+        "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+        "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+      },
+      "nativeRendered": {
+        "indexCount": 27555,
+        "normal": "485e02541bfb13318be27324aa229d92df1edf3c4c4b61ac1385d2b980227724",
+        "position": "a69c6ae1db68c7c784cb7dc30b7d43413c4132f99306fe1248eebbe36d60d7a2"
+      },
+      "nativePrefix": {
+        "normal": "1e1a31dc6c6e07ad047fd8a63d77e1960e41d374de90d558a242f7f6edf9f320",
+        "position": "0e401f8f49f48127dd114dcb2a90fbe1910cea49367027962f829d555c539e64",
+        "uv": "534a56d5df29bf87ba3b650ad7a5fe423e542069a41f3ef49c8a334c36271718"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+            "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+            "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+            "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+          },
+          "rendered": {
+            "indexCount": 27555,
+            "normal": "485e02541bfb13318be27324aa229d92df1edf3c4c4b61ac1385d2b980227724",
+            "position": "a69c6ae1db68c7c784cb7dc30b7d43413c4132f99306fe1248eebbe36d60d7a2"
+          },
+          "prefix": {
+            "normal": "1e1a31dc6c6e07ad047fd8a63d77e1960e41d374de90d558a242f7f6edf9f320",
+            "position": "0e401f8f49f48127dd114dcb2a90fbe1910cea49367027962f829d555c539e64",
+            "uv": "534a56d5df29bf87ba3b650ad7a5fe423e542069a41f3ef49c8a334c36271718"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+            "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+            "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+            "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+          },
+          "rendered": {
+            "indexCount": 27555,
+            "normal": "485e02541bfb13318be27324aa229d92df1edf3c4c4b61ac1385d2b980227724",
+            "position": "a69c6ae1db68c7c784cb7dc30b7d43413c4132f99306fe1248eebbe36d60d7a2"
+          },
+          "prefix": {
+            "normal": "1e1a31dc6c6e07ad047fd8a63d77e1960e41d374de90d558a242f7f6edf9f320",
+            "position": "0e401f8f49f48127dd114dcb2a90fbe1910cea49367027962f829d555c539e64",
+            "uv": "534a56d5df29bf87ba3b650ad7a5fe423e542069a41f3ef49c8a334c36271718"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 1,
+      "twigs": 121,
+      "normalMapped": false,
+      "sourceVertices": 835,
+      "native": {
+        "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+        "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+        "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+        "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+      },
+      "nativeRendered": {
+        "indexCount": 3684,
+        "normal": "1eda9eb55f01106403996e45623f473ce1b7e13787eff412f421d297a7715c9c",
+        "position": "805b62b1ab551df1719736ec5fae613444cba357c92aec585adb8baf62bc5e14"
+      },
+      "nativePrefix": {
+        "normal": "372eb0e4ad8636a30b72b8dea2dedb1765b35db4ad30649571c4d1695f14b719",
+        "position": "56eedafbdb3cdd5f890f31e29008d2c7f2b893b9d65e69d8c96868915fff9c02",
+        "uv": "f71c092a3831269b34cc10f2ebf58168de13c1744cd4a4829946d41acaf6d61b"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+            "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+            "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+            "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+          },
+          "rendered": {
+            "indexCount": 3684,
+            "normal": "1eda9eb55f01106403996e45623f473ce1b7e13787eff412f421d297a7715c9c",
+            "position": "805b62b1ab551df1719736ec5fae613444cba357c92aec585adb8baf62bc5e14"
+          },
+          "prefix": {
+            "normal": "372eb0e4ad8636a30b72b8dea2dedb1765b35db4ad30649571c4d1695f14b719",
+            "position": "56eedafbdb3cdd5f890f31e29008d2c7f2b893b9d65e69d8c96868915fff9c02",
+            "uv": "f71c092a3831269b34cc10f2ebf58168de13c1744cd4a4829946d41acaf6d61b"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+            "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+            "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+            "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+          },
+          "rendered": {
+            "indexCount": 3684,
+            "normal": "1eda9eb55f01106403996e45623f473ce1b7e13787eff412f421d297a7715c9c",
+            "position": "805b62b1ab551df1719736ec5fae613444cba357c92aec585adb8baf62bc5e14"
+          },
+          "prefix": {
+            "normal": "372eb0e4ad8636a30b72b8dea2dedb1765b35db4ad30649571c4d1695f14b719",
+            "position": "56eedafbdb3cdd5f890f31e29008d2c7f2b893b9d65e69d8c96868915fff9c02",
+            "uv": "f71c092a3831269b34cc10f2ebf58168de13c1744cd4a4829946d41acaf6d61b"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 1,
+      "twigs": 5,
+      "normalMapped": true,
+      "sourceVertices": 8991,
+      "native": {
+        "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+        "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+        "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+        "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+        "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+      },
+      "nativeRendered": {
+        "indexCount": 14793,
+        "normal": "6e86332a4f1ce3fd9323fc03fd062a8bcd91f3658ca8790ee7b85c2eb111425d",
+        "position": "448c99f8fa05d44eb0acb89b634a5df683813fa9a187500cecff0142fcab9f89"
+      },
+      "nativePrefix": {
+        "normal": "d3d0ddfdbf24c2ab9cc0ff27efe755c3fb3fe82b9542bf9dd4c70f49d5a7395c",
+        "position": "90e65ffa9828f840411707901500e104302764e77ea353fc6d4d76ffb06158ac",
+        "tangent": "644c932fa229c2014fd1c7d12ec518235a44c8fdd9e397d60a130a53d9768780",
+        "uv": "74aa1b4cba301211872130ac1c4e12682a52869bb16e2d18c98cc423a32ffee4"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+            "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+            "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+            "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+            "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+          },
+          "rendered": {
+            "indexCount": 14793,
+            "normal": "6e86332a4f1ce3fd9323fc03fd062a8bcd91f3658ca8790ee7b85c2eb111425d",
+            "position": "448c99f8fa05d44eb0acb89b634a5df683813fa9a187500cecff0142fcab9f89"
+          },
+          "prefix": {
+            "normal": "d3d0ddfdbf24c2ab9cc0ff27efe755c3fb3fe82b9542bf9dd4c70f49d5a7395c",
+            "position": "90e65ffa9828f840411707901500e104302764e77ea353fc6d4d76ffb06158ac",
+            "tangent": "644c932fa229c2014fd1c7d12ec518235a44c8fdd9e397d60a130a53d9768780",
+            "uv": "74aa1b4cba301211872130ac1c4e12682a52869bb16e2d18c98cc423a32ffee4"
+          },
+          "frame": {
+            "vertices": 39,
+            "maxAngle": 104.1078350389152,
+            "meanAngle": 89.99997960737693,
+            "wrongHandedness": 39,
+            "foldedSeams": 13
+          },
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+            "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+            "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+            "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+            "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+          },
+          "rendered": {
+            "indexCount": 14793,
+            "normal": "6e86332a4f1ce3fd9323fc03fd062a8bcd91f3658ca8790ee7b85c2eb111425d",
+            "position": "448c99f8fa05d44eb0acb89b634a5df683813fa9a187500cecff0142fcab9f89"
+          },
+          "prefix": {
+            "normal": "d3d0ddfdbf24c2ab9cc0ff27efe755c3fb3fe82b9542bf9dd4c70f49d5a7395c",
+            "position": "90e65ffa9828f840411707901500e104302764e77ea353fc6d4d76ffb06158ac",
+            "tangent": "644c932fa229c2014fd1c7d12ec518235a44c8fdd9e397d60a130a53d9768780",
+            "uv": "74aa1b4cba301211872130ac1c4e12682a52869bb16e2d18c98cc423a32ffee4"
+          },
+          "frame": {
+            "vertices": 39,
+            "maxAngle": 104.1078350389152,
+            "meanAngle": 89.99997960737693,
+            "wrongHandedness": 39,
+            "foldedSeams": 13
+          },
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 1,
+      "twigs": 60,
+      "normalMapped": false,
+      "sourceVertices": 7250,
+      "native": {
+        "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+        "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+        "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+        "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+      },
+      "nativeRendered": {
+        "indexCount": 15966,
+        "normal": "763e2916fa785d37102932e21d207fa91f4e5f0f4eee44487ac8548bf424d4ec",
+        "position": "5c7c274be50ce17585ca57dc3cc2b0c24deb573f499ed01b6130bffaae106ffb"
+      },
+      "nativePrefix": {
+        "normal": "2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8",
+        "position": "0fc62e6085081a4dbcb2134a8a7a50258317b0c73195b27f520e026083c09518",
+        "uv": "e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+            "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+            "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+            "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+          },
+          "rendered": {
+            "indexCount": 15966,
+            "normal": "763e2916fa785d37102932e21d207fa91f4e5f0f4eee44487ac8548bf424d4ec",
+            "position": "5c7c274be50ce17585ca57dc3cc2b0c24deb573f499ed01b6130bffaae106ffb"
+          },
+          "prefix": {
+            "normal": "2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8",
+            "position": "0fc62e6085081a4dbcb2134a8a7a50258317b0c73195b27f520e026083c09518",
+            "uv": "e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+            "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+            "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+            "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+          },
+          "rendered": {
+            "indexCount": 15966,
+            "normal": "763e2916fa785d37102932e21d207fa91f4e5f0f4eee44487ac8548bf424d4ec",
+            "position": "5c7c274be50ce17585ca57dc3cc2b0c24deb573f499ed01b6130bffaae106ffb"
+          },
+          "prefix": {
+            "normal": "2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8",
+            "position": "0fc62e6085081a4dbcb2134a8a7a50258317b0c73195b27f520e026083c09518",
+            "uv": "e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 1,
+      "twigs": 13,
+      "normalMapped": false,
+      "sourceVertices": 7923,
+      "native": {
+        "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+        "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+        "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+        "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+      },
+      "nativeRendered": {
+        "indexCount": 15027,
+        "normal": "7447598d3001221175adf4493aeccc68373ad79bed05cb1e0a5d3ed5b0072e96",
+        "position": "862372e2b7376a6d14933579b5825d3187c74184de9c57fd952b5679263d1e4f"
+      },
+      "nativePrefix": {
+        "normal": "9d41567c015f5c08201b70859ef9a58c88057f555926836866c39bdf1e3d4d6a",
+        "position": "aed38c3ab3004b01f52a77448e2b998b49bb017ae44d5db6ba6dc2a755f27633",
+        "uv": "6e833852825abb9f8462c931dcccf340184f71c0bc51bd245bb403c74b9764e8"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+            "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+            "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+            "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+          },
+          "rendered": {
+            "indexCount": 15027,
+            "normal": "7447598d3001221175adf4493aeccc68373ad79bed05cb1e0a5d3ed5b0072e96",
+            "position": "862372e2b7376a6d14933579b5825d3187c74184de9c57fd952b5679263d1e4f"
+          },
+          "prefix": {
+            "normal": "9d41567c015f5c08201b70859ef9a58c88057f555926836866c39bdf1e3d4d6a",
+            "position": "aed38c3ab3004b01f52a77448e2b998b49bb017ae44d5db6ba6dc2a755f27633",
+            "uv": "6e833852825abb9f8462c931dcccf340184f71c0bc51bd245bb403c74b9764e8"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+            "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+            "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+            "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+          },
+          "rendered": {
+            "indexCount": 15027,
+            "normal": "7447598d3001221175adf4493aeccc68373ad79bed05cb1e0a5d3ed5b0072e96",
+            "position": "862372e2b7376a6d14933579b5825d3187c74184de9c57fd952b5679263d1e4f"
+          },
+          "prefix": {
+            "normal": "9d41567c015f5c08201b70859ef9a58c88057f555926836866c39bdf1e3d4d6a",
+            "position": "aed38c3ab3004b01f52a77448e2b998b49bb017ae44d5db6ba6dc2a755f27633",
+            "uv": "6e833852825abb9f8462c931dcccf340184f71c0bc51bd245bb403c74b9764e8"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 1,
+      "twigs": 2,
+      "normalMapped": false,
+      "sourceVertices": 15217,
+      "native": {
+        "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+        "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+        "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+        "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+      },
+      "nativeRendered": {
+        "indexCount": 24666,
+        "normal": "c30e9352d88dd07d5dce2065e0e6fe245ca8f3ca13fb32a90f8c6dded4b2e837",
+        "position": "b046205d895586144a35186104e9012c1e62196eb502fff506095fb09f0f4e0a"
+      },
+      "nativePrefix": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+            "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+            "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+            "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+          },
+          "rendered": {
+            "indexCount": 24666,
+            "normal": "c30e9352d88dd07d5dce2065e0e6fe245ca8f3ca13fb32a90f8c6dded4b2e837",
+            "position": "b046205d895586144a35186104e9012c1e62196eb502fff506095fb09f0f4e0a"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+            "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+            "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+            "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+          },
+          "rendered": {
+            "indexCount": 24666,
+            "normal": "c30e9352d88dd07d5dce2065e0e6fe245ca8f3ca13fb32a90f8c6dded4b2e837",
+            "position": "b046205d895586144a35186104e9012c1e62196eb502fff506095fb09f0f4e0a"
+          },
+          "prefix": {
+            "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+            "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+            "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 1,
+      "twigs": 3,
+      "normalMapped": false,
+      "sourceVertices": 8677,
+      "native": {
+        "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+        "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+        "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+        "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+      },
+      "nativeRendered": {
+        "indexCount": 14742,
+        "normal": "b3b574e8971d219c5c96b185be97e54231d1b4bcdbe5664240318e0a736e2c4a",
+        "position": "28b2e1ac393091d7676368f733676660d106f9b70fe19eead5bcafe65f98f6d9"
+      },
+      "nativePrefix": {
+        "normal": "017049c1aa975c895865f1b29419eda35a1faabd49a475e6faf23588754ae334",
+        "position": "0d457d13484aec0d1f5b9c292d0fedf709269d15a5f79852a130432f709075e6",
+        "uv": "70d21696fed29481d0b6dcb839a9d2804955ec4caa1c4926a9d6d93382374df8"
+      },
+      "variants": {
+        "before": {
+          "hashes": {
+            "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+            "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+            "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+            "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+          },
+          "rendered": {
+            "indexCount": 14742,
+            "normal": "b3b574e8971d219c5c96b185be97e54231d1b4bcdbe5664240318e0a736e2c4a",
+            "position": "28b2e1ac393091d7676368f733676660d106f9b70fe19eead5bcafe65f98f6d9"
+          },
+          "prefix": {
+            "normal": "017049c1aa975c895865f1b29419eda35a1faabd49a475e6faf23588754ae334",
+            "position": "0d457d13484aec0d1f5b9c292d0fedf709269d15a5f79852a130432f709075e6",
+            "uv": "70d21696fed29481d0b6dcb839a9d2804955ec4caa1c4926a9d6d93382374df8"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        },
+        "after": {
+          "hashes": {
+            "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+            "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+            "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+            "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+          },
+          "rendered": {
+            "indexCount": 14742,
+            "normal": "b3b574e8971d219c5c96b185be97e54231d1b4bcdbe5664240318e0a736e2c4a",
+            "position": "28b2e1ac393091d7676368f733676660d106f9b70fe19eead5bcafe65f98f6d9"
+          },
+          "prefix": {
+            "normal": "017049c1aa975c895865f1b29419eda35a1faabd49a475e6faf23588754ae334",
+            "position": "0d457d13484aec0d1f5b9c292d0fedf709269d15a5f79852a130432f709075e6",
+            "uv": "70d21696fed29481d0b6dcb839a9d2804955ec4caa1c4926a9d6d93382374df8"
+          },
+          "frame": null,
+          "sourceTangentPrefixUnchanged": true
+        }
+      }
+    }
+  ],
+  "fixture": {
+    "label": "tree:wild:45:12",
+    "selectedTwig": 25,
+    "length": 2.7443685527545876
+  },
+  "cost": {
+    "native": {
+      "drawCalls": 27,
+      "triangles": 127607
+    },
+    "before": {
+      "drawCalls": 27,
+      "triangles": 127607
+    },
+    "after": {
+      "drawCalls": 27,
+      "triangles": 127607
+    },
+    "reference": {
+      "drawCalls": 27,
+      "triangles": 127607
+    },
+    "noMapBefore": {
+      "drawCalls": 27,
+      "triangles": 127607
+    },
+    "noMapAfter": {
+      "drawCalls": 27,
+      "triangles": 127607
+    }
+  },
+  "changedChannels": {
+    "nativeVsBefore": 0,
+    "beforeVsAfter": 0,
+    "beforeVsReference": 48100,
+    "afterVsReference": 48100,
+    "withoutNormalMap": 0
+  },
+  "sourceSha256": {
+    "before": "8e70d62778dacbceaba171ce0c5755a4600ce99edfa9d039898512552f40be97",
+    "after": "8e70d62778dacbceaba171ce0c5755a4600ce99edfa9d039898512552f40be97"
+  },
+  "affectedTemplates": 3,
+  "affectedVertices": 768,
+  "correctedVertices": 768,
+  "scope": "Published Low-preset native wood and twig plans. Original reconstruction must byte-match native buffers. Reference U direction is the projected periodic ring derivative; V follows decreasing longitudinal UV. Generated tangent-bearing rings duplicate the UV seam without changing triangle positions. Macro captures isolate one actual non-seam normal-mapped twig face through native post-rendering with a controlled white instance tint; a no-normal-map control must stay pixel-identical. No art-quality score or hardware FPS claim.",
+  "pass": false
+}
