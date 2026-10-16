@@ -209,3 +209,8 @@ it.each([false,true])('does not let an unused low point clear floating root supp
     expect(report.checks[0]!.minGap).toBeCloseTo(.3);
   } finally {geometry.dispose();}
 });
+
+it('reports selected root LOD and rejects unsupported levels', () => {
+  for (const lod of [0, 1, 2]) expect(auditPlacements(new THREE.Scene(), () => 0, [], { kind: 'root', lod }).lod).toBe(lod);
+  for (const lod of [-1, .5, 3, NaN]) expect(() => auditPlacements(new THREE.Scene(), () => 0, [], { lod })).toThrow('Invalid placement LOD');
+});

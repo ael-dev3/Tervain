@@ -625,9 +625,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], cutoutRequired: ((b.meshes[Math.min(lod, b.meshes.length - 1)]?.leaf?.material as THREE.Material | undefined)?.alphaTest ?? 0) > 0, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
-    placementAuditTargets() {
+    placementAuditTargets(lod = 0) {
+      if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid placement LOD');
       return batches.flatMap((b, batch) => {
-        const mesh = b.meshes[0]?.wood;
+        const mesh = b.meshes[lod]?.wood;
         if (!mesh) return [];
         mesh.updateWorldMatrix(true, false);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: 'root' as const,
