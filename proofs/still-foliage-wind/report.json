@@ -1,0 +1,84 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "samplesPerPart": 256,
+  "rows": {
+    "wood": {
+      "before": {
+        "0": {
+          "samplerCalls": 256,
+          "poseSha256": "ee85b483d55ed3f56dc5ab6a6f58ae10b7349fa4ed6adb44cb6e28d8755eb8ca"
+        },
+        "1": {
+          "samplerCalls": 256,
+          "poseSha256": "5dd57758985ab64e2cf403a8ed050b04085953643fd8121cb3f3701491befc03"
+        }
+      },
+      "after": {
+        "0": {
+          "samplerCalls": 0,
+          "poseSha256": "ee85b483d55ed3f56dc5ab6a6f58ae10b7349fa4ed6adb44cb6e28d8755eb8ca"
+        },
+        "1": {
+          "samplerCalls": 256,
+          "poseSha256": "5dd57758985ab64e2cf403a8ed050b04085953643fd8121cb3f3701491befc03"
+        }
+      }
+    },
+    "leaf": {
+      "before": {
+        "0": {
+          "samplerCalls": 512,
+          "poseSha256": "8b27a797d951dfec93dc310ff921b0f48342df8af3af8256b05fb8da9b3dda21"
+        },
+        "1": {
+          "samplerCalls": 512,
+          "poseSha256": "b697bc634b071bc831a62d1b415fa3c4ce1e2e4579a8c7886aaa5dc28500a48d"
+        }
+      },
+      "after": {
+        "0": {
+          "samplerCalls": 0,
+          "poseSha256": "8b27a797d951dfec93dc310ff921b0f48342df8af3af8256b05fb8da9b3dda21"
+        },
+        "1": {
+          "samplerCalls": 512,
+          "poseSha256": "b697bc634b071bc831a62d1b415fa3c4ce1e2e4579a8c7886aaa5dc28500a48d"
+        }
+      }
+    }
+  },
+  "cost": {
+    "before-0": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "before-1": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "after-0": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "after-1": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    }
+  },
+  "geometryBefore": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "geometryAfter": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "changedChannels": {
+    "0": 0,
+    "1": 0
+  },
+  "sourceSha256": {
+    "before": "1ee80f57da9044353cef5dd501a6164cdec884e4f7b3da831cfffc753e6dfa73",
+    "after": "7090ee626af429d661a423ee92f425428b3f1740a8bdb5dc2a5db23c24354e90"
+  },
+  "scope": "Published native oak geometry, instance transform, wind shader and uniforms. GPU probe instruments logical gust-sampler calls on 256 native vertices per part. These are instrumented GLSL calls, not physical texture traffic or hardware timing. Uninstrumented full-forest post captures compare zero and active wind; only the wind declaration changes.",
+  "pass": true
+}

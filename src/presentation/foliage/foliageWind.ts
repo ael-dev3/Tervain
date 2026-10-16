@@ -190,6 +190,8 @@ vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
 #endif
 // World-space offset of a foliage vertex at p on a tree rooted at o (both world space), the tree drawn at scale s.
 vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
+  // Every motion term below is scaled by this strength; still foliage needs no gust fetch or motion math.
+  if (uFoliageWind == 0.0) return vec3(0.0);
   vec3 pt = p;
   #ifdef TV_HIERARCHICAL_WIND
   // A limb's trunk bend is the bend at its own root, so the limb keeps its shape; the trunk itself bends along its length.
