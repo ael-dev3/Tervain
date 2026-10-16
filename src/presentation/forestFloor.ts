@@ -444,7 +444,7 @@ function installFloorPlantWind(material: THREE.Material, foliage: FoliageField) 
     compile.call(this, shader, renderer);
     patchFloorPlantVertex(shader, foliage);
   };
-  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-plant-wind-v1`; };
+  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-plant-wind-v2`; };
 }
 
 function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: THREE.DataTexture) {
