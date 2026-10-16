@@ -8,6 +8,7 @@ import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, F
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
+import { createHeroPineForest, heroPineEnabled, heroPineTemplates } from './heroPine';
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
 import { parseTreeLab, pickLabSpot } from './treeLab';
@@ -123,6 +124,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   group.name = 'flora';
   const pine = createPineForest(pineTemplates);
   const meshy = meshyTemplates ? createMeshyForest(meshyTemplates) : null;
+  // ?heropine=1 (default off): species 'pine' draws the generated hero pines; placement, colliders and seating keep reading the live pine's footprint.
+  const heroTemplates = heroPineEnabled() ? heroPineTemplates() : null;
+  const hero = heroTemplates ? createHeroPineForest(heroTemplates) : null;
+  const heroVariants = new Set<TreeVariant>();
+  const usesHero = (sp: Species) => !!hero && sp === 'pine';
   // Component authoring tools may intentionally omit the new catalog. The shipped world always supplies it.
   const usesPine = (sp: Species) => sp === 'pine' || !meshy && isPineSpecies(sp);
   const variants = new Map<string, TreeVariant>();
@@ -130,7 +136,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ""}`;
     let variant = variants.get(key);
     if (!variant) {
-      variant = usesPine(tree.sp) ? pine.variant(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1) : meshy ? meshy.variant(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId) : buildTreeVariant(tree.sp, tree.v + 1);
+      if (hero && usesHero(tree.sp)) { variant = hero.variant(tree.v); heroVariants.add(variant); }
+      else variant = usesPine(tree.sp) ? pine.variant(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1) : meshy ? meshy.variant(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId) : buildTreeVariant(tree.sp, tree.v + 1);
       variants.set(key, variant);
     }
     return variant;
@@ -176,10 +183,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (let i = 0; i < position.count; i++) positions.set([position.getX(i), position.getY(i), position.getZ(i)], i * 3);
       }
       const index = wood.index;
-      const indices = index?.array instanceof Uint32Array ? index.array : new Uint32Array(index?.count ?? position.count);
+      let indices = index?.array instanceof Uint32Array ? index.array : new Uint32Array(index?.count ?? position.count);
       if (!(index?.array instanceof Uint32Array)) {
         for (let i = 0; i < indices.length; i++) indices[i] = index ? index.getX(i) : i;
       }
+      // Hero pines: only the trunk and roots are solid; limbs and stubs stay visual (userData.twigIndex).
+      if (heroVariants.has(variant) && typeof wood.userData.twigIndex === 'number') indices = indices.subarray(0, wood.userData.twigIndex);
       buffers = { positions, indices };
       woodBuffers.set(variant, buffers);
     }
@@ -303,7 +312,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     };
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
-      const importedMaterials = usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
+      const importedMaterials = hero && heroVariants.has(v) ? hero.materials[l]! : usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
       const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
       const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
@@ -323,7 +332,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         // Secondary cameras need their own culling of the main view's packed instances.
         m.frustumCulled = true;
         m.boundingSphere = b.drawBounds[l]!;
-        m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
+        m.name = `${hero && heroVariants.has(v) ? 'hero-pine' : usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
         // source LODs away from the camera.
         m.castShadow = false;
@@ -799,6 +808,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
       }
       pine.dispose();
+      hero?.dispose();
       meshy?.dispose();
       variants.clear();
       disposeTreeMaterials();

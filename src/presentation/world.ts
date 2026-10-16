@@ -43,6 +43,7 @@ import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, PINE_FILES, type PineTemplates } from './solitaryPine';
+import { heroPineEnabled, loadHeroPine } from './heroPine';
 import { LanternLightPool } from './lanternLights';
 import { RealmPhysics, initializePhysics, type PropMotion } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
@@ -210,7 +211,7 @@ export class WorldScene {
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
       [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
-        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')),
+        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')).then(async (templates) => { if (heroPineEnabled()) await loadHeroPine(); return templates; }),
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
         options.deferWildlife ? Promise.resolve(null) : loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
