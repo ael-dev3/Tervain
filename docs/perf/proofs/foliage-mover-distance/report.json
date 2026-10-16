@@ -1,0 +1,85 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "samplesPerPart": 256,
+  "nativeMoverCount": 4,
+  "rows": {
+    "wood": {
+      "before": {
+        "native": {
+          "distanceCalls": 1024,
+          "poseSha256": "5dd57758985ab64e2cf403a8ed050b04085953643fd8121cb3f3701491befc03"
+        },
+        "contact": {
+          "distanceCalls": 256,
+          "poseSha256": "295a223b484d159273066207202ccc1384928ac216fe285e23a9856f961a691f"
+        }
+      },
+      "after": {
+        "native": {
+          "distanceCalls": 0,
+          "poseSha256": "5dd57758985ab64e2cf403a8ed050b04085953643fd8121cb3f3701491befc03"
+        },
+        "contact": {
+          "distanceCalls": 3,
+          "poseSha256": "295a223b484d159273066207202ccc1384928ac216fe285e23a9856f961a691f"
+        }
+      }
+    },
+    "leaf": {
+      "before": {
+        "native": {
+          "distanceCalls": 1024,
+          "poseSha256": "b697bc634b071bc831a62d1b415fa3c4ce1e2e4579a8c7886aaa5dc28500a48d"
+        },
+        "contact": {
+          "distanceCalls": 256,
+          "poseSha256": "754b71dced5b9ba2b09bd1c555dc6a34a5b6c7194f1736d3766b02ad44fd4ee6"
+        }
+      },
+      "after": {
+        "native": {
+          "distanceCalls": 0,
+          "poseSha256": "b697bc634b071bc831a62d1b415fa3c4ce1e2e4579a8c7886aaa5dc28500a48d"
+        },
+        "contact": {
+          "distanceCalls": 4,
+          "poseSha256": "754b71dced5b9ba2b09bd1c555dc6a34a5b6c7194f1736d3766b02ad44fd4ee6"
+        }
+      }
+    }
+  },
+  "cost": {
+    "before-0": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "before-1": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "after-0": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    },
+    "after-1": {
+      "drawCalls": 184,
+      "triangles": 1166205
+    }
+  },
+  "geometryBefore": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "geometryAfter": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "changedChannels": {
+    "0": 0,
+    "1": 0
+  },
+  "sourceSha256": {
+    "before": "1ee80f57da9044353cef5dd501a6164cdec884e4f7b3da831cfffc753e6dfa73",
+    "after": "aa908a0f3e2c365c6dd0a92a5f9cef121820ac517c2bf72c7af754221dbfa6ae"
+  },
+  "scope": "Published native oak geometry, wind and actor uniforms. Instrumented GLSL distance calls on 256 native vertices per part; not GPU instructions, physical traffic or hardware timing. Contact control moves one sphere onto a sampled vertex. Full-forest post captures use native actor uniforms.",
+  "pass": true
+}
