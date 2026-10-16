@@ -18,6 +18,12 @@ import { woodlandColonyAt } from './ground/habitat';
 export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; colonyId?: string; parentLogId?: string }
 
+// Keep the exact eight contact directions without repeating trigonometry per floor piece.
+const FLOOR_CONTACT_DIRECTIONS = Array.from({ length: 8 }, (_, sample) => {
+  const az = sample * Math.PI / 4;
+  return [Math.cos(az), Math.sin(az)] as const;
+});
+
 /** Authored once, then graphics settings thin only low, nonblocking woodland detail. */
 export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions), crowns?: PlantedCrownField): ForestFloorPiece[] {
   const out: ForestFloorPiece[] = [];
@@ -76,7 +82,8 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     if (kind === 'moss' || kind === 'litter') {
       const footprint = scale * (kind === 'moss' ? 0.76 : 1.05);
       for (let sample = 0; sample < 8; sample++) {
-        const az = sample * Math.PI / 4, dx = Math.cos(az) * footprint, dz = Math.sin(az) * footprint;
+        const direction = FLOOR_CONTACT_DIRECTIONS[sample]!;
+        const dx = direction[0] * footprint, dz = direction[1] * footprint;
         if (Math.abs(terrain.heightAt(x + dx, z + dz) - (y - nx * dx - nz * dz)) > 0.065) return;
       }
     }
