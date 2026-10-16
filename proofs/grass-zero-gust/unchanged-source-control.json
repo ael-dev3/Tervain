@@ -1,0 +1,54 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "position": {
+    "x": 18,
+    "y": 1.1747645139694214,
+    "z": 20
+  },
+  "quality": "low",
+  "sourceTile": "",
+  "probeInstances": 99,
+  "metrics": {
+    "before": {
+      "0": {
+        "coveredPixels": 8641,
+        "minSamplerCalls": 1.9999998807907104,
+        "maxSamplerCalls": 2,
+        "positionSha256": "8047e9c6c7658c0a14421033764b2856f6a9461351157164b444bb00a093c257"
+      },
+      "0.42": {
+        "coveredPixels": 8756,
+        "minSamplerCalls": 1.9999998807907104,
+        "maxSamplerCalls": 2,
+        "positionSha256": "9dffe7228bfe9a52af5bdd457f0d424639ce740297a0567fac19ae37ac303ffa"
+      }
+    },
+    "after": {
+      "0": {
+        "coveredPixels": 8641,
+        "minSamplerCalls": 1.9999998807907104,
+        "maxSamplerCalls": 2,
+        "positionSha256": "8047e9c6c7658c0a14421033764b2856f6a9461351157164b444bb00a093c257"
+      },
+      "0.42": {
+        "coveredPixels": 8756,
+        "minSamplerCalls": 1.9999998807907104,
+        "maxSamplerCalls": 2,
+        "positionSha256": "9dffe7228bfe9a52af5bdd457f0d424639ce740297a0567fac19ae37ac303ffa"
+      }
+    }
+  },
+  "cost": {},
+  "geometryBefore": "8a03e4755011e31e04ee9583cfc476a0df65ce7ac9ba98e995b4538782dbe6f2",
+  "geometryAfter": "8a03e4755011e31e04ee9583cfc476a0df65ce7ac9ba98e995b4538782dbe6f2",
+  "changedChannels": {},
+  "sourceSha256": {
+    "before": "38c77d60fc654089633cd512ca5296e5a35e5fb75379d4792cc46680e727b29a",
+    "after": "38c77d60fc654089633cd512ca5296e5a35e5fb75379d4792cc46680e727b29a"
+  },
+  "scope": "Native grass tile, instanced attributes, blade shader and wind/trample uniforms. Raster witness interpolates instrumented logical gust-sampler counts across surviving triangles; not a GPU invocation count, physical texture traffic or timing. Full-scene captures use uninstrumented native post rendering.",
+  "pass": false
+}
