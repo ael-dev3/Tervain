@@ -80,12 +80,12 @@ interface ReflectionSwapFrame {
   active: boolean;
   epoch: number;
   used: number;
-  swapped: [THREE.InstancedMesh, THREE.BufferGeometry][];
+  swapped: [THREE.InstancedMesh, THREE.BufferGeometry, THREE.Material | THREE.Material[]][];
 }
 function rememberReflectionGeometry(frame: ReflectionSwapFrame, mesh: THREE.InstancedMesh) {
   const record = frame.swapped[frame.used++];
-  if (record) { record[0] = mesh; record[1] = mesh.geometry; }
-  else frame.swapped.push([mesh, mesh.geometry]);
+  if (record) { record[0] = mesh; record[1] = mesh.geometry; record[2] = mesh.material; }
+  else frame.swapped.push([mesh, mesh.geometry, mesh.material]);
 }
 
 interface Batch {
@@ -721,7 +721,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     lighterForReflection() {
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
       // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
-      // coverage; only the vertex buffers are the middle model's, shared, never copied or freed (A76).
+      // coverage. Wood must also use the middle model's material: its baked atlas can have a different UV layout.
+      // Buffers and materials remain shared, never copied or freed here (A76).
       let frame: ReflectionSwapFrame | undefined;
       for (const reusable of reflectionFrames) if (!reusable.active) { frame = reusable; break; }
       if (!frame) { frame = { active: false, epoch: 0, used: 0, swapped: [] }; reflectionFrames.push(frame); }
@@ -741,6 +742,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
         rememberReflectionGeometry(frame, near);
         near.geometry = proxy;
+        if (part === 'wood') near.material = mid.material;
         const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
         if (depth) { rememberReflectionGeometry(frame, depth); depth.geometry = proxy; }
       }
@@ -748,7 +750,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       return () => {
         // A released callback cannot restore a later capture that reused the frame.
         if (!releaseFrame.active || releaseFrame.epoch !== epoch) return;
-        for (let i = 0; i < releaseFrame.used; i++) { const [mesh, geometry] = releaseFrame.swapped[i]!; mesh.geometry = geometry; }
+        for (let i = 0; i < releaseFrame.used; i++) { const [mesh, geometry, material] = releaseFrame.swapped[i]!; mesh.geometry = geometry; mesh.material = material; }
         releaseFrame.active = false;
       };
     },
