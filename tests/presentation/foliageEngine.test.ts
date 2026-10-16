@@ -537,10 +537,17 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     vi.stubGlobal('location', { search: '' });
     const low = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'low', settings: { ...defaultSettings(), quality: 'low' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: field() }, templates);
     expect(low.shadowCasters.children).toHaveLength(0);
+    const lowLeaves = low.group.children.filter(o => (o as THREE.Mesh).isMesh && o.name.endsWith(':foliage')) as THREE.Mesh[];
+    const maskedLow = lowLeaves.filter(o => (o.material as THREE.Material).alphaTest > 0);
+    expect(maskedLow.length).toBeGreaterThan(0);
+    expect(maskedLow.every(o => !(o.material as THREE.Material).alphaToCoverage)).toBe(true);
     low.dispose!();
     const plain = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'medium', settings: { ...defaultSettings(), quality: 'medium' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
     const leaf = plain.group.children.find((o) => o.name.endsWith(':0:foliage')) as THREE.InstancedMesh;
     expect((leaf.material as THREE.Material).customProgramCacheKey()).not.toContain('tervain-foliage');
+    const maskedMedium = plain.group.children.filter(o => (o as THREE.Mesh).isMesh && o.name.endsWith(':foliage') && ((o as THREE.Mesh).material as THREE.Material).alphaTest > 0) as THREE.Mesh[];
+    expect(maskedMedium.length).toBeGreaterThan(0);
+    expect(maskedMedium.every(o => (o.material as THREE.Material).alphaToCoverage)).toBe(true);
     expect(plain.strike(0, 0, 0)).toBe(false);
     plain.dispose!();
     vi.unstubAllGlobals();

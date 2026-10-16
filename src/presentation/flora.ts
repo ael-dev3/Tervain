@@ -21,6 +21,7 @@ import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
 import { createWindTestTree, windTestRequested } from './foliage/windTestTree';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
+import { cloneTreeProfileMaterial } from './treeProfileMaterial';
 import { leafCutoutSampler } from './leafSurfaceSites';
 import { anchorLeafIslands } from './leafIslands';
 
@@ -295,10 +296,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const profileMaterial = (source: THREE.Material): THREE.Material => {
       const existing = palette.get(source);
       if (existing) return existing;
-      const material = source.clone();
-      // Material.clone() does not copy these hooks; preserve bark detail and other source patches explicitly.
-      material.onBeforeCompile = source.onBeforeCompile;
-      material.customProgramCacheKey = source.customProgramCacheKey;
+      const material = cloneTreeProfileMaterial(source, quality);
       palette.set(source, material);
       profileMaterials.add(material);
       return material;
