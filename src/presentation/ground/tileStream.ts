@@ -47,6 +47,8 @@ export interface TileLayerOptions {
   drawCountAt?(nearestDistance: number): number;
   /** Distances (m) between which this layer draws at all; tiles wholly outside the band submit nothing. */
   band?: { start: number; end: number };
+  /** Generator writes all four slope channels for every returned instance; skip the default scratch clear. */
+  writesSlope?: boolean;
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
   generate(tx: number, tz: number, out: TileBuffers): number;
 }
@@ -171,7 +173,7 @@ export class TileLayer {
     const o = this.o;
     this.buf.ymin = Infinity;
     this.buf.ymax = -Infinity;
-    this.buf.slope.fill(0);
+    if (!o.writesSlope) this.buf.slope.fill(0);
     const n = Math.min(o.generate(tx, tz, this.buf), o.capacity);
     t.tx = tx;
     t.tz = tz;

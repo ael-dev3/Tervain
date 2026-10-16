@@ -1,0 +1,140 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "focus": [
+    18,
+    1.1747645139694214,
+    20
+  ],
+  "writesSlope": true,
+  "coverage": [
+    {
+      "layer": "grass-near",
+      "tile": [
+        1,
+        1
+      ],
+      "count": 99,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-near",
+      "tile": [
+        2,
+        1
+      ],
+      "count": 85,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-near",
+      "tile": [
+        1,
+        2
+      ],
+      "count": 251,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-near",
+      "tile": [
+        0,
+        0
+      ],
+      "count": 50,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-far",
+      "tile": [
+        0,
+        0
+      ],
+      "count": 171,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-far",
+      "tile": [
+        1,
+        0
+      ],
+      "count": 108,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-far",
+      "tile": [
+        0,
+        1
+      ],
+      "count": 357,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    },
+    {
+      "layer": "grass-far",
+      "tile": [
+        -1,
+        -1
+      ],
+      "count": 223,
+      "allSlopeWritten": true,
+      "equalPrefix": true
+    }
+  ],
+  "rows": {
+    "before": {
+      "clearCalls": 124,
+      "clearedFloats": 257424,
+      "fills": 124,
+      "accepted": 23500,
+      "frames": [
+        "78de426b9cd220006467348c8441f6ff856eac825f4b8fab03449147ab89832f",
+        "10e8e958a5f90bc75b9324beaf5a0de70660bb82c13dd4040a7d8f2ddec28513",
+        "ff40643d85abd46bd1860dc09ed4a4bdd029892fd4d64482e5845a68179743ca",
+        "f70dc37e8ee059dfbf956b7aa0850da363f59a67c4d87618702d9e3282b938b7"
+      ]
+    },
+    "after": {
+      "clearCalls": 0,
+      "clearedFloats": 0,
+      "fills": 124,
+      "accepted": 23500,
+      "frames": [
+        "78de426b9cd220006467348c8441f6ff856eac825f4b8fab03449147ab89832f",
+        "10e8e958a5f90bc75b9324beaf5a0de70660bb82c13dd4040a7d8f2ddec28513",
+        "ff40643d85abd46bd1860dc09ed4a4bdd029892fd4d64482e5845a68179743ca",
+        "f70dc37e8ee059dfbf956b7aa0850da363f59a67c4d87618702d9e3282b938b7"
+      ]
+    }
+  },
+  "cost": {
+    "before": {
+      "drawCalls": 105,
+      "triangles": 570640
+    },
+    "after": {
+      "drawCalls": 105,
+      "triangles": 570640
+    }
+  },
+  "nativeChangedChannels": 0,
+  "changedChannels": 0,
+  "sourceSha256": {
+    "before": "7f93a608a4ac0f333f13e856f35300ec570e6693428361fbf26a73ca5080dc06",
+    "after": "4230dd53501d711a5d35d9616400b30d47b7cff43cf94ebb01ac32a68a4df7e2",
+    "field": "c888fa6d1fc0b124f02b94e9a9900d2df9f917a05f8f238c83ba81e5a496a343"
+  },
+  "scope": "Published native Low grass generator closures with their actual terrain, habitat and exclusion inputs. Real TileLayer fills replay four camera positions with deterministic reserve quotas. Compare every retained tile attribute, bound and draw decision, and native post-rendered scene pixels. NaN-poisoned scratch controls check that native generators write the accepted slope prefix. Clear counts measure CPU float writes, not upload bytes or hardware time.",
+  "pass": true
+}
