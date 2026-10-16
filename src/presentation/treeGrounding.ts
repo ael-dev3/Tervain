@@ -84,6 +84,10 @@ function basalPolygons(geometry: THREE.BufferGeometry, plane: number): Point[][]
   const p = geometry.getAttribute('position'), index = geometry.index;
   const count = index?.count ?? p.count;
   for (let i = 0; i < count; i += 3) {
+    // Most wood is above the basal band. Reject it before constructing three
+    // points and two clipping arrays; an entirely upper triangle cannot cross it.
+    const a = index ? index.getX(i) : i, b = index ? index.getX(i + 1) : i + 1, c = index ? index.getX(i + 2) : i + 2;
+    if (p.getY(a) > plane && p.getY(b) > plane && p.getY(c) > plane) continue;
     const triangle: Point[] = [];
     for (let j = 0; j < 3; j++) {
       const at = index ? index.getX(i + j) : i + j;
