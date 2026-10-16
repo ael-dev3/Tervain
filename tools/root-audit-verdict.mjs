@@ -1,10 +1,11 @@
-/** Candidate counts only have meaning after a complete root population audit. */
+/** Candidate counts only have meaning after a complete, uniquely identified root population audit. */
 export function rootAuditVerdict(audit, baselineCount) {
   const roots = Array.isArray(audit?.checks) ? audit.checks.filter(check => check?.kind === 'root') : null;
   const count = roots?.filter(check => check.candidate).length;
   if (!audit || audit.complete !== true || !Array.isArray(roots) || roots.length === 0 ||
       !Number.isInteger(audit.expectedRoots) || audit.expectedRoots !== roots.length ||
-      roots.some(check => typeof check.candidate !== 'boolean') || audit.summary?.roots !== roots.length || audit.furnitureReady !== true) {
+      roots.some(check => typeof check.candidate !== 'boolean' || typeof check.label !== 'string' || check.label.trim().length === 0) ||
+      new Set(roots.map(check => check.label)).size !== roots.length || audit.summary?.roots !== roots.length || audit.furnitureReady !== true) {
     return { pass: false, reason: 'incomplete-root-coverage', rootCandidates: count ?? null };
   }
   if (baselineCount !== undefined && (!Number.isInteger(baselineCount) || baselineCount < 0)) {
