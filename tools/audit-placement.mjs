@@ -40,8 +40,7 @@ try {
     }),
   ]);
   if (options.lod !== undefined && report.lod !== options.lod) throw new Error('Served build does not confirm requested placement LOD');
-  fs.writeFileSync(out, JSON.stringify(report, null, 2) + '
-');
+  fs.writeFileSync(out, JSON.stringify(report, null, 2) + '\n');
   console.log(`Placement audit: ${report.summary.roots} roots, ${report.summary.props} prop components, ${report.summary.candidates} candidates; complete=${report.complete}`);
   const coverage = report.summary.rootCoverage;
   if (coverage) console.log(`Root coverage: ${coverage.unsupportedSamples}/${coverage.samples} unsupported samples on ${coverage.rootsWithUnsupportedSamples} roots; maximum gap ${coverage.maxGap} m`);
