@@ -30,6 +30,29 @@ describe('woodland camera obstruction', () => {
     expect(distance(cam)).toBeCloseTo(7, 8);
   });
 
+  it('retains turn history when doorway trim enters a previously empty query', () => {
+    const actual = new CameraRig(), control = new CameraRig(), list = new Colliders();
+    list.box('test:doorframe', 100, 100, .05, .05, 0, true, { minY: 0, maxY: 5 });
+    const trim = list.withId('test:doorframe')[0]!;
+    const absent = new Colliders(), present = new Colliders();
+    // The far trim cannot affect either boom, but makes the control run anticipation throughout.
+    vi.spyOn(present, 'nearCamera').mockImplementation(() => [trim]);
+    for (let i = 0; i < 60; i++) {
+      actual.yaw = control.yaw = i * .01;
+      actual.follow(1 / 60, 0, 0, 0, flat, absent, true, 0);
+      control.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    }
+    actual.yaw = control.yaw = .69;
+    const futureYaw = .69 + 1; // The last turn's angular speed reaches the existing lookahead cap.
+    trim.x = -Math.sin(futureYaw) * Math.cos(.32) * 4;
+    trim.z = -Math.cos(futureYaw) * Math.cos(.32) * 4;
+    actual.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    control.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    expect(distance(control)).toBeLessThan(6.19); // The newly relevant trim actually shortens the future boom.
+    expect(actual.camera.position.distanceTo(control.camera.position)).toBeLessThan(1e-10);
+    expect(actual.camera.quaternion.toArray()).toEqual(control.camera.quaternion.toArray());
+  });
+
   it('sweeps both the shoulder shift and aimed boom against nearby walls and trees', () => {
     const wall = new Colliders(); wall.box('ruin:shoulder-wall', -.65, 0, .1, .8, 0);
     const cam = new CameraRig(); cam.pitch = 0; cam.setAiming(true);
