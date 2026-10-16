@@ -36,6 +36,19 @@ function rendererFixture() {
 }
 
 describe('grass brush stamps between fixed GPU steps', () => {
+  it('keeps edge-crossing footprints and selects retained actors again after scrolling', () => {
+    const field = new GrassTrample(16, 8);
+    const { renderer, passes, previous } = rendererFixture();
+    try {
+      field.setMovers([{ x: 4.4, z: 0, radius: 1 }, { x: 100, z: 0, radius: 1 }]);
+      field.queueStamps([{ x: 104, z: 0, radius: 1 }]);
+      field.update(renderer, 0, 0, 1 / 30);
+      expect(passes[0]!.stamps.map(s => s.x)).toEqual([4.4]);
+      field.update(renderer, 100, 0, 1 / 30);
+      expect(passes[1]!.stamps.map(s => s.x)).toEqual([100]);
+    } finally { field.dispose(); previous.dispose(); }
+  });
+
   it('drops footprints without half-float targets and keeps only the newest when steps stall (A71)', () => {
     const field = new GrassTrample(16, 1000, { x: 0, z: 0 });
     const { renderer, passes, previous } = rendererFixture();
