@@ -59,7 +59,7 @@ export function makeSpec(recipe) {
   // whorls
   const W = recipe.whorls;
   const yStart = 0.17 * H, yEnd = 0.965 * H;
-  const deadTop = 0.44 * H + (rnd() - 0.5) * 0.04 * H;
+  const deadTop = 0.36 * H + (rnd() - 0.5) * 0.04 * H;
   const spin = rnd() * TAU;
   const whorls = [];
   for (let i = 0; i < W; i++) {
@@ -93,8 +93,8 @@ export function makeSpec(recipe) {
       const conic = 0.32 + 0.68 * Math.sin(Math.PI * Math.pow(0.1 + 0.9 * t, 0.62)) ;
       const umbrella = 0.4 + 0.6 * Math.sin(Math.PI * clamp(0.12 + 0.5 * t, 0, 1));
       const flatTop = t > 0.9 ? 1 - 0.3 * (t - 0.9) / 0.1 : 1;
-      const prof = 0.16 + 0.84 * Math.pow(1 - t, 0.8) * (t < 0.12 ? 0.9 + 0.1 * t / 0.12 : 1);   // a cone: widest low in the crown, narrowing to a spire
-      const L = Lmax * 0.75 * prof * (0.72 + 0.5 * rnd()) * (y > 0.9 * H ? 0.8 : 1);
+      const prof = 0.05 + 0.95 * Math.pow(1 - t, 0.9) * (t < 0.12 ? 0.9 + 0.1 * t / 0.12 : 1);   // a cone: widest low in the crown, narrowing to a spire
+      const L = Lmax * 0.62 * prof * (0.72 + 0.5 * rnd()) * (y > 0.9 * H ? 0.8 : 1);
       const lowness = 1 - t;
       branches.push({
         id: id++, y, theta, dead: false, L,
@@ -104,8 +104,8 @@ export function makeSpec(recipe) {
         tipUp: (0.55 + 1.2 * recipe.crown * t) * (0.7 + 0.6 * rnd()),
         yaw: (rnd() - 0.5) * 2.2 * (0.6 + 0.8 * rnd()), wave: 0.12 + 0.2 * rnd(), wavePhase: rnd() * TAU,
         twist: (rnd() - 0.5) * 1.6,
-        laterals: t > 0.4 ? 1 + Math.floor(rnd() * 2) : 0, upper: t > 0.45, lowerCount: rnd() < 0.5 ? 1 : 2,
-        padScale: (2.6 + 1.5 * clamp(L / 5.0, 0, 1)) * (0.55 + 0.45 * prof) * (0.9 + 0.3 * rnd()),
+        laterals: t > 0.15 && t < 0.75 ? 1 + Math.floor(rnd() * 2) : 0, upper: t > 0.45, lowerCount: rnd() < 0.5 ? 1 : 2,
+        padScale: (2.6 + 1.5 * clamp(L / 5.0, 0, 1)) * (0.35 + 0.65 * prof) * (0.9 + 0.3 * rnd()),
         pads: [], seed: Math.floor(rnd() * 1e9),
       });
     }

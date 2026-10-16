@@ -15,6 +15,8 @@ import { downloadAsset } from './assets/download';
  */
 export const HERO_PINE_FILES = ['hero/hero-pine-near.glb', 'hero/hero-pine-mid.glb', 'hero/hero-pine-far.glb'] as const;
 export const HERO_PINE_VARIANTS = 4;
+/** Off until the hero pine is approved; `?heropine=1` turns it on and `?heropine=0` is the explicit escape once it becomes the default. */
+export const HERO_PINE_DEFAULT = false;
 /** The live solitary pine stands 25 m (solitaryPine.ts PROFILE.pine) with a +-5 % seeded spread: a hero pine is scaled to the same height so placement and sight lines do not move. */
 export const HERO_PINE_HEIGHT = 25;
 /** Multiplies the needle albedo; the shared conifer atlas is used as drawn, so this stays 1 unless a dusk match needs it. */
@@ -23,7 +25,7 @@ const seededSpread = (seed: number): number => { let a = (seed * 1291 + 4 * 17) 
 export type HeroPineTemplates = readonly [GLTF, GLTF, GLTF];
 
 export function heroPineEnabled(search = typeof location !== 'undefined' ? location.search : ''): boolean {
-  try { return new URLSearchParams(search).get('heropine') === '1'; } catch { return false; }
+  try { const flag = new URLSearchParams(search).get('heropine'); return flag === '1' ? true : flag === '0' ? false : HERO_PINE_DEFAULT; } catch { return HERO_PINE_DEFAULT; }
 }
 
 const pending = new Map<string, Promise<GLTF>>();

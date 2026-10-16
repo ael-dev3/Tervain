@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { heroPineEnabled, HERO_PINE_FILES, HERO_PINE_VARIANTS } from '../../src/presentation/heroPine';
+import { heroPineEnabled, HERO_PINE_DEFAULT, HERO_PINE_FILES, HERO_PINE_VARIANTS } from '../../src/presentation/heroPine';
 
 interface Glb { json: any }
 function readGlb(name: string): Glb {
@@ -17,9 +17,9 @@ describe('generated hero pine (tools/tree-gen-pine)', () => {
 
   it('keeps the triangle budget of every variant and level', () => {
     for (let v = 0; v < HERO_PINE_VARIANTS; v++) {
-      expect(total('near', v)).toBeLessThanOrEqual(10_500);
-      expect(total('mid', v)).toBeLessThanOrEqual(4_800);
-      expect(total('far', v)).toBeLessThanOrEqual(450);
+      expect(total('near', v)).toBeLessThanOrEqual(9_800);
+      expect(total('mid', v)).toBeLessThanOrEqual(3_700);
+      expect(total('far', v)).toBeLessThanOrEqual(300);
     }
   });
 
@@ -36,8 +36,8 @@ describe('generated hero pine (tools/tree-gen-pine)', () => {
     }
   });
 
-  it('is off unless ?heropine=1', () => {
-    expect(heroPineEnabled('')).toBe(false); expect(heroPineEnabled('?heropine=0')).toBe(false); expect(heroPineEnabled('?heropine=1')).toBe(true);
+  it('is off by default, on with ?heropine=1, and ?heropine=0 is the escape', () => {
+    expect(heroPineEnabled('')).toBe(HERO_PINE_DEFAULT); expect(heroPineEnabled('?heropine=0')).toBe(false); expect(heroPineEnabled('?heropine=1')).toBe(true); expect(heroPineEnabled('?heropine=x')).toBe(HERO_PINE_DEFAULT);
     expect(HERO_PINE_FILES).toHaveLength(3);
   });
 });
