@@ -51,10 +51,14 @@ export function treeWoodCollisionRadius(variant: TreeVariant, scale: number, gro
     const e = cache.edges;
     for (let i = 0; i < e.length; i += 6) {
       const ax = e[i]!, ay = e[i + 1]!, az = e[i + 2]!, bx = e[i + 3]!, by = e[i + 4]!, bz = e[i + 5]!;
-      if (ay <= top) radius = Math.max(radius, Math.hypot(ax, az));
+      // The Manhattan distance bounds the Euclidean radius from above. Points
+      // already inside that bound cannot enlarge the footprint. Keep hypot for
+      // possible maxima rather than changing its rounding at the boundary.
+      if (ay <= top && !(Math.abs(ax) + Math.abs(az) <= radius)) radius = Math.max(radius, Math.hypot(ax, az));
       if ((ay < top && by > top) || (ay > top && by < top)) {
         const t = (top - ay) / (by - ay);
-        radius = Math.max(radius, Math.hypot(ax + (bx - ax) * t, az + (bz - az) * t));
+        const x = ax + (bx - ax) * t, z = az + (bz - az) * t;
+        if (!(Math.abs(x) + Math.abs(z) <= radius)) radius = Math.max(radius, Math.hypot(x, z));
       }
     }
     cache.radii.set(top, radius);
