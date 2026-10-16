@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Habitat, newSample, woodlandColonyAt } from '../../src/presentation/ground/habitat';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders } from '../../src/world/colliders';
@@ -145,4 +145,35 @@ it('stops overlapping soft exclusions once one clears the node, retaining other 
   expect(cleared[0]).toBe(0);
   expect(cleared.slice(1)).toEqual(ordinary.slice(1));
   expect(redundantReads).toBe(0);
+});
+
+
+it('avoids radial checks beyond a soft exclusion while preserving its fade boundary', () => {
+  const terrain = new Terrain(), colliders = new Colliders(), excl = new Exclusions(terrain);
+  const habitat = new Habitat({ terrain, colliders, excl, plantedCrowns: { coverAt: () => 0, broadleafAt: () => 0 } });
+  const hash = Reflect.get(habitat, 'softCircleHash'), evaluate = Reflect.get(habitat, 'evalNode');
+  hash.get = () => [];
+  const ordinary = new Float32Array(5);
+  let selected: [number, number] | null = null;
+  search: for (let z = 50; z <= 86; z += 2) for (let x = 30; x <= 66; x += 2) {
+    evaluate.call(habitat, x, z, ordinary, 0);
+    if (ordinary[0]! > 0.05) { selected = [x, z]; break search; }
+  }
+  expect(selected).not.toBeNull();
+  const [x, z] = selected!, out = new Float32Array(5);
+  hash.get = () => [{ x: x + 6.25, z: z + 0.3125, hard: 0.25 }];
+  const hypot = vi.spyOn(Math, 'hypot');
+  try {
+    evaluate.call(habitat, x, z, out, 0);
+    expect(out).toEqual(ordinary);
+    expect(hypot.mock.calls.filter(args => args.length === 2 && args[0] === -6.25 && args[1] === -0.3125)).toHaveLength(0);
+  } finally { hypot.mockRestore(); }
+  // Inside the 1.8 m shoulder, radial attenuation must still run in the original order.
+  for (const gap of [0, 0.3, 0.9, 1.8 - 1e-6, 1.8, 1.8 + 1e-6]) {
+    hash.get = () => [{ x: x + 0.25 + gap, z, hard: 0.25 }];
+    evaluate.call(habitat, x, z, out, 0);
+    const t = Math.max(0, Math.min(1, gap / 1.8));
+    expect(out[0]).toBeCloseTo(ordinary[0]! * t * t * (3 - 2 * t), 6);
+    expect(out.slice(1)).toEqual(ordinary.slice(1));
+  }
 });

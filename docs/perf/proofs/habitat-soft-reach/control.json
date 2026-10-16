@@ -1,0 +1,73 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "position": {
+    "x": 46,
+    "y": 1.7150825262069702,
+    "z": 68
+  },
+  "originalPacked": "80c92e3fc8bdff011b9518a66b9545e24ddec8f4d5b8c4b0abcb557a08e77c63",
+  "rows": {
+    "native": {
+      "nodes": 0,
+      "softChecks": 0,
+      "farSoftChecks": 0,
+      "fieldChecks": 0,
+      "zeroFieldChecks": 0,
+      "samples": 324,
+      "rasterTiles": 36,
+      "rasterWords": 52020,
+      "clumps": 8172,
+      "packedSha256": "80c92e3fc8bdff011b9518a66b9545e24ddec8f4d5b8c4b0abcb557a08e77c63",
+      "rasterSha256": "5b00b8199b0583f576a0acd4ec1fca0c0fb44eb59d6fdf3d003b09cbe30c909f",
+      "samplesSha256": "0900de33f43606462a7d5ceb106f22c2c6a81f78c3c347eaab667972cbd5e849",
+      "drawCalls": 66,
+      "triangles": 316798
+    },
+    "before": {
+      "nodes": 10404,
+      "softChecks": 3726,
+      "farSoftChecks": 2404,
+      "fieldChecks": 19960,
+      "zeroFieldChecks": 0,
+      "samples": 324,
+      "rasterTiles": 36,
+      "rasterWords": 52020,
+      "clumps": 8172,
+      "packedSha256": "80c92e3fc8bdff011b9518a66b9545e24ddec8f4d5b8c4b0abcb557a08e77c63",
+      "rasterSha256": "5b00b8199b0583f576a0acd4ec1fca0c0fb44eb59d6fdf3d003b09cbe30c909f",
+      "samplesSha256": "0900de33f43606462a7d5ceb106f22c2c6a81f78c3c347eaab667972cbd5e849",
+      "drawCalls": 66,
+      "triangles": 316798
+    },
+    "after": {
+      "nodes": 10404,
+      "softChecks": 3726,
+      "farSoftChecks": 2404,
+      "fieldChecks": 19960,
+      "zeroFieldChecks": 0,
+      "samples": 324,
+      "rasterTiles": 36,
+      "rasterWords": 52020,
+      "clumps": 8172,
+      "packedSha256": "80c92e3fc8bdff011b9518a66b9545e24ddec8f4d5b8c4b0abcb557a08e77c63",
+      "rasterSha256": "5b00b8199b0583f576a0acd4ec1fca0c0fb44eb59d6fdf3d003b09cbe30c909f",
+      "samplesSha256": "0900de33f43606462a7d5ceb106f22c2c6a81f78c3c347eaab667972cbd5e849",
+      "drawCalls": 66,
+      "triangles": 316798
+    }
+  },
+  "changedChannels": {
+    "before": 0,
+    "after": 0
+  },
+  "sourceSha256": {
+    "before": "3fcc2fa45c3c135428441a96644b2f03dc10d0ef111bab2a7997475567280d2b",
+    "after": "3fcc2fa45c3c135428441a96644b2f03dc10d0ef111bab2a7997475567280d2b"
+  },
+  "scope": "Actual published habitat, terrain, planted-crown field, exclusions and native grass generators. Swap only the raster evalNode method, rebuild caches and regenerate existing native tiles. Native-original output is the independent control. Instrumented source counts soft-circle hypot calls (including outside the conservative axis reach) and field rectangle evaluations, not CPU/GPU timings or hardware stall attribution. Scene captures use the regenerated native attributes and native post rendering.",
+  "pass": false
+}
