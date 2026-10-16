@@ -258,7 +258,47 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));
   const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
   let next = p.count;
-  const nearestVertex = (q: THREE.Vector3) => { let best = 0, bd = Infinity; for (let i = 0; i < p.count; i++) { const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2; if (d < bd) { bd = d; best = i; } } return best; };
+  // Each twig inherits the nearest source vertex's bark attributes. Group the
+  // wood into metre cells once, then reject cells whose squared distance bound
+  // cannot beat the current nearest vertex. Small plans keep the direct scan.
+  const bounds = new THREE.Box3(), probe = new THREE.Vector3();
+  if (twigs.length >= 32) for (let i = 0; i < p.count; i++) {
+    probe.fromBufferAttribute(p, i);
+    if (Number.isFinite(probe.x) && Number.isFinite(probe.y) && Number.isFinite(probe.z)) bounds.expandByPoint(probe);
+  }
+  const ox = Math.floor(bounds.min.x), oy = Math.floor(bounds.min.y), oz = Math.floor(bounds.min.z);
+  const nx = Math.floor(bounds.max.x) - ox + 1, ny = Math.floor(bounds.max.y) - oy + 1, nz = Math.floor(bounds.max.z) - oz + 1;
+  const grid = new Map<number, { x: number; y: number; z: number; indices: number[]; distance2: number }>();
+  if (twigs.length >= 32 && Number.isSafeInteger(nx * ny * nz)) for (let i = 0; i < p.count; i++) {
+    const x = Math.floor(p.getX(i)), y = Math.floor(p.getY(i)), z = Math.floor(p.getZ(i));
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) continue;
+    const key = x - ox + nx * (y - oy + ny * (z - oz)), bucket = grid.get(key);
+    if (bucket) bucket.indices.push(i); else grid.set(key, { x, y, z, indices: [i], distance2: Infinity });
+  }
+  const nearestVertex = (q: THREE.Vector3) => {
+    let best = 0, bd = Infinity;
+    const consider = (i: number) => {
+      const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2;
+      if (d < bd || d === bd && i < best) { bd = d; best = i; }
+    };
+    if (grid.size && Number.isFinite(q.x) && Number.isFinite(q.y) && Number.isFinite(q.z)) {
+      let nearest: { indices: number[]; distance2: number } | undefined;
+      for (const bucket of grid.values()) {
+        const dx = Math.max(bucket.x - q.x, 0, q.x - (bucket.x + 1));
+        const dy = Math.max(bucket.y - q.y, 0, q.y - (bucket.y + 1));
+        const dz = Math.max(bucket.z - q.z, 0, q.z - (bucket.z + 1));
+        bucket.distance2 = dx * dx + dy * dy + dz * dz;
+        if (!nearest || bucket.distance2 < nearest.distance2) nearest = bucket;
+      }
+      if (nearest) for (const i of nearest.indices) consider(i);
+      for (const bucket of grid.values()) {
+        // Keep equal bounds: a tied vertex can have a lower original index.
+        if (bucket === nearest || bucket.distance2 > bd) continue;
+        for (const i of bucket.indices) consider(i);
+      }
+    } else for (let i = 0; i < p.count; i++) consider(i);
+    return best;
+  };
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
   const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), down = new THREE.Vector3();

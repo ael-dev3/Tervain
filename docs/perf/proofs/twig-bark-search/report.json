@@ -1,0 +1,794 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 0,
+      "sourceVertices": 15217,
+      "twigs": 58,
+      "native": {
+        "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+        "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+        "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+        "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+      },
+      "variants": {
+        "before": {
+          "distances": 882586,
+          "cellBounds": 0,
+          "elapsedMs": 26.100000023841858,
+          "hashes": {
+            "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+            "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+            "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+            "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+          },
+          "warmSamplesMs": [
+            18.600000023841858,
+            39,
+            17.5,
+            9.199999988079071,
+            7.600000023841858
+          ],
+          "warmMedianMs": 17.5
+        },
+        "after": {
+          "distances": 24677,
+          "cellBounds": 8932,
+          "elapsedMs": 50.40000003576279,
+          "hashes": {
+            "normal": "21932023e47021f51358d46c4229ff9d23bc6b600fcef6e52ac9c4940ca5fd7b",
+            "position": "ddb9939d1d96bf84f3c92b48d828808c74f2fc0816dc0e4a5a38badf67221b82",
+            "uv": "05f7f993f89f81635f333d83e066a2f9019c0daec055d80646f18bd6cfe695ff",
+            "index": "b4c1a57c9d53b67578dfddeb4f2220fe194c0b211068bef88d097d0429552232"
+          },
+          "warmSamplesMs": [
+            14.600000023841858,
+            9.299999952316284,
+            13.599999964237213,
+            6,
+            10.100000023841858
+          ],
+          "warmMedianMs": 10.100000023841858
+        }
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 0,
+      "sourceVertices": 1626,
+      "twigs": 428,
+      "native": {
+        "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+        "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+        "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+        "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+      },
+      "variants": {
+        "before": {
+          "distances": 695928,
+          "cellBounds": 0,
+          "elapsedMs": 38.39999997615814,
+          "hashes": {
+            "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+            "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+            "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+            "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+          },
+          "warmSamplesMs": [
+            7.100000023841858,
+            5.599999964237213,
+            13.5,
+            9.800000011920929,
+            35.39999997615814
+          ],
+          "warmMedianMs": 9.800000011920929
+        },
+        "after": {
+          "distances": 34482,
+          "cellBounds": 23540,
+          "elapsedMs": 1.800000011920929,
+          "hashes": {
+            "normal": "108b64a8e6642d82aef9b89f8463fdf9c8bf64a48b275b892013703a81c8a178",
+            "position": "755385aebfae38c7de0172bdbce80589a43bc332d44af3ebed88dc5807844ea1",
+            "uv": "0337c72d2b6a0def0dc88b2318c1bc3f9577095c38ffb360cd743e76bd77ae49",
+            "index": "e21d8c35a6f05391be65f1d9d4002e3ca6599782291adac8eae907706a1d2b2b"
+          },
+          "warmSamplesMs": [
+            9.699999988079071,
+            1.800000011920929,
+            1.800000011920929,
+            9.800000011920929,
+            1.5
+          ],
+          "warmMedianMs": 1.800000011920929
+        }
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 0,
+      "sourceVertices": 13821,
+      "twigs": 45,
+      "native": {
+        "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+        "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+        "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+        "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+        "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+      },
+      "variants": {
+        "before": {
+          "distances": 621945,
+          "cellBounds": 0,
+          "elapsedMs": 10.199999988079071,
+          "hashes": {
+            "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+            "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+            "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+            "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+            "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+          },
+          "warmSamplesMs": [
+            5.900000035762787,
+            14.599999964237213,
+            34.30000001192093,
+            18.400000035762787,
+            5.399999976158142
+          ],
+          "warmMedianMs": 14.599999964237213
+        },
+        "after": {
+          "distances": 2655,
+          "cellBounds": 18045,
+          "elapsedMs": 12.300000011920929,
+          "hashes": {
+            "normal": "ff89a362d4aa045e57a3dd4f2c716674bdc64cbf2dd5698f5823786ce8270796",
+            "position": "c1e354277eb620c74bea2944ca42b202bc8062cbf90263a011a2c440688437dd",
+            "tangent": "2625d28385abace6b1bfee29b9b133e7fee9f7db258ae5c6e195ae28b9cf8e26",
+            "uv": "879dac8a115b61df2b478267364a981d5c321eb25103ed48ecdd1db1c6333baf",
+            "index": "96b1d2113a4fdf4e90ca8ef364000a2be622f23185113fedfab5b8b308ff1e7e"
+          },
+          "warmSamplesMs": [
+            12.899999976158142,
+            3.600000023841858,
+            6.800000011920929,
+            3.399999976158142,
+            11.800000011920929
+          ],
+          "warmMedianMs": 6.800000011920929
+        }
+      }
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 0,
+      "sourceVertices": 12750,
+      "twigs": 73,
+      "native": {
+        "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+        "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+        "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+        "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+        "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+      },
+      "variants": {
+        "before": {
+          "distances": 930750,
+          "cellBounds": 0,
+          "elapsedMs": 11.199999988079071,
+          "hashes": {
+            "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+            "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+            "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+            "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+            "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+          },
+          "warmSamplesMs": [
+            36.69999998807907,
+            16.900000035762787,
+            23.099999964237213,
+            32,
+            9.5
+          ],
+          "warmMedianMs": 23.099999964237213
+        },
+        "after": {
+          "distances": 19277,
+          "cellBounds": 8103,
+          "elapsedMs": 7.600000023841858,
+          "hashes": {
+            "normal": "26f9936d2905955f6438e1076660a39e6b36c443b34dc2a69e2581a500a33a72",
+            "position": "b552f463df9e987315d22375a72be34520866a5fad793673e28673aefc85c841",
+            "tangent": "df72fecf21f50ffff72babfa4e221adb0aef266ec8b01d358e5f0519fe4e328d",
+            "uv": "e7e0ae253682764384810345585b64a42bb2f2004a59a188df8fe1829f1387fe",
+            "index": "8d7a37d25e9d1017ff5c2e2f85bd162884944dd1b34a4bad070080ab3b907900"
+          },
+          "warmSamplesMs": [
+            10.099999964237213,
+            3.5,
+            3.400000035762787,
+            7.599999964237213,
+            8.700000047683716
+          ],
+          "warmMedianMs": 7.599999964237213
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 0,
+      "sourceVertices": 9933,
+      "twigs": 136,
+      "native": {
+        "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+        "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+        "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+        "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+      },
+      "variants": {
+        "before": {
+          "distances": 1350888,
+          "cellBounds": 0,
+          "elapsedMs": 25,
+          "hashes": {
+            "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+            "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+            "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+            "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+          },
+          "warmSamplesMs": [
+            14,
+            17.399999976158142,
+            17.5,
+            17.399999976158142,
+            42.39999997615814
+          ],
+          "warmMedianMs": 17.399999976158142
+        },
+        "after": {
+          "distances": 15924,
+          "cellBounds": 42024,
+          "elapsedMs": 6.800000011920929,
+          "hashes": {
+            "normal": "612dd759f4dc7f2a2e9aebf5c98da51b6021e40a355dff40dd62f3ef21ed1a72",
+            "position": "d0be94b8e3aaa743aa48a194edc2fa6bde362f5d85078072d185dbe5307f59d9",
+            "uv": "2fcaa1c7ce10110655b4f53ff333b143e9ca5b271d6368350b9ad4e2941653be",
+            "index": "da70c88583777202ed4e6d1b7808852c0eecb29bb5baf7d280b1e257b39a3b83"
+          },
+          "warmSamplesMs": [
+            6.800000011920929,
+            26.899999976158142,
+            6.800000011920929,
+            6.600000023841858,
+            2.800000011920929
+          ],
+          "warmMedianMs": 6.800000011920929
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 0,
+      "sourceVertices": 11701,
+      "twigs": 87,
+      "native": {
+        "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+        "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+        "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+        "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+      },
+      "variants": {
+        "before": {
+          "distances": 1017987,
+          "cellBounds": 0,
+          "elapsedMs": 11.900000035762787,
+          "hashes": {
+            "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+            "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+            "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+            "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+          },
+          "warmSamplesMs": [
+            15.300000011920929,
+            42.59999996423721,
+            16.19999998807907,
+            11.600000023841858,
+            15.699999988079071
+          ],
+          "warmMedianMs": 15.699999988079071
+        },
+        "after": {
+          "distances": 6594,
+          "cellBounds": 32190,
+          "elapsedMs": 2.300000011920929,
+          "hashes": {
+            "normal": "f2a476e3a1735a3b33d86c73f9323546fdd0a217edc6a2cdede5b9ea21b866c2",
+            "position": "7f349af8c0cd4c05c7c732db70f8e533a1e9bb992d1127e3bba4339faacefa36",
+            "uv": "d011eafe7054ae4fef4840f7527caf1c158e56a21bef4af48497af43a1fba524",
+            "index": "9910da81741ac90a6dd6e38ce029e2f38f8fa6c600907152578635c9b538a904"
+          },
+          "warmSamplesMs": [
+            9.699999988079071,
+            7.700000047683716,
+            6.5,
+            6.300000011920929,
+            6.199999988079071
+          ],
+          "warmMedianMs": 6.5
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 0,
+      "sourceVertices": 15217,
+      "twigs": 116,
+      "native": {
+        "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+        "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+        "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+        "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+      },
+      "variants": {
+        "before": {
+          "distances": 1765172,
+          "cellBounds": 0,
+          "elapsedMs": 44.39999997615814,
+          "hashes": {
+            "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+            "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+            "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+            "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+          },
+          "warmSamplesMs": [
+            16.099999964237213,
+            18.700000047683716,
+            45.09999996423721,
+            31.5,
+            47.19999998807907
+          ],
+          "warmMedianMs": 31.5
+        },
+        "after": {
+          "distances": 47577,
+          "cellBounds": 22620,
+          "elapsedMs": 6.700000047683716,
+          "hashes": {
+            "normal": "d793b56390a65ce6c6abfef63c1b0771a83c93f721a0edad2507a44f8e063815",
+            "position": "6bae5b3d58e01c7e2944a36b6d7eeb354d0d10e05f5b540fb54f73c8d16ef005",
+            "uv": "f78b7c87925aa48a4f900a3871aed499cbe6a211658f5e1dfb8ab4040c13eff1",
+            "index": "9a94f1875ca7c5cef89fd057e6a9fd0ed3d6b7d6b3ee0a217ee23b12703b850d"
+          },
+          "warmSamplesMs": [
+            3.400000035762787,
+            3.299999952316284,
+            7.400000035762787,
+            9.599999964237213,
+            7.100000023841858
+          ],
+          "warmMedianMs": 7.100000023841858
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 0,
+      "sourceVertices": 12864,
+      "twigs": 89,
+      "native": {
+        "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+        "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+        "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+        "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+      },
+      "variants": {
+        "before": {
+          "distances": 1144896,
+          "cellBounds": 0,
+          "elapsedMs": 22.400000035762787,
+          "hashes": {
+            "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+            "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+            "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+            "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+          },
+          "warmSamplesMs": [
+            18.69999998807907,
+            20.299999952316284,
+            14.200000047683716,
+            20.69999998807907,
+            42
+          ],
+          "warmMedianMs": 20.299999952316284
+        },
+        "after": {
+          "distances": 22513,
+          "cellBounds": 31862,
+          "elapsedMs": 2.699999988079071,
+          "hashes": {
+            "normal": "b0d1974a64400835089c8d648489c1a0ecc2cea76fc675c040e8f4abac353174",
+            "position": "deed60843f05f783c4ec04af8fef38498417a43cab1c9a7b751515c14c471208",
+            "uv": "a567895ea7467e9ae060df783eb4c33633e25c3892ca9862c81cbd6e4131ec59",
+            "index": "0c682dfd9c996d4013af1b18832ca9b2cf7be6c8709029b98146de6c9b041c43"
+          },
+          "warmSamplesMs": [
+            7.700000047683716,
+            30.5,
+            4,
+            8.599999964237213,
+            8
+          ],
+          "warmMedianMs": 8
+        }
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 1,
+      "sourceVertices": 835,
+      "twigs": 121,
+      "native": {
+        "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+        "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+        "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+        "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+      },
+      "variants": {
+        "before": {
+          "distances": 101035,
+          "cellBounds": 0,
+          "elapsedMs": 5.399999976158142,
+          "hashes": {
+            "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+            "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+            "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+            "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+          },
+          "warmSamplesMs": [
+            1.300000011920929,
+            1.4000000357627869,
+            1.399999976158142,
+            1.300000011920929,
+            1.4000000357627869
+          ],
+          "warmMedianMs": 1.399999976158142
+        },
+        "after": {
+          "distances": 6188,
+          "cellBounds": 6171,
+          "elapsedMs": 0.8999999761581421,
+          "hashes": {
+            "normal": "595e42b3a59134719f5b1d1aa84cff2a73ea136450446348899a1650706875c1",
+            "position": "ef762743ccfb43175dee05f0a5607b4bbf7098b6ba5b0ff31a1ae02d88c05653",
+            "uv": "c4952fe5cade6e512431e63a6224bdb5bb259f730de1535028b4f5d89338c823",
+            "index": "f5ac79d4f6fe205e93b7cbdf5d4cb120e00b6944b8c2637a8654ac70372b5ae3"
+          },
+          "warmSamplesMs": [
+            4.800000011920929,
+            0.5999999642372131,
+            4.800000011920929,
+            0.5999999642372131,
+            4.799999952316284
+          ],
+          "warmMedianMs": 4.799999952316284
+        }
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 1,
+      "sourceVertices": 8991,
+      "twigs": 5,
+      "native": {
+        "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+        "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+        "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+        "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+        "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+      },
+      "variants": {
+        "before": {
+          "distances": 44955,
+          "cellBounds": 0,
+          "elapsedMs": 1.899999976158142,
+          "hashes": {
+            "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+            "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+            "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+            "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+            "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+          },
+          "warmSamplesMs": [
+            5.399999976158142,
+            5.100000023841858,
+            1.199999988079071,
+            1.5,
+            1.300000011920929
+          ],
+          "warmMedianMs": 1.5
+        },
+        "after": {
+          "distances": 44955,
+          "cellBounds": 0,
+          "elapsedMs": 1.899999976158142,
+          "hashes": {
+            "normal": "620490386bedf1c8edb22e5557bbab725484f140b7cc4bcd2f930d738f97d02c",
+            "position": "bd7dbd66ba1b2aadf49d3dee6b337acf9f45e100ce42675403aae511cd8f0fd3",
+            "tangent": "7c1874e3aacda1c406743a18bddc7721cc4d64e75e8321598ef54a9ad01e8b27",
+            "uv": "ad260ff0a6933db8040ea27b8f8b4688c230e1f24086255a79dd46d75d8aa2b7",
+            "index": "40032773712a9e936083a990c0dbfc8f622292500e84db7667efe87cd12bf68d"
+          },
+          "warmSamplesMs": [
+            1.5,
+            1.5,
+            1.5,
+            24.399999976158142,
+            1.5
+          ],
+          "warmMedianMs": 1.5
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 1,
+      "sourceVertices": 7250,
+      "twigs": 60,
+      "native": {
+        "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+        "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+        "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+        "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+      },
+      "variants": {
+        "before": {
+          "distances": 435000,
+          "cellBounds": 0,
+          "elapsedMs": 7.800000011920929,
+          "hashes": {
+            "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+            "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+            "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+            "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+          },
+          "warmSamplesMs": [
+            7.399999976158142,
+            7.399999976158142,
+            7.699999988079071,
+            7.600000023841858,
+            7.399999976158142
+          ],
+          "warmMedianMs": 7.399999976158142
+        },
+        "after": {
+          "distances": 8223,
+          "cellBounds": 18720,
+          "elapsedMs": 2.100000023841858,
+          "hashes": {
+            "normal": "8ef83edc3a90df2501fa78781542495e6a6fa039c4b25351a543d4a00271d611",
+            "position": "8f5d3b88af04b6482bd711bea6b5600438531916a34cdcae8cc77d7c2a5e548a",
+            "uv": "27929fdf7d98ec46bcf393fee0a2dad7af159efcff400ec04cce5e4fe24d8771",
+            "index": "553cab005966df1f49065a48635400bd0dd6697f2d40ff1c9d81a0662c2797bb"
+          },
+          "warmSamplesMs": [
+            6.199999988079071,
+            2.200000047683716,
+            1.800000011920929,
+            6,
+            2
+          ],
+          "warmMedianMs": 2.200000047683716
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 1,
+      "sourceVertices": 7923,
+      "twigs": 13,
+      "native": {
+        "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+        "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+        "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+        "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+      },
+      "variants": {
+        "before": {
+          "distances": 102999,
+          "cellBounds": 0,
+          "elapsedMs": 1.600000023841858,
+          "hashes": {
+            "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+            "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+            "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+            "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+          },
+          "warmSamplesMs": [
+            1.399999976158142,
+            1.5,
+            6.199999988079071,
+            1.4000000357627869,
+            1.399999976158142
+          ],
+          "warmMedianMs": 1.4000000357627869
+        },
+        "after": {
+          "distances": 102999,
+          "cellBounds": 0,
+          "elapsedMs": 10.5,
+          "hashes": {
+            "normal": "bb51becd426d32fcefef695ce4923b4c73b7de81e9085d7f96e75743b137dc60",
+            "position": "b36ebb63e5adc4242bb494a1a08ff7b938aa9e589552dc71fc73086a39782d22",
+            "uv": "6a69860c298d23223aa17c21e2fbda7d9ec3040ecd034909df753f529d21ecfa",
+            "index": "c670d075e4402d30affcc19da859c1653c55d21e2cc5a733aac77f3950ce1ed7"
+          },
+          "warmSamplesMs": [
+            1.600000023841858,
+            6,
+            1.800000011920929,
+            2.399999976158142,
+            1.9000000357627869
+          ],
+          "warmMedianMs": 1.9000000357627869
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 1,
+      "sourceVertices": 15217,
+      "twigs": 2,
+      "native": {
+        "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+        "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+        "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+        "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+      },
+      "variants": {
+        "before": {
+          "distances": 30434,
+          "cellBounds": 0,
+          "elapsedMs": 2.900000035762787,
+          "hashes": {
+            "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+            "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+            "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+            "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+          },
+          "warmSamplesMs": [
+            2.600000023841858,
+            6.400000035762787,
+            2.399999976158142,
+            6.5,
+            7.399999976158142
+          ],
+          "warmMedianMs": 6.400000035762787
+        },
+        "after": {
+          "distances": 30434,
+          "cellBounds": 0,
+          "elapsedMs": 3.600000023841858,
+          "hashes": {
+            "normal": "7880b345b66bb56b16c545ca3511e1d7bb1911ee97250490ef73b4c59e884253",
+            "position": "c11f78b98d5113b376daf25726dc517752169b637f4d13297f545d839f43ef97",
+            "uv": "76ca694a63b16a2a84145a6a1e6d1dbc4e3cb14871eef4f80e5e11ce05ab483f",
+            "index": "99376cf038900b47491b44102c73cdc0dbaf80ba1883310a8e993d374f2afcc4"
+          },
+          "warmSamplesMs": [
+            7.5,
+            7.399999976158142,
+            23.600000023841858,
+            7.800000011920929,
+            2.399999976158142
+          ],
+          "warmMedianMs": 7.5
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 1,
+      "sourceVertices": 8677,
+      "twigs": 3,
+      "native": {
+        "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+        "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+        "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+        "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+      },
+      "variants": {
+        "before": {
+          "distances": 26031,
+          "cellBounds": 0,
+          "elapsedMs": 5.5,
+          "hashes": {
+            "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+            "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+            "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+            "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+          },
+          "warmSamplesMs": [
+            5.599999964237213,
+            1.5,
+            1.5,
+            1.600000023841858,
+            3.299999952316284
+          ],
+          "warmMedianMs": 1.600000023841858
+        },
+        "after": {
+          "distances": 26031,
+          "cellBounds": 0,
+          "elapsedMs": 1.5,
+          "hashes": {
+            "normal": "544b558858039aee57c2b7787d5f89ed1a3dc0f23f7927e818db5c0e12fd4c7a",
+            "position": "b2b3afb01c154980c03ac0c116b0b8844af9df6ff7287e15152392524a7ee369",
+            "uv": "ea36e1f5f8cc9567eac2d478ba885dadd8d42a800dfaa15d60e5920a46439e04",
+            "index": "939be2e5d276c4460c3935430ec36d0c2da0da9921be492e00e21b900cf93f08"
+          },
+          "warmSamplesMs": [
+            1.5,
+            1.4000000357627869,
+            2.799999952316284,
+            1.600000023841858,
+            1.5
+          ],
+          "warmMedianMs": 1.5
+        }
+      }
+    }
+  ],
+  "fixture": "tree:wild:61:10",
+  "cost": {
+    "empty": {
+      "drawCalls": 245,
+      "triangles": 1418356
+    },
+    "before": {
+      "drawCalls": 246,
+      "triangles": 1426944
+    },
+    "after": {
+      "drawCalls": 246,
+      "triangles": 1426944
+    }
+  },
+  "changedChannels": 0,
+  "visibleWoodChannels": 72424,
+  "totals": {
+    "before": {
+      "distances": 9150606,
+      "cellBounds": 0,
+      "sumWarmMediansMs": 169.59999990463257
+    },
+    "after": {
+      "distances": 392529,
+      "cellBounds": 212207,
+      "sumWarmMediansMs": 74.1000000834465
+    }
+  },
+  "sourceSha256": {
+    "before": "83a9dc1a76e7d259a5eb425861e48d1a9751ca6fc8bd88672ed8f7db2b56c8ca",
+    "after": "8e70d62778dacbceaba171ce0c5755a4600ce99edfa9d039898512552f40be97"
+  },
+  "scope": "Reconstruct each unique published near/middle grown-wood template from its retained source prefix and native twig plan. Original and candidate growTwigs outputs must byte-match every native vertex attribute and index. A native wood material and placement with one controlled white instance tint render through the native post path in software WebGL. Timings include reconstruction, not full world loading or hardware frame rates.",
+  "pass": true
+}
