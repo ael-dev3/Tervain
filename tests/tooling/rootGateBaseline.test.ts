@@ -1,10 +1,11 @@
 import fs from 'node:fs';
-import {execFileSync} from 'node:child_process';
 import {expect,it} from 'vitest';
 import {rootAuditVerdict,rootBaselineLabels} from '../../tools/root-audit-verdict.mjs';
 const current=fs.readFileSync('tools/visual-gate.mjs','utf8');
-const legacy=execFileSync('git',['show','421d34b:tools/visual-gate.mjs'],{encoding:'utf8'});
-const oldVerdict=new Function(execFileSync('git',['show','421d34b:tools/root-audit-verdict.mjs'],{encoding:'utf8'}).replaceAll('export ','')+';return rootAuditVerdict;')();
+// CI uses a shallow checkout; keep the exact legacy block as data instead of requiring Git history.
+const fixture=JSON.parse(fs.readFileSync(new URL('../fixtures/root-gate-421d34b.json',import.meta.url),'utf8'));
+const legacy=fixture.visualGateBlock;
+const oldVerdict=new Function(fixture.rootVerdictSource.replaceAll('export ','')+';return rootAuditVerdict;')();
 const audit=(labels:string[])=>({complete:true,furnitureReady:true,expectedRoots:labels.length,summary:{roots:labels.length},checks:labels.map(label=>({kind:'root',label,candidate:true,position:[0,0,0],minGap:2,maxGap:2}))});
 function run(source:string,input:ReturnType<typeof audit>,baseline?:unknown,verdict:typeof rootAuditVerdict=rootAuditVerdict){
  const start=source.indexOf('const worst = (kind)'),end=source.indexOf('Object.assign(metrics.checks.placement, verdict);',start);
