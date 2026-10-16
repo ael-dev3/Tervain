@@ -531,6 +531,9 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     if (!geometry.hasAttribute('aLeafDetail')) geometry.setAttribute('aLeafDetail', new THREE.Float32BufferAttribute(new Float32Array(geometry.getAttribute('position').count * 3), 3));
     const mesh = new THREE.InstancedMesh(geometry, first.kind === 'log' ? logMaterial : material, batch.length);
     mesh.name = `forest_floor_${key}`;
+    // Placements live in instanceMatrix; wind moves vertices in the shader. The batch's local transform is static.
+    mesh.updateMatrix();
+    mesh.matrixAutoUpdate = false;
     mesh.receiveShadow = true;
     mesh.castShadow = quality === 'high' && first.kind === 'fern';
     mesh.frustumCulled = false;
