@@ -105,18 +105,21 @@ export function patchFloorPlantVertex(shader: { uniforms: Record<string, THREE.I
   float tvS2 = max(dot(tvW[0].xyz, tvW[0].xyz), 1e-6);
   float tvS = sqrt(tvS2);
   float tvRise = smoothstep(0.02, 0.5, transformed.y * tvS);
-  vec3 tvWorld = (tvW * vec4(transformed, 1.0)).xyz;
-  vec3 tvOff = tvFoliageOffset(tvWorld, tvRoot, aLeafDetail.z, tvS) * tvRise;
-  if (uTrample.w > 0.5) {
-    vec2 tvUV = (tvRoot.xz - uTrample.xy) / uTrample.z;
-    if (tvUV.x > 0.0 && tvUV.y > 0.0 && tvUV.x < 1.0 && tvUV.y < 1.0) {
-      vec4 tvTr = texture2D(tTrample, tvUV);
-      float tvH = max(tvWorld.y - tvRoot.y, 0.0);
-      tvOff += vec3(tvTr.x, 0.0, tvTr.y) * tvH * 0.6 * tvRise;
-      tvOff.y -= tvH * 0.5 * clamp(tvTr.z, 0.0, 1.0) * tvRise;
+  // Root and buried vertices are pinned: their wind and trample displacement is exactly zero.
+  if (tvRise > 0.0) {
+    vec3 tvWorld = (tvW * vec4(transformed, 1.0)).xyz;
+    vec3 tvOff = tvFoliageOffset(tvWorld, tvRoot, aLeafDetail.z, tvS) * tvRise;
+    if (uTrample.w > 0.5) {
+      vec2 tvUV = (tvRoot.xz - uTrample.xy) / uTrample.z;
+      if (tvUV.x > 0.0 && tvUV.y > 0.0 && tvUV.x < 1.0 && tvUV.y < 1.0) {
+        vec4 tvTr = texture2D(tTrample, tvUV);
+        float tvH = max(tvWorld.y - tvRoot.y, 0.0);
+        tvOff += vec3(tvTr.x, 0.0, tvTr.y) * tvH * 0.6 * tvRise;
+        tvOff.y -= tvH * 0.5 * clamp(tvTr.z, 0.0, 1.0) * tvRise;
+      }
     }
+    transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;
   }
-  transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;
 }`);
   return true;
 }
