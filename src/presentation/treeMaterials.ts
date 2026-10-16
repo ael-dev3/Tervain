@@ -51,7 +51,8 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>\n${varyings}`)
       .replace('#include <project_vertex>', `#include <project_vertex>
-        vec4 tvBarkPosition = vec4(transformed, 1.0);
+        // Keep the grain attached to the wood while wind deforms its position.
+        vec4 tvBarkPosition = vec4(position, 1.0);
         vec3 tvBarkNormal = objectNormal;
         #ifdef USE_INSTANCING
           tvBarkPosition = instanceMatrix * tvBarkPosition;
@@ -93,7 +94,7 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec3 tvBarkGradient = sign(tvBarkDet) * (dFdx(tvBarkHeight) * tvBarkR1 + dFdy(tvBarkHeight) * tvBarkR2);
         if (abs(tvBarkDet) > 0.00000001) normal = normalize(abs(tvBarkDet) * normal - tvBarkGradient);`);
   };
-  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v2${variant}`; };
+  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v3${variant}`; };
   material.needsUpdate = true;
 }
 
