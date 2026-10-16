@@ -8,7 +8,7 @@
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
- *  - placement: complete forest-root coverage; more root candidates than --baseline is a regression;
+ *  - placement: complete forest-root coverage; new root candidates relative to --baseline are a regression;
  *    run tools/audit-placement.mjs separately for informational static-prop candidates;
  *  - vault: real-key fence approaches (walk and run, 0°/30°/50°, jump at 1.6/1.0/0.6 m) must all cross;
  *  - bow: the slung bow's limbs and string must stay outside the hero's torso while he walks and runs;
@@ -17,7 +17,7 @@
  * report afterwards; the gate cannot judge art.
  */
 import { shimmerVerdict } from './shimmer-verdict.mjs';
-import { rootAuditVerdict } from './root-audit-verdict.mjs';
+import { rootAuditVerdict, rootBaselineLabels } from './root-audit-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -200,10 +200,12 @@ try {
     fs.writeFileSync(path.join(OUT, 'placement-audit.json'), auditText);
     const worst = (kind) => audit.checks.filter((c) => c.kind === kind && c.candidate).sort((a, b) => b.maxGap - a.maxGap).slice(0, 8)
       .map((c) => ({ label: c.label, at: c.position.map((v) => +v.toFixed(1)), gap: +(kind === 'root' ? c.maxGap : c.minGap).toFixed(2) }));
-    metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop') };
+    metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop'),
+      rootCandidateLabels: audit.checks.filter(c => c.kind === 'root' && c.candidate).map(c => c.label) };
     // Tree roots are the regression check: prop candidates include large merged meshes (building timbers seen from below)
     // that need a reviewer, so they are listed, not counted.
-    const verdict = rootAuditVerdict(audit, baseline?.checks?.placement?.rootCandidates);
+    const prior = baseline?.checks?.placement;
+    const verdict = rootAuditVerdict(audit, prior?.rootCandidates, baseline ? rootBaselineLabels(prior) : undefined);
     Object.assign(metrics.checks.placement, verdict);
     if (!verdict.pass) failures.push(`tree-root check failed: ${verdict.reason}`);
   } else {
