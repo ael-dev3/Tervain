@@ -317,6 +317,39 @@ describe('leaves knocked loose', () => {
     burst.dispose(); burst.dispose();
     wind.dispose();
   });
+  it('keeps grounded struck-leaf vertices clear of slopes while they settle', () => {
+    let queries = 0;
+    const ground = (x: number, z: number) => x * 0.3 + z * 0.2;
+    const burst = createLeafBurst({ heightAt(x, z) { queries++; return ground(x, z); } }, null);
+    const matrix = new THREE.Matrix4(), vertex = new THREE.Vector3();
+    const previous = Array.from({ length: LEAF_BURST_POOL }, () => new THREE.Vector3(Infinity, Infinity, Infinity));
+    let grounded = 0;
+    try {
+      burst.release(0, 0.4, 0, 0.2, LEAF_BURST_POOL);
+      for (let frame = 0; frame < 240; frame++) {
+        burst.update(1 / 60, false);
+        for (let i = 0; i < burst.mesh.count; i++) {
+          burst.mesh.getMatrixAt(i, matrix);
+          if (matrix.elements[0] === 0 && matrix.elements[1] === 0 && matrix.elements[2] === 0) continue;
+          const p = previous[i]!, e = matrix.elements;
+          if (p.x === e[12] && p.z === e[14]) {
+            grounded++;
+            const positions = burst.mesh.geometry.getAttribute('position');
+            for (let v = 0; v < positions.count; v++) {
+              vertex.fromBufferAttribute(positions, v).applyMatrix4(matrix);
+              expect(vertex.y - ground(vertex.x, vertex.z)).toBeGreaterThanOrEqual(0.012 - 1e-5);
+            }
+          }
+          p.set(e[12], e[13], e[14]);
+        }
+      }
+      expect(grounded).toBeGreaterThan(100);
+      const before = queries;
+      for (let i = 0; i < 120; i++) burst.update(0, false);
+      expect(queries - before).toBe(0);
+    } finally { burst.dispose(); }
+  });
+
 });
 
 let templates: PineTemplates, terrain: Terrain, excl: Exclusions, population: FloraTree[];

@@ -21,6 +21,9 @@ interface Leaf {
   age: number;
   landed: number;
   size: number;
+  ground: number;
+  supportSettled: number;
+  supportScale: number;
 }
 
 export interface LeafBurst {
@@ -46,8 +49,9 @@ function leafGeometry(): THREE.BufferGeometry {
 
 export function createLeafBurst(terrain: { heightAt(x: number, z: number): number }, wind: GrassWind | null, seed = 7177, initialReducedMotion = false): LeafBurst {
   const rng = mulberry32(seed);
-  const leaves: Leaf[] = Array.from({ length: LEAF_BURST_POOL }, () => ({ alive: false, x: 0, y: 0, z: 0, vx: 0, vz: 0, fall: 0, spin: 0, phase: 0, age: 0, landed: 0, size: 1 }));
+  const leaves: Leaf[] = Array.from({ length: LEAF_BURST_POOL }, () => ({ alive: false, x: 0, y: 0, z: 0, vx: 0, vz: 0, fall: 0, spin: 0, phase: 0, age: 0, landed: 0, size: 1, ground: 0, supportSettled: -1, supportScale: -1 }));
   const geometry = leafGeometry();
+  const positions = geometry.getAttribute('position'), vertex = new THREE.Vector3();
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, depthWrite: false });
   const mesh = new THREE.InstancedMesh(geometry, material, LEAF_BURST_POOL);
   mesh.name = 'struck-tree-leaves';
@@ -85,6 +89,8 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
         leaf.age = 0;
         leaf.landed = 0;
         leaf.size = 0.12 + rng() * 0.06;
+        leaf.supportSettled = -1;
+        leaf.supportScale = -1;
         released++;
       }
       if (released > 0) pendingRelease = true;
@@ -113,7 +119,7 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
             leaf.z += (leaf.vz + Math.cos(leaf.age * 1.9 + leaf.phase) * 0.3) * step;
             leaf.y -= leaf.fall * (0.75 + 0.5 * Math.sin(leaf.age * 3.1 + leaf.phase) ** 2) * step;
             const ground = terrain.heightAt(leaf.x, leaf.z) + 0.03;
-            if (leaf.y <= ground) { leaf.y = ground; leaf.landed = step; }
+            if (leaf.y <= ground) { leaf.y = ground; leaf.ground = ground; leaf.landed = step; }
           } else leaf.landed += step;
           if (leaf.landed > 4) leaf.alive = false;
         }
@@ -122,9 +128,21 @@ export function createLeafBurst(terrain: { heightAt(x: number, z: number): numbe
         const settled = Math.min(1, leaf.landed / 0.4);
         euler.set((0.6 + Math.sin(leaf.age * 2.0 + leaf.phase) * 0.6) * (1 - settled), leaf.phase + leaf.age * leaf.spin * (1 - settled), Math.sin(leaf.age * 1.4 + leaf.phase) * 0.5 * (1 - settled));
         quat.setFromEuler(euler);
-        pos.set(leaf.x, leaf.y, leaf.z);
         // Fades away over the last second on the ground.
-        scl.setScalar(leaf.size * (leaf.landed > 3 ? Math.max(0.01, 4 - leaf.landed) : 1));
+        const size = leaf.size * (leaf.landed > 3 ? Math.max(0.01, 4 - leaf.landed) : 1);
+        scl.setScalar(size);
+        if (leaf.landed > 0 && (leaf.supportSettled !== settled || leaf.supportScale !== size)) {
+          // The centre alone can be above soil while the folded/tilted leaf cuts through it.
+          // Re-seat each changed contact pose; reuse the support while settled or motion is held.
+          leaf.y = leaf.ground;
+          for (let v = 0; v < positions.count; v++) {
+            vertex.fromBufferAttribute(positions, v).multiplyScalar(size).applyQuaternion(quat);
+            leaf.y = Math.max(leaf.y, terrain.heightAt(leaf.x + vertex.x, leaf.z + vertex.z) - vertex.y + 0.012);
+          }
+          leaf.supportSettled = settled;
+          leaf.supportScale = size;
+        }
+        pos.set(leaf.x, leaf.y, leaf.z);
         matrix.compose(pos, quat, scl);
         mesh.setMatrixAt(i, matrix);
       }
