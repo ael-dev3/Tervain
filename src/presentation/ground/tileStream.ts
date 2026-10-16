@@ -139,8 +139,8 @@ export class TileLayer {
         tile.renderInstances = geo.instanceCount;
         const e = camera.matrixWorld.elements;
         const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
-        this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
-        const distance = this.distTo(tile, this.captureFocus);
+        // Main-camera density and draw prefix already came from update; only captures need a new distance.
+        const distance = main ? 0 : this.distTo(tile, this.captureFocus.setFromMatrixPosition(camera.matrixWorld));
         // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
         if (!main) geo.instanceCount = this.instanceCountAt(tile, distance);
         if (o.maxRadius !== undefined && !this.inHorizontalView(tile, camera)) geo.instanceCount = 0;

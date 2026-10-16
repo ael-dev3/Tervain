@@ -1,0 +1,45 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "submittedMainTiles": 18,
+  "retainedTiles": 31,
+  "rows": {
+    "before": {
+      "distanceCalls": {
+        "main": 2160,
+        "capture": 72,
+        "render": 0
+      },
+      "callbacks": 2232,
+      "mainCallbacks": 2160,
+      "captureCallbacks": 72,
+      "nativeDecisionsMatch": true,
+      "matchesBaseline": true,
+      "decisionsSha256": "129e21da8649a797386cf0088dbdbd4b4d212a745e837b7e11bc24462a60e327",
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "distanceCalls": {
+        "main": 2160,
+        "capture": 72,
+        "render": 0
+      },
+      "callbacks": 2232,
+      "mainCallbacks": 2160,
+      "captureCallbacks": 72,
+      "nativeDecisionsMatch": true,
+      "matchesBaseline": true,
+      "decisionsSha256": "129e21da8649a797386cf0088dbdbd4b4d212a745e837b7e11bc24462a60e327",
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "7f93a608a4ac0f333f13e856f35300ec570e6693428361fbf26a73ca5080dc06",
+  "baselineRevision": "421d34b",
+  "scope": "Native published grass buffers/options and submitted main-camera tiles. Replay actual baseline/candidate acquire-created render callbacks for 120 repeated main-camera passes and four alternate camera distances per submitted tile; require instance count, draw prefix and after-render restoration to match native. Replace every retained tile with its callback-bearing copy in the native scene for matched post/MSAA pixels. No hardware timing claim.",
+  "pass": false
+}
