@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { installLeafTargetCoverage } from './leafTargetCoverage';
 import { foliageUniforms, patchFoliageVertex, type FoliageField, type FoliageResponse } from './foliageWind';
 
 /**
@@ -319,6 +320,7 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     #endif
   #endif
   #ifdef ALPHA_TO_COVERAGE
+  if ( uFoliageMsaa > 0.5 ) {
     // A75: the ramp spans about two pixels, so card silhouettes soften instead of reading as hard cut-outs.
     // A107: on the crown's outer shell the ramp widens to about three and a half pixels, so the silhouette against the sky feathers
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
@@ -338,7 +340,9 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
       // ramp is drawn with the probability its coverage gives, so the edge dissolves over about two pixels of fine stipple.
       // A narrower ramp than the multisampled one: fewer stippled pixels to flicker as the edge moves.
       float tvLowCov = ( tvA - alphaTest ) / max( 1.2 * fwidth( tvA ), 1e-4 ) + 0.5;
+      #ifdef TV_FOLIAGE_OPAQUE
       diffuseColor.a = 1.0;
+      #endif
       if ( tvLowCov <= tvIgn ) discard;
     }
   #else
@@ -482,6 +486,9 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
   let failed = false;
   const hier = opts.hierarchical === true, baked = opts.bakedCrown === true && opts.leaf;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
+  // The coverage mode follows each render target's own sample count (captures and depth draws can be single-sample while the view is not).
+  const targetMsaa = opts.leaf ? installLeafTargetCoverage(material) : null;
+  if (targetMsaa) own.uFoliageMsaa = targetMsaa;
   const compile = material.onBeforeCompile;
   const programKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
@@ -546,7 +553,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v5-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;

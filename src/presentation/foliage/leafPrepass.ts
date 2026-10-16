@@ -23,6 +23,7 @@ function splitMaterial(colour: THREE.Material): THREE.Material | null {
   const depth = colour.clone();
   // Material.clone() does not copy these hooks; the depth pass must run the very same patches.
   depth.onBeforeCompile = colour.onBeforeCompile;
+  depth.onBeforeRender = colour.onBeforeRender;
   const key = colour.customProgramCacheKey;
   depth.customProgramCacheKey = function() { return `${key.call(this)}|leaf-depth`; };
   depth.defines = { ...colour.defines, [LEAF_DEPTH_ONLY]: '' };

@@ -147,7 +147,7 @@ describe('foliage look', () => {
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
       expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v5-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
       const ramps = [...frag.matchAll(/smoothstep\(\s*(-?[\d.]+),\s*(-?[\d.]+),/g)];
@@ -215,7 +215,7 @@ describe('foliage look', () => {
     wood.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.vertexShader).toContain('tvFoliageOffset(tvWorld, tvOrigin, 0.0');
     expect(shader.fragmentShader).not.toContain('RE_Direct_Foliage');
-    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v5-wood-fill1\|foliage-options:\[null,null\]$/);
+    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
     const leaf = new THREE.MeshStandardMaterial(), installed = installFoliage(leaf, { field: f, response: FOLIAGE_RESPONSE.broadleaf, leaf: true });
     const broken = lib('standard');
     broken.fragmentShader = broken.fragmentShader.replace('#include <aomap_fragment>', '');
@@ -453,7 +453,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v5-leaf-focus-world1-gap1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v5-wood-fill1\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
