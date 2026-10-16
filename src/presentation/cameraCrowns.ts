@@ -91,10 +91,15 @@ export function crownBoom(pivot: { x: number; y: number; z: number }, dir: { x: 
     const halfHeight = Math.abs(c.v * CROWN_CORE);
     if (maxY < c.floor || maxY < c.y - halfHeight || minY > c.y + halfHeight) continue;
     if (inCore(c, pivot.x, pivot.y, pivot.z)) continue;
-    for (let d = 0.2; d <= allowed; d += 0.2) {
-      if (!inCore(c, pivot.x + dir.x * d, pivot.y + dir.y * d, pivot.z + dir.z * d)) continue;
-      allowed = Math.min(allowed, d - 0.3);
-      break;
+    for (let d = 0.2; d - 0.2 < allowed; d += 0.2) {
+      // Zoom and floating-point step accumulation can leave a final interval untested.
+      // Always include the actual lens position, even for the default 6.2 m boom.
+      const probe = Math.min(d, allowed);
+      if (inCore(c, pivot.x + dir.x * probe, pivot.y + dir.y * probe, pivot.z + dir.z * probe)) {
+        allowed = Math.min(allowed, probe - 0.3);
+        break;
+      }
+      if (probe === allowed) break;
     }
   }
   return Math.max(Math.min(boom, CROWN_MIN_BOOM), allowed);

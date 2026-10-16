@@ -27,6 +27,19 @@ describe('the follow camera and tree crowns (A82)', () => {
     expect(crownBoom({ x: 0, y: 7, z: 0 }, { x: 0, y: 0.6, z: 0.8 }, 6.2, [crown(0, 0)])).toBe(6.2);
   });
 
+  it('checks the actual lens endpoint when the last 20 cm sample falls short', () => {
+    const c = crown(0, 6.4, { y: 3.6, h: 0.4, v: 0.4 });
+    const pivot = { x: 0, y: 3.6, z: 0 }, dir = { x: 0, y: 0, z: 1 };
+    // The first core contact is at 6.1 m. Repeated 0.2 additions step just past 6.2,
+    // leaving the default lens endpoint untested despite its being inside the core.
+    const allowed = crownBoom(pivot, dir, 6.2, [c]);
+    expect(allowed).toBeLessThan(6.1);
+    expect(allowed).toBeGreaterThanOrEqual(CROWN_MIN_BOOM);
+    expect(crownBoom(pivot, dir, 6.2, [crown(20, 6.4)])).toBe(6.2);
+    // Zoomed booms also end between regular samples.
+    expect(crownBoom(pivot, dir, 6.15, [c])).toBeLessThan(6.1);
+  });
+
   it('finds crowns by neighbourhood, wide ones included', () => {
     const index = new CrownIndex(8);
     index.add(crown(0, 0));
