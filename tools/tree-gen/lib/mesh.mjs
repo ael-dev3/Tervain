@@ -97,7 +97,10 @@ export function addRoots(mb, P, bark, rng, trunkR, seam, azimuths) {
       const t = i / N;
       const dist = lerp(trunkR * 0.7, reach, Math.pow(t, 0.85));
       const a = az + sway * t * t;
-      const y = lerp(rise, -0.7, Math.pow(t, 0.7)) + (t < 0.5 ? 0 : -0.0);
+      // Only the first stretch of a root is visible above the soil: it leaves the flare, settles to the base plane within about a fifth of its reach and
+      // dives from there in proportion to its reach. The game seats a tree on a slope by its flare, and a root that hugs the base plane for longer
+      // hovers over the downhill soil (a giant's lobes floated as pale chunks), while a tip that ends only 0.7 m down pokes out of a falling slope.
+      const y = t < 0.18 ? lerp(rise, -0.1, smoothstep(0, 1, t / 0.18)) : lerp(-0.1, -(0.7 + 0.55 * reach), Math.pow((t - 0.18) / 0.82, 1.1));
       pts.push(new THREE.Vector3(Math.cos(a) * dist, y, Math.sin(a) * dist));
       radii.push(Math.max(0.05, r0 * (1 - 0.82 * Math.pow(t, 0.8))));
     }
