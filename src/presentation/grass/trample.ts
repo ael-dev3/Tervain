@@ -97,6 +97,7 @@ export class GrassTrample {
   private readonly movers: GrassMover[] = [];
   private readonly moverCandidates: GrassMover[] = [];
   private readonly pendingStamps: GrassMover[] = [];
+  private readonly stampBatch: GrassMover[] = [];
   private originX = Number.NaN;
   private originZ = Number.NaN;
   private accumulated = 0;
@@ -251,19 +252,26 @@ export class GrassTrample {
       while (this.accumulated >= STEP) {
         this.accumulated -= STEP;
         const n = Math.min(TRAMPLE_MAX_MOVERS - this.movers.length, this.pendingStamps.length);
-        this.stampPass(renderer, [...this.movers, ...this.pendingStamps.slice(0, n)],
+        const batch = this.stampBatch;
+        batch.length = 0;
+        for (const mover of this.movers) batch.push(mover);
+        for (let i = 0; i < n; i++) batch.push(this.pendingStamps[i]!);
+        this.stampPass(renderer, batch,
           Math.exp(-STEP / TRAMPLE_RECOVERY.push), Math.exp(-STEP / TRAMPLE_RECOVERY.flat));
         this.pendingStamps.splice(0, n);
         // More than one frame of a quick stroke can exceed a shader batch. Stamp the rest without extra recovery.
         while (this.pendingStamps.length > 0) {
           const count = Math.min(TRAMPLE_MAX_MOVERS, this.pendingStamps.length);
-          this.stampPass(renderer, this.pendingStamps.slice(0, count), 1, 1);
+          batch.length = 0;
+          for (let i = 0; i < count; i++) batch.push(this.pendingStamps[i]!);
+          this.stampPass(renderer, batch, 1, 1);
           this.pendingStamps.splice(0, count);
         }
       }
       this.uniforms.tTrample.value = this.targets[0].texture;
       this.uniforms.uTrample.value.set(this.originX, this.originZ, this.extent, 1);
     } finally {
+      this.stampBatch.length = 0;
       renderer.autoClear = oldAutoClear;
       renderer.setRenderTarget(oldTarget);
     }

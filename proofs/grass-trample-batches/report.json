@@ -1,0 +1,60 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "size": 64,
+  "extent": 28,
+  "rows": {
+    "native": {
+      "updates": 120,
+      "passes": 70,
+      "shiftPasses": 6,
+      "targetTuples": 71,
+      "stampBatchArrays": 64,
+      "shiftVectorCreationSites": null,
+      "queuedStamps": 103,
+      "passSequenceSha256": "fc5260d0a5aab47c74e3c4adbfd036ef13c8c4b2fe6599018158290f29777f15",
+      "allFrameFieldSha256": "1ef61705da609ae1d732f233f2ffc0df1e9fa216c31cd67d46efd4d4ce3c6cdd",
+      "matchesNative": true,
+      "remainingStamps": 0,
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "before": {
+      "updates": 120,
+      "passes": 70,
+      "shiftPasses": 6,
+      "targetTuples": 71,
+      "stampBatchArrays": 64,
+      "shiftVectorCreationSites": 120,
+      "queuedStamps": 103,
+      "passSequenceSha256": "fc5260d0a5aab47c74e3c4adbfd036ef13c8c4b2fe6599018158290f29777f15",
+      "allFrameFieldSha256": "1ef61705da609ae1d732f233f2ffc0df1e9fa216c31cd67d46efd4d4ce3c6cdd",
+      "matchesNative": true,
+      "remainingStamps": 0,
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "updates": 120,
+      "passes": 70,
+      "shiftPasses": 6,
+      "targetTuples": 71,
+      "stampBatchArrays": 1,
+      "shiftVectorCreationSites": 120,
+      "queuedStamps": 103,
+      "passSequenceSha256": "fc5260d0a5aab47c74e3c4adbfd036ef13c8c4b2fe6599018158290f29777f15",
+      "allFrameFieldSha256": "1ef61705da609ae1d732f233f2ffc0df1e9fa216c31cd67d46efd4d4ce3c6cdd",
+      "matchesNative": true,
+      "remainingStamps": 0,
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "170ba6b91f32ee2945c7a82f68bed8d6aff25519aad4346e5e7d5ee190302bcb",
+  "baselineRevision": "421d34b",
+  "scope": "Fresh native/baseline/candidate interaction fields at the published field size/extent. 120 scripted moving-focus updates, queued brush burst and catch-up; real software-WebGL passes and exact half-float field bytes compared at every update. Bind each replay field into the native scene for endpoint post/MSAA pixels. Count distinct stamp-batch arrays delivered to actual stampPass calls, not measured heap/GC or hardware timing. Target tuple/shift counters are unchanged controls.",
+  "pass": true
+}
