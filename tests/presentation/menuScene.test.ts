@@ -279,8 +279,10 @@ describe('menu vigil scene', () => {
         const material = (scene.children[0] as THREE.Mesh).material as THREE.ShaderMaterial;
         const u = material.uniforms;
         if (!u.uMoverCount) return;
-        submitted.push((u.uMovers!.value as THREE.Vector4[]).slice(0, u.uMoverCount.value as number)
-          .map((p) => ({ x: p.x, z: p.y, radius: p.z, weight: p.w })));
+        const data = u.uMovers!.value as Float32Array;
+        submitted.push(Array.from({ length: u.uMoverCount.value as number }, (_, i) => ({
+          x: data[i * 4]!, z: data[i * 4 + 1]!, radius: data[i * 4 + 2]!, weight: data[i * 4 + 3]!,
+        })));
       }),
     } as unknown as THREE.WebGLRenderer;
     const frames = hz / 30;
@@ -295,13 +297,13 @@ describe('menu vigil scene', () => {
     expect(submitted).toHaveLength(1);
     const drawn = submitted.flat();
     for (const stamp of expected) {
-      expect(drawn.some((p) => p.x === stamp.x && p.z === stamp.z && p.radius === stamp.radius), `${stamp.x}, ${stamp.z}`).toBe(true);
+      expect(drawn.some((p) => p.x === Math.fround(stamp.x) && p.z === Math.fround(stamp.z) && p.radius === Math.fround(stamp.radius)), `${stamp.x}, ${stamp.z}`).toBe(true);
     }
     // Once stamped, interpolation samples are not replayed; only the hand's current contact stays active.
     menu.update(1 / 30, false);
     menu.prepareFrame(renderer, 1 / 30, false);
     expect(submitted[1]).toHaveLength(1);
-    expect(submitted[1]![0]!.x).toBeCloseTo(expected.at(-1)!.x, 10);
+    expect(submitted[1]![0]!.x).toBe(Math.fround(expected.at(-1)!.x));
   });
 
   it('retains the ship routes and exact phase when the graphics scene is rebuilt', () => {
