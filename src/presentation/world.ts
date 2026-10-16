@@ -58,7 +58,7 @@ import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../plat
 import { disposeSceneResources } from './disposeScene';
 import { GrassWind, SHADER_CLOCK_WRAP } from './grass/wind';
 import { REALM_WIND } from './realmWind';
-import { FOLIAGE_MAX_MOVERS, createFoliageField, type FoliageField } from './foliage/foliageWind';
+import { FOLIAGE_MAX_MOVERS, createFoliageField, expireFoliageShakes, type FoliageField } from './foliage/foliageWind';
 import { installShadowOnlyGroup } from './foliage/shadowCasters';
 
 export interface WorldBuildProgress {
@@ -676,6 +676,7 @@ export class WorldScene {
     this.sway.uWind.value = reduced ? 0.25 : 1;
     // The wind crosses grass and trees alike; Reduced Motion holds the trees entirely still.
     this.foliage.wind.update(dt, { reducedMotion: reduced });
+    expireFoliageShakes(this.foliage);
     this.foliage.strength.value = reduced ? 0 : 1;
     this.sky.brightness = settings.brightness;
     this.sky.update(hour, focus, dt, reduced);

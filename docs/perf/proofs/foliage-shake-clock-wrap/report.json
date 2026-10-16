@@ -1,0 +1,96 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "samplesPerPart": 256,
+  "strike": {
+    "accepted": true,
+    "root": [
+      -126.32940230187539,
+      98.9135056810314
+    ],
+    "stamp": 16383.75,
+    "strength": 0.3777624197080307
+  },
+  "expiry": {
+    "retainedAtWrap": true,
+    "expiredAfterLife": true,
+    "stillRetiredNextCycle": true
+  },
+  "rows": {
+    "wood": {
+      "before": {
+        "none": "449969642afd6bbbe2034b3528b51583cbc920b2c046f0a7429bed6595e17d9c",
+        "wrapped": "449969642afd6bbbe2034b3528b51583cbc920b2c046f0a7429bed6595e17d9c",
+        "reference": "9caddaa0af2547f6acec89f235e54a7444c159e5e62b726e1ed8dc41095bd0e3",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.07212499397520461
+      },
+      "after": {
+        "none": "449969642afd6bbbe2034b3528b51583cbc920b2c046f0a7429bed6595e17d9c",
+        "wrapped": "9caddaa0af2547f6acec89f235e54a7444c159e5e62b726e1ed8dc41095bd0e3",
+        "reference": "9caddaa0af2547f6acec89f235e54a7444c159e5e62b726e1ed8dc41095bd0e3",
+        "maxWrappedDisplacement": 0.07212499397520461,
+        "maxReferenceDisplacement": 0.07212499397520461
+      }
+    },
+    "leaf": {
+      "before": {
+        "none": "453c224673a0171cdbf07891656c026d32f78c0c14a94421c1ee4751688ecaaf",
+        "wrapped": "453c224673a0171cdbf07891656c026d32f78c0c14a94421c1ee4751688ecaaf",
+        "reference": "41369878b9d38adef868d01aacb7fb7deff73ee33523df06843652a97b2b01b7",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.08524650779773547
+      },
+      "after": {
+        "none": "453c224673a0171cdbf07891656c026d32f78c0c14a94421c1ee4751688ecaaf",
+        "wrapped": "41369878b9d38adef868d01aacb7fb7deff73ee33523df06843652a97b2b01b7",
+        "reference": "41369878b9d38adef868d01aacb7fb7deff73ee33523df06843652a97b2b01b7",
+        "maxWrappedDisplacement": 0.08524650779773547,
+        "maxReferenceDisplacement": 0.08524650779773547
+      }
+    }
+  },
+  "cost": {
+    "before-none": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    },
+    "before-wrapped": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    },
+    "before-reference": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    },
+    "after-none": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    },
+    "after-wrapped": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    },
+    "after-reference": {
+      "drawCalls": 186,
+      "triangles": 1166253
+    }
+  },
+  "geometryBefore": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "geometryAfter": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "changedChannels": {
+    "none": 0,
+    "wrapped": 7260,
+    "reference": 0
+  },
+  "sourceSha256": {
+    "before": "1ee80f57da9044353cef5dd501a6164cdec884e4f7b3da831cfffc753e6dfa73",
+    "after": "2ed17e3bc97871901a1b167ba97bfd8ccf498987b57801baa83fcd7f82a61f6f"
+  },
+  "expiryWiredAfterWindUpdate": true,
+  "scope": "Published native tree strike, oak geometry, actor-free wind shader and instance transform. Clock advanced directly to the wrap boundary. Negative reference timestamp supplies the same elapsed age without wrapping; it is a controlled shader reference, not a saved timestamp. Float GPU positions and post-rendered images are diagnostics, not hardware frame timings.",
+  "pass": true
+}
