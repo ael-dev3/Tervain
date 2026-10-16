@@ -47,17 +47,20 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
   };
   const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string) => {
     const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.75 : kind === 'shrub' ? scale * 1.05 : 0.45;
-    if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
+    if (realmRadius(x, z) > 0.97) return;
+    const y = terrain.heightAt(x, z);
+    if (y < 0.35 || terrain.carveAt(x, z) > 0.01) return;
+    const slope = terrain.slopeAt(x, z);
+    if (slope > 0.62 || exclusions.blocked(x, z, reach)) return;
     if (crowns && crowns.coverAt(x, z) < 0.08) return;
     // Dry palm sand carries sparse litter; moist temperate ferns never appear beneath it.
     if ((kind === 'fern' || kind === 'moss') && (sampledBiome ?? biomeAt(x, z)).weights['sheltered-palms'] > 0.35) return;
-    if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
+    if (kind === 'log' && slope > 0.22) return;
     if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : kind === 'fern' || kind === 'shrub' ? reach : 0.4)) return;
     if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
     const nz = (terrain.heightAt(x, z - 0.4) - terrain.heightAt(x, z + 0.4)) / 0.8;
-    const y = terrain.heightAt(x, z);
     // Carpet pieces follow a local tangent plane. Reject a folded ground edge rather than
     // leave the edges of rigid litter or moss suspended over it. Tall plants only root at their base.
     if (kind === 'moss' || kind === 'litter') {
