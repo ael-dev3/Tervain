@@ -4,7 +4,7 @@
  * fixed stills at each, and runs the automated checks a fix must pass before it is claimed.
  *
  *   node tools/visual-gate.mjs [--url <build>] [--tag <name>] [--out visual-gate-runs] [--profile mac|desktop]
- *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,room_b,room_c,room_d,room_f,sign,woods,deepwoods]
+ *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,fireplace,room_b,room_c,room_d,room_f,sign,woods,deepwoods]
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
@@ -40,6 +40,7 @@ const SPOTS = {
   meadow: { item: 'Grass: sparkle and pop-in while moving', hero: [6, 26, 0], still: [[0, 1.9, -3.2, 0, 1, 4], [2, 1.6, -1, 0, .6, 6]], run: 4500 },
   fence: { item: 'Fences: vault in real play', hero: [-4, 49, 0], still: [[2.6, 1.8, -1.5, 0, 1, 2.5]], path: [[3, 1.8, -2, 0, 1, 3], [-3, 1.8, -2, 0, 1, 3]] },
   hearth: { item: 'Interiors: hearth and lived-in room', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.7, 0, 3, 1.4, 0], [0, 1.7, 0, -3, 1.4, 0], [0, 1.7, 0, 0, 1.4, -3]], path: [[-1.5, 1.7, -1, 3, 1.3, 1], [1.5, 1.7, 1, -3, 1.3, -1]] },
+  fireplace: { item: 'Interiors: the fireplace against its wall, fire and mantel centred', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.5, 0, 3, 1.0, -2.5], [1, 1.5, 0.5, 3, 0.9, -2.6], [0.4, 1.3, -0.4, 3, 0.9, -2.5]], path: [[-0.5, 1.5, 0.6, 3, 1.0, -2.4], [1.2, 1.4, -0.2, 3, 0.9, -2.5]] },
   // Playtest 7: the fisher mends nets 2.4 m in front of the net store (yaw 0.5); his head and hands at conversation range.
   peddler: { item: 'Residents: the net-mender by the cabin', hero: [-82.7, 32.1, 0.5], hide: true, still: [[1.2, 1.7, 2.2, 0, 1.55, 0], [-1.6, 1.6, 1.4, 0, 1.4, 0]], path: [[1.9, 1.7, 1.2, 0, 1.5, 0], [-1.2, 1.7, 2.2, 0, 1.5, 0]] },
   // Playtest 7, 0:28-0:33: looking up a wooded slope from below, where needle and leaf clumps floated against the sky.
