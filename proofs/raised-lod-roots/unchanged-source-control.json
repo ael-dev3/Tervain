@@ -1,0 +1,131 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "species": "oak",
+  "tree": {
+    "x": -126.32940230187539,
+    "z": 98.9135056810314,
+    "s": 0.8823888135589659,
+    "yaw": 1.095129818244106
+  },
+  "nativeY": 0.19859268491397147,
+  "planted": 0.5318433842422523,
+  "originalGeometrySha256": "ab50e4661a7e3d12d653a81573dd610c4c6b6801a6a4353db5b67bf8e78e7c6b",
+  "rows": {
+    "before": {
+      "y": 0.19859268491397147,
+      "deltaFromNative": 0,
+      "levels": [
+        {
+          "lod": 0,
+          "minLocalY": 0,
+          "samples": 296,
+          "maxGap": -0.06774069880004241,
+          "worst": {
+            "world": [
+              -129.14512965596992,
+              0.5056764743836695,
+              101.18349056127363
+            ],
+            "gap": -0.06774069880004241
+          }
+        },
+        {
+          "lod": 1,
+          "minLocalY": 0.09601539373397827,
+          "samples": 168,
+          "maxGap": 0.007715250086174907,
+          "worst": {
+            "world": [
+              -130.06257210049276,
+              0.5778010617557979,
+              95.92680211779624
+            ],
+            "gap": 0.007715250086174907
+          }
+        },
+        {
+          "lod": 2,
+          "minLocalY": 0.26437902450561523,
+          "samples": 207,
+          "maxGap": 0.13055419482549735,
+          "worst": {
+            "world": [
+              -124.80116749380434,
+              0.7363872002393128,
+              100.2947721618111
+            ],
+            "gap": 0.13055419482549735
+          }
+        }
+      ],
+      "geometrySha256": "ab50e4661a7e3d12d653a81573dd610c4c6b6801a6a4353db5b67bf8e78e7c6b"
+    },
+    "after": {
+      "y": 0.19859268491397147,
+      "deltaFromNative": 0,
+      "levels": [
+        {
+          "lod": 0,
+          "minLocalY": 0,
+          "samples": 296,
+          "maxGap": -0.06774069880004241,
+          "worst": {
+            "world": [
+              -129.14512965596992,
+              0.5056764743836695,
+              101.18349056127363
+            ],
+            "gap": -0.06774069880004241
+          }
+        },
+        {
+          "lod": 1,
+          "minLocalY": 0.09601539373397827,
+          "samples": 168,
+          "maxGap": 0.007715250086174907,
+          "worst": {
+            "world": [
+              -130.06257210049276,
+              0.5778010617557979,
+              95.92680211779624
+            ],
+            "gap": 0.007715250086174907
+          }
+        },
+        {
+          "lod": 2,
+          "minLocalY": 0.26437902450561523,
+          "samples": 207,
+          "maxGap": 0.13055419482549735,
+          "worst": {
+            "world": [
+              -124.80116749380434,
+              0.7363872002393128,
+              100.2947721618111
+            ],
+            "gap": 0.13055419482549735
+          }
+        }
+      ],
+      "geometrySha256": "ab50e4661a7e3d12d653a81573dd610c4c6b6801a6a4353db5b67bf8e78e7c6b"
+    }
+  },
+  "cost": {
+    "before": {
+      "drawCalls": 112,
+      "triangles": 753959
+    },
+    "after": {
+      "drawCalls": 112,
+      "triangles": 753959
+    }
+  },
+  "changedChannels": 0,
+  "sourceSha256": "b61e8446a5c32a526b55b5cbcac673453d8b5414a1ad01f250b9793b94f34e5b",
+  "scope": "Native published oak, all three original woody LODs, actual terrain and source grounding functions. Only whole-tree Y seating changes. Root inspection isolates its far wood on native terrain through post/MSAA; not a full forest clearance or hardware performance claim. Rest-geometry basal-band vertex gaps are reported, not a video/art score.",
+  "pass": false
+}

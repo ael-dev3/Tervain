@@ -150,7 +150,12 @@ export function groundedTreeFlareY(terrain: Pick<Terrain, 'heightAt'>, tree: Pic
   let polygons = flares.get(variant);
   if (!polygons) {
     const all: Point[][] = [];
-    for (const lod of variant.lods) if (lod.wood) all.push(...basalPolygons(lod.wood, TREE_ROOT_FLARE));
+    for (const lod of variant.lods) if (lod.wood) {
+      if (!lod.wood.boundingBox) lod.wood.computeBoundingBox();
+      // Coarse source LODs can start above the shared origin; include their actual basal flare too.
+      const plane = TREE_ROOT_FLARE + Math.max(0, lod.wood.boundingBox!.min.y);
+      all.push(...basalPolygons(lod.wood, plane));
+    }
     flares.set(variant, polygons = all);
   }
   if (!polygons.length) return seated;
