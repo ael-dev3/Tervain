@@ -319,6 +319,7 @@ function heightToNormal(h: Float32Array, n: number, k: number): Uint8Array {
 }
 
 const barkCache = new Map<string, BarkTextures>();
+const barkNormals = new WeakMap<BarkTextures, THREE.DataTexture>();
 
 /** Tileable bark (u around the trunk, v along it). Albedo is grey-brown and dark; the tree tints it with vertex colour. */
 export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
@@ -402,7 +403,18 @@ export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
     t.needsUpdate = true;
     return t;
   };
-  const res = { map: mk(alb, true), normal: mk(heightToNormal(h, n, (kind === 'birch' ? 3 : 9) * n / 256), false), surface: mk(surface, false) };
+  // Metre-scale detail reads map/surface only. Keep the source heights until a
+  // normal-map user asks for them, then release them after the exact conversion.
+  let normalHeights: Float32Array | null = h;
+  const res: BarkTextures = { map: mk(alb, true), surface: mk(surface, false), get normal() {
+    let normal = barkNormals.get(res);
+    if (!normal) {
+      normal = mk(heightToNormal(normalHeights!, n, (kind === 'birch' ? 3 : 9) * n / 256), false);
+      normalHeights = null;
+      barkNormals.set(res, normal);
+    }
+    return normal;
+  } };
   barkCache.set(key, res);
   return res;
 }
@@ -413,7 +425,7 @@ export function disposeTreeTextures() {
   cache.clear();
   for (const b of barkCache.values()) {
     b.map.dispose();
-    b.normal.dispose();
+    barkNormals.get(b)?.dispose();
     b.surface.dispose();
   }
   barkCache.clear();

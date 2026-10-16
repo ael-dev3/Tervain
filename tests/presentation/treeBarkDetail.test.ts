@@ -14,6 +14,36 @@ function shaderOf(material: THREE.Material, kind: 'standard' | 'depth' | 'distan
 }
 
 describe('original bark surface detail', () => {
+  it('does not generate normal texels for colour/relief-only detail users or during their disposal', () => {
+    const hypot = vi.spyOn(Math, 'hypot');
+    try {
+      const textures = barkTextures('oak', 32);
+      const material = new THREE.MeshStandardMaterial();
+      installBarkDetail(material, textures);
+      const shader = shaderOf(material);
+      expect(shader.uniforms.tvBarkColour!.value).toBe(textures.map);
+      expect(shader.uniforms.tvBarkSurface!.value).toBe(textures.surface);
+      material.dispose();
+      disposeTreeTextures();
+      expect(hypot).not.toHaveBeenCalled();
+    } finally { hypot.mockRestore(); }
+  });
+
+  it('builds a requested normal only once and disposes its owned texture without rebuilding it', () => {
+    const textures = barkTextures('pine', 32), hypot = vi.spyOn(Math, 'hypot');
+    try {
+      const normal = textures.normal;
+      expect(hypot).toHaveBeenCalledTimes(32 * 32);
+      expect(normal.image.data).toHaveLength(32 * 32 * 4);
+      expect(textures.normal).toBe(normal);
+      expect(hypot).toHaveBeenCalledTimes(32 * 32);
+      const disposed = vi.fn(); normal.addEventListener('dispose', disposed);
+      disposeTreeTextures(); disposeTreeTextures();
+      expect(disposed).toHaveBeenCalledOnce();
+      expect(hypot).toHaveBeenCalledTimes(32 * 32);
+    } finally { hypot.mockRestore(); }
+  });
+
   it('generates new close-scale plate cracks and grain with separate linear relief / roughness data', () => {
     const broad = barkTextures('pine', 256), detail = barkTextures('pine', 512);
     expect(barkTextures('pine', 512)).toBe(detail);
