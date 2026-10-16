@@ -129,8 +129,12 @@ describe('foliage look', () => {
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
       expect(shader.fragmentShader).toContain('tvDistanceNoise(gl_FragCoord.xy)');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v1\|tervain-foliage-v2-leaf-focus-world1\|foliage-options:\[null,null\]$/);
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v1\|tervain-foliage-v2-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
+      // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
+      const ramps = [...frag.matchAll(/smoothstep\(\s*(-?[\d.]+),\s*(-?[\d.]+),/g)];
+      expect(ramps.length).toBeGreaterThan(0);
+      for (const ramp of ramps) expect(Number(ramp[1]), ramp[0]).toBeLessThan(Number(ramp[2]));
       expect(frag).toContain('#define RE_Direct RE_Direct_Foliage');
       expect(frag.indexOf('void RE_Direct_Foliage')).toBeGreaterThan(frag.indexOf('#include <lights_physical_pars_fragment>'));
       // A69: each face keeps its own normal (not turned toward the eye) under the crown's, and the cut-out is centred on
@@ -352,7 +356,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v2-leaf-focus-world1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v2-leaf-focus-world1-gap1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
