@@ -44,7 +44,7 @@ function bridge(m, A, fa, B, fb) {
 }
 
 export const LODS = {
-  near: { name: 'near', minF: 0, trunkSides: [[2.2, 16], [5, 12], [9, 10], [99, 8]], trunkStep: [[1.6, 0.2], [6, 0.75], [99, 1.15]], branchSides: 6, branchSegs: 6, stubSides: 5, stubSegs: 2, rootSides: 8, rootSegs: 6, padSeg: 4, padAcross: 2, laterals: true, lateralSides: 3, skirt: 20, relief: 1, padBoost: 1 },
+  near: { name: 'near', minF: 0, trunkSides: [[2.2, 16], [5, 12], [9, 10], [99, 8]], trunkStep: [[1.6, 0.2], [6, 0.75], [99, 1.15]], branchSides: 5, branchSegs: 5, stubSides: 5, stubSegs: 2, rootSides: 8, rootSegs: 6, padSeg: 3, padAcross: 2, laterals: true, lateralSides: 0, skirt: 20, relief: 1, padBoost: 1 },
   mid: { name: 'mid', minF: 0.7, trunkSides: [[3, 10], [99, 8]], trunkStep: [[2, 0.5], [6, 1.5], [99, 2.2]], branchSides: 4, branchSegs: 3, stubSides: 3, stubSegs: 1, rootSides: 6, rootSegs: 4, padSeg: 2, padAcross: 2, laterals: true, lateralSides: 0, skirt: 14, relief: 1, padBoost: 1.08 },
   far: { name: 'far', minF: 0.9, trunkSides: [[99, 6]], trunkStep: [[1, 0.5], [99, 4.5]], branchSides: 0, branchSegs: 0, stubSides: 0, stubSegs: 0, rootSides: 0, rootSegs: 0, padSeg: 1, padAcross: 1, laterals: false, lateralSides: 0, skirt: 0, relief: 0, padBoost: 1.45 },
 };
@@ -252,8 +252,8 @@ export function buildLod(spec, bark, lodName, atlasCells = 16) {
     const pivot = [c[0] + Math.cos(b.theta) * trunkR, b.y, c[1] + Math.sin(b.theta) * trunkR];
     if (b.dead) {
       if (!cfg.stubSides) continue;
-      const { pts } = path(spec, b, cfg.stubSegs, 0.45);
-      const r0 = Math.max(0.045, trunkR * (0.2 + 0.18 * br()));
+      const { pts } = path(spec, b, b.snag ? Math.max(cfg.stubSegs, 3) : cfg.stubSegs, 0.45);
+      const r0 = b.snag ? Math.max(0.06, trunkR * 0.3) : Math.max(0.045, trunkR * (0.2 + 0.18 * br()));
       const radii = pts.map((_, j) => { const t = j / (pts.length - 1); const w = r0 * (1 - 0.55 * t) * (j === 0 ? 1.15 : 1); return [w, w]; });
       const t0 = tube(wood, bark, cfg, pts, radii, cfg.stubSides, { u0: br(), v0: br() * 3, wind: (j) => [0.3 + 0.2 * (j / (pts.length - 1)), phase, tp, 0], pivot });
       const e = pts.length - 1;
