@@ -164,7 +164,6 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   float tvCS = sqrt(max(dot(tvCW[0].xyz, tvCW[0].xyz), 1e-6));
   vec3 tvCentre = (tvCW * vec4(uCrownCentre.xyz, 1.0)).xyz;
   vec3 tvP = (tvCW * vec4(transformed, 1.0)).xyz;
-  vTvWorld = tvP;
   vec3 tvD = tvP - tvCentre;
   float tvRh = uCrownRadii.x * tvCS, tvRv = uCrownRadii.y * tvCS;
   vec3 tvE = vec3(tvD.x / tvRh, tvD.y / tvRv, tvD.z / tvRh);
@@ -175,6 +174,17 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   vFoliageHue = fract(sin(dot(tvCW[3].xz, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
   // Where the leaf is in its crown, in metres, offset by where the tree stands: each tree's clumps fall differently (A76).
   vTvLeafP = (transformed - uCrownCentre.xyz) * tvCS + tvCW[3].xyz * 0.37;
+}
+`;
+
+// Clearance is measured against rendered leaves; crown lighting/noise above remain anchored before wind.
+const LEAF_FOCUS_VERTEX_BODY = /* glsl */ `
+{
+  mat4 tvFocusWorld = modelMatrix;
+  #ifdef USE_INSTANCING
+    tvFocusWorld = modelMatrix * instanceMatrix;
+  #endif
+  vTvWorld = (tvFocusWorld * vec4(transformed, 1.0)).xyz;
 }
 `;
 
@@ -434,10 +444,11 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
     const lights = lightsWithUnshadowedColour();
     const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
       '#include <lights_physical_pars_fragment>', '#include <lights_fragment_begin>', '#include <aomap_fragment>'];
-    if (!lights || !needs.every((n) => f0.includes(n))) { failed = true; return; }
+    if (!lights || !shader.vertexShader.includes('#include <project_vertex>') || !needs.every((n) => f0.includes(n))) { failed = true; return; }
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>\n${LEAF_VERTEX_DECL}`)
-      .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`);
+      .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`)
+      .replace('#include <project_vertex>', `${LEAF_FOCUS_VERTEX_BODY}\n#include <project_vertex>`);
     shader.fragmentShader = f0
       .replace('#include <common>', `#include <common>\n${LEAF_FRAGMENT_DECL}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
@@ -460,7 +471,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf-focus-world1' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
