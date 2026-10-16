@@ -16,7 +16,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const args = process.argv.slice(2);
 const flag = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const all = (k) => args.flatMap((a, i) => (a === k ? [args[i + 1]] : []));
-const outDir = path.resolve(args.find((a) => !a.startsWith('--') && args[args.indexOf(a) - 1]?.startsWith('--') === false) ?? flag('--out', 'D:/Temp/heyas/claude/treegen-shots'));
+const outDir = path.resolve(args.find((a) => !a.startsWith('--') && args[args.indexOf(a) - 1]?.startsWith('--') === false) ?? flag('--out', 'tools/tree-gen/out/shots'));
 const glb = flag('--glb', '/public/models/flora/hero/hero-oak-near.glb'), tag = flag('--tag', 'oak'), near = flag('--near', '');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.glb': 'model/gltf-binary', '.json': 'application/json' };
 const server = http.createServer((req, res) => {
