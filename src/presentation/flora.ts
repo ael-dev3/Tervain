@@ -646,8 +646,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     lighterForReflection() {
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
       // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
-      // coverage; only the vertex buffers are the middle model's, shared, never copied or freed (A76).
-      const swapped: [THREE.InstancedMesh, THREE.BufferGeometry][] = [];
+      // coverage. Wood must also use the middle model's material: its baked atlas can have a different UV layout.
+      // Buffers and materials remain shared, never copied or freed here (A76).
+      const swapped: [THREE.InstancedMesh, THREE.BufferGeometry, THREE.Material | THREE.Material[]][] = [];
       for (const b of batches) for (const part of ['wood', 'leaf'] as const) {
         const near = b.meshes[0]?.[part], mid = b.meshes[1]?.[part];
         if (!near || !mid || near.count === 0) continue;
@@ -660,12 +661,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           proxy.setIndex(mid.geometry.index);
           reflectionProxies.set(near, proxy);
         }
-        swapped.push([near, near.geometry]);
+        swapped.push([near, near.geometry, near.material]);
         near.geometry = proxy;
+        if (part === 'wood') near.material = mid.material;
         const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
-        if (depth) { swapped.push([depth, depth.geometry]); depth.geometry = proxy; }
+        if (depth) { swapped.push([depth, depth.geometry, depth.material]); depth.geometry = proxy; }
       }
-      return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
+      return () => { for (const [mesh, geometry, material] of swapped) { mesh.geometry = geometry; mesh.material = material; } };
     },
     stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris),
       shadowTrees, shadowTris: Math.round(shadowTris), struckLeaves: burst?.active ?? 0, ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),

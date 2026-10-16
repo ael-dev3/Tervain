@@ -1,0 +1,111 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:54:3",
+  "species": "pine",
+  "atlasHashes": {
+    "near": "cb775c9cb263c7b252768e46a5359c4f5e0878c1580562250374423bac21d2d7",
+    "middle": "367ded9b78a8875db8dd92fa15ac96b7e4d4c8243b2ad03cd3108f9788d9d89b"
+  },
+  "rows": {
+    "mainBefore": {
+      "geometry": {
+        "position": "070496657e22953b9d285d7a126b1eef3287148558433528664db562ab5e1067",
+        "normal": "df218586ff285621f1771857b7fbe2f677724cd897fb1b46344e0f4a1294d35c",
+        "uv": "9a2ec8903a3c64256ca2ace0150b7259c9416ee1f21cb5ff9c0df85cafb12368",
+        "index": "292c21c2084bd6ae9c29e67704dcaf544c9383ad9cd9c266324e97d0385a0413"
+      },
+      "mapSha256": "cb775c9cb263c7b252768e46a5359c4f5e0878c1580562250374423bac21d2d7",
+      "usesMiddleMaterial": false,
+      "drawCalls": 24,
+      "triangles": 102495
+    },
+    "native": {
+      "geometry": {
+        "position": "dc76f14bd4f0ac2619e6ab773d93f3bab928ca94216467c38e9bff0355bdeab6",
+        "normal": "fdb90f1cbd610f08da089d9dff745b3b2ffbd840f298d9bdf741836cb7917af6",
+        "uv": "8cb6a9e1acd5443c80010d0c48cd58255161001be94d8fed34f44c6f972c037c",
+        "index": "2a021a32eeb61b5a52a4337e60e13cf1f60d5af77b65174d4bee3838ab9908b8"
+      },
+      "mapSha256": "cb775c9cb263c7b252768e46a5359c4f5e0878c1580562250374423bac21d2d7",
+      "usesMiddleMaterial": false,
+      "drawCalls": 24,
+      "triangles": 100395
+    },
+    "before": {
+      "geometry": {
+        "position": "dc76f14bd4f0ac2619e6ab773d93f3bab928ca94216467c38e9bff0355bdeab6",
+        "normal": "fdb90f1cbd610f08da089d9dff745b3b2ffbd840f298d9bdf741836cb7917af6",
+        "uv": "8cb6a9e1acd5443c80010d0c48cd58255161001be94d8fed34f44c6f972c037c",
+        "index": "2a021a32eeb61b5a52a4337e60e13cf1f60d5af77b65174d4bee3838ab9908b8"
+      },
+      "mapSha256": "cb775c9cb263c7b252768e46a5359c4f5e0878c1580562250374423bac21d2d7",
+      "usesMiddleMaterial": false,
+      "drawCalls": 24,
+      "triangles": 100395
+    },
+    "after": {
+      "geometry": {
+        "position": "dc76f14bd4f0ac2619e6ab773d93f3bab928ca94216467c38e9bff0355bdeab6",
+        "normal": "fdb90f1cbd610f08da089d9dff745b3b2ffbd840f298d9bdf741836cb7917af6",
+        "uv": "8cb6a9e1acd5443c80010d0c48cd58255161001be94d8fed34f44c6f972c037c",
+        "index": "2a021a32eeb61b5a52a4337e60e13cf1f60d5af77b65174d4bee3838ab9908b8"
+      },
+      "mapSha256": "367ded9b78a8875db8dd92fa15ac96b7e4d4c8243b2ad03cd3108f9788d9d89b",
+      "usesMiddleMaterial": true,
+      "drawCalls": 24,
+      "triangles": 100395
+    },
+    "reference": {
+      "geometry": {
+        "position": "dc76f14bd4f0ac2619e6ab773d93f3bab928ca94216467c38e9bff0355bdeab6",
+        "normal": "fdb90f1cbd610f08da089d9dff745b3b2ffbd840f298d9bdf741836cb7917af6",
+        "uv": "8cb6a9e1acd5443c80010d0c48cd58255161001be94d8fed34f44c6f972c037c",
+        "index": "2a021a32eeb61b5a52a4337e60e13cf1f60d5af77b65174d4bee3838ab9908b8"
+      },
+      "mapSha256": "367ded9b78a8875db8dd92fa15ac96b7e4d4c8243b2ad03cd3108f9788d9d89b",
+      "usesMiddleMaterial": true,
+      "drawCalls": 24,
+      "triangles": 100395
+    },
+    "mainAfter": {
+      "geometry": {
+        "position": "070496657e22953b9d285d7a126b1eef3287148558433528664db562ab5e1067",
+        "normal": "df218586ff285621f1771857b7fbe2f677724cd897fb1b46344e0f4a1294d35c",
+        "uv": "9a2ec8903a3c64256ca2ace0150b7259c9416ee1f21cb5ff9c0df85cafb12368",
+        "index": "292c21c2084bd6ae9c29e67704dcaf544c9383ad9cd9c266324e97d0385a0413"
+      },
+      "mapSha256": "cb775c9cb263c7b252768e46a5359c4f5e0878c1580562250374423bac21d2d7",
+      "usesMiddleMaterial": false,
+      "drawCalls": 24,
+      "triangles": 102495
+    }
+  },
+  "mainRestored": true,
+  "originalGeometry": {
+    "position": "070496657e22953b9d285d7a126b1eef3287148558433528664db562ab5e1067",
+    "normal": "df218586ff285621f1771857b7fbe2f677724cd897fb1b46344e0f4a1294d35c",
+    "uv": "9a2ec8903a3c64256ca2ace0150b7259c9416ee1f21cb5ff9c0df85cafb12368",
+    "index": "292c21c2084bd6ae9c29e67704dcaf544c9383ad9cd9c266324e97d0385a0413"
+  },
+  "finalGeometry": {
+    "position": "070496657e22953b9d285d7a126b1eef3287148558433528664db562ab5e1067",
+    "normal": "df218586ff285621f1771857b7fbe2f677724cd897fb1b46344e0f4a1294d35c",
+    "uv": "9a2ec8903a3c64256ca2ace0150b7259c9416ee1f21cb5ff9c0df85cafb12368",
+    "index": "292c21c2084bd6ae9c29e67704dcaf544c9383ad9cd9c266324e97d0385a0413"
+  },
+  "changedChannels": {
+    "nativeVsBefore": 0,
+    "beforeVsReference": 181984,
+    "afterVsReference": 0,
+    "mainRestored": 0
+  },
+  "sourceSha256": {
+    "before": "15c276a746a885a98ff6550b3165eac69bd83fbb77bc7f1395e6ed111e0a7dba",
+    "after": "b0bbc60a8738bcf5906971b4c43a7b8d125e023a1cec2bfdcde648a335dce886"
+  },
+  "scope": "Published native pine geometry, textures, placement and material hooks. Invoke the native lighterForReflection method and source-extracted original/candidate methods, then inspect their wood through the native post-render path at a fixed camera with one controlled white instance tint. The reference is the native middle geometry with its own material. This isolates the exact substitution used by water/window captures; it is not a full-water visual score or a hardware timing claim.",
+  "pass": true
+}
