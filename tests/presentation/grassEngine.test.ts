@@ -243,7 +243,13 @@ describe('realm grass field', () => {
         const base = mesh.geometry.getAttribute('aBase'), shape = mesh.geometry.getAttribute('aShape'), slope = mesh.geometry.getAttribute('aSlope');
         for (let i = 0; i < mesh.geometry.instanceCount; i += 7) {
           const x = base.getX(i), z = base.getZ(i);
-          expect(base.getY(i)).toBeCloseTo(terrain.heightAt(x, z) - 0.02, 4);
+          expect(base.getY(i)).toBeLessThanOrEqual(terrain.heightAt(x, z) - 0.02 + 1e-4);
+          const radius = GRASS_CLUMP.radius * shape.getY(i) * 1.28;
+          for (let ix = -2; ix <= 2; ix++) for (let iz = -2; iz <= 2; iz++) {
+            const dx = ix * radius / 2, dz = iz * radius / 2;
+            const rootY = base.getY(i) + slope.getX(i) * dx + slope.getY(i) * dz;
+            expect(rootY - terrain.heightAt(x + dx, z + dz)).toBeLessThanOrEqual(-0.001 + 1e-4);
+          }
           expect(habitat.hardBlocked(x, z, GRASS_CLUMP.radius * shape.getY(i))).toBe(false);
           expect(shape.getZ(i)).toBeLessThanOrEqual(GRASS_MAX_SCALE.height + 1e-6);
           expect(shape.getY(i)).toBeLessThanOrEqual(GRASS_MAX_SCALE.radius + 1e-6);

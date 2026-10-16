@@ -1,0 +1,1184 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "route": {
+        "x": -2,
+        "z": 37
+      },
+      "metrics": {
+        "before": [
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 284,
+            "blades": 9,
+            "rootCount": 1714,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.00293717314133346,
+            "xzSha256": "e5f3552463c167bc6e4c3a1031b133239d3ed4ba0610261a3ba619a90ee85f1a",
+            "worst": [
+              {
+                "x": -1.9444308280944824,
+                "y": 1.7034260034561157,
+                "z": 44.38630294799805,
+                "ground": 1.7063631765974492,
+                "gap": -0.00293717314133346
+              },
+              {
+                "x": -2.333143711090088,
+                "y": 1.6845483779907227,
+                "z": 43.77754211425781,
+                "ground": 1.6894233684040216,
+                "gap": -0.004874990413298974
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 150,
+            "blades": 9,
+            "rootCount": 1181,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01558349492461275,
+            "xzSha256": "c38fabd0d04e770d6b17fb986a81f0ec72e717498918bad71a063db70a169698",
+            "worst": [
+              {
+                "x": -11.6038236618042,
+                "y": 1.3595095872879028,
+                "z": 33.95771789550781,
+                "ground": 1.3750930822125156,
+                "gap": -0.01558349492461275
+              },
+              {
+                "x": -10.772500991821289,
+                "y": 1.0409144163131714,
+                "z": 28.317794799804688,
+                "ground": 1.0571200942724772,
+                "gap": -0.01620567795930583
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 380,
+            "blades": 9,
+            "rootCount": 1009,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.00883091653104806,
+            "xzSha256": "3b82f1f8b5d6cdaf5cf2ef7841347fc0bed588303db26cd033d0e8e5a09aa782",
+            "worst": [
+              {
+                "x": -0.15515632927417755,
+                "y": 1.6936590671539307,
+                "z": 43.58653259277344,
+                "ground": 1.7024899836849787,
+                "gap": -0.00883091653104806
+              },
+              {
+                "x": 2.024796485900879,
+                "y": 1.7269937992095947,
+                "z": 44.3216552734375,
+                "ground": 1.735845082709318,
+                "gap": -0.008851283499723195
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 211,
+            "blades": 8,
+            "rootCount": 1147,
+            "rootsAboveGround": 23,
+            "rootsAbove3cm": 1,
+            "maxGap": 0.036931496669581065,
+            "xzSha256": "ea596c2dc567b531ab9322fd40b24fbd5f4a7e73a4b7b49c071cb0e7bcabf7a1",
+            "worst": [
+              {
+                "x": -18.625022888183594,
+                "y": 1.2160953283309937,
+                "z": 38.239749908447266,
+                "ground": 1.1791638316614126,
+                "gap": 0.036931496669581065
+              },
+              {
+                "x": -16.46394920349121,
+                "y": 1.132668137550354,
+                "z": 31.149763107299805,
+                "ground": 1.108187835024978,
+                "gap": 0.02448030252537592
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 384,
+            "blades": 9,
+            "rootCount": 2031,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01723211387820811,
+            "xzSha256": "e2845dd7993073c3e004ff9af06d74ac5dcfa9e896098cf151f5903ef927607a",
+            "worst": [
+              {
+                "x": 8.953971862792969,
+                "y": 1.2748976945877075,
+                "z": 34.8219108581543,
+                "ground": 1.2921298084659156,
+                "gap": -0.01723211387820811
+              },
+              {
+                "x": 9.074451446533203,
+                "y": 1.2989299297332764,
+                "z": 35.15528106689453,
+                "ground": 1.3163205552407362,
+                "gap": -0.017390625507459845
+              }
+            ]
+          }
+        ],
+        "after": [
+          {
+            "commonRootCount": 1714,
+            "commonXZUnchanged": true,
+            "instances": 284,
+            "blades": 9,
+            "rootCount": 1714,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.00293717314133346,
+            "xzSha256": "e5f3552463c167bc6e4c3a1031b133239d3ed4ba0610261a3ba619a90ee85f1a",
+            "worst": [
+              {
+                "x": -1.9444308280944824,
+                "y": 1.7034260034561157,
+                "z": 44.38630294799805,
+                "ground": 1.7063631765974492,
+                "gap": -0.00293717314133346
+              },
+              {
+                "x": -2.333143711090088,
+                "y": 1.6845483779907227,
+                "z": 43.77754211425781,
+                "ground": 1.6894233684040216,
+                "gap": -0.004874990413298974
+              }
+            ]
+          },
+          {
+            "commonRootCount": 1181,
+            "commonXZUnchanged": true,
+            "instances": 150,
+            "blades": 9,
+            "rootCount": 1181,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01558349492461275,
+            "xzSha256": "c38fabd0d04e770d6b17fb986a81f0ec72e717498918bad71a063db70a169698",
+            "worst": [
+              {
+                "x": -11.6038236618042,
+                "y": 1.3595095872879028,
+                "z": 33.95771789550781,
+                "ground": 1.3750930822125156,
+                "gap": -0.01558349492461275
+              },
+              {
+                "x": -10.772500991821289,
+                "y": 1.0409144163131714,
+                "z": 28.317794799804688,
+                "ground": 1.0571200942724772,
+                "gap": -0.01620567795930583
+              }
+            ]
+          },
+          {
+            "commonRootCount": 1009,
+            "commonXZUnchanged": true,
+            "instances": 380,
+            "blades": 9,
+            "rootCount": 1009,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.00883091653104806,
+            "xzSha256": "3b82f1f8b5d6cdaf5cf2ef7841347fc0bed588303db26cd033d0e8e5a09aa782",
+            "worst": [
+              {
+                "x": -0.15515632927417755,
+                "y": 1.6936590671539307,
+                "z": 43.58653259277344,
+                "ground": 1.7024899836849787,
+                "gap": -0.00883091653104806
+              },
+              {
+                "x": 2.024796485900879,
+                "y": 1.7269937992095947,
+                "z": 44.3216552734375,
+                "ground": 1.735845082709318,
+                "gap": -0.008851283499723195
+              }
+            ]
+          },
+          {
+            "commonRootCount": 1147,
+            "commonXZUnchanged": true,
+            "instances": 211,
+            "blades": 8,
+            "rootCount": 1147,
+            "rootsAboveGround": 23,
+            "rootsAbove3cm": 1,
+            "maxGap": 0.036931496669581065,
+            "xzSha256": "ea596c2dc567b531ab9322fd40b24fbd5f4a7e73a4b7b49c071cb0e7bcabf7a1",
+            "worst": [
+              {
+                "x": -18.625022888183594,
+                "y": 1.2160953283309937,
+                "z": 38.239749908447266,
+                "ground": 1.1791638316614126,
+                "gap": 0.036931496669581065
+              },
+              {
+                "x": -16.46394920349121,
+                "y": 1.132668137550354,
+                "z": 31.149763107299805,
+                "ground": 1.108187835024978,
+                "gap": 0.02448030252537592
+              }
+            ]
+          },
+          {
+            "commonRootCount": 2031,
+            "commonXZUnchanged": true,
+            "instances": 384,
+            "blades": 9,
+            "rootCount": 2031,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01723211387820811,
+            "xzSha256": "e2845dd7993073c3e004ff9af06d74ac5dcfa9e896098cf151f5903ef927607a",
+            "worst": [
+              {
+                "x": 8.953971862792969,
+                "y": 1.2748976945877075,
+                "z": 34.8219108581543,
+                "ground": 1.2921298084659156,
+                "gap": -0.01723211387820811
+              },
+              {
+                "x": 9.074451446533203,
+                "y": 1.2989299297332764,
+                "z": 35.15528106689453,
+                "ground": 1.3163205552407362,
+                "gap": -0.017390625507459845
+              }
+            ]
+          }
+        ]
+      },
+      "clumps": 1409,
+      "movedClumps": 0,
+      "maxSink": 0,
+      "extraHeightQueries": 0,
+      "protectedBefore": "b6c634abfc1389ca9e94750da441b09ad4c8de63d103259c094d5e6b3cdb7a99",
+      "protectedAfter": "b6c634abfc1389ca9e94750da441b09ad4c8de63d103259c094d5e6b3cdb7a99"
+    },
+    {
+      "route": {
+        "x": 18,
+        "z": 20
+      },
+      "metrics": {
+        "before": [
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 99,
+            "blades": 9,
+            "rootCount": 891,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01638244052128357,
+            "xzSha256": "3cd92de6a11f3be44783856dffcec6a89096dc8c9d0c2f1018d1c55f9ff58543",
+            "worst": [
+              {
+                "x": 19.85906982421875,
+                "y": 1.1583439111709595,
+                "z": 18.770957946777344,
+                "ground": 1.174726351692243,
+                "gap": -0.01638244052128357
+              },
+              {
+                "x": 19.09637451171875,
+                "y": 1.1451905965805054,
+                "z": 18.456344604492188,
+                "ground": 1.1623098511581702,
+                "gap": -0.017119254577664833
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 171,
+            "blades": 8,
+            "rootCount": 817,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.019581966396117423,
+            "xzSha256": "7254a5c56e37bc1b4076b01abe0d5a6e36bf23d3fc7903a6e9e23ea376790d50",
+            "worst": [
+              {
+                "x": 9.66899585723877,
+                "y": 1.0891536474227905,
+                "z": 22.950336456298828,
+                "ground": 1.108735613818908,
+                "gap": -0.019581966396117423
+              },
+              {
+                "x": 6.876199245452881,
+                "y": 1.0600699186325073,
+                "z": 20.289804458618164,
+                "ground": 1.0797391232392783,
+                "gap": -0.019669204606771018
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 251,
+            "blades": 9,
+            "rootCount": 424,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01814591207750027,
+            "xzSha256": "162e37b551adb6de0f1361090649cbcb33f98124f043fe8b0dbf3aaf3f496d2d",
+            "worst": [
+              {
+                "x": 13.322550773620605,
+                "y": 1.1404036283493042,
+                "z": 24.474008560180664,
+                "ground": 1.1585495404268045,
+                "gap": -0.01814591207750027
+              },
+              {
+                "x": 16.36220359802246,
+                "y": 1.1631468534469604,
+                "z": 25.859941482543945,
+                "ground": 1.1813012509998089,
+                "gap": -0.018154397552848422
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 85,
+            "blades": 9,
+            "rootCount": 250,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.016740681438477623,
+            "xzSha256": "9db172e132d2c2bafe9ff59bc5eabfdf9f2ecb6bb129cdbabe0d510c9f7bae06",
+            "worst": [
+              {
+                "x": 27.682546615600586,
+                "y": 1.1690303087234497,
+                "z": 22.660472869873047,
+                "ground": 1.1857709901619273,
+                "gap": -0.016740681438477623
+              },
+              {
+                "x": 28.33504295349121,
+                "y": 1.1609922647476196,
+                "z": 22.897167205810547,
+                "ground": 1.1795895998740207,
+                "gap": -0.01859733512640105
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 298,
+            "blades": 9,
+            "rootCount": 718,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01932187358795545,
+            "xzSha256": "a5c2279d134dca506d953dc5dd6caf4a868d52e468fea764128005ca54af4d86",
+            "worst": [
+              {
+                "x": 7.2090559005737305,
+                "y": 1.0648555755615234,
+                "z": 21.4716854095459,
+                "ground": 1.084177449149479,
+                "gap": -0.01932187358795545
+              },
+              {
+                "x": 9.595190048217773,
+                "y": 1.0863761901855469,
+                "z": 22.41811180114746,
+                "ground": 1.105835743143416,
+                "gap": -0.019459552957869164
+              }
+            ]
+          }
+        ],
+        "after": [
+          {
+            "commonRootCount": 891,
+            "commonXZUnchanged": true,
+            "instances": 99,
+            "blades": 9,
+            "rootCount": 891,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01638244052128357,
+            "xzSha256": "3cd92de6a11f3be44783856dffcec6a89096dc8c9d0c2f1018d1c55f9ff58543",
+            "worst": [
+              {
+                "x": 19.85906982421875,
+                "y": 1.1583439111709595,
+                "z": 18.770957946777344,
+                "ground": 1.174726351692243,
+                "gap": -0.01638244052128357
+              },
+              {
+                "x": 19.09637451171875,
+                "y": 1.1451905965805054,
+                "z": 18.456344604492188,
+                "ground": 1.1623098511581702,
+                "gap": -0.017119254577664833
+              }
+            ]
+          },
+          {
+            "commonRootCount": 817,
+            "commonXZUnchanged": true,
+            "instances": 171,
+            "blades": 8,
+            "rootCount": 817,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.019581966396117423,
+            "xzSha256": "7254a5c56e37bc1b4076b01abe0d5a6e36bf23d3fc7903a6e9e23ea376790d50",
+            "worst": [
+              {
+                "x": 9.66899585723877,
+                "y": 1.0891536474227905,
+                "z": 22.950336456298828,
+                "ground": 1.108735613818908,
+                "gap": -0.019581966396117423
+              },
+              {
+                "x": 6.876199245452881,
+                "y": 1.0600699186325073,
+                "z": 20.289804458618164,
+                "ground": 1.0797391232392783,
+                "gap": -0.019669204606771018
+              }
+            ]
+          },
+          {
+            "commonRootCount": 424,
+            "commonXZUnchanged": true,
+            "instances": 251,
+            "blades": 9,
+            "rootCount": 424,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01814591207750027,
+            "xzSha256": "162e37b551adb6de0f1361090649cbcb33f98124f043fe8b0dbf3aaf3f496d2d",
+            "worst": [
+              {
+                "x": 13.322550773620605,
+                "y": 1.1404036283493042,
+                "z": 24.474008560180664,
+                "ground": 1.1585495404268045,
+                "gap": -0.01814591207750027
+              },
+              {
+                "x": 16.36220359802246,
+                "y": 1.1631468534469604,
+                "z": 25.859941482543945,
+                "ground": 1.1813012509998089,
+                "gap": -0.018154397552848422
+              }
+            ]
+          },
+          {
+            "commonRootCount": 250,
+            "commonXZUnchanged": true,
+            "instances": 85,
+            "blades": 9,
+            "rootCount": 250,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.016740681438477623,
+            "xzSha256": "9db172e132d2c2bafe9ff59bc5eabfdf9f2ecb6bb129cdbabe0d510c9f7bae06",
+            "worst": [
+              {
+                "x": 27.682546615600586,
+                "y": 1.1690303087234497,
+                "z": 22.660472869873047,
+                "ground": 1.1857709901619273,
+                "gap": -0.016740681438477623
+              },
+              {
+                "x": 28.33504295349121,
+                "y": 1.1609922647476196,
+                "z": 22.897167205810547,
+                "ground": 1.1795895998740207,
+                "gap": -0.01859733512640105
+              }
+            ]
+          },
+          {
+            "commonRootCount": 718,
+            "commonXZUnchanged": true,
+            "instances": 298,
+            "blades": 9,
+            "rootCount": 718,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.01932187358795545,
+            "xzSha256": "a5c2279d134dca506d953dc5dd6caf4a868d52e468fea764128005ca54af4d86",
+            "worst": [
+              {
+                "x": 7.2090559005737305,
+                "y": 1.0648555755615234,
+                "z": 21.4716854095459,
+                "ground": 1.084177449149479,
+                "gap": -0.01932187358795545
+              },
+              {
+                "x": 9.595190048217773,
+                "y": 1.0863761901855469,
+                "z": 22.41811180114746,
+                "ground": 1.105835743143416,
+                "gap": -0.019459552957869164
+              }
+            ]
+          }
+        ]
+      },
+      "clumps": 904,
+      "movedClumps": 0,
+      "maxSink": 0,
+      "extraHeightQueries": 0,
+      "protectedBefore": "179e238330fdc220350a6427d26ef365549df17abd6cab401ad09f39d6842cb0",
+      "protectedAfter": "179e238330fdc220350a6427d26ef365549df17abd6cab401ad09f39d6842cb0"
+    },
+    {
+      "route": {
+        "x": -121,
+        "z": 95
+      },
+      "metrics": {
+        "before": [
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 98,
+            "blades": 9,
+            "rootCount": 760,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.014502706031180423,
+            "xzSha256": "b940e9febf9d49231c85f03b790e637e88969148702514e558ea3669b77f3505",
+            "worst": [
+              {
+                "x": -130.4103240966797,
+                "y": 0.6909949779510498,
+                "z": 85.54153442382812,
+                "ground": 0.7054976839822302,
+                "gap": -0.014502706031180423
+              },
+              {
+                "x": -130.15383911132812,
+                "y": 0.6971950531005859,
+                "z": 85.11520385742188,
+                "ground": 0.713084071621779,
+                "gap": -0.015889018521193066
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 76,
+            "blades": 9,
+            "rootCount": 9,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.019900739205695572,
+            "xzSha256": "833d05538af3188f2fc78afe56fb528b7aa251e4365dd583d0bb2076a49c7154",
+            "worst": [
+              {
+                "x": -119.97637176513672,
+                "y": 0.5903779864311218,
+                "z": 96.94482421875,
+                "ground": 0.6102787256368174,
+                "gap": -0.019900739205695572
+              },
+              {
+                "x": -119.9339370727539,
+                "y": 0.5908789038658142,
+                "z": 97.03092956542969,
+                "ground": 0.6110010961338048,
+                "gap": -0.020122192267990613
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 246,
+            "blades": 9,
+            "rootCount": 1474,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.016017618456316995,
+            "xzSha256": "854e49ab17cf28fd1852758dde08de3d64896c83b8c6a9a300ce482d93676951",
+            "worst": [
+              {
+                "x": -109.1947021484375,
+                "y": 0.7532548904418945,
+                "z": 94.27479553222656,
+                "ground": 0.7692725088982115,
+                "gap": -0.016017618456316995
+              },
+              {
+                "x": -116.76630401611328,
+                "y": 0.6203702092170715,
+                "z": 94.5012435913086,
+                "ground": 0.6367951613333389,
+                "gap": -0.016424952116267377
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 33,
+            "blades": 9,
+            "rootCount": 99,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.014886371375268936,
+            "xzSha256": "807ee2645c2f7bf76c78c425192fdaf1bd9d436dd8b0687a914d4750ef4be952",
+            "worst": [
+              {
+                "x": -113.89844512939453,
+                "y": 0.6810978055000305,
+                "z": 95.5328598022461,
+                "ground": 0.6959841768752995,
+                "gap": -0.014886371375268936
+              },
+              {
+                "x": -111.66727447509766,
+                "y": 0.752873420715332,
+                "z": 96.58724975585938,
+                "ground": 0.7684244649603897,
+                "gap": -0.01555104424505771
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 136,
+            "blades": 8,
+            "rootCount": 838,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.0032228681416199834,
+            "xzSha256": "82032a0522af100f4778232fd6e68188493839017a41a6c2050d462035153c89",
+            "worst": [
+              {
+                "x": -124.06876373291016,
+                "y": 2.0079729557037354,
+                "z": 74.32579803466797,
+                "ground": 2.0111958238453553,
+                "gap": -0.0032228681416199834
+              },
+              {
+                "x": -126.97319793701172,
+                "y": 2.0134596824645996,
+                "z": 75.62869262695312,
+                "ground": 2.017320661933354,
+                "gap": -0.003860979468754522
+              }
+            ]
+          }
+        ],
+        "after": [
+          {
+            "commonRootCount": 760,
+            "commonXZUnchanged": true,
+            "instances": 98,
+            "blades": 9,
+            "rootCount": 760,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.014502706031180423,
+            "xzSha256": "b940e9febf9d49231c85f03b790e637e88969148702514e558ea3669b77f3505",
+            "worst": [
+              {
+                "x": -130.4103240966797,
+                "y": 0.6909949779510498,
+                "z": 85.54153442382812,
+                "ground": 0.7054976839822302,
+                "gap": -0.014502706031180423
+              },
+              {
+                "x": -130.15383911132812,
+                "y": 0.6971950531005859,
+                "z": 85.11520385742188,
+                "ground": 0.713084071621779,
+                "gap": -0.015889018521193066
+              }
+            ]
+          },
+          {
+            "commonRootCount": 9,
+            "commonXZUnchanged": true,
+            "instances": 76,
+            "blades": 9,
+            "rootCount": 9,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.019900739205695572,
+            "xzSha256": "833d05538af3188f2fc78afe56fb528b7aa251e4365dd583d0bb2076a49c7154",
+            "worst": [
+              {
+                "x": -119.97637176513672,
+                "y": 0.5903779864311218,
+                "z": 96.94482421875,
+                "ground": 0.6102787256368174,
+                "gap": -0.019900739205695572
+              },
+              {
+                "x": -119.9339370727539,
+                "y": 0.5908789038658142,
+                "z": 97.03092956542969,
+                "ground": 0.6110010961338048,
+                "gap": -0.020122192267990613
+              }
+            ]
+          },
+          {
+            "commonRootCount": 1474,
+            "commonXZUnchanged": true,
+            "instances": 246,
+            "blades": 9,
+            "rootCount": 1474,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.016017618456316995,
+            "xzSha256": "854e49ab17cf28fd1852758dde08de3d64896c83b8c6a9a300ce482d93676951",
+            "worst": [
+              {
+                "x": -109.1947021484375,
+                "y": 0.7532548904418945,
+                "z": 94.27479553222656,
+                "ground": 0.7692725088982115,
+                "gap": -0.016017618456316995
+              },
+              {
+                "x": -116.76630401611328,
+                "y": 0.6203702092170715,
+                "z": 94.5012435913086,
+                "ground": 0.6367951613333389,
+                "gap": -0.016424952116267377
+              }
+            ]
+          },
+          {
+            "commonRootCount": 99,
+            "commonXZUnchanged": true,
+            "instances": 33,
+            "blades": 9,
+            "rootCount": 99,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.014886371375268936,
+            "xzSha256": "807ee2645c2f7bf76c78c425192fdaf1bd9d436dd8b0687a914d4750ef4be952",
+            "worst": [
+              {
+                "x": -113.89844512939453,
+                "y": 0.6810978055000305,
+                "z": 95.5328598022461,
+                "ground": 0.6959841768752995,
+                "gap": -0.014886371375268936
+              },
+              {
+                "x": -111.66727447509766,
+                "y": 0.752873420715332,
+                "z": 96.58724975585938,
+                "ground": 0.7684244649603897,
+                "gap": -0.01555104424505771
+              }
+            ]
+          },
+          {
+            "commonRootCount": 838,
+            "commonXZUnchanged": true,
+            "instances": 136,
+            "blades": 8,
+            "rootCount": 838,
+            "rootsAboveGround": 0,
+            "rootsAbove3cm": 0,
+            "maxGap": -0.0032228681416199834,
+            "xzSha256": "82032a0522af100f4778232fd6e68188493839017a41a6c2050d462035153c89",
+            "worst": [
+              {
+                "x": -124.06876373291016,
+                "y": 2.0079729557037354,
+                "z": 74.32579803466797,
+                "ground": 2.0111958238453553,
+                "gap": -0.0032228681416199834
+              },
+              {
+                "x": -126.97319793701172,
+                "y": 2.0134596824645996,
+                "z": 75.62869262695312,
+                "ground": 2.017320661933354,
+                "gap": -0.003860979468754522
+              }
+            ]
+          }
+        ]
+      },
+      "clumps": 589,
+      "movedClumps": 0,
+      "maxSink": 0,
+      "extraHeightQueries": 0,
+      "protectedBefore": "5ac66fa589a6cb59e7a9d9c14142f8494355c703330a93b2ce31deea6680a8b8",
+      "protectedAfter": "5ac66fa589a6cb59e7a9d9c14142f8494355c703330a93b2ce31deea6680a8b8"
+    },
+    {
+      "route": {
+        "x": -12,
+        "z": 45
+      },
+      "metrics": {
+        "before": [
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 237,
+            "blades": 9,
+            "rootCount": 1928,
+            "rootsAboveGround": 41,
+            "rootsAbove3cm": 2,
+            "maxGap": 0.03427447271224082,
+            "xzSha256": "e332d2551a905dcd878e5fde20b06987af9813166a903755f0f6832817dfa231",
+            "worst": [
+              {
+                "x": -17.634368896484375,
+                "y": 1.834260106086731,
+                "z": 41.73811721801758,
+                "ground": 1.7999856333744901,
+                "gap": 0.03427447271224082
+              },
+              {
+                "x": -17.640764236450195,
+                "y": 1.7094708681106567,
+                "z": 46.0105094909668,
+                "ground": 1.6775689231700426,
+                "gap": 0.03190194494061416
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 284,
+            "blades": 9,
+            "rootCount": 2145,
+            "rootsAboveGround": 11,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.01829584116251226,
+            "xzSha256": "e3fb25d980e6a961abb9ed5a4b0b09c8c1cd456beb03b8b0d31d713fd51153c2",
+            "worst": [
+              {
+                "x": -8.1637601852417,
+                "y": 2.0578207969665527,
+                "z": 47.63157653808594,
+                "ground": 2.0395249558040405,
+                "gap": 0.01829584116251226
+              },
+              {
+                "x": -8.192543029785156,
+                "y": 1.9789175987243652,
+                "z": 48.287986755371094,
+                "ground": 1.9616946613323307,
+                "gap": 0.01722293739203451
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 211,
+            "blades": 8,
+            "rootCount": 623,
+            "rootsAboveGround": 12,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.02448030252537592,
+            "xzSha256": "d9ef980520b3abae8cb3fa07d5f8fbe15138622b1ebef334c480ee014a543deb",
+            "worst": [
+              {
+                "x": -16.46394920349121,
+                "y": 1.132668137550354,
+                "z": 31.149763107299805,
+                "ground": 1.108187835024978,
+                "gap": 0.02448030252537592
+              },
+              {
+                "x": -15.632765769958496,
+                "y": 1.0458053350448608,
+                "z": 27.925357818603516,
+                "ground": 1.0217343932283711,
+                "gap": 0.02407094181648972
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 149,
+            "blades": 9,
+            "rootCount": 528,
+            "rootsAboveGround": 2,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.004316123042372055,
+            "xzSha256": "ec2f51306b2c6d3e6c68ec28a993bcebc6ec93f6c97eed87bc436c09fa78fa34",
+            "worst": [
+              {
+                "x": -19.591041564941406,
+                "y": 1.3716404438018799,
+                "z": 49.28083038330078,
+                "ground": 1.3673243207595078,
+                "gap": 0.004316123042372055
+              },
+              {
+                "x": -19.430089950561523,
+                "y": 1.365351915359497,
+                "z": 47.97378158569336,
+                "ground": 1.362278045481844,
+                "gap": 0.0030738698776531237
+              }
+            ]
+          },
+          {
+            "commonRootCount": 0,
+            "commonXZUnchanged": true,
+            "instances": 150,
+            "blades": 9,
+            "rootCount": 512,
+            "rootsAboveGround": 8,
+            "rootsAbove3cm": 1,
+            "maxGap": 0.033620242466440686,
+            "xzSha256": "18b1a3f57559d92fcb22ae931835d34d1082b0e92826c238bb215b62813fc0fd",
+            "worst": [
+              {
+                "x": -5.157314300537109,
+                "y": 1.8573708534240723,
+                "z": 47.730621337890625,
+                "ground": 1.8237506109576316,
+                "gap": 0.033620242466440686
+              },
+              {
+                "x": -6.172735214233398,
+                "y": 1.839808464050293,
+                "z": 48.46199417114258,
+                "ground": 1.8181639371960046,
+                "gap": 0.021644526854288415
+              }
+            ]
+          }
+        ],
+        "after": [
+          {
+            "commonRootCount": 1928,
+            "commonXZUnchanged": true,
+            "instances": 237,
+            "blades": 9,
+            "rootCount": 1928,
+            "rootsAboveGround": 41,
+            "rootsAbove3cm": 2,
+            "maxGap": 0.03427447271224082,
+            "xzSha256": "e332d2551a905dcd878e5fde20b06987af9813166a903755f0f6832817dfa231",
+            "worst": [
+              {
+                "x": -17.634368896484375,
+                "y": 1.834260106086731,
+                "z": 41.73811721801758,
+                "ground": 1.7999856333744901,
+                "gap": 0.03427447271224082
+              },
+              {
+                "x": -17.640764236450195,
+                "y": 1.7094708681106567,
+                "z": 46.0105094909668,
+                "ground": 1.6775689231700426,
+                "gap": 0.03190194494061416
+              }
+            ]
+          },
+          {
+            "commonRootCount": 2145,
+            "commonXZUnchanged": true,
+            "instances": 284,
+            "blades": 9,
+            "rootCount": 2145,
+            "rootsAboveGround": 11,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.01829584116251226,
+            "xzSha256": "e3fb25d980e6a961abb9ed5a4b0b09c8c1cd456beb03b8b0d31d713fd51153c2",
+            "worst": [
+              {
+                "x": -8.1637601852417,
+                "y": 2.0578207969665527,
+                "z": 47.63157653808594,
+                "ground": 2.0395249558040405,
+                "gap": 0.01829584116251226
+              },
+              {
+                "x": -8.192543029785156,
+                "y": 1.9789175987243652,
+                "z": 48.287986755371094,
+                "ground": 1.9616946613323307,
+                "gap": 0.01722293739203451
+              }
+            ]
+          },
+          {
+            "commonRootCount": 623,
+            "commonXZUnchanged": true,
+            "instances": 211,
+            "blades": 8,
+            "rootCount": 623,
+            "rootsAboveGround": 12,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.02448030252537592,
+            "xzSha256": "d9ef980520b3abae8cb3fa07d5f8fbe15138622b1ebef334c480ee014a543deb",
+            "worst": [
+              {
+                "x": -16.46394920349121,
+                "y": 1.132668137550354,
+                "z": 31.149763107299805,
+                "ground": 1.108187835024978,
+                "gap": 0.02448030252537592
+              },
+              {
+                "x": -15.632765769958496,
+                "y": 1.0458053350448608,
+                "z": 27.925357818603516,
+                "ground": 1.0217343932283711,
+                "gap": 0.02407094181648972
+              }
+            ]
+          },
+          {
+            "commonRootCount": 528,
+            "commonXZUnchanged": true,
+            "instances": 149,
+            "blades": 9,
+            "rootCount": 528,
+            "rootsAboveGround": 2,
+            "rootsAbove3cm": 0,
+            "maxGap": 0.004316123042372055,
+            "xzSha256": "ec2f51306b2c6d3e6c68ec28a993bcebc6ec93f6c97eed87bc436c09fa78fa34",
+            "worst": [
+              {
+                "x": -19.591041564941406,
+                "y": 1.3716404438018799,
+                "z": 49.28083038330078,
+                "ground": 1.3673243207595078,
+                "gap": 0.004316123042372055
+              },
+              {
+                "x": -19.430089950561523,
+                "y": 1.365351915359497,
+                "z": 47.97378158569336,
+                "ground": 1.362278045481844,
+                "gap": 0.0030738698776531237
+              }
+            ]
+          },
+          {
+            "commonRootCount": 512,
+            "commonXZUnchanged": true,
+            "instances": 150,
+            "blades": 9,
+            "rootCount": 512,
+            "rootsAboveGround": 8,
+            "rootsAbove3cm": 1,
+            "maxGap": 0.033620242466440686,
+            "xzSha256": "18b1a3f57559d92fcb22ae931835d34d1082b0e92826c238bb215b62813fc0fd",
+            "worst": [
+              {
+                "x": -5.157314300537109,
+                "y": 1.8573708534240723,
+                "z": 47.730621337890625,
+                "ground": 1.8237506109576316,
+                "gap": 0.033620242466440686
+              },
+              {
+                "x": -6.172735214233398,
+                "y": 1.839808464050293,
+                "z": 48.46199417114258,
+                "ground": 1.8181639371960046,
+                "gap": 0.021644526854288415
+              }
+            ]
+          }
+        ]
+      },
+      "clumps": 1031,
+      "movedClumps": 0,
+      "maxSink": 0,
+      "extraHeightQueries": 0,
+      "protectedBefore": "a226670ebd90c2ddcbafdf99a155ba32445a3dafc9a2e5f65aa151c950286a0e",
+      "protectedAfter": "a226670ebd90c2ddcbafdf99a155ba32445a3dafc9a2e5f65aa151c950286a0e"
+    }
+  ],
+  "changedChannels": {},
+  "summary": {
+    "rootObservations": 19098,
+    "afterRootObservations": 19098,
+    "commonRootObservations": 19098,
+    "beforeAboveGround": 97,
+    "afterAboveGround": 97,
+    "beforeAbove3cm": 4,
+    "afterAbove3cm": 4,
+    "beforeMaxGap": 0.036931496669581065,
+    "afterMaxGap": 0.036931496669581065,
+    "extraHeightQueries": 0,
+    "clumps": 3933,
+    "movedClumps": 0,
+    "maxSink": 0
+  },
+  "productionWiring": false,
+  "sourceSha256": {
+    "native": "38c77d60fc654089633cd512ca5296e5a35e5fb75379d4792cc46680e727b29a",
+    "field": "c888fa6d1fc0b124f02b94e9a9900d2df9f917a05f8f238c83ba81e5a496a343",
+    "helper": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Published native grass shader and instance attributes on 20 tile observations across four views. GPU point captures emit each surviving blade root (t=0), compared with the actual physical terrain. Candidate replays its production seating helper on the stored Float32 clumps. Before/after share seeds, slopes, roots in xz, wind and camera. Height corrections can change a few roots at the three-dimensional LOD boundary; common emitted roots must retain identical xz coordinates. Captures use native scene rendering with only those base heights overlaid; not a complete candidate build, motion score or hardware performance measurement. Repeated roots across views are observations, not unique plants.",
+  "pass": false
+}
