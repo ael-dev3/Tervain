@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GUST_SPAN, TURBULENCE_SPAN, type GrassWind } from '../grass/wind';
+import { GUST_SPAN, SHADER_CLOCK_WRAP, TURBULENCE_SPAN, type GrassWind } from '../grass/wind';
 import type { GrassTrampleUniforms } from '../grass/trample';
 
 /**
@@ -76,6 +76,14 @@ export function createFoliageField(wind: GrassWind): FoliageField {
     shakes: { value: Array.from({ length: FOLIAGE_MAX_SHAKES }, () => new THREE.Vector4(0, 0, -1e4, 0)) },
     trample: { tTrample: { value: null }, uTrample: { value: new THREE.Vector4(0, 0, 1, 0) } },
   };
+}
+
+/** Retire strikes before their wrapped timestamps can become young again on a later clock cycle. */
+export function expireFoliageShakes(field: FoliageField): void {
+  const now = field.wind.uniforms.uGrassTime.value;
+  for (const shake of field.shakes.value) {
+    if (shake.w > 0 && (now - shake.z + SHADER_CLOCK_WRAP) % SHADER_CLOCK_WRAP > 3) shake.w = 0;
+  }
 }
 
 /**
@@ -250,6 +258,7 @@ vec3 tvFoliageOffset(vec3 p, vec3 o, float leaf, float s) {
   for (int i = 0; i < ${FOLIAGE_MAX_SHAKES}; i++) {
     vec4 s = uFoliageShakes[i];
     float age = t - s.z;
+    if (age < 0.0) age += ${f(SHADER_CLOCK_WRAP)};
     if (s.w <= 0.0 || age < 0.0 || age > 3.0) continue;
     if (dot(o.xz - s.xy, o.xz - s.xy) > 0.36) continue;
     float decay = exp(-age * 2.2) * s.w * uFoliageWind;

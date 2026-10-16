@@ -1,0 +1,67 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "samplesPerPart": 256,
+  "strike": {
+    "accepted": true,
+    "root": [
+      -126.32940230187539,
+      98.9135056810314
+    ],
+    "stamp": 16383.75,
+    "strength": 0.3777624197080307
+  },
+  "expiry": {
+    "retainedAtWrap": true,
+    "expiredAfterLife": false,
+    "stillRetiredNextCycle": false
+  },
+  "rows": {
+    "wood": {
+      "before": {
+        "none": "fd0408e4b39dd7778c060ee32059669bc6fe97321ac754c3de08d27f0adce2c1",
+        "wrapped": "fd0408e4b39dd7778c060ee32059669bc6fe97321ac754c3de08d27f0adce2c1",
+        "reference": "ad8a22ab1522c38071a0abae12c462ea0d084a802754af8b48a9ada3d14f9b27",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.0721398431691385
+      },
+      "after": {
+        "none": "fd0408e4b39dd7778c060ee32059669bc6fe97321ac754c3de08d27f0adce2c1",
+        "wrapped": "fd0408e4b39dd7778c060ee32059669bc6fe97321ac754c3de08d27f0adce2c1",
+        "reference": "ad8a22ab1522c38071a0abae12c462ea0d084a802754af8b48a9ada3d14f9b27",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.0721398431691385
+      }
+    },
+    "leaf": {
+      "before": {
+        "none": "75a636828134ea46332fa78ff13c810f7d27aa03d675029a567054a9dbf4221c",
+        "wrapped": "75a636828134ea46332fa78ff13c810f7d27aa03d675029a567054a9dbf4221c",
+        "reference": "62df2d3d6fd2194f8db21d40ea1122c843361d50a9a6155442c5b23e4ada2045",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.08526135672352468
+      },
+      "after": {
+        "none": "75a636828134ea46332fa78ff13c810f7d27aa03d675029a567054a9dbf4221c",
+        "wrapped": "75a636828134ea46332fa78ff13c810f7d27aa03d675029a567054a9dbf4221c",
+        "reference": "62df2d3d6fd2194f8db21d40ea1122c843361d50a9a6155442c5b23e4ada2045",
+        "maxWrappedDisplacement": 0,
+        "maxReferenceDisplacement": 0.08526135672352468
+      }
+    }
+  },
+  "cost": {},
+  "geometryBefore": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "geometryAfter": "b47984f720a5435b9b8b1fcee591ef7062535ba26caa2f037450834bc1488e5e",
+  "changedChannels": {},
+  "sourceSha256": {
+    "before": "1ee80f57da9044353cef5dd501a6164cdec884e4f7b3da831cfffc753e6dfa73",
+    "after": "1ee80f57da9044353cef5dd501a6164cdec884e4f7b3da831cfffc753e6dfa73"
+  },
+  "expiryWiredAfterWindUpdate": false,
+  "scope": "Published native tree strike, oak geometry, actor-free wind shader and instance transform. Clock advanced directly to the wrap boundary. Negative reference timestamp supplies the same elapsed age without wrapping; it is a controlled shader reference, not a saved timestamp. Float GPU positions and post-rendered images are diagnostics, not hardware frame timings.",
+  "pass": false
+}
