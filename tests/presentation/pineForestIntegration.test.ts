@@ -55,6 +55,21 @@ beforeAll(async () => {
 });
 
 describe('historical source-Pine component render substitution without the Meshy catalog', () => {
+  it('selects the requested root LOD and keeps omitted far wood visible as a coverage deficit', () => {
+    vi.stubGlobal('location', { search: '' });
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'low', settings: { ...defaultSettings(), quality: 'low' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    try {
+      const records = (targets: ReturnType<NonNullable<typeof forest.placementAuditTargets>>) => targets.map(t => ({ label: t.label, geometry: t.geometry.uuid, matrix: t.matrix.elements }));
+      expect(records(forest.placementAuditTargets!())).toEqual(records(forest.placementAuditTargets!(0)));
+      for (const lod of [0, 1, 2]) {
+        const expected = forest.canopyAuditTargets!(lod).filter(t => t.wood).map(t => ({ label: t.label, geometry: t.wood!.uuid, matrix: t.matrix.elements }));
+        expect(records(forest.placementAuditTargets!(lod))).toEqual(expected);
+      }
+      expect(forest.placementAuditTargets!(2).length).toBeLessThan(forest.placementAuditTargets!(0).length);
+      for (const lod of [-1, .5, 3, NaN]) expect(() => forest.placementAuditTargets!(lod)).toThrow('Invalid placement LOD');
+    } finally { forest.dispose!(); vi.unstubAllGlobals(); }
+  });
+
   it('exports exact complete woody contact for canonical trees with shared buffers, uniform planted transforms and no leaf cards', () => {
     vi.stubGlobal('location', { search: '' });
     let firstTransforms: unknown;
