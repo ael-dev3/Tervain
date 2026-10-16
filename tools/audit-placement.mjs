@@ -8,10 +8,11 @@ if (args.quality) {
   url.searchParams.set('quality', args.quality);
 }
 url.searchParams.set('shot', '1'); url.searchParams.set('place', args.place ?? 'rillford');
-const options = { clearance: Number(args.clearance ?? .08), maxChecks: Number(args['max-checks'] ?? 20_000), ...(args.kind === undefined ? {} : { kind: args.kind }) };
+const options = { clearance: Number(args.clearance ?? .08), maxChecks: Number(args['max-checks'] ?? 20_000), ...(args.kind === undefined ? {} : { kind: args.kind }), ...(args.lod === undefined ? {} : { lod: Number(args.lod) }) };
 let page;
 try {
   if (!Number.isFinite(options.clearance) || options.clearance < 0 || !Number.isInteger(options.maxChecks) || options.maxChecks < 1) throw new Error('Invalid placement audit limits');
+  if (options.lod !== undefined && (!Number.isInteger(options.lod) || options.lod < 0 || options.lod > 2)) throw new Error('Invalid placement LOD');
   const timeout = Number(args.timeout ?? 180_000);
   if (!Number.isFinite(timeout) || timeout <= 0) throw new Error('Invalid audit timeout');
   page = await openPage(url.href, { w: 640, h: 360, requestTimeoutMs: timeout, flags: ['--use-gl=angle', '--use-angle=swiftshader'] });
@@ -35,6 +36,7 @@ try {
       timer.unref();
     }),
   ]);
+  if (options.lod !== undefined && report.lod !== options.lod) throw new Error('Served build does not confirm requested placement LOD');
   fs.writeFileSync(args.out ?? 'placement-audit.json', JSON.stringify(report, null, 2) + '\n');
   console.log(`Placement audit: ${report.summary.roots} roots, ${report.summary.props} prop components, ${report.summary.candidates} candidates; complete=${report.complete}`);
   if (!report.complete) process.exitCode = 2;

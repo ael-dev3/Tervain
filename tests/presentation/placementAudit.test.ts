@@ -100,3 +100,8 @@ it('audits the full supplied root population independently of oversized prop geo
   expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
   expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
 });
+
+it('reports selected root LOD and rejects unsupported levels', () => {
+  for (const lod of [0, 1, 2]) expect(auditPlacements(new THREE.Scene(), () => 0, [], { kind: 'root', lod }).lod).toBe(lod);
+  for (const lod of [-1, .5, 3, NaN]) expect(() => auditPlacements(new THREE.Scene(), () => 0, [], { lod })).toThrow('Invalid placement LOD');
+});

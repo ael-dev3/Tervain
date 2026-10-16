@@ -7,7 +7,7 @@ export interface PlacementAuditTarget {
   geometry: THREE.BufferGeometry;
   matrix: THREE.Matrix4;
 }
-export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; kind?: 'root' | 'prop'; }
+export interface PlacementAuditOptions { clearance?: number; maxChecks?: number; kind?: 'root' | 'prop'; /** Selected tree detail, default near (0). */ lod?: number; }
 interface Check {
   label: string; kind: 'prop' | 'root'; component: number;
   position: number[]; samples: number; minGap: number; maxGap: number; unsupportedFraction: number; candidate: boolean;
@@ -73,6 +73,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
   const clearance = options.clearance ?? .08, maxChecks = options.maxChecks ?? 20_000;
   if (!(clearance >= 0 && Number.isFinite(clearance)) || !Number.isInteger(maxChecks) || maxChecks < 1) throw new Error('Invalid placement audit limits');
   if (options.kind !== undefined && options.kind !== 'root' && options.kind !== 'prop') throw new Error('Invalid placement audit kind');
+  if (options.lod !== undefined && (!Number.isInteger(options.lod) || options.lod < 0 || options.lod > 2)) throw new Error('Invalid placement LOD');
   scene.updateMatrixWorld(true);
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
   const targets = populations.filter(target => !options.kind || target.kind === options.kind), supports: THREE.Mesh[] = [], skipped: string[] = [];
@@ -190,7 +191,7 @@ export function auditPlacements(scene: THREE.Object3D, heightAt: (x: number, z: 
       if (truncated) break;
     }
   } finally { for(const release of releaseIndexes)release(); material.dispose(); }
-  return { schema: 1, clearance, kind: options.kind ?? 'all', scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
+  return { schema: 1, clearance, kind: options.kind ?? 'all', lod: options.lod ?? 0, scope: 'static scene components plus supplied full populations; intentional hanging/floating objects require review',
     complete: !truncated && skipped.length === 0 && invalid === 0, truncated, skipped, invalid,
     summary: { checks: checks.length, roots: checks.filter(c => c.kind === 'root').length, props: checks.filter(c => c.kind === 'prop').length,
       candidates: checks.filter(c => c.candidate).length }, checks };

@@ -1,0 +1,135 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeNear": {
+    "complete": true,
+    "summary": {
+      "checks": 341,
+      "roots": 341,
+      "props": 0,
+      "candidates": 0
+    }
+  },
+  "rows": {
+    "before": {
+      "levels": [
+        {
+          "lod": 0,
+          "selectedTargets": 341,
+          "geometriesMatch": true,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        },
+        {
+          "lod": 1,
+          "selectedTargets": 341,
+          "geometriesMatch": false,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        },
+        {
+          "lod": 2,
+          "selectedTargets": 341,
+          "geometriesMatch": false,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        }
+      ],
+      "defaultNearMatch": true,
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "levels": [
+        {
+          "lod": 0,
+          "selectedTargets": 341,
+          "geometriesMatch": true,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        },
+        {
+          "lod": 1,
+          "selectedTargets": 341,
+          "geometriesMatch": false,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        },
+        {
+          "lod": 2,
+          "selectedTargets": 341,
+          "geometriesMatch": false,
+          "complete": true,
+          "expectedRoots": 341,
+          "summary": {
+            "checks": 341,
+            "roots": 341,
+            "props": 0,
+            "candidates": 0
+          },
+          "missingRoots": 0,
+          "candidates": [],
+          "maxGap": 0.1724897809698751
+        }
+      ],
+      "defaultNearMatch": true,
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": {
+    "flora": "41471ea5e483df9d23f12c5719302ecd2405426f3e19df7566f7b462c89375f6",
+    "app": "ce920a598f8642b82468e88ad372f4260756a49f9808b1fd7aff9cc42b59feb4"
+  },
+  "baselineRevision": "421d34b",
+  "scope": "Replay actual baseline/candidate forest root adapters and app audit wrapper methods over retained published forest batches. Use the published core root-contact detector unchanged in both modes. Compare selected geometry and every placement matrix with native canopy LOD inventory; count root candidates and require incomplete coverage when wood is missing. Full-scene post/MSAA pixels must remain unchanged. Rest-geometry candidates require visual review; no visual repair or hardware timing claim.",
+  "pass": false
+}

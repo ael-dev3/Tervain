@@ -3073,7 +3073,7 @@ export class App {
     if (world !== this.world) throw new Error('World changed during placement preparation.');
     const { auditPlacements } = await import('./diagnostics/placementAudit');
     world.scene.updateMatrixWorld(true);
-    const populations = world.modules.flatMap(m => m.module.placementAuditTargets?.() ?? []);
+    const populations = world.modules.flatMap(m => m.module.placementAuditTargets?.(options.lod) ?? []);
     const expectedRoots = options.kind === 'prop' ? undefined : world.modules.find(m => m.name === 'forest')?.module.stats?.().trees;
     const furniture = world.modules.find(m => m.name === 'furniture')?.module as { arrived?: boolean } | undefined;
     const furnitureReady = furniture?.arrived !== false;
