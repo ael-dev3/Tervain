@@ -39,11 +39,25 @@ describe('grown twig normal-map frame', () => {
     g.dispose(); source.dispose();
   });
 
-  it('leaves geometry without source tangents unchanged', () => {
+  it('keeps the bark seam forward without creating absent source tangents', () => {
     const source = wood(); source.deleteAttribute('tangent');
     const g = growTwigs(source, [{ from: new THREE.Vector3(0, 1, 0), to: new THREE.Vector3(2, 2, 0) }]);
     expect(g.getAttribute('tangent')).toBeUndefined();
+    const start = source.getAttribute('position').count, uv = g.getAttribute('uv');
+    expect(g.getAttribute('position').count).toBe(start + 8);
+    expect(g.index!.count).toBe(source.index!.count + 18);
+    for (let ring = start; ring < uv.count; ring += 4) {
+      for (let side = 0; side < 3; side++) expect(uv.getX(ring + side + 1)).toBeGreaterThan(uv.getX(ring + side));
+      expect(uv.getX(ring + 3) - uv.getX(ring)).toBeCloseTo(0.02, 6);
+    }
+    g.dispose(); source.dispose();
+  });
+  it('keeps the three-sided layout when no UV or tangent attribute exists', () => {
+    const source = wood(); source.deleteAttribute('tangent'); source.deleteAttribute('uv');
+    const g = growTwigs(source, [{ from: new THREE.Vector3(0, 1, 0), to: new THREE.Vector3(2, 2, 0) }]);
     expect(g.getAttribute('position').count).toBe(source.getAttribute('position').count + 6);
+    expect(g.getAttribute('uv')).toBeUndefined();
+    expect(g.getAttribute('tangent')).toBeUndefined();
     g.dispose(); source.dispose();
   });
 });

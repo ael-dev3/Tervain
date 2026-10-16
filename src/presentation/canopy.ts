@@ -302,8 +302,8 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
   const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
-  // A normal-mapped ring needs both U ends at its seam, at the same position.
-  const ringVertices = added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
+  // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.
+  const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
   for (const t of twigs) {
     axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
