@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { grassGroundY } from './grassGround';
 import { clamp, mulberry32, smoothstep } from '../../world/noise';
 import type { Terrain } from '../../world/terrain';
 import type { Quality } from '../context';
@@ -165,10 +166,11 @@ export function createGrassField(terrain: Terrain, habitat: Habitat, quality: Qu
           if (uAccept >= profile.density) continue;
           const radius = 0.8 + uW * (GRASS_MAX_SCALE.radius - 0.8);
           if (habitat.hardBlocked(x, z, GRASS_CLUMP.radius * radius + 0.08)) continue;
-          const y = terrain.heightAt(x, z) - 0.02;
+          let y = terrain.heightAt(x, z) - 0.02;
           const e = 0.35;
           const gx = (terrain.heightAt(x + e, z) - terrain.heightAt(x - e, z)) / (2 * e);
           const gz = (terrain.heightAt(x, z + e) - terrain.heightAt(x, z - e)) / (2 * e);
+          y = grassGroundY(terrain, x, z, y, gx, gz, GRASS_CLUMP.radius * radius * 1.28);
           meadowTint(S, profile, tint);
           const j = 0.9 + uC * 0.2, o = n * 4;
           out.base[o] = x; out.base[o + 1] = y; out.base[o + 2] = z; out.base[o + 3] = (k + uRank) / capacity;
