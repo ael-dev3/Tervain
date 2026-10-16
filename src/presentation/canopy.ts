@@ -301,7 +301,9 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   };
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
-  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), down = new THREE.Vector3();
+  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
+  // A normal-mapped ring needs both U ends at its seam, at the same position.
+  const ringVertices = added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
   for (const t of twigs) {
     axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
@@ -315,16 +317,22 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
       const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
       centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
       tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
-      for (let k = 0; k < TWIG_SIDES; k++) {
-        const angle = k / TWIG_SIDES * Math.PI * 2;
-        n.copy(a).multiplyScalar(Math.cos(angle)).addScaledVector(b, Math.sin(angle));
+      for (let k = 0; k < ringVertices; k++) {
+        const angle = (k % TWIG_SIDES) / TWIG_SIDES * Math.PI * 2, cosine = Math.cos(angle), sine = Math.sin(angle);
+        n.copy(a).multiplyScalar(cosine).addScaledVector(b, sine);
         q.copy(centre).addScaledVector(n, r);
         n.addScaledVector(tangent, -n.dot(tangent)).normalize();
+        // U runs around the twig; V decreases along its length. Using the
+        // lengthwise tangent here rotated the source normal map by 90 degrees.
+        if (added.tangent) {
+          across.copy(a).multiplyScalar(-sine).addScaledVector(b, cosine);
+          across.addScaledVector(n, -across.dot(n)).normalize();
+        }
         for (const name of names) {
           const attr = source.getAttribute(name), out = added[name]!;
           if (name === 'position') out.push(q.x, q.y, q.z);
           else if (name === 'normal') out.push(n.x, n.y, n.z);
-          else if (name === 'tangent') out.push(tangent.x, tangent.y, tangent.z, 1);
+          else if (name === 'tangent') out.push(across.x, across.y, across.z, -1);
           else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
           else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
         }
@@ -332,7 +340,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
       }
     }
     for (let ring = 0; ring < rings - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
-      const k1 = (k + 1) % TWIG_SIDES, i0 = base + ring * TWIG_SIDES, i1 = i0 + TWIG_SIDES;
+      const k1 = ringVertices > TWIG_SIDES ? k + 1 : (k + 1) % TWIG_SIDES, i0 = base + ring * ringVertices, i1 = i0 + ringVertices;
       index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);
     }
   }
