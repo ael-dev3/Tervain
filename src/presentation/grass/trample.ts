@@ -267,20 +267,20 @@ export class GrassTrample {
         this.accumulated -= STEP;
         const n = Math.min(TRAMPLE_MAX_MOVERS - this.movers.length, this.pendingStamps.length);
         // Most steps have no queued brush samples: pass the owned mover list directly. Otherwise fill the private reused batch.
-        let batch: readonly GrassMover[] = this.movers;
+        let stamps: readonly GrassMover[] = this.movers;
         if (n > 0) {
           const own = this.stampBatch;
           own.length = 0;
           for (const mover of this.movers) own.push(mover);
           for (let i = 0; i < n; i++) own.push(this.pendingStamps[i]!);
-          batch = own;
+          stamps = own;
         }
-        this.stampPass(renderer, batch,
+        this.stampPass(renderer, stamps,
           Math.exp(-STEP / TRAMPLE_RECOVERY.push), Math.exp(-STEP / TRAMPLE_RECOVERY.flat));
         this.pendingStamps.splice(0, n);
         // More than one frame of a quick stroke can exceed a shader batch. Stamp the rest without extra recovery.
         while (this.pendingStamps.length > 0) {
-          const count = Math.min(TRAMPLE_MAX_MOVERS, this.pendingStamps.length);
+          const count = Math.min(TRAMPLE_MAX_MOVERS, this.pendingStamps.length), batch = this.stampBatch;
           batch.length = 0;
           for (let i = 0; i < count; i++) batch.push(this.pendingStamps[i]!);
           this.stampPass(renderer, batch, 1, 1);
