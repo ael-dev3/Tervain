@@ -1,0 +1,180 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "releaseArgs": [
+    -126.32940230187539,
+    10.046051844232032,
+    98.9135056810314,
+    4.4472396203371884,
+    6
+  ],
+  "released": 6,
+  "frames": 1475,
+  "airborneMatrices": 6269,
+  "worstFrame": 1233,
+  "worstAirborneLeaf": 2,
+  "rows": {
+    "before": {
+      "airborne": {
+        "observations": 31400,
+        "penetrating": 7,
+        "minGap": -0.012236638347931539
+      },
+      "grounded": {
+        "observations": 7200,
+        "penetrating": 0,
+        "minGap": 0.011999914791460675
+      },
+      "firstContacts": [
+        1031,
+        924,
+        1234,
+        1139,
+        996,
+        956,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "terrainQueries": 8836,
+      "pausedQueries": 0,
+      "finalActive": 0,
+      "finalVisible": false
+    },
+    "after": {
+      "airborne": {
+        "observations": 31345,
+        "penetrating": 0,
+        "minGap": 0.012544009858117766
+      },
+      "grounded": {
+        "observations": 7225,
+        "penetrating": 0,
+        "minGap": 0.01199987006672143
+      },
+      "firstContacts": [
+        1029,
+        923,
+        1231,
+        1137,
+        996,
+        953,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "terrainQueries": 40195,
+      "pausedQueries": 0,
+      "finalActive": 0,
+      "finalVisible": false
+    }
+  },
+  "cost": {
+    "before": {
+      "drawCalls": 126,
+      "triangles": 827415
+    },
+    "after": {
+      "drawCalls": 126,
+      "triangles": 827415
+    }
+  },
+  "geometrySha256": "a37d4c00f920ed003066ab875ac7a50b612eb54e207fc64a76629ec470cdbd93",
+  "sourceSha256": {
+    "original": "5950860584e43c3919e928fb86bb03dd598db7211c7be8e3ddef341ffcba7a6c",
+    "before": "293ed648843725520cdbe3cd84f29e0f2df4caeed6a21744f28c377153ef7234",
+    "after": "6fa8d4b892fa40615ee99935a79acc3d1f436ae2ed3ba76037c1d46c2e20fc19"
+  },
+  "changedChannels": 7742,
+  "scope": "Native published strike and terrain. Original replay matches native matrices; compare parent landed-contact fix against candidate first-edge contact. Measure actual transformed vertices during flight and after landing. Common uncontacted flight matrices must match; earlier contact can shorten drift and lifetime. Fixed-step simulation is accelerated. Images isolate the worst airborne intersection against native terrain with surrounding plants hidden, through native post rendering. Not a swept-triangle or hardware timing test.",
+  "contactLeadFrames": [
+    2,
+    1,
+    3,
+    2,
+    0,
+    3
+  ],
+  "pass": true
+}
