@@ -56,7 +56,7 @@ describe('original bark surface detail', () => {
     expect(shader.fragmentShader).toContain('tvBarkReliefRoughness.y');
     expect(shader.fragmentShader).toContain('dFdx(tvBarkHeight)');
     expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-    expect(material.customProgramCacheKey()).toContain('authored-source|tervain-metre-bark-v2|tervain-distance-dither-v2-world');
+    expect(material.customProgramCacheKey()).toContain('authored-source|tervain-metre-bark-v3|tervain-distance-dither-v2-world');
     expect(Array.from(geometry.getAttribute('uv').array)).toEqual(sourceUV);
     expect(shader.vertexShader).not.toContain('transformed +=');
     expect(shaderOf(mesh.customDepthMaterial!, 'depth').fragmentShader).not.toContain('tvBarkColour');
