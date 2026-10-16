@@ -547,17 +547,24 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
     const before = full.map((m) => m.geometry);
+    const beforeMaterials = full.map((m) => m.material);
     const restore = forest.lighterForReflection();
     for (const [i, m] of full.entries()) {
       const middles = colour.filter((o) => o.name === m.name.replace(':0:', ':1:'));
       expect(m.geometry).not.toBe(before[i]);
       expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
       expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
+      if (m.name.endsWith(':wood')) expect(middles.some(o => o.material === m.material)).toBe(true);
+      else expect(m.material).toBe(beforeMaterials[i]);
     }
     assertCaptureBounds();
     const proxies = full.map((m) => m.geometry);
+    const captureMaterials = full.map(m => m.material);
+    const restoreNested = forest.lighterForReflection();
+    restoreNested();
+    full.forEach((m, i) => { expect(m.geometry).toBe(proxies[i]); expect(m.material).toBe(captureMaterials[i]); });
     restore();
-    full.forEach((m, i) => expect(m.geometry).toBe(before[i]));
+    full.forEach((m, i) => { expect(m.geometry).toBe(before[i]); expect(m.material).toBe(beforeMaterials[i]); });
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
     const ground = terrain.heightAt(tree.x, tree.z);
     expect(forest.strike(tree.x + 0.1, ground + 1.5, tree.z, 1, tree.collisionId!)).toBe(true);
