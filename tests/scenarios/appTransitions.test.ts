@@ -990,6 +990,7 @@ describe('shell corrections (A70)', () => {
   it('resizes the render targets with the canvas when the quality preset changes the pixel ratio', () => {
     const { app, call } = fixture();
     vi.stubGlobal('window', { innerWidth: 1280, innerHeight: 720, devicePixelRatio: 2, addEventListener: vi.fn() });
+    vi.stubGlobal('location', { search: '' });
     let ratio = 2;
     const renderer = { shadowMap: { enabled: true }, setPixelRatio: vi.fn((r: number) => { ratio = r; }), getPixelRatio: () => ratio, setSize: vi.fn() };
     const grade = { setMsaa: vi.fn(), setSize: vi.fn(), bloom: true };
