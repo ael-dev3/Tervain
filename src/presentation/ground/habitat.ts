@@ -291,7 +291,10 @@ export class Habitat {
     const soft = open > 0 ? this.softCircleHash.get(this.cell(x, z)) : undefined;
     if (soft) for (const c of soft) {
       if (open === 0) break;
-      const d = Math.hypot(x - c.x, z - c.z) - c.hard;
+      const dx = x - c.x, dz = z - c.z;
+      // The radial fade ends at hard + 1.8; keep a conservative 0.2 m guard.
+      if (Math.max(Math.abs(dx), Math.abs(dz)) > c.hard + 2) continue;
+      const d = Math.hypot(dx, dz) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }
     for (const f of fieldRotations) {
