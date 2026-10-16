@@ -37,3 +37,20 @@ it('accepts reordered unique roots and ignores prop labels for root coverage',()
  expect(rootAuditVerdict(reordered,1).pass).toBe(true);
  expect(rootAuditVerdict(reordered,0).pass).toBe(false);
 });
+
+it('rejects a newly affected root even when the aggregate count stays equal or falls',()=>{
+ expect(rootAuditVerdict(good,1,['tree:a']).pass).toBe(false);
+ expect(rootAuditVerdict(good,2,['tree:a','tree:c']).pass).toBe(false);
+});
+it('accepts the same candidate roots and genuine per-root improvements',()=>{
+ expect(rootAuditVerdict(good,1,['tree:b']).pass).toBe(true);
+ expect(rootAuditVerdict(good,2,['tree:b','tree:c']).pass).toBe(true);
+ const clear={...good,checks:good.checks.map(c=>({...c,candidate:false}))};
+ expect(rootAuditVerdict(clear,1,['tree:b']).pass).toBe(true);
+ expect(rootAuditVerdict(clear,0,[]).pass).toBe(true);
+});
+it('rejects incomplete or inconsistent candidate-label baselines',()=>{
+ for(const labels of [null,[],['tree:b','tree:b'],[''],[null]])
+  expect(rootAuditVerdict(good,1,labels).pass).toBe(false);
+ expect(rootAuditVerdict(good,undefined,['tree:b']).pass).toBe(false);
+});

@@ -1,0 +1,82 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "inputSource": "saved-native-receipt",
+  "baseline": {
+    "complete": true,
+    "expectedRoots": 341,
+    "checks": 341,
+    "roots": 341,
+    "props": 0,
+    "candidates": 1,
+    "candidateLabels": [
+      "tree:wild:54:3"
+    ]
+  },
+  "exchanged": {
+    "complete": true,
+    "expectedRoots": 341,
+    "checks": 341,
+    "roots": 341,
+    "props": 0,
+    "candidates": 1,
+    "candidateLabels": [
+      "tree:wild:47:4"
+    ]
+  },
+  "normal": {
+    "complete": true,
+    "expectedRoots": 341,
+    "checks": 341,
+    "roots": 341,
+    "props": 0,
+    "candidates": 0,
+    "candidateLabels": []
+  },
+  "rows": {
+    "before": {
+      "exchanged": {
+        "pass": true,
+        "rootCandidates": 1
+      },
+      "identity": {
+        "pass": true,
+        "rootCandidates": 1
+      },
+      "improved": {
+        "pass": true,
+        "rootCandidates": 0
+      },
+      "zeroBaseline": {
+        "pass": true,
+        "rootCandidates": 0
+      }
+    },
+    "after": {
+      "exchanged": {
+        "pass": true,
+        "rootCandidates": 1
+      },
+      "identity": {
+        "pass": true,
+        "rootCandidates": 1
+      },
+      "improved": {
+        "pass": true,
+        "rootCandidates": 0
+      },
+      "zeroBaseline": {
+        "pass": true,
+        "rootCandidates": 0
+      }
+    }
+  },
+  "sourceHashes": {
+    "before": "9c0cde81defdbe4713bfc0484c683ad3f37f16b8798d13ccf5bf6d6eede09420",
+    "after": "9c0cde81defdbe4713bfc0484c683ad3f37f16b8798d13ccf5bf6d6eede09420"
+  },
+  "scope": "Controlled native root-audit adapter matrices only: lift one real root 2 m for the reference, restore it and lift another for the current audit. Rendered trees and terrain untouched; adapter restored in finally. Actual published audits and exact root-gate source versions. This demonstrates aggregate candidate counts hiding a newly affected root, not that either live tree is currently floating.",
+  "pass": false
+}
