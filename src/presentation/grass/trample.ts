@@ -56,6 +56,8 @@ void main() {
     if (i >= uMoverCount) break;
     vec4 m = uMovers[i];
     vec2 d = world - m.xy;
+    // Outside this footprint's box the radial response is zero; skip its distance and falloff.
+    if (max(abs(d.x), abs(d.y)) > m.z) continue;
     float dist = length(d);
     float k = 1.0 - smoothstep(m.z * 0.25, m.z, dist);
     if (k <= 0.0) continue;
