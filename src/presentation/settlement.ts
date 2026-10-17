@@ -576,7 +576,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const fireBounds = physicalBounds(R);
     campfire(R, rnd, fire.x, gy(fire.x, fire.z), fire.z);
     const fireLimits = fireBounds();
-    benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4);
+    benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4, gy);
     lanternPositions.push(new THREE.Vector3(fire.x, gy(fire.x, fire.z) + 1.0, fire.z));
     const pots = HAMLET_PROPS.pots;
     for (let i = 0; i < 4; i++) {
@@ -810,7 +810,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   {
     const R = region('village');
     const rnd: Rnd = mulberry32(6600);
-    for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw);
+    for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw, gy);
     // The town's loose barrels now belong to the same physical work-supply system.
     const ky = gy(15, 20.5);
     // Existing tool station: trestles, a folded repair cloth, a gauge and a mallet share one coherent work site.
