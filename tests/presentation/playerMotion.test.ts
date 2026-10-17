@@ -357,6 +357,58 @@ describe('player motion and action contacts', () => {
     expect(penetrations, penetrations.join('\n')).toEqual([]);
   });
 
+  it.each([false, true])('vaults end posts touched by the body footprint across slopes and orientations (sprint=%s)', sprint => {
+    for (const yaw of [0, Math.PI / 4, Math.PI / 2]) for (const slope of [-.15, 0, .15])
+      for (const side of [-1, 1]) for (const end of [-1, 1]) for (const inset of [.1, 0, -.15]) {
+        const cos = Math.cos(yaw), sin = Math.sin(yaw);
+        const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+        const s = setup(ground); s.ctx.terrain.heightAt = ground;
+        s.ctx.colliders.box('fence', 0, 0, .12, 6, yaw, true, { minY: -.6, maxY: 1.7 });
+        const lx = side * .77, lz = end * (6 - inset), facing = Math.atan2(-side * cos, side * sin);
+        s.player.setPosition(lx * cos + lz * sin, -lx * sin + lz * cos, facing, s.ctx.terrain);
+        s.ctx.viewYaw = facing; s.setMove(0, 1); if (sprint) s.held.add('sprint');
+        for (let frame = 0; frame < 12; frame++) s.tick();
+        s.presses.add('jump'); s.tick();
+        expect(s.player.vault, `yaw=${yaw} slope=${slope} side=${side} end=${end} inset=${inset}`).not.toBeNull();
+        s.setMove(0, 0);
+        for (let frame = 0; frame < 120; frame++) s.tick();
+        expect(side * (s.player.x * cos - s.player.z * sin)).toBeLessThan(0);
+        expect(s.player.grounded).toBe(true);
+      }
+  });
+
+  it('waits for rail clearance before crossing tall end posts without raising the planned apex', () => {
+    for (const top of [1.1, 2.5]) for (const slope of [-.2, 0, .2]) for (const side of [-1, 1]) {
+      const ground = (x: number) => x * slope, s = setup(ground); s.ctx.terrain.heightAt = ground;
+      s.ctx.colliders.box('fence', 0, 0, .12, 6, 0, true, { minY: -.6, maxY: top + .6 });
+      s.player.setPosition(side * .55, 5.95, -side * Math.PI / 2, s.ctx.terrain);
+      const initialY = s.player.y; s.ctx.viewYaw = -side * Math.PI / 2;
+      s.presses.add('jump'); s.tick(1 / 240);
+      const vault = s.player.vault!; expect(vault).not.toBeNull();
+      expect(vault.peak).toBeCloseTo(Math.max(top + .25, initialY + .5), 12);
+      expect(vault.seconds).toBeCloseTo(.55, 12);
+      for (let frame = 0; frame < 180 && s.player.vault; frame++) {
+        s.tick(1 / 240);
+        if (s.player.vault && s.player.y < top + .03 - 1e-8) {
+          expect(Math.min(Math.abs(s.player.x - vault.from.x), Math.abs(s.player.x - vault.to.x))).toBeLessThan(1e-9);
+        }
+      }
+      expect(s.player.vault).toBeNull(); expect(s.player.grounded).toBe(true);
+    }
+  });
+
+  it('leaves ordinary jumps beyond the end-post footprint and still rejects obstructed landings', () => {
+    for (const blocked of [false, true]) {
+      const s = setup(); s.ctx.terrain.heightAt = () => 0;
+      s.ctx.colliders.box('fence', 0, 0, .12, 6, 0, true, { minY: 0, maxY: 1.7 });
+      const z = blocked ? 5.95 : 6.6;
+      if (blocked) s.ctx.colliders.box('wall', -.82, z, .3, .3, 0, true, { minY: 0, maxY: 3 });
+      s.player.setPosition(.77, z, -Math.PI / 2, s.ctx.terrain); s.ctx.viewYaw = -Math.PI / 2;
+      s.presses.add('jump'); s.tick();
+      expect(s.player.vault).toBeNull();
+    }
+  });
+
   it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
