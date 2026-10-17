@@ -333,6 +333,17 @@ export class SkyRig {
     this.sun.shadow.bias = -0.00018;
     // The old 60 cm normal offset visibly detached feet and roots from their shadows.
     this.sun.shadow.normalBias = 0.075;
+    // Three creates the PCF target just before this callback, then samples its separate depth texture.
+    // Compact the required but unused colour attachment before its first GPU allocation (64 -> 16 MiB at High).
+    const updateShadowMatrices = this.sun.shadow.updateMatrices;
+    this.sun.shadow.updateMatrices = function(this: THREE.DirectionalLightShadow, light: THREE.Light) {
+      const map = this.map;
+      if (map?.texture?.format === THREE.RGBAFormat && map.texture.type === THREE.UnsignedByteType
+        && (map.depthTexture?.compareFunction === THREE.LessEqualCompare || map.depthTexture?.compareFunction === THREE.GreaterEqualCompare)) {
+        map.texture.format = THREE.RedFormat;
+      }
+      return updateShadowMatrices.call(this, light);
+    };
     this.group.add(this.sun, this.sun.target, this.moon, this.moon.target, this.hemi);
   }
 
