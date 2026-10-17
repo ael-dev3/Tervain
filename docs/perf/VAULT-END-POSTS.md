@@ -41,7 +41,7 @@ The candidate has no sampled rail overlap (minimum reported signed distance 0.00
 
 Regression coverage includes 648 slope/orientation/side/end/offset/speed cases, ordinary jumps beyond the body footprint, blocked landings, and tall-post timing at 240 Hz. The full selected suite passes **77 tests** and the production build passes. Restoring the old eligibility fails both new walk/run tests; retaining only the eligibility change fails the new clearance timing test.
 
-The [receipt](proofs/vault-end-posts/report.json) contains the source hashes and complete per-frame data. This closes the witnessed endpoint dead zone, not all fence or movable-obstacle combinations. Hardware play-gate verification remains outstanding.
+The [receipt](proofs/vault-end-posts/report.json) contains the source hashes and case summaries; its linked, checksum-pinned `frames.json.gz` preserves all per-frame data. Decode it with `gzip -dc frames.json.gz`. This closes the witnessed endpoint dead zone, not all fence or movable-obstacle combinations. Hardware play-gate verification remains outstanding.
 
 ![Live, after Jump](proofs/vault-end-posts/live-30.png)
 ![Candidate, same input](proofs/vault-end-posts/after-30.png)

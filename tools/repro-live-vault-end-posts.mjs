@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import {gzipSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {createServer} from 'vite';
@@ -33,5 +34,6 @@ try{await server.listen();const origin='http://127.0.0.1:'+server.httpServer.add
  report.summary=Object.fromEntries(['live','before','after'].map(mode=>{const rows=report.rows.filter(r=>r.mode===mode);return[mode,{cases:rows.length,accepted:rows.filter(r=>r.accepted).length,crossed:rows.filter(r=>r.across<0).length,grounded:rows.filter(r=>r.grounded).length,penetratingFrames:rows.reduce((n,r)=>n+r.penetratingFrames,0)}];}));
  report.sourceSha256=Object.fromEntries(Object.entries(sources).map(([mode,s])=>[mode,createHash('sha256').update(s).digest('hex')]));report.scope='Native published player, keyboard bindings, field fences, terrain and physics at fixed 60 Hz. Live reproduces the unmodified controller; before/after swap only the planner and executor methods, sharing the queued rail-clearance arc fix. Native end-post geometry is checked against a capsule through Rapier. Software-rendered frames are evidence of the controlled crossing, not hardware FPS or total fence coverage.';
  const{live,before,after}=report.summary;report.pass=report.nativeHero&&live.cases===32&&live.accepted===0&&live.crossed===8&&before.accepted===0&&before.crossed===8&&after.accepted===32&&after.crossed===32&&after.grounded===32&&after.penetratingFrames===0;
+ const trace=gzipSync(Buffer.from(JSON.stringify(report.rows.map(({mode,index,side,sprint,inset,frames})=>({mode,index,side,sprint,inset,frames})))));fs.writeFileSync(path.join(out,'frames.json.gz'),trace);report.frameTrace={file:'frames.json.gz',sha256:createHash('sha256').update(trace).digest('hex'),cases:report.rows.length,framesPerCase:120};for(const row of report.rows)delete row.frames;
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({build:report.build,summary:report.summary,pass:report.pass}));if(!report.pass)process.exitCode=1;
 }finally{page?.close();await server.close();}
