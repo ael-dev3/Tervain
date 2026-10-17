@@ -1,4 +1,4 @@
-import type { PhysicalRockGeometry } from './physicsGeometry';
+import type { PhysicalRockGeometry, PhysicalProjectileGeometry } from './physicsGeometry';
 import { buildingGround } from './buildingEntries';
 import { FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
 import { footprint, FURNITURE, hearthPiece, pieceSize } from './furniture';
@@ -20,6 +20,8 @@ export interface ColliderBounds extends VerticalBounds {
   supportOnly?: boolean;
   /** Retained navigation footprint with a source-exact finite physical counterpart. */
   rockMesh?: PhysicalRockGeometry;
+  /** Exact opaque surfaces for projectile queries, without changing movement or navigation. */
+  projectileMesh?: PhysicalProjectileGeometry;
 }
 /** Simple collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider extends ColliderBounds {
