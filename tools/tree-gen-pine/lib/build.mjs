@@ -44,8 +44,8 @@ function bridge(m, A, fa, B, fb) {
 }
 
 export const LODS = {
-  near: { name: 'near', minF: 0, trunkSides: [[2.2, 16], [5, 12], [9, 10], [99, 8]], trunkStep: [[1.6, 0.2], [6, 0.75], [99, 1.15]], branchSides: 5, branchSegs: 4, stubSides: 5, stubSegs: 2, rootSides: 8, rootSegs: 6, padSeg: 3, padAcross: 2, laterals: true, lateralSides: 0, skirt: 20, relief: 1, padBoost: 1 },
-  mid: { name: 'mid', minF: 0.86, trunkSides: [[3, 8], [99, 6]], trunkStep: [[2, 0.5], [6, 2], [99, 3]], branchSides: 3, branchSegs: 2, stubSides: 3, stubSegs: 1, rootSides: 6, rootSegs: 4, padSeg: 2, padAcross: 2, laterals: false, lateralSides: 0, skirt: 14, relief: 1, padBoost: 1.2 },
+  near: { name: 'near', minF: 0, trunkSides: [[2.2, 16], [5, 12], [9, 10], [99, 8]], trunkStep: [[1.6, 0.2], [6, 0.75], [99, 1.15]], branchSides: 5, branchSegs: 4, stubSides: 5, stubSegs: 2, rootSides: 8, rootSegs: 6, padSeg: 2, padAcross: 2, laterals: true, lateralSides: 0, skirt: 20, relief: 1, padBoost: 1 },
+  mid: { name: 'mid', minF: 0.72, trunkSides: [[3, 8], [99, 6]], trunkStep: [[2, 0.7], [6, 2.6], [99, 4]], branchSides: 3, branchSegs: 2, stubSides: 3, stubSegs: 1, rootSides: 6, rootSegs: 3, padSeg: 2, padAcross: 2, laterals: false, lateralSides: 0, skirt: 14, relief: 1, padBoost: 1.2 },
   far: { name: 'far', minF: 0.96, trunkSides: [[99, 6]], trunkStep: [[1, 0.5], [99, 4.5]], branchSides: 0, branchSegs: 0, stubSides: 0, stubSegs: 0, rootSides: 0, rootSegs: 0, padSeg: 1, padAcross: 1, laterals: false, lateralSides: 0, skirt: 0, relief: 0, padBoost: 1.45 },
 };
 
@@ -274,8 +274,8 @@ export function buildLod(spec, bark, lodName, atlasCells = 16) {
     }
     const cellOf = () => PINE_PAD_CELLS[Math.floor(br() * PINE_PAD_CELLS.length)];
     const clusters = b.spur ? [[0.55, 0.55, -0.5], [0.98, 1, 0.2]]
-      : b.upper ? [[0.5, 0.6, 0.7], [0.68, 0.78, -0.6], [0.85, 0.92, 0.45], [0.98, 1, 0.1]]
-      : [[0.3, 0.5, 0.45], [0.45, 0.62, -0.6], [0.6, 0.75, 0.55], [0.72, 0.85, -0.4], [0.85, 0.92, 0.3], [0.98, 1, 0.2]];
+      : b.upper ? [[0.28, 0.45, -0.5], [0.5, 0.6, 0.7], [0.68, 0.78, -0.6], [0.85, 0.92, 0.45], [0.98, 1, 0.1]]
+      : [[0.2, 0.5, 0.5], [0.3, 0.5, 0.45], [0.45, 0.62, -0.6], [0.6, 0.75, 0.55], [0.72, 0.85, -0.4], [0.85, 0.92, 0.3], [0.98, 1, 0.2]];
     for (const [a, f, yaw] of clusters) {
       if (f < cfg.minF) continue;
       const { p, t } = pointAt(pts, a);

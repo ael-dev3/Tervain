@@ -18,8 +18,9 @@ describe('generated hero pine (tools/tree-gen-pine)', () => {
   it('keeps the triangle budget of every variant and level', () => {
     for (let v = 0; v < HERO_PINE_VARIANTS; v++) {
       expect(total('near', v)).toBeLessThanOrEqual(9_800);
-      expect(total('mid', v)).toBeLessThanOrEqual(3_700);
-      expect(total('far', v)).toBeLessThanOrEqual(300);
+      // 4,300: mid pines carry the lower-limb needle pads (the 30 m view showed bare limbs without them); a hundred mid pines in view add under 1 % to the scene's triangles.
+      expect(total('mid', v)).toBeLessThanOrEqual(4_300);
+      expect(total('far', v)).toBeLessThanOrEqual(320); // the crown now starts lower, so the silhouette cards number a few more
     }
   });
 

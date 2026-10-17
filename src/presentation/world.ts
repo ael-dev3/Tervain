@@ -43,7 +43,7 @@ import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, PINE_FILES, type PineTemplates } from './solitaryPine';
-import { heroPineEnabled, loadHeroPine } from './heroPine';
+import { HERO_PINE_FILES, heroPineEnabled, loadHeroPine } from './heroPine';
 import { LanternLightPool } from './lanternLights';
 import { RealmPhysics, initializePhysics, type PropMotion } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
@@ -189,6 +189,7 @@ export class WorldScene {
     const modelFamilies = {
       library: { completed: 0, total: libraryModels.size },
       pine: { completed: 0, total: PINE_FILES.length },
+      heroPine: { completed: 0, total: heroPineEnabled() ? HERO_PINE_FILES.length : 0 },
       stone: { completed: 0, total: 1 },
       trees: { completed: 0, total: new Set(activeMeshyTreeIds()).size * MESHY_TREE_LODS.length },
       animals: { completed: 0, total: options.deferWildlife ? 0 : ANIMALS.length },
@@ -211,7 +212,7 @@ export class WorldScene {
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
       [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
-        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')).then(async (templates) => { if (heroPineEnabled()) await loadHeroPine(); return templates; }),
+        Promise.all([loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')), heroPineEnabled() ? loadHeroPine((loaded, total) => modelProgress('heroPine', loaded, total, 'Coastal pines')) : null]).then(([templates]) => templates),
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
         options.deferWildlife ? Promise.resolve(null) : loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
