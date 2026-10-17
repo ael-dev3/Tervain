@@ -100,7 +100,7 @@ interface Batch {
   /** Packed colour bounds, including every source LOD and the existing wind guard. */
   drawBounds: THREE.Sphere[];
   trees: FloraTree[];
-  placements: { matrix: THREE.Matrix4; bounds: THREE.Sphere }[];
+  placements: { matrix: THREE.Matrix4; bounds: THREE.Sphere; box: THREE.Box3 }[];
 }
 
 export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false, meshyTemplates?: MeshyTreeTemplates): SceneModule & {
@@ -404,12 +404,22 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   const pos = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
   // Tree placements are immutable for this module's lifetime. Wind bends vertices in the shader.
-  for (const b of batches) b.placements = b.trees.map(t => {
-    const matrix = new THREE.Matrix4().compose(pos.set(t.x, t.y, t.z), quat.setFromAxisAngle(up, t.yaw), scl.set(t.s, t.s, t.s));
-    const bounds = b.bounds.clone().applyMatrix4(matrix);
-    bounds.radius += 2; // The same view/shadow edge guard used by every refresh.
-    return { matrix, bounds };
-  });
+  for (const b of batches) {
+    // Read the repaired source bounds: a tall tree's circumsphere contains large empty side regions.
+    const localBox = new THREE.Box3();
+    for (const lod of b.variant.lods) for (const geometry of [lod.wood, lod.leaf]) {
+      if (!geometry) continue;
+      if (!geometry.boundingBox) geometry.computeBoundingBox();
+      localBox.union(geometry.boundingBox!);
+    }
+    b.placements = b.trees.map(t => {
+      const matrix = new THREE.Matrix4().compose(pos.set(t.x, t.y, t.z), quat.setFromAxisAngle(up, t.yaw), scl.set(t.s, t.s, t.s));
+      const bounds = b.bounds.clone().applyMatrix4(matrix);
+      bounds.radius += 2; // The same view/shadow edge guard used by every refresh.
+      const box = localBox.clone().applyMatrix4(matrix).expandByScalar(2);
+      return { matrix, bounds, box };
+    });
+  }
   const col = new THREE.Color();
   const shadowPlaneNormalDelta = new THREE.Vector3();
   const lastCam = new THREE.Vector3(1e9, 0, 0);
@@ -499,12 +509,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const d = Math.hypot(dx, dz);
         const horizon = smoothDistanceFade(d, FLORA_FADE_START, FLORA_MAX_DISTANCE);
         if (horizon <= 0) continue;
-        const { matrix: mtx, bounds: sphere } = b.placements[treeIndex]!;
+        const { matrix: mtx, bounds: sphere, box } = b.placements[treeIndex]!;
         // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
         // sun-shadow volume instead of paying for every tree in a large circle behind the player.
-        const inView = frustum.intersectsSphere(sphere);
-        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
+        const inView = frustum.intersectsSphere(sphere) && frustum.intersectsBox(box);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && shadowFrustum.intersectsBox(box) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
           const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);

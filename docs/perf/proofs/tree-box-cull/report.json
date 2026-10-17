@@ -1,0 +1,1172 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "rendering": "software WebGL (SwiftShader)",
+  "placements": 451,
+  "scan": [
+    {
+      "pose": [
+        -210,
+        0,
+        0
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 93,
+          "treeTris": 745376,
+          "shadowTrees": 33,
+          "shadowTris": 107932,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 143,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 93,
+          "treeTris": 745376,
+          "shadowTrees": 33,
+          "shadowTris": 107932,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 143,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 0
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        0.7853981633974483
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 184,
+          "treeTris": 2055889,
+          "shadowTrees": 81,
+          "shadowTris": 286134,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 271,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 174,
+          "treeTris": 1937668,
+          "shadowTrees": 81,
+          "shadowTris": 286134,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 271,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 118221
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        1.5707963267948966
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 317,
+          "treeTris": 3550838,
+          "shadowTrees": 96,
+          "shadowTris": 338049,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 465,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 316,
+          "treeTris": 3533770,
+          "shadowTrees": 94,
+          "shadowTris": 332851,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 465,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 22266
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        2.356194490192345
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 259,
+          "treeTris": 2599264,
+          "shadowTrees": 72,
+          "shadowTris": 252271,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 366,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 250,
+          "treeTris": 2498183,
+          "shadowTrees": 70,
+          "shadowTris": 247073,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 366,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 106279
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3.141592653589793
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 107,
+          "treeTris": 963589,
+          "shadowTrees": 1,
+          "shadowTris": 4188,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 96,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 104,
+          "treeTris": 928829,
+          "shadowTrees": 1,
+          "shadowTris": 4188,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 96,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 34760
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3.9269908169872414
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 55,
+          "treeTris": 547605,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 57,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 50,
+          "treeTris": 480567,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 57,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 67038
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        4.71238898038469
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 14,
+          "treeTris": 177009,
+          "shadowTrees": 0,
+          "shadowTris": 0,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 22,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 14,
+          "treeTris": 177009,
+          "shadowTrees": 0,
+          "shadowTris": 0,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 22,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 0
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        5.497787143782138
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 40,
+          "treeTris": 308211,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 40,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 39,
+          "treeTris": 299233,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 40,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 16,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 8978
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        0
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 96,
+          "treeTris": 818139,
+          "shadowTrees": 35,
+          "shadowTris": 120415,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 156,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 93,
+          "treeTris": 780200,
+          "shadowTrees": 35,
+          "shadowTris": 120415,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 156,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 37939
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        0.7853981633974483
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 143,
+          "treeTris": 1721403,
+          "shadowTrees": 73,
+          "shadowTris": 252834,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 145,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 136,
+          "treeTris": 1629181,
+          "shadowTrees": 73,
+          "shadowTris": 252834,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 145,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 92222
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        1.5707963267948966
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 279,
+          "treeTris": 3213793,
+          "shadowTrees": 96,
+          "shadowTris": 338049,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 310,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 279,
+          "treeTris": 3213793,
+          "shadowTrees": 94,
+          "shadowTris": 332851,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 310,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 5198
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        2.356194490192345
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 260,
+          "treeTris": 2690087,
+          "shadowTrees": 76,
+          "shadowTris": 270558,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 384,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 254,
+          "treeTris": 2617832,
+          "shadowTrees": 74,
+          "shadowTris": 265360,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 384,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 77453
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        3.141592653589793
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 161,
+          "treeTris": 1468390,
+          "shadowTrees": 14,
+          "shadowTris": 53794,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 211,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 159,
+          "treeTris": 1450134,
+          "shadowTrees": 13,
+          "shadowTris": 51195,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 211,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 20855
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        3.9269908169872414
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 81,
+          "treeTris": 778165,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 89,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 75,
+          "treeTris": 726786,
+          "shadowTrees": 7,
+          "shadowTris": 27836,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 89,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 51379
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        4.71238898038469
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 53,
+          "treeTris": 496319,
+          "shadowTrees": 5,
+          "shadowTris": 20110,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 80,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 52,
+          "treeTris": 487191,
+          "shadowTrees": 5,
+          "shadowTris": 20110,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 80,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 9128
+    },
+    {
+      "pose": [
+        -180,
+        12,
+        5.497787143782138
+      ],
+      "counts": {
+        "before": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 61,
+          "treeTris": 430369,
+          "shadowTrees": 8,
+          "shadowTris": 30673,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 103,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        },
+        "after": {
+          "trees": 451,
+          "solitaryPines": 122,
+          "meshyTrees": 329,
+          "treeObstacles": 248,
+          "treesDrawn": 58,
+          "treeTris": 388563,
+          "shadowTrees": 8,
+          "shadowTris": 30673,
+          "struckLeaves": 0,
+          "forestFloorPieces": 712,
+          "forestFloorDrawn": 103,
+          "fallingLeaves": 156,
+          "fallingLeavesVisible": 26,
+          "fallingLeafTris": 1560,
+          "fallingLeafDrawnTris": 1540
+        }
+      },
+      "saved": 41806
+    }
+  ],
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before"
+  ],
+  "rows": [
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.7853981633974483,
+        11
+      ],
+      "windStrength": 1,
+      "windClock": 0,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 12632.091972,
+              "drawCalls": 402,
+              "triangles": 6329553,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 211,
+                  "triangles": 2438179
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 13202.734856,
+              "drawCalls": 402,
+              "triangles": 6329553,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 211,
+                  "triangles": 2438179
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 12917.413413999999
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 12466.543377,
+              "drawCalls": 402,
+              "triangles": 6149664,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1117316
+                },
+                "other": {
+                  "calls": 211,
+                  "triangles": 2381626
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1117316
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12499.26239,
+              "drawCalls": 402,
+              "triangles": 6149664,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1117316
+                },
+                "other": {
+                  "calls": 211,
+                  "triangles": 2381626
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1117316
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 12482.902883499999
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -180,
+        4.607493042945862,
+        12,
+        0.7853981633974483,
+        11
+      ],
+      "windStrength": 1,
+      "windClock": 2,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 10220.618931,
+              "drawCalls": 372,
+              "triangles": 5189324,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 961051
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "other": {
+                  "calls": 187,
+                  "triangles": 2129842
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 10306.678512,
+              "drawCalls": 372,
+              "triangles": 5189324,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 961051
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "other": {
+                  "calls": 187,
+                  "triangles": 2129842
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 10263.648721500002
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 10290.374025,
+              "drawCalls": 372,
+              "triangles": 5043144,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 961051
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 929298
+                },
+                "other": {
+                  "calls": 187,
+                  "triangles": 2091578
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 929298
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 10424.416445,
+              "drawCalls": 372,
+              "triangles": 5043144,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 961051
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 929298
+                },
+                "other": {
+                  "calls": 187,
+                  "triangles": 2091578
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 929298
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 10357.395235
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0,
+        11
+      ],
+      "windStrength": 1,
+      "windClock": 4,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 3794.25697,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3756.514187,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 3775.3855785
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 3745.108836,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3683.837145,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 3714.4729905
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    }
+  ],
+  "sourceSha256": "9aa9afe0457c16d2f2ca1795733e91be29196beb32355b10e1c341cf01c909c8",
+  "scope": "Published native High scene through Grade/post/MSAA. Added cached source boxes after the existing sphere test only for native forest placement spheres. Wind strength 1, frozen clock differs per view. Both modes warmed; balanced query samples. Software GPU query time is not target hardware cadence. Nominal texture storage is not driver VRAM. Pose scan chooses the largest geometry reduction at each of two forest locations; meadow is a control.",
+  "pass": true
+}
