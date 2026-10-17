@@ -619,6 +619,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
           }
           count++;
         }
+        const previousCount = b.mesh.count;
         b.mesh.count = count;
         // Zero-instance draws still run Three's material/uniform setup unless the batch leaves the render list.
         b.mesh.visible = count > 0;
@@ -627,7 +628,9 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
           uploadFloorPrefix(b.mesh.instanceMatrix, count);
           uploadFloorPrefix(b.mesh.instanceColor, count);
         }
-        if (coverageChanged) uploadFloorPrefix(b.visibility.coverage, count);
+        // A catch-up step can truncate a pending upload. Regrowth must resend the exposed tail,
+        // even when its cached CPU coverage already matches and does not dirty itself again.
+        if (coverageChanged || count > previousCount) uploadFloorPrefix(b.visibility.coverage, count);
         visible += count;
       }
     },
