@@ -57,6 +57,17 @@ describe('bow and skinning on the delivered hero skeleton', () => {
     s.visual.dispose();
   });
 
+  it('draws the nocked arrow over the body, since the shoulder camera sits behind his draw arm', () => {
+    const s = setup();
+    const meshes: THREE.Mesh[] = [];
+    s.visual.nockedArrow.traverse((object) => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
+    expect(meshes.length).toBeGreaterThan(3);
+    for (const mesh of meshes) {
+      expect(mesh.renderOrder).toBeGreaterThan(0);
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) expect(material.depthTest).toBe(false);
+    }
+  });
+
   it('crouches with an actual moving knife hand and restores every overlaid joint after skinning', () => {
     const s = setup();
     s.pose();
