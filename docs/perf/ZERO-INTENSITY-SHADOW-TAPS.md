@@ -19,6 +19,31 @@ GPU-query timings from software rendering describe this renderer only; they are 
 
 Captures are read synchronously before awaiting timer-query completion, because the default drawing buffer can be discarded after the browser presents it. The verifier rejects blank captures.
 
+
+All four native before/after images match exactly and pass the nonblank-capture check. Draws, triangles, uploads and pass breakdowns match on every measured sample. Texture count stays at 274, with observed nominal storage of 1,310,276,620 bytes (zero unknown formats).
+
+| View | Draws | Triangles | Source upload bytes/frame | Leaf depth + colour triangles | Shadow triangles | Grass triangles |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Night forest | 194 | 3,461,239 | 20,736 | 1,439,152 | 0 | 454,665 |
+| Night meadow | 101 | 1,587,857 | 0 | 309,808 | 0 | 694,764 |
+| Day forest | 320 | 4,387,930 | 27,648 | 1,439,152 | 920,723 | 454,665 |
+| Dusk meadow | 294 | 3,557,576 | 20,736 | 309,808 | 1,858,839 | 694,764 |
+
+These are submission counts, not per-pass timing measurements. Substantial geometry work remains: about 1.44M leaf triangles across two passes in the forest and about 1.86M shadow triangles in the dusk meadow. This guard does not reduce those counts.
+
+### Software GPU-query timings
+
+Four warmed samples per variant/view, balanced in order. The night-forest median falls **4.0%** in this SwiftShader run, with nonoverlapping observed ranges. The other ranges overlap, so their timing changes are inconclusive. These seconds-long software GPU-query timings are not playable-device frame times or a 60 Hz hardware-gate result. An M5 performance gain remains unverified.
+
+| View | Before median ms (range) | After median ms (range) |
+| --- | ---: | ---: |
+| Night forest | 7491.0 (7392.1–8173.8) | 7187.8 (7164.0–7284.7) |
+| Night meadow | 3045.1 (3008.1–3060.7) | 2925.2 (2887.9–3136.6) |
+| Day forest | 8205.6 (8125.3–8348.2) | 8152.6 (8028.0–8317.1) |
+| Dusk meadow | 7186.0 (7141.7–7317.1) | 7161.7 (7106.8–7197.5) |
+
+[Raw receipt and tap cases](proofs/zero-shadow-intensity/report.json) · [night forest before](proofs/zero-shadow-intensity/0-before.png) / [after](proofs/zero-shadow-intensity/0-after.png) · [night meadow before](proofs/zero-shadow-intensity/1-before.png) / [after](proofs/zero-shadow-intensity/1-after.png) · [day forest before](proofs/zero-shadow-intensity/2-before.png) / [after](proofs/zero-shadow-intensity/2-after.png) · [dusk meadow before](proofs/zero-shadow-intensity/3-before.png) / [after](proofs/zero-shadow-intensity/3-after.png)
+
 ```sh
 node tools/repro-live-zero-shadow-intensity.mjs --url https://ael-dev3.github.io/Tervain/ --out zero-shadow-proof
 npx vitest run tests/presentation/skyAtmosphere.test.ts tests/presentation/foliageEngine.test.ts --testTimeout=120000
