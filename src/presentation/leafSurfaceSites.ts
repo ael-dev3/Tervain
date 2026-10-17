@@ -14,6 +14,48 @@ interface LeafChannelImage { width: number; height: number; data: Uint8Array }
 // Canonical decoded image identities survive cloned Texture wrappers. Cache one
 // byte of alpha per pixel, rather than retaining another full RGBA atlas.
 const decodedImages = new WeakMap<object, Map<1 | 3, LeafChannelImage | null>>();
+// The base alpha channel is already owned by decodedImages. For square atlases, higher max levels cost about one third as much again.
+const alphaMaxLevels = new WeakMap<LeafChannelImage, readonly LeafChannelImage[]>();
+function maxLevels(image: LeafChannelImage): readonly LeafChannelImage[] {
+  const cached = alphaMaxLevels.get(image); if (cached) return cached;
+  const levels = [image];
+  while (levels[levels.length - 1]!.width > 1 || levels[levels.length - 1]!.height > 1) {
+    const previous = levels[levels.length - 1]!, width = Math.ceil(previous.width / 2), height = Math.ceil(previous.height / 2);
+    const data = new Uint8Array(width * height);
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      let maximum = 0;
+      for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) {
+        if (x * 2 + dx >= previous.width || y * 2 + dy >= previous.height) continue;
+        maximum = Math.max(maximum, previous.data[(y * 2 + dy) * previous.width + x * 2 + dx]!);
+      }
+      data[y * width + x] = maximum;
+    }
+    levels.push({ width, height, data });
+  }
+  alphaMaxLevels.set(image, levels); return levels;
+}
+function opaqueInRect(levels: readonly LeafChannelImage[], levelIndex: number, x: number, y: number,
+  loX: number, hiX: number, loY: number, hiY: number, opacity: number, cutoff: number, edges: readonly number[], padding: number): boolean {
+  const level = levels[levelIndex]!;
+  if (x >= level.width || y >= level.height) return false;
+  const size = 2 ** levelIndex, px = x * size, py = y * size;
+  if (px > hiX || py > hiY || px + size <= loX || py + size <= loY) return false;
+  const upper = level.data[y * level.width + x]! / 255 * opacity;
+  if (upper < cutoff) return false;
+  // A max texel outside the UV triangle cannot contribute, even when it lies inside its enclosing rectangle.
+  // Expand each node by the filter footprint before testing the triangle's edge half-planes.
+  let insideTriangle = true;
+  for (let i = 0; i < edges.length; i += 3) {
+    const nx = edges[i]!, ny = edges[i + 1]!;
+    if (nx * (nx < 0 ? px - padding : px + size) + ny * (ny < 0 ? py - padding : py + size) + edges[i + 2]! < -1e-6) return false;
+    if (nx * (nx < 0 ? px + size : px - padding) + ny * (ny < 0 ? py + size : py - padding) + edges[i + 2]! < 0) insideTriangle = false;
+  }
+  if (levelIndex === 0 || insideTriangle && px >= loX && py >= loY && px + size - 1 <= hiX && py + size - 1 <= hiY) return true;
+  for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++)
+    if (opaqueInRect(levels, levelIndex - 1, x * 2 + dx, y * 2 + dy, loX, hiX, loY, hiY, opacity, cutoff, edges, padding)) return true;
+  return false;
+}
+
 function validPixels(image: LeafRgbaImage | null): image is LeafRgbaImage {
   return !!image && Number.isInteger(image.width) && Number.isInteger(image.height)
     && image.width > 0 && image.height > 0 && image.width * image.height <= 16_777_216
@@ -170,7 +212,8 @@ export function sampleLeafSurfaceSites(
 
 /** Opacity lookup for one leaf material's cutout (map alpha × alphaMap green × opacity), for offline audits.
  * Null when the material is not masked or its pixels cannot be decoded. */
-export function leafCutoutSampler(material: THREE.Material): { uv: string; cutoff: number; alpha(u: number, v: number): number } | null {
+export function leafCutoutSampler(material: THREE.Material): { uv: string; cutoff: number; alpha(u: number, v: number): number;
+  mayHaveOpaque(u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean } | null {
   const m = material as THREE.MeshStandardMaterial;
   if (!(m.alphaTest > 0) || !Number.isFinite(m.alphaTest) || !m.map) return null;
   const maps: { texture: THREE.Texture; image: LeafChannelImage }[] = [];
@@ -180,7 +223,7 @@ export function leafCutoutSampler(material: THREE.Material): { uv: string; cutof
     if (!image) return null;
     maps.push({ texture, image });
   }
-  const opacity = Number.isFinite(m.opacity) ? m.opacity : 1;
+  const opacity = Number.isFinite(m.opacity) ? m.opacity : 1, cutoff = m.alphaTest;
   // Allocation-free lookups (an island pass samples every leaf triangle many times): each map's UV transform once.
   const lookups = maps.map(({ texture, image }) => {
     const e = textureMatrix(texture).elements, w = image.width, h = image.height, data = image.data, flip = texture.flipY;
@@ -196,7 +239,37 @@ export function leafCutoutSampler(material: THREE.Material): { uv: string; cutof
       return (texel(ix, iy) * (1 - fx) + texel(ix + 1, iy) * fx) * (1 - fy) + (texel(ix, iy + 1) * (1 - fx) + texel(ix + 1, iy + 1) * fx) * fy;
     };
   });
-  return { uv: m.map.channel ? `uv${m.map.channel}` : 'uv', cutoff: m.alphaTest, alpha: (u, v) => {
+  const first = maps[0]!, e = textureMatrix(first.texture).elements, image = first.image, texture = first.texture;
+  const flip = texture.flipY, nearest = texture.magFilter === THREE.NearestFilter, wrapS = texture.wrapS, wrapT = texture.wrapT;
+  const mayHaveOpaque = (u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean => {
+    // Bilinear alpha is bounded by its source texels. A UV rectangle with no texel reaching the cutoff
+    // cannot contain opacity; alphaMap can only reduce it. Wrapped edge rectangles keep the conservative path.
+    const x0 = e[0]! * u0 + e[3]! * v0 + e[6]!, x1 = e[0]! * u1 + e[3]! * v1 + e[6]!, x2 = e[0]! * u2 + e[3]! * v2 + e[6]!;
+    let y0 = e[1]! * u0 + e[4]! * v0 + e[7]!, y1 = e[1]! * u1 + e[4]! * v1 + e[7]!, y2 = e[1]! * u2 + e[4]! * v2 + e[7]!;
+    if (flip) { y0 = 1 - y0; y1 = 1 - y1; y2 = 1 - y2; }
+    const pad = nearest ? 0 : 0.5;
+    let loX = Math.floor(Math.min(x0, x1, x2) * image.width - pad), hiX = Math.floor(Math.max(x0, x1, x2) * image.width - pad) + (nearest ? 0 : 1);
+    let loY = Math.floor(Math.min(y0, y1, y2) * image.height - pad), hiY = Math.floor(Math.max(y0, y1, y2) * image.height - pad) + (nearest ? 0 : 1);
+    if (![loX, hiX, loY, hiY].every(Number.isSafeInteger)) return true;
+    if (wrapS === THREE.ClampToEdgeWrapping) { loX = Math.max(0, Math.min(image.width - 1, loX)); hiX = Math.max(0, Math.min(image.width - 1, hiX)); }
+    if (wrapT === THREE.ClampToEdgeWrapping) { loY = Math.max(0, Math.min(image.height - 1, loY)); hiY = Math.max(0, Math.min(image.height - 1, hiY)); }
+    // Wrapped rectangles crossing an image edge stay conservative; ordinary atlas interiors use the exact max query.
+    if (loX < 0 || hiX >= image.width || loY < 0 || hiY >= image.height) return true;
+    const edges: number[] = [];
+    // Clamping outside the image is nonlinear: in that case keep the rectangle-only upper bound.
+    if (Math.min(x0, x1, x2, y0, y1, y2) >= 0 && Math.max(x0, x1, x2, y0, y1, y2) <= 1) {
+      const xs = [x0 * image.width - pad, x1 * image.width - pad, x2 * image.width - pad];
+      const ys = [y0 * image.height - pad, y1 * image.height - pad, y2 * image.height - pad];
+      const sign = Math.sign((xs[1]! - xs[0]!) * (ys[2]! - ys[0]!) - (ys[1]! - ys[0]!) * (xs[2]! - xs[0]!));
+      if (sign) for (let i = 0; i < 3; i++) {
+        const j = (i + 1) % 3, nx = (ys[i]! - ys[j]!) * sign, ny = (xs[j]! - xs[i]!) * sign;
+        edges.push(nx, ny, -nx * xs[i]! - ny * ys[i]!);
+      }
+    }
+    const levels = maxLevels(image);
+    return opaqueInRect(levels, levels.length - 1, 0, 0, loX, hiX, loY, hiY, opacity, cutoff, edges, nearest ? 0 : 1);
+  };
+  return { uv: m.map.channel ? `uv${m.map.channel}` : 'uv', cutoff, mayHaveOpaque, alpha: (u, v) => {
     let a = opacity;
     for (const lookup of lookups) a *= lookup(u, v);
     return a;

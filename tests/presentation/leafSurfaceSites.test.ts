@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { sampleLeafRgbaAlpha, sampleLeafSurfaceSites, type LeafRgbaImage } from '../../src/presentation/leafSurfaceSites';
+import { leafCutoutSampler, sampleLeafRgbaAlpha, sampleLeafSurfaceSites, type LeafRgbaImage } from '../../src/presentation/leafSurfaceSites';
 
 const rgba = (alphas: number[], width = 2): LeafRgbaImage => ({ width, height: alphas.length / width,
   data: new Uint8ClampedArray(alphas.flatMap(alpha => [255, 255, 255, alpha])) });
@@ -131,4 +131,38 @@ describe('visible native leaf surface sites', () => {
     expect(sampleLeafSurfaceSites(geometry, material)).toEqual([]);
     geometry.dispose(); material.map!.dispose(); material.dispose();
   });
+});
+
+
+it('only rejects UV triangles whose transformed texture bounds prove transparent', () => {
+  let rejected = 0, supported = 0;
+  for (const filter of [THREE.NearestFilter, THREE.LinearFilter]) for (const wrap of [THREE.RepeatWrapping, THREE.MirroredRepeatWrapping, THREE.ClampToEdgeWrapping]) for (const flip of [false, true]) for (const [width, height] of [[8, 8], [7, 5]] as const) {
+    const pixels = new Uint8Array(width * height * 4); pixels[(Math.floor(height / 2) * width + Math.floor(width / 2)) * 4 + 3] = 255;
+    const texture = new THREE.DataTexture(pixels, width, height); texture.magFilter = filter; texture.wrapS = texture.wrapT = wrap; texture.flipY = flip;
+    texture.offset.set(0.13, -0.11); texture.repeat.set(1.2, 0.9); texture.rotation = 0.2;
+    const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: 0.42 }), cutout = leafCutoutSampler(material)!;
+    try {
+      for (let z = -2; z < 10; z++) for (let x = -2; x < 10; x++) {
+        const u = x / 8, v = z / 8, maybe = cutout.mayHaveOpaque(u, v, u + 0.06, v, u, v + 0.06);
+        if (!maybe) rejected++;
+        for (let i = 0; i <= 6; i++) for (let j = 0; i + j <= 6; j++) {
+          const alpha = cutout.alpha(u + i / 6 * 0.06, v + j / 6 * 0.06);
+          if (alpha >= cutout.cutoff) { supported++; expect(maybe).toBe(true); }
+        }
+      }
+      const broad = cutout.mayHaveOpaque(-1e10, -1e10, 1e10, -1e10, 0, 1e10); expect(broad).toBe(true);
+    } finally { material.dispose(); texture.dispose(); }
+  }
+  expect(rejected).toBeGreaterThan(100); expect(supported).toBeGreaterThan(10);
+});
+
+it('rejects opacity outside a triangle while keeping boundary-filter contributions', () => {
+  const pixels = new Uint8Array(8 * 8 * 4); pixels[(6 * 8 + 6) * 4 + 3] = 255;
+  const texture = new THREE.DataTexture(pixels, 8, 8); texture.flipY = false;
+  const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: 0.42 });
+  try {
+    const c = leafCutoutSampler(material)!;
+    expect(c.mayHaveOpaque(0.1, 0.1, 0.95, 0.1, 0.1, 0.95)).toBe(false);
+    expect(c.mayHaveOpaque(0.8, 0.8, 0.9, 0.8, 0.8, 0.9)).toBe(true);
+  } finally { material.dispose(); texture.dispose(); }
 });
