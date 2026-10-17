@@ -1,0 +1,292 @@
+{
+  "build": {
+    "version": "0.0.19",
+    "revision": "77c6866"
+  },
+  "captureCamera": [
+    -28,
+    9.732978239059449,
+    -106
+  ],
+  "rows": {
+    "before-1": {
+      "captures": [
+        {
+          "trees": 157,
+          "triangles": 1709413
+        },
+        {
+          "trees": 157,
+          "triangles": 1709413
+        },
+        {
+          "trees": 157,
+          "triangles": 1709413
+        },
+        {
+          "trees": 157,
+          "triangles": 1709413
+        },
+        {
+          "trees": 157,
+          "triangles": 1709413
+        },
+        {
+          "trees": 157,
+          "triangles": 1709413
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 0,
+      "primary": {
+        "drawCalls": 354,
+        "triangles": 4239540,
+        "textures": 275
+      }
+    },
+    "before--1": {
+      "captures": [
+        {
+          "trees": 26,
+          "triangles": 306245
+        },
+        {
+          "trees": 26,
+          "triangles": 306245
+        },
+        {
+          "trees": 26,
+          "triangles": 306245
+        },
+        {
+          "trees": 26,
+          "triangles": 306245
+        },
+        {
+          "trees": 26,
+          "triangles": 306245
+        },
+        {
+          "trees": 26,
+          "triangles": 306245
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 0,
+      "primary": {
+        "drawCalls": 45,
+        "triangles": 615355,
+        "textures": 275
+      }
+    },
+    "after-1": {
+      "captures": [
+        {
+          "trees": 110,
+          "triangles": 1290130
+        },
+        {
+          "trees": 185,
+          "triangles": 1640915
+        },
+        {
+          "trees": 20,
+          "triangles": 222785
+        },
+        {
+          "trees": 0,
+          "triangles": 0
+        },
+        {
+          "trees": 155,
+          "triangles": 1682148
+        },
+        {
+          "trees": 25,
+          "triangles": 296539
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 12,
+      "primary": {
+        "drawCalls": 354,
+        "triangles": 4239540,
+        "textures": 275
+      }
+    },
+    "after--1": {
+      "captures": [
+        {
+          "trees": 110,
+          "triangles": 1290130
+        },
+        {
+          "trees": 185,
+          "triangles": 1640915
+        },
+        {
+          "trees": 20,
+          "triangles": 222785
+        },
+        {
+          "trees": 0,
+          "triangles": 0
+        },
+        {
+          "trees": 155,
+          "triangles": 1682148
+        },
+        {
+          "trees": 25,
+          "triangles": 296539
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 12,
+      "primary": {
+        "drawCalls": 45,
+        "triangles": 615355,
+        "textures": 275
+      }
+    },
+    "repeat-1": {
+      "captures": [
+        {
+          "trees": 110,
+          "triangles": 1290130
+        },
+        {
+          "trees": 185,
+          "triangles": 1640915
+        },
+        {
+          "trees": 20,
+          "triangles": 222785
+        },
+        {
+          "trees": 0,
+          "triangles": 0
+        },
+        {
+          "trees": 155,
+          "triangles": 1682148
+        },
+        {
+          "trees": 25,
+          "triangles": 296539
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 12,
+      "primary": {
+        "drawCalls": 354,
+        "triangles": 4239540,
+        "textures": 275
+      }
+    },
+    "repeat--1": {
+      "captures": [
+        {
+          "trees": 110,
+          "triangles": 1290130
+        },
+        {
+          "trees": 185,
+          "triangles": 1640915
+        },
+        {
+          "trees": 20,
+          "triangles": 222785
+        },
+        {
+          "trees": 0,
+          "triangles": 0
+        },
+        {
+          "trees": 155,
+          "triangles": 1682148
+        },
+        {
+          "trees": 25,
+          "triangles": 296539
+        }
+      ],
+      "restored": true,
+      "selectionCalls": 12,
+      "primary": {
+        "drawCalls": 45,
+        "triangles": 615355,
+        "textures": 275
+      }
+    }
+  },
+  "faces": [
+    {
+      "face": 0,
+      "beforeHeadingDifferences": 60668,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 76872,
+      "correctedSouthPixels": 26782
+    },
+    {
+      "face": 1,
+      "beforeHeadingDifferences": 55159,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 53469,
+      "correctedSouthPixels": 31007
+    },
+    {
+      "face": 2,
+      "beforeHeadingDifferences": 56133,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 55640,
+      "correctedSouthPixels": 493
+    },
+    {
+      "face": 3,
+      "beforeHeadingDifferences": 0,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 0,
+      "correctedSouthPixels": 0
+    },
+    {
+      "face": 4,
+      "beforeHeadingDifferences": 12108,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 0,
+      "correctedSouthPixels": 12108
+    },
+    {
+      "face": 5,
+      "beforeHeadingDifferences": 82508,
+      "afterHeadingDifferences": 0,
+      "repeatDifferences": 0,
+      "correctedNorthPixels": 82508,
+      "correctedSouthPixels": 0
+    }
+  ],
+  "primary": [
+    {
+      "direction": 1,
+      "changedPixels": 0,
+      "countsMatch": true
+    },
+    {
+      "direction": -1,
+      "changedPixels": 0,
+      "countsMatch": true
+    }
+  ],
+  "sourceSha256": {
+    "src/presentation/flora.ts": "2f19b77fef67e0c5bf15ba7c2e18baf38fa4a6cf9678fa8ad19c78dc84d2574c",
+    "src/presentation/windowView.ts": "4d5216bdb5ccaa5257fdf31b3addaaa4a827ca6cdc4e9141159ff208bb4235dc",
+    "src/presentation/world.ts": "cdfb767358ed4e4e9f035b4944cad1d882ee0db7404798f50bb5707041f0fbcc"
+  },
+  "scope": "Published native shrine/trees/materials/packed buffers, medium, six 640px faces. Frozen simulation and shadow map. Grass, floor and loose falling leaves held out to isolate tree selection. Production capture scope and WindowView update; native zero-dt update adapter invokes published forest selection with world-space cube-face proxies. Tests exercise candidate refresh directly, including parented-camera origin and idle-cache restoration. Software WebGL, no hardware frame-time claim.",
+  "pass": true
+}
