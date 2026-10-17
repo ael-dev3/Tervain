@@ -23,10 +23,13 @@ function maxLevels(image: LeafChannelImage): readonly LeafChannelImage[] {
     const previous = levels[levels.length - 1]!, width = Math.ceil(previous.width / 2), height = Math.ceil(previous.height / 2);
     const data = new Uint8Array(width * height);
     for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-      let maximum = 0;
-      for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) {
-        if (x * 2 + dx >= previous.width || y * 2 + dy >= previous.height) continue;
-        maximum = Math.max(maximum, previous.data[(y * 2 + dy) * previous.width + x * 2 + dx]!);
+      const row = y * 2 * previous.width, column = x * 2;
+      // The top-left child always exists, including odd image sizes. Alpha 255 cannot be exceeded.
+      let maximum = previous.data[row + column]!;
+      if (maximum < 255 && column + 1 < previous.width) maximum = Math.max(maximum, previous.data[row + column + 1]!);
+      if (maximum < 255 && y * 2 + 1 < previous.height) {
+        maximum = Math.max(maximum, previous.data[row + previous.width + column]!);
+        if (maximum < 255 && column + 1 < previous.width) maximum = Math.max(maximum, previous.data[row + previous.width + column + 1]!);
       }
       data[y * width + x] = maximum;
     }
