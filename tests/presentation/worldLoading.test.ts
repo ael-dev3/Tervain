@@ -8,6 +8,7 @@ import type { AssetLibrary } from '../../src/presentation/assets/library';
 import type { SceneModule } from '../../src/presentation/context';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { PINE_FILES } from '../../src/presentation/solitaryPine';
+import { HERO_PINE_FILES } from '../../src/presentation/heroPine';
 import { activeMeshyTreeIds, MESHY_TREE_LODS } from '../../src/presentation/meshyTrees';
 import { ANIMALS } from '../../src/presentation/animals/catalog';
 import { WORLD } from '../../src/world/layout';
@@ -22,13 +23,13 @@ const controls = vi.hoisted(() => ({
   modelsStarted: null as (() => void) | null,
   furnitureGate: null as Promise<void> | null,
   furnitureLoads: 0,
-  modelCallbacks: {} as Partial<Record<'pine' | 'stone' | 'trees' | 'animals' | 'furniture', (loaded: number, total: number) => void>>,
+  modelCallbacks: {} as Partial<Record<'pine' | 'heroPine' | 'stone' | 'trees' | 'animals' | 'furniture', (loaded: number, total: number) => void>>,
 }));
 
 async function modelFamily(family: keyof typeof controls.modelCallbacks, total: number, progress?: (loaded: number, total: number) => void) {
   if (progress) controls.modelCallbacks[family] = progress;
   progress?.(0, total);
-  if (Object.keys(controls.modelCallbacks).length === 5) controls.modelsStarted?.();
+  if (Object.keys(controls.modelCallbacks).length === 6) controls.modelsStarted?.();
   if (controls.modelGate) await controls.modelGate;
   progress?.(total, total);
 }
@@ -92,6 +93,11 @@ vi.mock('../../src/presentation/solitaryPine', async importOriginal => ({
     await modelFamily('pine', PINE_FILES.length, progress); return [];
   },
 }));
+vi.mock('../../src/presentation/heroPine', async importOriginal => ({
+  ...await importOriginal<typeof import('../../src/presentation/heroPine')>(), loadHeroPine: async (progress?: (loaded: number, total: number) => void) => {
+    await modelFamily('heroPine', HERO_PINE_FILES.length, progress); return [];
+  },
+}));
 vi.mock('../../src/presentation/meshyTrees', async importOriginal => ({
   ...await importOriginal<typeof import('../../src/presentation/meshyTrees')>(), loadMeshyTrees: async (_ids: unknown, progress?: (loaded: number, total: number) => void) => {
     await modelFamily('trees', activeMeshyTreeIds().length, progress); return [];
@@ -153,12 +159,14 @@ describe('world load and activation boundary', () => {
     const phases: WorldBuildProgress[] = [], legacy = vi.fn();
     const pending = WorldScene.create(createInitialState(), defaultSettings(), library(), legacy, undefined, { yieldNow: async () => {}, onPhase: p => phases.push(p) });
     await started.promise;
-    const expectedTotal = PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length + 1;
+    const expectedTotal = PINE_FILES.length + HERO_PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length + 1;
     expect(phases.at(-1)).toMatchObject({ phase: 'models', completed: 0, total: expectedTotal });
     controls.modelCallbacks.pine!(2, PINE_FILES.length);
     expect(phases.at(-1)!.completed).toBe(2);
+    controls.modelCallbacks.heroPine!(HERO_PINE_FILES.length, HERO_PINE_FILES.length);
+    expect(phases.at(-1)!.completed).toBe(2 + HERO_PINE_FILES.length);
     controls.modelCallbacks.trees!(3, activeMeshyTreeIds().length);
-    expect(phases.at(-1)!.completed).toBe(2 + 3 * MESHY_TREE_LODS.length);
+    expect(phases.at(-1)!.completed).toBe(2 + HERO_PINE_FILES.length + 3 * MESHY_TREE_LODS.length);
     controls.modelCallbacks.animals!(5, ANIMALS.length);
     controls.modelCallbacks.stone!(1, 1);
     const previous = phases.at(-1)!.completed;
@@ -183,7 +191,7 @@ describe('world load and activation boundary', () => {
       yieldNow: async () => {}, deferFurniture: true, onPhase: p => phases.push(p),
     });
     try {
-      const expectedTotal = PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length;
+      const expectedTotal = PINE_FILES.length + HERO_PINE_FILES.length + 1 + activeMeshyTreeIds().length * MESHY_TREE_LODS.length + ANIMALS.length;
       expect(phases.filter(p => p.phase === 'models').at(-1)).toMatchObject({ completed: expectedTotal, total: expectedTotal });
       expect(controls.modelCallbacks.furniture).toBeUndefined();
       const module = world.modules.find(entry => entry.name === 'furniture')!.module as SceneModule & { arrived: boolean };

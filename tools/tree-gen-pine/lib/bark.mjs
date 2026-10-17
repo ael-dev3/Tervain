@@ -54,18 +54,18 @@ export function makeBark(size = 2048, seed = 7) {
       const t = hash2(idx, idy, seed + 31), orange = hash2(idx, idy, seed + 32) > 0.93 ? 1 : 0;
       let r = lerp(96, 146, t), g = lerp(80, 108, t), b = lerp(68, 86, t);
       if (orange) { r = lerp(r, 158, 0.5); g = lerp(g, 104, 0.4); b = lerp(b, 70, 0.4); }
-      const lit = 0.78 + 0.4 * clamp(H, 0, 1);
+      const lit = 0.88 + 0.32 * clamp(H, 0, 1);
       const fr = Math.pow(furrow, 0.6);
       r = lerp(104, r * lit, fr); g = lerp(84, g * lit, fr); b = lerp(70, b * lit, fr);
       // lighter lichen-grey speckle on some plate tops
       const sp = smoothstep(0.62, 0.8, pnoise(u * 30, v * 50, 30, 50, seed + 41)) * 0.18 * fr;
       r += sp * 70; g += sp * 74; b += sp * 62;
-      albedo[i * 3] = clamp(r, 0, 255); albedo[i * 3 + 1] = clamp(g, 0, 255); albedo[i * 3 + 2] = clamp(b, 0, 255);
+      albedo[i * 3] = clamp(r * 1.06, 0, 255); albedo[i * 3 + 1] = clamp(g * 1.02, 0, 255); albedo[i * 3 + 2] = clamp(b, 0, 255);
     }
   }
   const normal = new Uint8Array(size * size * 3);
   const orm = new Uint8Array(size * size * 3);
-  const k = 5.5; // slope gain: heights change ~0.01 a pixel at 2048 px
+  const k = 3.4; // slope gain: heights change ~0.01 a pixel at 2048 px
   const at = (x, y) => h[((y + size) % size) * size + ((x + size) % size)];
   for (let py = 0; py < size; py++) {
     for (let px = 0; px < size; px++) {
@@ -77,7 +77,7 @@ export function makeBark(size = 2048, seed = 7) {
       normal[i * 3 + 1] = clamp((-dhy / l * 0.5 + 0.5) * 255, 0, 255);
       normal[i * 3 + 2] = clamp((1 / l * 0.5 + 0.5) * 255, 0, 255);
       const H = h[i];
-      orm[i * 3] = clamp((0.28 + 0.72 * smoothstep(0.02, 0.5, H)) * 255, 0, 255);
+      orm[i * 3] = clamp((0.52 + 0.48 * smoothstep(0.02, 0.5, H)) * 255, 0, 255);
       orm[i * 3 + 1] = clamp((0.92 - 0.1 * H) * 255, 0, 255);
       orm[i * 3 + 2] = 0;
     }

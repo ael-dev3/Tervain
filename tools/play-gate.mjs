@@ -91,7 +91,7 @@ const SAMPLER = `
       ndc.copy(hips).project(cam);
       window.__gate.samples.push([document.timeline.currentTime ?? performance.now(), window.__gate.phase, shown(body) ? 1 : 0, +(T.cam.curDist ?? 0).toFixed(3), +up.y.toFixed(3),
         +(head.y - root.y).toFixed(3), +ndc.x.toFixed(3), +ndc.y.toFixed(3), T.simStep, P.swimming ? 1 : 0, R.getPixelRatio(), T.cam.bodyVisible ? 1 : 0,
-        +(performance.now() - window.__gate.frameStart).toFixed(2), window.__gate.upload, window.__gate.afterShot ? 1 : 0]);
+        +(performance.now() - window.__gate.frameStart).toFixed(2), window.__gate.upload, window.__gate.afterShot ? 1 : 0, (window.__gate.settle > 0 ? (window.__gate.settle--, 1) : 0) || (T.cam.aimBlend > 0.001 && T.cam.aimBlend < 0.999 ? 1 : 0)]);
       const g = window.__gate, now = g.samples.at(-1)[0], interval = g.last ? now - g.last : 0;
       const paid = g.afterShot; g.last = now; g.upload = 0; g.afterShot = false;
       // Recorded runs only: a synchronous canvas readback/JPEG encode must not perturb a --video false timing run.
@@ -126,7 +126,8 @@ async function runProfile(name) {
   const tap = async (code) => { await key('rawKeyDown', code); await page.wait(60); await key('keyUp', code); };
   const mouse = (type, button = 'left') => page.cdp('Input.dispatchMouseEvent', { type, x: prof.w / 2, y: prof.h / 2, button, buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
   const phase = (p) => page.eval(`window.__gate.phase = ${JSON.stringify(p)}; return 1`);
-  const place = (x, z, yaw) => page.eval(`const T = window.tervain; T.player.setPosition(${x}, ${z}, ${yaw}, T.world.terrain); T.cam.yaw = ${yaw}; return 1`);
+  // The script, not the player, moves the hero here: the frames after it (and the designed aim swing of the camera) are marked so the jump check does not count the camera catching up.
+  const place = (x, z, yaw) => page.eval(`const T = window.tervain; T.player.setPosition(${x}, ${z}, ${yaw}, T.world.terrain); T.cam.yaw = ${yaw}; window.__gate.settle = 4; return 1`);
   try {
     page = await openPage(URL_, { w: prof.w, h: prof.h, headed: true });
     await page.cdp('Emulation.setDeviceMetricsOverride', { width: prof.w, height: prof.h, deviceScaleFactor: prof.dpr, mobile: false });
@@ -200,7 +201,7 @@ async function runProfile(name) {
     }
 
     // Judge.
-    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot }));
+    const S = gate.samples.map(([t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot, placed]) => ({ t, ph, vis, dist, upY, headUp, nx, ny, step, swim, pr, want, busy, upload, shot, placed }));
     const play = S.filter((s) => !['setup', 'pause', 'end'].includes(s.ph));
     const timed = [];
     const timedAt = [];
@@ -219,7 +220,7 @@ async function runProfile(name) {
     }
     const badPose = play.filter((s) => !s.swim && (s.upY < LIMITS.minUpright || s.headUp < LIMITS.minHeadAboveRoot));
     let jumps = 0;
-    for (let i = 1; i < play.length; i++) if (play[i].ph === play[i - 1].ph && play[i].vis && play[i - 1].vis && Math.hypot(play[i].nx - play[i - 1].nx, play[i].ny - play[i - 1].ny) > LIMITS.screenJump) jumps++;
+    for (let i = 1; i < play.length; i++) if (play[i].ph === play[i - 1].ph && !play[i].placed && !play[i - 1].placed && play[i].vis && play[i - 1].vis && Math.hypot(play[i].nx - play[i - 1].nx, play[i].ny - play[i - 1].ny) > LIMITS.screenJump) jumps++;
     const longTasks = gate.longTasks.filter(([, , ph]) => !['setup', 'pause', 'end'].includes(ph));
     const fail = (cond, msg) => { if (cond) failures.push(msg); };
     fail(hidden.length > 0, `hero hidden on ${hidden.length} frames with the camera clear of him`);

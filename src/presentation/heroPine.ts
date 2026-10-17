@@ -16,12 +16,20 @@ import { downloadAsset } from './assets/download';
 export const HERO_PINE_FILES = ['hero/hero-pine-near.glb', 'hero/hero-pine-mid.glb', 'hero/hero-pine-far.glb'] as const;
 export const HERO_PINE_VARIANTS = 4;
 /** Off until the hero pine is approved; `?heropine=1` turns it on and `?heropine=0` is the explicit escape once it becomes the default. */
-export const HERO_PINE_DEFAULT = false;
+export const HERO_PINE_DEFAULT = true;
 /** The live solitary pine stands 25 m (solitaryPine.ts PROFILE.pine) with a +-5 % seeded spread: a hero pine is scaled to the same height so placement and sight lines do not move. */
 export const HERO_PINE_HEIGHT = 25;
-/** Multiplies the needle albedo; the shared conifer atlas is used as drawn, so this stays 1 unless a dusk match needs it. */
-export const HERO_NEEDLE_TINT = new THREE.Color(1.12, 1.12, 1.08);
+/** Multiplies the needle albedo. The conifer atlas is a pale grey-green and the foliage shader pulls saturation back, so this warms and darkens it until the crown's measured mean colour matches the solitary pine's (about 153, 154, 114 at 30 m, 11:00). */
+export const HERO_NEEDLE_TINT = new THREE.Color(0.63, 0.68, 0.31);
 const seededSpread = (seed: number): number => { let a = (seed * 1291 + 4 * 17) >>> 0; a = (a + 0x6D2B79F5) >>> 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return 0.94 + (((t ^ (t >>> 14)) >>> 0) / 4294967296) * 0.10; };
+/** `?pinetint=r,g,b` overrides the needle tint (a look-development aid; the default is HERO_NEEDLE_TINT). */
+function needleTint(search = typeof location !== 'undefined' ? location.search : ''): THREE.Color {
+  try {
+    const raw = new URLSearchParams(search).get('pinetint')?.split(',').map(Number);
+    if (raw?.length === 3 && raw.every((v) => Number.isFinite(v) && v >= 0 && v <= 3)) return new THREE.Color(raw[0]!, raw[1]!, raw[2]!);
+  } catch { /* the default tint */ }
+  return HERO_NEEDLE_TINT;
+}
 export type HeroPineTemplates = readonly [GLTF, GLTF, GLTF];
 
 export function heroPineEnabled(search = typeof location !== 'undefined' ? location.search : ''): boolean {
@@ -44,8 +52,9 @@ function load(file: string): Promise<GLTF> {
   return request;
 }
 
-export async function loadHeroPine(): Promise<HeroPineTemplates> {
-  loaded = await Promise.all(HERO_PINE_FILES.map(load)) as unknown as HeroPineTemplates;
+export async function loadHeroPine(progress?: (loaded: number, total: number) => void): Promise<HeroPineTemplates> {
+  let done = 0;
+  loaded = await Promise.all(HERO_PINE_FILES.map((file) => load(file).then((gltf) => { progress?.(++done, HERO_PINE_FILES.length); return gltf; }))) as unknown as HeroPineTemplates;
   return loaded;
 }
 
@@ -93,7 +102,7 @@ export function createHeroPineForest(templates: HeroPineTemplates): HeroPineFore
       if ((value as THREE.Texture | null)?.isTexture) (c as unknown as Record<string, unknown>)[key] = tex(value as THREE.Texture);
     }
     c.vertexColors = true;
-    if (c.alphaTest > 0) c.color.multiply(HERO_NEEDLE_TINT);
+    if (c.alphaTest > 0) c.color.multiply(needleTint());
     c.alphaToCoverage = c.alphaTest > 0;
     owned.add(c);
     return c;
