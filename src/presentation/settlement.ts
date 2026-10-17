@@ -592,7 +592,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     cart(R, rnd, cartAt.x, gy(cartAt.x, cartAt.z), cartAt.z, cartAt.yaw);
     const wood = HAMLET_PROPS.firewood;
     R.ctx.push(0, gy(wood.x, wood.z), 0);
-    woodpile(R, rnd, wood.x, wood.z, wood.yaw, 1.6, 4);
+    woodpile(R, rnd, wood.x, wood.z, wood.yaw, 1.6, 4, gy);
     R.ctx.pop();
     // The only authored hull left on the strand: a storm-broken environmental clue. The wanderer's first blade lies in
     // it (a pickup), beside a stove-in sea chest.
@@ -609,7 +609,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const keeper = bySpec('keeper_cottage');
     const kd = localToWorld(keeper, keeper.w / 2 - 0.8, keeper.d / 2 + 0.55);
     R.ctx.push(0, gy(kd.x, kd.z), 0);
-    woodpile(R, rnd, kd.x, kd.z, keeper.yaw, 1.5, 4);
+    woodpile(R, rnd, kd.x, kd.z, keeper.yaw, 1.5, 4, gy);
     R.ctx.pop();
     // The old stockade's opening follows the same authoring data as the road and collision.
     palisade(R, rnd, PALISADE.points as unknown as { x: number; z: number }[], PALISADE.gate, gy);
