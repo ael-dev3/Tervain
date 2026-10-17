@@ -337,6 +337,30 @@ describe('Deepwood floor', () => {
     expect(floor.group.children).toHaveLength(0);
   });
 
+  it('excludes empty batches from render setup and restores them when instances return', () => {
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    const meshes = floor.group.children.filter(o => o instanceof THREE.InstancedMesh) as THREE.InstancedMesh[];
+    expect(meshes.length).toBeGreaterThan(0);
+    expect(meshes.every(m => m.count === 0 && !m.visible)).toBe(true);
+    const target = population.find(p => p.kind === 'fern')!;
+    const camera = new THREE.PerspectiveCamera(65, 1.6, 0.1, 600);
+    const frame: FrameContext = { camera, time: 0, focus: camera.position.clone(), nightness: 0,
+      sunDir: new THREE.Vector3(0.4, 1, 0.6), reducedMotion: false, hour: 11, quality: 'high',
+      shadowFrustum: null, view: worldView(createInitialState()) };
+    const sample = (far: boolean) => {
+      camera.position.set(target.x + (far ? 1000 : 0), target.y + 2, target.z + 12);
+      camera.lookAt(camera.position.x, target.y, target.z); camera.updateMatrixWorld();
+      floor.update(1 / 60, frame);
+      for (const mesh of meshes) expect(mesh.visible, mesh.name).toBe(mesh.count > 0);
+      return meshes.reduce((sum, mesh) => sum + mesh.count, 0);
+    };
+    try {
+      expect(sample(false)).toBeGreaterThan(0);
+      expect(sample(true)).toBe(0);
+      expect(sample(false)).toBeGreaterThan(0);
+    } finally { floor.dispose!(); disposeTreeTextures(); }
+  });
+
   it('keeps fallen timber at its authored size through the former cutoff and fades continuously on small moving frames', () => {
     const target = population.find((p) => p.kind === 'log')!;
     const floor = buildForestFloor(terrain, exclusions, 'high');
