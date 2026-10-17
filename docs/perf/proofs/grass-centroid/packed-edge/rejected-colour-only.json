@@ -1,0 +1,1336 @@
+{
+  "schema": 1,
+  "setup": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "c4061a5c1"
+    },
+    "samples": 4,
+    "post": true,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "nativeCost": {
+      "calls": 245,
+      "triangles": 2732480,
+      "textures": 274
+    },
+    "controlCost": {
+      "calls": 94,
+      "triangles": 1694127,
+      "textures": 274
+    },
+    "materials": 2,
+    "startupErrors": []
+  },
+  "interpolation": {
+    "rejectedCentroidComponents": 7,
+    "candidateCentroidComponents": 3,
+    "scope": "Source-level varying components, not hardware interpolation instructions."
+  },
+  "route": {
+    "name": "village",
+    "frames": 5,
+    "startFrame": 7,
+    "metres": 0.17333333333333334,
+    "cadence": 60,
+    "rotationRadiansPerSample": 0
+  },
+  "controls": {
+    "hour": 12,
+    "cloudTime": 0,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333
+  },
+  "roi": {
+    "left": 64,
+    "top": 126,
+    "width": 512,
+    "height": 216
+  },
+  "sourceSha256": "3447d79736444ed403b83febf53b6c83e3a24cec2677ec848374d49ec4309711",
+  "reports": {
+    "before": {
+      "nearWhite": {
+        "summary": {
+          "frames": 3,
+          "usableFrames": 3,
+          "shimmerMean": 4.635284443566844,
+          "shimmerFrameP95": 4.702418165870409,
+          "sparkleShare": 0.020899671625454003,
+          "alignmentShare": 0.9953449215074531,
+          "peaks": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 3
+            }
+          ]
+        },
+        "whitePixelsFlickered": 0,
+        "whiteFlickerShare": 0,
+        "whiteThreshold": {
+          "minimumChannel": 180,
+          "minimumLuma": 200,
+          "maximumChannelSpread": 40
+        },
+        "samples": [
+          {
+            "validPixels": 107168,
+            "validShare": 0.9950973109493388,
+            "sparklePixels": 2389,
+            "sparkleShare": 0.022292102120035833,
+            "shimmerMean": 4.702418165870409,
+            "shimmerP95": 17,
+            "exposurePrevious": -0.25,
+            "exposureNext": 0.125,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 1
+          },
+          {
+            "validPixels": 107270,
+            "validShare": 0.9960444213341257,
+            "sparklePixels": 2228,
+            "sparkleShare": 0.0207700195767689,
+            "shimmerMean": 4.666075090892141,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0.0625,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 2
+          },
+          {
+            "validPixels": 107146,
+            "validShare": 0.9948930322388947,
+            "sparklePixels": 2104,
+            "sparkleShare": 0.019636757321785228,
+            "shimmerMean": 4.537310655554104,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 3
+          }
+        ]
+      },
+      "brightness": {
+        "160": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.635284443566844,
+            "shimmerFrameP95": 4.702418165870409,
+            "sparkleShare": 0.020899671625454003,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2389,
+                "sparkleShare": 0.022292102120035833,
+                "shimmerMean": 4.702418165870409,
+                "shimmerP95": 17,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 739,
+                "maskedSparkleShare": 0.006895715138847417,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2228,
+                "sparkleShare": 0.0207700195767689,
+                "shimmerMean": 4.666075090892141,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0.0625,
+                "maskedSparklePixels": 722,
+                "maskedSparkleShare": 0.006730679593548988,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2104,
+                "sparkleShare": 0.019636757321785228,
+                "shimmerMean": 4.537310655554104,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 629,
+                "maskedSparkleShare": 0.005870494465495679,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 2090,
+          "whiteFlickerShare": 0.006499079556196826,
+          "whiteThreshold": {
+            "minimumLuma": 160
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 739,
+              "maskedSparkleShare": 0.006895715138847417,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 722,
+              "maskedSparkleShare": 0.006730679593548988,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 629,
+              "maskedSparkleShare": 0.005870494465495679,
+              "frame": 3
+            }
+          ]
+        },
+        "180": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.635284443566844,
+            "shimmerFrameP95": 4.702418165870409,
+            "sparkleShare": 0.020899671625454003,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2389,
+                "sparkleShare": 0.022292102120035833,
+                "shimmerMean": 4.702418165870409,
+                "shimmerP95": 17,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 223,
+                "maskedSparkleShare": 0.0020808450283666766,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2228,
+                "sparkleShare": 0.0207700195767689,
+                "shimmerMean": 4.666075090892141,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0.0625,
+                "maskedSparklePixels": 237,
+                "maskedSparkleShare": 0.0022093782045306235,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2104,
+                "sparkleShare": 0.019636757321785228,
+                "shimmerMean": 4.537310655554104,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 213,
+                "maskedSparkleShare": 0.0019879416870438467,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 673,
+          "whiteFlickerShare": 0.002092765809244241,
+          "whiteThreshold": {
+            "minimumLuma": 180
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 223,
+              "maskedSparkleShare": 0.0020808450283666766,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 237,
+              "maskedSparkleShare": 0.0022093782045306235,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 213,
+              "maskedSparkleShare": 0.0019879416870438467,
+              "frame": 3
+            }
+          ]
+        },
+        "200": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.635284443566844,
+            "shimmerFrameP95": 4.702418165870409,
+            "sparkleShare": 0.020899671625454003,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2389,
+                "sparkleShare": 0.022292102120035833,
+                "shimmerMean": 4.702418165870409,
+                "shimmerP95": 17,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 65,
+                "maskedSparkleShare": 0.0006065243356225739,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2228,
+                "sparkleShare": 0.0207700195767689,
+                "shimmerMean": 4.666075090892141,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0.0625,
+                "maskedSparklePixels": 79,
+                "maskedSparkleShare": 0.0007364594015102079,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2104,
+                "sparkleShare": 0.019636757321785228,
+                "shimmerMean": 4.537310655554104,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 40,
+                "maskedSparkleShare": 0.00037332238254344537,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 184,
+          "whiteFlickerShare": 0.0005721677695407732,
+          "whiteThreshold": {
+            "minimumLuma": 200
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 65,
+              "maskedSparkleShare": 0.0006065243356225739,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 79,
+              "maskedSparkleShare": 0.0007364594015102079,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 40,
+              "maskedSparkleShare": 0.00037332238254344537,
+              "frame": 3
+            }
+          ]
+        },
+        "220": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.635284443566844,
+            "shimmerFrameP95": 4.702418165870409,
+            "sparkleShare": 0.020899671625454003,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2389,
+                "sparkleShare": 0.022292102120035833,
+                "shimmerMean": 4.702418165870409,
+                "shimmerP95": 17,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 12,
+                "maskedSparkleShare": 0.0001119737234995521,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2228,
+                "sparkleShare": 0.0207700195767689,
+                "shimmerMean": 4.666075090892141,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0.0625,
+                "maskedSparklePixels": 16,
+                "maskedSparkleShare": 0.00014915633448308007,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2104,
+                "sparkleShare": 0.019636757321785228,
+                "shimmerMean": 4.537310655554104,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 11,
+                "maskedSparkleShare": 0.00010266365519944749,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 39,
+          "whiteFlickerShare": 0.00012127469028309866,
+          "whiteThreshold": {
+            "minimumLuma": 220
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 12,
+              "maskedSparkleShare": 0.0001119737234995521,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 16,
+              "maskedSparkleShare": 0.00014915633448308007,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 11,
+              "maskedSparkleShare": 0.00010266365519944749,
+              "frame": 3
+            }
+          ]
+        },
+        "240": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.635284443566844,
+            "shimmerFrameP95": 4.702418165870409,
+            "sparkleShare": 0.020899671625454003,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2389,
+                "sparkleShare": 0.022292102120035833,
+                "shimmerMean": 4.702418165870409,
+                "shimmerP95": 17,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 1,
+                "maskedSparkleShare": 0.000009331143624962676,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2228,
+                "sparkleShare": 0.0207700195767689,
+                "shimmerMean": 4.666075090892141,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0.0625,
+                "maskedSparklePixels": 2,
+                "maskedSparkleShare": 0.00001864454181038501,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2104,
+                "sparkleShare": 0.019636757321785228,
+                "shimmerMean": 4.537310655554104,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 2,
+                "maskedSparkleShare": 0.00001866611912717227,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 5,
+          "whiteFlickerShare": 0.00001554803721578188,
+          "whiteThreshold": {
+            "minimumLuma": 240
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2389,
+              "sparkleShare": 0.022292102120035833,
+              "shimmerMean": 4.702418165870409,
+              "shimmerP95": 17,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 1,
+              "maskedSparkleShare": 0.000009331143624962676,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2228,
+              "sparkleShare": 0.0207700195767689,
+              "shimmerMean": 4.666075090892141,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0.0625,
+              "maskedSparklePixels": 2,
+              "maskedSparkleShare": 0.00001864454181038501,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2104,
+              "sparkleShare": 0.019636757321785228,
+              "shimmerMean": 4.537310655554104,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 2,
+              "maskedSparkleShare": 0.00001866611912717227,
+              "frame": 3
+            }
+          ]
+        }
+      }
+    },
+    "after": {
+      "nearWhite": {
+        "summary": {
+          "frames": 3,
+          "usableFrames": 3,
+          "shimmerMean": 4.637435514515648,
+          "shimmerFrameP95": 4.712551204650642,
+          "sparkleShare": 0.020999179063635007,
+          "alignmentShare": 0.9953449215074531,
+          "peaks": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 3
+            }
+          ]
+        },
+        "whitePixelsFlickered": 0,
+        "whiteFlickerShare": 0,
+        "whiteThreshold": {
+          "minimumChannel": 180,
+          "minimumLuma": 200,
+          "maximumChannelSpread": 40
+        },
+        "samples": [
+          {
+            "validPixels": 107168,
+            "validShare": 0.9950973109493388,
+            "sparklePixels": 2392,
+            "sparkleShare": 0.022320095550910718,
+            "shimmerMean": 4.712551204650642,
+            "shimmerP95": 18,
+            "exposurePrevious": -0.25,
+            "exposureNext": 0.125,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 1
+          },
+          {
+            "validPixels": 107270,
+            "validShare": 0.9960444213341257,
+            "sparklePixels": 2238,
+            "sparkleShare": 0.020863242285820826,
+            "shimmerMean": 4.6705666775426495,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 2
+          },
+          {
+            "validPixels": 107146,
+            "validShare": 0.9948930322388947,
+            "sparklePixels": 2123,
+            "sparkleShare": 0.019814085453493363,
+            "shimmerMean": 4.529134895376402,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 3
+          }
+        ]
+      },
+      "brightness": {
+        "160": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.637435514515648,
+            "shimmerFrameP95": 4.712551204650642,
+            "sparkleShare": 0.020999179063635007,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2392,
+                "sparkleShare": 0.022320095550910718,
+                "shimmerMean": 4.712551204650642,
+                "shimmerP95": 18,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 739,
+                "maskedSparkleShare": 0.006895715138847417,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2238,
+                "sparkleShare": 0.020863242285820826,
+                "shimmerMean": 4.6705666775426495,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 725,
+                "maskedSparkleShare": 0.006758646406264566,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2123,
+                "sparkleShare": 0.019814085453493363,
+                "shimmerMean": 4.529134895376402,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 642,
+                "maskedSparkleShare": 0.005991824239822299,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 2106,
+          "whiteFlickerShare": 0.006548833275287328,
+          "whiteThreshold": {
+            "minimumLuma": 160
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 739,
+              "maskedSparkleShare": 0.006895715138847417,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 725,
+              "maskedSparkleShare": 0.006758646406264566,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 642,
+              "maskedSparkleShare": 0.005991824239822299,
+              "frame": 3
+            }
+          ]
+        },
+        "180": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.637435514515648,
+            "shimmerFrameP95": 4.712551204650642,
+            "sparkleShare": 0.020999179063635007,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2392,
+                "sparkleShare": 0.022320095550910718,
+                "shimmerMean": 4.712551204650642,
+                "shimmerP95": 18,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 223,
+                "maskedSparkleShare": 0.0020808450283666766,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2238,
+                "sparkleShare": 0.020863242285820826,
+                "shimmerMean": 4.6705666775426495,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 238,
+                "maskedSparkleShare": 0.0022187004754358162,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2123,
+                "sparkleShare": 0.019814085453493363,
+                "shimmerMean": 4.529134895376402,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 213,
+                "maskedSparkleShare": 0.0019879416870438467,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 674,
+          "whiteFlickerShare": 0.0020958754166873973,
+          "whiteThreshold": {
+            "minimumLuma": 180
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 223,
+              "maskedSparkleShare": 0.0020808450283666766,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 238,
+              "maskedSparkleShare": 0.0022187004754358162,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 213,
+              "maskedSparkleShare": 0.0019879416870438467,
+              "frame": 3
+            }
+          ]
+        },
+        "200": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.637435514515648,
+            "shimmerFrameP95": 4.712551204650642,
+            "sparkleShare": 0.020999179063635007,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2392,
+                "sparkleShare": 0.022320095550910718,
+                "shimmerMean": 4.712551204650642,
+                "shimmerP95": 18,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 65,
+                "maskedSparkleShare": 0.0006065243356225739,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2238,
+                "sparkleShare": 0.020863242285820826,
+                "shimmerMean": 4.6705666775426495,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 79,
+                "maskedSparkleShare": 0.0007364594015102079,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2123,
+                "sparkleShare": 0.019814085453493363,
+                "shimmerMean": 4.529134895376402,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 40,
+                "maskedSparkleShare": 0.00037332238254344537,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 184,
+          "whiteFlickerShare": 0.0005721677695407732,
+          "whiteThreshold": {
+            "minimumLuma": 200
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 65,
+              "maskedSparkleShare": 0.0006065243356225739,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 79,
+              "maskedSparkleShare": 0.0007364594015102079,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 40,
+              "maskedSparkleShare": 0.00037332238254344537,
+              "frame": 3
+            }
+          ]
+        },
+        "220": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.637435514515648,
+            "shimmerFrameP95": 4.712551204650642,
+            "sparkleShare": 0.020999179063635007,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2392,
+                "sparkleShare": 0.022320095550910718,
+                "shimmerMean": 4.712551204650642,
+                "shimmerP95": 18,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 12,
+                "maskedSparkleShare": 0.0001119737234995521,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2238,
+                "sparkleShare": 0.020863242285820826,
+                "shimmerMean": 4.6705666775426495,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 16,
+                "maskedSparkleShare": 0.00014915633448308007,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2123,
+                "sparkleShare": 0.019814085453493363,
+                "shimmerMean": 4.529134895376402,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 11,
+                "maskedSparkleShare": 0.00010266365519944749,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 39,
+          "whiteFlickerShare": 0.00012127469028309866,
+          "whiteThreshold": {
+            "minimumLuma": 220
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 12,
+              "maskedSparkleShare": 0.0001119737234995521,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 16,
+              "maskedSparkleShare": 0.00014915633448308007,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 11,
+              "maskedSparkleShare": 0.00010266365519944749,
+              "frame": 3
+            }
+          ]
+        },
+        "240": {
+          "summary": {
+            "frames": 3,
+            "usableFrames": 3,
+            "shimmerMean": 4.637435514515648,
+            "shimmerFrameP95": 4.712551204650642,
+            "sparkleShare": 0.020999179063635007,
+            "alignmentShare": 0.9953449215074531,
+            "peaks": [
+              {
+                "validPixels": 107168,
+                "validShare": 0.9950973109493388,
+                "sparklePixels": 2392,
+                "sparkleShare": 0.022320095550910718,
+                "shimmerMean": 4.712551204650642,
+                "shimmerP95": 18,
+                "exposurePrevious": -0.25,
+                "exposureNext": 0.125,
+                "maskedSparklePixels": 1,
+                "maskedSparkleShare": 0.000009331143624962676,
+                "frame": 1
+              },
+              {
+                "validPixels": 107270,
+                "validShare": 0.9960444213341257,
+                "sparklePixels": 2238,
+                "sparkleShare": 0.020863242285820826,
+                "shimmerMean": 4.6705666775426495,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 2,
+                "maskedSparkleShare": 0.00001864454181038501,
+                "frame": 2
+              },
+              {
+                "validPixels": 107146,
+                "validShare": 0.9948930322388947,
+                "sparklePixels": 2123,
+                "sparkleShare": 0.019814085453493363,
+                "shimmerMean": 4.529134895376402,
+                "shimmerP95": 17,
+                "exposurePrevious": 0,
+                "exposureNext": 0,
+                "maskedSparklePixels": 2,
+                "maskedSparkleShare": 0.00001866611912717227,
+                "frame": 3
+              }
+            ]
+          },
+          "whitePixelsFlickered": 5,
+          "whiteFlickerShare": 0.00001554803721578188,
+          "whiteThreshold": {
+            "minimumLuma": 240
+          },
+          "samples": [
+            {
+              "validPixels": 107168,
+              "validShare": 0.9950973109493388,
+              "sparklePixels": 2392,
+              "sparkleShare": 0.022320095550910718,
+              "shimmerMean": 4.712551204650642,
+              "shimmerP95": 18,
+              "exposurePrevious": -0.25,
+              "exposureNext": 0.125,
+              "maskedSparklePixels": 1,
+              "maskedSparkleShare": 0.000009331143624962676,
+              "frame": 1
+            },
+            {
+              "validPixels": 107270,
+              "validShare": 0.9960444213341257,
+              "sparklePixels": 2238,
+              "sparkleShare": 0.020863242285820826,
+              "shimmerMean": 4.6705666775426495,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 2,
+              "maskedSparkleShare": 0.00001864454181038501,
+              "frame": 2
+            },
+            {
+              "validPixels": 107146,
+              "validShare": 0.9948930322388947,
+              "sparklePixels": 2123,
+              "sparkleShare": 0.019814085453493363,
+              "shimmerMean": 4.529134895376402,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 2,
+              "maskedSparkleShare": 0.00001866611912717227,
+              "frame": 3
+            }
+          ]
+        }
+      }
+    }
+  },
+  "costs": {
+    "before": [
+      {
+        "calls": 94,
+        "triangles": 1694127,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1694127,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      }
+    ],
+    "after": [
+      {
+        "calls": 94,
+        "triangles": 1694127,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1694127,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      },
+      {
+        "calls": 94,
+        "triangles": 1696566,
+        "textures": 274
+      }
+    ]
+  },
+  "timings": {
+    "before": [
+      3314.920249,
+      3287.402487,
+      3244.139643,
+      3313.700778,
+      3269.691291
+    ],
+    "after": [
+      3309.452914,
+      3305.114511,
+      3308.388028,
+      3541.017708,
+      3496.774684
+    ],
+    "restore": [
+      3235.087261,
+      3340.980902,
+      3341.942301,
+      3374.982446,
+      3396.898754
+    ]
+  },
+  "restoredPixels": 0,
+  "nativeIsBefore": false,
+  "nativeIsAfter": true,
+  "scope": "Native whole scene and native post/MSAA; only grass colour interpolation differs; four lighting/edge components retain baseline interpolation. Optional GPU queries end before PNG readback; query durations are not frame cadence. Frozen phases; synthetic movement samples are not hardware frame timings. Brightness bins are reported alongside the unchanged historical near-white metric; counts are observations, not unique blades. Hardware play/video gate pending.",
+  "assertions": {
+    "nativeExpectedIdentical": true,
+    "restoredExactly": true,
+    "equalDrawCosts": true,
+    "aligned": true
+  },
+  "pass": true
+}
