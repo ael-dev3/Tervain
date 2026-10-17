@@ -80,7 +80,7 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   };
   const nearest = (part: (typeof list)[number]) => {
     let d = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
-    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit); if (e < d) { d = e; from.copy(q); to.copy(hit); } }
+    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit, d); if (e < d) { d = e; from.copy(q); to.copy(hit); } }
     return { d, from, to };
   };
   // Parts in a grid by their boxes grown by half the gap: parts within `gap` share a cell.

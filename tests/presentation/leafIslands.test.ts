@@ -19,6 +19,22 @@ it('moves a card whose opaque leaves hang clear of the wood, and keeps attached 
   expect(leaf.getAttribute('position').getX(0)).toBeCloseTo(0.3);
 });
 
+it('uses the closest edge sample rather than the centre for separate opposing islands', () => {
+  const wood = new THREE.BoxGeometry(0.4, 8, 0.4).translate(0, 4, 0);
+  const leaf = mergeGeometries([
+    new THREE.PlaneGeometry(2, 2).translate(4, 3, 0),
+    new THREE.PlaneGeometry(2, 2).translate(-4, 3, 0),
+  ]);
+  try {
+    expect(anchorLeafIslands(leaf, wood, null, { reach: 0.5, gap: 0.2 })).toEqual({ islands: 2, moved: 2, dropped: 0 });
+    leaf.computeBoundingBox();
+    expect(leaf.boundingBox!.min.x).toBeCloseTo(-2.6, 5);
+    expect(leaf.boundingBox!.max.x).toBeCloseTo(2.6, 5);
+    expect(nearest(leaf, wood, 0, 4)).toBeCloseTo(0.4, 5);
+    expect(nearest(leaf, wood, 4, 8)).toBeCloseTo(0.4, 5);
+  } finally { wood.dispose(); leaf.dispose(); }
+});
+
 it('links cards by opaque texels only, and drops a far island', () => {
   // Two touching quads: only the left fifth of each is opaque, so the second's leaves are 1.6 m from the first's.
   const leaf = mergeGeometries([new THREE.PlaneGeometry(2, 0.5).translate(1.3, 3, 0), new THREE.PlaneGeometry(2, 0.5).translate(3.3, 3, 0)]);
