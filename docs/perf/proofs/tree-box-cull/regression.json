@@ -1,0 +1,13 @@
+{
+  "case": "excludes empty lateral regions of tall-tree spheres from narrow views",
+  "baselineRevision": "570a859",
+  "baseline": {
+    "result": "FAIL",
+    "failedAssertions": 1,
+    "message": "a packed tree must have source bounds in the guarded view"
+  },
+  "candidate": {
+    "result": "PASS",
+    "assertion": "Every packed tree identifies a placement whose all-LOD source bounds plus guard intersect the view."
+  }
+}
