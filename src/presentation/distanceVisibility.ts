@@ -15,17 +15,14 @@ float tvCellHash(vec3 cell, float seed) {
   vec3 c = mod(cell, 289.0) + seed;
   return fract(52.9829189 * fract(dot(c, vec3(0.06711056, 0.00583715, 0.03798128)) + 0.0137 * c.z));
 }
-float tvDistanceNoiseAtFootprint(vec3 world, float px) {
+float tvDistanceNoise(vec3 world) {
+  float px = max(max(length(dFdx(world)), length(dFdy(world))), 1e-4);
   float level = log2(px);
   float fine = floor(level);
   float coarseCell = exp2(fine + 1.0), fineCell = exp2(fine);
   // Each coarse cell turns fine once the footprint has shrunk far enough toward the fine size.
   bool useFine = tvCellHash(floor(world / coarseCell), 17.31) >= level - fine;
   return useFine ? tvCellHash(floor(world / fineCell), fine * 3.7) : tvCellHash(floor(world / coarseCell), fine * 3.7 + 3.7);
-}
-float tvDistanceNoise(vec3 world) {
-  float px = max(max(length(dFdx(world)), length(dFdy(world))), 1e-4);
-  return tvDistanceNoiseAtFootprint(world, px);
 }
 `;
 
@@ -77,33 +74,32 @@ function installDistanceDither(material: THREE.Material): void {
         vDistanceCoverage = vec3(0.0, 1.0, 0.0);
       #endif`);
     const partial = 'vDistanceCoverage.x > 0.0 || vDistanceCoverage.y < 1.0';
-    // Derivatives must be taken before alpha/clipping discards, with all quad lanes available.
-    // Only the derivative footprint is computed here; the hashes stay after the cheap cut-out.
+    // Evaluate before any discard so both levels have the same derivative lanes. Only one scalar
+    // stays live across the cut-out; full intervals and shade-only passes skip this work entirely.
     if (colour) {
       shader.uniforms.uDistanceViewport = viewport;
       shader.fragmentShader = shader.fragmentShader.replace('void main() {', `void main() {
         #ifndef TV_LEAF_SHADE_ONLY
-        vec3 tvCoverageWorld = vec3(0.0);
-        float tvCoverageFootprint = 1e-4;
+        float tvCoverageSample = 0.0;
         if (${partial}) {
-          tvCoverageWorld = vDistanceCoverage.z > 0.0 ? tvDistanceReference(vDistanceCoverage.z)
+          vec3 tvCoverageWorld = vDistanceCoverage.z > 0.0 ? tvDistanceReference(vDistanceCoverage.z)
             : (-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix);
-          tvCoverageFootprint = max(max(length(dFdx(tvCoverageWorld)), length(dFdy(tvCoverageWorld))), 1e-4);
+          tvCoverageSample = tvDistanceNoise(tvCoverageWorld);
         }
         #endif`);
     }
-    const sample = colour ? 'tvDistanceNoiseAtFootprint(tvCoverageWorld, tvCoverageFootprint)'
-      : 'tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0)';
+    const rejection = 'if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;';
+    const test = colour ? rejection : `if (${partial}) {
+        float tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0);
+        ${rejection}
+      }`;
     shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
       flat varying vec3 vDistanceCoverage;
       ${DISTANCE_DITHER_GLSL}
       ${colour ? DISTANCE_REFERENCE_GLSL : ''}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
       #ifndef TV_LEAF_SHADE_ONLY
-      if (${partial}) {
-        float tvCoverageSample = ${sample};
-        if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
-      }
+      ${test}
       #endif`);
   };
   material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v4-ray`; };
