@@ -1,0 +1,61 @@
+<!doctype html>
+<html><body><script>
+addEventListener('error', e => window.fixtureError = e.message);
+addEventListener('unhandledrejection', e => window.fixtureError = String(e.reason));
+</script><script type="module">
+import * as THREE from 'three';
+import { GrassWind } from '/src/presentation/grass/wind.ts';
+import { createFoliageField, FOLIAGE_RESPONSE } from '/src/presentation/foliage/foliageWind.ts';
+import { splitLeafPrepass } from '/src/presentation/foliage/leafPrepass.ts';
+const before = new URLSearchParams(location.search).get('mode') === 'before';
+const { installFoliage } = await import('/src/presentation/foliage/foliageMaterial.ts' + (before ? '?stipple-baseline' : ''));
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+const field = createFoliageField(new GrassWind({ direction: [1, 0], steady: 0, gust: 0, speed: 0 }));
+field.strength.value = 0;
+const camera = new THREE.OrthographicCamera(-3, 3, 3, -3, .1, 100);
+camera.position.set(0, 0, 10); camera.lookAt(0, 0, 0);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(.02, .02, .02);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xffffff, 2));
+
+window.minificationFixture = {
+  run(kind, frame, scale = 1) {
+    const size = kind === 'magnified' ? 8 : 512;
+    const data = new Uint8Array(size * size * 4);
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      const u = (x + .5) / size, v = (y + .5) / size;
+      // A smooth leaf silhouette, with narrow lobes rather than an RGB texture change.
+      const radius = Math.hypot((u - .5) / .42, (v - .5) / .3);
+      const alpha = THREE.MathUtils.clamp((1 - radius + .08 * Math.sin(u * 80)) * 18, 0, 1);
+      data.set([70, 150, 45, Math.round(alpha * 255)], i);
+    }
+    const map = new THREE.DataTexture(data, size, size);
+    map.minFilter = THREE.LinearMipmapLinearFilter; map.magFilter = THREE.LinearFilter;
+    map.generateMipmaps = true; map.needsUpdate = true;
+    const material = new THREE.MeshStandardMaterial({ map: kind === 'unmapped' ? null : map, alphaTest: .4, alphaToCoverage: true,
+      side: THREE.DoubleSide, roughness: 1 });
+    installFoliage(material, { field, response: FOLIAGE_RESPONSE.conifer, leaf: true,
+      crown: { centre: new THREE.Vector3(), horizontal: 3, vertical: 3 },
+      look: { clumps: { gaps: 0, shade: 0, rough: 0, size: 1 }, crownNormal: 0, variation: 0, translucency: 0 } });
+    const geometry = new THREE.PlaneGeometry(4, 4);
+    const leaf = new THREE.InstancedMesh(geometry, material, 1);
+    leaf.setMatrixAt(0, new THREE.Matrix4().makeTranslation(frame * 6 / 96 / 8, 0, 0));
+    leaf.frustumCulled = false;
+    const depth = splitLeafPrepass(leaf); depth.count = 1; depth.visible = true;
+    scene.add(depth, leaf);
+    const target = new THREE.WebGLRenderTarget(96 * scale, 96 * scale, { samples: kind === 'single-sample' ? 0 : 4 });
+    renderer.setRenderTarget(target); renderer.info.autoReset = false; renderer.info.reset();
+    renderer.render(scene, camera); renderer.setRenderTarget(null);
+    const pixels = new Uint8Array(96 * scale * 96 * scale * 4);
+    renderer.readRenderTargetPixels(target, 0, 0, 96 * scale, 96 * scale, pixels);
+    const gl = renderer.getContext();
+    if (gl.getError() || gl.isContextLost()) throw Error('Invalid fixture draw');
+    const result = { pixels: Array.from(pixels), draws: renderer.info.render.calls,
+      triangles: renderer.info.render.triangles, samples: target.samples };
+    scene.remove(depth, leaf); depth.material.dispose(); material.dispose();
+    depth.dispose(); leaf.dispose(); geometry.dispose(); map.dispose(); target.dispose();
+    return result;
+  }
+};
+window.fixtureReady = true;
+</script></body></html>

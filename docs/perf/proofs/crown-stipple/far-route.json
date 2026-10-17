@@ -1,0 +1,694 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "7884c88"
+    },
+    "samples": 4,
+    "post": true,
+    "routeBoundsChecked": true,
+    "treeDetailByDistance": false,
+    "size": [
+      640,
+      360
+    ],
+    "meshes": [
+      "hero-pine:0:foliage",
+      "hero-pine:0:foliage:depth",
+      "hero-pine:1:foliage",
+      "hero-pine:1:foliage:depth",
+      "hero-pine:2:foliage",
+      "hero-pine:2:foliage:depth",
+      "fir-spire:0:foliage",
+      "fir-spire:0:foliage:depth",
+      "fir-spire:1:foliage",
+      "fir-spire:1:foliage:depth",
+      "fir-spire:2:foliage",
+      "fir-spire:2:foliage:depth",
+      "hero-pine:0:foliage",
+      "hero-pine:0:foliage:depth",
+      "hero-pine:1:foliage",
+      "hero-pine:1:foliage:depth",
+      "hero-pine:2:foliage",
+      "hero-pine:2:foliage:depth",
+      "hero-pine:0:foliage",
+      "hero-pine:0:foliage:depth",
+      "hero-pine:1:foliage",
+      "hero-pine:1:foliage:depth",
+      "hero-pine:2:foliage",
+      "hero-pine:2:foliage:depth",
+      "palm-fan:0:foliage",
+      "palm-fan:0:foliage:depth",
+      "palm-fan:1:foliage",
+      "palm-fan:1:foliage:depth",
+      "palm-fan:2:foliage",
+      "palm-fan:2:foliage:depth",
+      "palm-lean:0:foliage",
+      "palm-lean:0:foliage:depth",
+      "palm-lean:1:foliage",
+      "palm-lean:1:foliage:depth",
+      "palm-lean:2:foliage",
+      "palm-lean:2:foliage:depth",
+      "palm-date:0:foliage",
+      "palm-date:0:foliage:depth",
+      "palm-date:1:foliage",
+      "palm-date:1:foliage:depth",
+      "palm-date:2:foliage",
+      "palm-date:2:foliage:depth",
+      "fir-spire:0:foliage",
+      "fir-spire:0:foliage:depth",
+      "fir-spire:1:foliage",
+      "fir-spire:1:foliage:depth",
+      "fir-spire:2:foliage",
+      "fir-spire:2:foliage:depth"
+    ]
+  },
+  "sourceSha256": "82b629abcd39d538557cf013763bf0c886fe5392afbc443ba1716c6fe316cee3",
+  "route": {
+    "route": {
+      "name": "far-fir",
+      "x": -199.2356279095,
+      "z": -53.0698323403,
+      "yaw": 1.5707963267948966,
+      "targetY": 20,
+      "roi": {
+        "left": 160,
+        "top": 0,
+        "width": 320,
+        "height": 260
+      },
+      "target": {
+        "x": -134.2356279095,
+        "z": -53.0698323403,
+        "distance": 65
+      },
+      "frames": 9,
+      "speed": 2.6,
+      "cadence": 60,
+      "metres": 0.3466666666666667,
+      "yawStep": 0.003
+    },
+    "rows": [
+      {
+        "frame": 0,
+        "changedPixels": 23195,
+        "meanLuma": {
+          "before": 131.21897404862887,
+          "after": 131.22218419533004
+        },
+        "costs": {
+          "before": {
+            "draws": 335,
+            "triangles": 7071698,
+            "textures": 274
+          },
+          "after": {
+            "draws": 335,
+            "triangles": 7071698,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 1,
+        "changedPixels": 23363,
+        "meanLuma": {
+          "before": 131.09950096876884,
+          "after": 131.09571879602578
+        },
+        "costs": {
+          "before": {
+            "draws": 334,
+            "triangles": 7069727,
+            "textures": 274
+          },
+          "after": {
+            "draws": 334,
+            "triangles": 7069727,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 2,
+        "changedPixels": 23177,
+        "meanLuma": {
+          "before": 131.0363212968937,
+          "after": 131.04518920748413
+        },
+        "costs": {
+          "before": {
+            "draws": 334,
+            "triangles": 7069745,
+            "textures": 274
+          },
+          "after": {
+            "draws": 334,
+            "triangles": 7069745,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 3,
+        "changedPixels": 23231,
+        "meanLuma": {
+          "before": 130.93214548699672,
+          "after": 130.92695854776022
+        },
+        "costs": {
+          "before": {
+            "draws": 334,
+            "triangles": 7069889,
+            "textures": 274
+          },
+          "after": {
+            "draws": 334,
+            "triangles": 7069889,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 4,
+        "changedPixels": 23114,
+        "meanLuma": {
+          "before": 130.82430625349002,
+          "after": 130.8270068316141
+        },
+        "costs": {
+          "before": {
+            "draws": 334,
+            "triangles": 7069882,
+            "textures": 274
+          },
+          "after": {
+            "draws": 334,
+            "triangles": 7069882,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 5,
+        "changedPixels": 22930,
+        "meanLuma": {
+          "before": 130.72136425001892,
+          "after": 130.71955266842124
+        },
+        "costs": {
+          "before": {
+            "draws": 332,
+            "triangles": 7053059,
+            "textures": 274
+          },
+          "after": {
+            "draws": 332,
+            "triangles": 7053059,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 6,
+        "changedPixels": 22890,
+        "meanLuma": {
+          "before": 130.59132779862964,
+          "after": 130.60202327345658
+        },
+        "costs": {
+          "before": {
+            "draws": 331,
+            "triangles": 7044915,
+            "textures": 274
+          },
+          "after": {
+            "draws": 331,
+            "triangles": 7044915,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 7,
+        "changedPixels": 23105,
+        "meanLuma": {
+          "before": 130.5002586510614,
+          "after": 130.49310598960207
+        },
+        "costs": {
+          "before": {
+            "draws": 331,
+            "triangles": 7033888,
+            "textures": 274
+          },
+          "after": {
+            "draws": 331,
+            "triangles": 7033888,
+            "textures": 274
+          }
+        }
+      },
+      {
+        "frame": 8,
+        "changedPixels": 23053,
+        "meanLuma": {
+          "before": 130.40803774394024,
+          "after": 130.39510083682202
+        },
+        "costs": {
+          "before": {
+            "draws": 331,
+            "triangles": 7033888,
+            "textures": 274
+          },
+          "after": {
+            "draws": 331,
+            "triangles": 7033888,
+            "textures": 274
+          }
+        }
+      }
+    ],
+    "stationary": [
+      {
+        "before": "cbf799defd20276f4ac7c08db56e0825c71531cf6e1e3591f5ab09dff0ed7dc5",
+        "after": "7d6eb702eb99e13a371b89d08fd1d01f454e40d0d193f5d75c43256d82aa41af"
+      },
+      {
+        "before": "cbf799defd20276f4ac7c08db56e0825c71531cf6e1e3591f5ab09dff0ed7dc5",
+        "after": "7d6eb702eb99e13a371b89d08fd1d01f454e40d0d193f5d75c43256d82aa41af"
+      }
+    ],
+    "metrics": {
+      "before": {
+        "summary": {
+          "frames": 7,
+          "usableFrames": 7,
+          "shimmerMean": 4.260440106945669,
+          "shimmerFrameP95": 4.29461810758166,
+          "sparkleShare": 0.024560207574173147,
+          "alignmentShare": 0.9895915743670886,
+          "peaks": [
+            {
+              "validPixels": 80040,
+              "validShare": 0.9894185126582279,
+              "sparklePixels": 2019,
+              "sparkleShare": 0.02522488755622189,
+              "shimmerMean": 4.269945105572214,
+              "shimmerP95": 20,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 46,
+              "maskedSparkleShare": 0.0005747126436781609,
+              "frame": 7
+            },
+            {
+              "validPixels": 80104,
+              "validShare": 0.9902096518987342,
+              "sparklePixels": 2010,
+              "sparkleShare": 0.02509237990612204,
+              "shimmerMean": 4.281886672325976,
+              "shimmerP95": 20,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 46,
+              "maskedSparkleShare": 0.0005742534704883651,
+              "frame": 6
+            },
+            {
+              "validPixels": 80088,
+              "validShare": 0.9900118670886076,
+              "sparklePixels": 1996,
+              "sparkleShare": 0.024922585156328038,
+              "shimmerMean": 4.29461810758166,
+              "shimmerP95": 20,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 59,
+              "maskedSparkleShare": 0.0007366896413944661,
+              "frame": 4
+            },
+            {
+              "validPixels": 80056,
+              "validShare": 0.9896162974683544,
+              "sparklePixels": 1955,
+              "sparkleShare": 0.0244204057159988,
+              "shimmerMean": 4.2498177057309885,
+              "shimmerP95": 19,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 54,
+              "maskedSparkleShare": 0.000674527830518637,
+              "frame": 3
+            },
+            {
+              "validPixels": 80024,
+              "validShare": 0.9892207278481012,
+              "sparklePixels": 1932,
+              "sparkleShare": 0.024142757172848146,
+              "shimmerMean": 4.23518608479956,
+              "shimmerP95": 19,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 45,
+              "maskedSparkleShare": 0.0005623313006098171,
+              "frame": 2
+            },
+            {
+              "validPixels": 80024,
+              "validShare": 0.9892207278481012,
+              "sparklePixels": 1926,
+              "sparkleShare": 0.02406777966610017,
+              "shimmerMean": 4.281701427071878,
+              "shimmerP95": 19,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 38,
+              "maskedSparkleShare": 0.00047485754273717885,
+              "frame": 5
+            },
+            {
+              "validPixels": 80042,
+              "validShare": 0.9894432357594937,
+              "sparklePixels": 1925,
+              "sparkleShare": 0.02404987381624647,
+              "shimmerMean": 4.2098905886909375,
+              "shimmerP95": 19,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 39,
+              "maskedSparkleShare": 0.0004872441967966817,
+              "frame": 1
+            }
+          ]
+        },
+        "whitePixelsFlickered": 327,
+        "whiteFlickerShare": 0.0005835346855158482,
+        "whiteThreshold": {
+          "minimumChannel": 180,
+          "minimumLuma": 200,
+          "maximumChannelSpread": 40
+        },
+        "samples": [
+          {
+            "validPixels": 80042,
+            "validShare": 0.9894432357594937,
+            "sparklePixels": 1925,
+            "sparkleShare": 0.02404987381624647,
+            "shimmerMean": 4.2098905886909375,
+            "shimmerP95": 19,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 39,
+            "maskedSparkleShare": 0.0004872441967966817,
+            "frame": 1
+          },
+          {
+            "validPixels": 80024,
+            "validShare": 0.9892207278481012,
+            "sparklePixels": 1932,
+            "sparkleShare": 0.024142757172848146,
+            "shimmerMean": 4.23518608479956,
+            "shimmerP95": 19,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 45,
+            "maskedSparkleShare": 0.0005623313006098171,
+            "frame": 2
+          },
+          {
+            "validPixels": 80056,
+            "validShare": 0.9896162974683544,
+            "sparklePixels": 1955,
+            "sparkleShare": 0.0244204057159988,
+            "shimmerMean": 4.2498177057309885,
+            "shimmerP95": 19,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 54,
+            "maskedSparkleShare": 0.000674527830518637,
+            "frame": 3
+          },
+          {
+            "validPixels": 80088,
+            "validShare": 0.9900118670886076,
+            "sparklePixels": 1996,
+            "sparkleShare": 0.024922585156328038,
+            "shimmerMean": 4.29461810758166,
+            "shimmerP95": 20,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 59,
+            "maskedSparkleShare": 0.0007366896413944661,
+            "frame": 4
+          },
+          {
+            "validPixels": 80024,
+            "validShare": 0.9892207278481012,
+            "sparklePixels": 1926,
+            "sparkleShare": 0.02406777966610017,
+            "shimmerMean": 4.281701427071878,
+            "shimmerP95": 19,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 38,
+            "maskedSparkleShare": 0.00047485754273717885,
+            "frame": 5
+          },
+          {
+            "validPixels": 80104,
+            "validShare": 0.9902096518987342,
+            "sparklePixels": 2010,
+            "sparkleShare": 0.02509237990612204,
+            "shimmerMean": 4.281886672325976,
+            "shimmerP95": 20,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 46,
+            "maskedSparkleShare": 0.0005742534704883651,
+            "frame": 6
+          },
+          {
+            "validPixels": 80040,
+            "validShare": 0.9894185126582279,
+            "sparklePixels": 2019,
+            "sparkleShare": 0.02522488755622189,
+            "shimmerMean": 4.269945105572214,
+            "shimmerP95": 20,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 46,
+            "maskedSparkleShare": 0.0005747126436781609,
+            "frame": 7
+          }
+        ]
+      },
+      "after": {
+        "summary": {
+          "frames": 7,
+          "usableFrames": 7,
+          "shimmerMean": 3.491891243499923,
+          "shimmerFrameP95": 3.541740948771106,
+          "sparkleShare": 0.016986748230658592,
+          "alignmentShare": 0.9895915743670887,
+          "peaks": [
+            {
+              "validPixels": 80024,
+              "validShare": 0.9892207278481012,
+              "sparklePixels": 1416,
+              "sparkleShare": 0.017694691592522245,
+              "shimmerMean": 3.481726575777267,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 39,
+              "maskedSparkleShare": 0.00048735379386184144,
+              "frame": 2
+            },
+            {
+              "validPixels": 80072,
+              "validShare": 0.989814082278481,
+              "sparklePixels": 1366,
+              "sparkleShare": 0.01705964631831352,
+              "shimmerMean": 3.495706988710161,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 37,
+              "maskedSparkleShare": 0.0004620841242881407,
+              "frame": 6
+            },
+            {
+              "validPixels": 80056,
+              "validShare": 0.9896162974683544,
+              "sparklePixels": 1362,
+              "sparkleShare": 0.01701309083641451,
+              "shimmerMean": 3.4603824198061357,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 39,
+              "maskedSparkleShare": 0.00048715898870790446,
+              "frame": 3
+            },
+            {
+              "validPixels": 80024,
+              "validShare": 0.9892207278481012,
+              "sparklePixels": 1358,
+              "sparkleShare": 0.016969909027291813,
+              "shimmerMean": 3.4861592303558933,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 43,
+              "maskedSparkleShare": 0.0005373387983604918,
+              "frame": 7
+            },
+            {
+              "validPixels": 80072,
+              "validShare": 0.989814082278481,
+              "sparklePixels": 1351,
+              "sparkleShare": 0.016872314916575083,
+              "shimmerMean": 3.541740948771106,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 32,
+              "maskedSparkleShare": 0.0003996403237086622,
+              "frame": 4
+            },
+            {
+              "validPixels": 80056,
+              "validShare": 0.9896162974683544,
+              "sparklePixels": 1333,
+              "sparkleShare": 0.016650844408913762,
+              "shimmerMean": 3.518946503072849,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 24,
+              "maskedSparkleShare": 0.00029979014689717197,
+              "frame": 5
+            },
+            {
+              "validPixels": 80074,
+              "validShare": 0.9898388053797469,
+              "sparklePixels": 1333,
+              "sparkleShare": 0.01664710143117616,
+              "shimmerMean": 3.4585664510327945,
+              "shimmerP95": 17,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 31,
+              "maskedSparkleShare": 0.0003871418937482828,
+              "frame": 1
+            }
+          ]
+        },
+        "whitePixelsFlickered": 245,
+        "whiteFlickerShare": 0.0004372048867014765,
+        "whiteThreshold": {
+          "minimumChannel": 180,
+          "minimumLuma": 200,
+          "maximumChannelSpread": 40
+        },
+        "samples": [
+          {
+            "validPixels": 80074,
+            "validShare": 0.9898388053797469,
+            "sparklePixels": 1333,
+            "sparkleShare": 0.01664710143117616,
+            "shimmerMean": 3.4585664510327945,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 31,
+            "maskedSparkleShare": 0.0003871418937482828,
+            "frame": 1
+          },
+          {
+            "validPixels": 80024,
+            "validShare": 0.9892207278481012,
+            "sparklePixels": 1416,
+            "sparkleShare": 0.017694691592522245,
+            "shimmerMean": 3.481726575777267,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 39,
+            "maskedSparkleShare": 0.00048735379386184144,
+            "frame": 2
+          },
+          {
+            "validPixels": 80056,
+            "validShare": 0.9896162974683544,
+            "sparklePixels": 1362,
+            "sparkleShare": 0.01701309083641451,
+            "shimmerMean": 3.4603824198061357,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 39,
+            "maskedSparkleShare": 0.00048715898870790446,
+            "frame": 3
+          },
+          {
+            "validPixels": 80072,
+            "validShare": 0.989814082278481,
+            "sparklePixels": 1351,
+            "sparkleShare": 0.016872314916575083,
+            "shimmerMean": 3.541740948771106,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 32,
+            "maskedSparkleShare": 0.0003996403237086622,
+            "frame": 4
+          },
+          {
+            "validPixels": 80056,
+            "validShare": 0.9896162974683544,
+            "sparklePixels": 1333,
+            "sparkleShare": 0.016650844408913762,
+            "shimmerMean": 3.518946503072849,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 24,
+            "maskedSparkleShare": 0.00029979014689717197,
+            "frame": 5
+          },
+          {
+            "validPixels": 80072,
+            "validShare": 0.989814082278481,
+            "sparklePixels": 1366,
+            "sparkleShare": 0.01705964631831352,
+            "shimmerMean": 3.495706988710161,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 37,
+            "maskedSparkleShare": 0.0004620841242881407,
+            "frame": 6
+          },
+          {
+            "validPixels": 80024,
+            "validShare": 0.9892207278481012,
+            "sparklePixels": 1358,
+            "sparkleShare": 0.016969909027291813,
+            "shimmerMean": 3.4861592303558933,
+            "shimmerP95": 17,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 43,
+            "maskedSparkleShare": 0.0005373387983604918,
+            "frame": 7
+          }
+        ]
+      }
+    },
+    "stationaryIdentical": true
+  },
+  "restored": true
+}

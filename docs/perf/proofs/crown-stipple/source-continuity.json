@@ -1,0 +1,66 @@
+{
+  "capturedPublishedRevision": "7884c88",
+  "currentPublishedRevision": "d40777b",
+  "files": [
+    {
+      "source": "src/presentation/foliage/foliageMaterial.ts",
+      "sha256": {
+        "7884c88": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+        "24629cf": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+        "de65370": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+        "9c82b8e": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+        "d40777b": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5"
+      },
+      "identical": true
+    },
+    {
+      "source": "src/presentation/foliage/leafPrepass.ts",
+      "sha256": {
+        "7884c88": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d",
+        "24629cf": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d",
+        "de65370": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d",
+        "9c82b8e": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d",
+        "d40777b": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d"
+      },
+      "identical": true
+    },
+    {
+      "source": "src/presentation/floraPopulation.ts",
+      "sha256": {
+        "7884c88": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9",
+        "24629cf": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9",
+        "de65370": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9",
+        "9c82b8e": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9",
+        "d40777b": "195591b44e8357eeb5953e591eaa9346011a0c8d09fba0f2675d57266da0f9b9"
+      },
+      "identical": true
+    },
+    {
+      "source": "src/presentation/meshyTrees.ts",
+      "sha256": {
+        "7884c88": "349094e54668a0f827ca88765165acc4b9824669b7f04170a05f823c0ce02318",
+        "24629cf": "349094e54668a0f827ca88765165acc4b9824669b7f04170a05f823c0ce02318",
+        "de65370": "349094e54668a0f827ca88765165acc4b9824669b7f04170a05f823c0ce02318",
+        "9c82b8e": "349094e54668a0f827ca88765165acc4b9824669b7f04170a05f823c0ce02318",
+        "d40777b": "349094e54668a0f827ca88765165acc4b9824669b7f04170a05f823c0ce02318"
+      },
+      "identical": true
+    },
+    {
+      "source": "src/presentation/heroPine.ts",
+      "sha256": {
+        "7884c88": "54cc7ada42d5bb0b7adfa9dbecb4f479007cebc9ced766a683a6f90b66a86850",
+        "24629cf": "54cc7ada42d5bb0b7adfa9dbecb4f479007cebc9ced766a683a6f90b66a86850",
+        "de65370": "54cc7ada42d5bb0b7adfa9dbecb4f479007cebc9ced766a683a6f90b66a86850",
+        "9c82b8e": "54cc7ada42d5bb0b7adfa9dbecb4f479007cebc9ced766a683a6f90b66a86850",
+        "d40777b": "54cc7ada42d5bb0b7adfa9dbecb4f479007cebc9ced766a683a6f90b66a86850"
+      },
+      "identical": true
+    }
+  ],
+  "currentMainRevision": "d40777b",
+  "observedCaptureSettings": {
+    "quality": "high",
+    "treeDetailByDistance": false
+  }
+}

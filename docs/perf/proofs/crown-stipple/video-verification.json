@@ -1,0 +1,28 @@
+{
+  "sourceSha256": "82b629abcd39d538557cf013763bf0c886fe5392afbc443ba1716c6fe316cee3",
+  "verification": [
+    {
+      "route": "forest",
+      "frames": 9,
+      "size": [
+        768,
+        280
+      ],
+      "sourceRgbSha256": "e9b5293f4157c9f1abd5a5123a869fa4fd3e13e3f847661ab46e25ec500c74c5",
+      "decodedRgbSha256": "e9b5293f4157c9f1abd5a5123a869fa4fd3e13e3f847661ab46e25ec500c74c5",
+      "exact": true
+    },
+    {
+      "route": "far-fir",
+      "frames": 9,
+      "size": [
+        640,
+        260
+      ],
+      "sourceRgbSha256": "b2e1779cba555a4cd4c8b81d5c284d9f7b87c7e1d4f9ee33ba8d9b10aac88846",
+      "decodedRgbSha256": "b2e1779cba555a4cd4c8b81d5c284d9f7b87c7e1d4f9ee33ba8d9b10aac88846",
+      "exact": true
+    }
+  ],
+  "layout": "Before left; after right. Synthetic source cadence 60 Hz; playback 6 fps (10× slow). Lossless RGB clip decodes exactly to source crops. Browser preview is lossy and is not metric input."
+}

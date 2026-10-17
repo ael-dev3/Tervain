@@ -1,0 +1,743 @@
+{
+  "baseline": "24629cf",
+  "controls": [
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    },
+    {
+      "changed": 0,
+      "squared": 0
+    }
+  ],
+  "fallbacks": {
+    "single-sample": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "unmapped": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ]
+  },
+  "minified": [
+    {
+      "changed": 113,
+      "squared": 99954
+    },
+    {
+      "changed": 111,
+      "squared": 98865
+    },
+    {
+      "changed": 138,
+      "squared": 123415
+    },
+    {
+      "changed": 147,
+      "squared": 130258
+    },
+    {
+      "changed": 138,
+      "squared": 122610
+    },
+    {
+      "changed": 132,
+      "squared": 117140
+    },
+    {
+      "changed": 140,
+      "squared": 123090
+    },
+    {
+      "changed": 125,
+      "squared": 110673
+    },
+    {
+      "changed": 122,
+      "squared": 108241
+    }
+  ],
+  "costs": [
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    }
+  ],
+  "assertions": {
+    "magnificationUnchanged": true,
+    "fallbacksUnchanged": true,
+    "minificationExercised": true,
+    "sameWork": true
+  },
+  "pass": true,
+  "scope": "Actual production foliage shader and depth prepass, four-sample software WebGL. Nine subpixel translations; magnified alpha/cubic edge controls must match byte-for-byte. This fixture checks the scope of the change; native forest motion establishes its temporal effect."
+}
