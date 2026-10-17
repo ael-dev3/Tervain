@@ -15,14 +15,16 @@ float tvCellHash(vec3 cell, float seed) {
   vec3 c = mod(cell, 289.0) + seed;
   return fract(52.9829189 * fract(dot(c, vec3(0.06711056, 0.00583715, 0.03798128)) + 0.0137 * c.z));
 }
-float tvDistanceNoise(vec3 world) {
-  float px = max(max(length(dFdx(world)), length(dFdy(world))), 1e-4);
+float tvDistanceNoiseAtFootprint(vec3 world, float px) {
   float level = log2(px);
   float fine = floor(level);
   float coarseCell = exp2(fine + 1.0), fineCell = exp2(fine);
   // Each coarse cell turns fine once the footprint has shrunk far enough toward the fine size.
   bool useFine = tvCellHash(floor(world / coarseCell), 17.31) >= level - fine;
   return useFine ? tvCellHash(floor(world / fineCell), fine * 3.7) : tvCellHash(floor(world / coarseCell), fine * 3.7 + 3.7);
+}
+float tvDistanceNoise(vec3 world) {
+  return tvDistanceNoiseAtFootprint(world, max(max(length(dFdx(world)), length(dFdy(world))), 1e-4));
 }
 `;
 
@@ -32,15 +34,23 @@ float tvDistanceNoise(vec3 world) {
 export const DISTANCE_REFERENCE_GLSL = /* glsl */ `
 uniform mat4 projectionMatrix;
 uniform vec4 uDistanceViewport;
-vec3 tvDistanceReference(float radius) {
+vec4 tvDistanceReference(float radius) {
   vec2 ndc = (gl_FragCoord.xy - uDistanceViewport.xy) / uDistanceViewport.zw * 2.0 - 1.0;
   vec2 scale = vec2(projectionMatrix[0].x, projectionMatrix[1].y);
+  vec2 pixelStep = abs(2.0 / (uDistanceViewport.zw * scale));
+  vec3 point;
+  float footprint;
   if (isOrthographic) {
-    vec3 point = vec3((ndc - projectionMatrix[3].xy) / scale, -radius);
-    return cameraPosition + point * mat3(viewMatrix);
+    point = cameraPosition + vec3((ndc - projectionMatrix[3].xy) / scale, -radius) * mat3(viewMatrix);
+    footprint = max(pixelStep.x, pixelStep.y);
+  } else {
+    vec3 ray = vec3((ndc + projectionMatrix[2].xy) / scale, -1.0);
+    float squared = dot(ray, ray);
+    point = cameraPosition + (ray * inversesqrt(squared) * mat3(viewMatrix)) * radius;
+    // |d(normalize(ray))/dp|: camera rotation preserves these lengths. No post-discard derivatives.
+    footprint = radius * max(pixelStep.x * length(ray.yz), pixelStep.y * length(ray.xz)) / squared;
   }
-  vec3 ray = normalize(vec3((ndc + projectionMatrix[2].xy) / scale, -1.0));
-  return cameraPosition + (ray * mat3(viewMatrix)) * radius;
+  return vec4(point, max(footprint, 1e-4));
 }
 `;
 
@@ -74,32 +84,26 @@ function installDistanceDither(material: THREE.Material): void {
         vDistanceCoverage = vec3(0.0, 1.0, 0.0);
       #endif`);
     const partial = 'vDistanceCoverage.x > 0.0 || vDistanceCoverage.y < 1.0';
-    // Evaluate before any discard so both levels have the same derivative lanes. Only one scalar
-    // stays live across the cut-out; full intervals and shade-only passes skip this work entirely.
-    if (colour) {
-      shader.uniforms.uDistanceViewport = viewport;
-      shader.fragmentShader = shader.fragmentShader.replace('void main() {', `void main() {
-        #ifndef TV_LEAF_SHADE_ONLY
-        float tvCoverageSample = 0.0;
-        if (${partial}) {
-          vec3 tvCoverageWorld = vDistanceCoverage.z > 0.0 ? tvDistanceReference(vDistanceCoverage.z)
-            : (-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix);
-          tvCoverageSample = tvDistanceNoise(tvCoverageWorld);
-        }
-        #endif`);
-    }
-    const rejection = 'if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;';
-    const test = colour ? rejection : `if (${partial}) {
-        float tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0);
-        ${rejection}
-      }`;
+    if (colour) shader.uniforms.uDistanceViewport = viewport;
+    // Shared ray coordinates have an analytic pixel footprint: cut-outs can reject transparent texels first,
+    // without divergent derivatives or values kept live across the leaf shader's alpha calculation.
+    const sample = colour ? `float tvCoverageSample;
+        if (vDistanceCoverage.z > 0.0) {
+          vec4 tvReference = tvDistanceReference(vDistanceCoverage.z);
+          tvCoverageSample = tvDistanceNoiseAtFootprint(tvReference.xyz, tvReference.w);
+        } else {
+          tvCoverageSample = tvDistanceNoise((-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix));
+        }` : 'float tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0);';
     shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
       flat varying vec3 vDistanceCoverage;
       ${DISTANCE_DITHER_GLSL}
       ${colour ? DISTANCE_REFERENCE_GLSL : ''}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
       #ifndef TV_LEAF_SHADE_ONLY
-      ${test}
+      if (${partial}) {
+        ${sample}
+        if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      }
       #endif`);
   };
   material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v4-ray`; };

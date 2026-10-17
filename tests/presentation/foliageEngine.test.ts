@@ -146,7 +146,7 @@ describe('foliage look', () => {
       material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
-      expect(shader.fragmentShader).toContain('tvCoverageSample = tvDistanceNoise(tvCoverageWorld');
+      expect(shader.fragmentShader).toContain('tvDistanceNoiseAtFootprint(tvReference.xyz');
       expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v4-ray\|tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
