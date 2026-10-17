@@ -34,7 +34,7 @@ The dynamic matrix-plus-opacity source payload is **5,236 bytes** in both varian
 ## Reproduce
 
 ```sh
-node tools/repro-live-leaf-flight-constants.mjs --out leaf-flight-constants-proof
+node tools/repro-live-leaf-flight-constants.mjs --candidate-ref 6b0a1ae72 --out leaf-flight-constants-proof
 # Expected failure: unchanged source cannot satisfy the reduction assertions.
 node tools/repro-live-leaf-flight-constants.mjs --candidate-ref 4b218895d --out leaf-flight-constants-control
 npx vitest run tests/presentation/fallingLeaves.test.ts tests/presentation/foliageEngine.test.ts --testTimeout=90000

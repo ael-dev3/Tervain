@@ -1,0 +1,2398 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "trees": 341,
+  "nativeStreams": 77,
+  "streams": 77,
+  "originMatchesNative": true,
+  "metadataIdentical": true,
+  "metric": "ground",
+  "moduleInitialization": {
+    "before": 0,
+    "after": 0
+  },
+  "phaseAlignment": 11.284964345748264,
+  "initializationUpdates": 2,
+  "preparation": {
+    "before": 61600,
+    "after": 61600
+  },
+  "runtime": {
+    "before": 320,
+    "after": 320
+  },
+  "rows": [
+    {
+      "i": 0,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "74fbc772dacdb8b24a46d49eea216d9808bb8556c86d7608ef0093f87f464b32",
+        "alpha": "731e47775cc5a2fc8d66a38a553d2c1d3d2fb4cba81c5b16cdee70f4ca52e69b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "74fbc772dacdb8b24a46d49eea216d9808bb8556c86d7608ef0093f87f464b32",
+        "alpha": "731e47775cc5a2fc8d66a38a553d2c1d3d2fb4cba81c5b16cdee70f4ca52e69b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 1,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "5e17f08e1b9235af565c8fd8b35f07a51dd08c12f0df3435b3cfa7a7e3fa92ed",
+        "alpha": "ec05beb4bee5de9849169900d2cf5d9234dd34508964a9d592e796caeed392e0",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5e17f08e1b9235af565c8fd8b35f07a51dd08c12f0df3435b3cfa7a7e3fa92ed",
+        "alpha": "ec05beb4bee5de9849169900d2cf5d9234dd34508964a9d592e796caeed392e0",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 2,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a0ee717fd7917eda0df6a4cc34e3036ea3ed169f9529698223c5719190d35710",
+        "alpha": "641e43ef0e70f63ed07cb08d8d87b4af017f254a181ae51caec7f43856501364",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a0ee717fd7917eda0df6a4cc34e3036ea3ed169f9529698223c5719190d35710",
+        "alpha": "641e43ef0e70f63ed07cb08d8d87b4af017f254a181ae51caec7f43856501364",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 3,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "01aaf0ef0d642f727c79eb9034252442ba551085e3f702f070387c896bf54bab",
+        "alpha": "4d31acaf0d4dd4ed87af71c5f2bf4655a8a19c2e8e05a5aa99473d62ff877fa2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "01aaf0ef0d642f727c79eb9034252442ba551085e3f702f070387c896bf54bab",
+        "alpha": "4d31acaf0d4dd4ed87af71c5f2bf4655a8a19c2e8e05a5aa99473d62ff877fa2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 4,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "1dbc2154ddf6aa4bde2e245c7194ae6c053682c2d95e5894a49d102e68fb7bc5",
+        "alpha": "5f9d70bada30490d88b37cc57e4c92c6ede14210984cc01791374006510330ee",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "1dbc2154ddf6aa4bde2e245c7194ae6c053682c2d95e5894a49d102e68fb7bc5",
+        "alpha": "5f9d70bada30490d88b37cc57e4c92c6ede14210984cc01791374006510330ee",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 5,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "e89c82893bb669091d09847d8f0fb12781bc44c1451add9d0289db67d34e1146",
+        "alpha": "9d40cfb2da666f4e4b84d3343b4f8c042ec915750ba942f56ab61f6985b4a123",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "e89c82893bb669091d09847d8f0fb12781bc44c1451add9d0289db67d34e1146",
+        "alpha": "9d40cfb2da666f4e4b84d3343b4f8c042ec915750ba942f56ab61f6985b4a123",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 6,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "96147bf62f60999548967ce0c7da22e65a093b639e753f183b6fdf09d3489b4f",
+        "alpha": "627968c6a21bc74c8fd2bcd9344aef55a16074605a1e9dd2708e28a875a50cc4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "96147bf62f60999548967ce0c7da22e65a093b639e753f183b6fdf09d3489b4f",
+        "alpha": "627968c6a21bc74c8fd2bcd9344aef55a16074605a1e9dd2708e28a875a50cc4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 7,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "034d3e46c8abfa727c82685bf98b83915d2d2823fb1621984c3c3aedcad037f1",
+        "alpha": "f523666356ea89536af6c0c9c32d08996f089781c6c4c4a2406f85ee22739030",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "034d3e46c8abfa727c82685bf98b83915d2d2823fb1621984c3c3aedcad037f1",
+        "alpha": "f523666356ea89536af6c0c9c32d08996f089781c6c4c4a2406f85ee22739030",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 8,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a46dbf859301df127797cbe2bdf703cb3c8000fc7430b5a5bf69aaab55182fa0",
+        "alpha": "cac89c1b4e6ad6330f4f827d40bf3ec9ced8a7e3e85f7798107be4152708933c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a46dbf859301df127797cbe2bdf703cb3c8000fc7430b5a5bf69aaab55182fa0",
+        "alpha": "cac89c1b4e6ad6330f4f827d40bf3ec9ced8a7e3e85f7798107be4152708933c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 9,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "cd88bee4aa90ebdb727c0ace648d846afef50b002a02c3e720d79276f973fcb6",
+        "alpha": "97193ea74a3a55ea586d37a9a7c6f8da94fc10d79e7e1339d01dde95a2736898",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "cd88bee4aa90ebdb727c0ace648d846afef50b002a02c3e720d79276f973fcb6",
+        "alpha": "97193ea74a3a55ea586d37a9a7c6f8da94fc10d79e7e1339d01dde95a2736898",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 10,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "d9bbf10cf4133d33ee03c2c96c4d6b562280f5f3c9be6b4fbada308782889ac0",
+        "alpha": "0f03b3a375ad2c3cf008a05aa02692ecef332d27401f73f50c4b66cf9a585ab1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "d9bbf10cf4133d33ee03c2c96c4d6b562280f5f3c9be6b4fbada308782889ac0",
+        "alpha": "0f03b3a375ad2c3cf008a05aa02692ecef332d27401f73f50c4b66cf9a585ab1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 11,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "095654a99ebddeb18cd26127e7ffda304042d68635faa0e3d4ee3e6888247366",
+        "alpha": "9755e4bf725ce480d6e5758837e54abde694e2e0379bc2c209e9c851ec5c6291",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "095654a99ebddeb18cd26127e7ffda304042d68635faa0e3d4ee3e6888247366",
+        "alpha": "9755e4bf725ce480d6e5758837e54abde694e2e0379bc2c209e9c851ec5c6291",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 12,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "5af397a68e8467ab71bd4146efc5f76afb4bc863dbcecb3eec8563c2a9a20f5e",
+        "alpha": "e00f5e76ef47f4e2fa50eadc230e83cb90e76726e409951205983afef2320b14",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5af397a68e8467ab71bd4146efc5f76afb4bc863dbcecb3eec8563c2a9a20f5e",
+        "alpha": "e00f5e76ef47f4e2fa50eadc230e83cb90e76726e409951205983afef2320b14",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 13,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "f3c2b2c023e519469efcf79467b4a2f7a7da4ca01128688a46f1b270630ccfdd",
+        "alpha": "2d8d16f1416bf30f19a11adebb00f933d1af26184b7d5581cc6af48358055106",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "f3c2b2c023e519469efcf79467b4a2f7a7da4ca01128688a46f1b270630ccfdd",
+        "alpha": "2d8d16f1416bf30f19a11adebb00f933d1af26184b7d5581cc6af48358055106",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 14,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a37640a86aab1f5f1d26cbf8934f8b1b70235c69df28ec205f03f94cb4eb3206",
+        "alpha": "e97ca2ac0a3f2011bf8140768ec383c87a644677021aa50daf1780140d3aa3a2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a37640a86aab1f5f1d26cbf8934f8b1b70235c69df28ec205f03f94cb4eb3206",
+        "alpha": "e97ca2ac0a3f2011bf8140768ec383c87a644677021aa50daf1780140d3aa3a2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 15,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "b7d9af9df25c6ab6d98d2486f4d9dd8060f04b61bb5e0ce9c1b1099aec267feb",
+        "alpha": "01bfc0a8e25fb8c51d5c7ea237629dc20b48c827c3a55a3841c54c7c319100bb",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "b7d9af9df25c6ab6d98d2486f4d9dd8060f04b61bb5e0ce9c1b1099aec267feb",
+        "alpha": "01bfc0a8e25fb8c51d5c7ea237629dc20b48c827c3a55a3841c54c7c319100bb",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 16,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "2f42ab4a9920d1eb8d2cbb97eff934e4cf1c4884ebc960479ba64cf1478a3509",
+        "alpha": "86adf20cfb91c43f2796a7c663b34a2bbd9416a92405ad210aaae9796f60237f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2f42ab4a9920d1eb8d2cbb97eff934e4cf1c4884ebc960479ba64cf1478a3509",
+        "alpha": "86adf20cfb91c43f2796a7c663b34a2bbd9416a92405ad210aaae9796f60237f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 17,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "6070eee7bce66289511c1c0d8610ccbb0c9e6cd6f7dc2b152c2debebf60526f6",
+        "alpha": "0e93e1c96f4d74a7c26e60aab91f96a0716c23cfaf0dc60f3e00c24a374f92ac",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "6070eee7bce66289511c1c0d8610ccbb0c9e6cd6f7dc2b152c2debebf60526f6",
+        "alpha": "0e93e1c96f4d74a7c26e60aab91f96a0716c23cfaf0dc60f3e00c24a374f92ac",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 18,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "e8e862269e12a3926775434b9e2838b9f6b5f015d985bb9e38d7c01fa3d51c5d",
+        "alpha": "e895111b16327bdc0beecf0eadfd470f7bc26b8ad911cc9c3515267cec87bfd3",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "e8e862269e12a3926775434b9e2838b9f6b5f015d985bb9e38d7c01fa3d51c5d",
+        "alpha": "e895111b16327bdc0beecf0eadfd470f7bc26b8ad911cc9c3515267cec87bfd3",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 19,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "c4678bef8580f06ce3b776bb7619729155dc7d10aaaf62508a1e974363749444",
+        "alpha": "096b3b0d81bf6c254408809a8dbf078864cced13cbcbd072d0046293749dae69",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "c4678bef8580f06ce3b776bb7619729155dc7d10aaaf62508a1e974363749444",
+        "alpha": "096b3b0d81bf6c254408809a8dbf078864cced13cbcbd072d0046293749dae69",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 20,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "ee18dc92c0654076e1d4da1e83a5e9a9a2a3bf8e92d61898e504ceae857f005f",
+        "alpha": "d1057528a0f4421265f964def2f27cc676ef0762464fd34e75974d59c6f42a29",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "ee18dc92c0654076e1d4da1e83a5e9a9a2a3bf8e92d61898e504ceae857f005f",
+        "alpha": "d1057528a0f4421265f964def2f27cc676ef0762464fd34e75974d59c6f42a29",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 21,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a070bbfc110f200b72dfd6f8b516cf078abd82709df5fc9aac908fba5f6d1ef1",
+        "alpha": "e441db71d9a19c911984f2959dd494a41a12b3ba129da55ba4192cc23c279aa4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a070bbfc110f200b72dfd6f8b516cf078abd82709df5fc9aac908fba5f6d1ef1",
+        "alpha": "e441db71d9a19c911984f2959dd494a41a12b3ba129da55ba4192cc23c279aa4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 22,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "8825010e6833dc6507b4421768c9e3da21a6e98f7ad649726321ccc7926df917",
+        "alpha": "1a3d199bfee032f8c6a9c439879ae6185c13ea29b450322ef44a5bfd5f82aded",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8825010e6833dc6507b4421768c9e3da21a6e98f7ad649726321ccc7926df917",
+        "alpha": "1a3d199bfee032f8c6a9c439879ae6185c13ea29b450322ef44a5bfd5f82aded",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 23,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "c06d433f800cbd16da21767bf68c977b7b56c9964c0ed223e211624eada335f9",
+        "alpha": "5f2621931d363a2c5546030dc18dc63344e295b611829a76f6b72630c8b50190",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "c06d433f800cbd16da21767bf68c977b7b56c9964c0ed223e211624eada335f9",
+        "alpha": "5f2621931d363a2c5546030dc18dc63344e295b611829a76f6b72630c8b50190",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 24,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "41ee93a8e33ccc07491ff2ea7abd1ac816404e29a7e501536baba1d01f578d45",
+        "alpha": "60da1d46cab549c8f47e1854506a65b01add6421496af11067cfcc8aa155f956",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "41ee93a8e33ccc07491ff2ea7abd1ac816404e29a7e501536baba1d01f578d45",
+        "alpha": "60da1d46cab549c8f47e1854506a65b01add6421496af11067cfcc8aa155f956",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 25,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a1bffe2da86fd7dfe172e63810f65db68346fbcbcbac8ac778e7430754da64ef",
+        "alpha": "b7140e4f8ae70ccbb8e410d5ddde6e5cbf6b150e0ba82850ec5c3bf6bde6c79d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a1bffe2da86fd7dfe172e63810f65db68346fbcbcbac8ac778e7430754da64ef",
+        "alpha": "b7140e4f8ae70ccbb8e410d5ddde6e5cbf6b150e0ba82850ec5c3bf6bde6c79d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 26,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "35c3e1ae1bee7c3595e2d8565c7bbfaa1f1b3ecdd0a08443e2f003d1d2216bcb",
+        "alpha": "e16cbba872265fa8c89610eaf99a8dea466504752994534e732cf91304e3f08e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "35c3e1ae1bee7c3595e2d8565c7bbfaa1f1b3ecdd0a08443e2f003d1d2216bcb",
+        "alpha": "e16cbba872265fa8c89610eaf99a8dea466504752994534e732cf91304e3f08e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 27,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "b81f69a05c58c7c710ae5fc6d641a48ab0142aa8ff722ffc231a62ddb2337a97",
+        "alpha": "1fc3eed5c381c5c46423d97cfb0bd83309370cd81b5c1525c59666ff0a1dbea8",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "b81f69a05c58c7c710ae5fc6d641a48ab0142aa8ff722ffc231a62ddb2337a97",
+        "alpha": "1fc3eed5c381c5c46423d97cfb0bd83309370cd81b5c1525c59666ff0a1dbea8",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 28,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "e2e4cf77829f622d980c9b1b131d62277ed1b43f09659f471ebea8498b24a5ad",
+        "alpha": "09fd8747f502b526772765969660cab12e36520db26ed2881b80ea1cbd6bce60",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "e2e4cf77829f622d980c9b1b131d62277ed1b43f09659f471ebea8498b24a5ad",
+        "alpha": "09fd8747f502b526772765969660cab12e36520db26ed2881b80ea1cbd6bce60",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 29,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "8114867a8875c21c1ea506c59fd1aa26d0d5865a9dadc50f13d089635bc9962e",
+        "alpha": "4e561e8771899062ca6eca466c16a80bf5c5fea48a748cce4ad4d232af13e9fe",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8114867a8875c21c1ea506c59fd1aa26d0d5865a9dadc50f13d089635bc9962e",
+        "alpha": "4e561e8771899062ca6eca466c16a80bf5c5fea48a748cce4ad4d232af13e9fe",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 30,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "b652739b6c2fd49ec91dc3d0219282879670f3ced3d661bad141164ec62fdf88",
+        "alpha": "9e3b126ddf7f7ef21b9f7611fb1ef48489d73a0922866b6ae512bb1628920f76",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "b652739b6c2fd49ec91dc3d0219282879670f3ced3d661bad141164ec62fdf88",
+        "alpha": "9e3b126ddf7f7ef21b9f7611fb1ef48489d73a0922866b6ae512bb1628920f76",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 31,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "768897669d2c72e2cb668fcd8c7e0169adafdb17391d64950eea940a918daaa1",
+        "alpha": "21aaba70aba9c66786b82958f43284fda58377f618fd1bd97dc8c0bf9a9c3e70",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "768897669d2c72e2cb668fcd8c7e0169adafdb17391d64950eea940a918daaa1",
+        "alpha": "21aaba70aba9c66786b82958f43284fda58377f618fd1bd97dc8c0bf9a9c3e70",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 32,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "f7a270d390b4544edb747f1be4e00f2adb93966e65bfa8c59b281b46c4a200a8",
+        "alpha": "79b0c3a475085faffe734402f8c5e92b49af3457d1ed08e0faafd75e6b883789",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "f7a270d390b4544edb747f1be4e00f2adb93966e65bfa8c59b281b46c4a200a8",
+        "alpha": "79b0c3a475085faffe734402f8c5e92b49af3457d1ed08e0faafd75e6b883789",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 33,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "cfd4157f42a3b7043c99419a305fd2f571782d3414ecf0e7bf77bf3db2a71217",
+        "alpha": "15921c0ef33b8b9e54f28f1d22e652da2ffe457f88f6e92d37915bb788a26a2d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "cfd4157f42a3b7043c99419a305fd2f571782d3414ecf0e7bf77bf3db2a71217",
+        "alpha": "15921c0ef33b8b9e54f28f1d22e652da2ffe457f88f6e92d37915bb788a26a2d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 34,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "32f05bc34052b0b91564413fe6619475281da0af95a71ec411992fb3e19fb337",
+        "alpha": "5a3fb0347c9940c1bf8c1d1606a0b7718a78fd10bdbad94171622e1b4015e061",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "32f05bc34052b0b91564413fe6619475281da0af95a71ec411992fb3e19fb337",
+        "alpha": "5a3fb0347c9940c1bf8c1d1606a0b7718a78fd10bdbad94171622e1b4015e061",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 35,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "8f1ec08a9da262c1973531ac77ddad2d2b653017178c1594a894a1f4ebdb958c",
+        "alpha": "8a905bc502505cb0cf705a90cf51dc686f8358a92a48c84cc5358c9761b08d79",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8f1ec08a9da262c1973531ac77ddad2d2b653017178c1594a894a1f4ebdb958c",
+        "alpha": "8a905bc502505cb0cf705a90cf51dc686f8358a92a48c84cc5358c9761b08d79",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 36,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "3e294249c338e76bcc95303eb18efbcd95e6a9292fabd21c5d6cba728d1eda36",
+        "alpha": "9acb6444bc47574827582dcd0e254f85d86df225c302f2d77d025983f2d2af3c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "3e294249c338e76bcc95303eb18efbcd95e6a9292fabd21c5d6cba728d1eda36",
+        "alpha": "9acb6444bc47574827582dcd0e254f85d86df225c302f2d77d025983f2d2af3c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 37,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "8613f785b10f0b9999e5d4bc06f078a5fa1d50e9e854be6078e02a3589bb792d",
+        "alpha": "481e15a58dfd3d8c48f8bca42bf288e193fdf2ddf0aaa2335ff049168e2a88bf",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8613f785b10f0b9999e5d4bc06f078a5fa1d50e9e854be6078e02a3589bb792d",
+        "alpha": "481e15a58dfd3d8c48f8bca42bf288e193fdf2ddf0aaa2335ff049168e2a88bf",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 38,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "0b66dd46fc5ec61dea68cfc5f7f4140c6a01a8671ff1569816e0bd43b8471407",
+        "alpha": "3c47183da70d4c8aeffc3d12b0642a012fae1b14c43fbbe9a5e29abf158d6bb2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "0b66dd46fc5ec61dea68cfc5f7f4140c6a01a8671ff1569816e0bd43b8471407",
+        "alpha": "3c47183da70d4c8aeffc3d12b0642a012fae1b14c43fbbe9a5e29abf158d6bb2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 39,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "8aafde61f11246bf281fc7f4323988ce7f95809085904f05c4739811a353c9d9",
+        "alpha": "19321aa80979f28a7baa31a2efb674f82e415e56472f3c161218c9a750a2b10a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8aafde61f11246bf281fc7f4323988ce7f95809085904f05c4739811a353c9d9",
+        "alpha": "19321aa80979f28a7baa31a2efb674f82e415e56472f3c161218c9a750a2b10a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 40,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "5d1110d8f685730a45fde6c430229dfc8ae91f63a84c2cfa7f4cdd643f082538",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5d1110d8f685730a45fde6c430229dfc8ae91f63a84c2cfa7f4cdd643f082538",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 41,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "14d24b7c35c39738bc83c93886e7d94016238ba4959b53b2ec24c329546cd3b3",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "14d24b7c35c39738bc83c93886e7d94016238ba4959b53b2ec24c329546cd3b3",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 42,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "2d7513cb3139ee66666b2084c17e1d76e83155da25d8a6614494a5fb84cee157",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2d7513cb3139ee66666b2084c17e1d76e83155da25d8a6614494a5fb84cee157",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 43,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "4d35de91d81b03b5207f2583fec179b55338cf494d053f43e3689d606b3d9423",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "4d35de91d81b03b5207f2583fec179b55338cf494d053f43e3689d606b3d9423",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 44,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "b09929ebaf989a7a7b30a6001a25bcd6723e76d95ecf1b0618b869977675591f",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "b09929ebaf989a7a7b30a6001a25bcd6723e76d95ecf1b0618b869977675591f",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 45,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "bf30397905f5c284be6478fbb6d1ba1735620dd52084ca0d965ede951b14dd29",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "bf30397905f5c284be6478fbb6d1ba1735620dd52084ca0d965ede951b14dd29",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 46,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "a26d0497c813d0800641c46234e7ee0df5273ef8c3d514577d4e1490a12b1678",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a26d0497c813d0800641c46234e7ee0df5273ef8c3d514577d4e1490a12b1678",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 47,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "0f2e6a792578f6dfe85507e77c7ac3ec569225ecbe378d61f6ed3704a3ffc0b1",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "0f2e6a792578f6dfe85507e77c7ac3ec569225ecbe378d61f6ed3704a3ffc0b1",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 48,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "8516afb9cb4e43b7dba0e03e67a9019e5c962bb2638c9e5209b3693b455e2f41",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "8516afb9cb4e43b7dba0e03e67a9019e5c962bb2638c9e5209b3693b455e2f41",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 49,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "92cd4e0a32a99e002bb299e0eb9edca3678bb0c15195b87dcd55ba1d7a7e5991",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "92cd4e0a32a99e002bb299e0eb9edca3678bb0c15195b87dcd55ba1d7a7e5991",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 50,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "7202401c6c29c70852592f0a4f53c77716883b73d6f669bb748aae19294854f1",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "7202401c6c29c70852592f0a4f53c77716883b73d6f669bb748aae19294854f1",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 51,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "2094e18b55bda56011e3bd8d00f5775cb475d96e666ed1464409a6668cf4b264",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2094e18b55bda56011e3bd8d00f5775cb475d96e666ed1464409a6668cf4b264",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 52,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "2cb55e55495b46bd996ceb1225082afb0a44677c2e5c7a88a5ccc5be9d482a80",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2cb55e55495b46bd996ceb1225082afb0a44677c2e5c7a88a5ccc5be9d482a80",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 53,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "e058cf797c8489ec8e0230f8c2e76e4f42779b4de911d8126ef5918995aa09ae",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "e058cf797c8489ec8e0230f8c2e76e4f42779b4de911d8126ef5918995aa09ae",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 54,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "d58c0dc055695dda16b5dd4d50d48d814a88797a6f0f52ec9aa9fd132f3bb853",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "d58c0dc055695dda16b5dd4d50d48d814a88797a6f0f52ec9aa9fd132f3bb853",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 55,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "4a14ad649fc23e3219bf3edc8c807c11b980dd5b426d73fab2925c36fb627ddd",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "4a14ad649fc23e3219bf3edc8c807c11b980dd5b426d73fab2925c36fb627ddd",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 56,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "07ca32774a69596818495416e3ebea6fe295b33b0f6d034c40448e420dbd549b",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "07ca32774a69596818495416e3ebea6fe295b33b0f6d034c40448e420dbd549b",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 57,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "5b675cd7b77322b8630c133c41365354ecc8075324165474449e5e5a9f2762d4",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5b675cd7b77322b8630c133c41365354ecc8075324165474449e5e5a9f2762d4",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 58,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "3de88196192f5cd72694326af6ca0defa53e4e7572bf0ebc136562ac6cd4569d",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "3de88196192f5cd72694326af6ca0defa53e4e7572bf0ebc136562ac6cd4569d",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 59,
+      "reducedMotion": false,
+      "far": true,
+      "before": {
+        "matrix": "87d97879c1de24edca25b9de984f4f750d3ddc1b8afa52f2de607a3a51dad9ca",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "87d97879c1de24edca25b9de984f4f750d3ddc1b8afa52f2de607a3a51dad9ca",
+        "alpha": "9575b2125169377b2ade7b401ea36c81228331d971f49664d9648d4f255d4868",
+        "visible": false,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 60,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a7e004bdc7d4a034353e90c0d51cdb23d7fa79d021509dab1fe1aa85ecb156ae",
+        "alpha": "f393decb50773a1889a25935007a6f46f1f2c086e81fc705aa0d647373d50994",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a7e004bdc7d4a034353e90c0d51cdb23d7fa79d021509dab1fe1aa85ecb156ae",
+        "alpha": "f393decb50773a1889a25935007a6f46f1f2c086e81fc705aa0d647373d50994",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 61,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "5b5bc2c739460186ff30bf52448ae58f0c77aa65e7aa189b8ed886560f219cd4",
+        "alpha": "dd0ef0550fc08634327b9c017d6ba5733a16ebf5d1631331e044a2170745e818",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5b5bc2c739460186ff30bf52448ae58f0c77aa65e7aa189b8ed886560f219cd4",
+        "alpha": "dd0ef0550fc08634327b9c017d6ba5733a16ebf5d1631331e044a2170745e818",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 62,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a40836e40ab4cde5628e804ec50973d229d94321427f9cb880d03d18d5373088",
+        "alpha": "c7c34b69186d9768be4a1b52cfec76d32a27b01bd20d2828262110af4820edc1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a40836e40ab4cde5628e804ec50973d229d94321427f9cb880d03d18d5373088",
+        "alpha": "c7c34b69186d9768be4a1b52cfec76d32a27b01bd20d2828262110af4820edc1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 63,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "fc1f0a86956b270a0a2d8787b68c321b9acc661ec7729849bd1c3d98ebeacc67",
+        "alpha": "a30b122c1bc7a9ad81349c6b0045c5bf3f06d91495561d09b0b204e796060225",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "fc1f0a86956b270a0a2d8787b68c321b9acc661ec7729849bd1c3d98ebeacc67",
+        "alpha": "a30b122c1bc7a9ad81349c6b0045c5bf3f06d91495561d09b0b204e796060225",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 64,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "bbf06e114fab806c8bb2cb41643b63346d86b7afb0dbb54542f98f0b014027d3",
+        "alpha": "fe104e09650ac3d17910a726b8841fc56e307c323aca70c189050fee027f3c89",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "bbf06e114fab806c8bb2cb41643b63346d86b7afb0dbb54542f98f0b014027d3",
+        "alpha": "fe104e09650ac3d17910a726b8841fc56e307c323aca70c189050fee027f3c89",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 65,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "02741dd10f58e9a4899336d962b6916736046f0f64eb8c81999566efdb0905ff",
+        "alpha": "80cd3212b5120c2fa0921ed9774563182287198b8adf263c613a68988be9b1b9",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "02741dd10f58e9a4899336d962b6916736046f0f64eb8c81999566efdb0905ff",
+        "alpha": "80cd3212b5120c2fa0921ed9774563182287198b8adf263c613a68988be9b1b9",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 66,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "346ab360b876e1c04f80f83da23b3648b105d6ca1d4b4a50fb5846008451c848",
+        "alpha": "bbbcbc70aec0e06a3632550109747fee2732c4a87b8a2bbfda55584627a2b12d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "346ab360b876e1c04f80f83da23b3648b105d6ca1d4b4a50fb5846008451c848",
+        "alpha": "bbbcbc70aec0e06a3632550109747fee2732c4a87b8a2bbfda55584627a2b12d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 67,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "c60f682f70c7c6d7fcf160f01ce96ec970ef872e085a64048abf1139dc3b8af3",
+        "alpha": "adca5a692e9093aaf4c21ac9a0f52469028c5194b013250794dd7e02f4a6ab80",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "c60f682f70c7c6d7fcf160f01ce96ec970ef872e085a64048abf1139dc3b8af3",
+        "alpha": "adca5a692e9093aaf4c21ac9a0f52469028c5194b013250794dd7e02f4a6ab80",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 68,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "f57681593df22cb73916527856887d780d6b56e1cc9e2b896bbc115071b9c56c",
+        "alpha": "89dfd48e4c760cd9f964aeea74d11561fccbb801b6543e8f51377bdee2008bdd",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "f57681593df22cb73916527856887d780d6b56e1cc9e2b896bbc115071b9c56c",
+        "alpha": "89dfd48e4c760cd9f964aeea74d11561fccbb801b6543e8f51377bdee2008bdd",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 69,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "ef0e539bb111df27b656c003cc385eea7a183f129d0110a06108e79f0c29c4c4",
+        "alpha": "4f268cd5b8e1894c121e9f4c153aae6e15ef0dd5d380b06dfc778b29ea88b98b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "ef0e539bb111df27b656c003cc385eea7a183f129d0110a06108e79f0c29c4c4",
+        "alpha": "4f268cd5b8e1894c121e9f4c153aae6e15ef0dd5d380b06dfc778b29ea88b98b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 70,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "c42fd17ad61ad889fe2e7ebb4350e9ed805f9c7adcc9b9f2d51155bbbad22061",
+        "alpha": "2559d0b49d2da19ca3139653c09728749a221ff3a67d37c62122ab7dc891f427",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "c42fd17ad61ad889fe2e7ebb4350e9ed805f9c7adcc9b9f2d51155bbbad22061",
+        "alpha": "2559d0b49d2da19ca3139653c09728749a221ff3a67d37c62122ab7dc891f427",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 71,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "62473c7a628d59f728a562f6471a90962692a058ac9633676d71580aa62154fc",
+        "alpha": "c18d38a01101c803873da179a8e2e3ae2ddfe92f87638d3781ab8e261cde66e5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "62473c7a628d59f728a562f6471a90962692a058ac9633676d71580aa62154fc",
+        "alpha": "c18d38a01101c803873da179a8e2e3ae2ddfe92f87638d3781ab8e261cde66e5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 72,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "aa894664a7e74bed98817ba0139519780764ec47af87a1c71a22f49ae2a60685",
+        "alpha": "f520b8971c087a0c486f1b7b52b38f50062736121f955ef869ca6b07e98f5720",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "aa894664a7e74bed98817ba0139519780764ec47af87a1c71a22f49ae2a60685",
+        "alpha": "f520b8971c087a0c486f1b7b52b38f50062736121f955ef869ca6b07e98f5720",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 73,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "2e7dfd2f6c650ec25eefd5336ec1c12c01bc08fa8939d8a5e5e2bbb4010cbff3",
+        "alpha": "3203158d6444105a12a1a95ec0712f35d8c29bb0cf9af85c6cfeab6098c29fda",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2e7dfd2f6c650ec25eefd5336ec1c12c01bc08fa8939d8a5e5e2bbb4010cbff3",
+        "alpha": "3203158d6444105a12a1a95ec0712f35d8c29bb0cf9af85c6cfeab6098c29fda",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 74,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "ab0ccd5304e3a56debb4584e6a921f41ef6d76065cb544696d616bfd5aa36128",
+        "alpha": "53a49c6e9b2e3cef3790b33d51798446d9cfbf9cf65f3d4fdbc5ce15c179ece5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "ab0ccd5304e3a56debb4584e6a921f41ef6d76065cb544696d616bfd5aa36128",
+        "alpha": "53a49c6e9b2e3cef3790b33d51798446d9cfbf9cf65f3d4fdbc5ce15c179ece5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 75,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a0211e6e432d39b17558aba989357594cbf2137aacbd6641d920e1fdb20d8800",
+        "alpha": "fbd7a595f266aa06cf1a5aa0a64d10bb3653f93fad12b58a4759928aa16c9229",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a0211e6e432d39b17558aba989357594cbf2137aacbd6641d920e1fdb20d8800",
+        "alpha": "fbd7a595f266aa06cf1a5aa0a64d10bb3653f93fad12b58a4759928aa16c9229",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 76,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "3e82ee6d85e048b5494178fa51bc45314758ce1df41d7668fd57d7bd0e634b1f",
+        "alpha": "5acf1a2ea5676ff40542dcd1bb6785cacd99d4ae9021503f675bf08daecb6f76",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "3e82ee6d85e048b5494178fa51bc45314758ce1df41d7668fd57d7bd0e634b1f",
+        "alpha": "5acf1a2ea5676ff40542dcd1bb6785cacd99d4ae9021503f675bf08daecb6f76",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 77,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "382d845f0f0b0513d9d1b158e3ea95be735fa349add7307754650fa65f76c7ba",
+        "alpha": "9b1ecd4be5781137f10e17bd71395aee4c2edb436bd7f62a787e24ed998c178a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "382d845f0f0b0513d9d1b158e3ea95be735fa349add7307754650fa65f76c7ba",
+        "alpha": "9b1ecd4be5781137f10e17bd71395aee4c2edb436bd7f62a787e24ed998c178a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 78,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "16f695fc7e0b1800c87c0d38eff27620d084973fb407cbaa909a72b20f405cc4",
+        "alpha": "6a590a273aec8b8a97938f76c8805460bf5f477e9fb140c01abc3a6139c0d76c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16f695fc7e0b1800c87c0d38eff27620d084973fb407cbaa909a72b20f405cc4",
+        "alpha": "6a590a273aec8b8a97938f76c8805460bf5f477e9fb140c01abc3a6139c0d76c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 79,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "e6e23aa4b5a83f307d02cfc193cf4aade072831087ce3568c677ae4351e81a12",
+        "alpha": "82257d0873ec38576a644349fd047044cfa970664b8efa5147e624ed18505a6b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "e6e23aa4b5a83f307d02cfc193cf4aade072831087ce3568c677ae4351e81a12",
+        "alpha": "82257d0873ec38576a644349fd047044cfa970664b8efa5147e624ed18505a6b",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 80,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "986efd0b3bb9e7c1d80efde816d7e3e6194d7ffb219706f73fb2d2a4f829666f",
+        "alpha": "20e849bfbded005b0486a17d1723eff76ef7e4be5947932ebfb3c0d2fb0c3e6d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "986efd0b3bb9e7c1d80efde816d7e3e6194d7ffb219706f73fb2d2a4f829666f",
+        "alpha": "20e849bfbded005b0486a17d1723eff76ef7e4be5947932ebfb3c0d2fb0c3e6d",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 81,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "50667693ccb825d0f0dfa751a1259b46fb5a73de42f7bbc3e2e8403f622a853e",
+        "alpha": "11184412572b7c8df0932e2979e5a12f21406f5abd5eca9b4523c8bc8a2a8ada",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "50667693ccb825d0f0dfa751a1259b46fb5a73de42f7bbc3e2e8403f622a853e",
+        "alpha": "11184412572b7c8df0932e2979e5a12f21406f5abd5eca9b4523c8bc8a2a8ada",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 82,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "d6d0fed519bffe5fc7105c781a2c82994330019dcae44ce2427d001edeb4f872",
+        "alpha": "43fa5bdb7889c5336efa254682463ac99dde0ffc15a1772fce97409c340e673a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "d6d0fed519bffe5fc7105c781a2c82994330019dcae44ce2427d001edeb4f872",
+        "alpha": "43fa5bdb7889c5336efa254682463ac99dde0ffc15a1772fce97409c340e673a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 83,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "4cd66e54b3797e14574dc1c3823dacc69083fe81a01189b0184bd0b1cabb8dca",
+        "alpha": "286196a8860ae9fd28fd6518f19f723e809e65194fffb0f01469ab4a0590764c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "4cd66e54b3797e14574dc1c3823dacc69083fe81a01189b0184bd0b1cabb8dca",
+        "alpha": "286196a8860ae9fd28fd6518f19f723e809e65194fffb0f01469ab4a0590764c",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 84,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "d829d5cfe9ba361ede84499d83c6287d5c88f5b587f8e809697de8b28d0a4269",
+        "alpha": "d05ecbf1365d469b5e4c4fd1976766e26f40a7bdf6d3b0c12e683bb809114611",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "d829d5cfe9ba361ede84499d83c6287d5c88f5b587f8e809697de8b28d0a4269",
+        "alpha": "d05ecbf1365d469b5e4c4fd1976766e26f40a7bdf6d3b0c12e683bb809114611",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 85,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "14d41c48ed3c5667cf77f3bdd1f280e1af66a13ce36217669d336b7093fa86f0",
+        "alpha": "61b8a3bb9ade8b6373108e2648400b43684f72549665a8d6c1b5fe9414ef815a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "14d41c48ed3c5667cf77f3bdd1f280e1af66a13ce36217669d336b7093fa86f0",
+        "alpha": "61b8a3bb9ade8b6373108e2648400b43684f72549665a8d6c1b5fe9414ef815a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 86,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "ff9ebd434f15289f84d8482538efa6829275486367ea20d6c89bc0b6fd5b8a09",
+        "alpha": "8170d987d4c661ad87a8814f6bb8af643983fd1be5b5c285b8ad2c443faa6ff9",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "ff9ebd434f15289f84d8482538efa6829275486367ea20d6c89bc0b6fd5b8a09",
+        "alpha": "8170d987d4c661ad87a8814f6bb8af643983fd1be5b5c285b8ad2c443faa6ff9",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 87,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "9966b96842eb78f87e7dcc351576b97a4d3007d73e1aec949300c996ee0234a1",
+        "alpha": "cca328362e3f50ae84419209b31de3d7a7fca9e03808f7c80b50384850291484",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "9966b96842eb78f87e7dcc351576b97a4d3007d73e1aec949300c996ee0234a1",
+        "alpha": "cca328362e3f50ae84419209b31de3d7a7fca9e03808f7c80b50384850291484",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 88,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "4a6587c94f5d3659fb747e91fbfc75e43504f2bd7142be425e6139b5058b3100",
+        "alpha": "7370e851c5ffd69933b8a6ff2ad8e19f4a42874d1a16613f586b9b20c165efd6",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "4a6587c94f5d3659fb747e91fbfc75e43504f2bd7142be425e6139b5058b3100",
+        "alpha": "7370e851c5ffd69933b8a6ff2ad8e19f4a42874d1a16613f586b9b20c165efd6",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 89,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "6d2f2facca07cc8aa61b21a4c4e1e33a4868c0a09207b169eeaba5ed9e4fe0f1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "6d2f2facca07cc8aa61b21a4c4e1e33a4868c0a09207b169eeaba5ed9e4fe0f1",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 90,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "f0b4da411805c3a7b1f208aa3df207d937d0c20aea916322eca091a0e57b5072",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "f0b4da411805c3a7b1f208aa3df207d937d0c20aea916322eca091a0e57b5072",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 91,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "076351dd3118d23f2a7471d05649efb2fecb108e92f4a1326bae9a229898b8f8",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "076351dd3118d23f2a7471d05649efb2fecb108e92f4a1326bae9a229898b8f8",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 92,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "c977ec78d88f3fb7567aef2844c148bf8bce94ebdf173f3a6154a483b53b69c0",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "c977ec78d88f3fb7567aef2844c148bf8bce94ebdf173f3a6154a483b53b69c0",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 93,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "a1b030904655c0f2de2667b344a003f7c0073bdb59472d7e20b081e9876020fc",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "a1b030904655c0f2de2667b344a003f7c0073bdb59472d7e20b081e9876020fc",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 94,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "1c0ad6c1aeeec1158c3962f40cb14c4a2aefae4b0c6cf3fead8dade46694827f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "1c0ad6c1aeeec1158c3962f40cb14c4a2aefae4b0c6cf3fead8dade46694827f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 95,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "e2d3855f0cead445b2d02cd47675dc1c5e1f9569c7d33351dbef0b46cbcaf9e4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "e2d3855f0cead445b2d02cd47675dc1c5e1f9569c7d33351dbef0b46cbcaf9e4",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 96,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "0281c854d520660f628f5b095328a04e24c903d2ce3df7b1bde51881cdd889b7",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "0281c854d520660f628f5b095328a04e24c903d2ce3df7b1bde51881cdd889b7",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 97,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "f801520d569060307a456b7d0d59d65f02be3aa07502aed376e2165d7a3003fa",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "f801520d569060307a456b7d0d59d65f02be3aa07502aed376e2165d7a3003fa",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 98,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "fc69bb888c36f40fb26da6fd67d048a1d435a5d3aeb565377cd32d7e6cfb952a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "fc69bb888c36f40fb26da6fd67d048a1d435a5d3aeb565377cd32d7e6cfb952a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 99,
+      "reducedMotion": true,
+      "far": false,
+      "before": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "8d3ceb0852ed2d9b0bab1ced32ec0db87cf3f8eb693a9cade82cec77af02490f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "16868ea95668fb5816a03ed953aa6014bb13cc145cc15ccba2de13c414d3e253",
+        "alpha": "8d3ceb0852ed2d9b0bab1ced32ec0db87cf3f8eb693a9cade82cec77af02490f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 100,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "75c9fd1088304e83998e95755ac1038f0ff7ab35f23c7b4f89fbdd5529fd0f10",
+        "alpha": "30758b0903d5b271eacff3407eda23be6189b1d611b9dfe0d63c0826675a8e32",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "75c9fd1088304e83998e95755ac1038f0ff7ab35f23c7b4f89fbdd5529fd0f10",
+        "alpha": "30758b0903d5b271eacff3407eda23be6189b1d611b9dfe0d63c0826675a8e32",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 101,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "24d16d217cdb67a7e1bc21427bd46ddc50569dbaf6e051adf964cc50ce5f7464",
+        "alpha": "6394b504e3deee27844d13560aa51e4a63139586e11787cebc2da05ea33ad78a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "24d16d217cdb67a7e1bc21427bd46ddc50569dbaf6e051adf964cc50ce5f7464",
+        "alpha": "6394b504e3deee27844d13560aa51e4a63139586e11787cebc2da05ea33ad78a",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 102,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "2d25fc37436dcf178429ff14de22bac236555b3538feee84e5e26365e45298ca",
+        "alpha": "78d11d608e2447a9866e296979e741aa4015f04fdcc40269da9458b3a34829f2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "2d25fc37436dcf178429ff14de22bac236555b3538feee84e5e26365e45298ca",
+        "alpha": "78d11d608e2447a9866e296979e741aa4015f04fdcc40269da9458b3a34829f2",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 103,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "0d7c7eb1876ec50df0b00917d0ba6f3efcfed6ef31b176a2328f83baf0b9e41f",
+        "alpha": "c079f65f7f636c8a64452c87e0a630f4d30f055a0b9dceb8f125977f4e14f441",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "0d7c7eb1876ec50df0b00917d0ba6f3efcfed6ef31b176a2328f83baf0b9e41f",
+        "alpha": "c079f65f7f636c8a64452c87e0a630f4d30f055a0b9dceb8f125977f4e14f441",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 104,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "09574f64d71909d444294d9b9c86c5721cf7ab2f2aa1c2c8f3607eddc8df6c07",
+        "alpha": "b4284ed9152a33d279097a58c28ebb4fcc7528f13b7dc999bcfe8f98fc5f2fbe",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "09574f64d71909d444294d9b9c86c5721cf7ab2f2aa1c2c8f3607eddc8df6c07",
+        "alpha": "b4284ed9152a33d279097a58c28ebb4fcc7528f13b7dc999bcfe8f98fc5f2fbe",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 105,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "172af73d4fbeeff85734a67f7d3ce092a1a58dc6f7e3aeacab4e4e4e63883345",
+        "alpha": "b585cb943cb0fe604c0158dd48e83994e07959c899815cc2d136cf92d7fff470",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "172af73d4fbeeff85734a67f7d3ce092a1a58dc6f7e3aeacab4e4e4e63883345",
+        "alpha": "b585cb943cb0fe604c0158dd48e83994e07959c899815cc2d136cf92d7fff470",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 106,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "4cdf43b36f7a8483ca2094456af31128c29392c1c1bcccb91874a0ca4807db96",
+        "alpha": "b5218b6acf36ae8d72d181c14b624962db56d5b20441e42de2c4192969be6235",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "4cdf43b36f7a8483ca2094456af31128c29392c1c1bcccb91874a0ca4807db96",
+        "alpha": "b5218b6acf36ae8d72d181c14b624962db56d5b20441e42de2c4192969be6235",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 107,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "30c17bf78f6df1d9d62f657f0f94c88456eb7fb033fea9f8b470e94ff921c451",
+        "alpha": "aee61fccc53956bafc350da8d523e456d12b19ac3263d77095ced3213f502753",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "30c17bf78f6df1d9d62f657f0f94c88456eb7fb033fea9f8b470e94ff921c451",
+        "alpha": "aee61fccc53956bafc350da8d523e456d12b19ac3263d77095ced3213f502753",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 108,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "f5bd5825de022fec77e137994b6623b48dca2da2abd58db5fc915556201f165f",
+        "alpha": "103cdd72db01dd8b874808d7a2be983f91cf4e11b69e9eef2aad2afed21a85a5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "f5bd5825de022fec77e137994b6623b48dca2da2abd58db5fc915556201f165f",
+        "alpha": "103cdd72db01dd8b874808d7a2be983f91cf4e11b69e9eef2aad2afed21a85a5",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 109,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "bf56160ff4e36344b95b9bfa63364b53fc08707f525caa6f85e93d32a958bb02",
+        "alpha": "dc5a31588c36d6976590d773cd960cee792c663659ab7f67fc7e78b6f11f43a6",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "bf56160ff4e36344b95b9bfa63364b53fc08707f525caa6f85e93d32a958bb02",
+        "alpha": "dc5a31588c36d6976590d773cd960cee792c663659ab7f67fc7e78b6f11f43a6",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 110,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "92d6d675de2cecd483edb9cc1fa612b333e7ce6dc4d765b12128686e28caafff",
+        "alpha": "7f419b1fc1d20ecf07b2fb5eea3e3749f8ad600ab7230e8dea94363de5404c12",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "92d6d675de2cecd483edb9cc1fa612b333e7ce6dc4d765b12128686e28caafff",
+        "alpha": "7f419b1fc1d20ecf07b2fb5eea3e3749f8ad600ab7230e8dea94363de5404c12",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 111,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "49e5e3c2abed952681b68998680c398a5e21ba27d40852ea18b03f9cc38b0ebb",
+        "alpha": "60b4393bf70888c8a737bba8e988b32879c0d27292dad85c9de13dbfd0f72d90",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "49e5e3c2abed952681b68998680c398a5e21ba27d40852ea18b03f9cc38b0ebb",
+        "alpha": "60b4393bf70888c8a737bba8e988b32879c0d27292dad85c9de13dbfd0f72d90",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 112,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "5befa2690f6bdbe0c1edc70e63594f9950952b537f73f1a5bb81850bfb7b2857",
+        "alpha": "2a1f59d0c299a3f4e507551a30be6d425ce626a3f0134968c89284c6ae8eaeff",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5befa2690f6bdbe0c1edc70e63594f9950952b537f73f1a5bb81850bfb7b2857",
+        "alpha": "2a1f59d0c299a3f4e507551a30be6d425ce626a3f0134968c89284c6ae8eaeff",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 113,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a0503e77e6cc35dded1a4e2256533d097482254735f1bfd470c85bb8f868765d",
+        "alpha": "1e47423540bd4a156cc762a72286fea7f758bebe10b397c0876238123032d8de",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a0503e77e6cc35dded1a4e2256533d097482254735f1bfd470c85bb8f868765d",
+        "alpha": "1e47423540bd4a156cc762a72286fea7f758bebe10b397c0876238123032d8de",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 114,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "67306fd24692a277b7e63c93e8803582aa2804ec06517b3311edf9abc7940da4",
+        "alpha": "feb2398e103c9ac70f21af7b21cf74bd5760aca4b25bf8f54aa2e4a4242af98e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "67306fd24692a277b7e63c93e8803582aa2804ec06517b3311edf9abc7940da4",
+        "alpha": "feb2398e103c9ac70f21af7b21cf74bd5760aca4b25bf8f54aa2e4a4242af98e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 115,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "5ec9e72537c87aa1384892baa4256a6ed2f88d62cdb5f8745a63d95275eee4b6",
+        "alpha": "69ed1bb114ab1388976ec25add8a065ffd9f4e203a5b2a8094b8a8e0a2b4ef3e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "5ec9e72537c87aa1384892baa4256a6ed2f88d62cdb5f8745a63d95275eee4b6",
+        "alpha": "69ed1bb114ab1388976ec25add8a065ffd9f4e203a5b2a8094b8a8e0a2b4ef3e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 116,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "dcbeb3818f057792434327aa7efeaabe6efc34ec57b6cff38766f2c89de6ab8c",
+        "alpha": "3fdbbe84ebf3e92c14a5888300286a21dc208e95a5829ce4cebdc5e01585487f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "dcbeb3818f057792434327aa7efeaabe6efc34ec57b6cff38766f2c89de6ab8c",
+        "alpha": "3fdbbe84ebf3e92c14a5888300286a21dc208e95a5829ce4cebdc5e01585487f",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 117,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "de04f3317c57a4299b177560e49ba6d4149c97a4163bfa197a850c4db4c25551",
+        "alpha": "0c26bfc64fab1ee8a9b94d0e64bd08eb5df89c23c23294a6fa4f1d08fa3b14af",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "de04f3317c57a4299b177560e49ba6d4149c97a4163bfa197a850c4db4c25551",
+        "alpha": "0c26bfc64fab1ee8a9b94d0e64bd08eb5df89c23c23294a6fa4f1d08fa3b14af",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 118,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "672c0ffd1ac700a74481419a0cd1ad0699876814e1f2c32ef664f7f4ff9cd92c",
+        "alpha": "aa2d5b6581ab1bb906b1643b99bea1e754f95618bf3a9ed27252da5e40ec0843",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "672c0ffd1ac700a74481419a0cd1ad0699876814e1f2c32ef664f7f4ff9cd92c",
+        "alpha": "aa2d5b6581ab1bb906b1643b99bea1e754f95618bf3a9ed27252da5e40ec0843",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    },
+    {
+      "i": 119,
+      "reducedMotion": false,
+      "far": false,
+      "before": {
+        "matrix": "a829585d13781abef134a72259e8f8e0e2e5a5257d0e35b208cd92d135b57138",
+        "alpha": "8facfb47199a336968f79ae53415e3cc23003fc848ac8cc0620ff3ea45cccc9e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      },
+      "after": {
+        "matrix": "a829585d13781abef134a72259e8f8e0e2e5a5257d0e35b208cd92d135b57138",
+        "alpha": "8facfb47199a336968f79ae53415e3cc23003fc848ac8cc0620ff3ea45cccc9e",
+        "visible": true,
+        "count": 77,
+        "dynamicBufferBytes": 5236
+      }
+    }
+  ],
+  "cost": {
+    "before-0": {
+      "calls": 56,
+      "triangles": 158841,
+      "textures": 94
+    },
+    "after-0": {
+      "calls": 56,
+      "triangles": 158841,
+      "textures": 94
+    },
+    "empty-0": {
+      "calls": 55,
+      "triangles": 158071,
+      "textures": 94
+    },
+    "before-30": {
+      "calls": 58,
+      "triangles": 175225,
+      "textures": 94
+    },
+    "after-30": {
+      "calls": 58,
+      "triangles": 175225,
+      "textures": 94
+    },
+    "empty-30": {
+      "calls": 57,
+      "triangles": 174455,
+      "textures": 94
+    },
+    "before-60": {
+      "calls": 59,
+      "triangles": 182249,
+      "textures": 94
+    },
+    "after-60": {
+      "calls": 59,
+      "triangles": 182249,
+      "textures": 94
+    },
+    "empty-60": {
+      "calls": 58,
+      "triangles": 181479,
+      "textures": 94
+    },
+    "before-119": {
+      "calls": 58,
+      "triangles": 175225,
+      "textures": 94
+    },
+    "after-119": {
+      "calls": 58,
+      "triangles": 175225,
+      "textures": 94
+    },
+    "empty-119": {
+      "calls": 57,
+      "triangles": 174455,
+      "textures": 94
+    }
+  },
+  "captures": [
+    {
+      "i": 0,
+      "changed": 0,
+      "hidden": 235
+    },
+    {
+      "i": 30,
+      "changed": 0,
+      "hidden": 250
+    },
+    {
+      "i": 60,
+      "changed": 0,
+      "hidden": 311
+    },
+    {
+      "i": 119,
+      "changed": 0,
+      "hidden": 219
+    }
+  ],
+  "sourceSha256": {
+    "before": "68247adab84ac86a22b40afa8e62a83db33d4c767023df56290b958674084cad",
+    "after": "68247adab84ac86a22b40afa8e62a83db33d4c767023df56290b958674084cad"
+  },
+  "pass": false,
+  "scope": "Measured source path checked against published code; complete falling-leaf modules (sharing the earlier flight-factor cache in ground mode) replayed on native selected trees, variants and terrain, with controlled fixed wind angle 0, initial pose, optional controlled phase alignment, and 120 updates, camera pan, range exit/re-entry and reduced motion. Operation counts, not hardware FPS or natural frame-time measurements. Every full matrix/opacity buffer hash and captured post-processing image must match."
+}
