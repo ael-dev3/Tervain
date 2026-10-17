@@ -135,10 +135,11 @@ export function sampleLeafRgbaAlpha(image: LeafRgbaImage, u: number, v: number, 
 }
 
 function sampleChannelAlpha(width: number, height: number, valueAt: (x: number, y: number) => number,
-  u: number, v: number, texture: THREE.Texture, matrix = textureMatrix(texture), uv = new THREE.Vector2()): number {
+  u: number, v: number, texture: THREE.Texture, prepared?: { matrix: THREE.Matrix3; point: THREE.Vector2 }): number {
   if (!Number.isFinite(u) || !Number.isFinite(v)) return 0;
+  const matrix = prepared?.matrix ?? textureMatrix(texture);
   if (!matrix.elements.every(Number.isFinite)) return 0;
-  uv.set(u, v).applyMatrix3(matrix);
+  const uv = (prepared?.point ?? new THREE.Vector2()).set(u, v).applyMatrix3(matrix);
   if (texture.flipY) uv.y = 1 - uv.y;
   if (![uv.x, uv.y].every(Number.isFinite)) return 0;
   const texel = (x: number, y: number) => {
@@ -170,7 +171,8 @@ export function sampleLeafSurfaceSites(
   const index = geometry.index, triangles = Math.floor((index?.count ?? position.count) / 3);
   const stride = Math.max(1, Math.ceil(triangles / limit));
   const masked = material.alphaTest > 0;
-  const maps: { texture: THREE.Texture; image: LeafChannelImage; matrix: THREE.Matrix3; uv: THREE.Vector2 }[] = [];
+  const maps: { texture: THREE.Texture; image: LeafChannelImage; uv: THREE.BufferAttribute | THREE.InterleavedBufferAttribute;
+    valueAt: (x: number, y: number) => number; sample: { matrix: THREE.Matrix3; point: THREE.Vector2 } }[] = [];
   if (masked) {
     if (!material.map || !Number.isFinite(material.alphaTest)) return [];
     try {
@@ -179,9 +181,11 @@ export function sampleLeafSurfaceSites(
         const image = options.readImage ? channelPixels(options.readImage(texture.image), channel) : nativeImageChannel(texture.image, channel);
         if (!image) return [];
         const uvName = texture.channel === 0 ? 'uv' : `uv${texture.channel}`;
-        if (!geometry.getAttribute(uvName)) return [];
-        // The immutable template texture is constant throughout this site scan.
-        maps.push({ texture, image, matrix: textureMatrix(texture), uv: new THREE.Vector2() });
+        const uv = geometry.getAttribute(uvName);
+        if (!uv) return [];
+        // Source texture state stays fixed during this synchronous batch; each call gets fresh scratch state.
+        maps.push({ texture, image, uv, valueAt: (x, y) => image.data[y * image.width + x]!,
+          sample: { matrix: textureMatrix(texture), point: new THREE.Vector2() } });
       }
     } catch { return []; }
   }
@@ -201,11 +205,11 @@ export function sampleLeafSurfaceSites(
     if (nx * nx + ny * ny + nz * nz <= 1e-16) continue;
     let alpha = material.opacity;
     for (const map of maps) {
-      const uv = geometry.getAttribute(map.texture.channel === 0 ? 'uv' : `uv${map.texture.channel}`);
+      const uv = map.uv;
       alpha *= sampleChannelAlpha(map.image.width, map.image.height,
-        (x, y) => map.image.data[y * map.image.width + x]!,
+        map.valueAt,
         (uv.getX(a) + uv.getX(b) + uv.getX(c)) / 3,
-        (uv.getY(a) + uv.getY(b) + uv.getY(c)) / 3, map.texture, map.matrix, map.uv);
+        (uv.getY(a) + uv.getY(b) + uv.getY(c)) / 3, map.texture, map.sample);
     }
     if (masked && alpha < material.alphaTest) continue;
     sites.push({ x: (ax + bx + cx) / 3, y: (ay + by + cy) / 3, z: (az + bz + cz) / 3 });

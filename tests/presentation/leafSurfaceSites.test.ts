@@ -20,6 +20,16 @@ function faces(uvs: readonly [number, number][]): THREE.BufferGeometry {
 }
 
 describe('visible native leaf surface sites', () => {
+  it('reads replacement UV attributes in each sampling batch', () => {
+    const geometry = faces([[0.25, 0.25]]), texture = map();
+    texture.image = rgba([255, 0, 0, 0]);
+    const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: 0.35 });
+    expect(sampleLeafSurfaceSites(geometry, material)).toHaveLength(1);
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0.75, 0.25, 0.75, 0.25, 0.75, 0.25], 2));
+    expect(sampleLeafSurfaceSites(geometry, material)).toHaveLength(0);
+    geometry.dispose(); material.dispose(); texture.dispose();
+  });
+
   it('uses decoded glTF top-row orientation, with the explicit flipY alternative', () => {
     const image = rgba([255, 0, 0, 255]), texture = map();
     expect(sampleLeafRgbaAlpha(image, 0.25, 0.25, texture)).toBe(1);
