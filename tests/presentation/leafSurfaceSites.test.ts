@@ -166,3 +166,19 @@ it('rejects opacity outside a triangle while keeping boundary-filter contributio
     expect(c.mayHaveOpaque(0.8, 0.8, 0.9, 0.8, 0.8, 0.9)).toBe(true);
   } finally { material.dispose(); texture.dispose(); }
 });
+
+it('keeps the last opaque texel in odd and one-dimensional masks', () => {
+  for (const [width, height] of [[7, 5], [1, 7], [7, 1]] as const) {
+    const pixels = new Uint8Array(width * height * 4); pixels[pixels.length - 1] = 255;
+    const texture = new THREE.DataTexture(pixels, width, height); texture.flipY = false; texture.magFilter = THREE.NearestFilter;
+    const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: .42 });
+    try {
+      const cutout = leafCutoutSampler(material)!, u = (width - .5) / width, v = (height - .5) / height;
+      expect(cutout.alpha(u, v)).toBe(1);
+      expect(cutout.mayHaveOpaque(u, v, u, v, u, v)).toBe(true);
+      const clearU = width > 1 ? (width - 1.5) / width : u, clearV = height > 1 ? (height - 1.5) / height : v;
+      expect(cutout.alpha(clearU, clearV)).toBe(0);
+      expect(cutout.mayHaveOpaque(clearU, clearV, clearU, clearV, clearU, clearV)).toBe(false);
+    } finally { material.dispose(); texture.dispose(); }
+  }
+});

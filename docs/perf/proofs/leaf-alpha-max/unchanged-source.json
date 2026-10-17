@@ -1,0 +1,2685 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 2,
+      "native": {
+        "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+        "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+        "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+        "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+      },
+      "wood": {
+        "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+        "position": "c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5",
+        "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+        "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+        "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 1138108,
+          "result": {
+            "islands": 7,
+            "moved": 7,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "85dd7f09e09c0fbc2b1479f510133ea759f7865fad67c2708dc1dcb991c922b6",
+            "position": "68000a00cd1f2fba64af8dd84f8a1445f79af5a017aed99d499b4051bf5b6778",
+            "uv": "77d10a2f72cc68d6824205223210f5c98e391e92064df34d7e2858e679101b3a",
+            "index": "06a718a78bd7bccb281d655eacb09485ca33eb994a424246e5dac5d7cca7f44e"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 1138108,
+          "result": {
+            "islands": 7,
+            "moved": 7,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "85dd7f09e09c0fbc2b1479f510133ea759f7865fad67c2708dc1dcb991c922b6",
+            "position": "68000a00cd1f2fba64af8dd84f8a1445f79af5a017aed99d499b4051bf5b6778",
+            "uv": "77d10a2f72cc68d6824205223210f5c98e391e92064df34d7e2858e679101b3a",
+            "index": "06a718a78bd7bccb281d655eacb09485ca33eb994a424246e5dac5d7cca7f44e"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:4:0",
+      "species": "shrub",
+      "lod": 2,
+      "native": {
+        "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+        "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+        "position": "bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521",
+        "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+        "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 319276,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 319276,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 2,
+      "native": {
+        "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+        "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+        "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 476649,
+          "result": {
+            "islands": 8,
+            "moved": 8,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d783b33ca5fe43e65f7fd358a4ba9cc99ec9373b6b1c0d3c8dfa75f691439aca",
+            "position": "4a2b8df80f14ea4ce941d0aa61ca1ced8cfede480277806c37f7369ddb7344f8",
+            "uv": "efbb4ca4d575be1a7b27c9449c207aea750f59729f8dc1468fd27f943eff6a5f",
+            "index": "71f364e56d0ebdeba277bbc549b683a2d2392dc03be217a0b1c9b0f29d8e04c3"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 476649,
+          "result": {
+            "islands": 8,
+            "moved": 8,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d783b33ca5fe43e65f7fd358a4ba9cc99ec9373b6b1c0d3c8dfa75f691439aca",
+            "position": "4a2b8df80f14ea4ce941d0aa61ca1ced8cfede480277806c37f7369ddb7344f8",
+            "uv": "efbb4ca4d575be1a7b27c9449c207aea750f59729f8dc1468fd27f943eff6a5f",
+            "index": "71f364e56d0ebdeba277bbc549b683a2d2392dc03be217a0b1c9b0f29d8e04c3"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 2,
+      "native": {
+        "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+        "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+        "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+        "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+      },
+      "wood": {
+        "normal": "ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c",
+        "position": "8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820",
+        "uv": "68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57",
+        "index": "099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 776853,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+            "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+            "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+            "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 776853,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+            "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+            "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+            "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 2,
+      "native": {
+        "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+        "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "e0df4b1232716f080652bcc8a962f88ed9d7939f16f37e69e90933339894159d",
+        "position": "9b93f3204f8fc531792e06c8e1aee68d1f3ae38eff2b68977378d8e09ccc3a12",
+        "tangent": "f3335085d0f9f0566e42d5b7faaad46830ffa7a8445285a1463df570445eb1c1",
+        "uv": "8b12a40abe02665e70da051aaa2e5fb89c22ba615d567808b59ecc17287c0c8a",
+        "index": "b23a8bcc9f93e7d43b145506f9f0c17a33b839487128e2ff04daf4a919ff2575"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 361878,
+          "result": {
+            "islands": 38,
+            "moved": 38,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "db58435bd113a8ac3bfe9019fb36a17098b9a813777172b9061f41352d4bae26",
+            "position": "ddb8b24ac8942281a16abd7e5a9fb18263fde6b338f99f30fd1acafa906cbd70",
+            "uv": "ecb5dce5594ccb330a46e9664f38df402bc11eec998384aaf25dd4b85e11052d",
+            "index": "4c07ed9c4d34c7e92c3ecb86d828145b2d36fd4f1ee9505ca4e9da9677e70930"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 361878,
+          "result": {
+            "islands": 38,
+            "moved": 38,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "db58435bd113a8ac3bfe9019fb36a17098b9a813777172b9061f41352d4bae26",
+            "position": "ddb8b24ac8942281a16abd7e5a9fb18263fde6b338f99f30fd1acafa906cbd70",
+            "uv": "ecb5dce5594ccb330a46e9664f38df402bc11eec998384aaf25dd4b85e11052d",
+            "index": "4c07ed9c4d34c7e92c3ecb86d828145b2d36fd4f1ee9505ca4e9da9677e70930"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 2,
+      "native": {
+        "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+        "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+        "position": "a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9",
+        "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+        "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+        "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 564912,
+          "result": {
+            "islands": 4,
+            "moved": 4,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "7095733a36295c5315be8c8d558096511f0e6303e49b91864b13eeb39e35253b",
+            "position": "4a4b5a6221870ae738281fbf0469617d6e9fea11e09ce69574c4c1c9f0c2526e",
+            "uv": "8ceea8222917a3e25d32d3d5719b05b77334dca4532b24f0af10c7878682ab70",
+            "index": "ebd70e39939d2782a9e69e3870c336cb12d6b66efdb5650ffe12935b5b891c8b"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 564912,
+          "result": {
+            "islands": 4,
+            "moved": 4,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "7095733a36295c5315be8c8d558096511f0e6303e49b91864b13eeb39e35253b",
+            "position": "4a4b5a6221870ae738281fbf0469617d6e9fea11e09ce69574c4c1c9f0c2526e",
+            "uv": "8ceea8222917a3e25d32d3d5719b05b77334dca4532b24f0af10c7878682ab70",
+            "index": "ebd70e39939d2782a9e69e3870c336cb12d6b66efdb5650ffe12935b5b891c8b"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:9:0",
+      "species": "shrub",
+      "lod": 2,
+      "native": {
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+        "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+      },
+      "wood": {
+        "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+        "position": "d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d",
+        "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+        "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 440246,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 440246,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 2,
+      "native": {
+        "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+        "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+        "position": "ef563e89acf5efee5adb03a60cf1a1b25d7e2c823c344b39b17f097b90d96298",
+        "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+        "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 32,
+            "moved": 32,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "af4726157ffae0e76317fe58865b3ead4ddb68cddc67e1126557b1534c91d40b",
+            "position": "f7f5afe769927c542f4796225666efed77272a5cedd014b315e4b83e8dd6004e",
+            "uv": "037bde7be7d5cc35bdd943a6a0cf818805374ff2bb823a27280f8bb1d305f75a",
+            "index": "c1fd6a6cb07ba7b196887e9e134ac33c20e9a0278d1ab644a2230e6d1eccfe1e"
+          }
+        },
+        "after": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 32,
+            "moved": 32,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "af4726157ffae0e76317fe58865b3ead4ddb68cddc67e1126557b1534c91d40b",
+            "position": "f7f5afe769927c542f4796225666efed77272a5cedd014b315e4b83e8dd6004e",
+            "uv": "037bde7be7d5cc35bdd943a6a0cf818805374ff2bb823a27280f8bb1d305f75a",
+            "index": "c1fd6a6cb07ba7b196887e9e134ac33c20e9a0278d1ab644a2230e6d1eccfe1e"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 2,
+      "native": {
+        "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+        "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+        "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+        "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8"
+      },
+      "wood": {
+        "normal": "751c0baa0b983ed166bb3934aa40ed29f4c3d6ee3c37d56410364de713ccdc36",
+        "position": "3099d2a97a6c60a677b0a950ca957b26889aa63e4e33d0a89b97b692d27120b1",
+        "uv": "e78bb5232922b77b775028570801b375d787b6c91f01db11f0805bda41972bed",
+        "index": "4cbbcf1b14b5764552547bac276e2c48095abe1eee305421feb1ca572ce69375"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 204312,
+          "result": {
+            "islands": 49,
+            "moved": 49,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "47002aa5f5d45a171940df720099da733f3e7c83065067ef483d271b7421b5c7",
+            "position": "1f254f46660342eb3d2193726469d4bf2653be4f80e8ce4f0065d7fe066e36ec",
+            "uv": "5bf448c97ea4b4bb9f37ac89f3fe12ecd19653d3caf6cdb53c98ff38488607d1",
+            "index": "ddbcd80b6ce4619935149ec22e9d49c42af310cc06c9857e38e0f41e95be8aed"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 204312,
+          "result": {
+            "islands": 49,
+            "moved": 49,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "47002aa5f5d45a171940df720099da733f3e7c83065067ef483d271b7421b5c7",
+            "position": "1f254f46660342eb3d2193726469d4bf2653be4f80e8ce4f0065d7fe066e36ec",
+            "uv": "5bf448c97ea4b4bb9f37ac89f3fe12ecd19653d3caf6cdb53c98ff38488607d1",
+            "index": "ddbcd80b6ce4619935149ec22e9d49c42af310cc06c9857e38e0f41e95be8aed"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 2,
+      "native": {
+        "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+        "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+        "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 14,
+            "moved": 14,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24d326ef1389b9f29a238da36dac3f6145903b2a62ab680497931e912b4a6c1f",
+            "position": "3f26dda151506ac8e52342d44b68594db36ea5285cc86d7792da07bb3682443e",
+            "uv": "1c892b0218e88bf4bf7dcf3335ae6f69d2f1a3ae5057fc8127652ecd48d9030d",
+            "index": "5fb6e30de7af0609fd06d60677c934c57c62e0f6f5b365ff660be5df5db5130b"
+          }
+        },
+        "after": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 14,
+            "moved": 14,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24d326ef1389b9f29a238da36dac3f6145903b2a62ab680497931e912b4a6c1f",
+            "position": "3f26dda151506ac8e52342d44b68594db36ea5285cc86d7792da07bb3682443e",
+            "uv": "1c892b0218e88bf4bf7dcf3335ae6f69d2f1a3ae5057fc8127652ecd48d9030d",
+            "index": "5fb6e30de7af0609fd06d60677c934c57c62e0f6f5b365ff660be5df5db5130b"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 2,
+      "native": {
+        "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+        "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+        "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+        "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+        "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 369326,
+          "result": {
+            "islands": 17,
+            "moved": 17,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f",
+            "position": "61c77ae9cd0b0bb6049638051eb34f9e97c7b9299019bc0dba5d50633fd8c420",
+            "uv": "c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42",
+            "index": "eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 369326,
+          "result": {
+            "islands": 17,
+            "moved": 17,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f",
+            "position": "61c77ae9cd0b0bb6049638051eb34f9e97c7b9299019bc0dba5d50633fd8c420",
+            "uv": "c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42",
+            "index": "eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:palm:16:6",
+      "species": "palm",
+      "lod": 2,
+      "native": {
+        "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+        "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084",
+        "position": "1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51",
+        "uv": "56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db",
+        "index": "4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 824241,
+          "result": {
+            "islands": 5,
+            "moved": 5,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "63ae9516039779c905ab6258492cf28ce361eeeea265dc9696a22a85a51e30eb",
+            "position": "1b5fc013663dad7e816529b1e5b7d109f5064087626002e5a017e0aaff43cfaa",
+            "uv": "42265ef7266007e4882cd97c63050867c0160a98099ffe4d7a6ddf8b8e6a733b",
+            "index": "d25a7bab8edba2bcf9eb20cfe809cc6017b62818a93575b88d8212921409017f"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 824241,
+          "result": {
+            "islands": 5,
+            "moved": 5,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "63ae9516039779c905ab6258492cf28ce361eeeea265dc9696a22a85a51e30eb",
+            "position": "1b5fc013663dad7e816529b1e5b7d109f5064087626002e5a017e0aaff43cfaa",
+            "uv": "42265ef7266007e4882cd97c63050867c0160a98099ffe4d7a6ddf8b8e6a733b",
+            "index": "d25a7bab8edba2bcf9eb20cfe809cc6017b62818a93575b88d8212921409017f"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 2,
+      "native": {
+        "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+        "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+        "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+        "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+        "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 591699,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+            "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 591699,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+            "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 2,
+      "native": {
+        "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+        "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+        "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+        "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+        "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+      },
+      "wood": {
+        "normal": "df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71",
+        "position": "c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da",
+        "tangent": "78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63",
+        "uv": "28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7",
+        "index": "644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 5592404,
+          "redundantReads": 2254409,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+            "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+            "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+            "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+            "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+          }
+        },
+        "after": {
+          "maxReads": 5592404,
+          "redundantReads": 2254409,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+            "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+            "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+            "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+            "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 2,
+      "native": {
+        "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+        "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+        "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+        "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+      },
+      "wood": {
+        "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+        "position": "1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1",
+        "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+        "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+        "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        },
+        "after": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 2,
+      "native": {
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+        "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+      },
+      "wood": {
+        "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+        "position": "7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e",
+        "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+        "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        },
+        "after": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        }
+      },
+      "originalUnchanged": true
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 2,
+      "native": {
+        "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+        "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+        "position": "336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa",
+        "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+        "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+        "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2"
+      },
+      "variants": {
+        "before": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "maxReads": 0,
+          "redundantReads": 0,
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true
+    }
+  ],
+  "pyramids": {
+    "before": [
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "7d2f1e27d72d642f39581b227fe7772cba7cdbd47c46dde50132ac89ce8ca55f"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "c1f7002e8a9e9cf4e80feedd9492d056cffb07479de25b80a42b272d9ca6447d"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "5a49eeb65dd60e6f69956231fbf8794891798b8ea7e7a31d681b9d50c8fd8dd5"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "218d71893424ac25ea723abd569f18b5672df4bbb5d9b08940fe72a095823b3d"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "b3197aaf6e2eddf4f2772782f1e15a7318b96fb05d1d5199d00b7dcf0f2f8592"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "1cda87b53fab859f59c537661bf408d7d454cdfa622d95e753f95d84ca4b2f1d"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "78931ed2ba05f85a22fe12f85375e50c6ed029d23a62961db648c32fce0a5d24"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "03f0d26d10ef2d672822fef30750dbeea03f1e08521fff114dc05e42e773bab8"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "16b6e6e5a1663e3367f1b6e3a0b66dec42987d118ff3d0739a949fe927c12845"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "2997a93ec8b65e6f8716eb943f19ead5dcc1c3d8b774aebaa1929f4034c5dcb1"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "1b8c20aa64bf5690f99f87eb65d3a3a76da708288436ca762cb2ecefb7e1515f"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "f2c78d8ef32e9d2ec9a599598425cc7f2509f86fb4c21b8760a1a8f3e7968051"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "9684a3c23f4a749afd3b0559f9a7a986c218a9ad7e92e11fb365b4bc2296b518"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "4991f6dff2648d21136af517d890a767a3bb9e28e77ee22c18eb61ae2bd54c42"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "f2deefb8ec19ec2e46dae4989045c6ae17a8a544f96bd5a9721834a939853ac1"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "2098f298a52e50ac9b83687c4814a2d7dad776fa3fc8809a92c72653ff4fd8f9"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "b9f7822915024fa2203298b3c0c140748bf00a670cc4d8dcae8c8187f0f980fc"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "d9c4ca8a1ac232d701d06ce78421ce30135bc898de569cb6e465d766639debd9"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "dcaccce5e76bcdd5cb7bf95869cbf4b5d60f358c98ddf908f8ded349eb935e94"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "32097b77d849168308d6ea9a8d5f177b32eca6d54bb3aecc20db5793cea8d24c"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "15756cbd253922e8a1b249f1ed6389708f57d25af48086105268abe4b9115bf5"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5fd1fe102bae2e5a521a644ad485cfef77d13e30d047c996d5a397e9e1b5ac4f"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "43242928fc25a25b0919237f3ab019d2aee18bc82ae6b3107e18180b03c7a17d"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "0cb057ba30978fe3aa552dc75321f89d892f71aab4d3781ca6e8c9a55bcd784c"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "c658478db3c729766121548b37da9b5049376530e07c442f75a782302bc46701"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "345c4f3910da1506fdc1ea4eb088995c782cf24ab93595ff468ad2c1fec46a53"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "6c1642902cd745c839b4b5148dc0bdfcf6518b4d7c659a30775e0d2229eb0f05"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "53964f9a43d8c881901f804dfe1f5f2ab2b50d88d01630634ed2f08bb4b19884"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "a4e86631145d02d6593203535456a80e8b57ef1c738b996d24fde9168c18f1bc"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "c74fea0f36bbe4fc908b95432812218bdc50f5a3dea14d8358ec9a8028e4fd62"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "610522f529410bdf2fae8ac3800a8ec41d2cde9c49a97ae0e2f6553960d2bfb0"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "5dce32c50888646bc7467a9130d51e56d5735f3c7241eb4a30c2a9ff9ccf60ea"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "f113c0d4c3cc25b4e607de9f8ed844ed45bd13651c90e1624aa2b28546dd5af8"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "2bb6ae70060a3fbc1ff5562983844471884a4f71d674b82228c20516cad68268"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "10a2897e2eb0104fdb45676a0d6e371b67135f67692d7ac25e155760af13b843"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "dfea0dd6a0f90b779137bcf32b21d3494cc56e132b944fbf94019102f02bc886"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "688469b1d8014f8ea3927a4c06e12c5e2f887ec83e4fd86787b06a30fc91d7fa"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "2c90b1e71e2081a05b3b2aa9b859baa5fe07b61873e9423aceabe5788251423d"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "75f9fbe1562a0211d4fe7add0476bedf1a416b76660a79b1d83854a48cd8e276"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "f1af06b07d92568c27e012a0799f55bccc1669ae88edc18f20643a7dda30a8ec"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "d4046a8cb30b2baf0ce6ada7ef2378b6b829fa0b65f01349e203036471818e0d"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "c4572537f5f8ee10bba15479641a71b767cf93aa6462f523fbc79062c88513bc"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "3f165e730ad2da565cd4250a0ff80a8169b1a3629be79b2c2fffa3aa8b940551"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "73721790fdd48871883ef335807b437120f99892cc427fa3bf52d41614821e6a"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "9638ca82b4623229318ca2c95af2054658280fc64db5207ba22838671af0bfbf"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "85d16dc2adbb6f55c88120c94aac77b233d865e313f93ee98c7b9e22a76246d0"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "e4389bc1bc241f2eee1f936b4fc911224194c6bf230801ffcd1581e29fe0048f"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "2902c0fbc965ff1540c0a5b592f990a106f25cc475ecba19f37a3e18d11be8f8"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "6cf9f6019ddf15ce71368aaa35dc5b0ffb0278e3baf40dc97f6c3c7976bc0bc0"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "8df341d372221f1a3c00b0601970de9fc506cab220c2413935d16ef050d0cf3d"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "f24405e01eccfcad831e7ac8b2a07bc8b966f35d3faf60c7f10740cbf6a76fea"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "120bfb062aed0bf2edb6b7baa97e56f32598e803754abefff9e4c3c21f4f66ed"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "58e230be481740d69e82cbc78e1767ebabfdb7c18110d878e55a9baad5783afd"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "118bf23a02fd7a288364fd63c0cbd027a15dd9bc2a7b2994c0fa91de6a275df5"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "92f11dd55a2a5b9f3ee2c746ede5d4b1eee8345af54c5115a0976102c79c436f"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5b1ed552c38e8af9f807b8b6598a3a1d55dc81f9426c7b878eb5f5ec035a4c20"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "30eef509b27bc28d326db7d036b081646a02d18068c61661fa99b98a3913ecf4"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "dd883bc5718e513bb4dac58b554d3940fde180fa60a30ea5560edac1d69099b7"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "44d7f27cc5129ca1e36fdefcf75ee860641fcc238eb797e6c6c5a1296e962b2d"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "5de8f85bad08e63868d43df64a75e037c084a8a86bae9fa260f64d4a397a717f"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "bf080efc737fac307ab0125fdcddec5f6cd7d62e3ada1de42ef6e3fabcd17cd6"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "7de49fe7b2d106c7d42fb08eb6eee331030c13319bde54a8fec77ce89f2fd3ec"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "8ffd08437488bcf03138e4c67d71345239a9a5eba878aca695e32371c7be7aa2"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "a726815b5d994b1f8e07c0b13c5308d3ae2901bff4c1fd7d8ecbe56697703d9b"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "c6985d514679c0f32c026083d6c8f3200ec6e1f6e1ebd232fbdf71e34c83fb8e"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "60866e1147eba971369b66418903ccbf42c80bf060e495a5551f665a50b938cc"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "5233b4149b7457b7af93128b1c86110b65084d764fc50def292b1039f6c66a88"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "62300ae7cce11532e185adfcdc139a734bc712134499dc45f5170154d90f5978"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "d7c07290f255ad2f97c3eb72e2526f9013e3f38a9967fe2d16342b19e0690b1b"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "4c44bcaad7e35761b21fb835c6fad3954a3d4fdc25b72fab83240ed1601e3a80"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "7a2f484375f064e9cff6d0ea280b9ae84517f3983639e9b6e89836cd89631ccd"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "dae4e0910ccd6898b5d4e5150033b23d435e5d112a24be0e8347b6c2907b2d4e"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "abd5f7da2d3910f0aae6692ebdc9467b4f9ab7011f5c499312f4fc61aba95eeb"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "c748ba3e56dc6ce1dfab77a425a3c552a1981d1b89c394137d2f5956dd9a7f3d"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "517f589481e8563c01bce65f07eab6e8fb591fecbcb6b903a174a49adb5f5ef0"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "9302859af8f817ef2737cb32c6ae29196797f9614520866d1099446a5beb6ad6"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "56248c67ccbbbe38c5dc0a74508dd0d420671effd2d18c30d2e0eede14153b74"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "932156fd5fa8d2b81445bbaf6910a97ae591b50db76bce032e6fd4073840ef64"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "8ef3db52dabbd9867ba71540b3f4f8229cd74a8db65c12139caa814babc78ec3"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "6eaba0f5ed1b1182d15a2615044532fefe82daf348d227e010a8c8ce459fbc47"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "a45cfbaa4317ffc328ff5da93189a13db95916de5bb83023b7b222b42750ebfd"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "aa58c1abbffa4ad74ade10c4b1db68c30cf70b90d9c80c4d92449dc6f26fe2a3"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "55cfa6708af109d857589ae1cd8e2007ff0f66ee67ca3af2982fa98dc1bad97d"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "a706c798d096ae8bb50bd970c4778ab305c5766a152ccc02cf68a2ef27c86bd4"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "b6bb5a280943202f2aef75a3a2aac8956a80183fa27d22bca0d29b6120940ab9"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "9a4fa5e2220c4c3ece4c05c7fb8d6aa73964ca599d275aeb2ad38a2043764598"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "4feb52e10869b78543aa7b9168958ef2380e787cafaac39e09e5fff0210b83c1"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5f623c8b10974d1437935c3cef733a22630c072db66767d56649f0bbd93a8baa"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "12b079e8d7f78f620660b370bd05c53bcd8e39d09a0a638e38e49ed7fd1de54c"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "3769485b529ee9bf57f56a38f0653645381a05c70226776a71b20d6e7486c962"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "2f825454853f7e8c342139b45a8ea22f678e759dfabbca48e7bc6716527b8a89"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "5515cdfbcb25ce5bb90dba6887a8445a0f887830391a57c682d26473805ccba9"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "79c6b0bda4934b5a71eb94ee3e37b14ca1bc45918588d1b47758a6db63de4c9b"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "f21b86f4470ac3c16e35b12f6030facf45f78db735ab5c9bba28e097a8953ac1"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "4e3d40792845c2df747b6f2efc87303f8f1a85acfd8dabab6be978ac8b5bf097"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "cf48abd6fbf5841f40e6449a21e2aa8bfcbee82b3522cd353bc757f3b3796662"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "e4a384e00a926d4d697c6af5be31e2c23a4661fd1074fd05a1f08596e7bf8541"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "5dce32c50888646bc7467a9130d51e56d5735f3c7241eb4a30c2a9ff9ccf60ea"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "f113c0d4c3cc25b4e607de9f8ed844ed45bd13651c90e1624aa2b28546dd5af8"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "2bb6ae70060a3fbc1ff5562983844471884a4f71d674b82228c20516cad68268"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ]
+    ],
+    "after": [
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "7d2f1e27d72d642f39581b227fe7772cba7cdbd47c46dde50132ac89ce8ca55f"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "c1f7002e8a9e9cf4e80feedd9492d056cffb07479de25b80a42b272d9ca6447d"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "5a49eeb65dd60e6f69956231fbf8794891798b8ea7e7a31d681b9d50c8fd8dd5"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "218d71893424ac25ea723abd569f18b5672df4bbb5d9b08940fe72a095823b3d"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "b3197aaf6e2eddf4f2772782f1e15a7318b96fb05d1d5199d00b7dcf0f2f8592"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "1cda87b53fab859f59c537661bf408d7d454cdfa622d95e753f95d84ca4b2f1d"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "78931ed2ba05f85a22fe12f85375e50c6ed029d23a62961db648c32fce0a5d24"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "03f0d26d10ef2d672822fef30750dbeea03f1e08521fff114dc05e42e773bab8"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "16b6e6e5a1663e3367f1b6e3a0b66dec42987d118ff3d0739a949fe927c12845"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "2997a93ec8b65e6f8716eb943f19ead5dcc1c3d8b774aebaa1929f4034c5dcb1"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "1b8c20aa64bf5690f99f87eb65d3a3a76da708288436ca762cb2ecefb7e1515f"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "f2c78d8ef32e9d2ec9a599598425cc7f2509f86fb4c21b8760a1a8f3e7968051"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "9684a3c23f4a749afd3b0559f9a7a986c218a9ad7e92e11fb365b4bc2296b518"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "4991f6dff2648d21136af517d890a767a3bb9e28e77ee22c18eb61ae2bd54c42"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "f2deefb8ec19ec2e46dae4989045c6ae17a8a544f96bd5a9721834a939853ac1"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "2098f298a52e50ac9b83687c4814a2d7dad776fa3fc8809a92c72653ff4fd8f9"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "b9f7822915024fa2203298b3c0c140748bf00a670cc4d8dcae8c8187f0f980fc"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "d9c4ca8a1ac232d701d06ce78421ce30135bc898de569cb6e465d766639debd9"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "dcaccce5e76bcdd5cb7bf95869cbf4b5d60f358c98ddf908f8ded349eb935e94"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "32097b77d849168308d6ea9a8d5f177b32eca6d54bb3aecc20db5793cea8d24c"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "15756cbd253922e8a1b249f1ed6389708f57d25af48086105268abe4b9115bf5"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5fd1fe102bae2e5a521a644ad485cfef77d13e30d047c996d5a397e9e1b5ac4f"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "43242928fc25a25b0919237f3ab019d2aee18bc82ae6b3107e18180b03c7a17d"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "0cb057ba30978fe3aa552dc75321f89d892f71aab4d3781ca6e8c9a55bcd784c"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "c658478db3c729766121548b37da9b5049376530e07c442f75a782302bc46701"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "345c4f3910da1506fdc1ea4eb088995c782cf24ab93595ff468ad2c1fec46a53"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "6c1642902cd745c839b4b5148dc0bdfcf6518b4d7c659a30775e0d2229eb0f05"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "53964f9a43d8c881901f804dfe1f5f2ab2b50d88d01630634ed2f08bb4b19884"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "a4e86631145d02d6593203535456a80e8b57ef1c738b996d24fde9168c18f1bc"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "c74fea0f36bbe4fc908b95432812218bdc50f5a3dea14d8358ec9a8028e4fd62"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "610522f529410bdf2fae8ac3800a8ec41d2cde9c49a97ae0e2f6553960d2bfb0"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "5dce32c50888646bc7467a9130d51e56d5735f3c7241eb4a30c2a9ff9ccf60ea"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "f113c0d4c3cc25b4e607de9f8ed844ed45bd13651c90e1624aa2b28546dd5af8"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "2bb6ae70060a3fbc1ff5562983844471884a4f71d674b82228c20516cad68268"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "10a2897e2eb0104fdb45676a0d6e371b67135f67692d7ac25e155760af13b843"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "dfea0dd6a0f90b779137bcf32b21d3494cc56e132b944fbf94019102f02bc886"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "688469b1d8014f8ea3927a4c06e12c5e2f887ec83e4fd86787b06a30fc91d7fa"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "2c90b1e71e2081a05b3b2aa9b859baa5fe07b61873e9423aceabe5788251423d"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "75f9fbe1562a0211d4fe7add0476bedf1a416b76660a79b1d83854a48cd8e276"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "f1af06b07d92568c27e012a0799f55bccc1669ae88edc18f20643a7dda30a8ec"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "d4046a8cb30b2baf0ce6ada7ef2378b6b829fa0b65f01349e203036471818e0d"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "c4572537f5f8ee10bba15479641a71b767cf93aa6462f523fbc79062c88513bc"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "3f165e730ad2da565cd4250a0ff80a8169b1a3629be79b2c2fffa3aa8b940551"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "73721790fdd48871883ef335807b437120f99892cc427fa3bf52d41614821e6a"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "9638ca82b4623229318ca2c95af2054658280fc64db5207ba22838671af0bfbf"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "85d16dc2adbb6f55c88120c94aac77b233d865e313f93ee98c7b9e22a76246d0"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "e4389bc1bc241f2eee1f936b4fc911224194c6bf230801ffcd1581e29fe0048f"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "2902c0fbc965ff1540c0a5b592f990a106f25cc475ecba19f37a3e18d11be8f8"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "6cf9f6019ddf15ce71368aaa35dc5b0ffb0278e3baf40dc97f6c3c7976bc0bc0"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "8df341d372221f1a3c00b0601970de9fc506cab220c2413935d16ef050d0cf3d"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "f24405e01eccfcad831e7ac8b2a07bc8b966f35d3faf60c7f10740cbf6a76fea"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "120bfb062aed0bf2edb6b7baa97e56f32598e803754abefff9e4c3c21f4f66ed"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "58e230be481740d69e82cbc78e1767ebabfdb7c18110d878e55a9baad5783afd"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "118bf23a02fd7a288364fd63c0cbd027a15dd9bc2a7b2994c0fa91de6a275df5"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "92f11dd55a2a5b9f3ee2c746ede5d4b1eee8345af54c5115a0976102c79c436f"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5b1ed552c38e8af9f807b8b6598a3a1d55dc81f9426c7b878eb5f5ec035a4c20"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "30eef509b27bc28d326db7d036b081646a02d18068c61661fa99b98a3913ecf4"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "dd883bc5718e513bb4dac58b554d3940fde180fa60a30ea5560edac1d69099b7"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "44d7f27cc5129ca1e36fdefcf75ee860641fcc238eb797e6c6c5a1296e962b2d"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "5de8f85bad08e63868d43df64a75e037c084a8a86bae9fa260f64d4a397a717f"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "bf080efc737fac307ab0125fdcddec5f6cd7d62e3ada1de42ef6e3fabcd17cd6"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "7de49fe7b2d106c7d42fb08eb6eee331030c13319bde54a8fec77ce89f2fd3ec"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "8ffd08437488bcf03138e4c67d71345239a9a5eba878aca695e32371c7be7aa2"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "a726815b5d994b1f8e07c0b13c5308d3ae2901bff4c1fd7d8ecbe56697703d9b"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "c6985d514679c0f32c026083d6c8f3200ec6e1f6e1ebd232fbdf71e34c83fb8e"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "60866e1147eba971369b66418903ccbf42c80bf060e495a5551f665a50b938cc"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "5233b4149b7457b7af93128b1c86110b65084d764fc50def292b1039f6c66a88"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "62300ae7cce11532e185adfcdc139a734bc712134499dc45f5170154d90f5978"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "d7c07290f255ad2f97c3eb72e2526f9013e3f38a9967fe2d16342b19e0690b1b"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "4c44bcaad7e35761b21fb835c6fad3954a3d4fdc25b72fab83240ed1601e3a80"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "7a2f484375f064e9cff6d0ea280b9ae84517f3983639e9b6e89836cd89631ccd"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "dae4e0910ccd6898b5d4e5150033b23d435e5d112a24be0e8347b6c2907b2d4e"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "abd5f7da2d3910f0aae6692ebdc9467b4f9ab7011f5c499312f4fc61aba95eeb"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "c748ba3e56dc6ce1dfab77a425a3c552a1981d1b89c394137d2f5956dd9a7f3d"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "517f589481e8563c01bce65f07eab6e8fb591fecbcb6b903a174a49adb5f5ef0"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "9302859af8f817ef2737cb32c6ae29196797f9614520866d1099446a5beb6ad6"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "56248c67ccbbbe38c5dc0a74508dd0d420671effd2d18c30d2e0eede14153b74"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "932156fd5fa8d2b81445bbaf6910a97ae591b50db76bce032e6fd4073840ef64"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "8ef3db52dabbd9867ba71540b3f4f8229cd74a8db65c12139caa814babc78ec3"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "6eaba0f5ed1b1182d15a2615044532fefe82daf348d227e010a8c8ce459fbc47"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "a45cfbaa4317ffc328ff5da93189a13db95916de5bb83023b7b222b42750ebfd"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "aa58c1abbffa4ad74ade10c4b1db68c30cf70b90d9c80c4d92449dc6f26fe2a3"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "55cfa6708af109d857589ae1cd8e2007ff0f66ee67ca3af2982fa98dc1bad97d"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "a706c798d096ae8bb50bd970c4778ab305c5766a152ccc02cf68a2ef27c86bd4"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "b6bb5a280943202f2aef75a3a2aac8956a80183fa27d22bca0d29b6120940ab9"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "9a4fa5e2220c4c3ece4c05c7fb8d6aa73964ca599d275aeb2ad38a2043764598"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "4feb52e10869b78543aa7b9168958ef2380e787cafaac39e09e5fff0210b83c1"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "5f623c8b10974d1437935c3cef733a22630c072db66767d56649f0bbd93a8baa"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "12b079e8d7f78f620660b370bd05c53bcd8e39d09a0a638e38e49ed7fd1de54c"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "3769485b529ee9bf57f56a38f0653645381a05c70226776a71b20d6e7486c962"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "8667e718294e9e0df1d30600ba3eeb201f764aad2dad72748643e4a285e1d1f7"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "5ac6a5945f16500911219129984ba8b387a06f24fe383ce4e81a73294065461b"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ],
+      [
+        {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4194304,
+          "sha256": "2f825454853f7e8c342139b45a8ea22f678e759dfabbca48e7bc6716527b8a89"
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1048576,
+          "sha256": "5515cdfbcb25ce5bb90dba6887a8445a0f887830391a57c682d26473805ccba9"
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "bytes": 262144,
+          "sha256": "79c6b0bda4934b5a71eb94ee3e37b14ca1bc45918588d1b47758a6db63de4c9b"
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "bytes": 65536,
+          "sha256": "f21b86f4470ac3c16e35b12f6030facf45f78db735ab5c9bba28e097a8953ac1"
+        },
+        {
+          "width": 128,
+          "height": 128,
+          "bytes": 16384,
+          "sha256": "4e3d40792845c2df747b6f2efc87303f8f1a85acfd8dabab6be978ac8b5bf097"
+        },
+        {
+          "width": 64,
+          "height": 64,
+          "bytes": 4096,
+          "sha256": "cf48abd6fbf5841f40e6449a21e2aa8bfcbee82b3522cd353bc757f3b3796662"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "bytes": 1024,
+          "sha256": "e4a384e00a926d4d697c6af5be31e2c23a4661fd1074fd05a1f08596e7bf8541"
+        },
+        {
+          "width": 16,
+          "height": 16,
+          "bytes": 256,
+          "sha256": "5dce32c50888646bc7467a9130d51e56d5735f3c7241eb4a30c2a9ff9ccf60ea"
+        },
+        {
+          "width": 8,
+          "height": 8,
+          "bytes": 64,
+          "sha256": "f113c0d4c3cc25b4e607de9f8ed844ed45bd13651c90e1624aa2b28546dd5af8"
+        },
+        {
+          "width": 4,
+          "height": 4,
+          "bytes": 16,
+          "sha256": "2bb6ae70060a3fbc1ff5562983844471884a4f71d674b82228c20516cad68268"
+        },
+        {
+          "width": 2,
+          "height": 2,
+          "bytes": 4,
+          "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+        },
+        {
+          "width": 1,
+          "height": 1,
+          "bytes": 1,
+          "sha256": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89"
+        }
+      ]
+    ]
+  },
+  "cost": {
+    "empty": {
+      "drawCalls": 115,
+      "triangles": 805316
+    },
+    "before": {
+      "drawCalls": 121,
+      "triangles": 824790
+    },
+    "after": {
+      "drawCalls": 121,
+      "triangles": 824790
+    }
+  },
+  "changedChannels": 0,
+  "visibleControlChannels": 23141,
+  "totals": {
+    "before": {
+      "maxReads": 67108848,
+      "redundantReads": 8321909,
+      "pyramids": 12,
+      "pyramidBytes": 16777212
+    },
+    "after": {
+      "maxReads": 67108848,
+      "redundantReads": 8321909,
+      "pyramids": 12,
+      "pyramidBytes": 16777212
+    }
+  },
+  "sourceSha256": {
+    "before": "8aad95b4c2b91050dd37b014d6fb8cf9498fd89078b1274d8b49881ecd249460",
+    "after": "8aad95b4c2b91050dd37b014d6fb8cf9498fd89078b1274d8b49881ecd249460"
+  },
+  "scope": "Native far masks with separate wood replayed through the same leaf repair. Counts max-hierarchy child-byte reads, not GPU uploads, heap allocations or frame time. Every hierarchy level and output geometry must match. Existing cache sizes, sampling, placement and draw rules are unchanged. Captures use the native postprocessed scene and a hidden-far-leaf control.",
+  "pass": false
+}
