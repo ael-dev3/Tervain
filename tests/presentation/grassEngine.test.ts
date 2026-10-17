@@ -189,10 +189,11 @@ describe('grass material', () => {
     // Blades are lit from the side facing the viewer; the double-sided flip would darken every back face.
     expect(shader.fragmentShader).not.toContain('normal *= faceDirection;');
     expect(shader.fragmentShader).toContain('diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );');
-    // Both stages must agree: a centre outside a covered sliver must not extrapolate grass colour/lighting.
+    // Both stages keep colour inside coverage; retain baseline interpolation for the four lighting/edge components.
     for (const stage of [shader.vertexShader, shader.fragmentShader]) {
       expect(stage).toContain('centroid varying vec3 vGCol;');
-      expect(stage).toContain('centroid varying vec4 vGInfo;');
+      expect(stage).toContain('varying vec4 vGInfo;');
+      expect(stage).not.toContain('centroid varying vec4 vGInfo;');
     }
     // Varyings extrapolated outside a sliver under multisampling stay in their vertex range (playtest 8 white pixels).
     expect(shader.fragmentShader).toContain('#define G_COL clamp(vGCol, 0.0, 1.0)');
