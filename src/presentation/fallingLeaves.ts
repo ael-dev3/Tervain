@@ -102,12 +102,17 @@ function airbornePosition(stream: Stream, age: number, out: Site): void {
   out.y = stream.origin.y - stream.speed * t;
 }
 
+const groundDirections: readonly Readonly<{ x: number; z: number }>[] = Array.from({ length: 8 }, (_, i) => {
+  const angle = i * Math.PI / 4;
+  return { x: Math.cos(angle), z: Math.sin(angle) };
+});
+
 /** Cover the entire tiny folded mesh on hills, including its maximum rotated vertical/horizontal radius. */
 function groundClearance(terrain: Pick<Terrain, 'heightAt'>, p: Site, radius: number): number {
   let ground = terrain.heightAt(p.x, p.z);
-  for (let i = 0; i < 8; i++) {
-    const angle = i * Math.PI / 4;
-    ground = Math.max(ground, terrain.heightAt(p.x + Math.cos(angle) * radius, p.z + Math.sin(angle) * radius));
+  for (let i = 0; i < groundDirections.length; i++) {
+    const direction = groundDirections[i]!;
+    ground = Math.max(ground, terrain.heightAt(p.x + direction.x * radius, p.z + direction.z * radius));
   }
   return ground + radius + 0.015;
 }
