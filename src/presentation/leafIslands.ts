@@ -26,16 +26,19 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const edgeA = new THREE.Vector3(), edgeB = new THREE.Vector3();
   const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();
   const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
+  let triangle = 0;
+  let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;
+  // Bounds consume q immediately; retained samples clone it. Reuse one collector across all triangles.
+  const add = (w0: number, w1: number, w2: number, keep: boolean, all = false) => {
+    q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);
+    if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [triangle] }; opaque.set(triangle, part); }
+    part.box.expandByPoint(q);
+    if (keep && (all || part.samples.length < 6)) part.samples.push(q.clone());
+  };
   for (let t = 0; t < triangles; t++) {
+    triangle = t; part = undefined;
     const v0 = at(t, 0), v1 = at(t, 1), v2 = at(t, 2);
-    let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;
     a.fromBufferAttribute(p, v0); b.fromBufferAttribute(p, v1); c.fromBufferAttribute(p, v2);
-    const add = (w0: number, w1: number, w2: number, keep: boolean, all = false) => {
-      q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);
-      if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [t] }; opaque.set(t, part); }
-      part.box.expandByPoint(q);
-      if (keep && (all || part.samples.length < 6)) part.samples.push(q.clone());
-    };
     if (!cutout || !uv) { add(1, 0, 0, true); add(0, 1, 0, true); add(0, 0, 1, true); add(1 / 3, 1 / 3, 1 / 3, true); continue; }
     const u0 = uv.getX(v0), u1 = uv.getX(v1), u2 = uv.getX(v2), t0 = uv.getY(v0), t1 = uv.getY(v1), t2 = uv.getY(v2);
     // Cards reuse a few atlas cells: the opaque sample points of each distinct UV triangle are found once.
