@@ -1,0 +1,109 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "rows": [
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.5
+      ],
+      "modes": {
+        "before": {
+          "drawCalls": 322,
+          "triangles": 4388010,
+          "uploadBytes": 27648,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 0,
+          "visitedGrassDraws": 0
+        },
+        "after": {
+          "drawCalls": 320,
+          "triangles": 4378545,
+          "uploadBytes": 27648,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 397,
+          "visitedGrassDraws": 27
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0
+      ],
+      "modes": {
+        "before": {
+          "drawCalls": 238,
+          "triangles": 2487153,
+          "uploadBytes": 6912,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 0,
+          "visitedGrassDraws": 0
+        },
+        "after": {
+          "drawCalls": 237,
+          "triangles": 2465079,
+          "uploadBytes": 6912,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 712,
+          "visitedGrassDraws": 21
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -180,
+        4.607493042945862,
+        12,
+        0.8
+      ],
+      "modes": {
+        "before": {
+          "drawCalls": 409,
+          "triangles": 5285758,
+          "uploadBytes": 27648,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 0,
+          "visitedGrassDraws": 0
+        },
+        "after": {
+          "drawCalls": 408,
+          "triangles": 5276524,
+          "uploadBytes": 27648,
+          "textures": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "removedClumps": 389,
+          "visitedGrassDraws": 19
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    }
+  ],
+  "scope": "Published native High scene through Grade/post/MSAA, frozen simulation. Production tail method applied after native per-camera grass hooks. Warmed variants. Full-frame GL counters; nominal texture storage is not driver VRAM. Software rendering counts/pixels only, no hardware FPS claim.",
+  "pass": true,
+  "verificationSourceSha256": "c4dd30024ed0a321b5ac0c9189a2102163b55ac9db3db41c912679db8da67d21",
+  "methodSha256": "bb2d7ffe7efb576fcd9855616d71b8ab3f3c86338ced4ca69eff00bb3a5672f8"
+}

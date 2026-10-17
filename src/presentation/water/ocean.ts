@@ -89,14 +89,19 @@ export function oceanVisibilityBounds(b: Bathymetry, maxRise: number): THREE.Box
   const w = BATHY_NX + 1, h = BATHY_NZ + 1, tile = 16;
   const boxes: THREE.Box3[] = [];
   for (let tj = 0; tj < h; tj += tile) for (let ti = 0; ti < w; ti += tile) {
-    let any = false;
-    for (let j = tj; j < Math.min(h, tj + tile + 1) && !any; j++) for (let i = ti; i < Math.min(w, ti + tile + 1); i++) {
-      if (b.height[j * w + i]! >= 0) { any = true; break; }
+    let minI = Infinity, maxI = -1, minJ = Infinity, maxJ = -1;
+    const endI = Math.min(w - 1, ti + tile), endJ = Math.min(h - 1, tj + tile);
+    for (let j = tj; j <= endJ; j++) for (let i = ti; i <= endI; i++) {
+      if (!(b.height[j * w + i]! >= 0)) continue;
+      minI = Math.min(minI, i); maxI = Math.max(maxI, i);
+      minJ = Math.min(minJ, j); maxJ = Math.max(maxJ, j);
     }
-    if (!any) continue;
+    if (maxI < 0) continue;
+    // Bilinear sampling can keep water in a cell adjacent to a nonnegative corner. Retain that whole cell plus
+    // the existing two-metre wave guard, without extending a coastal tile across its shader-discarded dry tail.
     boxes.push(new THREE.Box3(
-      new THREE.Vector3(BATHY.minX + ti * BATHY.cell - 2, SEA_LEVEL - 1.2, BATHY.minZ + tj * BATHY.cell - 2),
-      new THREE.Vector3(BATHY.minX + Math.min(w - 1, ti + tile) * BATHY.cell + 2, SEA_LEVEL + maxRise, BATHY.minZ + Math.min(h - 1, tj + tile) * BATHY.cell + 2),
+      new THREE.Vector3(BATHY.minX + Math.max(ti, minI - 1) * BATHY.cell - 2, SEA_LEVEL - 1.2, BATHY.minZ + Math.max(tj, minJ - 1) * BATHY.cell - 2),
+      new THREE.Vector3(BATHY.minX + Math.min(endI, maxI + 1) * BATHY.cell + 2, SEA_LEVEL + maxRise, BATHY.minZ + Math.min(endJ, maxJ + 1) * BATHY.cell + 2),
     ));
   }
   // Open ocean: west of the sampled bed, and north and south of it out to the horizon, only as far east as the sea
