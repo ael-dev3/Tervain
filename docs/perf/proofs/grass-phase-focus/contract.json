@@ -1,0 +1,92 @@
+{
+  "baseline": "d40777b",
+  "helperSha256": "0a8fb5f45d62519e116de7af07954f5704b50f60669640924352a27b350704ff",
+  "rows": [
+    {
+      "variant": "before",
+      "player": [
+        -2,
+        1.175548791885376,
+        35
+      ],
+      "skyFocus": [
+        0,
+        0,
+        0
+      ],
+      "focusErrorMetres": 35.07680023836414
+    },
+    {
+      "variant": "before",
+      "player": [
+        -7,
+        1,
+        45
+      ],
+      "skyFocus": [
+        0,
+        0,
+        0
+      ],
+      "focusErrorMetres": 45.552167895721496
+    },
+    {
+      "variant": "before",
+      "player": [
+        -268,
+        2,
+        27
+      ],
+      "skyFocus": [
+        0,
+        0,
+        0
+      ],
+      "focusErrorMetres": 269.3640659033792
+    },
+    {
+      "variant": "after",
+      "player": [
+        -2,
+        1.175548791885376,
+        35
+      ],
+      "skyFocus": [
+        -2,
+        1.175548791885376,
+        35
+      ],
+      "focusErrorMetres": 0
+    },
+    {
+      "variant": "after",
+      "player": [
+        -7,
+        1,
+        45
+      ],
+      "skyFocus": [
+        -7,
+        1,
+        45
+      ],
+      "focusErrorMetres": 0
+    },
+    {
+      "variant": "after",
+      "player": [
+        -268,
+        2,
+        27
+      ],
+      "skyFocus": [
+        -268,
+        2,
+        27
+      ],
+      "focusErrorMetres": 0
+    }
+  ],
+  "pass": true,
+  "scope": "Calls the real old/new phase helpers with a stationary origin container and moving physical player. Verifies the focus passed to SkyRig.update. Does not render shadows, measure shimmer, or certify frame pacing."
+}
