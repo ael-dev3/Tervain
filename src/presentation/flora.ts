@@ -316,9 +316,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
       const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
-      // Playtest 7: leaf cards whose opaque leaves hang clear of every branch are moved onto the boughs, once per near or
-      // middle template (a far crown is too small on screen to show a gap).
-      if (l < 2 && leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
+      // Repair each source detail level once: lighter crowns can lose their supporting boughs, too.
+      // Billboard-only sources without separate wood remain outside this contact pass.
+      if (leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
         islandChecked.add(lod.leaf!);
         const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
         lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
