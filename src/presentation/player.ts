@@ -97,9 +97,9 @@ const GRAVITY = 17;
 export const VAULT = { reach: 1.9, facing: 0.2, land: 0.7, step: 0.6, seconds: 0.55 } as const;
 const VAULT_NEAR_SPAN = 0.6 + 0.12 + 0.7;
 // Rise before crossing the rail, and finish crossing before descending beside it.
-const VAULT_TRAVEL_START = 0.2, VAULT_TRAVEL_SPAN = 0.6;
-function vaultEase(u: number): number {
-  const travel = THREE.MathUtils.clamp((u - VAULT_TRAVEL_START) / VAULT_TRAVEL_SPAN, 0, 1);
+const VAULT_TRAVEL_START = 0.2;
+function vaultEase(u: number, start = VAULT_TRAVEL_START): number {
+  const travel = THREE.MathUtils.clamp((u - start) / (1 - 2 * start), 0, 1);
   return travel * travel * (3 - 2 * travel);
 }
 const FIRM_FOOTING_SLOPE = 0.95;
@@ -706,7 +706,7 @@ export class Player {
 
   /** Sweep every move (including dodge, attack and recoil), including real movable-body contacts. */
   /** A vault in progress (A125): from where he left the ground over a fence to where he lands. */
-  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number } | null = null;
+  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number; travelStart: number } | null = null;
 
   /**
    * A vault over the fence before him, if there is one within reach and he approaches across it (A125). The fences
@@ -718,8 +718,9 @@ export class Player {
       if (c.kind !== 'box' || !c.active) continue;
       const cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
       const lx = (this.x - c.x) * cos - (this.z - c.z) * sin, lz = (this.x - c.x) * sin + (this.z - c.z) * cos;
-      // Within reach across the fence, and along its length (not round its end).
-      if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) > c.hd - 0.15) continue;
+      // A capsule can still strike an end post with its centre just beyond the rail.
+      // Keep those crossings vaultable; outside its radius an ordinary jump clears the end.
+      if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) >= c.hd + PLAYER_RADIUS) continue;
       // Use the requested approach while moving; the body can still be turning toward it. Reject tangent/away motion.
       const side = Math.sign(lx) || 1, nx = -side * cos, nz = side * sin;
       if (fx * nx + fz * nz < VAULT.facing) continue;
@@ -739,17 +740,30 @@ export class Player {
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
       const span = Math.hypot(land.x - this.x, land.z - this.z);
       const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5),
-        seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN) };
+        seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN), travelStart: VAULT_TRAVEL_START };
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
       const ignored = new Set([c]); // Only this rail is crossed; neighboring fences still block the arc.
       // At u=1/2 the linear base is the endpoint mean, including on slopes.
       const lift = vault.peak - (vault.from.y + vault.to.y) / 2;
+      // Taller rails need more takeoff time. Keep feet above the rail throughout horizontal travel,
+      // without raising the apex or changing the total duration. The lower symmetric arc is monotone to its apex.
+      const clearHeight = top + PLAYER_FOOT_CLEARANCE;
+      const lowerArc = (u: number) => Math.min(vault.from.y, vault.to.y) + Math.abs(vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u);
+      if (lowerArc(vault.travelStart) < clearHeight) {
+        let lo = vault.travelStart, hi = 0.5;
+        for (let n = 0; n < 16; n++) {
+          const mid = (lo + hi) / 2;
+          if (lowerArc(mid) < clearHeight) lo = mid; else hi = mid;
+        }
+        vault.travelStart = hi;
+      }
+      const travelSpan = 1 - 2 * vault.travelStart;
       // The shortened smoothstep travel phase has maximum second derivative 6 / span².
-      const horizontalGuard = span * (6 / (VAULT_TRAVEL_SPAN * VAULT_TRAVEL_SPAN)) / (8 * 20 * 20);
+      const horizontalGuard = span * (6 / (travelSpan * travelSpan)) / (8 * 20 * 20);
       let previous = vault.from;
       let clear = true;
       for (let i = 1; i <= 20; i++) {
-        const u = i / 20, ease = vaultEase(u);
+        const u = i / 20, ease = vaultEase(u, vault.travelStart);
         const next = { x: vault.from.x + (vault.to.x - vault.from.x) * ease,
           z: vault.from.z + (vault.to.z - vault.from.z) * ease,
           y: vault.from.y + (vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u) };
@@ -770,7 +784,7 @@ export class Player {
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
     v.t = Math.min(1, v.t + dt / v.seconds);
-    const u = v.t, ease = vaultEase(u);
+    const u = v.t, ease = vaultEase(u, v.travelStart);
     this.x = v.from.x + (v.to.x - v.from.x) * ease;
     this.z = v.from.z + (v.to.z - v.from.z) * ease;
     const base = v.from.y + (v.to.y - v.from.y) * u;
