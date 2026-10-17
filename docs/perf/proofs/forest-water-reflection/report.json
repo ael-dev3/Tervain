@@ -1,0 +1,331 @@
+{
+  "build": {
+    "version": "0.0.19",
+    "revision": "77c6866"
+  },
+  "rows": [
+    {
+      "pose": [
+        -310,
+        8,
+        -40,
+        -300,
+        0,
+        -40
+      ],
+      "modes": {
+        "before": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 0,
+          "cameras": [],
+          "captureCost": {
+            "drawCalls": 119,
+            "triangles": 929315
+          },
+          "total": {
+            "drawCalls": 232,
+            "triangles": 1768103,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "after": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 2,
+          "cameras": [
+            {
+              "position": [
+                -310,
+                -7.999999999999982,
+                -40
+              ],
+              "projection": [
+                0.9742785792574936,
+                0,
+                9.217253428742668e-32,
+                0,
+                0,
+                1.7320508075688774,
+                -1.4598194766354475,
+                0,
+                0,
+                0,
+                -0.16985558130839373,
+                -1,
+                0,
+                0,
+                -14.955848756993783,
+                0
+              ],
+              "treesBefore": 8,
+              "treesAfter": 186
+            }
+          ],
+          "captureCost": {
+            "drawCalls": 176,
+            "triangles": 2763085
+          },
+          "total": {
+            "drawCalls": 289,
+            "triangles": 3601873,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "repeat": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 2,
+          "cameras": [
+            {
+              "position": [
+                -310,
+                -7.999999999999982,
+                -40
+              ],
+              "projection": [
+                0.9742785792574936,
+                0,
+                9.217253428742668e-32,
+                0,
+                0,
+                1.7320508075688774,
+                -1.4598194766354475,
+                0,
+                0,
+                0,
+                -0.16985558130839373,
+                -1,
+                0,
+                0,
+                -14.955848756993783,
+                0
+              ],
+              "treesBefore": 8,
+              "treesAfter": 186
+            }
+          ],
+          "captureCost": {
+            "drawCalls": 176,
+            "triangles": 2763085
+          },
+          "total": {
+            "drawCalls": 289,
+            "triangles": 3601873,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "cached": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 0,
+          "cameras": [],
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          },
+          "total": {
+            "drawCalls": 113,
+            "triangles": 838788,
+            "textures": 274
+          },
+          "ready": 1
+        }
+      },
+      "comparison": {
+        "fullFrameChangedPixels": 6046,
+        "repeatFrameChangedPixels": 0,
+        "cachedFrameChangedPixels": 0,
+        "opaqueChangedPixels": 0,
+        "reflectionChangedPixels": 11039,
+        "repeatReflectionChangedPixels": 0
+      },
+      "rawHashes": {
+        "before": {
+          "opaque": "68ec1dc7c00a8ddffb3605034a9ff6fc92e36e2a78fb8dc54d09c585206b023f",
+          "reflection": "f587f958270bd0ae13f989232d3a93130a03a164a9b1bb035ed0aa13c8f234ed"
+        },
+        "after": {
+          "opaque": "68ec1dc7c00a8ddffb3605034a9ff6fc92e36e2a78fb8dc54d09c585206b023f",
+          "reflection": "5a45268c9f6b46e0e480feba5213afcb5d585e08bef3d813a5eca0487a7bca86"
+        },
+        "repeat": {
+          "opaque": "68ec1dc7c00a8ddffb3605034a9ff6fc92e36e2a78fb8dc54d09c585206b023f",
+          "reflection": "5a45268c9f6b46e0e480feba5213afcb5d585e08bef3d813a5eca0487a7bca86"
+        },
+        "cached": {
+          "opaque": "68ec1dc7c00a8ddffb3605034a9ff6fc92e36e2a78fb8dc54d09c585206b023f",
+          "reflection": "5a45268c9f6b46e0e480feba5213afcb5d585e08bef3d813a5eca0487a7bca86"
+        }
+      }
+    },
+    {
+      "pose": [
+        -335,
+        8,
+        -90,
+        -325,
+        0,
+        -90
+      ],
+      "modes": {
+        "before": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 0,
+          "cameras": [],
+          "captureCost": {
+            "drawCalls": 97,
+            "triangles": 835051
+          },
+          "total": {
+            "drawCalls": 191,
+            "triangles": 1574571,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "after": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 2,
+          "cameras": [
+            {
+              "position": [
+                -335,
+                -7.999999999999961,
+                -90
+              ],
+              "projection": [
+                0.9742785792574936,
+                0,
+                1.0377704776766236e-16,
+                0,
+                0,
+                1.7320508075688774,
+                -1.4598194766354458,
+                0,
+                0,
+                0,
+                -0.16985558130839506,
+                -1,
+                0,
+                0,
+                -14.955848756993618,
+                0
+              ],
+              "treesBefore": 4,
+              "treesAfter": 161
+            }
+          ],
+          "captureCost": {
+            "drawCalls": 162,
+            "triangles": 2305909
+          },
+          "total": {
+            "drawCalls": 256,
+            "triangles": 3045429,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "repeat": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 2,
+          "cameras": [
+            {
+              "position": [
+                -335,
+                -7.999999999999961,
+                -90
+              ],
+              "projection": [
+                0.9742785792574936,
+                0,
+                1.0377704776766236e-16,
+                0,
+                0,
+                1.7320508075688774,
+                -1.4598194766354458,
+                0,
+                0,
+                0,
+                -0.16985558130839506,
+                -1,
+                0,
+                0,
+                -14.955848756993618,
+                0
+              ],
+              "treesBefore": 4,
+              "treesAfter": 161
+            }
+          ],
+          "captureCost": {
+            "drawCalls": 162,
+            "triangles": 2305909
+          },
+          "total": {
+            "drawCalls": 256,
+            "triangles": 3045429,
+            "textures": 274
+          },
+          "ready": 1
+        },
+        "cached": {
+          "stateRestored": true,
+          "hookRestored": true,
+          "selectionCalls": 0,
+          "cameras": [],
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          },
+          "total": {
+            "drawCalls": 94,
+            "triangles": 739520,
+            "textures": 274
+          },
+          "ready": 1
+        }
+      },
+      "comparison": {
+        "fullFrameChangedPixels": 4987,
+        "repeatFrameChangedPixels": 0,
+        "cachedFrameChangedPixels": 0,
+        "opaqueChangedPixels": 0,
+        "reflectionChangedPixels": 19431,
+        "repeatReflectionChangedPixels": 0
+      },
+      "rawHashes": {
+        "before": {
+          "opaque": "50d1d1aea9038fdfb5fb212e3e198925c7bc3732f2392f41b0eac4c8be9ba137",
+          "reflection": "8dd6add9ce856876b0f2c2ed7fd95848289411cb754365338c534150d5340445"
+        },
+        "after": {
+          "opaque": "50d1d1aea9038fdfb5fb212e3e198925c7bc3732f2392f41b0eac4c8be9ba137",
+          "reflection": "2650f4843b68cc82cae34d0ab8545e9c068327fdd9663f17b6f2c3ff63f8e1ea"
+        },
+        "repeat": {
+          "opaque": "50d1d1aea9038fdfb5fb212e3e198925c7bc3732f2392f41b0eac4c8be9ba137",
+          "reflection": "2650f4843b68cc82cae34d0ab8545e9c068327fdd9663f17b6f2c3ff63f8e1ea"
+        },
+        "cached": {
+          "opaque": "50d1d1aea9038fdfb5fb212e3e198925c7bc3732f2392f41b0eac4c8be9ba137",
+          "reflection": "2650f4843b68cc82cae34d0ab8545e9c068327fdd9663f17b6f2c3ff63f8e1ea"
+        }
+      }
+    }
+  ],
+  "sourceSha256": {
+    "src/presentation/flora.ts": "2f19b77fef67e0c5bf15ba7c2e18baf38fa4a6cf9678fa8ad19c78dc84d2574c",
+    "src/presentation/waterRenderPass.ts": "a8c2d6b342c218be544cecbf22cc6ba095d57863f897e08ba9b7014a4851af26",
+    "src/presentation/world.ts": "e0eb9fd3b9d2dc952d2dcf3aa8da245099c391f9151f7af81dfcd871e5d03ae6"
+  },
+  "scope": "Published native Medium shoreline scene through Grade/post/MSAA, native water/reflector targets, materials and buffers. Production WaterRenderPass capture method and forest capture scope; a zero-dt adapter invokes the published forest selection (the native module does not expose its closure refresh). Frozen simulation, grain and shadow map. HDR opaque and reflection buffers compared separately. Software WebGL; draw/triangle counts, not hardware timings or GPU-memory bytes.",
+  "pass": true
+}
