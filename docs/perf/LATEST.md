@@ -53,3 +53,22 @@ Clip: none
 
 - resume, 33.4 ms, hero (-268, 27), camera (-273.7, 3.9, 25.6)
 - walk-fence, 33.5 ms, hero (-2, 34.6), camera (-2, 4.5, 40.5)
+
+## Paired relative gate, 0.0.23 candidate (3c81ff055), 2026-10-18
+
+Rule: four or more interleaved live/build pairs under the same load. The build passes if its median share of frames over 25 ms is no worse than the live median plus 0.5 points, its median p95 frame time is within 1 ms of live, and it shows no hero jumps.
+
+| run | pair | median ms | p95 ms | over 25 ms % | screen jumps | hero-jump flag |
+| --- | --- | --- | --- | --- | --- | --- |
+| live | 1 | 16.7 | 17.1 | 1.0 | 0 | no |
+| build | 1 | 16.7 | 33.0 | 5.3 | 1 | yes |
+| live | 2 | 16.7 | 17.2 | 3.5 | 0 | no |
+| build | 2 | 16.7 | 17.3 | 5.0 | 1 | yes |
+| live | 3 | 16.7 | 17.2 | 3.6 | 0 | no |
+| build | 3 | 16.7 | 17.1 | 2.0 | 0 | no |
+| live | 4 | 16.7 | 33.0 | 5.3 | 0 | no |
+| build | 4 | 16.7 | 32.9 | 5.2 | 1 | yes |
+
+Medians: live over 25 ms 3.55%, build 5.1% (+1.55, limit +0.5). Live p95 17.2 ms, build 25.1 ms (+7.9, limit 1 ms). Hero-jump flag in 3 of 4 build runs (limit: none).
+
+Result: FAIL. 0.0.23 is not shipped. The build shows more frames over 25 ms, its p95 is worse in half the pairs, and it flags screen jumps. The live site also hit a 33 ms p95 in one pair, so the machine's load is part of this, but the rule is what decides.
