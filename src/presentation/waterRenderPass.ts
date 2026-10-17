@@ -21,6 +21,8 @@ export interface WaterRenderInputs {
   unreflected?: THREE.Object3D[];
   /** Lighten what the reflection draws (the trees' middle models, A76); returns how to put it back. */
   lighten?: () => () => void;
+  /** Select scene content for the prepared reflected camera; returns its primary-view restore. */
+  selectReflection?: (camera: THREE.Camera) => () => void;
 }
 
 export interface WaterUnder {
@@ -233,17 +235,28 @@ export class WaterRenderPass {
       for (let i = 0; i < input.meshes.length; i++) visible[i] = input.meshes[i]!.visible;
       const unreflected = input.unreflected ?? [], shown = this.reflectionShown; shown.length = unreflected.length;
       for (let i = 0; i < unreflected.length; i++) shown[i] = unreflected[i]!.visible;
-      let restoreDetail: (() => void) | null = null, hiddenDetail: THREE.Object3D[] = [];
+      let restoreDetail: (() => void) | null = null, restoreView: (() => void) | null = null, hiddenDetail: THREE.Object3D[] = [];
+      const previousSceneRender = scene.onBeforeRender;
+      const reflectedCamera = this.reflector.getReflectionCamera(camera);
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
       const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;
       try {
         for (const mesh of input.meshes) mesh.visible = false;
         for (const object of unreflected) object.visible = false;
-        restoreDetail = input.lighten?.() ?? null;
+        if (input.selectReflection) {
+          // Reflector prepares its oblique camera inside onBeforeRender. Select only once it reaches scene rendering,
+          // before Three builds the render list; using its previous pose can omit whole reflected stands.
+          scene.onBeforeRender = function (...args) {
+            previousSceneRender.apply(this, args);
+            if (args[2] !== reflectedCamera) return;
+            restoreView = input.selectReflection!(reflectedCamera);
+            restoreDetail = input.lighten?.() ?? null;
+          };
+        } else restoreDetail = input.lighten?.() ?? null;
         hiddenDetail = this.hideTinyDetail(camera, size);
         renderer.autoClear = true;
         this.reflectionValid = false;
-        this.reflector.getReflectionCamera(camera).layers.mask = camera.layers.mask & ~2;
+        reflectedCamera.layers.mask = camera.layers.mask & ~2;
         this.reflector.onBeforeRender(renderer, scene, camera, this.reflector.geometry, this.reflector.material as THREE.Material, this.reflectionGroup);
         this.reflectionValid = true; this.reflectionAge = 0;
         this.reflectionCameraPosition.copy(this.currentCameraPosition);
@@ -253,7 +266,10 @@ export class WaterRenderPass {
       } finally {
         input.meshes.forEach((mesh, i) => { mesh.visible = visible[i]!; });
         unreflected.forEach((object, i) => { object.visible = shown[i]!; });
+        scene.onBeforeRender = previousSceneRender;
         restoreDetail?.();
+        // The scene render invokes the assignment synchronously; TypeScript does not track callback writes.
+        (restoreView as (() => void) | null)?.();
         for (const object of hiddenDetail) object.visible = true;
         renderer.autoClear = oldAutoClear; renderer.shadowMap.autoUpdate = oldShadow; renderer.xr.enabled = oldXr;
         renderer.setRenderTarget(oldTarget);

@@ -634,3 +634,37 @@ it('does not allocate input snapshot arrays while moving across visible water', 
   for(let i=0;i<60;i++){f.camera.position.x+=.01;f.render();}
   expect(maps.reduce((n,spy)=>n+spy.mock.calls.length,0)).toBe(0);
 });
+
+it.each([false, true])('selects trees only after the reflected camera is ready, restoring selection and scene hook (render throws: %s)', throws => {
+  const f = setup(); coastalView(f); f.camera.updateMatrixWorld(); f.input.reducedMotion = true;
+  const events: string[] = [], originalHook = vi.fn(); f.scene.onBeforeRender = originalHook;
+  let selected = false;
+  const select = vi.fn((camera: THREE.Camera) => {
+    expect(camera).not.toBe(f.camera);
+    expect(camera.position.y).toBeCloseTo(-3, 8);
+    expect(camera.matrixWorld.elements[13]).toBeCloseTo(-3, 8);
+    expect(camera.projectionMatrix.equals(f.camera.projectionMatrix)).toBe(false); // Oblique water-plane clipping is ready.
+    expect(originalHook).toHaveBeenCalled();
+    selected = true; events.push('select');
+    return () => { selected = false; events.push('view restore'); };
+  });
+  f.input.selectReflection = select;
+  f.input.lighten = () => { expect(selected).toBe(true); events.push('detail'); return () => events.push('detail restore'); };
+  const draw = f.renderer.render.getMockImplementation()!;
+  f.renderer.render.mockImplementation((scene, camera) => {
+    // Match WebGLRenderer's hook before render-list construction (its fourth argument is the target).
+    Reflect.apply(scene.onBeforeRender, scene, [f.renderer, scene, camera, f.renderer.getRenderTarget()]);
+    if (scene === f.scene && camera !== f.camera) {
+      expect(selected).toBe(true); events.push('draw');
+      if (throws) throw Error('capture draw failed');
+    } else expect(selected).toBe(false);
+    draw(scene, camera);
+  });
+  if (throws) expect(f.render).toThrow('capture draw failed'); else f.render();
+  expect(events).toEqual(['select', 'detail', 'draw', 'detail restore', 'view restore']);
+  expect(selected).toBe(false); expect(f.scene.onBeforeRender).toBe(originalHook);
+  expect(f.renderer.xr.enabled).toBe(true); expect(f.renderer.shadowMap.autoUpdate).toBe(true);
+  expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
+  expect(f.meshes.every(m => m.visible)).toBe(true);
+  if (!throws) { f.render(); expect(select).toHaveBeenCalledTimes(1); } // Cached reflections do not reselect.
+});
