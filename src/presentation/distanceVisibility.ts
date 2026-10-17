@@ -57,8 +57,8 @@ function installDistanceDither(material: THREE.Material): void {
   const viewport = { value: new THREE.Vector4() };
   if (colour) {
     const render = material.onBeforeRender;
-    material.onBeforeRender = function(renderer, ...args) {
-      render.call(this, renderer, ...args);
+    material.onBeforeRender = function(renderer, scene, camera, geometry, object, group) {
+      render.call(this, renderer, scene, camera, geometry, object, group);
       // A CPU state copy, not a GL readback. It follows captures, subviews and nested renders.
       renderer.getCurrentViewport(viewport.value);
     };
