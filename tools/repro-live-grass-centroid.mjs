@@ -15,7 +15,7 @@ assert.equal((source.match(/centroid varying vec[34] vG(?:Col|Info);/g)??[]).len
 fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
 const page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'high',hour});
 const roi={left:64,top:126,width:512,height:216},images={before:[],after:[]},costs={before:[],after:[]};
-let restoredPixels=0;
+let restoredPixels=0;console.log(JSON.stringify({stage:'world-ready'}));
 try {
  const setup=await page.eval(`const T=window.tervain;T.present=()=>{};T.perf?.end(0);T.perf=null;T.settings.reducedMotion=true;T.lastFrameDt=0;T.cam.manual=true;
  (${applyGrassPhaseControls.toString()})(T,${JSON.stringify(controls)});
@@ -36,6 +36,8 @@ try {
  for(const mode of ['before','after'])fs.mkdirSync(path.join(out,mode),{recursive:true});
  for(let i=0;i<frames;i++){
   await page.eval(`const T=window.tervain,P=CP,d=${(i+7)*2.6/60},h=T.world.terrain.heightAt(P.x,P.z+d);P.camera.position.set(P.x,h+1.4,P.z+d-3);P.camera.lookAt(P.x+${route==='meadow'?Math.sin(i*.006)*5:0},h+.3,P.z+d+2);P.camera.updateMatrixWorld();const g=T.world.modules.find(m=>m.name==='groundcover').module;g.prepare?.(T.renderer,0);g.update(0,{camera:P.camera,focus:T.player.group.position,reducedMotion:true});`);
+  // Prime view-dependent capture caches before comparing draw costs.
+  await page.eval("CP.set('before');CP.render();");
   let before;
   for(const mode of ['before','after','restore']){
    const data=await page.eval(`CP.set('${mode==='after'?'after':'before'}');return CP.render();`),rgb=await decode(data.png);
@@ -44,9 +46,10 @@ try {
    const file=path.join(out,mode,String(i).padStart(4,'0')+'.png');fs.writeFileSync(file,Buffer.from(data.png.split(',')[1],'base64'));
    const cropped=await sharp(file).removeAlpha().extract(roi).raw().toBuffer();images[mode].push(rgbFrame(cropped,roi.width,roi.height));costs[mode].push(data.cost);
   }
+  assert.deepEqual(costs.before.at(-1),costs.after.at(-1),'Unbalanced view preparation');
   console.log(JSON.stringify({frame:i,restoredPixels}));assert.equal(restoredPixels,0,'Scene changed between matched variants');
  }
- const reports={};for(const mode of ['before','after']){reports[mode]={nearWhite:walkingFlicker(images[mode],roi.width,roi.height),brightness:{}};for(const threshold of [160,180,200,220,240])reports[mode].brightness[threshold]=walkingFlicker(images[mode].map(f=>({...f,white:Uint8Array.from(f.gray,x=>Number(x>=threshold))})),roi.width,roi.height);}
+ const reports={};for(const mode of ['before','after']){reports[mode]={nearWhite:walkingFlicker(images[mode],roi.width,roi.height),brightness:{}};for(const threshold of [160,180,200,220,240]){reports[mode].brightness[threshold]=walkingFlicker(images[mode].map(f=>({...f,white:Uint8Array.from(f.gray,x=>Number(x>=threshold))})),roi.width,roi.height);reports[mode].brightness[threshold].whiteThreshold={minimumLuma:threshold};}}
  const report={schema:1,setup,route:{name:route,frames,startFrame:7,metres:(frames-1)*2.6/60,cadence:60,rotationRadiansPerSample:route==='meadow'?.006:0},controls,roi,sourceSha256:createHash('sha256').update(source).digest('hex'),reports,costs,restoredPixels,nativeIsBefore,nativeIsAfter,scope:'Native whole scene and native post/MSAA; only grass colour/lighting interpolation qualifiers differ. Frozen phases; synthetic movement samples are not hardware frame timings. Brightness bins are reported alongside the unchanged historical near-white metric; counts are observations, not unique blades. Hardware play/video gate pending.'};
  report.assertions={nativeExpectedIdentical:args['expected-native']==='after'?nativeIsAfter:nativeIsBefore,restoredExactly:restoredPixels===0,equalDrawCosts:JSON.stringify(costs.before)===JSON.stringify(costs.after),aligned:Object.values(reports).every(r=>r.nearWhite.summary.alignmentShare>.9)};
  report.pass=Object.values(report.assertions).every(v=>v===null||v===true);fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({assertions:report.assertions,counts:Object.fromEntries(Object.entries(reports).map(([k,r])=>[k,{nearWhite:r.nearWhite.whitePixelsFlickered,brightness:Object.fromEntries(Object.entries(r.brightness).map(([t,m])=>[t,m.whitePixelsFlickered])),sparkle:r.nearWhite.summary.sparkleShare}]))}));if(!report.pass)process.exitCode=1;
