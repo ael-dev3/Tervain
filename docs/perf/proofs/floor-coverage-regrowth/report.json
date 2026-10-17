@@ -1,0 +1,56 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "rendering": "native WebGL2 buffers; headless defaults to SwiftShader",
+  "position": [
+    -80,
+    3.600937783718109,
+    12
+  ],
+  "fov": 65,
+  "substepsPerDraw": 3,
+  "radiansPerSubstep": 0.035,
+  "batches": 12,
+  "failureFrame": 90,
+  "modes": {
+    "before": {
+      "frames": 91,
+      "errors": [
+        {
+          "draw": 90,
+          "errors": [
+            {
+              "batch": "forest_floor_shrub:1",
+              "kind": "coverage",
+              "drawn": 9,
+              "badComponents": 1,
+              "maxError": 0.07281601428985596
+            }
+          ]
+        }
+      ],
+      "testedDrawnComponents": 352737,
+      "errorsAfterFullRender": [
+        {
+          "batch": "forest_floor_shrub:1",
+          "kind": "coverage",
+          "drawn": 9,
+          "badComponents": 1,
+          "maxError": 0.07281601428985596
+        }
+      ]
+    },
+    "after": {
+      "frames": 300,
+      "errors": [],
+      "testedDrawnComponents": 1433922,
+      "errorsAfterFullRender": []
+    }
+  },
+  "changedPixels": 0,
+  "sourceSha256": "259867bb396bbf95b821fcc15a2dd8af1390f772a3263eba7ef526b1a04e6aff",
+  "scope": "Published native floor CPU selection and actual Three/WebGL buffers. Three 60 Hz selection updates precede each draw, modelling a catch-up frame. Diagnostic floor-only draws keep the test fast; matched final images use the full native Grade/post/MSAA scene. Candidate adapter resends the exposed coverage prefix when native mesh.count grows, matching the production guard. WebGL getBufferSubData checks drawn GPU components against CPU attributes; no hardware frame-time claim.",
+  "pass": true
+}

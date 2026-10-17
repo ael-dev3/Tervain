@@ -293,7 +293,8 @@ export function buildLod(spec, bark, lodName, atlasCells = 16) {
         const a = 0.45 + 0.25 * br(), side = (l % 2 ? 1 : -1) * (0.7 + 0.4 * br());
         const { p, t } = pointAt(pts, a);
         const dir = norm(add(rot(t, UP, side), [0, 0.04 + 0.12 * br(), 0]));
-        const Ll = (1.0 + 0.9 * br()) * Math.max(1, b.padScale * 0.5);
+        // Near laterals carry no wood (lateralSides 0), so a pad at their tip must stay close to the limb itself (the audit counts a card 1.5 m from any wood as detached, and a pad reaches outward from its root).
+        const Ll = Math.min((1.0 + 0.9 * br()) * Math.max(1, b.padScale * 0.5), 0.5);
         const q = [p, madd(p, dir, Ll * 0.5), madd(madd(p, dir, Ll), [0, -0.05, 0], 1)];
         const lw = Math.max(0.025, radii[Math.floor(a * (radii.length - 1))][0] * 0.6);
         if (cfg.lateralSides) {
