@@ -1,0 +1,59 @@
+<!doctype html><meta charset="utf-8"><title>Production tree LOD coverage</title>
+<script type="module">
+import * as THREE from 'three';
+import {attachInstanceDistanceVisibility as baseline,DISTANCE_DITHER_GLSL as baselineSource} from '/tools/baseline-distance.ts';
+import {attachInstanceDistanceVisibility as candidate} from '/src/presentation/distanceVisibility.ts';
+try {
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setSize(128,128);renderer.setClearColor(0,1);document.body.append(renderer.domElement);
+ const scene=new THREE.Scene(),perspective=new THREE.PerspectiveCamera(50,1,.1,2000),orthographic=new THREE.OrthographicCamera(-1,1,1,-1,.1,2000);let camera=perspective;scene.add(new THREE.AmbientLight(0xffffff,2));
+ const targets=[0,4].map(samples=>new THREE.WebGLRenderTarget(128,128,{samples}));
+ const texture=new THREE.DataTexture(new Uint8Array(Array.from({length:32*32*4},(_,i)=>i%4===3?((Math.floor(i/4)%32+Math.floor(i/128))%2===0?255:0):255)),32,32);
+ texture.needsUpdate=true;texture.magFilter=texture.minFilter=THREE.NearestFilter;
+ const resources=[];let observed=-1;
+ const make=attach=>{const material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:1,side:THREE.DoubleSide});
+   material.onBeforeCompile=sh=>{sh.fragmentShader=sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor=vec4(1.0);');};
+   const mesh=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),material,1);mesh.frustumCulled=false;
+   mesh.onBeforeRender=()=>{observed=renderer.getContext().getParameter(renderer.getContext().SAMPLES);};
+   const visibility=attach(mesh);scene.add(mesh);resources.push(mesh);return{mesh,material,coverage:visibility.coverage};};
+ const pairs={before:[make(baseline),make(baseline)],after:[make(candidate),make(candidate)]};
+ const draw=(entry,samples,interval,reference)=>{for(const m of resources)m.visible=false;entry.mesh.visible=true;
+   if(entry.coverage.itemSize===3)entry.coverage.setXYZ(0,...interval,reference);else entry.coverage.setXY(0,...interval);
+   entry.coverage.needsUpdate=true;renderer.setRenderTarget(targets[samples===4?1:0]);renderer.render(scene,camera);
+   const gl=renderer.getContext();if(gl.getError()||gl.isContextLost()||observed!==samples)throw Error('Invalid native fixture draw');
+   const p=new Uint8Array(128*128*4);renderer.readRenderTargetPixels(targets[samples===4?1:0],0,0,128,128,p);renderer.setRenderTarget(null);return p;};
+ const runPair=(mode,samples,near,far,weight,pan,masked,ortho,viewport)=>{camera=ortho?orthographic:perspective;
+   if(ortho){camera.left=-near*.466307658;camera.right=near*.466307658;camera.top=near*.466307658;camera.bottom=-near*.466307658;}
+   camera.clearViewOffset();if(viewport[0]>0)camera.setViewOffset(256,256,32,24,128,128);camera.updateProjectionMatrix();
+   camera.position.set(...pan,0);camera.lookAt(viewport[0]>0?near*.15:0,0,-near);camera.updateMatrixWorld();
+   for(const t of targets)t.viewport.set(...viewport);
+   const entries=pairs[mode];for(let i=0;i<2;i++){const depth=i===0?near:far,geometry=new THREE.PlaneGeometry(depth*2,depth*2);geometry.translate(0,0,near-depth);geometry.setAttribute('aDistanceCoverage',entries[i].coverage);entries[i].mesh.geometry.dispose();entries[i].mesh.geometry=geometry;
+     entries[i].mesh.setMatrixAt(0,new THREE.Matrix4().makeTranslation(0,0,-near));entries[i].mesh.instanceMatrix.needsUpdate=true;
+     if(Boolean(entries[i].material.map)!==masked){entries[i].material.map=masked?texture:null;entries[i].material.alphaTest=masked?.42:0;entries[i].material.needsUpdate=true;}}
+   const radius=Math.fround(Math.hypot(camera.position.x,near)),oracleA=draw(entries[0],samples,[0,1],0),oracleB=draw(entries[1],samples,[0,1],0);
+   const a=draw(entries[0],samples,[0,weight],radius),b=draw(entries[1],samples,[weight,1],radius),pixels=new Uint8Array(a.length);let holes=0,double=0,single=0,overlap=0;
+   for(let k=0;k<a.length;k+=4){const common=oracleA[k]===255&&oracleB[k]===255,count=Number(a[k]>0)+Number(b[k]>0);if(common){overlap++;holes+=Number(count===0);double+=Number(count===2);single+=Number(count===1);}pixels.set(!common?[32,32,32,255]:count===0?[255,0,0,255]:count===2?[0,128,255,255]:[255,255,255,255],k);}
+   return{holes,double,single,overlap,oracleValues:[...new Set(oracleA.filter((_,i)=>i%4===0))].slice(0,20),draws:renderer.info.render.calls,pixels:Array.from(pixels)};};
+ window.productionLodFixture={baselineSource:baselineSource.trim(),async run(){const rows=[];for(const ortho of [false,true])for(const viewport of [[0,0,128,128],[16,8,96,112]])for(const samples of [0,4])for(const masked of [false,true])for(const [near,far]of [[128,132],[150,154],[550,554]])for(const weight of [0,.0001,.1,.5,.9,.9999,1])for(const pan of [[0,0],[.0433333333,.02],[.0866666667,.04]]){
+     const before=runPair('before',samples,near,far,weight,pan,masked,ortho,viewport),after=runPair('after',samples,near,far,weight,pan,masked,ortho,viewport);if(!(samples===4&&!masked&&!ortho&&viewport[0]===0&&near===150&&weight===.5&&pan[0]===0)){delete before.pixels;delete after.pixels;}rows.push({ortho,viewport,samples,masked,near,far,weight,pan,before,after});}
+   const probes=[];if(!renderer.getContext().getExtension('EXT_color_buffer_float'))throw Error('Float probe unavailable');
+   const probe=make(candidate),compileProbe=probe.material.onBeforeCompile,keyProbe=probe.material.customProgramCacheKey;
+   probe.material.onBeforeCompile=function(sh,r){compileProbe.call(this,sh,r);sh.fragmentShader=sh.fragmentShader.replace('gl_FragColor=vec4(1.0);','gl_FragColor=tvDistanceReference(vDistanceCoverage.z);');};
+   probe.material.customProgramCacheKey=function(){return keyProbe.call(this)+'|ray-probe';};probe.material.needsUpdate=true;
+   const floatTarget=new THREE.WebGLRenderTarget(128,128,{type:THREE.FloatType,format:THREE.RGBAFormat});
+   for(const ortho of [false,true])for(const viewport of [[0,0,128,128],[16,8,96,112]])for(const pan of [[0,0],[2,1]]){
+     camera=ortho?orthographic:perspective;const radius=150;camera.clearViewOffset();
+     if(ortho){camera.left=-70;camera.right=70;camera.top=70;camera.bottom=-70;}
+     if(viewport[0]>0)camera.setViewOffset(256,256,32,24,128,128);camera.updateProjectionMatrix();camera.position.set(...pan,0);camera.lookAt(22,5,-150);camera.updateMatrixWorld();
+     for(const m of resources)m.visible=false;probe.mesh.visible=true;probe.mesh.geometry.dispose();probe.mesh.geometry=new THREE.PlaneGeometry(500,500);probe.mesh.geometry.setAttribute('aDistanceCoverage',probe.coverage);
+     probe.mesh.setMatrixAt(0,new THREE.Matrix4().makeTranslation(0,0,-150));probe.mesh.instanceMatrix.needsUpdate=true;probe.coverage.setXYZ(0,0,1,radius);probe.coverage.needsUpdate=true;
+     floatTarget.viewport.set(...viewport);renderer.setRenderTarget(floatTarget);renderer.render(scene,camera);
+     for(const fraction of [.25,.5,.75]){const x=viewport[0]+Math.floor(viewport[2]*fraction),y=viewport[1]+Math.floor(viewport[3]*fraction),actual=new Float32Array(4);
+       renderer.readRenderTargetPixels(floatTarget,x,y,1,1,actual);const ndc=new THREE.Vector3((x+.5-viewport[0])/viewport[2]*2-1,(y+.5-viewport[1])/viewport[3]*2-1,.5),expected=ndc.unproject(camera);
+       if(ortho){expected.applyMatrix4(camera.matrixWorldInverse);expected.z=-radius;expected.applyMatrix4(camera.matrixWorld);}else expected.sub(camera.position).normalize().multiplyScalar(radius).add(camera.position);
+       const error=Math.max(...expected.toArray().map((v,i)=>Math.abs(v-actual[i])));
+       const at=(px,py)=>{const p=new THREE.Vector3((px-viewport[0])/viewport[2]*2-1,(py-viewport[1])/viewport[3]*2-1,.5).unproject(camera);if(ortho){p.applyMatrix4(camera.matrixWorldInverse);p.z=-radius;p.applyMatrix4(camera.matrixWorld);}else p.sub(camera.position).normalize().multiplyScalar(radius).add(camera.position);return p;};
+       const eps=.001,dx=at(x+.5+eps,y+.5).sub(at(x+.5-eps,y+.5)).length()/(2*eps),dy=at(x+.5,y+.5+eps).sub(at(x+.5,y+.5-eps)).length()/(2*eps),expectedFootprint=Math.max(dx,dy,1e-4),footprintError=Math.abs(expectedFootprint-actual[3]);
+       if(renderer.getContext().getError())throw Error('Invalid ray probe');probes.push({ortho,viewport,pan,pixel:[x,y],expected:expected.toArray(),actual:Array.from(actual).slice(0,3),error,expectedFootprint,actualFootprint:actual[3],footprintError});}
+   }renderer.setRenderTarget(null);floatTarget.dispose();return{rows,probes,size:[128,128],maxVaryings:renderer.capabilities.maxVaryings};}};window.fixtureReady=true;
+}catch(error){window.fixtureError=String(error.stack??error);}
+</script>

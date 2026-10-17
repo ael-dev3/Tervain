@@ -1,0 +1,723 @@
+{
+  "setup": {
+    "coverageLayout": {
+      "uniqueBuffers": 252,
+      "baselineBytes": 48968,
+      "candidateBytes": 62628,
+      "extraBytes": 13660,
+      "byStride": [
+        {
+          "stride": 2,
+          "buffers": 120,
+          "capacity": 2706
+        },
+        {
+          "stride": 3,
+          "buffers": 132,
+          "capacity": 3415
+        }
+      ],
+      "scope": "Unique distance attributes attached to the native scene, including floor and shadow casters; nominal CPU attribute payload, not driver VRAM.",
+      "collection": "Supplemental read-only inventory from this same browser during capture; runner now collects the same inventory directly."
+    },
+    "build": {
+      "version": "0.0.22",
+      "revision": "749497e4b"
+    },
+    "target": {
+      "label": "tree:wild:33:21",
+      "species": "pine",
+      "x": -168.19665829044806,
+      "y": 6.733970127787277,
+      "z": -31.325527595733305,
+      "yaw": 2.356194490192345,
+      "occluders": 0,
+      "terrainBlocks": 0
+    },
+    "samples": 4,
+    "post": true,
+    "size": [
+      640,
+      360
+    ],
+    "nativeMode": "after"
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "changedPixels": 2467,
+      "gpuMs": {
+        "before": 15372.78283,
+        "after": 15228.809349,
+        "restored": 15039.442867
+      },
+      "hashes": {
+        "before": "a44681603d6fb0765df1bac23e9066ac554d7e038f228378ea279395f0fd9213",
+        "after": "2bc6e72e6ef9cecf907b7a5ec0ca91bbf46683082652c7c54037041ff9e848ef",
+        "restored": "a44681603d6fb0765df1bac23e9066ac554d7e038f228378ea279395f0fd9213"
+      },
+      "cost": {
+        "draws": 439,
+        "triangles": 7121925,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5
+          ],
+          "radius": 150
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5
+          ],
+          "radius": 150
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5
+          ],
+          "radius": 150
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5,
+            1
+          ],
+          "radius": 150
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5,
+            1
+          ],
+          "radius": 150
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5,
+            1
+          ],
+          "radius": 150
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "changedPixels": 2396,
+      "gpuMs": {
+        "before": 15165.532034,
+        "after": 15481.739269,
+        "restored": 15556.846058
+      },
+      "hashes": {
+        "before": "e17e7a8320a55e8475868fafaf3a370527c45fbd68d46025c6b4ba1f8b82792b",
+        "after": "5725d3d83c7609f88f3df70ae648cc91acf6a2679cdb3d67ab6f3ae031762511",
+        "restored": "e17e7a8320a55e8475868fafaf3a370527c45fbd68d46025c6b4ba1f8b82792b"
+      },
+      "cost": {
+        "draws": 438,
+        "triangles": 7101894,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5086662769317627
+          ],
+          "radius": 149.65333557128906
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5086662769317627
+          ],
+          "radius": 149.65333557128906
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5086662769317627
+          ],
+          "radius": 149.65333557128906
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5086662769317627,
+            1
+          ],
+          "radius": 149.65333557128906
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5086662769317627,
+            1
+          ],
+          "radius": 149.65333557128906
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5086662769317627,
+            1
+          ],
+          "radius": 149.65333557128906
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "changedPixels": 2384,
+      "gpuMs": {
+        "before": 15058.109706,
+        "after": 14942.711385,
+        "restored": 15915.100663
+      },
+      "hashes": {
+        "before": "42dace7f54590fda4115c124e4aabbb543ed5a5c1cb2516d3676cbddb250788d",
+        "after": "0291bd7867890bed3daf5a25d9770d06f2745debc2b96c6b3dd7e8f7c1cdde81",
+        "restored": "42dace7f54590fda4115c124e4aabbb543ed5a5c1cb2516d3676cbddb250788d"
+      },
+      "cost": {
+        "draws": 437,
+        "triangles": 7092939,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5173302292823792
+          ],
+          "radius": 149.30667114257812
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5173302292823792
+          ],
+          "radius": 149.30667114257812
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5173302292823792
+          ],
+          "radius": 149.30667114257812
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5173302292823792,
+            1
+          ],
+          "radius": 149.30667114257812
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5173302292823792,
+            1
+          ],
+          "radius": 149.30667114257812
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5173302292823792,
+            1
+          ],
+          "radius": 149.30667114257812
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "changedPixels": 2384,
+      "gpuMs": {
+        "before": 15197.093936,
+        "after": 15549.227337,
+        "restored": 15419.761388
+      },
+      "hashes": {
+        "before": "2ef0f1cf3e2ecd661b0881124e445d1214bc2bebb28c5e2bb3575b1fba570bf1",
+        "after": "55fdcea68272b3923ac7764c07f0a66aa759953739d1f77110ef77693e87c350",
+        "restored": "2ef0f1cf3e2ecd661b0881124e445d1214bc2bebb28c5e2bb3575b1fba570bf1"
+      },
+      "cost": {
+        "draws": 437,
+        "triangles": 7091388,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5259895920753479
+          ],
+          "radius": 148.9600067138672
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5259895920753479
+          ],
+          "radius": 148.9600067138672
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5259895920753479
+          ],
+          "radius": 148.9600067138672
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5259895920753479,
+            1
+          ],
+          "radius": 148.9600067138672
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5259895920753479,
+            1
+          ],
+          "radius": 148.9600067138672
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5259895920753479,
+            1
+          ],
+          "radius": 148.9600067138672
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "changedPixels": 2326,
+      "gpuMs": {
+        "before": 15212.832259,
+        "after": 15275.506235,
+        "restored": 15496.154699
+      },
+      "hashes": {
+        "before": "24ccf45f1b7c437fc4d3871962fee94672d8c52444a48d42b5b01fae5f523214",
+        "after": "e0e21416d69aae3074ee3e7b2da758e0b1cab7bd39bd956d8b68c07e3124c3a0",
+        "restored": "24ccf45f1b7c437fc4d3871962fee94672d8c52444a48d42b5b01fae5f523214"
+      },
+      "cost": {
+        "draws": 437,
+        "triangles": 7093946,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5346419811248779
+          ],
+          "radius": 148.6133270263672
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5346419811248779
+          ],
+          "radius": 148.6133270263672
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5346419811248779
+          ],
+          "radius": 148.6133270263672
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5346419811248779,
+            1
+          ],
+          "radius": 148.6133270263672
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5346419811248779,
+            1
+          ],
+          "radius": 148.6133270263672
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5346419811248779,
+            1
+          ],
+          "radius": 148.6133270263672
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "changedPixels": 2243,
+      "gpuMs": {
+        "before": 14790.160366,
+        "after": 15341.729369,
+        "restored": 15017.295445
+      },
+      "hashes": {
+        "before": "2a9c8e651918d2c45b52101c5683a8a4a1521af19b09881495a5ab6d4c202325",
+        "after": "b3717b9d66025ff864da99c50f3356eab163069c0f5d730eaae8e31b9c9b1971",
+        "restored": "2a9c8e651918d2c45b52101c5683a8a4a1521af19b09881495a5ab6d4c202325"
+      },
+      "cost": {
+        "draws": 435,
+        "triangles": 7090597,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5432851314544678
+          ],
+          "radius": 148.26666259765625
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5432851314544678
+          ],
+          "radius": 148.26666259765625
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5432851314544678
+          ],
+          "radius": 148.26666259765625
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5432851314544678,
+            1
+          ],
+          "radius": 148.26666259765625
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5432851314544678,
+            1
+          ],
+          "radius": 148.26666259765625
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5432851314544678,
+            1
+          ],
+          "radius": 148.26666259765625
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "changedPixels": 2167,
+      "gpuMs": {
+        "before": 14777.182158,
+        "after": 15019.179943,
+        "restored": 15249.129608
+      },
+      "hashes": {
+        "before": "5a8688c4f129e789366bceea01537ab069fb9399d49933686e5a6bb74a8f741e",
+        "after": "286076d50f06ded7b08d14b325174b801f20aaa2a04051970b2ca83fe1e99d93",
+        "restored": "5a8688c4f129e789366bceea01537ab069fb9399d49933686e5a6bb74a8f741e"
+      },
+      "cost": {
+        "draws": 435,
+        "triangles": 7091015,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5519166588783264
+          ],
+          "radius": 147.9199981689453
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5519166588783264
+          ],
+          "radius": 147.9199981689453
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5519166588783264
+          ],
+          "radius": 147.9199981689453
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5519166588783264,
+            1
+          ],
+          "radius": 147.9199981689453
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5519166588783264,
+            1
+          ],
+          "radius": 147.9199981689453
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5519166588783264,
+            1
+          ],
+          "radius": 147.9199981689453
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "changedPixels": 2185,
+      "gpuMs": {
+        "before": 15144.145882,
+        "after": 15945.287393,
+        "restored": 15248.905008
+      },
+      "hashes": {
+        "before": "d8ba18169eeeb76962ae37352c5482f41ae084e84da8faa5c3f4a9f1fce4f6b4",
+        "after": "8a77cd577494690913e54e8be8530c166f86e0894b3fa626d8224d3eef7b2bee",
+        "restored": "d8ba18169eeeb76962ae37352c5482f41ae084e84da8faa5c3f4a9f1fce4f6b4"
+      },
+      "cost": {
+        "draws": 435,
+        "triangles": 6996418,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.5605343580245972
+          ],
+          "radius": 147.57333374023438
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.5605343580245972
+          ],
+          "radius": 147.57333374023438
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.5605343580245972
+          ],
+          "radius": 147.57333374023438
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.5605343580245972,
+            1
+          ],
+          "radius": 147.57333374023438
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.5605343580245972,
+            1
+          ],
+          "radius": 147.57333374023438
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.5605343580245972,
+            1
+          ],
+          "radius": 147.57333374023438
+        }
+      ]
+    },
+    {
+      "frame": 8,
+      "changedPixels": 2161,
+      "gpuMs": {
+        "before": 15442.784447,
+        "after": 15527.300196,
+        "restored": 15172.51097
+      },
+      "hashes": {
+        "before": "5c58e5cd943378a4f8e43857abeaf46fc95d222ff4e3c997db43329cc2586cff",
+        "after": "2b04d4a35e3be3c80d0f7d9e4950f9c065752f82b8fc06f21b878f3fb7fa00d1",
+        "restored": "5c58e5cd943378a4f8e43857abeaf46fc95d222ff4e3c997db43329cc2586cff"
+      },
+      "cost": {
+        "draws": 437,
+        "triangles": 7005739,
+        "textures": 274
+      },
+      "links": {
+        "before": 0,
+        "after": 0,
+        "restored": 0
+      },
+      "references": [
+        {
+          "mesh": "hero-pine:0:wood",
+          "interval": [
+            0,
+            0.569135844707489
+          ],
+          "radius": 147.22666931152344
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "interval": [
+            0,
+            0.569135844707489
+          ],
+          "radius": 147.22666931152344
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "interval": [
+            0,
+            0.569135844707489
+          ],
+          "radius": 147.22666931152344
+        },
+        {
+          "mesh": "hero-pine:1:wood",
+          "interval": [
+            0.569135844707489,
+            1
+          ],
+          "radius": 147.22666931152344
+        },
+        {
+          "mesh": "hero-pine:1:foliage",
+          "interval": [
+            0.569135844707489,
+            1
+          ],
+          "radius": 147.22666931152344
+        },
+        {
+          "mesh": "hero-pine:1:foliage:depth",
+          "interval": [
+            0.569135844707489,
+            1
+          ],
+          "radius": 147.22666931152344
+        }
+      ]
+    }
+  ],
+  "compiled": {
+    "before": 111,
+    "after": 111
+  },
+  "sourceSha256": {
+    "src/presentation/distanceVisibility.ts": "b0c33b8728b147464161f88489e74d4a1d246285467a483a65a8e0a95cb0d5db",
+    "src/presentation/flora.ts": "3c2dbb05985f088c8ac659b63315357caf76cc9fd668b77e4e2e1cf7f479684b"
+  },
+  "pass": true,
+  "scope": "Native world High with distance detail enabled, same scene and material hooks. Before restores the published d40777b distance shader; after uses the production candidate. Exact inactive/restored controls. Synthetic walk/wind samples, not measured cadence or a hardware pacing PASS. Link counts expose first-use programs; Each new view primes capture caches before the paired samples. Warmed draw counters exclude view preparation and cached-shadow work. Software GPU queries exclude PNG readback and are not hardware cadence."
+}

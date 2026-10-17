@@ -1,6 +1,6 @@
 <!doctype html><meta charset="utf-8"><title>Crown LOD complementary coverage fixture</title>
 <script type="module">
-import {DISTANCE_DITHER_GLSL} from '/src/presentation/distanceVisibility.ts';
+import {DISTANCE_DITHER_GLSL} from '/tools/baseline-distance.ts';
 try {
  const canvas=document.createElement('canvas');canvas.width=canvas.height=128;document.body.append(canvas);
  const gl=canvas.getContext('webgl2',{alpha:false,antialias:false,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL2 unavailable');
