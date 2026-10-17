@@ -1,0 +1,23 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "87d2da856"
+  },
+  "initialFormat": 1028,
+  "initialColourBytes": 16777216,
+  "colourBytes": 16777216,
+  "size": [
+    4096,
+    4096
+  ],
+  "complete": true,
+  "depthComparison": 515,
+  "shadowIntensity": 0,
+  "shadowAutoUpdate": false,
+  "shadowNeedsUpdate": false,
+  "triangles": 2290290,
+  "captureValid": true,
+  "sourceSha256": "c699c7cedfb7b7dadf954e2fdf3cc37aacaca540fbf8d05e5177a56c14fac8e8",
+  "pass": true,
+  "scope": "Compiled High cold-night startup, without allocation overrides. The application must create and initialize its R8 colour/depth-comparison target before pausing night shadow updates. Native Grade/post/MSAA capture; software WebGL."
+}

@@ -1,0 +1,19 @@
+{
+  "controlRevision": "570a8591d",
+  "candidateRuntimeRevision": "87d2da856",
+  "controlSourceSha256": "cd85eeff142a866c7f1b1fc5004f49a696d12cf4f34136b5ea3aa01a352e9f83",
+  "candidateSourceSha256": "c699c7cedfb7b7dadf954e2fdf3cc37aacaca540fbf8d05e5177a56c14fac8e8",
+  "regressionBefore": {
+    "passed": 4,
+    "failed": 3
+  },
+  "selectedAfter": {
+    "passed": 37,
+    "failed": 0
+  },
+  "expectedControlFailures": [
+    "compacts a new comparison shadow target (515) while preserving depth sampling and hook chaining",
+    "compacts a new comparison shadow target (518) while preserving depth sampling and hook chaining",
+    "compacts the replacement after a quality change and preserves cold-night initialization"
+  ]
+}
