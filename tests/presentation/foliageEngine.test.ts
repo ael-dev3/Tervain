@@ -146,8 +146,8 @@ describe('foliage look', () => {
       material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
-      expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
+      expect(shader.fragmentShader).toContain('tvDistanceNoiseAtFootprint(tvReference.xyz');
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v4-ray\|tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
       const ramps = [...frag.matchAll(/smoothstep\(\s*(-?[\d.]+),\s*(-?[\d.]+),/g)];
@@ -496,6 +496,28 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     forest.update(0.1, frame);
     expect(forest.stats!().shadowTrees).toBe(stats.shadowTrees);
     for (const m of [...colour, ...casters]) expect(m.visible).toBe(m.count > 0);
+    // Near and middle levels must carry the same flat reference for an overlapping tree, not a surface depth.
+    const originalPosition = camera.position.clone(), originalRotation = camera.quaternion.clone();
+    camera.position.set(tree.x, tree.y + 3, tree.z + 150);
+    camera.lookAt(tree.x, tree.y + 6, tree.z); camera.updateMatrixWorld();
+    frame.treeDetailByDistance = true; forest.update(0, frame);
+    const references: number[] = [], levels = new Set<string>(), placement = new THREE.Matrix4();
+    for (const mesh of colour.filter(m => /^solitary-pine:[01]:(wood|foliage(:depth)?)$/.test(m.name))) {
+      const coverage = mesh.geometry.getAttribute('aDistanceCoverage');
+      expect(coverage.itemSize).toBe(3);
+      for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, placement);
+        if (Math.abs(placement.elements[12]! - tree.x) > 1e-4 || Math.abs(placement.elements[14]! - tree.z) > 1e-4) continue;
+        references.push(coverage.getZ(i)); levels.add(mesh.name.split(':')[1]!);
+        expect([coverage.getX(i), coverage.getY(i)]).toEqual(mesh.name.includes(':0:') ? [0, 0.5] : [0.5, 1]);
+      }
+    }
+    expect(references.length).toBeGreaterThanOrEqual(4);
+    expect(new Set(references)).toEqual(new Set([Math.fround(150)]));
+    expect(levels).toEqual(new Set(['0', '1']));
+    frame.treeDetailByDistance = false;
+    camera.position.copy(originalPosition); camera.quaternion.copy(originalRotation); camera.updateMatrixWorld();
+    forest.update(0, frame);
     // The nearest tree casts from its full model; trees across the volume from lighter ones.
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);
     expect(near.length).toBeGreaterThan(0);

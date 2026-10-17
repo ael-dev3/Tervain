@@ -6,25 +6,51 @@ export function smoothDistanceFade(distance: number, start: number, end: number)
   return 1 - t * t * (3 - 2 * t);
 }
 
-/** B11: a pattern fixed to the world, not the screen, shared by both LODs and the depth/shadow passes. Cells are
- * cubes about one pixel across (the power of two nearest the pixel's footprint); between two sizes each coarse cell
- * picks its own size by a second stable hash, so moving nearer splits cells one at a time instead of re-rolling the
- * whole pattern. Walking past a fade no longer drags a screen-fixed sieve across the object, and standing still never
- * sparkles: no frame counter, no randomness. */
+/** World-oriented cells about one pixel across. Colour LODs supply a common per-tree ray reference, rather than
+ * unrelated surface points; shadow passes retain their snapped pixel pattern. Between two sizes each coarse cell
+ * chooses its own split threshold, avoiding a whole-pattern change at a mip boundary. No frame counter or randomness. */
 export const DISTANCE_DITHER_GLSL = /* glsl */ `
 float tvCellHash(vec3 cell, float seed) {
   // Interleaved gradient noise over the cell lattice, wrapped to keep float precision at any world coordinate.
   vec3 c = mod(cell, 289.0) + seed;
   return fract(52.9829189 * fract(dot(c, vec3(0.06711056, 0.00583715, 0.03798128)) + 0.0137 * c.z));
 }
-float tvDistanceNoise(vec3 world) {
-  float px = max(max(length(dFdx(world)), length(dFdy(world))), 1e-4);
+float tvDistanceNoiseAtFootprint(vec3 world, float px) {
   float level = log2(px);
   float fine = floor(level);
   float coarseCell = exp2(fine + 1.0), fineCell = exp2(fine);
   // Each coarse cell turns fine once the footprint has shrunk far enough toward the fine size.
   bool useFine = tvCellHash(floor(world / coarseCell), 17.31) >= level - fine;
   return useFine ? tvCellHash(floor(world / fineCell), fine * 3.7) : tvCellHash(floor(world / coarseCell), fine * 3.7 + 3.7);
+}
+float tvDistanceNoise(vec3 world) {
+  return tvDistanceNoiseAtFootprint(world, max(max(length(dFdx(world)), length(dFdy(world))), 1e-4));
+}
+`;
+
+/** A pixel's ray projected onto a shared, world-oriented sphere about the camera. Both LODs use the
+ * same radius supplied per tree, so the mask is independent of their surface depths and normals.
+ * Raster coordinates avoid geometry-dependent interpolation rounding. No extra vertex matrix work. */
+export const DISTANCE_REFERENCE_GLSL = /* glsl */ `
+uniform mat4 projectionMatrix;
+uniform vec4 uDistanceViewport;
+vec4 tvDistanceReference(float radius) {
+  vec2 ndc = (gl_FragCoord.xy - uDistanceViewport.xy) / uDistanceViewport.zw * 2.0 - 1.0;
+  vec2 scale = vec2(projectionMatrix[0].x, projectionMatrix[1].y);
+  vec2 pixelStep = abs(2.0 / (uDistanceViewport.zw * scale));
+  vec3 point;
+  float footprint;
+  if (isOrthographic) {
+    point = cameraPosition + vec3((ndc - projectionMatrix[3].xy) / scale, -radius) * mat3(viewMatrix);
+    footprint = max(pixelStep.x, pixelStep.y);
+  } else {
+    vec3 ray = vec3((ndc + projectionMatrix[2].xy) / scale, -1.0);
+    float squared = dot(ray, ray);
+    point = cameraPosition + (ray * inversesqrt(squared) * mat3(viewMatrix)) * radius;
+    // |d(normalize(ray))/dp|: camera rotation preserves these lengths. No post-discard derivatives.
+    footprint = radius * max(pixelStep.x * length(ray.yz), pixelStep.y * length(ray.xz)) / squared;
+  }
+  return vec4(point, max(footprint, 1e-4));
 }
 `;
 
@@ -34,35 +60,53 @@ function installDistanceDither(material: THREE.Material): void {
   patched.add(material);
   const compile = material.onBeforeCompile;
   const programKey = material.customProgramCacheKey;
+  const colour = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
+  const viewport = { value: new THREE.Vector4() };
+  if (colour) {
+    const render = material.onBeforeRender;
+    material.onBeforeRender = function(renderer, scene, camera, geometry, object, group) {
+      render.call(this, renderer, scene, camera, geometry, object, group);
+      // A CPU state copy, not a GL readback. It follows captures, subviews and nested renders.
+      renderer.getCurrentViewport(viewport.value);
+    };
+  }
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
     shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>
       #ifdef USE_INSTANCING
-        attribute vec2 aDistanceCoverage;
+        attribute vec3 aDistanceCoverage;
       #endif
-      varying vec2 vDistanceCoverage;`)
+      flat varying vec3 vDistanceCoverage;`)
       .replace('#include <begin_vertex>', `#include <begin_vertex>
       #ifdef USE_INSTANCING
         vDistanceCoverage = aDistanceCoverage;
       #else
-        vDistanceCoverage = vec2(0.0, 1.0);
+        vDistanceCoverage = vec3(0.0, 1.0, 0.0);
       #endif`);
-    // Colour passes recover the world position from the view position three already passes (no extra varying: the
-    // foliage programs are near the varying limit). Depth and shadow passes have none and draw in the shadow map, whose
-    // texels are snapped to the world, so they keep its pixel grid.
-    const world = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial
-      ? 'tvDistanceNoise((-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix))'
-      : 'tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0)';
+    const partial = 'vDistanceCoverage.x > 0.0 || vDistanceCoverage.y < 1.0';
+    if (colour) shader.uniforms.uDistanceViewport = viewport;
+    // Shared ray coordinates have an analytic pixel footprint: cut-outs can reject transparent texels first,
+    // without divergent derivatives or values kept live across the leaf shader's alpha calculation.
+    const sample = colour ? `float tvCoverageSample;
+        if (vDistanceCoverage.z > 0.0) {
+          vec4 tvReference = tvDistanceReference(vDistanceCoverage.z);
+          tvCoverageSample = tvDistanceNoiseAtFootprint(tvReference.xyz, tvReference.w);
+        } else {
+          tvCoverageSample = tvDistanceNoise((-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix));
+        }` : 'float tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0);';
     shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
-      varying vec2 vDistanceCoverage;
-      ${DISTANCE_DITHER_GLSL}`)
+      flat varying vec3 vDistanceCoverage;
+      ${DISTANCE_DITHER_GLSL}
+      ${colour ? DISTANCE_REFERENCE_GLSL : ''}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
-      float tvCoverageSample = ${world};
       #ifndef TV_LEAF_SHADE_ONLY
-      if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      if (${partial}) {
+        ${sample}
+        if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      }
       #endif`);
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v2-world`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v4-ray`; };
   material.needsUpdate = true;
 }
 
@@ -77,7 +121,7 @@ export function attachCasterCoverage(mesh: THREE.InstancedMesh, depth: THREE.Mat
 }
 
 export interface InstanceDistanceVisibility {
-  /** Keep samples in [x,y). Complementary LODs use [0,1-t) and [1-t,1). */
+  /** Keep samples in [x,y); z is the common camera-to-tree radius, or 0 for ordinary surface anchoring. */
   coverage: THREE.InstancedBufferAttribute;
   /** Releases only the additional shadow materials; geometry/maps still belong to their original owner. */
   dispose(): void;
@@ -88,7 +132,7 @@ export interface InstanceDistanceVisibility {
 export function attachInstanceDistanceVisibility(mesh: THREE.InstancedMesh): InstanceDistanceVisibility {
   const source = mesh.material as THREE.MeshStandardMaterial;
   if (Array.isArray(mesh.material)) throw new Error('Distance visibility requires a single material per batch.');
-  const coverage = new THREE.InstancedBufferAttribute(new Float32Array(mesh.instanceMatrix.count * 2), 2).setUsage(THREE.DynamicDrawUsage);
+  const coverage = new THREE.InstancedBufferAttribute(new Float32Array(mesh.instanceMatrix.count * 3), 3).setUsage(THREE.DynamicDrawUsage);
   for (let i = 0; i < coverage.count; i++) coverage.setXY(i, 0, 1);
   mesh.geometry.setAttribute('aDistanceCoverage', coverage);
   installDistanceDither(source);
