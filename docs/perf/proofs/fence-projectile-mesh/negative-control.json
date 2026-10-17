@@ -1,0 +1,8 @@
+{
+  "baseline": "5086a25e3",
+  "test": "tests/fenceProjectileMesh.test.ts",
+  "failed": 1,
+  "passed": 1,
+  "reason": "A visually empty gap returned a projectile hit at distance 0.8799999952316284 instead of null.",
+  "candidateFocusedSuitePassed": 86
+}
