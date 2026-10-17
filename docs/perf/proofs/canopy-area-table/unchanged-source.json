@@ -1,0 +1,2301 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "results": {
+    "before": {
+      "rows": [
+        {
+          "species": "fir",
+          "id": "fir-spire",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 75.19999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34",
+                "position": "930a11b416e4adbac522d9a2754cbf0830906b34f7103634541545e6126a3d67",
+                "tangent": "d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a",
+                "uv": "116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5",
+                "index": "d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace",
+                "position": "b761ad74da83cb809c8bc2ae2129f2202ad210c0dcf45e20c4a1110b8e3c4f7c",
+                "uv": "5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d",
+                "index": "5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7",
+                "position": "c5fe4bfd7f3e1afab1ffbbf88574ca3c39a4d085795dda535cef85d82b13f4dd",
+                "tangent": "6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13",
+                "uv": "3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481",
+                "index": "a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350",
+                "position": "1a52516fdfc7d0c4f6fdc762c472707bbabfaba6a203c0ea634d13b19d0b7a75",
+                "uv": "d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc",
+                "index": "04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+                "position": "c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5",
+                "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+                "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+                "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+                "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+                "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+                "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shrub",
+          "id": "tree-1521",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 670.6000000238419,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2",
+                "position": "97e9631e0c5c7861f5bddc1c9b79d541ea04e3ed70507cb5239889f686cda769",
+                "uv": "2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd",
+                "index": "008c96094c6cef8a9e2c67cabbb6ed44529657bd3f316b888e0a9397edf48c3d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5ce8ee7a4720e48958132845de748831ed0fe1fe56049d4aeef1a8b1d70d67f",
+                "position": "5c33bd8040f4bcbc41c5ecb3f21c1157cf0a8d956b9ae9c4c1b03a4bb446d96f",
+                "uv": "4cd3bf461d959fc87aa48c0a254554086e1cd8fbe91957c2fb4b3d9240390b56",
+                "index": "3fbe26fc0f7170963eeb4b06718d93ead0dbb71139b77fb18e2e5016d2539dfe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8",
+                "position": "d73bd110149e67fe0937473674ac1d688a0e465a98d84f481c6cc168ea6fca9d",
+                "uv": "e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10",
+                "index": "3ebc0e9f0d75b5150e803ce6376d9aef9dc71542ac8d1e5d96da55c9106b353d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "af4137c80ce57745872cb06b283b89a2c0d026cb89332013222017aacc2ee230",
+                "position": "a89a541d3acd5bcd0ddee57b2b0cddd421aea8f67e65cc1f6e354a1d36aec09f",
+                "uv": "86c15d4c0e2154544e60520526fcb826dc36eed9a1325b3088b0f5df9deae55e",
+                "index": "09b79d1e3b3331a7c94c03984673e7bf8fd32ff700c01780953b6b74bdef4ffc",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+                "position": "bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521",
+                "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+                "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+                "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "verdant-sentinel",
+          "builds": 14,
+          "triangles": 75828,
+          "indexMs": 0,
+          "elapsedMs": 2041,
+          "lods": [
+            {
+              "wood": {
+                "normal": "4740e5284ac3bc953b743ef2d588a1a81bbb10b3562248bd608596dca59753e5",
+                "position": "5ff482f6f7b939ce78220995d243622a9dc132d02c2b60b5eea45983f5a5688e",
+                "uv": "1500b082f786ec95cc5dec50639288e2844ca5f2aad360fabe3ec80c5b0e0aa4",
+                "index": "19fd0a502431326cac26d56b52c9880384caa807081f75d2dcbe3b75f21a65fe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "cb4ac3789eadd336844b7c02d34896dc79075b2d22482cad25c10a3958a9991c",
+                "position": "6065e3c58db16a6af6998c44716dad3aee80dfd3743241b359c40c57be0cebb2",
+                "uv": "ccb69ddafe044e4df667b78c88e2cbf5fb7e1ae05baba44ccd60181f422790ca",
+                "index": "1eb235239c6cb0e320af5a3c88e15d803849aafc495d04943dc4bf2549f106ef",
+                "canopy": "1ec8c26ba8d167f0fb959930f37658401709045907ed688cbc8f8806f3d18e13",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "dd1a478aacb54ea29d6cd0a428017d6d79e349a15b9fd2de93d987ce3667e062",
+                "position": "74de644e4525993e29fcc0f70b4f5cc7c920d8cce45b1b14df862605cf40d030",
+                "uv": "c217ea71ab320a7c86e76046b9edeb12dcab21d6e851d2e00d9e4e3e443f4922",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "325ca4af58c731040d06c0dda92f4d85b4cd51c879b8910b5ffd279f26842451",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+                "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "tree-1527",
+          "builds": 13,
+          "triangles": 157835,
+          "indexMs": 0,
+          "elapsedMs": 239.60000002384186,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0068aae01c1f217a3b7eae2692e52670d918d91000fcdd6e3a99740bba9e7d36",
+                "position": "5fd85bf17fdc6ceddf20585f93a2431d0271453890e8071981b266a750c51fc7",
+                "uv": "703bdd5ed883b23fb9b050b8dbd349daeff1aa348b35cec4f118a199c83cdce7",
+                "index": "0b2f193c16e2fc41456c0c8c79c58d3ec50f1d0889c343fbd60b6fca7586cbf2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 4056
+              },
+              "leaf": {
+                "normal": "60e6cb1ab613ebeaff26ace053f5ba865671c46305ced83b474a19c5c6b44915",
+                "position": "7e31e1a5c9aa7732a666bfe77ceabe5768b9cdbb7df0b48ea0e33c9ba81e785d",
+                "uv": "23bca2921edacbfe079798e0e6016813b21b94fbcce31e23e3a9666e0426681c",
+                "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+                "canopy": "1bdc4d9a83ce107cb0ececd1f7b522a246fc7a0dba2c7d76c95cb155016f5237",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "487c623471c0cfbf77e1522eac08fb8f759734135834aeb8727238f305454dd9",
+                "position": "d99f4d731559a65bed26518fbd97dca8ae9ec05d6c4ad7ea6465924c56b3b92d",
+                "uv": "dd562f86710d091f3f2d4c023db39030cf9439ad53b5e7fe0a56f4bafefb6e4e",
+                "index": "6d52b7831c9064d275f80a9cdb7f2b226c0354f53856511b98f6d72bd8ec5c5d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 1488
+              },
+              "leaf": {
+                "normal": "caf2a129434e3f54091ef2b0dd540e0fab79164f70d857c01b6cb7f25bfaa801",
+                "position": "060e6736cebe3775cd3ea8e9551d930726459eeb0cacd50cf047415f120725fd",
+                "uv": "6eee2a93896c16996aee22802c5123dd9b8fac81819e7632408fb278cfa70073",
+                "index": "ce7c77740336f9fa1be53d363f9eef68f276b7bcba2a56862f01cab644be2d8e",
+                "canopy": "ee425db7389273aafca929b5b79359c2753f5cbdb59f3cb1e376ee93d9b360c7",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c",
+                "position": "8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820",
+                "uv": "68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57",
+                "index": "099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+                "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+                "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+                "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "oak-elder",
+          "builds": 4,
+          "triangles": 16640,
+          "indexMs": 0,
+          "elapsedMs": 340.0999999642372,
+          "lods": [
+            {
+              "wood": {
+                "normal": "35dc32a1f1351f4f71dbd9a1089b77e43e918f449bbe956818fd61b62128b857",
+                "position": "9731f4f7bbba7ed4ce4294e25f9d17ccf34bf44e48d0def951a7c5cf175fb7ec",
+                "tangent": "5b7998534e5264db75d3441ad291705bfe0db7e17c676b0b564e98ad0df06942",
+                "uv": "c8fa024d50c5c82a12928f69f8f8214813aedf478871a4c3abdd5c1a83aef499",
+                "index": "42dfd32af2710efde539b5c5c7ee3e88b4d6b7d4a7aa034aa3cb571378a086a7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25476
+              },
+              "leaf": {
+                "normal": "8ca0b77f8f34c58f7d0692c9b0394dec9f306e110770e636226af37f978efdcf",
+                "position": "a7819a215f53e05cbc1181cf8335a411ef6dc5ea6a705c5fc2a4455647418253",
+                "uv": "3f8336651294d89d9eeb976303322dbde87277536d03a755cabe054a27c614fe",
+                "index": "da0aa31ffed1333f3e605c06f553b93d9fa2f86be3ee7de165c6d832cf7294d8",
+                "canopy": "8321f76db9dc32d24823d35cd35d8bd7a53c8e1fc206b4a12abdd5f775b98898",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "daa501881255a1c2a6033cdfa1b057953162f902585d1781bf361065950e636d",
+                "position": "7c10bc92907f89603bc41e7d4bc7b2fb73811033fffdcf73cd3f96a537b1d3f5",
+                "tangent": "219f0f0fa8c8384d22096cd6dcc40cd26e341402ae65920d05f37fd6f91d9dda",
+                "uv": "9037a88106c87894ed1f304f65e4fbf9300d24978cad39eb257f22fd91179833",
+                "index": "38658d678002564c00e8fe9b2bf0be2cc6c3c80c73610f723d0169afd9e4273a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14649
+              },
+              "leaf": {
+                "normal": "95c6363be61948dd1db123d1d988ed2ae1b6815a308fbdd8484f35b6dba6d039",
+                "position": "4645f699050f04fe26962d17a4c2395c4b6a4c35a9e61011b90632b7f75db31c",
+                "uv": "35eabdd411086e22a35282c84f50672da0fecf159205bcb11c989ce99bc4daa6",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "9bcd7b6ae8b369a6dce53e21aa3994474c46f79d3a2ea83d71bd4b3bd587d24b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "e0df4b1232716f080652bcc8a962f88ed9d7939f16f37e69e90933339894159d",
+                "position": "9b93f3204f8fc531792e06c8e1aee68d1f3ae38eff2b68977378d8e09ccc3a12",
+                "tangent": "f3335085d0f9f0566e42d5b7faaad46830ffa7a8445285a1463df570445eb1c1",
+                "uv": "8b12a40abe02665e70da051aaa2e5fb89c22ba615d567808b59ecc17287c0c8a",
+                "index": "b23a8bcc9f93e7d43b145506f9f0c17a33b839487128e2ff04daf4a919ff2575",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+                "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "tree-4815",
+          "builds": 15,
+          "triangles": 69040,
+          "indexMs": 0,
+          "elapsedMs": 255.60000002384186,
+          "lods": [
+            {
+              "wood": {
+                "normal": "b3ea714326c0fcc2cc4c53b67b4a2fad7187f9583e1f52e8dd52320bd75e3078",
+                "position": "08db0e1214d0ed937cbd27811efe32a05706bc414ab2aa5161a43de2182c2780",
+                "tangent": "f02b7f86fd80eaf9280f74e796a8f68d80063da2c3db161db50a267dc08f8a9d",
+                "uv": "d0720105c40dc03e612a89c72c4ae03bba7261f71d407c54d80d8f4c6fe6c539",
+                "index": "8b0e6bbc0c0f10e233ab88f532df99811c4ef3d747cbf3d6f7f85b754104a1ce",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25356
+              },
+              "leaf": {
+                "normal": "8d6b8a25ef0a529fb92adf2b83358a4ad460ef4a0f2ce3ba955deaad877507e7",
+                "position": "b13f99d5b3c14ca4ed8102fa6c95cb253e50caa0c14ef1a5a696d51f8f92ca5f",
+                "uv": "f644feed9c056df44df7d08da2838986ce55754e62ffd1c11c3b6596a5892012",
+                "index": "ed05140974eba7d78048dc122e2ed416f79843d551b6c53f097f9c763fe31eda",
+                "canopy": "28ecef8e085a56937f3c84737556e2b0fa725eb64ae0490152c3ba1f2e52a4e2",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385",
+                "position": "e46fff362151a80b74318bc3d1c55da437a078e5fefffd73fe923c40dd3e95c0",
+                "tangent": "60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e",
+                "uv": "1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f",
+                "index": "cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "aeb25f6efd63b7cd53648e5918f4dcf8b14a3f983e0f2e32ab11df7cc6f65d94",
+                "position": "35de7a70b669f6ebd491d92d7f9570c0568890323bd5502bb7adbcba8f6ee1a5",
+                "uv": "38b7015789854cb9434734e62638d66fe9e8dc8eb44b250b10296b4f4261cd1a",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "29e02d059f5cefabdc1762ddd12d869624d732724e6f8dcaa75aab72ecab5e08",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+                "position": "a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9",
+                "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+                "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+                "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+                "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shrub",
+          "id": "tree-4949",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 66.89999997615814,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679",
+                "position": "708f4c0294971107cde2aa9e7e9b0ce49f762f1ca2c274c596aa19fc6216aea9",
+                "uv": "4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38",
+                "index": "7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "0e0d592eab88007ae4aea4a50cdd8f80b53750343fe6941ce39248c9e0bb0c82",
+                "position": "e3fde5b6e55e8dd7930a3e819f758f65ccfa80506a168c5150c5773572c47254",
+                "uv": "74b8796f39eb6465a5e083814671ab4862c0d5ce45d574c3c2361b8cb9406827",
+                "index": "c387e3e917405a02e939e392da8790dbb5e59f0363c93864403e86d941a1d788",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0",
+                "position": "139118aa907b618dced937629797359539c0b47d327ce1fdc77a8ec6d5ab47ce",
+                "uv": "477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc",
+                "index": "ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "df91ece0496748d8bc64792ff96d10dea58b8d20d90063f56e1757387624061b",
+                "position": "6bc7210c99bebe3a729ead754f3f84a8d32ad0e8c73922e41f85a42d51a9625a",
+                "uv": "3eb8526157af8c4f18cf2a19ac3cfa284135a834a9899a31810a0c6638ad9fac",
+                "index": "18a654c9cc23055bb0b75d45ad97d619ec5cda5686962865adb962c81d60bec7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+                "position": "d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d",
+                "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+                "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+                "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+                "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+                "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-1521",
+          "builds": 9,
+          "triangles": 49344,
+          "indexMs": 0,
+          "elapsedMs": 282.10000002384186,
+          "lods": [
+            {
+              "wood": {
+                "normal": "1a769536035906849d42afd17d043a44a2a917f9a86b7c8385fc3dedd349b98d",
+                "position": "786a8bbdc2594635f5e38e808dc956caf5883a96bf1eab80676abc61639d591f",
+                "uv": "e0e7a76256ef63feffae5975d5a9f716c58b9904c8703b16535d9f0baefa960f",
+                "index": "7f67142dd65b8a9d97288f5b4356b5e1a59007d30cbed2c96e3b794f7dd5e859",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 23991
+              },
+              "leaf": {
+                "normal": "1fb2c9ee197584d1740cca5fae35ff99fc1a94ce4f767fc154f1349b0f74eeab",
+                "position": "f6b5b2445601e43b98bc72bc708391ad33efddde4ab36a9efa4066adbdc4d91b",
+                "uv": "c8ddef907bcef2e44bc8b2febd6e49f9c70c8d36e763941efed6e7b61258c627",
+                "index": "cf3ce2005d33fbd47c337e4ca08e04155722d7ee3732a8559c736f3f65710357",
+                "canopy": "8bacb926c9b2899c60e5f7d7eaef729de6245c6fe8df517ebd13128bcc95c266",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "d3a58e33dd9220a60d39743cfd6170f45bc0c28ccc40b31a7948e79bd3607906",
+                "position": "f3dea914b94fec0e8160ff67eb98a66fc3658c735dc0f6a7503060a9d08fe102",
+                "uv": "f2f22da68ef95def9ae7a13fe06b19d54253ab4ae300c095d951d58e4650fe3c",
+                "index": "c715c4f12fc6c5ed41b1a01e2ea4b80239b917ae86baf678e22663a4153bfdf0",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14652
+              },
+              "leaf": {
+                "normal": "16ae3b021622eadbae99fc48f827f2d647050d68682dd1213142a0089136bf0e",
+                "position": "004dd0d6634b7fc0a68629e74eab7522ad0f818aed269e59b44312760d579aa5",
+                "uv": "85f8b3e20b00b3f0a1763400772b700af5981a8491fadb7a116779774ef68dc6",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "138f3eaf87ff56a8c4979842ab22706d2ada974fdc9235bb88ddd46c6899a3e1",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+                "position": "ef563e89acf5efee5adb03a60cf1a1b25d7e2c823c344b39b17f097b90d96298",
+                "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+                "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+                "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-0208",
+          "builds": 9,
+          "triangles": 40704,
+          "indexMs": 0,
+          "elapsedMs": 412,
+          "lods": [
+            {
+              "wood": {
+                "normal": "f4594c6b724c84c2b50862964054e7362f827fb599d0402a8aecbe6a6bb690bf",
+                "position": "206ee9bded5b10cfd6c85e86b8b7802ef2ebfc6b94ab4a08374f98a1256631a4",
+                "uv": "3619607b23ef3badf29103a588a7534763e69138f33a377187011b18a7d57f43",
+                "index": "42a4e414a2702d1f9abdd3cde07ebfec06ee20fc6e02a477dd1615d7c07b3bca",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 23964
+              },
+              "leaf": {
+                "normal": "932a4ae419470dd010811cc25eaf89c8962895bcf4171b6fac47eaf7690d1987",
+                "position": "cbae882672c30718a4d263483e795c4d6fb9faee0c4c59fa40275d2d952d80b3",
+                "uv": "78b3a7686010ac55bd4635850a52c1797ed5278a307b6cedd9425b6952477bea",
+                "index": "f9f95e902fe8f6d202acef3a92465c8cf82ba4a94ad6683df0650603548aed69",
+                "canopy": "ad366de7d73380c1271e60afb5f4e793c8e1d81fc4a11818271acdeacc09ab8b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "426bb28d92dc87eaefbc6d4ceb88f80a5be3e4a1491b90782fa855d38a8d17a9",
+                "position": "36d9bf5d3c2fb86555dfd965e4566bf5a7ebc10acbfe0a11843b6d03ef63e245",
+                "uv": "0e910b826497795db566b539c0900ba655bafd9917ae4fe9d5b3d78b52a1bbf1",
+                "index": "09fd2a9e030790fa98a614916b1c2ad3d82eaa2125e71fa109cde37f207a670f",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14649
+              },
+              "leaf": {
+                "normal": "d57b1e85037b9655f943b054e87d01530e035490c64fda66791d4b413bcf2072",
+                "position": "27d0d45de4e939109ecc81d2620f16ccd3389a7ef44ff81cb2779a6b4f8758ed",
+                "uv": "9436c465d5f5c3bb39f36fb4ea4b93b4fe4ca4279ed6869e94dd63d3631b4972",
+                "index": "be9a92859122cf0cb5a6e48c949116b7b8727153a7800e3d964966c6f291f732",
+                "canopy": "efe164d49851566a3ae5ca90891b4c9e7d77208f904af9197519146cb79814be",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "751c0baa0b983ed166bb3934aa40ed29f4c3d6ee3c37d56410364de713ccdc36",
+                "position": "3099d2a97a6c60a677b0a950ca957b26889aa63e4e33d0a89b97b692d27120b1",
+                "uv": "e78bb5232922b77b775028570801b375d787b6c91f01db11f0805bda41972bed",
+                "index": "4cbbcf1b14b5764552547bac276e2c48095abe1eee305421feb1ca572ce69375",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+                "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+                "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+                "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "verdant-sentinel",
+          "builds": 12,
+          "triangles": 65792,
+          "indexMs": 0,
+          "elapsedMs": 241.60000002384186,
+          "lods": [
+            {
+              "wood": {
+                "normal": "9e5377238c8ebefa22d764ba2cc82267762f127c8196727ed494792941727871",
+                "position": "48ec5ea080da6a768acd386bd8f7dc49166d5bcd414e1168d0ed2c1c9221603f",
+                "uv": "77bba703615de945db1e2b6bd5c32d3761fe42171b0c7d3b57aabb323cab75ec",
+                "index": "d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+                "position": "fcd0d8d0dc801460745803226a0bbf7a6ea8133110150b024d4a2a936dac0c2c",
+                "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94",
+                "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282",
+                "canopy": "b8b69afbb7fabd68453030e911eb2db018d69f6f8d19c788a682ba821d8a3c8b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "89e17016e04408e84569be97fbcf948466929e89fc67902223d3f2b7be065367",
+                "position": "d056cbe7dae6342d9c40655ddafbe5f8922472281a40da6ba408390624f83dcb",
+                "uv": "86108bc1fc0d383ed8ca39f879745e45e8e0b8811e32442fba6ea3dd82fb529e",
+                "index": "1a69fa0de939fd337ba3517eacd530315dbcd34781e965363f262c2d8619ea98",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+                "position": "8ad8a39c568974d792efe164438afd07e0c8ea0e6510a170ebbfb7a1da20e5f7",
+                "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "2a08c9b5e66efdcd5671aabd996479ccd5268879285059bddace45209d9860a8",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+                "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-1505",
+          "builds": 9,
+          "triangles": 41424,
+          "indexMs": 0,
+          "elapsedMs": 280,
+          "lods": [
+            {
+              "wood": {
+                "normal": "484adaca4c03d84bcba9613b37ecc25e454c4de9097198edc01653fa5e54bb31",
+                "position": "a4233272ace4fa724568d3c1f5a37ba68425e0de942b3306894f938291495560",
+                "uv": "c7e6b09fecfa0832b4b9ef2839ad61ac8568cb7e2145e87d4052c4a4f381d00a",
+                "index": "8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25773
+              },
+              "leaf": {
+                "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+                "position": "980a9f4478d8ccf0fb0e9b816d805ca743ccc32a25741b6bedcf3de2c2eb78e8",
+                "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+                "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c",
+                "canopy": "69c6dbf55146252682329b5343578063455046fa4eaf18d4ce65da16684b3ee6",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a",
+                "position": "851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3",
+                "uv": "6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62",
+                "index": "b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14652
+              },
+              "leaf": {
+                "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+                "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+                "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "18d7ce7521c2d0a8184973653795deb8cd080afe2b490e8a89aee71c0dd8dad1",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+                "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+                "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+                "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+                "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-fan",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 140.5999999642372,
+          "lods": [
+            {
+              "wood": {
+                "normal": "18bd8d7f17136436abb7e6fe8d2fb9936d295f1d5d453bfe30e0a7f2562f2c54",
+                "position": "9f481c8eb48bd978862eed697e8ff70d9da727394ba0849e0e96357ce8e7fbd3",
+                "uv": "facb86a49956939cd6b6269c53d0720301619e013b85673bbdc4af979d586845",
+                "index": "d8b0972f717637c0dba9e54fc7d629634c269a2d81d7a36c8858ac8549e7dd86",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "1770f9ad44f7ec5997f776cf423b4274a0833973d40435dcd9fe64bd2e3f647d",
+                "position": "a98f690ffb4e6e8544e0d3e8e85cebd22fc88396dce27611a7cd2bdf10a8e6b0",
+                "uv": "3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a",
+                "index": "327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "96b8bb02289e2c1d5eaf06a9b31eba66a02bf757b0f1b8067ccb32661a8d6f7d",
+                "position": "d393275785ee1bebeae142fdafb6281652bbe8e1ffb1277a8e6b026e6796e311",
+                "uv": "26d6862b0218688a190f781d9563a29a793d0785355363841c43d491fb4d43ad",
+                "index": "c3ed8fecd824272d599b706ea1ee52feaa3b1bfd7a8225c3c2d4554ee123855e",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "2fdfcce5931bc4337e39c975aa4eebba0ccc2310d559744edc6b9cf1c69ef234",
+                "position": "43192f1c1c37c2e0c78e7c1872e5bca0f550a37afeca14c92465502701030925",
+                "uv": "25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d",
+                "index": "4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084",
+                "position": "1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51",
+                "uv": "56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db",
+                "index": "4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+                "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-lean",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 124.29999995231628,
+          "lods": [
+            {
+              "wood": {
+                "normal": "501dc83df5c57dbc9d6d7f004df7b61bab06e822cde0ef00e7238f3f8df4c572",
+                "position": "9ef9259c6442ab5602d8c08eaf275e7fc95faf10f127a3dfe95fffcf8ab38b19",
+                "uv": "f2b1d3b40f212f32e38e0cd0d2f80f1d71e524775e8fe7da57ee897b54806112",
+                "index": "d6a8907766bd6b5b003d72881e4cfacc1227a1c54491c76a3a4b8a0924d9446b",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f9b57db5ec64704a286de9679850e52272e01637ab48a4ed7f5051c2ca484523",
+                "position": "0bd86cccddb368484c106d3dc22d106e63791cd1cb07a4930347be886d01f44d",
+                "uv": "3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a",
+                "index": "327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+                "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+                "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+                "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "fa74b6a93791d93c7b408d67540d8065958e9d0ebe73372eaa836b06f37e3fc9",
+                "position": "8baaaabef0673cbe2236574a894adba45863c59c8139d5e6cbbc764ee7ddf62a",
+                "uv": "25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d",
+                "index": "4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+                "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+                "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+                "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+                "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-date",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 76.19999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "e7d78fbc3f2f086d7e6251c4e13f75d44903d54b2c4f35e9c51955447961d9f2",
+                "position": "d5e0b4d179b83a158e390d7a7d189ee656877e080afca4e567bc7663f63bc909",
+                "tangent": "cde112d4a6cf869f7a6d607fb49cb444edb4164c04d6579dc41a92ccc31a2c2f",
+                "uv": "9239667c569e0ab6bf36cabcf42588f0cb53cec0011a3d32207f2bf3977c849f",
+                "index": "59db49b62f0813058b95cdd9628a96dba07583f1ea5a10e9d755351ac71d93be",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "ee972c3828f0db4d4df2912b27b91a07fe188421ee313c0c9ad9800b2a8b6033",
+                "position": "ec5e56f6de7978c34e0bde285e89da0c1f5e50582005f39869e83be5ace67a8c",
+                "tangent": "9813bb243084fa1232edb82dae0e9a714c4d3e74e86efd18278713a21599b0d9",
+                "uv": "9cb019cf0bfcf41d8403645166536c020609deacfcda79b87d20740c64efb0d2",
+                "index": "c7ba9200fc534a2952fd1624fe8e9624ae3cd9cc638d3a60978784c913813018",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "e5183170a1b1a975f086a637842339941bd5de70aa0d941d16006b391c3d2a82",
+                "position": "7607e916804cdec038b8becfb1154f6e82e871d6c16cdbb3e24f8d935ca4af2d",
+                "tangent": "d9ac385bcb2cb10d30dae8c0fa930ba80d78462fbd52fea7f5102fd3c263112b",
+                "uv": "cde007fba37a53bb4b1cf3c4b86ad0b3769b685954af508d86ebddb7f60d3516",
+                "index": "063716dc881d14bc47846379a569c819519b96477fde82d86cf86a47b7eae46e",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "e2531b96059abf8ef4b23c525f738a2bc54c1756752d2b98d6d3cb19d48c8dda",
+                "position": "63dfe438baea71d8aec80775371b76fe9cb326cb66149474c44a7d9f4df14fba",
+                "tangent": "903053373998030351f7c519a6c1320a9967383db9c1a3c392dade4dd806c46b",
+                "uv": "101e15b44b4707a1ae3c789de18914ad0ff011d73a93a900d1032b4c81498a04",
+                "index": "1d8b424badd8caa8863258bcec109cc0088d6849979625283714d174cb3a9757",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71",
+                "position": "c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da",
+                "tangent": "78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63",
+                "uv": "28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7",
+                "index": "644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+                "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+                "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+                "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+                "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shorepine",
+          "id": "fir-spire",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 8.5,
+          "lods": [
+            {
+              "wood": {
+                "normal": "2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34",
+                "position": "1a82c01f2774c9bfcded5128a27614b3538999b40f5f253eea65d5aae9d182e1",
+                "tangent": "d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a",
+                "uv": "116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5",
+                "index": "d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace",
+                "position": "9d9327c5623f688f457935e2068f3d8f00aaa79943b6ea39e54bdd78c3aab977",
+                "uv": "5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d",
+                "index": "5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7",
+                "position": "d0e9e9f5a2ad12a357b2f1bce1e06c105f59c5c933461798e413038bb1f6368b",
+                "tangent": "6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13",
+                "uv": "3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481",
+                "index": "a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350",
+                "position": "28c9531805759048b308912ea81f811bc7269b59800bbb9bc5363c57bc7bbb02",
+                "uv": "d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc",
+                "index": "04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+                "position": "1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1",
+                "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+                "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+                "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+                "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+                "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+                "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "orchard",
+          "id": "tree-4949",
+          "builds": 14,
+          "triangles": 58968,
+          "indexMs": 0,
+          "elapsedMs": 168.70000004768372,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679",
+                "position": "435c9eca1dbf216f93b70f7bf89ed6c72f95b2da3f5ff4be909e14d38c4898d4",
+                "uv": "4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38",
+                "index": "7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "7b922ebb2ae3e8e18f473a1de3719ae0cfdab64e731cd8e1fc1c5b510ba518cc",
+                "position": "9e650b7c3ca5962835a1827640a5f6040a8694feb5c819267627199a10de3bf9",
+                "uv": "7359eb931f7fc56fcd988906c523d894575396c3f2be4dd6e4e0c7c75af05113",
+                "index": "e3c655b4bc550a078e0a07c0a7da2a87878d3ec8b1220c59997c015eaf2e8cf6",
+                "canopy": "a1d493e13fb3d9ed301334e35a8eef52e3916d7ba3c25f7fc7fc6f9399c3520f",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0",
+                "position": "07a2916aec7671cefef10ed3294fa9ae27628eb3109c39f19607b14e0f39c3d2",
+                "uv": "477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc",
+                "index": "ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "7f8d717896d12cda222c0bd471dfd61b37bfdf41dc6c74c3564ac8661fb17fb3",
+                "position": "98f74f8595ed963aba41f9d81b2158c19b21246183420c8bba96d370a5e32470",
+                "uv": "f6951047bc439f7c02078054c0223869da60d64a19ae7e79b6819533b4b5059f",
+                "index": "7d52be915934913a26a77236523fa61e034a48a33b3fe9b9707a463f3f8bde11",
+                "canopy": "b972190d6d7fe00c50310e899827f76bb0e7149dc466ee25066066a88c833b7d",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+                "position": "7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e",
+                "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+                "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+                "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+                "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+                "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "orchard",
+          "id": "tree-4815",
+          "builds": 16,
+          "triangles": 66560,
+          "indexMs": 0,
+          "elapsedMs": 170.89999997615814,
+          "lods": [
+            {
+              "wood": {
+                "normal": "6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9",
+                "position": "4672df0694e6d6455589e53ab0dfd09687ba8a20e66258e2810fbb1f0f590a8f",
+                "tangent": "ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e",
+                "uv": "c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d",
+                "index": "e7ed8a2049cff8eaf628870b9c3d3d5550aea70cd5834aebd0b0f6f4c6bd6e0a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "1ceba5e23ff3905f3c782ee06edd8d7aa42fd4b2fdea6edbe71ff7f7e74ecf53",
+                "position": "5941a6447240aebc537967429ac4f9981e6e2d7fc2025a2999d9abe5205628c7",
+                "uv": "313daca971f098f9d1fca8993793ab83bc803519419977247ea20e48e5576953",
+                "index": "069c56dda88bac298898622062795964b8b8666dd9cbb0cb85912bfdf7786cd1",
+                "canopy": "caede0570777adc773718c8c336063962d0996327908613063d113fa323d289a",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385",
+                "position": "8ddd86004cdc85283daa06e73a66054f87eed66ff4ca4fce2ec24537d065d3d8",
+                "tangent": "60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e",
+                "uv": "1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f",
+                "index": "cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "5af1a543d8e06344b6fa94f5cd43afe0faba3398acf0e7ca7ab28403d0495e69",
+                "position": "2c9a4c50e4c356a39d2d61c56f26e40f578375b84e03c48c8598eb09abfaf1da",
+                "uv": "410cac356120d3ccb2c1ce5429393e5a3402ea5e03091e711b927c6108bafa87",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "ef14c7c5fe0f69b51a5c5e28d4c988d863141fcf692fc421685562058b46c89a",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+                "position": "336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa",
+                "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+                "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+                "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+                "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        }
+      ],
+      "total": {
+        "builds": 115,
+        "triangles": 642135,
+        "indexMs": 0
+      },
+      "warmSamplesMs": [
+        {
+          "factoryMs": 4197.399999976158,
+          "indexMs": 0
+        },
+        {
+          "factoryMs": 4171.899999976158,
+          "indexMs": 0
+        },
+        {
+          "factoryMs": 4223.400000035763,
+          "indexMs": 0
+        }
+      ],
+      "warmMedianMs": 4197.399999976158,
+      "unusedIndexMedianMs": 0
+    },
+    "after": {
+      "rows": [
+        {
+          "species": "fir",
+          "id": "fir-spire",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 9.199999988079071,
+          "lods": [
+            {
+              "wood": {
+                "normal": "2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34",
+                "position": "930a11b416e4adbac522d9a2754cbf0830906b34f7103634541545e6126a3d67",
+                "tangent": "d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a",
+                "uv": "116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5",
+                "index": "d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace",
+                "position": "b761ad74da83cb809c8bc2ae2129f2202ad210c0dcf45e20c4a1110b8e3c4f7c",
+                "uv": "5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d",
+                "index": "5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7",
+                "position": "c5fe4bfd7f3e1afab1ffbbf88574ca3c39a4d085795dda535cef85d82b13f4dd",
+                "tangent": "6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13",
+                "uv": "3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481",
+                "index": "a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350",
+                "position": "1a52516fdfc7d0c4f6fdc762c472707bbabfaba6a203c0ea634d13b19d0b7a75",
+                "uv": "d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc",
+                "index": "04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+                "position": "c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5",
+                "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+                "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+                "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+                "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+                "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+                "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shrub",
+          "id": "tree-1521",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 9,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2",
+                "position": "97e9631e0c5c7861f5bddc1c9b79d541ea04e3ed70507cb5239889f686cda769",
+                "uv": "2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd",
+                "index": "008c96094c6cef8a9e2c67cabbb6ed44529657bd3f316b888e0a9397edf48c3d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5ce8ee7a4720e48958132845de748831ed0fe1fe56049d4aeef1a8b1d70d67f",
+                "position": "5c33bd8040f4bcbc41c5ecb3f21c1157cf0a8d956b9ae9c4c1b03a4bb446d96f",
+                "uv": "4cd3bf461d959fc87aa48c0a254554086e1cd8fbe91957c2fb4b3d9240390b56",
+                "index": "3fbe26fc0f7170963eeb4b06718d93ead0dbb71139b77fb18e2e5016d2539dfe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8",
+                "position": "d73bd110149e67fe0937473674ac1d688a0e465a98d84f481c6cc168ea6fca9d",
+                "uv": "e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10",
+                "index": "3ebc0e9f0d75b5150e803ce6376d9aef9dc71542ac8d1e5d96da55c9106b353d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "af4137c80ce57745872cb06b283b89a2c0d026cb89332013222017aacc2ee230",
+                "position": "a89a541d3acd5bcd0ddee57b2b0cddd421aea8f67e65cc1f6e354a1d36aec09f",
+                "uv": "86c15d4c0e2154544e60520526fcb826dc36eed9a1325b3088b0f5df9deae55e",
+                "index": "09b79d1e3b3331a7c94c03984673e7bf8fd32ff700c01780953b6b74bdef4ffc",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+                "position": "bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521",
+                "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+                "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+                "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "verdant-sentinel",
+          "builds": 14,
+          "triangles": 75828,
+          "indexMs": 0,
+          "elapsedMs": 2247.600000023842,
+          "lods": [
+            {
+              "wood": {
+                "normal": "4740e5284ac3bc953b743ef2d588a1a81bbb10b3562248bd608596dca59753e5",
+                "position": "5ff482f6f7b939ce78220995d243622a9dc132d02c2b60b5eea45983f5a5688e",
+                "uv": "1500b082f786ec95cc5dec50639288e2844ca5f2aad360fabe3ec80c5b0e0aa4",
+                "index": "19fd0a502431326cac26d56b52c9880384caa807081f75d2dcbe3b75f21a65fe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "cb4ac3789eadd336844b7c02d34896dc79075b2d22482cad25c10a3958a9991c",
+                "position": "6065e3c58db16a6af6998c44716dad3aee80dfd3743241b359c40c57be0cebb2",
+                "uv": "ccb69ddafe044e4df667b78c88e2cbf5fb7e1ae05baba44ccd60181f422790ca",
+                "index": "1eb235239c6cb0e320af5a3c88e15d803849aafc495d04943dc4bf2549f106ef",
+                "canopy": "1ec8c26ba8d167f0fb959930f37658401709045907ed688cbc8f8806f3d18e13",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "dd1a478aacb54ea29d6cd0a428017d6d79e349a15b9fd2de93d987ce3667e062",
+                "position": "74de644e4525993e29fcc0f70b4f5cc7c920d8cce45b1b14df862605cf40d030",
+                "uv": "c217ea71ab320a7c86e76046b9edeb12dcab21d6e851d2e00d9e4e3e443f4922",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "325ca4af58c731040d06c0dda92f4d85b4cd51c879b8910b5ffd279f26842451",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+                "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "tree-1527",
+          "builds": 13,
+          "triangles": 157835,
+          "indexMs": 0,
+          "elapsedMs": 196.69999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0068aae01c1f217a3b7eae2692e52670d918d91000fcdd6e3a99740bba9e7d36",
+                "position": "5fd85bf17fdc6ceddf20585f93a2431d0271453890e8071981b266a750c51fc7",
+                "uv": "703bdd5ed883b23fb9b050b8dbd349daeff1aa348b35cec4f118a199c83cdce7",
+                "index": "0b2f193c16e2fc41456c0c8c79c58d3ec50f1d0889c343fbd60b6fca7586cbf2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 4056
+              },
+              "leaf": {
+                "normal": "60e6cb1ab613ebeaff26ace053f5ba865671c46305ced83b474a19c5c6b44915",
+                "position": "7e31e1a5c9aa7732a666bfe77ceabe5768b9cdbb7df0b48ea0e33c9ba81e785d",
+                "uv": "23bca2921edacbfe079798e0e6016813b21b94fbcce31e23e3a9666e0426681c",
+                "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+                "canopy": "1bdc4d9a83ce107cb0ececd1f7b522a246fc7a0dba2c7d76c95cb155016f5237",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "487c623471c0cfbf77e1522eac08fb8f759734135834aeb8727238f305454dd9",
+                "position": "d99f4d731559a65bed26518fbd97dca8ae9ec05d6c4ad7ea6465924c56b3b92d",
+                "uv": "dd562f86710d091f3f2d4c023db39030cf9439ad53b5e7fe0a56f4bafefb6e4e",
+                "index": "6d52b7831c9064d275f80a9cdb7f2b226c0354f53856511b98f6d72bd8ec5c5d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 1488
+              },
+              "leaf": {
+                "normal": "caf2a129434e3f54091ef2b0dd540e0fab79164f70d857c01b6cb7f25bfaa801",
+                "position": "060e6736cebe3775cd3ea8e9551d930726459eeb0cacd50cf047415f120725fd",
+                "uv": "6eee2a93896c16996aee22802c5123dd9b8fac81819e7632408fb278cfa70073",
+                "index": "ce7c77740336f9fa1be53d363f9eef68f276b7bcba2a56862f01cab644be2d8e",
+                "canopy": "ee425db7389273aafca929b5b79359c2753f5cbdb59f3cb1e376ee93d9b360c7",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c",
+                "position": "8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820",
+                "uv": "68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57",
+                "index": "099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+                "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+                "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+                "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "oak-elder",
+          "builds": 4,
+          "triangles": 16640,
+          "indexMs": 0,
+          "elapsedMs": 362.10000002384186,
+          "lods": [
+            {
+              "wood": {
+                "normal": "35dc32a1f1351f4f71dbd9a1089b77e43e918f449bbe956818fd61b62128b857",
+                "position": "9731f4f7bbba7ed4ce4294e25f9d17ccf34bf44e48d0def951a7c5cf175fb7ec",
+                "tangent": "5b7998534e5264db75d3441ad291705bfe0db7e17c676b0b564e98ad0df06942",
+                "uv": "c8fa024d50c5c82a12928f69f8f8214813aedf478871a4c3abdd5c1a83aef499",
+                "index": "42dfd32af2710efde539b5c5c7ee3e88b4d6b7d4a7aa034aa3cb571378a086a7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25476
+              },
+              "leaf": {
+                "normal": "8ca0b77f8f34c58f7d0692c9b0394dec9f306e110770e636226af37f978efdcf",
+                "position": "a7819a215f53e05cbc1181cf8335a411ef6dc5ea6a705c5fc2a4455647418253",
+                "uv": "3f8336651294d89d9eeb976303322dbde87277536d03a755cabe054a27c614fe",
+                "index": "da0aa31ffed1333f3e605c06f553b93d9fa2f86be3ee7de165c6d832cf7294d8",
+                "canopy": "8321f76db9dc32d24823d35cd35d8bd7a53c8e1fc206b4a12abdd5f775b98898",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "daa501881255a1c2a6033cdfa1b057953162f902585d1781bf361065950e636d",
+                "position": "7c10bc92907f89603bc41e7d4bc7b2fb73811033fffdcf73cd3f96a537b1d3f5",
+                "tangent": "219f0f0fa8c8384d22096cd6dcc40cd26e341402ae65920d05f37fd6f91d9dda",
+                "uv": "9037a88106c87894ed1f304f65e4fbf9300d24978cad39eb257f22fd91179833",
+                "index": "38658d678002564c00e8fe9b2bf0be2cc6c3c80c73610f723d0169afd9e4273a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14649
+              },
+              "leaf": {
+                "normal": "95c6363be61948dd1db123d1d988ed2ae1b6815a308fbdd8484f35b6dba6d039",
+                "position": "4645f699050f04fe26962d17a4c2395c4b6a4c35a9e61011b90632b7f75db31c",
+                "uv": "35eabdd411086e22a35282c84f50672da0fecf159205bcb11c989ce99bc4daa6",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "9bcd7b6ae8b369a6dce53e21aa3994474c46f79d3a2ea83d71bd4b3bd587d24b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "e0df4b1232716f080652bcc8a962f88ed9d7939f16f37e69e90933339894159d",
+                "position": "9b93f3204f8fc531792e06c8e1aee68d1f3ae38eff2b68977378d8e09ccc3a12",
+                "tangent": "f3335085d0f9f0566e42d5b7faaad46830ffa7a8445285a1463df570445eb1c1",
+                "uv": "8b12a40abe02665e70da051aaa2e5fb89c22ba615d567808b59ecc17287c0c8a",
+                "index": "b23a8bcc9f93e7d43b145506f9f0c17a33b839487128e2ff04daf4a919ff2575",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+                "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "birch",
+          "id": "tree-4815",
+          "builds": 15,
+          "triangles": 69040,
+          "indexMs": 0,
+          "elapsedMs": 306,
+          "lods": [
+            {
+              "wood": {
+                "normal": "b3ea714326c0fcc2cc4c53b67b4a2fad7187f9583e1f52e8dd52320bd75e3078",
+                "position": "08db0e1214d0ed937cbd27811efe32a05706bc414ab2aa5161a43de2182c2780",
+                "tangent": "f02b7f86fd80eaf9280f74e796a8f68d80063da2c3db161db50a267dc08f8a9d",
+                "uv": "d0720105c40dc03e612a89c72c4ae03bba7261f71d407c54d80d8f4c6fe6c539",
+                "index": "8b0e6bbc0c0f10e233ab88f532df99811c4ef3d747cbf3d6f7f85b754104a1ce",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25356
+              },
+              "leaf": {
+                "normal": "8d6b8a25ef0a529fb92adf2b83358a4ad460ef4a0f2ce3ba955deaad877507e7",
+                "position": "b13f99d5b3c14ca4ed8102fa6c95cb253e50caa0c14ef1a5a696d51f8f92ca5f",
+                "uv": "f644feed9c056df44df7d08da2838986ce55754e62ffd1c11c3b6596a5892012",
+                "index": "ed05140974eba7d78048dc122e2ed416f79843d551b6c53f097f9c763fe31eda",
+                "canopy": "28ecef8e085a56937f3c84737556e2b0fa725eb64ae0490152c3ba1f2e52a4e2",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385",
+                "position": "e46fff362151a80b74318bc3d1c55da437a078e5fefffd73fe923c40dd3e95c0",
+                "tangent": "60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e",
+                "uv": "1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f",
+                "index": "cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "aeb25f6efd63b7cd53648e5918f4dcf8b14a3f983e0f2e32ab11df7cc6f65d94",
+                "position": "35de7a70b669f6ebd491d92d7f9570c0568890323bd5502bb7adbcba8f6ee1a5",
+                "uv": "38b7015789854cb9434734e62638d66fe9e8dc8eb44b250b10296b4f4261cd1a",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "29e02d059f5cefabdc1762ddd12d869624d732724e6f8dcaa75aab72ecab5e08",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+                "position": "a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9",
+                "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+                "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+                "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+                "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shrub",
+          "id": "tree-4949",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 11,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679",
+                "position": "708f4c0294971107cde2aa9e7e9b0ce49f762f1ca2c274c596aa19fc6216aea9",
+                "uv": "4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38",
+                "index": "7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "0e0d592eab88007ae4aea4a50cdd8f80b53750343fe6941ce39248c9e0bb0c82",
+                "position": "e3fde5b6e55e8dd7930a3e819f758f65ccfa80506a168c5150c5773572c47254",
+                "uv": "74b8796f39eb6465a5e083814671ab4862c0d5ce45d574c3c2361b8cb9406827",
+                "index": "c387e3e917405a02e939e392da8790dbb5e59f0363c93864403e86d941a1d788",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0",
+                "position": "139118aa907b618dced937629797359539c0b47d327ce1fdc77a8ec6d5ab47ce",
+                "uv": "477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc",
+                "index": "ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "df91ece0496748d8bc64792ff96d10dea58b8d20d90063f56e1757387624061b",
+                "position": "6bc7210c99bebe3a729ead754f3f84a8d32ad0e8c73922e41f85a42d51a9625a",
+                "uv": "3eb8526157af8c4f18cf2a19ac3cfa284135a834a9899a31810a0c6638ad9fac",
+                "index": "18a654c9cc23055bb0b75d45ad97d619ec5cda5686962865adb962c81d60bec7",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+                "position": "d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d",
+                "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+                "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+                "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+                "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+                "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-1521",
+          "builds": 9,
+          "triangles": 49344,
+          "indexMs": 0,
+          "elapsedMs": 309.69999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "1a769536035906849d42afd17d043a44a2a917f9a86b7c8385fc3dedd349b98d",
+                "position": "786a8bbdc2594635f5e38e808dc956caf5883a96bf1eab80676abc61639d591f",
+                "uv": "e0e7a76256ef63feffae5975d5a9f716c58b9904c8703b16535d9f0baefa960f",
+                "index": "7f67142dd65b8a9d97288f5b4356b5e1a59007d30cbed2c96e3b794f7dd5e859",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 23991
+              },
+              "leaf": {
+                "normal": "1fb2c9ee197584d1740cca5fae35ff99fc1a94ce4f767fc154f1349b0f74eeab",
+                "position": "f6b5b2445601e43b98bc72bc708391ad33efddde4ab36a9efa4066adbdc4d91b",
+                "uv": "c8ddef907bcef2e44bc8b2febd6e49f9c70c8d36e763941efed6e7b61258c627",
+                "index": "cf3ce2005d33fbd47c337e4ca08e04155722d7ee3732a8559c736f3f65710357",
+                "canopy": "8bacb926c9b2899c60e5f7d7eaef729de6245c6fe8df517ebd13128bcc95c266",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "d3a58e33dd9220a60d39743cfd6170f45bc0c28ccc40b31a7948e79bd3607906",
+                "position": "f3dea914b94fec0e8160ff67eb98a66fc3658c735dc0f6a7503060a9d08fe102",
+                "uv": "f2f22da68ef95def9ae7a13fe06b19d54253ab4ae300c095d951d58e4650fe3c",
+                "index": "c715c4f12fc6c5ed41b1a01e2ea4b80239b917ae86baf678e22663a4153bfdf0",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14652
+              },
+              "leaf": {
+                "normal": "16ae3b021622eadbae99fc48f827f2d647050d68682dd1213142a0089136bf0e",
+                "position": "004dd0d6634b7fc0a68629e74eab7522ad0f818aed269e59b44312760d579aa5",
+                "uv": "85f8b3e20b00b3f0a1763400772b700af5981a8491fadb7a116779774ef68dc6",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "138f3eaf87ff56a8c4979842ab22706d2ada974fdc9235bb88ddd46c6899a3e1",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+                "position": "ef563e89acf5efee5adb03a60cf1a1b25d7e2c823c344b39b17f097b90d96298",
+                "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+                "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+                "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-0208",
+          "builds": 9,
+          "triangles": 40704,
+          "indexMs": 0,
+          "elapsedMs": 247.19999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "f4594c6b724c84c2b50862964054e7362f827fb599d0402a8aecbe6a6bb690bf",
+                "position": "206ee9bded5b10cfd6c85e86b8b7802ef2ebfc6b94ab4a08374f98a1256631a4",
+                "uv": "3619607b23ef3badf29103a588a7534763e69138f33a377187011b18a7d57f43",
+                "index": "42a4e414a2702d1f9abdd3cde07ebfec06ee20fc6e02a477dd1615d7c07b3bca",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 23964
+              },
+              "leaf": {
+                "normal": "932a4ae419470dd010811cc25eaf89c8962895bcf4171b6fac47eaf7690d1987",
+                "position": "cbae882672c30718a4d263483e795c4d6fb9faee0c4c59fa40275d2d952d80b3",
+                "uv": "78b3a7686010ac55bd4635850a52c1797ed5278a307b6cedd9425b6952477bea",
+                "index": "f9f95e902fe8f6d202acef3a92465c8cf82ba4a94ad6683df0650603548aed69",
+                "canopy": "ad366de7d73380c1271e60afb5f4e793c8e1d81fc4a11818271acdeacc09ab8b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "426bb28d92dc87eaefbc6d4ceb88f80a5be3e4a1491b90782fa855d38a8d17a9",
+                "position": "36d9bf5d3c2fb86555dfd965e4566bf5a7ebc10acbfe0a11843b6d03ef63e245",
+                "uv": "0e910b826497795db566b539c0900ba655bafd9917ae4fe9d5b3d78b52a1bbf1",
+                "index": "09fd2a9e030790fa98a614916b1c2ad3d82eaa2125e71fa109cde37f207a670f",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14649
+              },
+              "leaf": {
+                "normal": "d57b1e85037b9655f943b054e87d01530e035490c64fda66791d4b413bcf2072",
+                "position": "27d0d45de4e939109ecc81d2620f16ccd3389a7ef44ff81cb2779a6b4f8758ed",
+                "uv": "9436c465d5f5c3bb39f36fb4ea4b93b4fe4ca4279ed6869e94dd63d3631b4972",
+                "index": "be9a92859122cf0cb5a6e48c949116b7b8727153a7800e3d964966c6f291f732",
+                "canopy": "efe164d49851566a3ae5ca90891b4c9e7d77208f904af9197519146cb79814be",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "751c0baa0b983ed166bb3934aa40ed29f4c3d6ee3c37d56410364de713ccdc36",
+                "position": "3099d2a97a6c60a677b0a950ca957b26889aa63e4e33d0a89b97b692d27120b1",
+                "uv": "e78bb5232922b77b775028570801b375d787b6c91f01db11f0805bda41972bed",
+                "index": "4cbbcf1b14b5764552547bac276e2c48095abe1eee305421feb1ca572ce69375",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+                "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+                "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+                "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "verdant-sentinel",
+          "builds": 12,
+          "triangles": 65792,
+          "indexMs": 0,
+          "elapsedMs": 208.39999997615814,
+          "lods": [
+            {
+              "wood": {
+                "normal": "9e5377238c8ebefa22d764ba2cc82267762f127c8196727ed494792941727871",
+                "position": "48ec5ea080da6a768acd386bd8f7dc49166d5bcd414e1168d0ed2c1c9221603f",
+                "uv": "77bba703615de945db1e2b6bd5c32d3761fe42171b0c7d3b57aabb323cab75ec",
+                "index": "d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+                "position": "fcd0d8d0dc801460745803226a0bbf7a6ea8133110150b024d4a2a936dac0c2c",
+                "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94",
+                "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282",
+                "canopy": "b8b69afbb7fabd68453030e911eb2db018d69f6f8d19c788a682ba821d8a3c8b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "89e17016e04408e84569be97fbcf948466929e89fc67902223d3f2b7be065367",
+                "position": "d056cbe7dae6342d9c40655ddafbe5f8922472281a40da6ba408390624f83dcb",
+                "uv": "86108bc1fc0d383ed8ca39f879745e45e8e0b8811e32442fba6ea3dd82fb529e",
+                "index": "1a69fa0de939fd337ba3517eacd530315dbcd34781e965363f262c2d8619ea98",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 24612
+              },
+              "leaf": {
+                "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+                "position": "8ad8a39c568974d792efe164438afd07e0c8ea0e6510a170ebbfb7a1da20e5f7",
+                "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40",
+                "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+                "canopy": "2a08c9b5e66efdcd5671aabd996479ccd5268879285059bddace45209d9860a8",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+                "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+                "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+                "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+                "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+                "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+                "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "oak",
+          "id": "tree-1505",
+          "builds": 9,
+          "triangles": 41424,
+          "indexMs": 0,
+          "elapsedMs": 201.9000000357628,
+          "lods": [
+            {
+              "wood": {
+                "normal": "484adaca4c03d84bcba9613b37ecc25e454c4de9097198edc01653fa5e54bb31",
+                "position": "a4233272ace4fa724568d3c1f5a37ba68425e0de942b3306894f938291495560",
+                "uv": "c7e6b09fecfa0832b4b9ef2839ad61ac8568cb7e2145e87d4052c4a4f381d00a",
+                "index": "8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 25773
+              },
+              "leaf": {
+                "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+                "position": "980a9f4478d8ccf0fb0e9b816d805ca743ccc32a25741b6bedcf3de2c2eb78e8",
+                "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+                "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c",
+                "canopy": "69c6dbf55146252682329b5343578063455046fa4eaf18d4ce65da16684b3ee6",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a",
+                "position": "851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3",
+                "uv": "6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62",
+                "index": "b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": 14652
+              },
+              "leaf": {
+                "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+                "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+                "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "18d7ce7521c2d0a8184973653795deb8cd080afe2b490e8a89aee71c0dd8dad1",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+                "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+                "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+                "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+                "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-fan",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 9.399999976158142,
+          "lods": [
+            {
+              "wood": {
+                "normal": "18bd8d7f17136436abb7e6fe8d2fb9936d295f1d5d453bfe30e0a7f2562f2c54",
+                "position": "9f481c8eb48bd978862eed697e8ff70d9da727394ba0849e0e96357ce8e7fbd3",
+                "uv": "facb86a49956939cd6b6269c53d0720301619e013b85673bbdc4af979d586845",
+                "index": "d8b0972f717637c0dba9e54fc7d629634c269a2d81d7a36c8858ac8549e7dd86",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "1770f9ad44f7ec5997f776cf423b4274a0833973d40435dcd9fe64bd2e3f647d",
+                "position": "a98f690ffb4e6e8544e0d3e8e85cebd22fc88396dce27611a7cd2bdf10a8e6b0",
+                "uv": "3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a",
+                "index": "327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "96b8bb02289e2c1d5eaf06a9b31eba66a02bf757b0f1b8067ccb32661a8d6f7d",
+                "position": "d393275785ee1bebeae142fdafb6281652bbe8e1ffb1277a8e6b026e6796e311",
+                "uv": "26d6862b0218688a190f781d9563a29a793d0785355363841c43d491fb4d43ad",
+                "index": "c3ed8fecd824272d599b706ea1ee52feaa3b1bfd7a8225c3c2d4554ee123855e",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "2fdfcce5931bc4337e39c975aa4eebba0ccc2310d559744edc6b9cf1c69ef234",
+                "position": "43192f1c1c37c2e0c78e7c1872e5bca0f550a37afeca14c92465502701030925",
+                "uv": "25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d",
+                "index": "4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084",
+                "position": "1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51",
+                "uv": "56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db",
+                "index": "4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+                "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-lean",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 13.800000011920929,
+          "lods": [
+            {
+              "wood": {
+                "normal": "501dc83df5c57dbc9d6d7f004df7b61bab06e822cde0ef00e7238f3f8df4c572",
+                "position": "9ef9259c6442ab5602d8c08eaf275e7fc95faf10f127a3dfe95fffcf8ab38b19",
+                "uv": "f2b1d3b40f212f32e38e0cd0d2f80f1d71e524775e8fe7da57ee897b54806112",
+                "index": "d6a8907766bd6b5b003d72881e4cfacc1227a1c54491c76a3a4b8a0924d9446b",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f9b57db5ec64704a286de9679850e52272e01637ab48a4ed7f5051c2ca484523",
+                "position": "0bd86cccddb368484c106d3dc22d106e63791cd1cb07a4930347be886d01f44d",
+                "uv": "3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a",
+                "index": "327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+                "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+                "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+                "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "fa74b6a93791d93c7b408d67540d8065958e9d0ebe73372eaa836b06f37e3fc9",
+                "position": "8baaaabef0673cbe2236574a894adba45863c59c8139d5e6cbbc764ee7ddf62a",
+                "uv": "25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d",
+                "index": "4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+                "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+                "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+                "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+                "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "palm",
+          "id": "palm-date",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 31.5,
+          "lods": [
+            {
+              "wood": {
+                "normal": "e7d78fbc3f2f086d7e6251c4e13f75d44903d54b2c4f35e9c51955447961d9f2",
+                "position": "d5e0b4d179b83a158e390d7a7d189ee656877e080afca4e567bc7663f63bc909",
+                "tangent": "cde112d4a6cf869f7a6d607fb49cb444edb4164c04d6579dc41a92ccc31a2c2f",
+                "uv": "9239667c569e0ab6bf36cabcf42588f0cb53cec0011a3d32207f2bf3977c849f",
+                "index": "59db49b62f0813058b95cdd9628a96dba07583f1ea5a10e9d755351ac71d93be",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "ee972c3828f0db4d4df2912b27b91a07fe188421ee313c0c9ad9800b2a8b6033",
+                "position": "ec5e56f6de7978c34e0bde285e89da0c1f5e50582005f39869e83be5ace67a8c",
+                "tangent": "9813bb243084fa1232edb82dae0e9a714c4d3e74e86efd18278713a21599b0d9",
+                "uv": "9cb019cf0bfcf41d8403645166536c020609deacfcda79b87d20740c64efb0d2",
+                "index": "c7ba9200fc534a2952fd1624fe8e9624ae3cd9cc638d3a60978784c913813018",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "e5183170a1b1a975f086a637842339941bd5de70aa0d941d16006b391c3d2a82",
+                "position": "7607e916804cdec038b8becfb1154f6e82e871d6c16cdbb3e24f8d935ca4af2d",
+                "tangent": "d9ac385bcb2cb10d30dae8c0fa930ba80d78462fbd52fea7f5102fd3c263112b",
+                "uv": "cde007fba37a53bb4b1cf3c4b86ad0b3769b685954af508d86ebddb7f60d3516",
+                "index": "063716dc881d14bc47846379a569c819519b96477fde82d86cf86a47b7eae46e",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "e2531b96059abf8ef4b23c525f738a2bc54c1756752d2b98d6d3cb19d48c8dda",
+                "position": "63dfe438baea71d8aec80775371b76fe9cb326cb66149474c44a7d9f4df14fba",
+                "tangent": "903053373998030351f7c519a6c1320a9967383db9c1a3c392dade4dd806c46b",
+                "uv": "101e15b44b4707a1ae3c789de18914ad0ff011d73a93a900d1032b4c81498a04",
+                "index": "1d8b424badd8caa8863258bcec109cc0088d6849979625283714d174cb3a9757",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71",
+                "position": "c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da",
+                "tangent": "78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63",
+                "uv": "28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7",
+                "index": "644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+                "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+                "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+                "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+                "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "shorepine",
+          "id": "fir-spire",
+          "builds": 0,
+          "triangles": 0,
+          "indexMs": 0,
+          "elapsedMs": 11.199999988079071,
+          "lods": [
+            {
+              "wood": {
+                "normal": "2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34",
+                "position": "1a82c01f2774c9bfcded5128a27614b3538999b40f5f253eea65d5aae9d182e1",
+                "tangent": "d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a",
+                "uv": "116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5",
+                "index": "d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace",
+                "position": "9d9327c5623f688f457935e2068f3d8f00aaa79943b6ea39e54bdd78c3aab977",
+                "uv": "5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d",
+                "index": "5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7",
+                "position": "d0e9e9f5a2ad12a357b2f1bce1e06c105f59c5c933461798e413038bb1f6368b",
+                "tangent": "6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13",
+                "uv": "3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481",
+                "index": "a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350",
+                "position": "28c9531805759048b308912ea81f811bc7269b59800bbb9bc5363c57bc7bbb02",
+                "uv": "d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc",
+                "index": "04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+                "position": "1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1",
+                "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+                "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+                "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+                "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+                "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+                "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "orchard",
+          "id": "tree-4949",
+          "builds": 14,
+          "triangles": 58968,
+          "indexMs": 0,
+          "elapsedMs": 187.69999998807907,
+          "lods": [
+            {
+              "wood": {
+                "normal": "0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679",
+                "position": "435c9eca1dbf216f93b70f7bf89ed6c72f95b2da3f5ff4be909e14d38c4898d4",
+                "uv": "4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38",
+                "index": "7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "7b922ebb2ae3e8e18f473a1de3719ae0cfdab64e731cd8e1fc1c5b510ba518cc",
+                "position": "9e650b7c3ca5962835a1827640a5f6040a8694feb5c819267627199a10de3bf9",
+                "uv": "7359eb931f7fc56fcd988906c523d894575396c3f2be4dd6e4e0c7c75af05113",
+                "index": "e3c655b4bc550a078e0a07c0a7da2a87878d3ec8b1220c59997c015eaf2e8cf6",
+                "canopy": "a1d493e13fb3d9ed301334e35a8eef52e3916d7ba3c25f7fc7fc6f9399c3520f",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0",
+                "position": "07a2916aec7671cefef10ed3294fa9ae27628eb3109c39f19607b14e0f39c3d2",
+                "uv": "477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc",
+                "index": "ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "7f8d717896d12cda222c0bd471dfd61b37bfdf41dc6c74c3564ac8661fb17fb3",
+                "position": "98f74f8595ed963aba41f9d81b2158c19b21246183420c8bba96d370a5e32470",
+                "uv": "f6951047bc439f7c02078054c0223869da60d64a19ae7e79b6819533b4b5059f",
+                "index": "7d52be915934913a26a77236523fa61e034a48a33b3fe9b9707a463f3f8bde11",
+                "canopy": "b972190d6d7fe00c50310e899827f76bb0e7149dc466ee25066066a88c833b7d",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+                "position": "7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e",
+                "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+                "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+                "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+                "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+                "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        },
+        {
+          "species": "orchard",
+          "id": "tree-4815",
+          "builds": 16,
+          "triangles": 66560,
+          "indexMs": 0,
+          "elapsedMs": 213.0999999642372,
+          "lods": [
+            {
+              "wood": {
+                "normal": "6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9",
+                "position": "4672df0694e6d6455589e53ab0dfd09687ba8a20e66258e2810fbb1f0f590a8f",
+                "tangent": "ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e",
+                "uv": "c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d",
+                "index": "e7ed8a2049cff8eaf628870b9c3d3d5550aea70cd5834aebd0b0f6f4c6bd6e0a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "1ceba5e23ff3905f3c782ee06edd8d7aa42fd4b2fdea6edbe71ff7f7e74ecf53",
+                "position": "5941a6447240aebc537967429ac4f9981e6e2d7fc2025a2999d9abe5205628c7",
+                "uv": "313daca971f098f9d1fca8993793ab83bc803519419977247ea20e48e5576953",
+                "index": "069c56dda88bac298898622062795964b8b8666dd9cbb0cb85912bfdf7786cd1",
+                "canopy": "caede0570777adc773718c8c336063962d0996327908613063d113fa323d289a",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385",
+                "position": "8ddd86004cdc85283daa06e73a66054f87eed66ff4ca4fce2ec24537d065d3d8",
+                "tangent": "60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e",
+                "uv": "1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f",
+                "index": "cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "5af1a543d8e06344b6fa94f5cd43afe0faba3398acf0e7ca7ab28403d0495e69",
+                "position": "2c9a4c50e4c356a39d2d61c56f26e40f578375b84e03c48c8598eb09abfaf1da",
+                "uv": "410cac356120d3ccb2c1ce5429393e5a3402ea5e03091e711b927c6108bafa87",
+                "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+                "canopy": "ef14c7c5fe0f69b51a5c5e28d4c988d863141fcf692fc421685562058b46c89a",
+                "twigIndex": null
+              }
+            },
+            {
+              "wood": {
+                "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+                "position": "336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa",
+                "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+                "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+                "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              },
+              "leaf": {
+                "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+                "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+                "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+                "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+                "canopy": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "twigIndex": null
+              }
+            }
+          ]
+        }
+      ],
+      "total": {
+        "builds": 115,
+        "triangles": 642135,
+        "indexMs": 0
+      },
+      "warmSamplesMs": [
+        {
+          "factoryMs": 4095.300000011921,
+          "indexMs": 0
+        },
+        {
+          "factoryMs": 3862.699999988079,
+          "indexMs": 0
+        },
+        {
+          "factoryMs": 4167.100000023842,
+          "indexMs": 0
+        }
+      ],
+      "warmMedianMs": 4095.300000011921,
+      "unusedIndexMedianMs": 0
+    }
+  },
+  "cost": {
+    "empty": {
+      "drawCalls": 245,
+      "triangles": 1418356
+    },
+    "before": {
+      "drawCalls": 246,
+      "triangles": 1429494
+    },
+    "after": {
+      "drawCalls": 246,
+      "triangles": 1429494
+    }
+  },
+  "fixture": "tree:wild:61:10",
+  "changedChannels": 0,
+  "visibleLeafChannels": 620892,
+  "sources": {
+    "beforecanopy": "23e020de1bd6d7dd0a76c4c9d4330b1586c60bbee43bf3e138c2c7de3bd77ecb",
+    "beforemeshyTrees": "10aae920a4cba57f3005ee77e9c228c6649c7c442f45a99f2b96f379edfebc84",
+    "aftercanopy": "23e020de1bd6d7dd0a76c4c9d4330b1586c60bbee43bf3e138c2c7de3bd77ecb",
+    "aftermeshyTrees": "10aae920a4cba57f3005ee77e9c228c6649c7c442f45a99f2b96f379edfebc84"
+  },
+  "scope": "Published immutable tree templates replayed through the native tree factory. Counters measure repeated leaf-area table construction; all generated LOD attributes, indices and twig plans must match the parent implementation. One exact published wood fixture rendered with its native material and placement through software WebGL. Warm timings cover factory construction, not whole-world loading or hardware frame rates. Area tables and sampling consume the same immutable geometry within each canopy build.",
+  "pass": false
+}
