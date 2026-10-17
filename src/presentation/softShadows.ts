@@ -35,6 +35,9 @@ const SOFT_PCF = /* glsl */ `
 
 		float getShadow( sampler2DShadow shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
 
+			// The sun keeps its shadowed-light slot at night to avoid shader recompilation. Its final mix is exactly 1 at zero intensity.
+			if ( shadowIntensity == 0.0 ) return 1.0;
+
 			float shadow = 1.0;
 
 			shadowCoord.xyz /= shadowCoord.w;
