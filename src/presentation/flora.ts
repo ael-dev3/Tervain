@@ -116,6 +116,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   strike(x: number, y: number, z: number, strength?: number, treeId?: string): boolean;
   /** Draw the full-detail trees with their middle models until the returned function is called (A76). */
   lighterForReflection(): () => void;
+  /** Select trees for a secondary camera until the returned restore is called. */
+  forCapture(camera: THREE.Camera): () => void;
   /** The leafy crowns near (x, z), for the follow camera to keep out of (A82). */
   crownsNear(x: number, z: number, r: number): readonly CameraCrown[];
 } {
@@ -481,8 +483,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     coverageChanged.clear();
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
-    const cx = cam.position.x;
-    const cz = cam.position.z;
+    const cx = cam.matrixWorld.elements[12]!;
+    const cz = cam.matrixWorld.elements[14]!;
     visible = 0;
     drawTris = 0;
     shadowTrees = 0;
@@ -608,6 +610,17 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     }
   };
 
+  // Preserve the exact packed view when the live camera drifts below the refresh threshold.
+  const mainView = new THREE.Camera();
+  mainView.matrixAutoUpdate = mainView.matrixWorldAutoUpdate = false;
+  let selectedCamera: THREE.Camera | null = null;
+  let selectedShadow: THREE.Frustum | null | undefined;
+  let selectedViewOnly = false;
+  const selectView = (camera: THREE.Camera, shadow: THREE.Frustum | null | undefined, viewOnly: boolean) => {
+    refresh(camera, shadow, viewOnly);
+    selectedCamera = camera; selectedShadow = shadow; selectedViewOnly = viewOnly;
+  };
+
   // ?windtest=1 (debug, off by default): the synthetic branch-wise wind tree, placed with ?windat=x,z.
   if (foliage && windTestRequested()) {
     const at = (new URLSearchParams(location.search).get('windat') ?? '-60,70').split(',').map(Number);
@@ -678,7 +691,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       cam.updateMatrixWorld();
       lastViewOnly = !!f.shadowsForViewOnly;
-      refresh(cam, f.shadowFrustum, lastViewOnly);
+      mainView.matrixWorld.copy(cam.matrixWorld);
+      mainView.matrixWorldInverse.copy(cam.matrixWorldInverse);
+      mainView.projectionMatrix.copy(cam.projectionMatrix);
+      selectView(mainView, shadowPresent ? lastShadowFrustum : null, lastViewOnly);
     },
     initializeFloor,
     shadowCasters,
@@ -726,6 +742,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
       }
       return best;
+    },
+    forCapture(camera) {
+      if (disposed || !selectedCamera) return () => {};
+      const previousCamera = selectedCamera, previousShadow = selectedShadow, previousViewOnly = selectedViewOnly;
+      // Main-view packing excludes trees behind the hero; each cube face needs its own colour selection.
+      selectView(camera, null, false);
+      let restored = false;
+      return () => {
+        if (restored || disposed) return;
+        restored = true;
+        selectView(previousCamera, previousShadow, previousViewOnly);
+      };
     },
     lighterForReflection() {
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as

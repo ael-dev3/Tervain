@@ -132,3 +132,25 @@ describe('window view capture (A77, A78)', () => {
     view.dispose();
   });
 });
+
+it('prepares capture selection after aiming each world-space cube face and restores it on a render failure', () => {
+  const { renderer } = stubRenderer();
+  const pane = new THREE.MeshBasicMaterial(), view = new WindowView(rooms, pane, 16);
+  const scene = new THREE.Scene(), at = new THREE.Vector3(), directions = new Set<string>();
+  let selected: THREE.Camera | null = null, restored = 0;
+  view.lighten = (position, camera) => {
+    expect(camera.getWorldPosition(new THREE.Vector3()).distanceTo(position)).toBeLessThan(1e-9);
+    directions.add(camera.getWorldDirection(new THREE.Vector3()).toArray().map(Math.round).join(','));
+    selected = camera;
+    return () => { selected = null; restored++; };
+  };
+  renderer.render = (_scene, camera) => { expect(selected).toBe(camera); };
+  try {
+    for (let i = 0; i < 6; i++) view.update(renderer, scene, at, 0, true);
+    expect(directions.size).toBe(6); expect(restored).toBe(6); expect(selected).toBeNull();
+    renderer.render = () => { expect(selected).not.toBeNull(); throw Error('face failed'); };
+    expect(() => view.update(renderer, scene, at, 3, true)).toThrow('face failed');
+    expect(restored).toBe(7); expect(selected).toBeNull();
+    expect(pane.visible).toBe(true); expect(renderer.shadowMap.autoUpdate).toBe(true);
+  } finally { view.dispose(); pane.dispose(); }
+});

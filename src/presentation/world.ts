@@ -466,10 +466,12 @@ export class WorldScene {
     this.windowView = new WindowView(this.terrain.rooms, this.scenery.daylightMat, WINDOW_VIEW_SIZE[resources.quality]);
     this.windowView.painted = (room) => room.building.kind === 'shrine';
     // The window views draw the trees with their middle models, as the water's reflection does (A77).
-    this.windowView.lighten = (camera) => {
-      const forest = (this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined)?.lighterForReflection?.();
-      const grass = this.groundcover?.showForCapture(camera);
-      return () => { grass?.(); forest?.(); };
+    this.windowView.lighten = (position, camera) => {
+      const forest = this.modules.find((m) => m.name === 'forest')?.module as { forCapture?: (camera: THREE.Camera) => () => void; lighterForReflection?: () => () => void } | undefined;
+      const view = forest?.forCapture?.(camera);
+      const detail = forest?.lighterForReflection?.();
+      const grass = this.groundcover?.showForCapture(position);
+      return () => { grass?.(); detail?.(); view?.(); };
     };
     this.doorSwings = new DoorSwings(this.scenery.doors ?? []);
     this.scene.add(this.interiorLight.light);
