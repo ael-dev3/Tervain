@@ -13,6 +13,7 @@ export const FALLING_LEAF_DISTANCE = [30, 55] as const;
 
 interface Site { x: number; y: number; z: number }
 interface Stream {
+  driftCos: number; driftSin: number; flutterSin: number; flutterZSin: number;
   origin: Site; phase: number; speed: number; drift: number; flutter: number; yaw: number; size: number;
   contactTime: number; contact: Site; cycle: number; tint: number; terrainCeiling: number;
 }
@@ -96,8 +97,8 @@ function airbornePosition(stream: Stream, age: number, out: Site): void {
   const t = Math.min(age, stream.contactTime);
   // Bounded downwind drift and slow alternating sideslip start exactly on the selected canopy card.
   const breeze = t / (14 + t) * 2.2;
-  out.x = stream.origin.x + Math.cos(stream.drift) * breeze + 0.31 * (Math.sin(t * 0.63 + stream.flutter) - Math.sin(stream.flutter));
-  out.z = stream.origin.z + Math.sin(stream.drift) * breeze + 0.26 * (Math.sin(t * 0.49 + stream.flutter * 1.3) - Math.sin(stream.flutter * 1.3));
+  out.x = stream.origin.x + stream.driftCos * breeze + 0.31 * (Math.sin(t * 0.63 + stream.flutter) - stream.flutterSin);
+  out.z = stream.origin.z + stream.driftSin * breeze + 0.26 * (Math.sin(t * 0.49 + stream.flutter * 1.3) - stream.flutterZSin);
   out.y = stream.origin.y - stream.speed * t;
 }
 
@@ -141,8 +142,10 @@ export function buildFallingLeaves(
       const rng = mulberry32(seedFor(tree, slot));
       const site = sites[Math.floor(rng() * sites.length)]!;
       const origin = worldCanopySite(tree, site);
-      const stream: Stream = { origin, phase: rng(), speed: 0.24 + rng() * 0.18, drift: windAngle - 0.45 + rng() * 0.9,
-        flutter: rng() * Math.PI * 2, yaw: rng() * Math.PI * 2, size: 0.16 + rng() * 0.08,
+      const phase = rng(), speed = 0.24 + rng() * 0.18, drift = windAngle - 0.45 + rng() * 0.9, flutter = rng() * Math.PI * 2;
+      const stream: Stream = { origin, phase, speed, drift, flutter,
+        driftCos: Math.cos(drift), driftSin: Math.sin(drift), flutterSin: Math.sin(flutter), flutterZSin: Math.sin(flutter * 1.3),
+        yaw: rng() * Math.PI * 2, size: 0.16 + rng() * 0.08,
         contactTime: Infinity, contact: { x: 0, y: 0, z: 0 }, cycle: 0, tint: rng(), terrainCeiling: -Infinity };
       const leafRadius = radius * stream.size;
       const startFloor = groundClearance(terrain, origin, leafRadius);
