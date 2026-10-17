@@ -44,3 +44,32 @@ it('uses one scratch point across triangles while retaining independent opaque s
     expect(points.size).toBe(1);
   } finally { spy.mockRestore(); leaf.dispose(); wood.dispose(); }
 });
+
+function thinLeaf(x: number, collapsed = false) {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(collapsed ? [x, 3, 0, x, 3, 0, x, 3, 0] : [x, 3, 0, x + 1, 3, 0, x, 3, 1], 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 0, 1], 2));
+  return g;
+}
+const needle = { uv: 'uv', cutoff: 0.42, alpha: (u: number, v: number) => Math.hypot(u - 1 / 48, v - 1 / 48) < 0.004 ? 1 : 0 };
+it('repairs an opaque needle missed by the coarse alpha grid', () => {
+  const leaf = thinLeaf(4), wood = trunk();
+  try {
+    expect(anchorLeafIslands(leaf, wood, needle)).toEqual({ islands: 1, moved: 1, dropped: 0 });
+    const p = leaf.getAttribute('position'), point = new THREE.Vector3().fromBufferAttribute(p, 0).multiplyScalar(1 - 2 / 48)
+      .addScaledVector(new THREE.Vector3().fromBufferAttribute(p, 1), 1 / 48).addScaledVector(new THREE.Vector3().fromBufferAttribute(p, 2), 1 / 48);
+    expect(woodAnchor(wood)(point, new THREE.Vector3())).toBeLessThanOrEqual(0.5);
+  } finally { leaf.dispose(); wood.dispose(); }
+});
+it('keeps supported thin needles and transparent cards unchanged', () => {
+  for (const [x, alpha] of [[0.1, needle.alpha], [4, () => 0]] as const) {
+    const leaf = thinLeaf(x), wood = trunk(), before = leaf.getAttribute('position').array.slice();
+    try { expect(anchorLeafIslands(leaf, wood, { ...needle, alpha })).toEqual({ islands: 0, moved: 0, dropped: 0 }); expect(leaf.getAttribute('position').array).toEqual(before); }
+    finally { leaf.dispose(); wood.dispose(); }
+  }
+});
+it('does not let a collapsed first triangle hide real needles sharing its UVs', () => {
+  const leaf = mergeGeometries([thinLeaf(4, true), thinLeaf(4)]), wood = trunk();
+  try { expect(anchorLeafIslands(leaf, wood, needle)).toEqual({ islands: 1, moved: 1, dropped: 0 }); }
+  finally { leaf.dispose(); wood.dispose(); }
+});
