@@ -1,5 +1,5 @@
 import RAPIER from '@dimforge/rapier3d-compat';
-import type { Collider as WorldCollider, Colliders } from './colliders';
+import { FENCE_WALL_LIFT, type Collider as WorldCollider, type Colliders } from './colliders';
 import { ARCHIVE_ROOM, BUILDINGS, DECKS, HAMLET_PROPS } from './layout';
 import { buildingEntry, buildingGround } from './buildingEntries';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE } from './playerPlacement';
@@ -83,6 +83,7 @@ export class RealmPhysics {
   private readonly projectileActorHandles = new Set<number>();
   private readonly projectileAnimalHandles = new Set<number>();
   private rockHandles = new Set<number>();
+  private projectileFences = new Map<number, { collider: RAPIER.Collider; minY: number; maxY: number; minX: number; maxX: number; minZ: number; maxZ: number }>();
   private woodHandles = new Map<number, string>();
   private rockSurfaces = new RockSurfaces();
   private rocks: { collider: RAPIER.Collider; source: WorldCollider }[] = [];
@@ -139,6 +140,13 @@ export class RealmPhysics {
         : RAPIER.ColliderDesc.cylinder((high - low) / 2, source.r);
       const collider = this.world.createCollider(desc.setTranslation(source.x, (low + high) / 2, source.z).setFriction(.8).setEnabled(source.active));
       this.fixed.push({ source, collider, enabled: source.active });
+      // The invisible fence lift prevents stepping onto rails; it is not a surface for arrows.
+      if (source.id === 'fence' && source.kind === 'box' && source.minY !== undefined && source.maxY !== undefined && high - low > FENCE_WALL_LIFT) {
+        const cs = Math.abs(Math.cos(source.yaw)), sn = Math.abs(Math.sin(source.yaw));
+        const ex = cs * source.hw + sn * source.hd, ez = sn * source.hw + cs * source.hd;
+        this.projectileFences.set(collider.handle, { collider, minY: low, maxY: high - FENCE_WALL_LIFT,
+          minX: source.x - ex, maxX: source.x + ex, minZ: source.z - ez, maxZ: source.z + ez });
+      }
     }
     // Medium stones have finite contact geometry without becoming new NPC/navigation fences.
     const installedRocks = new Set(this.rocks.map(rock => rock.source.id));
@@ -422,13 +430,35 @@ export class RealmPhysics {
     // Wildlife capsules support movement. Arrow contacts come from the posed animal triangles.
     const animalHandles = this.projectileAnimalHandles;
     const hit = this.world.castRay(ray, length, true, undefined, undefined, undefined, this.character,
-      collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle));
+      collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle) && !this.projectileFences.has(collider.handle));
     let distance = hit?.timeOfImpact ?? Infinity;
     let treeId = hit ? this.woodHandles.get(hit.collider.handle) : undefined;
     let actorId: string | undefined;
+    // Intersect each fence only over the ray interval below its rendered top. Clipping first also handles
+    // descending shots and rays starting inside the invisible cap, rather than discarding a later real hit.
+    const fenceGuard = 1e-4 + 1e-6 * Math.max(Math.abs(from.x), Math.abs(from.z), Math.abs(to.x), Math.abs(to.z));
+    for (const fence of this.projectileFences.values()) {
+      if (Math.max(from.x, to.x) + fenceGuard < fence.minX || Math.min(from.x, to.x) - fenceGuard > fence.maxX ||
+        Math.max(from.z, to.z) + fenceGuard < fence.minZ || Math.min(from.z, to.z) - fenceGuard > fence.maxZ) continue;
+      if (!fence.collider.isEnabled()) continue;
+      let enter = 0, exit = length;
+      if (Math.abs(direction.y) < 1e-12) {
+        if (from.y < fence.minY || from.y > fence.maxY) continue;
+      } else {
+        const a = (fence.minY - from.y) / direction.y, b = (fence.maxY - from.y) / direction.y;
+        enter = Math.max(0, Math.min(a, b)); exit = Math.min(length, Math.max(a, b));
+        if (enter > exit) continue;
+      }
+      const clipped = enter > 0 ? new RAPIER.Ray({ x: from.x + direction.x * enter,
+        y: from.y + direction.y * enter, z: from.z + direction.z * enter }, direction) : ray;
+      const hit = fence.collider.castRay(clipped, exit - enter, true);
+      if (hit >= 0 && hit <= exit - enter && enter + hit <= distance) {
+        distance = enter + hit; treeId = undefined;
+      }
+    }
     // Direct casts see restored/moved cargo and freshly enabled doors before the broad phase's next step.
     const direct = (collider: RAPIER.Collider, actor?: string) => {
-      if (!collider.isEnabled() || animalHandles.has(collider.handle)) return;
+      if (!collider.isEnabled() || animalHandles.has(collider.handle) || this.projectileFences.has(collider.handle)) return;
       const value = collider.castRay(ray, length, true);
       if (value >= 0 && value <= length && value <= distance) {
         distance = value;
@@ -672,5 +702,5 @@ export class RealmPhysics {
   stats() { return { engine: 'Rapier', hz: 60, bodies: this.props.length, actors: [...this.actors.values()].filter(p => p.active).length,
     awake: this.props.filter(p => !p.body.isSleeping()).length, held: this.held?.spec.id ?? null, steps: this.steps,
     rockMeshes: this.rocks.length }; }
-  dispose() { if (!this.alive) return; this.alive = false; this.release(); this.woodHandles.clear(); this.world.free(); }
+  dispose() { if (!this.alive) return; this.alive = false; this.release(); this.woodHandles.clear(); this.projectileFences.clear(); this.world.free(); }
 }
