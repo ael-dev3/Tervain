@@ -1,0 +1,85 @@
+{
+  "scope": "Eligibility-only attempt: same live fixture, fixed 20% takeoff. Rejected because newly accepted crossings penetrate a tall selected rail.",
+  "summary": {
+    "live": {
+      "cases": 32,
+      "accepted": 0,
+      "crossed": 8,
+      "grounded": 32,
+      "penetratingFrames": 0
+    },
+    "before": {
+      "cases": 32,
+      "accepted": 0,
+      "crossed": 8,
+      "grounded": 32,
+      "penetratingFrames": 0
+    },
+    "after": {
+      "cases": 32,
+      "accepted": 32,
+      "crossed": 32,
+      "grounded": 32,
+      "penetratingFrames": 8
+    }
+  },
+  "sourceSha256": {
+    "before": "4755dcb4ddb3fe82227659cf02a946c7b386506ea2c68b7160cb00211f48cab8",
+    "after": "704ca0282a8bf5a8f2e24e43d980db07281c8600d62345f125a2302681d04067"
+  },
+  "worstRailDistance": -0.056124214082956314,
+  "overlapCases": [
+    {
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "minRailDistance": -0.020115066319704056,
+      "penetratingFrames": 1
+    },
+    {
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "minRailDistance": -0.05122425779700279,
+      "penetratingFrames": 2
+    },
+    {
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "minRailDistance": -0.02603360079228878,
+      "penetratingFrames": 1
+    },
+    {
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "minRailDistance": -0.02786553092300892,
+      "penetratingFrames": 1
+    },
+    {
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "minRailDistance": -0.056124214082956314,
+      "penetratingFrames": 2
+    },
+    {
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "minRailDistance": -0.02600889280438423,
+      "penetratingFrames": 1
+    }
+  ],
+  "regressionControls": {
+    "originalEligibility": "2 failed, 62 skipped; first end-post approach returns null",
+    "eligibilityOnlyTiming": "1 failed, 64 skipped; horizontal travel begins below rail clearance"
+  }
+}

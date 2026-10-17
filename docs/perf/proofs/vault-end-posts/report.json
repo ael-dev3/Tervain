@@ -1,0 +1,2444 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeHero": true,
+  "rows": [
+    {
+      "mode": "live",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.81509983720646,
+        "y": 1.252730084887396,
+        "z": 52.13391349645064,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200382966172501,
+      "grounded": true,
+      "minRailDistance": 0.000037911209801677614,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.064300263782112,
+        "y": 1.2555796728343689,
+        "z": 52.11393482295834,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.335817303956248,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.828637292241691,
+        "y": 1.2500321831988557,
+        "z": 52.09743261270244,
+        "grounded": true,
+        "speed": 0.08104774392929577
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200999999988756,
+      "grounded": true,
+      "minRailDistance": 0.0000014933742704670294,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.20677338499011,
+        "y": 1.2493514818133682,
+        "z": 51.92485434955107,
+        "grounded": true,
+        "speed": 2.428305591832755
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0403157428896042,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.726333413987854,
+        "y": 1.1678428959986238,
+        "z": 51.02670131708903,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.520038296617249,
+      "grounded": true,
+      "minRailDistance": 0.00003916569039574824,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 15.975533840563509,
+        "y": 1.1653995681006244,
+        "z": 51.00672264359673,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33953367663128464,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.712795958952624,
+        "y": 1.1707205947902404,
+        "z": 51.063182200837225,
+        "grounded": true,
+        "speed": 0.08104774392929649
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200999999988742,
+      "grounded": true,
+      "minRailDistance": 0.000004812647148355609,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.146311149283818,
+        "y": 1.1851654168234191,
+        "z": 51.17068947665092,
+        "grounded": true,
+        "speed": 2.42830547765568
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -0.9748265351391124,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.55447882819917,
+        "y": 1.006663928419394,
+        "z": 50.1692847523926,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794896,
+      "grounded": true,
+      "minRailDistance": 0.000004402200829645153,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.80322986951868,
+        "y": 1.0046695719165966,
+        "z": 50.19424310655431,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3357387146467392,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.558001186754005,
+        "y": 1.00549005633356,
+        "z": 50.134178654629416,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654112,
+      "grounded": true,
+      "minRailDistance": 0.00007730654760962352,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.97725215124685,
+        "y": 0.9975241711659353,
+        "z": 50.03372437852462,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368301878784,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66537026669656,
+        "y": 0.971412335109742,
+        "z": 49.06406922428117,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794957,
+      "grounded": true,
+      "minRailDistance": 0.000004252808594173985,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.91412130801607,
+        "y": 0.9703161995162595,
+        "z": 49.08902757844288,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3358172959051855,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66184790814173,
+        "y": 0.9725990863036648,
+        "z": 49.09917532204435,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654176,
+      "grounded": true,
+      "minRailDistance": 0.00007712557271588594,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 51.05278458486031,
+        "y": 0.974406414976979,
+        "z": 49.280919512998615,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.007660619763631,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.597743861921344,
+        "y": 1.6468120313155885,
+        "z": 69.67136639184191,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794825,
+      "grounded": true,
+      "minRailDistance": 0.000004403343609737931,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.846494903240846,
+        "y": 1.6355600146588984,
+        "z": 69.69632474600363,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33573871464673277,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.60126622047618,
+        "y": 1.6457388877029127,
+        "z": 69.63626029407874,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654112,
+      "grounded": true,
+      "minRailDistance": 0.00008107931353151798,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.020517184969016,
+        "y": 1.6231016508301412,
+        "z": 69.53580601797394,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368301878775,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.708635300418734,
+        "y": 1.6104284059637648,
+        "z": 68.5661508637305,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794886,
+      "grounded": true,
+      "minRailDistance": -0.000003383937837497797,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.957386341738236,
+        "y": 1.6001572081065893,
+        "z": 68.59110921789221,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3358172959051777,
+      "grounded": true,
+      "minRailDistance": 0.0001300678850384429,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.7051129418639,
+        "y": 1.6116147277343187,
+        "z": 68.60125696149368,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654176,
+      "grounded": true,
+      "minRailDistance": 0.00007332165841944516,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.09604961858248,
+        "y": 1.5996560601907968,
+        "z": 68.78300115244794,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0403157323721124,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9740774609952,
+        "y": 1.078999225046175,
+        "z": 36.28713674564799,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5201000022924589,
+      "grounded": true,
+      "minRailDistance": 0.00009757543011801317,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.72438989589645,
+        "y": 1.0818018585850644,
+        "z": 36.274641953330324,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33581729664065396,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9655766303364,
+        "y": 1.0778855452576317,
+        "z": 36.25138483626195,
+        "grounded": true,
+        "speed": 0.05066768380503008
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200603778349209,
+      "grounded": true,
+      "minRailDistance": 0.00006281262176344171,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.57630931225366,
+        "y": 1.0773952665860598,
+        "z": 36.08992010723219,
+        "grounded": true,
+        "speed": 2.4283056287397384
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368366489085,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.02959255921319,
+        "y": 1.046532675011005,
+        "z": 35.17776018359978,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5201000022924602,
+      "grounded": true,
+      "minRailDistance": 0.00010082809603773057,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.779904994114446,
+        "y": 1.049429852030788,
+        "z": 35.16526539128211,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3357386991998751,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.03809338987199,
+        "y": 1.0473758332993883,
+        "z": 35.21351209298582,
+        "grounded": true,
+        "speed": 0.05066768380503084
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200603778349221,
+      "grounded": true,
+      "minRailDistance": 0.000061231323343236,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "live",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.61412278833496,
+        "y": 1.0560805374338702,
+        "z": 35.334281001837354,
+        "grounded": true,
+        "speed": 2.428305563245125
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0074817438717125,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.81509983720646,
+        "y": 1.252730084887396,
+        "z": 52.13391349645064,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200382966172501,
+      "grounded": true,
+      "minRailDistance": 0.000037911209801677614,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.064300263782112,
+        "y": 1.2555796728343689,
+        "z": 52.11393482295834,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.335817303956248,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.828637292241691,
+        "y": 1.2500321831988557,
+        "z": 52.09743261270244,
+        "grounded": true,
+        "speed": 0.08104774392929577
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200999999988756,
+      "grounded": true,
+      "minRailDistance": 0.0000014933742704670294,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.20677338499011,
+        "y": 1.2493514818133682,
+        "z": 51.92485434955107,
+        "grounded": true,
+        "speed": 2.428305591832755
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0403157428896042,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.726333413987854,
+        "y": 1.1678428959986238,
+        "z": 51.02670131708903,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.520038296617249,
+      "grounded": true,
+      "minRailDistance": 0.00003916569039574824,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 15.975533840563509,
+        "y": 1.1653995681006244,
+        "z": 51.00672264359673,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33953367663128464,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.712795958952624,
+        "y": 1.1707205947902404,
+        "z": 51.063182200837225,
+        "grounded": true,
+        "speed": 0.08104774392929649
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200999999988742,
+      "grounded": true,
+      "minRailDistance": 0.000004812647148355609,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.146311149283818,
+        "y": 1.1851654168234191,
+        "z": 51.17068947665092,
+        "grounded": true,
+        "speed": 2.42830547765568
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -0.9748265351391124,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.55447882819917,
+        "y": 1.006663928419394,
+        "z": 50.1692847523926,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794896,
+      "grounded": true,
+      "minRailDistance": 0.000004402200829645153,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.80322986951868,
+        "y": 1.0046695719165966,
+        "z": 50.19424310655431,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3357387146467392,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.558001186754005,
+        "y": 1.00549005633356,
+        "z": 50.134178654629416,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654112,
+      "grounded": true,
+      "minRailDistance": 0.00007730654760962352,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.97725215124685,
+        "y": 0.9975241711659353,
+        "z": 50.03372437852462,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368301878784,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66537026669656,
+        "y": 0.971412335109742,
+        "z": 49.06406922428117,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794957,
+      "grounded": true,
+      "minRailDistance": 0.000004252808594173985,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.91412130801607,
+        "y": 0.9703161995162595,
+        "z": 49.08902757844288,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3358172959051855,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66184790814173,
+        "y": 0.9725990863036648,
+        "z": 49.09917532204435,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654176,
+      "grounded": true,
+      "minRailDistance": 0.00007712557271588594,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 51.05278458486031,
+        "y": 0.974406414976979,
+        "z": 49.280919512998615,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.007660619763631,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.597743861921344,
+        "y": 1.6468120313155885,
+        "z": 69.67136639184191,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794825,
+      "grounded": true,
+      "minRailDistance": 0.000004403343609737931,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.846494903240846,
+        "y": 1.6355600146588984,
+        "z": 69.69632474600363,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33573871464673277,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.60126622047618,
+        "y": 1.6457388877029127,
+        "z": 69.63626029407874,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654112,
+      "grounded": true,
+      "minRailDistance": 0.00008107931353151798,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.020517184969016,
+        "y": 1.6231016508301412,
+        "z": 69.53580601797394,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368301878775,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.708635300418734,
+        "y": 1.6104284059637648,
+        "z": 68.5661508637305,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200037041794886,
+      "grounded": true,
+      "minRailDistance": -0.000003383937837497797,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.957386341738236,
+        "y": 1.6001572081065893,
+        "z": 68.59110921789221,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3358172959051777,
+      "grounded": true,
+      "minRailDistance": 0.0001300678850384429,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.7051129418639,
+        "y": 1.6116147277343187,
+        "z": 68.60125696149368,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200776743654176,
+      "grounded": true,
+      "minRailDistance": 0.00007332165841944516,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.09604961858248,
+        "y": 1.5996560601907968,
+        "z": 68.78300115244794,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0403157323721124,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9740774609952,
+        "y": 1.078999225046175,
+        "z": 36.28713674564799,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5201000022924589,
+      "grounded": true,
+      "minRailDistance": 0.00009757543011801317,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.72438989589645,
+        "y": 1.0818018585850644,
+        "z": 36.274641953330324,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.33581729664065396,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9655766303364,
+        "y": 1.0778855452576317,
+        "z": 36.25138483626195,
+        "grounded": true,
+        "speed": 0.05066768380503008
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200603778349209,
+      "grounded": true,
+      "minRailDistance": 0.00006281262176344171,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.57630931225366,
+        "y": 1.0773952665860598,
+        "z": 36.08992010723219,
+        "grounded": true,
+        "speed": 2.4283056287397384
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0401368366489085,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.02959255921319,
+        "y": 1.046532675011005,
+        "z": 35.17776018359978,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5201000022924602,
+      "grounded": true,
+      "minRailDistance": 0.00010082809603773057,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.779904994114446,
+        "y": 1.049429852030788,
+        "z": 35.16526539128211,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.3357386991998751,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.03809338987199,
+        "y": 1.0473758332993883,
+        "z": 35.21351209298582,
+        "grounded": true,
+        "speed": 0.05066768380503084
+      },
+      "accepted": false,
+      "planned": null,
+      "across": 0.5200603778349221,
+      "grounded": true,
+      "minRailDistance": 0.000061231323343236,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "before",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.61412278833496,
+        "y": 1.0560805374338702,
+        "z": 35.334281001837354,
+        "grounded": true,
+        "speed": 2.428305563245125
+      },
+      "accepted": false,
+      "planned": null,
+      "across": -1.0074817438717125,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.81509983720646,
+        "y": 1.252730084887396,
+        "z": 52.13391349645064,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 15.81509983720646,
+          "y": 1.252730084887396,
+          "z": 52.13391349645064
+        },
+        "to": {
+          "x": 15.705186576370021,
+          "y": 1.1474629782616899,
+          "z": 50.76293000761551
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.337384033203125
+      },
+      "across": -1.007102251357682,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.064300263782112,
+        "y": 1.2555796728343689,
+        "z": 52.11393482295834,
+        "grounded": true,
+        "speed": 1.5345854341213183
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 16.064300263782112,
+          "y": 1.2555796728343689,
+          "z": 52.11393482295834
+        },
+        "to": {
+          "x": 15.954387002945673,
+          "y": 1.1450196503636905,
+          "z": 50.74295133412322
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.33771362304687497
+      },
+      "across": -1.0071022513576786,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.828637292241691,
+        "y": 1.2500321831988557,
+        "z": 52.09743261270244,
+        "grounded": true,
+        "speed": 0.08104774392929577
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 15.828637292241691,
+          "y": 1.2500321831988557,
+          "z": 52.09743261270244
+        },
+        "to": {
+          "x": 15.721543610853999,
+          "y": 1.1473026029395728,
+          "z": 50.76161864609118
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.33729248046875004
+      },
+      "across": -1.002302559971348,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.20677338499011,
+        "y": 1.2493514818133682,
+        "z": 51.92485434955107,
+        "grounded": true,
+        "speed": 2.428305591832755
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 16.20677338499011,
+          "y": 1.2493514818133682,
+          "z": 51.92485434955107
+        },
+        "to": {
+          "x": 16.111012220716294,
+          "y": 1.149297961186705,
+          "z": 50.730394517389406
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.337091064453125
+      },
+      "across": -0.9830115313985321,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.726333413987854,
+        "y": 1.1678428959986238,
+        "z": 51.02670131708903,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 15.726333413987854,
+          "y": 1.1678428959986238,
+          "z": 51.02670131708903
+        },
+        "to": {
+          "x": 15.836246674824295,
+          "y": 1.2728027264569615,
+          "z": 52.39768480592416
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.33634033203125
+      },
+      "across": -1.0071022513576835,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 15.975533840563509,
+        "y": 1.1653995681006244,
+        "z": 51.00672264359673,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 15.975533840563509,
+          "y": 1.1653995681006244,
+          "z": 51.00672264359673
+        },
+        "to": {
+          "x": 16.08544710139995,
+          "y": 1.2773282644631594,
+          "z": 52.37770613243186
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.33673858642578125
+      },
+      "across": -1.0071022513576802,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 15.712795958952624,
+        "y": 1.1707205947902404,
+        "z": 51.063182200837225,
+        "grounded": true,
+        "speed": 0.08104774392929649
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 15.712795958952624,
+          "y": 1.1707205947902404,
+          "z": 51.063182200837225
+        },
+        "to": {
+          "x": 15.819889640340321,
+          "y": 1.2728927897959637,
+          "z": 52.39899616744848
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.336083984375
+      },
+      "across": -1.0023025599713427,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 0,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 16.146311149283818,
+        "y": 1.1851654168234191,
+        "z": 51.17068947665092,
+        "grounded": true,
+        "speed": 2.42830547765568
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 16.146311149283818,
+          "y": 1.1851654168234191,
+          "z": 51.17068947665092
+        },
+        "to": {
+          "x": 16.24207231414198,
+          "y": 1.2872763263203175,
+          "z": 52.365149316101196
+        },
+        "peak": 2.789027452468872,
+        "seconds": 0.55,
+        "travelStart": 0.33533325195312497
+      },
+      "across": -0.9830115351745824,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.55447882819917,
+        "y": 1.006663928419394,
+        "z": 50.1692847523926,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.55447882819917,
+          "y": 1.006663928419394,
+          "z": 50.1692847523926
+        },
+        "to": {
+          "x": 50.69178794865247,
+          "y": 0.962511703909774,
+          "z": 48.80077357276417
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.32507476806640623
+      },
+      "across": -1.0071022494381616,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.80322986951868,
+        "y": 1.0046695719165966,
+        "z": 50.19424310655431,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.80322986951868,
+          "y": 1.0046695719165966,
+          "z": 50.19424310655431
+        },
+        "to": {
+          "x": 50.94053898997198,
+          "y": 0.961426852040568,
+          "z": 48.82573192692588
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.3251022338867187
+      },
+      "across": -1.0071022494381574,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.558001186754005,
+        "y": 1.00549005633356,
+        "z": 50.134178654629416,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.558001186754005,
+          "y": 1.00549005633356,
+          "z": 50.134178654629416
+        },
+        "to": {
+          "x": 50.69178794840255,
+          "y": 0.9625117039108644,
+          "z": 48.8007735727391
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.3250244140625
+      },
+      "across": -1.0023025616443904,
+      "grounded": true,
+      "minRailDistance": 0.00010049105185316876,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.97725215124685,
+        "y": 0.9975241711659353,
+        "z": 50.03372437852462,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.97725215124685,
+          "y": 0.9975241711659353,
+          "z": 50.03372437852462
+        },
+        "to": {
+          "x": 51.09688176775792,
+          "y": 0.9607450106548276,
+          "z": 48.841418528267965
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.32487335205078127
+      },
+      "across": -0.9830115328321358,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66537026669656,
+        "y": 0.971412335109742,
+        "z": 49.06406922428117,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.66537026669656,
+          "y": 0.971412335109742,
+          "z": 49.06406922428117
+        },
+        "to": {
+          "x": 50.528061146243274,
+          "y": 1.0154679663422244,
+          "z": 50.432580403909604
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.3245254516601563
+      },
+      "across": -1.0071022494381614,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 50.91412130801607,
+        "y": 0.9703161995162595,
+        "z": 49.08902757844288,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.91412130801607,
+          "y": 0.9703161995162595,
+          "z": 49.08902757844288
+        },
+        "to": {
+          "x": 50.77681218756278,
+          "y": 1.0134736098394264,
+          "z": 50.45753875807131
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.3245529174804687
+      },
+      "across": -1.007102249438159,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 50.66184790814173,
+        "y": 0.9725990863036648,
+        "z": 49.09917532204435,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 50.66184790814173,
+          "y": 0.9725990863036648,
+          "z": 49.09917532204435
+        },
+        "to": {
+          "x": 50.52806114649319,
+          "y": 1.0154679663402202,
+          "z": 50.43258040393468
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.32440185546875
+      },
+      "across": -1.0023025616443908,
+      "grounded": true,
+      "minRailDistance": 0.00009997840243158862,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 3,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 51.05278458486031,
+        "y": 0.974406414976979,
+        "z": 49.280919512998615,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 51.05278458486031,
+          "y": 0.974406414976979,
+          "z": 49.280919512998615
+        },
+        "to": {
+          "x": 50.93315496870097,
+          "y": 1.0122201347159672,
+          "z": 50.47322535974973
+        },
+        "peak": 2.426287889480591,
+        "seconds": 0.55,
+        "travelStart": 0.32407684326171876
+      },
+      "across": -0.9830115323108843,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.597743861921344,
+        "y": 1.6468120313155885,
+        "z": 69.67136639184191,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.597743861921344,
+          "y": 1.6468120313155885,
+          "z": 69.67136639184191
+        },
+        "to": {
+          "x": 48.73505298237464,
+          "y": 1.6015309954017725,
+          "z": 68.3028552122135
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.36778411865234373
+      },
+      "across": -1.0071022494381545,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.846494903240846,
+        "y": 1.6355600146588984,
+        "z": 69.69632474600363,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.846494903240846,
+          "y": 1.6355600146588984,
+          "z": 69.69632474600363
+        },
+        "to": {
+          "x": 48.98380402369414,
+          "y": 1.5912597975445997,
+          "z": 68.3278135663752
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.3680267333984375
+      },
+      "across": -1.007102249438164,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.60126622047618,
+        "y": 1.6457388877029127,
+        "z": 69.63626029407874,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.60126622047618,
+          "y": 1.6457388877029127,
+          "z": 69.63626029407874
+        },
+        "to": {
+          "x": 48.73505298212472,
+          "y": 1.601530995412093,
+          "z": 68.30285521218842
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.36775665283203124
+      },
+      "across": -1.0023025616443904,
+      "grounded": true,
+      "minRailDistance": 0.00019253281061537564,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.020517184969016,
+        "y": 1.6231016508301412,
+        "z": 69.53580601797394,
+        "grounded": true,
+        "speed": 2.4283056231664393
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 49.020517184969016,
+          "y": 1.6231016508301412,
+          "z": 69.53580601797394
+        },
+        "to": {
+          "x": 49.140146801480086,
+          "y": 1.584804236210415,
+          "z": 68.34350016771728
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.3680313110351563
+      },
+      "across": -0.9830115328321423,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.708635300418734,
+        "y": 1.6104284059637648,
+        "z": 68.5661508637305,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.708635300418734,
+          "y": 1.6104284059637648,
+          "z": 68.5661508637305
+        },
+        "to": {
+          "x": 48.57132617996544,
+          "y": 1.654860605960462,
+          "z": 69.93466204335893
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.36752777099609374
+      },
+      "across": -1.0071022494381623,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": 48.957386341738236,
+        "y": 1.6001572081065893,
+        "z": 68.59110921789221,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.957386341738236,
+          "y": 1.6001572081065893,
+          "z": 68.59110921789221
+        },
+        "to": {
+          "x": 48.82007722128495,
+          "y": 1.643608589303774,
+          "z": 69.95962039752062
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.36777038574218746
+      },
+      "across": -1.0071022494381525,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": 48.7051129418639,
+        "y": 1.6116147277343187,
+        "z": 68.60125696149368,
+        "grounded": true,
+        "speed": 0
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 48.7051129418639,
+          "y": 1.6116147277343187,
+          "z": 68.60125696149368
+        },
+        "to": {
+          "x": 48.571326180215365,
+          "y": 1.6548606059491588,
+          "z": 69.934662043384
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.3674636840820313
+      },
+      "across": -1.002302561644383,
+      "grounded": true,
+      "minRailDistance": 0.00009614451846573502,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 4,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": 49.09604961858248,
+        "y": 1.5996560601907968,
+        "z": 68.78300115244794,
+        "grounded": true,
+        "speed": 2.428305665465071
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": 49.09604961858248,
+          "y": 1.5996560601907968,
+          "z": 68.78300115244794
+        },
+        "to": {
+          "x": 48.97642000242313,
+          "y": 1.6365365723659198,
+          "z": 69.97530699919906
+        },
+        "peak": 4.141003847122192,
+        "seconds": 0.55,
+        "travelStart": 0.36760101318359373
+      },
+      "across": -0.9830115323108921,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9740774609952,
+        "y": 1.078999225046175,
+        "z": 36.28713674564799,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.9740774609952,
+          "y": 1.078999225046175,
+          "z": 36.28713674564799
+        },
+        "to": {
+          "x": -33.04281792899527,
+          "y": 1.0384262913798759,
+          "z": 34.91347325110448
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.3147064208984375
+      },
+      "across": -1.007102247307863,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": -1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.72438989589645,
+        "y": 1.0818018585850644,
+        "z": 36.274641953330324,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.72438989589645,
+          "y": 1.0818018585850644,
+          "z": 36.274641953330324
+        },
+        "to": {
+          "x": -32.79313036389652,
+          "y": 1.0422129338614854,
+          "z": 34.9009784587868
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.3143859863281249
+      },
+      "across": -1.0071022473078681,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -32.9655766303364,
+        "y": 1.0778855452576317,
+        "z": 36.25138483626195,
+        "grounded": true,
+        "speed": 0.05066768380503008
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.9655766303364,
+          "y": 1.0778855452576317,
+          "z": 36.25138483626195
+        },
+        "to": {
+          "x": -33.03255371507613,
+          "y": 1.0386124410488382,
+          "z": 34.91295961230483
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.31463775634765623
+      },
+      "across": -1.0023025579869458,
+      "grounded": true,
+      "minRailDistance": 0.0001059309724951163,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": -1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.57630931225366,
+        "y": 1.0773952665860598,
+        "z": 36.08992010723219,
+        "grounded": true,
+        "speed": 2.4283056287397384
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.57630931225366,
+          "y": 1.0773952665860598,
+          "z": 36.08992010723219
+        },
+        "to": {
+          "x": -32.6361989668018,
+          "y": 1.044033841671474,
+          "z": 34.893125343578426
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.3139739990234375
+      },
+      "across": -0.9830115337108025,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.02959255921319,
+        "y": 1.046532675011005,
+        "z": 35.17776018359978,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -33.02959255921319,
+          "y": 1.046532675011005,
+          "z": 35.17776018359978
+        },
+        "to": {
+          "x": -32.96085209121312,
+          "y": 1.0882159048695859,
+          "z": 36.551423678143294
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.31416625976562496
+      },
+      "across": -1.0071022473078617,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": 1,
+      "sprint": false,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.779904994114446,
+        "y": 1.049429852030788,
+        "z": 35.16526539128211,
+        "grounded": true,
+        "speed": 1.5345854341213185
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.779904994114446,
+          "y": 1.049429852030788,
+          "z": 35.16526539128211
+        },
+        "to": {
+          "x": -32.71116452611437,
+          "y": 1.0910185384084738,
+          "z": 36.53892888582563
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.31395111083984373
+      },
+      "across": -1.0071022473078637,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": 0.1,
+      "atJump": {
+        "x": -33.03809338987199,
+        "y": 1.0473758332993883,
+        "z": 35.21351209298582,
+        "grounded": true,
+        "speed": 0.05066768380503084
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -33.03809338987199,
+          "y": 1.0473758332993883,
+          "z": 35.21351209298582
+        },
+        "to": {
+          "x": -32.971116305132256,
+          "y": 1.0881006935647348,
+          "z": 36.55193731694294
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.31406097412109374
+      },
+      "across": -1.0023025579869445,
+      "grounded": true,
+      "minRailDistance": 0.00010073937301058322,
+      "penetratingFrames": 0
+    },
+    {
+      "mode": "after",
+      "index": 6,
+      "side": 1,
+      "sprint": true,
+      "inset": -0.15,
+      "atJump": {
+        "x": -32.61412278833496,
+        "y": 1.0560805374338702,
+        "z": 35.334281001837354,
+        "grounded": true,
+        "speed": 2.428305563245125
+      },
+      "accepted": true,
+      "planned": {
+        "t": 0.0303030303030303,
+        "from": {
+          "x": -32.61412278833496,
+          "y": 1.0560805374338702,
+          "z": 35.334281001837354
+        },
+        "to": {
+          "x": -32.554233133519034,
+          "y": 1.092780024544231,
+          "z": 36.531075770842406
+        },
+        "peak": 2.348829746246338,
+        "seconds": 0.55,
+        "travelStart": 0.31323699951171874
+      },
+      "across": -0.9830115337398717,
+      "grounded": true,
+      "minRailDistance": null,
+      "penetratingFrames": 0
+    }
+  ],
+  "summary": {
+    "live": {
+      "cases": 32,
+      "accepted": 0,
+      "crossed": 8,
+      "grounded": 32,
+      "penetratingFrames": 0
+    },
+    "before": {
+      "cases": 32,
+      "accepted": 0,
+      "crossed": 8,
+      "grounded": 32,
+      "penetratingFrames": 0
+    },
+    "after": {
+      "cases": 32,
+      "accepted": 32,
+      "crossed": 32,
+      "grounded": 32,
+      "penetratingFrames": 0
+    }
+  },
+  "sourceSha256": {
+    "before": "4755dcb4ddb3fe82227659cf02a946c7b386506ea2c68b7160cb00211f48cab8",
+    "after": "b8ab5e9bfe41b2d143c61bc901ddb576050f8824eced83f457c133412fa02544"
+  },
+  "scope": "Native published player, keyboard bindings, field fences, terrain and physics at fixed 60 Hz. Live reproduces the unmodified controller; before/after swap only the planner and executor methods, sharing the queued rail-clearance arc fix. Native end-post geometry is checked against a capsule through Rapier. Software-rendered frames are evidence of the controlled crossing, not hardware FPS or total fence coverage.",
+  "pass": true,
+  "frameTrace": {
+    "file": "frames.json.gz",
+    "sha256": "83963144c1af67d1b388fcafda8e5c03745acdc83e2e2e3ba802b69c35125e80",
+    "cases": 96,
+    "framesPerCase": 120
+  }
+}
