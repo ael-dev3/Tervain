@@ -60,8 +60,8 @@ function clumpOutward(crown: CanopyCrown, c: THREE.Vector3, out: THREE.Vector3):
 
 const depthIn = (crown: CanopyCrown, p: THREE.Vector3) => Math.hypot((p.x - crown.centre.x) / crown.radii.x, (p.y - crown.centre.y) / crown.radii.y, (p.z - crown.centre.z) / crown.radii.z);
 
-/** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
-function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => number): THREE.Vector3[] {
+/** Cumulative source-triangle areas, immutable for one canopy build. */
+function leafAreas(leaf: THREE.BufferGeometry): Float64Array {
   const p = leaf.getAttribute('position');
   const index = leaf.index;
   const tris = index ? index.count / 3 : p.count / 3;
@@ -74,6 +74,15 @@ function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => nu
     total += b.sub(a).cross(c.sub(a)).length() / 2;
     areas[t] = total;
   }
+  return areas;
+}
+
+/** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
+function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => number, areas: Float64Array): THREE.Vector3[] {
+  const p = leaf.getAttribute('position'), index = leaf.index, tris = areas.length;
+  const at = (t: number, k: number) => (index ? index.getX(t * 3 + k) : t * 3 + k);
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  const total = areas[tris - 1] ?? 0;
   const out: THREE.Vector3[] = [];
   if (!(total > 0)) return out;
   for (let i = 0; i < count; i++) {
@@ -126,9 +135,11 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
     return false;
   };
   out.forEach(add);
+  // Geometry stays unchanged while spacing relaxes; build its distribution only on the first sampling round.
+  let areas: Float64Array | undefined;
   // Relax the spacing until the count is met: dense sources fill at full spacing, sparse ones closer together.
   for (let d = spacing; out.length < count && d > spacing * 0.2; d *= 0.8) {
-    const samples = leafSamples(leaf, (count - out.length) * 6, random);
+    const samples = leafSamples(leaf, (count - out.length) * 6, random, areas ??= leafAreas(leaf));
     for (const q of samples) {
       if (out.length >= count) break;
       // The heart stays open (trunk and boughs show through it, as under a real crown): most samples there are skipped.
