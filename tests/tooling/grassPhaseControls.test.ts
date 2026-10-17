@@ -1,6 +1,6 @@
-import {expect,it} from 'vitest';import * as THREE from 'three';
+import {expect,it,vi} from 'vitest';import * as THREE from 'three';
 import {normalizeGrassPhaseControls,readGrassPhaseControls,applyGrassPhaseControls} from '../../tools/grass-phase-controls.mjs';
-function fixture(){return{game:{state:{clock:19.3*60}},world:{foliage:{wind:{uniforms:{uGrassTime:{value:3},uWindDir:{value:new THREE.Vector4(1,0,.1,.2)},uGustScroll:{value:new THREE.Vector4(2,3,4,5)}}}},sway:{uTime:{value:4}},sky:{cloudTime:7,state:{nightness:.3},update(hour:number){if(!Number.isFinite(hour))throw Error('Invalid sky hour');}}},player:{group:new THREE.Group()},grade:{time:9,setLook(){}}};}
+function fixture(){return{game:{state:{clock:19.3*60}},world:{foliage:{wind:{uniforms:{uGrassTime:{value:3},uWindDir:{value:new THREE.Vector4(1,0,.1,.2)},uGustScroll:{value:new THREE.Vector4(2,3,4,5)}}}},sway:{uTime:{value:4}},sky:{cloudTime:7,state:{nightness:.3},update(hour:number,_focus?:THREE.Vector3){if(!Number.isFinite(hour))throw Error('Invalid sky hour');}}},player:{x:12,y:3,z:45,group:new THREE.Group()},grade:{time:9,setLook(){}}};}
 it('round-trips the captured hour and real cloud clock through JSON',()=>{
  const T=fixture(),saved=readGrassPhaseControls(T);expect(saved).toMatchObject({hour:19.3,cloudTime:7});
  const phase=normalizeGrassPhaseControls(JSON.parse(JSON.stringify(saved)),{hour:11,cloudTime:100});expect(phase).toEqual(saved);
@@ -28,4 +28,12 @@ it('removes an old PASS report before rejecting invalid CLI inputs without loadi
    expect(run.status).not.toBe(0);expect(run.error).toBeUndefined();expect(run.stderr).toMatch(/Invalid route|Invalid grass phase/);expect(existsSync(join(out,'report.json'))).toBe(false);
   }
  }finally{rmSync(out,{recursive:true,force:true});}
+});
+
+it('freezes sky lighting at the physical hero, not the origin container',()=>{
+ const T=fixture(),update=vi.spyOn(T.world.sky,'update'),phase=readGrassPhaseControls(T);
+ expect(T.player.group.position.toArray()).toEqual([0,0,0]);applyGrassPhaseControls(T,phase);
+ const focus=update.mock.calls[0]?.[1] as unknown as THREE.Vector3;expect(focus.toArray()).toEqual([12,3,45]);expect(T.player.group.position.toArray()).toEqual([0,0,0]);
+ T.player.x=-2;T.player.y=1.5;T.player.z=38;applyGrassPhaseControls(T,phase);
+ expect((update.mock.calls[1]?.[1] as unknown as THREE.Vector3).toArray()).toEqual([-2,1.5,38]);expect(focus.toArray()).toEqual([12,3,45]);
 });
