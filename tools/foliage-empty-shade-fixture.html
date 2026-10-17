@@ -1,0 +1,19 @@
+<!doctype html><html><head><style>body{margin:0}</style></head><body><script>addEventListener('error',e=>window.fixtureError=e.message);addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+import {createFoliageField,FOLIAGE_RESPONSE} from '/src/presentation/foliage/foliageWind.ts';
+import {splitLeafPrepass} from '/src/presentation/foliage/leafPrepass.ts';
+const mode=new URLSearchParams(location.search).get('mode');
+const {installFoliage}=await import('/src/presentation/foliage/foliageMaterial.ts'+(mode==='before'?'?empty-baseline':''));
+const R=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});R.setSize(160,120);document.body.append(R.domElement);R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.22;
+const wind=new GrassWind({direction:[1,0],steady:0,gust:0,speed:0}),field=createFoliageField(wind);field.strength.value=0;
+const camera=new THREE.PerspectiveCamera(45,4/3,.1,1000);camera.position.set(0,0,50);camera.lookAt(0,0,0);camera.updateMatrixWorld();
+window.emptyShadeFixture={run(kind,reference=false){
+camera.position.set(0,0,kind==='far'?200:50);camera.lookAt(0,0,0);camera.updateMatrixWorld();
+const scene=new THREE.Scene();scene.background=new THREE.Color(.12,.12,.12);scene.add(new THREE.HemisphereLight(0xffffff,0x666666,1));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(0,2,10);scene.add(sun);
+const size=kind==='magnified'?8:512,texture=(empty)=>{const a=new Uint8Array(size*size*4);for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=(y*size+x)*4;a[i]=empty?100:35;a[i+1]=empty?210:120;a[i+2]=empty?230:50;a[i+3]=empty?(kind==='partial'?10:0):(x<size*.65?255:0);}const t=new THREE.DataTexture(a,size,size,THREE.RGBAFormat);t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;};
+const leaves=[],depths=[],textures=[];
+for(let i=0;i<2;i++){const tex=texture(i===1);textures.push(tex);const mat=new THREE.MeshStandardMaterial({map:tex,alphaTest:.35,alphaToCoverage:true,side:THREE.DoubleSide,roughness:1});installFoliage(mat,{field,response:FOLIAGE_RESPONSE.conifer,leaf:true,crown:{centre:new THREE.Vector3(0,0,0),horizontal:4,vertical:4},look:{clumps:{gaps:0,shade:0,rough:0,size:1},crownNormal:0,variation:0,translucency:0}});const geo=new THREE.PlaneGeometry(8,8),leaf=new THREE.InstancedMesh(geo,mat,1);const matrix=new THREE.Matrix4().makeTranslation(0,0,i===0?0:kind==='separated'?-.25:-.000001);leaf.setMatrixAt(0,matrix);leaf.instanceMatrix.needsUpdate=true;leaf.frustumCulled=false;leaf.renderOrder=i;const depth=splitLeafPrepass(leaf);if(!depth)throw Error('Missing prepass');depth.count=1;depth.visible=!reference;depth.renderOrder=-1;leaves.push(leaf);depths.push(depth);if(reference){mat.alphaToCoverage=true;mat.depthFunc=THREE.LessEqualDepth;mat.depthWrite=true;delete mat.defines.TV_LEAF_SHADE_ONLY;mat.needsUpdate=true;}scene.add(depth,leaf);}
+const target=new THREE.WebGLRenderTarget(160,120,{samples:4,depthBuffer:true});R.setRenderTarget(target);R.info.autoReset=false;R.info.reset();R.render(scene,camera);R.setRenderTarget(null);const pixels=new Uint8Array(160*120*4);R.readRenderTargetPixels(target,0,0,160,120,pixels);const error=R.getContext().getError();if(error||R.getContext().isContextLost())throw Error('Invalid draw '+error);const result={kind,reference,draws:R.info.render.calls,triangles:R.info.render.triangles,samples:target.samples,pixels:Array.from(pixels)};for(const o of [...leaves,...depths]){o.material.dispose();o.dispose();}for(const l of leaves)l.geometry.dispose();for(const t of textures)t.dispose();target.dispose();return result;}};
+window.fixtureReady=true;
+</script></body></html>

@@ -253,6 +253,18 @@ vec3 tvLitColour = vec3( 0.0 );
  * is centred on it. Box-filtered mips thin a crown's alpha with distance, so alpha is lifted with the mip level first.
  */
 const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
+// EQUAL depth is not a primitive ID: a different card can occupy the same quantized depth.
+// Never let its wholly empty texels overwrite the leaf whose samples passed the prepass.
+// Only minification is eligible: magnification's cubic alpha reconstruction can fill an empty raw texel.
+#if defined(TV_LEAF_SHADE_ONLY) && defined(USE_ALPHATEST) && defined(USE_MAP) && !defined(USE_ALPHAMAP) && !defined(USE_COLOR_ALPHA)
+{
+  vec2 tvEmptyUv = vMapUv * vec2(textureSize(map, 0));
+  vec2 tvEmptyDx = dFdx(tvEmptyUv), tvEmptyDy = dFdy(tvEmptyUv);
+  // Derivatives must be evaluated before divergent rejection, including the alpha derivative.
+  float tvEmptyDa = fwidth(diffuseColor.a);
+  if (max(dot(tvEmptyDx, tvEmptyDx), dot(tvEmptyDy, tvEmptyDy)) >= 2.0 && diffuseColor.a == 0.0 && tvEmptyDa == 0.0) discard;
+}
+#endif
 // The colour pass behind a leaf depth pass (leafPrepass.ts) takes its cut-out from the depth test.
 #if defined( USE_ALPHATEST ) && !defined( TV_LEAF_SHADE_ONLY )
 {
@@ -552,7 +564,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-emptyshade1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;

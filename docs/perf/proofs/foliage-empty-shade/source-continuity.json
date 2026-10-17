@@ -1,0 +1,18 @@
+{
+  "baseline": "7884c88",
+  "laterLive": "24629cf",
+  "files": [
+    {
+      "file": "src/presentation/foliage/foliageMaterial.ts",
+      "baselineSha256": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+      "laterLiveSha256": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5"
+    },
+    {
+      "file": "src/presentation/foliage/leafPrepass.ts",
+      "baselineSha256": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d",
+      "laterLiveSha256": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d"
+    }
+  ],
+  "identical": true,
+  "scope": "Source continuity only; the matched rendered capture is from published 7884c88."
+}
