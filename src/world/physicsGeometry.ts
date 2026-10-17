@@ -22,3 +22,9 @@ export interface PhysicalRockGeometry {
   readonly bounds: { readonly minX: number; readonly minY: number; readonly minZ: number;
     readonly maxX: number; readonly maxY: number; readonly maxZ: number };
 }
+
+/** World-space opaque triangles used only by projectile queries; movement keeps its canonical footprint. */
+export interface PhysicalProjectileGeometry {
+  readonly positions: Float32Array;
+  readonly indices: Uint32Array;
+}

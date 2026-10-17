@@ -83,7 +83,7 @@ export class RealmPhysics {
   private readonly projectileActorHandles = new Set<number>();
   private readonly projectileAnimalHandles = new Set<number>();
   private rockHandles = new Set<number>();
-  private projectileFences = new Map<number, { collider: RAPIER.Collider; minY: number; maxY: number; minX: number; maxX: number; minZ: number; maxZ: number }>();
+  private projectileFences = new Map<number, { collider: RAPIER.Collider; minY: number; maxY: number; minX: number; maxX: number; minZ: number; maxZ: number; exact: boolean }>();
   private woodHandles = new Map<number, string>();
   private rockSurfaces = new RockSurfaces();
   private rocks: { collider: RAPIER.Collider; source: WorldCollider }[] = [];
@@ -145,7 +145,14 @@ export class RealmPhysics {
         const cs = Math.abs(Math.cos(source.yaw)), sn = Math.abs(Math.sin(source.yaw));
         const ex = cs * source.hw + sn * source.hd, ez = sn * source.hw + cs * source.hd;
         this.projectileFences.set(collider.handle, { collider, minY: low, maxY: high - FENCE_WALL_LIFT,
-          minX: source.x - ex, maxX: source.x + ex, minZ: source.z - ez, maxZ: source.z + ez });
+          minX: source.x - ex, maxX: source.x + ex, minZ: source.z - ez, maxZ: source.z + ez, exact: !!source.projectileMesh });
+        if (source.projectileMesh) {
+          // Query-only triangles: no contact pairs, impulses or extra navigation obstacles.
+          const mesh = source.projectileMesh;
+          const arrows = this.world.createCollider(RAPIER.ColliderDesc.trimesh(mesh.positions, mesh.indices)
+            .setSensor(true).setCollisionGroups(0).setEnabled(source.active));
+          this.fixed.push({ source, collider: arrows });
+        }
       }
     }
     // Medium stones have finite contact geometry without becoming new NPC/navigation fences.
@@ -438,6 +445,7 @@ export class RealmPhysics {
     // descending shots and rays starting inside the invisible cap, rather than discarding a later real hit.
     const fenceGuard = 1e-4 + 1e-6 * Math.max(Math.abs(from.x), Math.abs(from.z), Math.abs(to.x), Math.abs(to.z));
     for (const fence of this.projectileFences.values()) {
+      if (fence.exact) continue;
       if (Math.max(from.x, to.x) + fenceGuard < fence.minX || Math.min(from.x, to.x) - fenceGuard > fence.maxX ||
         Math.max(from.z, to.z) + fenceGuard < fence.minZ || Math.min(from.z, to.z) - fenceGuard > fence.maxZ) continue;
       if (!fence.collider.isEnabled()) continue;
