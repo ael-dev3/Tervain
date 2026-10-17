@@ -182,3 +182,15 @@ it('keeps the last opaque texel in odd and one-dimensional masks', () => {
     } finally { material.dispose(); texture.dispose(); }
   }
 });
+
+it('refreshes batch UV state between calls and keeps face coordinates independent', () => {
+  const geometry = faces([[.25, .25], [.75, .25]]), texture = map(); texture.wrapS = THREE.RepeatWrapping;
+  const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: .42 }), image = rgba([255, 0, 0, 0]);
+  const matrix = texture.matrix.elements.slice();
+  try {
+    expect(sampleLeafSurfaceSites(geometry, material, { readImage: () => image })).toEqual([{ x: 1 / 3, y: 16 / 3, z: 0 }]);
+    texture.offset.x = .5;
+    expect(sampleLeafSurfaceSites(geometry, material, { readImage: () => image })).toEqual([{ x: 10 / 3, y: 16 / 3, z: 0 }]);
+    expect(texture.matrix.elements).toEqual(matrix);
+  } finally { geometry.dispose(); material.dispose(); texture.dispose(); }
+});
