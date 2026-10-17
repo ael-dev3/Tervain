@@ -1,0 +1,350 @@
+{
+  "build": {
+    "version": "0.0.19",
+    "revision": "77c6866"
+  },
+  "bounds": {
+    "before": 533,
+    "after": 533,
+    "tightened": 34,
+    "contained": true,
+    "wetCells": 61349,
+    "uncovered": 0
+  },
+  "rows": [
+    {
+      "pose": [
+        -275,
+        14.995417594909668,
+        -100,
+        -269,
+        11.995417594909668,
+        -100
+      ],
+      "kind": "inland",
+      "modes": {
+        "before": {
+          "drawCalls": 716,
+          "triangles": 12550026,
+          "uploadBytes": 64512,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 303,
+            "triangles": 4674064
+          }
+        },
+        "after": {
+          "drawCalls": 413,
+          "triangles": 7875962,
+          "uploadBytes": 32256,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "hidden": {
+          "drawCalls": 412,
+          "triangles": 7781882,
+          "uploadBytes": 32256,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "repeat": {
+          "drawCalls": 413,
+          "triangles": 7875962,
+          "uploadBytes": 32256,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "hidden": 0,
+        "repeat": 0
+      }
+    },
+    {
+      "pose": [
+        -273,
+        15.066737174987793,
+        -100,
+        -267,
+        12.066737174987793,
+        -100
+      ],
+      "kind": "inland",
+      "modes": {
+        "before": {
+          "drawCalls": 608,
+          "triangles": 12263956,
+          "uploadBytes": 62208,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 249,
+            "triangles": 4467255
+          }
+        },
+        "after": {
+          "drawCalls": 359,
+          "triangles": 7796701,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "hidden": {
+          "drawCalls": 358,
+          "triangles": 7702621,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "repeat": {
+          "drawCalls": 359,
+          "triangles": 7796701,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "hidden": 0,
+        "repeat": 0
+      }
+    },
+    {
+      "pose": [
+        -271,
+        15.087769031524658,
+        -100,
+        -265,
+        12.087769031524658,
+        -100
+      ],
+      "kind": "inland",
+      "modes": {
+        "before": {
+          "drawCalls": 607,
+          "triangles": 12273261,
+          "uploadBytes": 62208,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 247,
+            "triangles": 4464833
+          }
+        },
+        "after": {
+          "drawCalls": 360,
+          "triangles": 7808428,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "hidden": {
+          "drawCalls": 359,
+          "triangles": 7714348,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "repeat": {
+          "drawCalls": 360,
+          "triangles": 7808428,
+          "uploadBytes": 29952,
+          "textureCount": 271,
+          "estimatedTextureStorageBytes": 1252604944,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "hidden": 0,
+        "repeat": 0
+      }
+    },
+    {
+      "pose": [
+        -310,
+        8,
+        -40,
+        -300,
+        0,
+        -40
+      ],
+      "kind": "shore",
+      "modes": {
+        "before": {
+          "drawCalls": 221,
+          "triangles": 1804077,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 111,
+            "triangles": 893911
+          }
+        },
+        "after": {
+          "drawCalls": 221,
+          "triangles": 1804077,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 111,
+            "triangles": 893911
+          }
+        },
+        "hidden": {
+          "drawCalls": 108,
+          "triangles": 816085,
+          "uploadBytes": 0,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "repeat": {
+          "drawCalls": 221,
+          "triangles": 1804077,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 111,
+            "triangles": 893911
+          }
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "hidden": 167448,
+        "repeat": 0
+      }
+    },
+    {
+      "pose": [
+        -335,
+        8,
+        -90,
+        -325,
+        0,
+        -90
+      ],
+      "kind": "shore",
+      "modes": {
+        "before": {
+          "drawCalls": 183,
+          "triangles": 1669742,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 91,
+            "triangles": 790923
+          }
+        },
+        "after": {
+          "drawCalls": 183,
+          "triangles": 1669742,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 91,
+            "triangles": 790923
+          }
+        },
+        "hidden": {
+          "drawCalls": 90,
+          "triangles": 784738,
+          "uploadBytes": 0,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 0,
+            "triangles": 0
+          }
+        },
+        "repeat": {
+          "drawCalls": 183,
+          "triangles": 1669742,
+          "uploadBytes": 2304,
+          "textureCount": 272,
+          "estimatedTextureStorageBytes": 1252803988,
+          "unknownTextureFormats": 0,
+          "captureCost": {
+            "drawCalls": 91,
+            "triangles": 790923
+          }
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "hidden": 121709,
+        "repeat": 0
+      }
+    }
+  ],
+  "sourceSha256": "dc9223a34a3e00b42ac04cadfa56d6655d6138d759866b0de65bf542711a6b4c",
+  "quality": "high",
+  "scope": "Native published scene, bathymetry, water geometry and Grade/post/MSAA renders. Only sea visibility boxes substituted with candidate production output. Reduced Motion, simulation and shadow map held still during each comparison. Hidden-sea controls establish empty inland water and nonempty shoreline water. Uploads are source bytes; texture storage is nominal uncompressed observed texels/mips, excluding renderbuffers/driver padding/compressed storage. No hardware timings or total VRAM claim.",
+  "pass": true
+}
