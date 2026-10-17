@@ -47,7 +47,8 @@ export function splitLeafPrepass(leaf: THREE.InstancedMesh): THREE.InstancedMesh
   if (Array.isArray(colour)) return null;
   const material = split.get(colour) ?? splitMaterial(colour);
   if (!material) return null;
-  const depth = new THREE.InstancedMesh(leaf.geometry, material, leaf.instanceMatrix.count);
+  // The shared colour buffer supplies capacity; do not allocate and initialise a discarded twin.
+  const depth = new THREE.InstancedMesh(leaf.geometry, material, 0);
   // Shared buffers: the colour pass's instance writes and uploads serve both.
   depth.instanceMatrix = leaf.instanceMatrix;
   depth.instanceColor = leaf.instanceColor;
