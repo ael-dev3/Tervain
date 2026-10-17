@@ -1,0 +1,1428 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "label": "tree:1:54",
+      "species": "fir",
+      "lod": 2,
+      "triangles": 1204,
+      "native": {
+        "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+        "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+        "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+        "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+      },
+      "wood": {
+        "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+        "position": "c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5",
+        "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+        "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+        "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1667,
+          "geometryBytes": 67792,
+          "indexCount": 3612,
+          "boundsExcess": -5.089108461260038,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.699999988079071,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        },
+        "after": {
+          "vertices": 1667,
+          "geometryBytes": 67792,
+          "indexCount": 3612,
+          "boundsExcess": -5.089108461260038,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.40000003576278687,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "c1a3b88de2d02aa70484fdf94da40ea43b6b3907128a472547f11556d7441718",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          12.970715045928955,
+          11.996861934661865
+        ],
+        "after": [
+          12.970715045928955,
+          11.996861934661865
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:4:40",
+      "species": "shrub",
+      "lod": 2,
+      "triangles": 1442,
+      "native": {
+        "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+        "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+        "position": "bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521",
+        "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+        "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c"
+      },
+      "variants": {
+        "before": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -2.5058715905157882,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.5,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        },
+        "after": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -2.5058715905157882,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 4.699999988079071,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          1.6744290590286255,
+          1.6993941068649292
+        ],
+        "after": [
+          1.6744290590286255,
+          1.6993941068649292
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:71:20",
+      "species": "birch",
+      "lod": 2,
+      "triangles": 1442,
+      "native": {
+        "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+        "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+        "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4"
+      },
+      "variants": {
+        "before": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -5.4673618143200216,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 8,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+            "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        },
+        "after": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -5.4673618143200216,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.5,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+            "position": "8dcdfcad30c088636c39ecc318ed7dee8e60f5a5d3a2f9855d89f677057f5109",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          12.774587154388428,
+          10.299809455871582
+        ],
+        "after": [
+          12.774587154388428,
+          10.299809455871582
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:58:16",
+      "species": "birch",
+      "lod": 2,
+      "triangles": 2103,
+      "native": {
+        "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+        "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+        "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+        "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+      },
+      "wood": {
+        "normal": "ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c",
+        "position": "8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820",
+        "uv": "68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57",
+        "index": "099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639"
+      },
+      "variants": {
+        "before": {
+          "vertices": 4490,
+          "geometryBytes": 168916,
+          "indexCount": 6309,
+          "boundsExcess": -6.708646541627658,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 1.399999976158142,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+            "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+            "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+            "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+          }
+        },
+        "after": {
+          "vertices": 4490,
+          "geometryBytes": 168916,
+          "indexCount": 6309,
+          "boundsExcess": -6.708646541627658,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 2.199999988079071,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+            "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+            "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+            "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          9.543508052825928,
+          9.360287189483643
+        ],
+        "after": [
+          9.543508052825928,
+          9.360287189483643
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:32:27",
+      "species": "oak",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+        "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "e0df4b1232716f080652bcc8a962f88ed9d7939f16f37e69e90933339894159d",
+        "position": "9b93f3204f8fc531792e06c8e1aee68d1f3ae38eff2b68977378d8e09ccc3a12",
+        "tangent": "f3335085d0f9f0566e42d5b7faaad46830ffa7a8445285a1463df570445eb1c1",
+        "uv": "8b12a40abe02665e70da051aaa2e5fb89c22ba615d567808b59ecc17287c0c8a",
+        "index": "b23a8bcc9f93e7d43b145506f9f0c17a33b839487128e2ff04daf4a919ff2575"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -7.536825883523956,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 1.2000000476837158,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+            "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -7.536825883523956,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.40000003576278687,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "0485bf5f81c961bda27cd7a50f67ba582a2c5ffbc9a47061b9d7a9b458248dfc",
+            "position": "3c18d0de39748b5901efcc362cb9525cb6301ff1c8b14c8a84055ac2557e6110",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          21.39266872406006,
+          22.17251205444336
+        ],
+        "after": [
+          21.39266872406006,
+          22.17251205444336
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:63:14",
+      "species": "birch",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+        "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+        "position": "a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9",
+        "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+        "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+        "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.573152703005273,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.573152703005273,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "8696742d508dd52e5e64d2030052061035ecf8e8d37a568c144e0b03cb7c8b13",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          10.093518733978271,
+          9.077670574188232
+        ],
+        "after": [
+          10.093518733978271,
+          9.077670574188232
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:9:10",
+      "species": "shrub",
+      "lod": 2,
+      "triangles": 1008,
+      "native": {
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+        "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+      },
+      "wood": {
+        "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+        "position": "d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d",
+        "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+        "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1359,
+          "geometryBytes": 55584,
+          "indexCount": 3024,
+          "boundsExcess": -2.496996481023185,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        },
+        "after": {
+          "vertices": 1359,
+          "geometryBytes": 55584,
+          "indexCount": 3024,
+          "boundsExcess": -2.496996481023185,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          1.66408371925354,
+          1.53170907497406
+        ],
+        "after": [
+          1.66408371925354,
+          1.53170907497406
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 2,
+      "triangles": 1442,
+      "native": {
+        "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+        "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11",
+        "position": "ef563e89acf5efee5adb03a60cf1a1b25d7e2c823c344b39b17f097b90d96298",
+        "uv": "45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041",
+        "index": "ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c"
+      },
+      "variants": {
+        "before": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -7.6738894743039205,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        },
+        "after": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -7.6738894743039205,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+            "position": "14c78e2953a00f5ba749ece6a21d8a48a7c5778fe61339112703c2f0d0b5e2da",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          20.093149185180664,
+          20.392728805541992
+        ],
+        "after": [
+          20.093149185180664,
+          20.392728805541992
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:79:22",
+      "species": "oak",
+      "lod": 2,
+      "triangles": 938,
+      "native": {
+        "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+        "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+        "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+        "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8"
+      },
+      "wood": {
+        "normal": "751c0baa0b983ed166bb3934aa40ed29f4c3d6ee3c37d56410364de713ccdc36",
+        "position": "3099d2a97a6c60a677b0a950ca957b26889aa63e4e33d0a89b97b692d27120b1",
+        "uv": "e78bb5232922b77b775028570801b375d787b6c91f01db11f0805bda41972bed",
+        "index": "4cbbcf1b14b5764552547bac276e2c48095abe1eee305421feb1ca572ce69375"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1249,
+          "geometryBytes": 51224,
+          "indexCount": 2814,
+          "boundsExcess": -6.608539354559188,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+            "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+            "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+            "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8"
+          }
+        },
+        "after": {
+          "vertices": 1249,
+          "geometryBytes": 51224,
+          "indexCount": 2814,
+          "boundsExcess": -6.608539354559188,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "fcab512f46378b5c14e3571e10fdd3b4a297fa03e03c366038903dfdeb0f7a63",
+            "position": "7afef7d226d431559ff47794b72263656464cdf6c62c248ef8ffb1385c15c5cc",
+            "uv": "d0b2ed1e874e19e000bfcff39b71995e3e31bd9dc8f1507fc7b41a1d9b28c41f",
+            "index": "5f31a21064bae6282018ac1d917449bd5ddc1b8f3a2b273c7e82a4eab70ea7e8"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          16.979466438293457,
+          18.07062816619873
+        ],
+        "after": [
+          16.979466438293457,
+          18.07062816619873
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 2,
+      "triangles": 1442,
+      "native": {
+        "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+        "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+        "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+      },
+      "wood": {
+        "normal": "70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae",
+        "position": "97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f",
+        "uv": "094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37",
+        "index": "86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4"
+      },
+      "variants": {
+        "before": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -7.481954539378399,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.19999998807907104,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+            "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        },
+        "after": {
+          "vertices": 2041,
+          "geometryBytes": 82616,
+          "indexCount": 4326,
+          "boundsExcess": -7.481954539378399,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f80b684585ea5e84acc65cbef1c60605654fcaafb3f3695af709a442656d6d77",
+            "position": "c040de3ea21c9c52a28181a004def856ac244f9404032ff5e98459b84ef5462f",
+            "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e",
+            "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          14.371410369873047,
+          11.587286472320557
+        ],
+        "after": [
+          14.371410369873047,
+          11.587286472320557
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:wild:40:40",
+      "species": "oak",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+        "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+        "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+        "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+        "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -6.02971669994745,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.09999996423721313,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+            "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -6.02971669994745,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "308d71ba3fad6afb64dd4e9065c9a4a3e29e2ae093457ce044c127a8edd5a83f",
+            "position": "a6ea48ebc41de070f34d6b7760a71f9f8fb43cbad87aee1dad3e6312a4992c6e",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          15.461098670959473,
+          15.15573501586914
+        ],
+        "after": [
+          15.461098670959473,
+          15.15573501586914
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:palm:13:13",
+      "species": "palm",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+        "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084",
+        "position": "1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51",
+        "uv": "56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db",
+        "index": "4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.665742913724487,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.30000001192092896,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+            "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.665742913724487,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.3999999761581421,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "c7506afa958a0dc3cfb48495ef26653f42305aae3bbb9e3853e02872d96db343",
+            "position": "55c81a2ff1a730c0efc64ba7adffe2b07ef4aa5c86f2a3eb6c33a02cee3e69b7",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          13.725067615509033,
+          13.89848804473877
+        ],
+        "after": [
+          13.725067615509033,
+          13.89848804473877
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+        "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce",
+        "position": "b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2",
+        "uv": "5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40",
+        "index": "5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -3.256776497621317,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.30000001192092896,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+            "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -3.256776497621317,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.3999999761581421,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+            "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          7.938575029373169,
+          8.630749702453613
+        ],
+        "after": [
+          7.938575029373169,
+          8.630749702453613
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 2,
+      "triangles": 2439,
+      "native": {
+        "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+        "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+        "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+        "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+        "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+      },
+      "wood": {
+        "normal": "df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71",
+        "position": "c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da",
+        "tangent": "78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63",
+        "uv": "28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7",
+        "index": "644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189"
+      },
+      "variants": {
+        "before": {
+          "vertices": 5343,
+          "geometryBytes": 285732,
+          "indexCount": 7317,
+          "boundsExcess": -5.286869737733959,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 1.2000000476837158,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+            "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+            "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+            "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+            "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+          }
+        },
+        "after": {
+          "vertices": 5343,
+          "geometryBytes": 285732,
+          "indexCount": 7317,
+          "boundsExcess": -5.286869737733959,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 1.199999988079071,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+            "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+            "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5",
+            "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+            "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          9.477864742279053,
+          9.914435386657715
+        ],
+        "after": [
+          9.477864742279053,
+          9.914435386657715
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 2,
+      "triangles": 1204,
+      "native": {
+        "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+        "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+        "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+        "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+      },
+      "wood": {
+        "normal": "857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87",
+        "position": "1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1",
+        "tangent": "6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f",
+        "uv": "cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b",
+        "index": "349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1667,
+          "geometryBytes": 67792,
+          "indexCount": 3612,
+          "boundsExcess": -2.589443373724647,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.40000003576278687,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        },
+        "after": {
+          "vertices": 1667,
+          "geometryBytes": 67792,
+          "indexCount": 3612,
+          "boundsExcess": -2.589443373724647,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.40000003576278687,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+            "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+            "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+            "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          5.4044647216796875,
+          4.998692512512207
+        ],
+        "after": [
+          5.4044647216796875,
+          4.998692512512207
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:orchard:2:1",
+      "species": "orchard",
+      "lod": 2,
+      "triangles": 1008,
+      "native": {
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+        "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+      },
+      "wood": {
+        "normal": "ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9",
+        "position": "7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e",
+        "uv": "db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357",
+        "index": "13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1359,
+          "geometryBytes": 55584,
+          "indexCount": 3024,
+          "boundsExcess": -4.262594257505246,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.19999998807907104,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        },
+        "after": {
+          "vertices": 1359,
+          "geometryBytes": 55584,
+          "indexCount": 3024,
+          "boundsExcess": -4.262594257505246,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+            "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+            "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+            "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          7.765723943710327,
+          7.14797568321228
+        ],
+        "after": [
+          7.765723943710327,
+          7.14797568321228
+        ]
+      },
+      "contacts": []
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 2,
+      "triangles": 980,
+      "native": {
+        "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+        "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+        "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+      },
+      "wood": {
+        "normal": "97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724",
+        "position": "336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa",
+        "tangent": "daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4",
+        "uv": "47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95",
+        "index": "12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2"
+      },
+      "variants": {
+        "before": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.533380949674555,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.09999996423721313,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        },
+        "after": {
+          "vertices": 1315,
+          "geometryBytes": 53840,
+          "indexCount": 2940,
+          "boundsExcess": -4.533380949674555,
+          "boundsNodes": 0,
+          "pyramidSourceReads": 0,
+          "pyramidBytes": 0,
+          "decodedAlphaBytes": 0,
+          "elapsedMs": 0.10000002384185791,
+          "alphaCalls": 0,
+          "trianglesChecked": [],
+          "result": {
+            "islands": 0,
+            "moved": 0,
+            "dropped": 0
+          },
+          "hashes": {
+            "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+            "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+            "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70",
+            "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a"
+          }
+        }
+      },
+      "originalUnchanged": true,
+      "parentMatchesNative": true,
+      "widths": {
+        "before": [
+          4.415914535522461,
+          3.971480965614319
+        ],
+        "after": [
+          4.415914535522461,
+          3.971480965614319
+        ]
+      },
+      "contacts": []
+    }
+  ],
+  "images": {},
+  "cost": {},
+  "fixture": null,
+  "sourceSha256": {
+    "before": "b73e6ec19c0dc53a17c04f6c224c7e1e31a8a2c0010cf29549c80d239a011e7e",
+    "after": "b73e6ec19c0dc53a17c04f6c224c7e1e31a8a2c0010cf29549c80d239a011e7e"
+  },
+  "samplerSha256": "8aad95b4c2b91050dd37b014d6fb8cf9498fd89078b1274d8b49881ecd249460",
+  "floraSha256": "b0bbc60a8738bcf5906971b4c43a7b8d125e023a1cec2bfdcde648a335dce886",
+  "farEnabled": false,
+  "pass": false,
+  "reason": "Candidate does not repair a native far-foliage witness",
+  "totals": {
+    "before": {
+      "decodedAlphaBytes": 0,
+      "vertices": 33188,
+      "geometryBytes": 1406128,
+      "boundsNodes": 0,
+      "pyramidSourceReads": 0,
+      "pyramidBytes": 0,
+      "alphaCalls": 0,
+      "moved": 0
+    },
+    "after": {
+      "decodedAlphaBytes": 0,
+      "vertices": 33188,
+      "geometryBytes": 1406128,
+      "boundsNodes": 0,
+      "pyramidSourceReads": 0,
+      "pyramidBytes": 0,
+      "alphaCalls": 0,
+      "moved": 0
+    }
+  }
+}
