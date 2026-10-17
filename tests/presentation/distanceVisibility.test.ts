@@ -76,6 +76,8 @@ describe('opaque distance continuity', () => {
     const mesh = new THREE.InstancedMesh(geometry, material, 2);
     const visibility = attachInstanceDistanceVisibility(mesh);
     expect(visibility.coverage.getY(0)).toBe(1);
+    expect(visibility.coverage.itemSize).toBe(3);
+    expect(visibility.coverage.getZ(0)).toBe(0);
     visibility.coverage.setXY(0, 0.3, 0.8);
     expect(material.transparent).toBe(false);
     expect(material.alphaTest).toBe(0.42);
@@ -86,11 +88,16 @@ describe('opaque distance continuity', () => {
       const shader = { uniforms: {}, vertexShader: original.vertexShader, fragmentShader: original.fragmentShader } as Parameters<THREE.Material['onBeforeCompile']>[0];
       candidate.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(shader.vertexShader).toContain('aDistanceCoverage');
-      expect(shader.fragmentShader).toContain(shaderName === 'standard' ? 'tvDistanceNoise((-vViewPosition' : 'tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy');
+      expect(shader.fragmentShader).toContain(shaderName === 'standard' ? 'tvDistanceNoiseAtFootprint(tvCoverageWorld' : 'tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy');
       expect(shader.fragmentShader.indexOf('tvCoverageSample <')).toBeGreaterThan(shader.fragmentShader.indexOf('#include <alphatest_fragment>'));
       expect((candidate as THREE.MeshStandardMaterial).map).toBe(texture);
       expect((candidate as THREE.MeshStandardMaterial).alphaTest).toBe(0.42);
-      if (candidate === material) expect(shader.vertexShader).toContain('source hook retained');
+      if (candidate === material) {
+        expect(shader.vertexShader).toContain('source hook retained');
+        expect(shader.vertexShader).toContain('flat varying vec3 vDistanceCoverage');
+        expect(shader.fragmentShader).toContain('tvDistanceReference(vDistanceCoverage.z)');
+        expect(shader.fragmentShader.indexOf('tvCoverageFootprint = max')).toBeLessThan(shader.fragmentShader.indexOf('#include <clipping_planes_fragment>'));
+      }
     }
     const geometryReleased = vi.fn(), textureReleased = vi.fn(), sourceReleased = vi.fn(), shadowReleased = vi.fn();
     geometry.addEventListener('dispose', geometryReleased); texture.addEventListener('dispose', textureReleased); material.addEventListener('dispose', sourceReleased);
