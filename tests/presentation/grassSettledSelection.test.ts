@@ -20,7 +20,7 @@ it('retains a settled selection without repeating distance/rank work, and refres
     for(let i=0;i<3;i++)f.layer.update(cam);
     const states=f.states(),stats=f.stats(),distances=vi.spyOn(f.layer as unknown as {distTo(...a:unknown[]):number},'distTo');
     for(let i=0;i<120;i++)f.layer.update(cam,{remaining:0});
-    expect(f.states()).toEqual(states);expect(f.stats()).toEqual(stats);expect(distances).not.toHaveBeenCalled();
+    expect(f.states()).toEqual(states);expect(f.stats()).toEqual(stats);expect(distances.mock.calls.length).toBe(0);
     f.layer.enabled=false;f.layer.update(cam);expect(f.layer.group.visible).toBe(false);expect(f.layer.drawCalls).toBe(0);
     f.layer.enabled=true;f.layer.update(cam);expect(distances).toHaveBeenCalled();expect(f.states()).toEqual(states);expect(f.stats()).toEqual(stats);
     distances.mockClear();cam.x+=.001;f.layer.update(cam);expect(distances).toHaveBeenCalled();
