@@ -16,6 +16,8 @@ export interface Groundcover extends SceneModule {
   readonly wind: GrassWind;
   /** Bodies moving through the grass this frame besides the focus (residents, enemies, animals, cargo). */
   setMovers(movers: readonly GrassMover[]): void;
+  /** Temporarily admit resident tiles for a window capture camera; returns the visibility restore. */
+  showForCapture(camera: THREE.Vector3): () => void;
   /** Renderer work before the frame is drawn: the interaction field. */
   prepare(renderer: THREE.WebGLRenderer, dt: number): void;
   /** Prepare the interaction field's passes ahead of their first use (A81). */
@@ -75,6 +77,10 @@ export function buildGroundcover(ctx: BuildContext): Groundcover {
         trample.setMovers(moverInputs, f.focus.x, f.focus.z);
       }
       field.update(cam, reserve);
+    },
+    showForCapture(camera) {
+      const restores = field.layers.map(layer => layer.showForCapture(camera));
+      return () => { for (const restore of restores) restore(); };
     },
     warm(renderer) { trample?.warm(renderer); },
     prepare(renderer, dt) {

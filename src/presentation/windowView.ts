@@ -30,7 +30,7 @@ export class WindowView {
   /** The face to redraw next while a refresh is spread over frames, or -1 between refreshes. */
   private face = -1;
   /** Lighten what the capture draws (the trees' middle models); returns how to put it back. */
-  lighten: (() => () => void) | null = null;
+  lighten: ((camera: THREE.Vector3) => () => void) | null = null;
 
   /**
    * Only rooms whose windows are painted panes take a capture (A79): the houses' windows are real openings now, through
@@ -85,7 +85,7 @@ export class WindowView {
       const faces = this.camera.children as THREE.PerspectiveCamera[];
       for (const face of faces) if (face.near !== near) { face.near = near; face.updateProjectionMatrix(); }
       const oldTarget = renderer.getRenderTarget(), oldShadow = renderer.shadowMap.autoUpdate, oldAutoClear = renderer.autoClear;
-      const restore = this.lighten?.() ?? null;
+      const restore = this.lighten?.(at) ?? null;
       const oldPaneVisible = this.pane.visible;
       try {
         // Other rooms can lie beyond the near plane. Their panes must not sample the cube being written.
