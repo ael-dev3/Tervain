@@ -171,7 +171,8 @@ export function sampleLeafSurfaceSites(
   const index = geometry.index, triangles = Math.floor((index?.count ?? position.count) / 3);
   const stride = Math.max(1, Math.ceil(triangles / limit));
   const masked = material.alphaTest > 0;
-  const maps: { texture: THREE.Texture; image: LeafChannelImage; sample: { matrix: THREE.Matrix3; point: THREE.Vector2 } }[] = [];
+  const maps: { texture: THREE.Texture; image: LeafChannelImage; uv: THREE.BufferAttribute | THREE.InterleavedBufferAttribute;
+    valueAt: (x: number, y: number) => number; sample: { matrix: THREE.Matrix3; point: THREE.Vector2 } }[] = [];
   if (masked) {
     if (!material.map || !Number.isFinite(material.alphaTest)) return [];
     try {
@@ -180,9 +181,11 @@ export function sampleLeafSurfaceSites(
         const image = options.readImage ? channelPixels(options.readImage(texture.image), channel) : nativeImageChannel(texture.image, channel);
         if (!image) return [];
         const uvName = texture.channel === 0 ? 'uv' : `uv${texture.channel}`;
-        if (!geometry.getAttribute(uvName)) return [];
+        const uv = geometry.getAttribute(uvName);
+        if (!uv) return [];
         // Source texture state stays fixed during this synchronous batch; each call gets fresh scratch state.
-        maps.push({ texture, image, sample: { matrix: textureMatrix(texture), point: new THREE.Vector2() } });
+        maps.push({ texture, image, uv, valueAt: (x, y) => image.data[y * image.width + x]!,
+          sample: { matrix: textureMatrix(texture), point: new THREE.Vector2() } });
       }
     } catch { return []; }
   }
@@ -202,9 +205,9 @@ export function sampleLeafSurfaceSites(
     if (nx * nx + ny * ny + nz * nz <= 1e-16) continue;
     let alpha = material.opacity;
     for (const map of maps) {
-      const uv = geometry.getAttribute(map.texture.channel === 0 ? 'uv' : `uv${map.texture.channel}`);
+      const uv = map.uv;
       alpha *= sampleChannelAlpha(map.image.width, map.image.height,
-        (x, y) => map.image.data[y * map.image.width + x]!,
+        map.valueAt,
         (uv.getX(a) + uv.getX(b) + uv.getX(c)) / 3,
         (uv.getY(a) + uv.getY(b) + uv.getY(c)) / 3, map.texture, map.sample);
     }
