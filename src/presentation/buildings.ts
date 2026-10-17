@@ -231,11 +231,12 @@ function openRoof(R: Region, room: InteriorSpec, roof: { ridgeY: number; pitch: 
   const tone = (base: number, _x: number, _y: number, _z: number, j = 0.08) => jitterTone(base, inner, j);
   // The eaves closed over the front and back walls, from the wall top up to the roof, in steps under its slope.
   for (const sz of [-1, 1]) {
-    const steps = 4, z0 = b.d / 2 - t, z1 = b.d / 2;
+    // The first step starts 1 cm inside the wall, and ends 1 cm inside the outer face, so neither face shares a wall plane below the wall top.
+    const steps = 4, z0 = b.d / 2 - t + 0.01, z1 = b.d / 2 - 0.01;
     for (let i = 0; i < steps; i++) {
       const a = z0 + ((z1 - z0) * i) / steps, c = z0 + ((z1 - z0) * (i + 1)) / steps;
       if (under(c) <= top) continue;
-      R.planks.bx(-b.w / 2, top - 0.05, sz * a, b.w / 2, under(c), sz * c, tone(TINT.wood, 0, top, sz * hd, 0.04), { grain: 'x', jit: 0.03, amp: 0.02 });
+      R.planks.bx(-b.w / 2 + 0.01, top - 0.05, sz * a, b.w / 2 - 0.01, under(c), sz * c, tone(TINT.wood, 0, top, sz * hd, 0.04), { grain: 'x', jit: 0.03, amp: 0.02 });
     }
   }
   // Roof boards between the rafters: strips up each slope, each its own tone.
