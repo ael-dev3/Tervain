@@ -128,6 +128,14 @@ export class PlayerHuntingVisual {
     this.string.name = 'Hunting / drawn bow string';
     this.setString(-.14);
     this.bow.add(limbs, handle, this.string, this.nockedArrow);
+    // The shoulder camera sits behind and beside him, so his own draw arm and torso hide the nocked arrow. It is only ever on the string
+    // while aiming, so it is drawn over the body (no depth test, late order) and always reads as an arrow in the bow.
+    this.nockedArrow.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.renderOrder = 6;
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) material.depthTest = false;
+    });
     this.leftPalm.add(this.bow);
     // The back socket rides the upper spine, so the slung bow moves with his chest and shoulders (A75).
     this.back = new THREE.Group();
