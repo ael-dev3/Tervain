@@ -1,0 +1,1378 @@
+{
+  "rows": [
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1519,
+        "double": 1658,
+        "single": 13207
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1515,
+        "double": 1668,
+        "single": 13201
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1520,
+        "double": 1672,
+        "single": 13192
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 3906,
+        "double": 4292,
+        "single": 8186
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 3895,
+        "double": 4302,
+        "single": 8187
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 3897,
+        "double": 4300,
+        "single": 8187
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1560,
+        "double": 1532,
+        "single": 13292
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1543,
+        "double": 1530,
+        "single": 13311
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1541,
+        "double": 1530,
+        "single": 13313
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1337,
+        "double": 1407,
+        "single": 13640
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1343,
+        "double": 1395,
+        "single": 13646
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1351,
+        "double": 1409,
+        "single": 13624
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 4178,
+        "double": 3844,
+        "single": 8362
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 4205,
+        "double": 3849,
+        "single": 8330
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 4233,
+        "double": 3856,
+        "single": 8295
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1329,
+        "double": 1212,
+        "single": 13843
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1325,
+        "double": 1199,
+        "single": 13860
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1330,
+        "double": 1191,
+        "single": 13863
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1592,
+        "double": 1568,
+        "single": 13224
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1589,
+        "double": 1567,
+        "single": 13228
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1595,
+        "double": 1571,
+        "single": 13218
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 4172,
+        "double": 4230,
+        "single": 7982
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 4170,
+        "double": 4231,
+        "single": 7983
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 4176,
+        "double": 4228,
+        "single": 7980
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1592,
+        "double": 1703,
+        "single": 13089
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1591,
+        "double": 1708,
+        "single": 13085
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 0,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1598,
+        "double": 1709,
+        "single": 13077
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1519,
+        "double": 1658,
+        "single": 13207
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1515,
+        "double": 1668,
+        "single": 13201
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1520,
+        "double": 1672,
+        "single": 13192
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 3906,
+        "double": 4292,
+        "single": 8186
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 3895,
+        "double": 4302,
+        "single": 8187
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 3897,
+        "double": 4300,
+        "single": 8187
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1560,
+        "double": 1532,
+        "single": 13292
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1543,
+        "double": 1530,
+        "single": 13311
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 128,
+      "far": 132,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1541,
+        "double": 1530,
+        "single": 13313
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1337,
+        "double": 1407,
+        "single": 13640
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1343,
+        "double": 1395,
+        "single": 13646
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1351,
+        "double": 1409,
+        "single": 13624
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 4178,
+        "double": 3844,
+        "single": 8362
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 4205,
+        "double": 3849,
+        "single": 8330
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 4233,
+        "double": 3856,
+        "single": 8295
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1329,
+        "double": 1212,
+        "single": 13843
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1325,
+        "double": 1199,
+        "single": 13860
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 150,
+      "far": 154,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1330,
+        "double": 1191,
+        "single": 13863
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1592,
+        "double": 1568,
+        "single": 13224
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1589,
+        "double": 1567,
+        "single": 13228
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.1,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1595,
+        "double": 1571,
+        "single": 13218
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 4172,
+        "double": 4230,
+        "single": 7982
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 4170,
+        "double": 4231,
+        "single": 7983
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.5,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 4176,
+        "double": 4228,
+        "single": 7980
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0,
+        0
+      ],
+      "before": {
+        "holes": 1592,
+        "double": 1703,
+        "single": 13089
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0.0433333333,
+        0.02
+      ],
+      "before": {
+        "holes": 1591,
+        "double": 1708,
+        "single": 13085
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    },
+    {
+      "samples": 4,
+      "near": 550,
+      "far": 554,
+      "weight": 0.9,
+      "pan": [
+        0.0866666667,
+        0.04
+      ],
+      "before": {
+        "holes": 1598,
+        "double": 1709,
+        "single": 13077
+      },
+      "control": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      },
+      "shared": {
+        "holes": 0,
+        "double": 0,
+        "single": 16384
+      }
+    }
+  ],
+  "size": [
+    128,
+    128
+  ],
+  "live": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "d40777b"
+    },
+    "bundleUrl": "https://ael-dev3.github.io/Tervain/assets/tervain-BQhiX8St.js",
+    "bundleSha256": "0da04ab3e68b475340fd245e8795b3e9b6bcf58658ce91f6616a5e64ade6dcda",
+    "shaderSourceExact": true,
+    "coordinateRuleExact": true
+  },
+  "assertions": {
+    "rows": true,
+    "identicalSurfaceControl": true,
+    "reproduced": true,
+    "sharedReferenceReduces": true
+  },
+  "sourceSha256": "b1e28255fd2571f9544da3f05f66e25b977374e8be4dbf052258fa150af35426",
+  "measurementPass": true,
+  "productionInvariantPass": false,
+  "scope": "Controlled two surfaces with identical projected silhouettes but 4 m different depths, actual production distance-noise GLSL. Red = uncovered by either interval, blue = covered by both. Shared-reference plane is a diagnostic control, not a production fix. Counts are not live-tree pixels or a visual-quality gate."
+}

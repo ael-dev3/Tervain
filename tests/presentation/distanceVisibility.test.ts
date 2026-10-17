@@ -4,7 +4,7 @@ import { attachInstanceDistanceVisibility, smoothDistanceFade } from '../../src/
 import { FLORA_FADE_START, FLORA_LOD_BANDS, FLORA_MAX_DISTANCE, floraLodWeights } from '../../src/presentation/floraPopulation';
 
 describe('opaque distance continuity', () => {
-  it('keeps exactly one combined silhouette through every LOD transition and never submits nonadjacent levels', () => {
+  it('keeps adjacent LOD weights nonnegative and summing to one through every band', () => {
     for (const quality of ['low', 'medium', 'high'] as const) {
       let previousNear = 1, previousFar = 0;
       let invalid = 0, maximumSumError = 0;
@@ -47,13 +47,14 @@ describe('opaque distance continuity', () => {
     expect(floraLodWeights('medium', 550)).toEqual([0, 0.5, 0.5]);
   });
 
-  it('assigns every overlapping pixel to exactly one adjacent level without blending or temporal noise', () => {
+  it('partitions a shared noise sample into exactly one adjacent interval', () => {
     for (const distance of [121, 150, 179, 481, 550, 619]) {
       const weights = floraLodWeights('medium', distance);
       let invalid = 0;
       for (let y = 0; y < 96; y++) for (let x = 0; x < 96; x++) {
-        const dot = x * 0.06711056 + y * 0.00583715;
-        const value = 52.9829189 * (dot - Math.floor(dot)), sample = value - Math.floor(value);
+        // Interval arithmetic only: actual LOD surfaces may sample different noise fields.
+        // tools/repro-crown-lod-masks.mjs exercises that renderer gap in WebGL.
+        const sample = (y * 96 + x + 0.5) / (96 * 96);
         let start = 0, visible = 0;
         for (const weight of weights) {
           const end = start + weight;
