@@ -23,3 +23,16 @@ it('reports unusable alignment rather than a perfect score', () => {
   expect(sample.validPixels).toBe(0); expect(sample.shimmerMean).toBeNull();
   expect(summarizeShimmer([sample]).usableFrames).toBe(0);
 });
+it('compares paired brightness errors on the same motion and alignment mask', () => {
+  const image = texture(), previous = translate(image, -2), next = translate(image, 2);
+  const bright = image.slice(); bright[25 * w + 25] = 250;
+  const motionReference = { previous, current: image, next };
+  const clean = frameShimmer(previous, image, next, w, h, { motionReference });
+  const noisy = frameShimmer(previous, bright, next, w, h, { motionReference });
+  expect(noisy.validPixels).toBe(clean.validPixels);
+  expect(clean.sparklePixels).toBe(0);
+  expect(noisy.sparklePixels).toBeGreaterThan(0);
+  expect(() => frameShimmer(previous, image, next, w, h, {
+    motionReference: { ...motionReference, next: new Uint8Array(1) },
+  })).toThrow('Invalid motion reference');
+});
