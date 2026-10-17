@@ -1,8 +1,10 @@
 # Skip receiver shadow taps at exactly zero intensity
 
+Hardware pacing is still sent back; see [current status and revision](#pacing-send-back-and-base-alignment). Older whole-scene timings below are historical, not a PASS for the revised shader.
+
 On [Pages](https://ael-dev3.github.io/Tervain/) 0.0.21 · 570a859, night-time sun shadow-map updates already pause. The sun retains its shadowed-light slot to avoid dusk/dawn shader recompilation. Its receivers still execute the PCF shadow function's texture comparisons before the final `mix(1, shadow, intensity)` discards their result at intensity zero.
 
-The fix returns 1 immediately at **exactly zero** intensity. Nonzero intensities run the original code, including fractional and negative values. It changes no shadow-map initialization, update scheduling, light count, geometry, density, materials or visual settings.
+The revised fix rejects **exactly zero** intensity in the existing frustum condition. It keeps the original single final return: `shadow` stays 1 and the final mix returns 1. Nonzero intensities run the original comparisons, including fractional and negative values. The earlier extra early function return has been removed. It changes no shadow-map initialization, update scheduling, light count, geometry, density, materials or visual settings.
 
 ## Deterministic comparison-tap fixture
 
@@ -51,3 +53,16 @@ npm run build
 ```
 
 All 30 sky/foliage tests and the production build pass. Hardware play-gate verification remains pending.
+## Pacing send-back and base alignment
+
+The [hardware review](https://github.com/ael-dev3/Tervain/pull/635#issuecomment-6242067853) rejected `9791d03`: 0.4%, 4.7%, 4.4% of frames exceeded 25 ms, with one hero-jump flag; the paired live baseline was 1.3% and 1.1%. Those failures remain valid. The older software GPU queries are not a hardware pacing clearance.
+
+The candidate now includes published `d40777b`, including the forest culling, static upload, empty-floor and faded-grass-tail optimizations missing from the rejected head. The product delta against that base is now the exact-zero term folded into the existing frustum predicate; player/camera logic matches the base. This aligns the next comparison with current live. It does not prove the pacing regression or hero-jump flag fixed.
+
+The shader retains its baseline branch and one terminal return, avoiding the extra function exit introduced by the rejected candidate. This removes a control-flow change, but does not establish a driver/compiler cause for the hardware regression. A fresh production-kernel fixture is attached separately; earlier whole-scene captures remain historical. A new baseline-then-build hardware run, including the hero-jump check, is required before merge.
+
+[Fresh aligned-base kernel receipt](proofs/zero-shadow-intensity/aligned-kernel.json): all 48 before/after pairs pass (96 instrumented rows). Reproduce without loading the whole world:
+
+```sh
+node tools/repro-shadow-zero-kernel.mjs shadow-zero-kernel
+```
