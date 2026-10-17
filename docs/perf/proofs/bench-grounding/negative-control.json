@@ -1,0 +1,6 @@
+{
+  "variant": "Original published bench builder restored temporarily, then candidate restored",
+  "command": "npx vitest run tests/presentation/benchGrounding.test.ts --testTimeout=90000",
+  "expectedFailure": true,
+  "scope": "The old builder does not seat the downhill support or rotated slope footprints"
+}
