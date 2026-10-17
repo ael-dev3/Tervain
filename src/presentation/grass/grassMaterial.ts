@@ -103,8 +103,8 @@ uniform vec4 uBand;
 uniform vec4 uLook;
 uniform float uFarBlades;
 uniform float uGrassPx;
-varying vec3 vGCol;
-varying vec4 vGInfo;
+centroid varying vec3 vGCol;
+centroid varying vec4 vGInfo;
 float gHash(float n) { return fract(sin(n) * 43758.5453123); }
 `;
 
@@ -266,9 +266,11 @@ vGInfo = vec4(gT, gEdge, uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLy
 `;
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
-varying vec3 vGCol;
-varying vec4 vGInfo;
+centroid varying vec3 vGCol;
+centroid varying vec4 vGInfo;
 uniform vec3 uTransTint;
+// Centroid interpolation keeps colour and blade lighting inside the covered triangle under MSAA.
+// A clamp alone cannot reject extrapolated values that are bright but still inside 0..1.
 // With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
 // blade lies outside the triangle: the varyings are extrapolated there, far past any value a vertex wrote. The colour
 // went negative or several times too bright, and the tone curve turned those samples into single white (or black)
@@ -354,7 +356,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v10${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v11${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
