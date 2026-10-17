@@ -151,7 +151,7 @@ export class RealmPhysics {
           const mesh = source.projectileMesh;
           const arrows = this.world.createCollider(RAPIER.ColliderDesc.trimesh(mesh.positions, mesh.indices)
             .setSensor(true).setCollisionGroups(0).setEnabled(source.active));
-          this.fixed.push({ source, collider: arrows });
+          this.fixed.push({ source, collider: arrows, enabled: source.active });
         }
       }
     }
