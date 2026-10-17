@@ -1,0 +1,157 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "batches": 12,
+  "rows": [
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0
+      ],
+      "emptyBatches": 9,
+      "nonemptyBatches": 3,
+      "stateHash": "c9c49065907f82f91f0fe70383094a4f280e81ee3f4a0cf4cdafa81612722170",
+      "modes": {
+        "before": {
+          "emptySetups": 9,
+          "uniformCalls": 199,
+          "drawCalls": 102,
+          "triangles": 1609953,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "c9c49065907f82f91f0fe70383094a4f280e81ee3f4a0cf4cdafa81612722170"
+        },
+        "after": {
+          "emptySetups": 0,
+          "uniformCalls": 198,
+          "drawCalls": 102,
+          "triangles": 1609953,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "c9c49065907f82f91f0fe70383094a4f280e81ee3f4a0cf4cdafa81612722170"
+        },
+        "repeat": {
+          "emptySetups": 0,
+          "uniformCalls": 198,
+          "drawCalls": 102,
+          "triangles": 1609953,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "c9c49065907f82f91f0fe70383094a4f280e81ee3f4a0cf4cdafa81612722170"
+        }
+      },
+      "identicalPixels": true,
+      "repeatIdentical": true
+    },
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.5
+      ],
+      "emptyBatches": 0,
+      "nonemptyBatches": 12,
+      "stateHash": "5a527450c9b7f305debbfc53e0ca75b5ce8b9e1a60a1dabc8fe1fd9cd199ad30",
+      "modes": {
+        "before": {
+          "emptySetups": 0,
+          "uniformCalls": 465,
+          "drawCalls": 194,
+          "triangles": 3467287,
+          "uploadBytes": 20736,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "5a527450c9b7f305debbfc53e0ca75b5ce8b9e1a60a1dabc8fe1fd9cd199ad30"
+        },
+        "after": {
+          "emptySetups": 0,
+          "uniformCalls": 465,
+          "drawCalls": 194,
+          "triangles": 3467287,
+          "uploadBytes": 20736,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "5a527450c9b7f305debbfc53e0ca75b5ce8b9e1a60a1dabc8fe1fd9cd199ad30"
+        },
+        "repeat": {
+          "emptySetups": 0,
+          "uniformCalls": 465,
+          "drawCalls": 194,
+          "triangles": 3467287,
+          "uploadBytes": 20736,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "5a527450c9b7f305debbfc53e0ca75b5ce8b9e1a60a1dabc8fe1fd9cd199ad30"
+        }
+      },
+      "identicalPixels": true,
+      "repeatIdentical": true
+    },
+    {
+      "pose": [
+        -268,
+        3.519003212451935,
+        27,
+        -1.4
+      ],
+      "emptyBatches": 10,
+      "nonemptyBatches": 2,
+      "stateHash": "85681dd9bc68e4528769783334fd0f5f194adbc0db0938d5eb74be7fa22d4a25",
+      "modes": {
+        "before": {
+          "emptySetups": 10,
+          "uniformCalls": 28,
+          "drawCalls": 44,
+          "triangles": 271770,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "85681dd9bc68e4528769783334fd0f5f194adbc0db0938d5eb74be7fa22d4a25"
+        },
+        "after": {
+          "emptySetups": 0,
+          "uniformCalls": 27,
+          "drawCalls": 44,
+          "triangles": 271770,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "85681dd9bc68e4528769783334fd0f5f194adbc0db0938d5eb74be7fa22d4a25"
+        },
+        "repeat": {
+          "emptySetups": 0,
+          "uniformCalls": 27,
+          "drawCalls": 44,
+          "triangles": 271770,
+          "uploadBytes": 0,
+          "textureCount": 274,
+          "estimatedTextureStorageBytes": 1310276620,
+          "unknownTextureFormats": 0,
+          "stateHash": "85681dd9bc68e4528769783334fd0f5f194adbc0db0938d5eb74be7fa22d4a25"
+        }
+      },
+      "identicalPixels": true,
+      "repeatIdentical": true
+    }
+  ],
+  "sourceSha256": "4640f2017f386bfd7df375ea818d36a3d14698d5196953f177c13436c76cc403",
+  "visibilityExpression": "count > 0",
+  "scope": "Published High forest-floor batches, native count selection and Grade/post/MSAA rendering. Only mesh visibility uses the candidate production assignment extracted verbatim. Actual builder exercised separately by regression tests. Warm controls, frozen simulation/wind and fixed shadow map per view. GL uniform call counts and upload source bytes, not CPU/GPU timings. Texture estimate is observed uncompressed texels/mips, not total driver VRAM.",
+  "pass": true
+}

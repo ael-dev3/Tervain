@@ -538,6 +538,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     mesh.castShadow = quality === 'high' && first.kind === 'fern';
     mesh.frustumCulled = false;
     mesh.count = 0;
+    mesh.visible = false;
     mesh.setColorAt(0, col.setScalar(1));
     const transforms: THREE.Matrix4[] = [], bounds: THREE.Sphere[] = [];
     for (const p of batch) {
@@ -619,6 +620,8 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
           count++;
         }
         b.mesh.count = count;
+        // Zero-instance draws still run Three's material/uniform setup unless the batch leaves the render list.
+        b.mesh.visible = count > 0;
         b.packed.length = count;
         if (staticChanged) {
           uploadFloorPrefix(b.mesh.instanceMatrix, count);
