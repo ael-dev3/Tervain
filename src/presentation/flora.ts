@@ -447,6 +447,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
 
   const packedTrees = new WeakMap<THREE.InstancedMesh, number[]>();
   const staticChanged = new Set<THREE.InstancedMesh>();
+  const staticRanges = new WeakMap<THREE.InstancedMesh, { first: number; last: number }>();
+  const uploadStatic = (mesh: THREE.InstancedMesh, attribute: THREE.BufferAttribute) => {
+    const dirty = staticRanges.get(mesh)!;
+    let first = dirty.first * attribute.itemSize, end = (dirty.last + 1) * attribute.itemSize;
+    // A culled batch may have pending writes from earlier refreshes. Keep them until Three consumes the upload.
+    for (const range of attribute.updateRanges) {
+      first = Math.min(first, range.start); end = Math.max(end, range.start + range.count);
+    }
+    attribute.clearUpdateRanges();
+    attribute.addUpdateRange(first, end - first);
+    attribute.needsUpdate = true;
+  };
   const coverageChanged = new Set<THREE.InstancedBufferAttribute>();
   const packStatic = (mesh: THREE.InstancedMesh | null, slot: number, tree: number, matrix: THREE.Matrix4, tint?: THREE.Color) => {
     if (!mesh) return;
@@ -455,6 +467,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     if (packed[slot] !== tree) {
       mesh.setMatrixAt(slot, matrix);
       if (tint) mesh.setColorAt(slot, tint);
+      let dirty = staticRanges.get(mesh);
+      if (!dirty) { dirty = { first: slot, last: slot }; staticRanges.set(mesh, dirty); }
+      if (!staticChanged.has(mesh)) { dirty.first = slot; dirty.last = slot; }
+      else { dirty.first = Math.min(dirty.first, slot); dirty.last = Math.max(dirty.last, slot); }
       staticChanged.add(mesh);
     }
     packed[slot] = tree;
@@ -585,8 +601,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           const packed = packedTrees.get(mesh);
           if (packed) packed.length = mesh.count;
           if (staticChanged.has(mesh)) {
-            uploadPrefix(mesh.instanceMatrix, mesh.count);
-            if (mesh.instanceColor) uploadPrefix(mesh.instanceColor, mesh.count);
+            uploadStatic(mesh, mesh.instanceMatrix);
+            if (mesh.instanceColor) uploadStatic(mesh, mesh.instanceColor);
           }
         }
         // A growing prefix may expose a tail changed while it was not drawn/uploaded.
@@ -608,7 +624,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             mesh.visible = shadowCounts[l]! > 0;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
-            if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
+            if (staticChanged.has(mesh)) uploadStatic(mesh, mesh.instanceMatrix);
             const cov = casterCoverage.get(mesh);
             if (cov && (coverageChanged.has(cov) || mesh.count > previousCasterCount)) uploadPrefix(cov, mesh.count);
           }

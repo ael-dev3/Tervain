@@ -1,0 +1,317 @@
+{
+  "build": {
+    "version": "0.0.20",
+    "revision": "b204654"
+  },
+  "refreshes": 24,
+  "rows": {
+    "before": {
+      "nativeControlMatches": true,
+      "statesSha256": "4d834e5aae61be094ae334ea03abe537b9cd9468930b361cba1cfb6d875f9f7f",
+      "sourceBufferBytes": 14664,
+      "frames": [
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2224457
+        },
+        {
+          "sourceBufferBytes": 704,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2194017
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 168,
+          "triangles": 2060542
+        },
+        {
+          "sourceBufferBytes": 488,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2190999
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2161190
+        },
+        {
+          "sourceBufferBytes": 1208,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2199434
+        },
+        {
+          "sourceBufferBytes": 2152,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2222974
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 171,
+          "triangles": 2223435
+        },
+        {
+          "sourceBufferBytes": 2088,
+          "initialBufferBytes": 0,
+          "drawCalls": 171,
+          "triangles": 2213323
+        },
+        {
+          "sourceBufferBytes": 1712,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2283414
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2265038
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 176,
+          "triangles": 2256694
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2265039
+        },
+        {
+          "sourceBufferBytes": 200,
+          "initialBufferBytes": 0,
+          "drawCalls": 181,
+          "triangles": 2296551
+        },
+        {
+          "sourceBufferBytes": 200,
+          "initialBufferBytes": 0,
+          "drawCalls": 191,
+          "triangles": 2364645
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2358583
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2326979
+        },
+        {
+          "sourceBufferBytes": 184,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2278749
+        },
+        {
+          "sourceBufferBytes": 1248,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2248700
+        },
+        {
+          "sourceBufferBytes": 1712,
+          "initialBufferBytes": 0,
+          "drawCalls": 194,
+          "triangles": 2321119
+        },
+        {
+          "sourceBufferBytes": 368,
+          "initialBufferBytes": 0,
+          "drawCalls": 193,
+          "triangles": 2362103
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 195,
+          "triangles": 2363127
+        },
+        {
+          "sourceBufferBytes": 2048,
+          "initialBufferBytes": 0,
+          "drawCalls": 197,
+          "triangles": 2439966
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 200,
+          "triangles": 2440149
+        }
+      ],
+      "textureCount": 274
+    },
+    "after": {
+      "nativeControlMatches": true,
+      "statesSha256": "4d834e5aae61be094ae334ea03abe537b9cd9468930b361cba1cfb6d875f9f7f",
+      "sourceBufferBytes": 11776,
+      "frames": [
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2224457
+        },
+        {
+          "sourceBufferBytes": 704,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2194017
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 168,
+          "triangles": 2060542
+        },
+        {
+          "sourceBufferBytes": 336,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2190999
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2161190
+        },
+        {
+          "sourceBufferBytes": 752,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2199434
+        },
+        {
+          "sourceBufferBytes": 1240,
+          "initialBufferBytes": 0,
+          "drawCalls": 169,
+          "triangles": 2222974
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 171,
+          "triangles": 2223435
+        },
+        {
+          "sourceBufferBytes": 1176,
+          "initialBufferBytes": 0,
+          "drawCalls": 171,
+          "triangles": 2213323
+        },
+        {
+          "sourceBufferBytes": 1712,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2283414
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2265038
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 176,
+          "triangles": 2256694
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 177,
+          "triangles": 2265039
+        },
+        {
+          "sourceBufferBytes": 200,
+          "initialBufferBytes": 0,
+          "drawCalls": 181,
+          "triangles": 2296551
+        },
+        {
+          "sourceBufferBytes": 200,
+          "initialBufferBytes": 0,
+          "drawCalls": 191,
+          "triangles": 2364645
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2358583
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2326979
+        },
+        {
+          "sourceBufferBytes": 184,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2278749
+        },
+        {
+          "sourceBufferBytes": 1096,
+          "initialBufferBytes": 0,
+          "drawCalls": 188,
+          "triangles": 2248700
+        },
+        {
+          "sourceBufferBytes": 1712,
+          "initialBufferBytes": 0,
+          "drawCalls": 194,
+          "triangles": 2321119
+        },
+        {
+          "sourceBufferBytes": 216,
+          "initialBufferBytes": 0,
+          "drawCalls": 193,
+          "triangles": 2362103
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 195,
+          "triangles": 2363127
+        },
+        {
+          "sourceBufferBytes": 1896,
+          "initialBufferBytes": 0,
+          "drawCalls": 197,
+          "triangles": 2439966
+        },
+        {
+          "sourceBufferBytes": 32,
+          "initialBufferBytes": 0,
+          "drawCalls": 200,
+          "triangles": 2440149
+        }
+      ],
+      "textureCount": 274
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "d41b0c392823e976687dc0dc5fde41457b578344e8517d1a30d59314102a6876",
+  "scope": "Actual baseline/candidate refresh and upload helpers on published High forest batches. 24 camera turns/walk steps, each followed by a native Grade/post/MSAA render. Simulation and wind held still; sun shadow map held fixed after warmup. All sampled views prewarmed; measured frames must have zero initial buffer allocations. Actual GL buffer source bytes, not uniform/texture bytes or hardware timings. Active color/caster matrices, colors, coverage, counts, bounds and statistics compared every step. Endpoint pixels compared.",
+  "pass": true
+}
