@@ -29,10 +29,10 @@ function periodicValueNoise(size: number, period: number, seed: number): Float32
   }
   const out = new Float32Array(size * size);
   const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
+  const at = (i: number, j: number) => lattice[((j % period + period) % period) * period + ((i % period + period) % period)]!;
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
     const gx = (x / size) * period, gy = (y / size) * period;
     const x0 = Math.floor(gx), y0 = Math.floor(gy), fx = fade(gx - x0), fy = fade(gy - y0);
-    const at = (i: number, j: number) => lattice[((j % period + period) % period) * period + ((i % period + period) % period)]!;
     const a = at(x0, y0), b = at(x0 + 1, y0), c = at(x0, y0 + 1), d = at(x0 + 1, y0 + 1);
     out[y * size + x] = a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
   }
@@ -172,8 +172,12 @@ export class GrassWind {
     const data = gustField(), n = GUST_TEXELS;
     const u = ((x - this.gustX) / GUST_SPAN) * n - 0.5, v = ((z - this.gustZ) / GUST_SPAN) * n - 0.5;
     const x0 = Math.floor(u), y0 = Math.floor(v), fx = u - x0, fy = v - y0;
-    const at = (i: number, j: number) => data[(((j % n) + n) % n * n + (((i % n) + n) % n)) * 4]! / 255;
-    const a = at(x0, y0), b = at(x0 + 1, y0), c = at(x0, y0 + 1), d = at(x0 + 1, y0 + 1);
+    // The texture is power-of-two: wrap each neighbour once, then share its byte offsets.
+    // Add before wrapping so even coordinates beyond the safe-integer range retain their rounding.
+    const mask = n - 1, ix = (x0 & mask) * 4, ix1 = ((x0 + 1) & mask) * 4;
+    const row = (y0 & mask) * n * 4, row1 = ((y0 + 1) & mask) * n * 4;
+    const a = data[row + ix]! / 255, b = data[row + ix1]! / 255;
+    const c = data[row1 + ix]! / 255, d = data[row1 + ix1]! / 255;
     return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
   }
 

@@ -1,0 +1,57 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "label": "tree:wild:40:42",
+  "releaseArgs": [
+    -126.32940230187539,
+    10.046051844232032,
+    98.9135056810314,
+    4.4472396203371884,
+    6
+  ],
+  "released": 6,
+  "frames": 1475,
+  "airborneMatrices": 6280,
+  "worstFrame": 1140,
+  "worstGroundedLeaf": 3,
+  "rows": {
+    "before": {
+      "groundedVertexObservations": 7200,
+      "penetratingVertices": 37,
+      "minGap": -0.04381466204883111,
+      "terrainQueries": 6286,
+      "pausedQueries": 0,
+      "finalActive": 0,
+      "finalVisible": false
+    },
+    "after": {
+      "groundedVertexObservations": 7200,
+      "penetratingVertices": 0,
+      "minGap": 0.011999914791460675,
+      "terrainQueries": 8836,
+      "pausedQueries": 0,
+      "finalActive": 0,
+      "finalVisible": false
+    }
+  },
+  "cost": {
+    "before": {
+      "drawCalls": 113,
+      "triangles": 763199
+    },
+    "after": {
+      "drawCalls": 113,
+      "triangles": 763199
+    }
+  },
+  "geometrySha256": "a37d4c00f920ed003066ab875ac7a50b612eb54e207fc64a76629ec470cdbd93",
+  "sourceSha256": {
+    "before": "5950860584e43c3919e928fb86bb03dd598db7211c7be8e3ddef341ffcba7a6c",
+    "after": "293ed648843725520cdbe3cd84f29e0f2df4caeed6a21744f28c377153ef7234"
+  },
+  "changedChannels": 13068,
+  "scope": "Published native tree strike and terrain, original leaf pool compared matrix-for-matrix with the extracted baseline. Measure transformed geometry vertices only after landing; airborne matrices must remain identical. Fixed-step simulation is accelerated. Images isolate the worst landed contact against native terrain through native post rendering, with forest/grass groups hidden equally; not a player camera route or hardware timing.",
+  "pass": true
+}

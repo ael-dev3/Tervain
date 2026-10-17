@@ -1,0 +1,21 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {Grade} from '/src/presentation/grade.ts';
+try {
+ const mode=new URLSearchParams(location.search).get('mode');
+ const files=['boar-1005232450.glb','deer-1005232424.glb','tiger-1005232739.glb','wolf-1005232644.glb'];
+ const assets=await Promise.all(files.map(file=>createGltfLoader().loadAsync((mode==='baseline'?'/__baseline-animal/':'/models/animals/')+file)));
+ const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(400,300);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.22;document.body.append(renderer.domElement);
+ const grade=new Grade(renderer,{msaa:true});grade.setSize(400,300);
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x607080);scene.add(new THREE.HemisphereLight(0xffffff,0x303035,1.5));
+ const light=new THREE.DirectionalLight(0xffffff,3);light.position.set(3,5,4);scene.add(light);
+ const camera=new THREE.PerspectiveCamera(40,4/3,.01,100),state=globalThis.__renderCostStates.get(renderer.getContext());
+ const colours=assets.map(asset=>{let texture;asset.scene.traverse(m=>{if(m.isMesh){const material=Array.isArray(m.material)?m.material[0]:m.material;if(material.normalMap)texture=material.normalMap;}});if(!texture)throw Error('Missing normal map');const canvas=document.createElement('canvas');canvas.width=texture.image.width;canvas.height=texture.image.height;const context=canvas.getContext('2d',{willReadFrequently:true});context.drawImage(texture.image,0,0);const data=context.getImageData(0,0,canvas.width,canvas.height).data,rgba=Array.from(data.subarray(0,4));let constant=true;for(let i=0;i<data.length;i++)if(data[i]!==rgba[i%4]){constant=false;break;}return{width:canvas.width,height:canvas.height,rgba,constant};});
+ const mixers=assets.map(a=>{const clip=a.animations.find(c=>c.name==='Walk');if(!clip)throw Error('Missing authored walk');const mixer=new THREE.AnimationMixer(a.scene);mixer.clipAction(clip).play();return mixer;});
+ let current=null;
+ window.constantNormalProof={rows:[],colours,step(i){const index=Math.floor(i/2),angle=i%2;if(current)scene.remove(current);current=assets[index].scene;scene.add(current);mixers[index].setTime(angle?.73:.37);scene.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(current),centre=box.getCenter(new THREE.Vector3()),extent=box.getSize(new THREE.Vector3()),distance=extent.length()*1.4;
+ camera.position.copy(centre).add(new THREE.Vector3(angle?-1:1,.35,angle?-1.6:1.6).normalize().multiplyScalar(distance));camera.lookAt(centre);camera.updateMatrixWorld();renderer.info.reset();const bytes=state.uploads;grade.render(scene,camera,0);let textureImagePayloadBytes=0;for(const levels of state.textures.values())for(const l of levels.values())textureImagePayloadBytes+=l.w*l.h*l.d*l.b;
+ const row={file:files[index],angle,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,sourceUploadBytes:state.uploads-bytes,textures:renderer.info.memory.textures,textureImagePayloadBytes,postSamples:grade.target.samples,glError:renderer.getContext().getError()};this.rows.push(row);return row;}};
+}catch(error){window.fixtureError=error.stack??String(error);}
+</script></body></html>

@@ -156,7 +156,9 @@ float gW = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPresence * (1.0 - 0.72 *
 // Wind: a gust front leaning whole bands of grass, and each blade's own flutter inside it.
 vec2 gWd = uWindDir.xy;
 vec2 gWc = vec2(-gWd.y, gWd.x);
-float gLarge = texture2D(tGust, (gRootW - uGustScroll.xy) * ${f(1 / GUST_SPAN)}).r;
+// Reduced Motion disables broad gusts; their sample cannot affect gPush while the amplitude is zero.
+float gLarge = 0.0;
+if (uWindDir.w != 0.0) gLarge = texture2D(tGust, (gRootW - uGustScroll.xy) * ${f(1 / GUST_SPAN)}).r;
 float gSmall = texture2D(tGust, (gRootW - uGustScroll.zw) * ${f(1 / TURBULENCE_SPAN)}).g;
 float gGust = smoothstep(0.38, 0.88, gLarge);
 float gPush = uWindDir.z + uWindDir.w * gGust;
@@ -352,7 +354,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v9${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v10${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

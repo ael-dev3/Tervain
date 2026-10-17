@@ -1,0 +1,45 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "trees": 453,
+  "nativeSelectedPieces": 197,
+  "rows": {
+    "before": {
+      "sinCalls": 197503,
+      "cosCalls": 197503,
+      "pieces": 545,
+      "selections": {
+        "low": 197,
+        "medium": 365,
+        "high": 545
+      },
+      "populationAndSelectionsSha256": "eb72325d983dcf4a583a55889a61bdd8d850bddc82273e91056be9c37f7fdbff",
+      "matchesBaseline": true,
+      "drawCalls": 221,
+      "triangles": 1780529,
+      "textureCount": 142
+    },
+    "after": {
+      "sinCalls": 197503,
+      "cosCalls": 197503,
+      "pieces": 545,
+      "selections": {
+        "low": 197,
+        "medium": 365,
+        "high": 545
+      },
+      "populationAndSelectionsSha256": "eb72325d983dcf4a583a55889a61bdd8d850bddc82273e91056be9c37f7fdbff",
+      "matchesBaseline": true,
+      "drawCalls": 221,
+      "triangles": 1780529,
+      "textureCount": 142
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "0f36895c42e3a0876f1c4662162c0d0628e73dadaa63947a5af5e422995ea2ae",
+  "baselineRevision": "421d34b",
+  "scope": "Replay actual baseline/candidate forest-floor population builders with the published world terrain, retained canonical tree population, exclusion object and planted crown field. Compare every piece property and all quality selections. Count actual Math.sin/Math.cos calls during one native population build, restoring both functions before rendering; module initialization is outside the count. Rebuild baseline/candidate floor modules in the native scene, preserving other modules and native post/MSAA rendering; require equality to original native pixels. No hardware timing claim.",
+  "pass": false
+}

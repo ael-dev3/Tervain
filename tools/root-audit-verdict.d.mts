@@ -1,1 +1,2 @@
-export function rootAuditVerdict(audit: {complete?: boolean; expectedRoots?: number; furnitureReady?: boolean; summary?: {roots?: number}; checks?: {kind: string; candidate: boolean}[]} | null | undefined, baselineCount?: number): {pass:boolean; reason?:string; rootCandidates:number|null};
+export function rootAuditVerdict(audit: {complete?: boolean; expectedRoots?: number; furnitureReady?: boolean; summary?: {roots?: number}; checks?: {kind: string; label?: string; candidate: boolean}[]} | null | undefined, baselineCount?: number, baselineLabels?: unknown): {pass:boolean; reason?:string; rootCandidates:number|null};
+export function rootBaselineLabels(placement: {rootCandidates?: number; rootCandidateLabels?: unknown} | null | undefined): unknown;

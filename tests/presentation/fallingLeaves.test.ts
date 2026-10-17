@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { buildFallingLeaves, fallingLeafCanopySites, FALLING_LEAF_LIMIT } from '../../src/presentation/fallingLeaves';
 import type { FloraTree } from '../../src/presentation/floraPopulation';
 import type { TreeVariant } from '../../src/presentation/treeGen';
@@ -52,6 +52,35 @@ describe('gentle detached broadleaf shedding', () => {
       expect((opacity(mesh) as THREE.BufferAttribute).version).toBeGreaterThan(opacityVersion);
       expect(Array.from(opacity(mesh).array).every(a => a === 0)).toBe(true);
     } finally { leaves.dispose?.(); variant.lods[0].leaf!.dispose(); }
+  });
+
+  it('keeps first-sort poses and refreshes re-entering leaves while skipping cached discarded poses', () => {
+    const variant = source(), trees = Array.from({ length: 256 }, (_, i) => tree(`oak:${i}`));
+    const leaves = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant);
+    const reference = buildFallingLeaves({ heightAt: () => 0 }, 'high', trees, () => variant);
+    const mesh = meshOf(leaves), full = meshOf(reference), writes = vi.spyOn(mesh, 'setMatrixAt');
+    try {
+      const far = frame(false, -1000);
+      leaves.update(1 / 60, far); reference.update(1 / 60, far);
+      expect(mesh.boundingSphere).toBeNull();
+      expect(writes).toHaveBeenCalledTimes(256); // Initial sorting data remains complete.
+      mesh.computeBoundingSphere(); const bounds = mesh.boundingSphere!.clone();
+      const matrix = new THREE.Matrix4(), expected = new THREE.Matrix4();
+      let shown = false;
+      for (let i = 0; i < 120; i++) {
+        const f = i < 20 || i >= 60 && i < 80 ? far : frame();
+        writes.mockClear(); leaves.update(.25, f); reference.update(.25, f);
+        expect(Array.from(opacity(mesh).array)).toEqual(Array.from(opacity(full).array));
+        const visible = Array.from(opacity(mesh).array).filter(a => a > .001).length;
+        expect(writes).toHaveBeenCalledTimes(visible);
+        shown ||= visible > 0;
+        for (let j = 0; j < mesh.count; j++) if (opacity(mesh).getX(j) > .001) {
+          mesh.getMatrixAt(j, matrix); full.getMatrixAt(j, expected); expect(matrix.elements).toEqual(expected.elements);
+        }
+        expect(mesh.boundingSphere!.equals(bounds)).toBe(true);
+      }
+      expect(shown).toBe(true);
+    } finally { leaves.dispose?.(); reference.dispose?.(); variant.lods[0].leaf!.dispose(); }
   });
 
   it('releases from exact source-card centres with grounded yaw/uniform scale, without editing any source buffers', () => {
@@ -235,4 +264,42 @@ describe('detached leaves on the realm wind', () => {
       expect(Math.abs(Math.atan2(Math.sin(got - angle), Math.cos(got - angle)))).toBeLessThan(0.5);
     }
   });
+});
+it('draws and uploads only the last non-discarded prefix, retaining stream slots as it grows again',()=>{
+ const variant=source(),trees=Array.from({length:256},(_,i)=>tree(`prefix:${i}`));
+ const leaves=buildFallingLeaves({heightAt:()=>0},'high',trees,()=>variant),mesh=meshOf(leaves),a=opacity(mesh) as THREE.InstancedBufferAttribute;
+ try{let trimmed=false;for(let i=0;i<120;i++){
+   leaves.update(1/60,frame());const values=Array.from(a.array);let last=0;values.forEach((v,j)=>{if(v>.001)last=j+1;});
+   expect(mesh.count).toBe(last);if(last>0){const first=values.findIndex(v=>v>.001);expect(mesh.instanceMatrix.updateRanges).toEqual([{start:first*16,count:(last-first)*16}]);expect(a.updateRanges).toEqual([{start:0,count:last}]);if(last<values.length)trimmed=true;}
+ }
+ expect(trimmed).toBe(true);leaves.update(.1,frame(false,-1000));expect(mesh.count).toBe(0);expect(mesh.visible).toBe(false);
+ leaves.update(.1,frame());expect(mesh.count).toBeGreaterThan(0);expect(mesh.instanceMatrix.updateRanges[0]!.start+mesh.instanceMatrix.updateRanges[0]!.count).toBe(mesh.count*16);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
+});
+
+it('omits hidden leading matrix slots and uploads them when their patch re-enters', () => {
+ const variant=source(),a=tree('leading:a'),b={...tree('leading:b'),x:-102};
+ const leaves=buildFallingLeaves({heightAt:()=>0},'low',[a,b],()=>variant),mesh=meshOf(leaves),alpha=opacity(mesh);
+ try {
+  leaves.update(0,frame(false,-1000));
+  const firstX=positionOf(mesh,0).x,secondX=positionOf(mesh,1).x;
+  expect(Math.abs(firstX-secondX)).toBeGreaterThan(55);
+  for(let i=0;i<100&&alpha.getX(1)<=.001;i++)leaves.update(.1,frame(false,secondX));
+  expect(alpha.getX(0)).toBe(0);expect(alpha.getX(1)).toBeGreaterThan(.001);
+  expect(mesh.instanceMatrix.updateRanges).toEqual([{start:16,count:16}]);
+  for(let i=0;i<100&&alpha.getX(0)<=.001;i++)leaves.update(.1,frame(false,firstX));
+  expect(alpha.getX(1)).toBe(0);expect(alpha.getX(0)).toBeGreaterThan(.001);
+  expect(mesh.instanceMatrix.updateRanges).toEqual([{start:0,count:16}]);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
+});
+it('retains frozen leaf buffers, refreshes horizontal coverage and resumes animation without a clock jump',()=>{
+ const variant=source(),leaves=buildFallingLeaves({heightAt:()=>0},'high',Array.from({length:256},(_,i)=>tree(`idle:${i}`)),()=>variant),mesh=meshOf(leaves),a=opacity(mesh) as THREE.BufferAttribute;
+ try{const f=frame();leaves.update(.1,f);const matrix=Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex'),alpha=Buffer.from(a.array.buffer).toString('hex'),m=mesh.instanceMatrix.version,v=a.version;
+ const frozen=frame(true);for(let i=0;i<120;i++)leaves.update(1/60,frozen);
+ expect(mesh.instanceMatrix.version).toBe(m);expect(a.version).toBe(v);expect(Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex')).toBe(matrix);expect(Buffer.from(a.array.buffer).toString('hex')).toBe(alpha);
+ frozen.camera.position.y+=5;frozen.camera.rotation.y+=.5;leaves.update(0,frozen);expect(a.version).toBe(v);
+ frozen.camera.position.x=-1000;leaves.update(0,frozen);expect(a.version).toBe(v+1);expect(mesh.visible).toBe(false);
+ leaves.update(0,frame(true));expect(a.version).toBe(v+2);expect(mesh.visible).toBe(true);
+ leaves.update(1/60,frame(false));expect(mesh.instanceMatrix.version).toBeGreaterThan(m);expect(Buffer.from(mesh.instanceMatrix.array.buffer).toString('hex')).not.toBe(matrix);
+ }finally{leaves.dispose?.();variant.lods[0].leaf!.dispose();}
 });

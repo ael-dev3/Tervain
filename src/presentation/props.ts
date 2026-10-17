@@ -321,11 +321,19 @@ export function workTable(R: Region, w: number, d: number, height: number, x: nu
 }
 
 /** A rough table-and-stools set. */
-export function benchSet(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw: number) {
+export function benchSet(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw: number, groundAt?: (x: number, z: number) => number) {
   const ctx = R.ctx;
   ctx.push(x, y, z, yaw);
   R.planks.box(1.9, 0.09, 0.42, 0, 0.46, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x', rz: (rnd() - 0.5) * 0.02 });
-  for (const s of [-1, 1]) R.timber.box(0.12, 0.5, 0.36, s * 0.78, -0.04, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08, grain: 'y' });
+  for (const s of [-1, 1]) {
+    let foot = -0.04;
+    // Keep the seat and leg top fixed; extend outdoor supports into the lowest local soil under each foot.
+    if (groundAt) for (const dx of [-0.06, 0.06]) for (const dz of [-0.18, 0.18]) {
+      const p = ctx.toWorld(s * 0.78 + dx, 0, dz), ground = groundAt(p.x, p.z);
+      if (Number.isFinite(ground)) foot = Math.min(foot, ground - p.y - 0.04);
+    }
+    R.timber.box(0.12, 0.46 - foot, 0.36, s * 0.78, foot, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08, grain: 'y' });
+  }
   const brace = mulc(rgb(TINT.woodDark), 1.65);
   R.timber.box(1.55, 0.065, 0.08, 0, 0.13, 0, brace, { grain: 'x', jit: 0.025, amp: 0.025 });
   for (const side of [-1, 1]) R.timber.rod(side * 0.78, 0.1, 0, side * 0.45, 0.435, 0, 0.032, 4, brace, { jit: 0.025, amp: 0.025 });

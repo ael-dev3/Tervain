@@ -1,10 +1,11 @@
+import { BOW_LENGTH } from '../content/bowSize';
 import * as THREE from 'three';
 import type { Rig } from './characters';
 import { createHuntingArrow } from './huntingArrow';
 import type { HeroGrip } from './hero/animation';
 
 /** The arrow's line while the bow is held ready after a shot: forward, a little out from the leg and a touch down. */
-const BOW_AT_REST = new THREE.Vector3(.14, -.1, .98).normalize();
+const BOW_AT_REST = new THREE.Vector3(.55, -.1, .83).normalize();
 /**
  * How long the bow stays in hand after the last aim or shot before it goes back on his back (A75). As in Gothic 3 the
  * bow is carried slung on the back and taken in hand to shoot; walking and running with it hanging by the leg left
@@ -16,12 +17,12 @@ export const BOW_READY_SECONDS = 2.5;
  * right hip up over his left shoulder, the string outward, away from his back.
  */
 // Out from the spine far enough that the limbs clear the vest and shoulder blade (playtest 5: they cut into his back).
-const SLUNG_AT = new THREE.Vector3(.02, 1.32, -.29);
-/** The slung bow at carrying size: full size it reached from above his shoulder to below his knee (playtest 5). */
-const SLUNG_SCALE = .82;
+const SLUNG_AT = new THREE.Vector3(.02, 1.2, -.29);
+/** The slung bow is full size (B11): it is carried on the diagonal instead of being shrunk to fit. */
+const SLUNG_SCALE = 1;
 // About 14° off vertical, so both limbs stay between his shoulder blades; at 25° the upper limb crossed his left
 // shoulder's outline (playtest 6).
-const SLUNG_UP = new THREE.Vector3(.25, .97, 0).normalize();
+const SLUNG_UP = new THREE.Vector3(.77, .64, 0).normalize();
 
 type Snapshot = { position: THREE.Vector3; quaternion: THREE.Quaternion };
 const Z = new THREE.Vector3(0, 0, 1);
@@ -94,6 +95,9 @@ export class PlayerHuntingVisual {
   private readonly swing = new SlungSway();
   private draw = 0;
   private recoil = 0;
+  /** Seconds at full draw: past a moment, the held string makes the bow arm tremble a little (B11). */
+  private held = 0;
+  private clock = 0;
   private skinProgress: number | null = null;
   private skinClock = 0;
   private skinTargetHeight = .4;
@@ -106,18 +110,19 @@ export class PlayerHuntingVisual {
     this.leftPalm = this.palm('Left', this.leftHand);
     this.rightPalm = this.palm('Right', this.rightHand);
     this.bow.name = 'Hunting / bent ash bow in left palm';
-    const wood = new THREE.MeshStandardMaterial({ color: 0x77523a, roughness: .86 });
+    const wood = new THREE.MeshStandardMaterial({ color: 0x4a2f1e, roughness: .86 });
     const grip = new THREE.MeshStandardMaterial({ color: 0x30271e, roughness: .94 });
+    const H = BOW_LENGTH / 2;
     const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, -.65, -.14), new THREE.Vector3(0, -.46, .015),
-      new THREE.Vector3(0, -.23, .055), new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0, .23, .055), new THREE.Vector3(0, .46, .015), new THREE.Vector3(0, .65, -.14),
+      new THREE.Vector3(0, -H, -.16), new THREE.Vector3(0, -H * .7067, .017),
+      new THREE.Vector3(0, -H * .3533, .063), new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, H * .3533, .063), new THREE.Vector3(0, H * .7067, .017), new THREE.Vector3(0, H, -.16),
     ]);
-    const limbs = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, .018, 6, false), wood);
+    const limbs = new THREE.Mesh(new THREE.TubeGeometry(curve, 24, .027, 6, false), wood);
     const handle = new THREE.Mesh(new THREE.CylinderGeometry(.024, .024, .18, 8), grip);
     // A lit hemp cord from tip to nock to tip; a one-pixel unlit line read as a glowing wire beside the bow (playtest 5).
-    const cord = new THREE.MeshStandardMaterial({ color: 0x9c8f72, roughness: .95 });
-    const piece = () => new THREE.Mesh(new THREE.CylinderGeometry(.0035, .0035, 1, 5, 1, true), cord);
+    const cord = new THREE.MeshStandardMaterial({ color: 0xe6dcc0, roughness: .9, emissive: 0x4a4333 });
+    const piece = () => new THREE.Mesh(new THREE.CylinderGeometry(.007, .007, 1, 5, 1, true), cord);
     this.string = new THREE.Group();
     this.string.add(piece(), piece());
     this.string.name = 'Hunting / drawn bow string';
@@ -234,14 +239,35 @@ export class PlayerHuntingVisual {
     // Aiming, the arrow runs along the line of his jaw (A75; it was at his chest): the draw comes to his face, as Gothic 3's
     // archers draw.
     const hand = this.aiming ? new THREE.Vector3(.12, 1.55, 0).addScaledVector(bowDirection, .66) : new THREE.Vector3(.34, .9, .1);
+    const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
+    this.clock += Math.max(0, dt);
+    this.held = this.aiming && this.draw >= 1 ? this.held + Math.max(0, dt) : 0;
+    if (this.aiming) {
+      // The loose throws the bow hand forward and the limbs up (B11); a long hold at full draw starts to shake.
+      const kick = recoil * recoil;
+      hand.addScaledVector(bowDirection, .05 * kick).y += .035 * kick;
+      const tremble = Math.min(1, Math.max(0, this.held - 1.2) / 2) * .006;
+      if (tremble > 0) { hand.x += Math.sin(this.clock * 37) * tremble; hand.y += Math.sin(this.clock * 29 + 1.3) * tremble; }
+    }
+    if (this.aiming) {
+      // An archer's stance (B11): the chest turns side-on, bow shoulder leading, so the bow arm reaches out past his body and
+      // the bow, string and drawing hand read from the shoulder camera instead of hiding behind his back.
+      const spine = this.joint('Spine') ?? this.rig.torso;
+      if (spine) this.rotate(spine, 0, .24, 0);
+      if (this.rig.torso) this.rotate(this.rig.torso, 0, .16, 0);
+      // The head stays on the mark.
+      if (this.rig.head) this.rotate(this.rig.head, 0, -.36, 0);
+    }
     this.arm('Left', hand, new THREE.Vector3(.5, 1.3, .26));
     // Quaternion getters below refresh the root and grip ancestor paths.
     const frame = new THREE.Quaternion().setFromUnitVectors(Z, bowDirection).premultiply(this.rig.root.getWorldQuaternion(new THREE.Quaternion()));
     this.gripBow(frame);
     this.orientPalm(this.leftPalm, frame);
-    const recoil = this.recoil > 0 ? this.recoil / .22 : 0;
+    // The limbs pitch up with the loose and spring back.
+    this.bow.rotation.x = -.16 * recoil * recoil;
     this.recoil = Math.max(0, this.recoil - Math.max(0, dt));
-    const nock = -.14 - .39 * this.draw;
+    // The loosed string slaps past rest and rings down.
+    const nock = -.14 - .39 * this.draw + (recoil > 0 ? Math.sin((1 - recoil) * Math.PI * 7) * .035 * recoil : 0);
     this.setString(nock);
     this.nockedArrow.visible = this.aiming && this.recoil <= 0;
     this.nockedArrow.position.set(0, 0, nock + .74);
@@ -249,7 +275,8 @@ export class PlayerHuntingVisual {
     if (this.aiming) {
       const nockWorld = this.bow.localToWorld(new THREE.Vector3(0, 0, nock));
       const target = this.rig.root.worldToLocal(nockWorld).add(new THREE.Vector3(-.025 - recoil * .13, .005, -recoil * .08));
-      this.arm('Right', target, new THREE.Vector3(-.55, 1.62, -.05));
+      // The draw elbow rises and comes back behind the line of the arrow as the string does (B11).
+      this.arm('Right', target, new THREE.Vector3(-.55, 1.62 + .22 * this.draw, -.05 - .18 * this.draw));
       this.orientPalm(this.rightPalm, frame);
       this.closeFingers('Right', .7, 'draw');
     }
@@ -323,7 +350,7 @@ export class PlayerHuntingVisual {
 
   /** Lays the cord from each tip to the nock, `nock` metres along the bow's z (−0.14 at rest, further back drawn). */
   private setString(nock: number): void {
-    const tips = [_tipLow.set(0, -.65, -.14), _tipHigh.set(0, .65, -.14)], at = _nock.set(0, 0, nock);
+    const tips = [_tipLow.set(0, -BOW_LENGTH / 2, -.16), _tipHigh.set(0, BOW_LENGTH / 2, -.16)], at = _nock.set(0, 0, nock);
     this.string.children.forEach((segment, i) => {
       const tip = tips[i]!;
       segment.position.copy(tip).add(at).multiplyScalar(.5);

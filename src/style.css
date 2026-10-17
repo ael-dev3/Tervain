@@ -1876,6 +1876,17 @@ body.high-contrast.tv-materials .panel.surface-paper .record-summary h2 { color:
 .bow-crosshair i:nth-child(3) { width: 8px; height: 2px; left: 0; top: 16px; }
 .bow-crosshair i:nth-child(4) { width: 8px; height: 2px; right: 0; top: 16px; }
 .bow-reticle.drawn { color: #efd48a; }
+.bow-crosshair i { transition: transform .08s linear; }
+.bow-hitmark { position: absolute; inset: 0; opacity: 0; color: #f3e6c8; }
+.bow-hitmark i { position: absolute; left: 16px; top: 10px; width: 2px; height: 7px; background: currentColor; transform-origin: 1px 7px; }
+.bow-hitmark i:nth-child(1) { transform: rotate(45deg) translateY(-6px); }
+.bow-hitmark i:nth-child(2) { transform: rotate(135deg) translateY(-6px); }
+.bow-hitmark i:nth-child(3) { transform: rotate(225deg) translateY(-6px); }
+.bow-hitmark i:nth-child(4) { transform: rotate(315deg) translateY(-6px); }
+.bow-hitmark.hit { animation: bow-hitmark .32s ease-out; }
+.bow-hitmark.kill { color: #e8a48f; animation: bow-hitmark .55s ease-out; }
+@keyframes bow-hitmark { 0% { opacity: 1; transform: scale(.8); } 30% { opacity: 1; transform: scale(1.08); } 100% { opacity: 0; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .bow-hitmark.hit, .bow-hitmark.kill { animation-duration: .01s; } .bow-crosshair i { transition: none; } }
 .bow-reticle.empty { color: #e7ada1; }
 .bow-draw-bar { position: absolute; top: 43px; left: 50%; transform: translateX(-50%); width: 100px; height: 5px; border: 1px solid #ead6af; background: #15100de0; }
 .bow-draw-bar > i { display: block; height: 100%; background: currentColor; }

@@ -6,7 +6,9 @@ import { signSway } from '../../src/presentation/innSign';
 import { clutterGeometry } from '../../src/presentation/clutter';
 import { reserved } from '../../src/world/furniture';
 import { FURNITURE_SIZES } from '../../src/world/furnitureSizes';
-import { DRESSING, MODEL_SCALE } from '../../src/world/dressing';
+import { DRESSING, MODEL_SCALE, type HungKind } from '../../src/world/dressing';
+
+const FIRESIDE: readonly HungKind[] = ['kettle', 'stool', 'logbasket'];
 import { BREAST_DEPTH, CHIMNEY_STACK, chimneyOf, doorwayClear, FIREPLACE, fromBuildingLocal, HEARTH_SHAPE, hearthOf, INTERIORS, roomHalfSize, roomLocator, sideWindowZ } from '../../src/world/interiors';
 
 const houses = INTERIORS.filter((room) => room.building.kind === 'house');
@@ -107,14 +109,43 @@ describe('a fuller room and a swinging sign (A136)', () => {
   it('hangs pans, tools and onions in every house, and stacks wood by most fires', () => {
     for (const room of houses) {
       const mine = DRESSING.filter((d) => d.room === room);
-      expect(mine.filter((d) => d.piece === 'hung').length, room.building.id).toBeGreaterThanOrEqual(4);
-      for (const d of mine.filter((x) => x.piece === 'hung')) {
+      const hung = mine.filter((d) => d.piece === 'hung' && !FIRESIDE.includes(d.hung!));
+      expect(hung.length, room.building.id).toBeGreaterThanOrEqual(4);
+      for (const d of hung) {
         // Each hangs from below the ceiling and clears the floor (the longest, an axe, is 0.65 m).
         expect(d.y, `${room.building.id} ${d.hung}`).toBeLessThan(room.wallTop - room.floorTop);
         expect(d.y - 0.65, `${room.building.id} ${d.hung}`).toBeGreaterThan(0.25);
       }
     }
     expect(houses.filter((room) => DRESSING.some((d) => d.room === room && d.piece === 'firewood')).length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('dresses each fire with a kettle, a stool or a log basket on the floor, and tools on the hearth wall (A139)', () => {
+    let withTools = 0;
+    for (const room of houses) {
+      const mine = DRESSING.filter((d) => d.room === room), { hw, hd } = roomHalfSize(room);
+      const fireside = mine.filter((d) => d.piece === 'hung' && FIRESIDE.includes(d.hung!));
+      expect(fireside.length, room.building.id).toBeGreaterThanOrEqual(1);
+      for (const d of fireside) {
+        expect(d.y, `${room.building.id} ${d.hung}`).toBeLessThan(0.05);
+        expect(Math.abs(d.x), `${room.building.id} ${d.hung}`).toBeLessThan(hw);
+        expect(Math.abs(d.z), `${room.building.id} ${d.hung}`).toBeLessThan(hd);
+      }
+      const hearth = hearthOf(room)!;
+      if (mine.some((d) => d.piece === 'rail' && Math.abs(d.y - 1.62) < 0.01 && Math.hypot(d.x - hearth.stack.x, d.z - hearth.stack.z) < 2)) withTools++;
+    }
+    expect(withTools).toBeGreaterThanOrEqual(4);
+  });
+
+  it("hangs the woodcutter's saw and axes and the hunter's bows, quiver and pelt on their own walls (A140)", () => {
+    const at = (id: string) => DRESSING.filter((d) => d.room.building.id === id);
+    const woodcutter = at('house_b'), hunter = at('house_d');
+    expect(woodcutter.filter((d) => d.hung === 'saw').length).toBeGreaterThanOrEqual(1);
+    expect(woodcutter.filter((d) => d.hung === 'axe').length).toBeGreaterThanOrEqual(2);
+    expect(hunter.filter((d) => d.hung === 'bow').length).toBeGreaterThanOrEqual(1);
+    expect(hunter.filter((d) => d.hung === 'quiver').length).toBe(1);
+    expect(hunter.filter((d) => d.piece === 'pelt').length).toBeGreaterThanOrEqual(1);
+    for (const d of [...woodcutter, ...hunter].filter((x) => x.hung === 'bow' || x.hung === 'saw')) expect(d.y - 1.1).toBeGreaterThan(0.25);
   });
 
   it('sways the inn sign gently, never more than about 7 degrees', () => {

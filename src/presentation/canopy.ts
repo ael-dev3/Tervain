@@ -25,6 +25,17 @@ export interface CanopyOptions {
   /** Atlas cells across (the atlas is cells x cells clusters). */
   readonly cells: number;
   readonly seed: number;
+  /** Optional share of clusters taken from each atlas cell (cells x cells entries); uniform when absent. */
+  readonly cellWeights?: readonly number[];
+}
+
+/** The index a draw `r` (0..1) lands on across `weights`. */
+export function weightedCell(weights: readonly number[], r: number): number {
+  let total = 0;
+  for (const w of weights) total += w;
+  let at = r * total;
+  for (let i = 0; i < weights.length; i++) { at -= weights[i]!; if (at < 0) return i; }
+  return weights.length - 1;
 }
 
 export const NEAR_CANOPY = { size: [0.6, 1.2], clump: 0.95, perClump: 8, cells: 2 } as const;
@@ -60,8 +71,8 @@ function clumpOutward(crown: CanopyCrown, c: THREE.Vector3, out: THREE.Vector3):
 
 const depthIn = (crown: CanopyCrown, p: THREE.Vector3) => Math.hypot((p.x - crown.centre.x) / crown.radii.x, (p.y - crown.centre.y) / crown.radii.y, (p.z - crown.centre.z) / crown.radii.z);
 
-/** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
-function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => number): THREE.Vector3[] {
+/** Cumulative source-triangle areas, immutable for one canopy build. */
+function leafAreas(leaf: THREE.BufferGeometry): Float64Array {
   const p = leaf.getAttribute('position');
   const index = leaf.index;
   const tris = index ? index.count / 3 : p.count / 3;
@@ -74,6 +85,15 @@ function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => nu
     total += b.sub(a).cross(c.sub(a)).length() / 2;
     areas[t] = total;
   }
+  return areas;
+}
+
+/** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */
+function leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => number, areas: Float64Array): THREE.Vector3[] {
+  const p = leaf.getAttribute('position'), index = leaf.index, tris = areas.length;
+  const at = (t: number, k: number) => (index ? index.getX(t * 3 + k) : t * 3 + k);
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  const total = areas[tris - 1] ?? 0;
   const out: THREE.Vector3[] = [];
   if (!(total > 0)) return out;
   for (let i = 0; i < count; i++) {
@@ -126,9 +146,11 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
     return false;
   };
   out.forEach(add);
+  // Geometry stays unchanged while spacing relaxes; build its distribution only on the first sampling round.
+  let areas: Float64Array | undefined;
   // Relax the spacing until the count is met: dense sources fill at full spacing, sparse ones closer together.
   for (let d = spacing; out.length < count && d > spacing * 0.2; d *= 0.8) {
-    const samples = leafSamples(leaf, (count - out.length) * 6, random);
+    const samples = leafSamples(leaf, (count - out.length) * 6, random, areas ??= leafAreas(leaf));
     for (const q of samples) {
       if (out.length >= count) break;
       // The heart stays open (trunk and boughs show through it, as under a real crown): most samples there are skipped.
@@ -247,10 +269,52 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));
   const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
   let next = p.count;
-  const nearestVertex = (q: THREE.Vector3) => { let best = 0, bd = Infinity; for (let i = 0; i < p.count; i++) { const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2; if (d < bd) { bd = d; best = i; } } return best; };
+  // Each twig inherits the nearest source vertex's bark attributes. Group the
+  // wood into metre cells once, then reject cells whose squared distance bound
+  // cannot beat the current nearest vertex. Small plans keep the direct scan.
+  const bounds = new THREE.Box3(), probe = new THREE.Vector3();
+  if (twigs.length >= 32) for (let i = 0; i < p.count; i++) {
+    probe.fromBufferAttribute(p, i);
+    if (Number.isFinite(probe.x) && Number.isFinite(probe.y) && Number.isFinite(probe.z)) bounds.expandByPoint(probe);
+  }
+  const ox = Math.floor(bounds.min.x), oy = Math.floor(bounds.min.y), oz = Math.floor(bounds.min.z);
+  const nx = Math.floor(bounds.max.x) - ox + 1, ny = Math.floor(bounds.max.y) - oy + 1, nz = Math.floor(bounds.max.z) - oz + 1;
+  const grid = new Map<number, { x: number; y: number; z: number; indices: number[]; distance2: number }>();
+  if (twigs.length >= 32 && Number.isSafeInteger(nx * ny * nz)) for (let i = 0; i < p.count; i++) {
+    const x = Math.floor(p.getX(i)), y = Math.floor(p.getY(i)), z = Math.floor(p.getZ(i));
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) continue;
+    const key = x - ox + nx * (y - oy + ny * (z - oz)), bucket = grid.get(key);
+    if (bucket) bucket.indices.push(i); else grid.set(key, { x, y, z, indices: [i], distance2: Infinity });
+  }
+  const nearestVertex = (q: THREE.Vector3) => {
+    let best = 0, bd = Infinity;
+    const consider = (i: number) => {
+      const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2;
+      if (d < bd || d === bd && i < best) { bd = d; best = i; }
+    };
+    if (grid.size && Number.isFinite(q.x) && Number.isFinite(q.y) && Number.isFinite(q.z)) {
+      let nearest: { indices: number[]; distance2: number } | undefined;
+      for (const bucket of grid.values()) {
+        const dx = Math.max(bucket.x - q.x, 0, q.x - (bucket.x + 1));
+        const dy = Math.max(bucket.y - q.y, 0, q.y - (bucket.y + 1));
+        const dz = Math.max(bucket.z - q.z, 0, q.z - (bucket.z + 1));
+        bucket.distance2 = dx * dx + dy * dy + dz * dz;
+        if (!nearest || bucket.distance2 < nearest.distance2) nearest = bucket;
+      }
+      if (nearest) for (const i of nearest.indices) consider(i);
+      for (const bucket of grid.values()) {
+        // Keep equal bounds: a tied vertex can have a lower original index.
+        if (bucket === nearest || bucket.distance2 > bd) continue;
+        for (const i of bucket.indices) consider(i);
+      }
+    } else for (let i = 0; i < p.count; i++) consider(i);
+    return best;
+  };
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
-  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), down = new THREE.Vector3();
+  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
+  // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.
+  const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
   for (const t of twigs) {
     axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
@@ -264,16 +328,22 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
       const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
       centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
       tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
-      for (let k = 0; k < TWIG_SIDES; k++) {
-        const angle = k / TWIG_SIDES * Math.PI * 2;
-        n.copy(a).multiplyScalar(Math.cos(angle)).addScaledVector(b, Math.sin(angle));
+      for (let k = 0; k < ringVertices; k++) {
+        const angle = (k % TWIG_SIDES) / TWIG_SIDES * Math.PI * 2, cosine = Math.cos(angle), sine = Math.sin(angle);
+        n.copy(a).multiplyScalar(cosine).addScaledVector(b, sine);
         q.copy(centre).addScaledVector(n, r);
         n.addScaledVector(tangent, -n.dot(tangent)).normalize();
+        // U runs around the twig; V decreases along its length. Using the
+        // lengthwise tangent here rotated the source normal map by 90 degrees.
+        if (added.tangent) {
+          across.copy(a).multiplyScalar(-sine).addScaledVector(b, cosine);
+          across.addScaledVector(n, -across.dot(n)).normalize();
+        }
         for (const name of names) {
           const attr = source.getAttribute(name), out = added[name]!;
           if (name === 'position') out.push(q.x, q.y, q.z);
           else if (name === 'normal') out.push(n.x, n.y, n.z);
-          else if (name === 'tangent') out.push(tangent.x, tangent.y, tangent.z, 1);
+          else if (name === 'tangent') out.push(across.x, across.y, across.z, -1);
           else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
           else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
         }
@@ -281,7 +351,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
       }
     }
     for (let ring = 0; ring < rings - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {
-      const k1 = (k + 1) % TWIG_SIDES, i0 = base + ring * TWIG_SIDES, i1 = i0 + TWIG_SIDES;
+      const k1 = ringVertices > TWIG_SIDES ? k + 1 : (k + 1) % TWIG_SIDES, i0 = base + ring * ringVertices, i1 = i0 + ringVertices;
       index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);
     }
   }
@@ -301,9 +371,10 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
 
 /**
  * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch
- * tips are covered first). Positions are in the same space as the inputs.
+ * tips are covered first). Positions are in the same space as the inputs. An anchor may be shared between retries
+ * only while that source wood stays unchanged.
  */
-export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions): THREE.BufferGeometry {
+export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions, anchor = woodAnchor(wood)): THREE.BufferGeometry {
   const random = canopyRandom(opts.seed);
   const crown = canopyCrown(leaf);
   // Cards per clump vary with depth: a full shell, a thin heart.
@@ -315,7 +386,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   // growTwigs), from the nearest bough or an earlier twig, nearest clumps first, so twigs branch from each other rather
   // than fanning out of one point. It is drawn a little fuller, and smaller clumps along the twig hide it in leaves (a
   // bare twig read as a dark spike against the sky). Only a clump far out is dropped.
-  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
+  const hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
   let dropped = 0;
   const twigs: CanopyTwig[] = [], grown = new Set<THREE.Vector3>(), placedIn = new Set<THREE.Vector3>();
   const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random);
@@ -437,7 +508,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       ax.copy(t1).multiplyScalar(cr).addScaledVector(t2, sr);
       ay.copy(t1).multiplyScalar(-sr).addScaledVector(t2, cr);
       const s = (opts.size[0] + (opts.size[1] - opts.size[0]) * random()) / 2;
-      const cellIndex = Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
+      const cellIndex = opts.cellWeights ? weightedCell(opts.cellWeights, random()) : Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);
       const flip = random() < 0.5;
       const base = positions.length / 3;
       for (const [x, y] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {

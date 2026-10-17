@@ -49,12 +49,29 @@ beforeAll(async () => {
     : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
     tree => groundedTreeY(terrain, tree, variantFor(tree)));
   seatTreeFlares(population, terrain, variantFor, isPineSpecies);
-  registerFloraColliders(population, canonical);
+  // Navigation sees final seated wood; visual/physical planting radii remain canonical.
+  registerFloraColliders(population, canonical, undefined, tree => isPineSpecies(tree.sp) ? tree.radius
+    : treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
   source.dispose();
   for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
 });
 
 describe('historical source-Pine component render substitution without the Meshy catalog', () => {
+  it('selects the requested root LOD and keeps omitted far wood visible as a coverage deficit', () => {
+    vi.stubGlobal('location', { search: '' });
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'low', settings: { ...defaultSettings(), quality: 'low' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    try {
+      const records = (targets: ReturnType<NonNullable<typeof forest.placementAuditTargets>>) => targets.map(t => ({ label: t.label, geometry: t.geometry.uuid, matrix: t.matrix.elements }));
+      expect(records(forest.placementAuditTargets!())).toEqual(records(forest.placementAuditTargets!(0)));
+      for (const lod of [0, 1, 2]) {
+        const expected = forest.canopyAuditTargets!(lod).filter(t => t.wood).map(t => ({ label: t.label, geometry: t.wood!.uuid, matrix: t.matrix.elements }));
+        expect(records(forest.placementAuditTargets!(lod))).toEqual(expected);
+      }
+      expect(forest.placementAuditTargets!(2).length).toBeLessThan(forest.placementAuditTargets!(0).length);
+      for (const lod of [-1, .5, 3, NaN]) expect(() => forest.placementAuditTargets!(lod)).toThrow('Invalid placement LOD');
+    } finally { forest.dispose!(); vi.unstubAllGlobals(); }
+  });
+
   it('exports exact complete woody contact for canonical trees with shared buffers, uniform planted transforms and no leaf cards', () => {
     vi.stubGlobal('location', { search: '' });
     let firstTransforms: unknown;
@@ -339,4 +356,30 @@ it('retains every far-LOD pine in audit coverage when its delivered card has no 
     expect(unsupported.some(t => t.species === 'pine')).toBe(true);
     expect(unsupported.every(t => ['pine', 'fir', 'shorepine'].includes(t.species ?? '') && t.lod === 2)).toBe(true);
   } finally { forest.dispose!(); vi.unstubAllGlobals(); }
+});
+
+it('keeps fixed tree color-batch local matrices cached while parent transforms still propagate', () => {
+  vi.stubGlobal('location', { search: '' });
+  const quality = 'low';
+  const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
+    settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(),
+    sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+  const spies: ReturnType<typeof vi.spyOn>[] = [];
+  try {
+    const parts = forest.group.children.filter(p => (p as THREE.InstancedMesh).isInstancedMesh && /:([012]):(wood|foliage)$/.test(p.name)) as THREE.InstancedMesh[];
+    expect(parts.length).toBeGreaterThan(0);
+    forest.group.updateMatrixWorld(true);
+    const local = parts.map(p => p.matrix.clone()), instances = parts.map(p => p.instanceMatrix.array.slice());
+    for (const p of parts) spies.push(vi.spyOn(p.matrix, 'compose'));
+    for (let i = 0; i < 120; i++) forest.group.updateMatrixWorld(true);
+    expect(spies.reduce((n, spy) => n + spy.mock.calls.length, 0)).toBe(0);
+    forest.group.position.set(3, -2, 7); forest.group.rotation.set(.1, .3, -.2); forest.group.scale.set(2, .8, 1.3);
+    forest.group.updateMatrixWorld(true);
+    parts.forEach((p, i) => {
+      expect(p.matrixAutoUpdate).toBe(false); expect(p.matrixWorldAutoUpdate).toBe(true);
+      expect(p.matrix.equals(local[i]!)).toBe(true);
+      expect(p.matrixWorld.equals(new THREE.Matrix4().multiplyMatrices(forest.group.matrixWorld, local[i]!))).toBe(true);
+      expect(p.instanceMatrix.array).toEqual(instances[i]);
+    });
+  } finally { spies.forEach(s => s.mockRestore()); forest.dispose!(); vi.unstubAllGlobals(); }
 });

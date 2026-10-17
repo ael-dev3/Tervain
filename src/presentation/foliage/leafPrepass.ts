@@ -23,6 +23,7 @@ function splitMaterial(colour: THREE.Material): THREE.Material | null {
   const depth = colour.clone();
   // Material.clone() does not copy these hooks; the depth pass must run the very same patches.
   depth.onBeforeCompile = colour.onBeforeCompile;
+  depth.onBeforeRender = colour.onBeforeRender;
   const key = colour.customProgramCacheKey;
   depth.customProgramCacheKey = function() { return `${key.call(this)}|leaf-depth`; };
   depth.defines = { ...colour.defines, [LEAF_DEPTH_ONLY]: '' };
@@ -46,7 +47,8 @@ export function splitLeafPrepass(leaf: THREE.InstancedMesh): THREE.InstancedMesh
   if (Array.isArray(colour)) return null;
   const material = split.get(colour) ?? splitMaterial(colour);
   if (!material) return null;
-  const depth = new THREE.InstancedMesh(leaf.geometry, material, leaf.instanceMatrix.count);
+  // The shared colour buffer supplies capacity; do not allocate and initialise a discarded twin.
+  const depth = new THREE.InstancedMesh(leaf.geometry, material, 0);
   // Shared buffers: the colour pass's instance writes and uploads serve both.
   depth.instanceMatrix = leaf.instanceMatrix;
   depth.instanceColor = leaf.instanceColor;

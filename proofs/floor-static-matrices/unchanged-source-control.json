@@ -1,0 +1,47 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "trees": 453,
+  "rows": {
+    "native": {
+      "batches": 11,
+      "walks": 120,
+      "localComposeCalls": 1320,
+      "worldMatricesSha256": "5b84da85ad309e3bf41eb0b10c730dd5cba108c3235f4e57049a1ad162b5f6ca",
+      "instanceMatricesSha256": "7d88f5077f14f132af96bf0bfbc06dd3dccec074219d5debfebef2e919f716a6",
+      "drawnInstanceMatricesSha256": "d84a475b46c76e04ff761d00ebd08cd9b1bf7c5485300e3ea07c85638222d52e",
+      "drawnInstances": 36,
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "before": {
+      "batches": 11,
+      "walks": 120,
+      "localComposeCalls": 1320,
+      "worldMatricesSha256": "5b84da85ad309e3bf41eb0b10c730dd5cba108c3235f4e57049a1ad162b5f6ca",
+      "instanceMatricesSha256": "ed363f5a4733a488035237702f396df76b8c4f62cbd68e68f8f2949bd59b7692",
+      "drawnInstanceMatricesSha256": "d84a475b46c76e04ff761d00ebd08cd9b1bf7c5485300e3ea07c85638222d52e",
+      "drawnInstances": 36,
+      "drawCalls": 245,
+      "triangles": 1889302
+    },
+    "after": {
+      "batches": 11,
+      "walks": 120,
+      "localComposeCalls": 1320,
+      "worldMatricesSha256": "5b84da85ad309e3bf41eb0b10c730dd5cba108c3235f4e57049a1ad162b5f6ca",
+      "instanceMatricesSha256": "ed363f5a4733a488035237702f396df76b8c4f62cbd68e68f8f2949bd59b7692",
+      "drawnInstanceMatricesSha256": "d84a475b46c76e04ff761d00ebd08cd9b1bf7c5485300e3ea07c85638222d52e",
+      "drawnInstances": 36,
+      "drawCalls": 245,
+      "triangles": 1889302
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "0f36895c42e3a0876f1c4662162c0d0628e73dadaa63947a5af5e422995ea2ae",
+  "baselineRevision": "421d34b",
+  "scope": "Actual original/baseline/candidate forest-floor batches in the native published scene. Count target local Matrix4.compose calls during 120 forced whole-scene matrix walks with a moving/rotating/scaled parent, not 120 real gameplay frames. Compare all per-walk batch world matrices, native drawn instance prefixes, full baseline/candidate instance buffers and final native post/MSAA pixels. Unused native buffer tails may retain earlier culling history. No hardware timing or FPS claim.",
+  "pass": false
+}

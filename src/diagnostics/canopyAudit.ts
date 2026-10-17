@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
 export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry | null; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
+  /** Material requires alpha testing; an unavailable mask must not silently become opaque. */
+  cutoutRequired?: boolean;
   /** The leaf material's alpha cutout; used only with `alpha: true`. */
   cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
 export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
@@ -17,20 +19,48 @@ function union(size: number) {
   return {find,join:(a:number,b:number)=>{parent[find(a)]=find(b);}};
 }
 function components(g: THREE.BufferGeometry, charge: () => void, cutout?: CanopyAuditTarget['cutout']): Component[] {
-  const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');const graph=union(p.count),weld=new Map<string,number>();
-  for(let i=0;i<p.count;i++){if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');const key=`${Math.round(p.getX(i)*1e4)},${Math.round(p.getY(i)*1e4)},${Math.round(p.getZ(i)*1e4)}`,other=weld.get(key);if(other!==undefined)graph.join(i,other);else weld.set(key,i);}
-  const index=g.index,used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
-  const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
+  const p=g.getAttribute('position');if(!p||p.count===0)throw new Error('Missing leaf positions');const index=g.index;
   // Alpha mode: each triangle's opaque texels are their own part; welded quads no longer join leaves that do not touch.
-  if(cutout){const uv=g.getAttribute(cutout.uv);if(!uv)throw new Error('Missing leaf UVs for alpha audit');
-    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3();
+  if(cutout){
+    for(let i=0;i<p.count;i++)if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');
+    const uv=g.getAttribute(cutout.uv);if(!uv)throw new Error('Missing leaf UVs for alpha audit');
+    const opaque=new Map<number,THREE.Vector3[]>(),N=6,point=new THREE.Vector3(),corners=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()],edgeA=new THREE.Vector3(),edgeB=new THREE.Vector3();
+    // Atlas cards repeat UV triangles. Cache only their opaque weights within this cutout's scan.
+    const patterns=new Map<string,[number,number,number][]>();
     for(let i=0;i+2<(index?.count??p.count);i+=3){const v=[0,1,2].map(j=>index?.getX(i+j)??i+j) as [number,number,number],key=i;
-      charge();for(let a=0;a<=N;a++)for(let b=0;a+b<=N;b++){const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
-        const u=w[0]*uv.getX(v[0])+w[1]*uv.getX(v[1])+w[2]*uv.getX(v[2]),t=w[0]*uv.getY(v[0])+w[1]*uv.getY(v[1])+w[2]*uv.getY(v[2]);
-        if(cutout.alpha(u,t)<cutout.cutoff)continue;point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(new THREE.Vector3().fromBufferAttribute(p,v[k]!),w[k]!);
+      charge();for(let k=0;k<3;k++)corners[k]!.fromBufferAttribute(p,v[k]!);
+      const u0=uv.getX(v[0]),u1=uv.getX(v[1]),u2=uv.getX(v[2]),t0=uv.getY(v[0]),t1=uv.getY(v[1]),t2=uv.getY(v[2]);
+      const patternKey=`${u0},${t0},${u1},${t1},${u2},${t2}`;
+      let weights=patterns.get(patternKey);
+      if(!weights){weights=[];for(let a=0;a<=N;a++)for(let b=0;a+b<=N;b++){
+        const w=[a/N,b/N,(N-a-b)/N] as [number,number,number];
+        if(cutout.alpha(w[0]*u0+w[1]*u1+w[2]*u2,w[0]*t0+w[1]*t1+w[2]*t2)<cutout.cutoff)continue;
+        weights.push(w);
+      }
+      // A clear coarse grid does not prove a clear card: thin needles can lie between its samples.
+      // Positive witnesses make that omission explicit. Cache unwitnessed patterns too.
+      if(!weights.length){
+        // Do not seed the empty-pattern cache from a collapsed card: a real card can reuse its UVs later.
+        if(edgeA.subVectors(corners[1]!,corners[0]!).cross(edgeB.subVectors(corners[2]!,corners[0]!)).lengthSq()===0)continue;
+        for(let a=0;a<=48;a++)for(let b=0;a+b<=48;b++){
+          charge();const w0=a/48,w1=b/48,w2=(48-a-b)/48;
+          if(cutout.alpha(w0*u0+w1*u1+w2*u2,w0*t0+w1*t1+w2*t2)>=cutout.cutoff)
+            throw new Error('Canopy alpha sampling missed opaque foliage');
+        }
+      }
+      patterns.set(patternKey,weights);}
+      for(const w of weights){point.set(0,0,0);for(let k=0;k<3;k++)point.addScaledVector(corners[k]!,w[k]!);
         const list=opaque.get(key)??[];list.push(point.clone());opaque.set(key,list);}}
-    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),samples=[box.getCenter(new THREE.Vector3())];
+    return [...opaque.values()].map(points=>{const box=new THREE.Box3().setFromPoints(points),centre=box.getCenter(new THREE.Vector3());
+      // A cutout can leave the box centre transparent. Only opaque samples may establish wood contact.
+      let nearest=points[0]!;for(const point of points)if(point.distanceToSquared(centre)<nearest.distanceToSquared(centre))nearest=point;
+      const samples=[nearest];
       for(let i=0;i<Math.min(8,points.length);i++)samples.push(points[Math.floor(i*points.length/Math.min(8,points.length))]!);return{box,samples};});}
+  // Unmasked mode alone needs welded vertex connectivity. Alpha mode returns above.
+  const graph=union(p.count),weld=new Map<string,number>();
+  for(let i=0;i<p.count;i++){if(![p.getX(i),p.getY(i),p.getZ(i)].every(Number.isFinite))throw new Error('Nonfinite leaf positions');const key=`${Math.round(p.getX(i)*1e4)},${Math.round(p.getY(i)*1e4)},${Math.round(p.getZ(i)*1e4)}`,other=weld.get(key);if(other!==undefined)graph.join(i,other);else weld.set(key,i);}
+  const used=new Set<number>();for(let i=0;i+2<(index?.count??p.count);i+=3){const a=index?.getX(i)??i,b=index?.getX(i+1)??i+1,c=index?.getX(i+2)??i+2;graph.join(a,b);graph.join(a,c);used.add(a);used.add(b);used.add(c);}
+  const groups=new Map<number,number[]>();for(const i of used){const key=graph.find(i),group=groups.get(key)??[];group.push(i);groups.set(key,group);}
   // A bounding-box centre can sit in a hole, outside the actual leaf surface. Project it onto its component.
   const triangles=new Map<number,number[]>();
   for(let i=0;i+2<(index?.count??p.count);i+=3){const key=graph.find(index?.getX(i)??i),list=triangles.get(key)??[];list.push(i);triangles.set(key,list);}
@@ -84,13 +114,14 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
   const gap=options.gap??.75,woodReach=options.woodReach??1.5,maxOperations=options.maxOperations??20_000_000;
   if(!(woodReach>0&&Number.isFinite(woodReach))||!(gap>0&&Number.isFinite(gap))||!Number.isInteger(maxOperations)||maxOperations<1)throw new Error('Invalid canopy audit budget');
   let operations=0;const charge=()=>{if(++operations>maxOperations)throw new Error('Canopy audit budget exhausted');};
+  if(options.alpha)for(const target of targets)if(target.leaves&&target.cutoutRequired&&!target.cutout)throw new Error(`Missing required leaf cutout: ${target.label}`);
   const groups=new Map<THREE.BufferGeometry,Map<THREE.BufferGeometry,{maxGap:number;minGap:number;components:Component[];contacts:number[];edges:[number,number,number][]}>>();
   const scale=(m:THREE.Matrix4)=>{const a=new THREE.Vector3().setFromMatrixColumn(m,0).length(),b=new THREE.Vector3().setFromMatrixColumn(m,1).length(),c=new THREE.Vector3().setFromMatrixColumn(m,2).length();if(!m.elements.every(Number.isFinite)||!(a>0)||Math.max(a,b,c)-Math.min(a,b,c)>a*1e-4)throw new Error('Unsupported nonuniform canopy transform');
     const e=m.elements;
     if(e[3]!==0||e[7]!==0||e[11]!==0||e[15]!==1)throw new Error('Unsupported non-affine canopy transform');
     const dot=(i:number,j:number)=>e[i]!*e[j]!+e[i+1]!*e[j+1]!+e[i+2]!*e[j+2]!;
     if(Math.max(Math.abs(dot(0,4)),Math.abs(dot(0,8)),Math.abs(dot(4,8)))>a*a*1e-4)throw new Error('Unsupported sheared canopy transform');return a;};
-  for(const t of targets){if(!t.leaves||!t.wood)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,options.alpha?t.cutout??undefined:undefined),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const localGap=gap/scale(t.matrix);entry.maxGap=Math.max(entry.maxGap,localGap,woodReach/scale(t.matrix));entry.minGap=Math.min(entry.minGap,localGap);}
+  for(const t of targets){if(!t.leaves||!t.wood)continue;let leaves=groups.get(t.wood);if(!leaves){leaves=new Map();groups.set(t.wood,leaves);}let entry=leaves.get(t.leaves);if(!entry){entry={maxGap:0,minGap:Infinity,components:components(t.leaves,charge,options.alpha?t.cutout??undefined:undefined),contacts:[],edges:[]};leaves.set(t.leaves,entry);}const factor=scale(t.matrix),localGap=gap/factor,localReach=woodReach/factor;entry.maxGap=Math.max(entry.maxGap,localGap,localReach);entry.minGap=Math.min(entry.minGap,localGap,localReach);}
   for(const[wood,leafGroups]of groups){const p=wood.getAttribute('position'),index=wood.index;if(!p)throw new Error('Missing wood positions');
     const triangles:THREE.Triangle[]=[];for(let i=0;i+2<(index?.count??p.count);i+=3)triangles.push(new THREE.Triangle(...[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?.getX(i+j)??i+j)) as [THREE.Vector3,THREE.Vector3,THREE.Vector3]));
     const woodBounds=triangles.map(t=>new THREE.Box3().setFromPoints([t.a,t.b,t.c])),support=boundsTree(woodBounds,charge),nearest=new THREE.Vector3();
@@ -114,7 +145,13 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
     // `woodReach` from the wood are grouped (by the same proximity links) into detached clumps.
     const reach=woodReach/s,far=union(entry.components.length),isFar=(i:number)=>!(entry.contacts[i]!<=reach);let farCards=0,maxWoodGap=0;
     for(let i=0;i<entry.components.length;i++)if(isFar(i)){farCards++;maxWoodGap=Math.max(maxWoodGap,Number.isFinite(entry.contacts[i]!)?entry.contacts[i]!*s:Infinity);}
-    for(const[a,b,d]of entry.edges){charge();if(d<=limit&&isFar(a)&&isFar(b))far.join(a,b);}
+    // A spanning tree preserves connectivity only before vertices are removed. A supported card can be the
+    // shortcut between two detached cards, hiding their direct link when that supported card is excluded.
+    if(farCards===entry.components.length){for(const[a,b,d]of entry.edges){charge();if(d<=limit)far.join(a,b);}}
+    else if(farCards>1){
+      const ids=entry.components.flatMap((_,i)=>isFar(i)?[i]:[]);
+      for(const[a,b]of spanningLeafEdges(ids.map(i=>entry.components[i]!),limit,charge))far.join(ids[a]!,ids[b]!);
+    }
     const farClumps=new Set<number>();for(let i=0;i<entry.components.length;i++)if(isFar(i))farClumps.add(far.find(i));
     return{label:t.label,...metadata,kind:t.kind,missingWood:false,leafless:false,components:entry.components.length,chunks:chunks.size,detachedCards:farCards,detachedClumps:farClumps.size,maxWoodGap:Number.isFinite(maxWoodGap)?maxWoodGap:null,candidates};});
   const bySpecies:Record<string,{trees:number;leafless:number;candidates:number}>={};for(const t of trees){const group=bySpecies[t.species]??={trees:0,leafless:0,candidates:0};group.trees++;group.leafless+=Number(t.leafless);group.candidates+=t.candidates.length;}

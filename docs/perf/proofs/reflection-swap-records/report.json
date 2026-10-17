@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "b47d70501e992eccb02ed28ac4b5fc71c3bf1cac7c7d8b510bc1d222e9db8fa0",
+  "scope": "Six native cube-camera directions using native middle-model proxies plus the primary camera over the same production forest packing, delivered pine/procedural broadleaf fixture. Software counters, not GPU timings. Swap identities include cold construction plus 119 reused captures. Uploads exclude uniforms.",
+  "baseline": {
+    "allocations": {
+      "captures": 120,
+      "swappedMeshes": 40,
+      "pairIdentities": 4800
+    },
+    "rows": [
+      {
+        "face": 0,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "drawCalls": 62,
+        "triangles": 573329,
+        "uploadBytes": 2797440,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 1,
+        "pass": "capture-proxy",
+        "direction": [
+          1,
+          0,
+          0
+        ],
+        "drawCalls": 43,
+        "triangles": 547349,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 2,
+        "pass": "capture-proxy",
+        "direction": [
+          -1,
+          0,
+          0
+        ],
+        "drawCalls": 43,
+        "triangles": 532248,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 3,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "drawCalls": 46,
+        "triangles": 544080,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 4,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "drawCalls": 34,
+        "triangles": 373936,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 5,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "drawCalls": 16,
+        "triangles": 51344,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 6,
+        "pass": "primary",
+        "direction": null,
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      }
+    ]
+  },
+  "candidate": {
+    "allocations": {
+      "captures": 120,
+      "swappedMeshes": 40,
+      "pairIdentities": 40
+    },
+    "rows": [
+      {
+        "face": 0,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "drawCalls": 62,
+        "triangles": 573329,
+        "uploadBytes": 2797440,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 1,
+        "pass": "capture-proxy",
+        "direction": [
+          1,
+          0,
+          0
+        ],
+        "drawCalls": 43,
+        "triangles": 547349,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 2,
+        "pass": "capture-proxy",
+        "direction": [
+          -1,
+          0,
+          0
+        ],
+        "drawCalls": 43,
+        "triangles": 532248,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 3,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "drawCalls": 46,
+        "triangles": 544080,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 4,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "drawCalls": 34,
+        "triangles": 373936,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 5,
+        "pass": "capture-proxy",
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "drawCalls": 16,
+        "triangles": 51344,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      },
+      {
+        "face": 6,
+        "pass": "primary",
+        "direction": null,
+        "drawCalls": 62,
+        "triangles": 1612531,
+        "uploadBytes": 0,
+        "textures": 24,
+        "textureImagePayloadBytes": 85263368,
+        "glError": 0
+      }
+    ]
+  },
+  "changedChannels": 0,
+  "pass": true
+}

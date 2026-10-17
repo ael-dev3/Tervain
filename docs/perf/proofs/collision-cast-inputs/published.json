@@ -1,0 +1,40 @@
+{
+  "build": "v0.0.18 · 421d34b",
+  "nativeHero": true,
+  "rows": [
+    {
+      "name": "fence-position-walk-turn",
+      "x": -2,
+      "z": 37,
+      "sprint": false,
+      "steps": 90,
+      "casts": 212,
+      "nonemptyCasts": 212,
+      "joinedArrays": 212,
+      "copiedReferences": 6344,
+      "final": {
+        "x": -0.6737082826912228,
+        "y": 1.4491955569288444,
+        "z": 38.74371164245531
+      }
+    },
+    {
+      "name": "run-round-position-turn",
+      "x": -12.3,
+      "z": 44.8,
+      "sprint": true,
+      "steps": 90,
+      "casts": 228,
+      "nonemptyCasts": 228,
+      "joinedArrays": 228,
+      "copiedReferences": 8654,
+      "final": {
+        "x": -8.56808971122955,
+        "y": 1.9271734698170098,
+        "z": 48.381027874344724
+      }
+    }
+  ],
+  "pass": true,
+  "scope": "Native complete fixed steps, real movement keys and follow-camera turns at two live16 lead positions; 90 synthetic 60 Hz steps per stage with rendering frozen. Counts identify joined cast input arrays only. Diagnostic wrappers allocate separately. These are not replayed gate traces, real frame-time samples or hardware PASS receipts."
+}

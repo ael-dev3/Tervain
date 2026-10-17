@@ -77,3 +77,13 @@ export function renderScaleFloor(presetRatio: number): number {
 export function presetPixelRatio(quality: 'low' | 'medium' | 'high', deviceRatio: number): number {
   return Math.min(deviceRatio, quality === 'low' ? 1 : 1.5);
 }
+
+/**
+ * Strength of the final pass's contrast-adaptive sharpen (A142), 0 to 1, from the drawing-scale multiplier. On by default
+ * while the scale is below 0.9, growing as it falls; ?sharpen=0 turns it off and ?sharpen=1 applies the formula at any scale.
+ */
+export function sharpenStrength(scale: number, flag: string | null = null): number {
+  if (flag === '0') return 0;
+  if (flag !== '1' && !(scale < 0.9)) return 0;
+  return Math.max(0, Math.min(1, (1 - scale) * 2));
+}

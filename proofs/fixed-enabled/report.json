@@ -1,0 +1,238 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "fixedColliders": 1178,
+  "rows": {
+    "published": {
+      "queries": 88,
+      "fixedEnabledReads": 103678,
+      "fixedEnabledWrites": 4,
+      "resultSha256": "633d3f1691ba8dd28a0fea7165803ab660d96bccc7da27972a0feb5bfde28bca",
+      "doorResults": [
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        }
+      ]
+    },
+    "before": {
+      "queries": 88,
+      "fixedEnabledReads": 103678,
+      "fixedEnabledWrites": 4,
+      "resultSha256": "633d3f1691ba8dd28a0fea7165803ab660d96bccc7da27972a0feb5bfde28bca",
+      "doorResults": [
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        }
+      ]
+    },
+    "after": {
+      "queries": 88,
+      "fixedEnabledReads": 14,
+      "fixedEnabledWrites": 4,
+      "resultSha256": "633d3f1691ba8dd28a0fea7165803ab660d96bccc7da27972a0feb5bfde28bca",
+      "doorResults": [
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": false,
+          "hit": null
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        },
+        {
+          "active": true,
+          "hit": {
+            "distance": 0.049998462200164795,
+            "point": {
+              "x": -46,
+              "y": 11.13322639465332,
+              "z": -98.80000153779983
+            }
+          }
+        }
+      ]
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "3434734bedfbe40c3917870e79595d497d3f5b15a1dbc49946e624cfe1e612dd",
+  "scope": "Actual baseline/candidate traceProjectile methods on the published native physics world; published method is an independent control. 80 short ballistic-length rays along the historical fence route, then eight authored-door source states queried before any physics step. Fixed-collider WASM enabled reads/writes counted, including legitimate ray-filter reads. Runtime candidate state is seeded from native backend state outside the counters, matching constructor initialization. Exact contact hashes, door results and native Grade/post pixels must match. CPU work counts, not measured frame times, hardware FPS or a complete candidate build.",
+  "pass": true
+}

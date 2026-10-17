@@ -624,3 +624,13 @@ describe('Grade water attachment ownership', () => {
     }
   });
 });
+
+it('does not allocate input snapshot arrays while moving across visible water', () => {
+  const f=setup();coastalView(f);f.input.quality='high';
+  f.input.overlays=[new THREE.Object3D()];f.input.unreflected=[new THREE.Object3D()];
+  // Exclude test-only render recording, which itself maps the input arrays.
+  f.renderer.render.mockImplementation(()=>{});
+  const maps=[vi.spyOn(f.meshes,'map'),vi.spyOn(f.input.overlays,'map'),vi.spyOn(f.input.unreflected,'map')];
+  for(let i=0;i<60;i++){f.camera.position.x+=.01;f.render();}
+  expect(maps.reduce((n,spy)=>n+spy.mock.calls.length,0)).toBe(0);
+});

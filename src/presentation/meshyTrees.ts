@@ -11,16 +11,37 @@ import { withModelLoadSlot } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
-import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
+import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
+import { buildCanopy, canopyAtlasTexture, growTwigs, trimExposedWood, woodAnchor, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
+/**
+ * Generated hero trees (tools/tree-gen): original procedural oaks with a real branch skeleton. On by default; `?herooak=0` is the escape hatch (the supplied oaks).
+ * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
+ */
+export const HERO_TREE_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
+export const HERO_OAK_ID = HERO_TREE_IDS[0];
+const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
+export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
+  try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
+}
+/** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
+function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
+const heroNoTwigs = () => heroFlag('heronotwigs');
+/** The tree ids a world loads: the supplied set, plus the generated hero oak while its flag is on. */
+export function activeMeshyTreeIds(enabled = heroOakEnabled()): readonly string[] {
+  return enabled ? [...MESHY_TREE_IDS, ...HERO_TREE_IDS] : MESHY_TREE_IDS;
+}
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
 const pending = new Map<string, Promise<GLTF>>();
 
 /** Broadleaf kinds whose exported leaflets leave a thin crown (A70). */
 const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
+/** Conifers derive per-branch wind too, judged against the cone of their crown (branchWind.ts). Their cards stay as authored. */
+const CONIFER = new Set<Species>(['fir', 'shorepine']);
 /** Kinds whose trunks take the metre-scale bark detail (A133). */
 const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
 /** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
@@ -56,6 +77,11 @@ export const CANOPY_MID_SHARE = 1.2;
  * becomes a loose volume of smaller cards. Seen square on the pieces still join into the same picture, so nothing opens up;
  * from any other angle they part in depth. Triangles, UVs and normals are unchanged, and small cards are left as they are.
  */
+/** A model that carries its own branch hierarchy (a hero tree) keeps its cards: they are not rebuilt as clumps. */
+const hasBranchData = (geometry: THREE.BufferGeometry): boolean => !!geometry.getAttribute('_wind');
+/** Only a hero tree's far crown keeps the branch data its GLB carries; near and middle crowns are rebuilt by the crown pass and derive it. */
+const ownBranchData = (lod: number, geometry: THREE.BufferGeometry | null | undefined): boolean => lod >= 2 && !!geometry && hasBranchData(geometry);
+
 export function splitSheets(geometry: THREE.BufferGeometry, opts: { readonly minSize: number; readonly piece: number; readonly depth: number; readonly tilt: number }): THREE.BufferGeometry {
   const index = geometry.index;
   if (!index) return geometry;
@@ -236,8 +262,9 @@ function thicken(leaf: THREE.BufferGeometry | null, enabled: boolean, room: numb
 }
 
 export function meshyTreeUrl(id: string, lod: typeof MESHY_TREE_LODS[number], base = import.meta.env.BASE_URL, page = document.baseURI): URL {
-  return modelAssetUrl(`flora/meshy-012/${id}-${lod}.glb`, base, page);
+  return modelAssetUrl(`${meshyTreeModelPath(id, lod)}`, base, page);
 }
+export const meshyTreeModelPath = (id: string, lod: typeof MESHY_TREE_LODS[number]): string => `flora/${isHeroTree(id) ? 'hero' : 'meshy-012'}/${id}-${lod}.glb`;
 interface Part { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial; matrix: THREE.Matrix4 }
 interface Parts { wood: Part | null; leaf: Part | null }
 /** Only a rejected, not-yet-pooled parse owns these images; accepted templates stay immutable and cached. */
@@ -322,7 +349,7 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
   if (existing) return existing;
   const request = withModelLoadSlot(async () => {
     const url = meshyTreeUrl(id, lod);
-    const buffer = await downloadAsset(url, { label: `Tree ${id}`, model: `flora/meshy-012/${id}-${lod}.glb` });
+    const buffer = await downloadAsset(url, { label: `Tree ${id}`, model: meshyTreeModelPath(id, lod) });
     if (buffer.byteLength < 12) throw new Error(`Tree ${id} download is incomplete.`);
     const header = new DataView(buffer);
     if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Tree ${id} is not a complete GLB 2 file.`);
@@ -345,9 +372,11 @@ async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GL
   return request;
 }
 /** Decode a bounded number of trees concurrently; failed requests can be retried by the loading screen. */
-export async function loadMeshyTrees(ids: readonly string[] = MESHY_TREE_IDS, onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
+export async function loadMeshyTrees(ids: readonly string[] = activeMeshyTreeIds(), onProgress?: (loaded: number, total: number) => void): Promise<MeshyTreeTemplates> {
   const result = new Map<string, readonly [GLTF, GLTF, GLTF]>();
   const selected = [...new Set(ids)];
+  // B12: the procedural leaf atlases load beside the models (a failure keeps the earlier leaf art).
+  if (leafAtlasWanted()) await loadLeafAtlas();
   let next = 0, active = true;
   onProgress?.(0, selected.length);
   try {
@@ -372,11 +401,30 @@ const FAMILIES: Record<Exclude<Species, 'pine'>, readonly string[]> = {
   orchard: ['tree-4949', 'tree-4815', 'tree-4949'], shrub: ['tree-1521', 'tree-4949', 'tree-1521'], dead: ['tree-1537'],
 };
 const HEIGHT: Record<Exclude<Species, 'pine'>, number> = { oak: 18, birch: 16, fir: 24, shorepine: 10, palm: 14, orchard: 7, shrub: 1.5, dead: 13 };
+/**
+ * trimExposedWood for the generated oak, whose index starts with the trunk and limbs (the colliders' prefix, userData.twigIndex): the
+ * prefix and the rest are trimmed apart so the prefix still ends where it did.
+ */
+function trimHeroWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number): THREE.BufferGeometry {
+  const split = wood.userData.twigIndex as number | undefined, index = wood.index;
+  if (!split || !index || split >= index.count) return trimExposedWood(wood, canopy, reach).geometry;
+  const part = (from: number, to: number) => { const g = wood.clone(); g.setIndex(Array.from(index.array.slice(from, to))); return g; };
+  const front = part(0, split), back = part(split, index.count);
+  const a = trimExposedWood(front, canopy, reach).geometry, b = trimExposedWood(back, canopy, reach).geometry;
+  const merged = wood.clone();
+  merged.setIndex([...Array.from(a.index!.array), ...Array.from(b.index!.array)]);
+  merged.userData.twigIndex = a.index!.count;
+  for (const g of new Set([front, back, a, b])) g.dispose();
+  return merged;
+}
+
 export function meshyTreeId(species: Exclude<Species, 'pine'>, variant: number, explicit?: string): string {
   const family = FAMILIES[species]; return explicit ?? family[Math.abs(variant) % family.length]!;
 }
 export interface MeshyForest {
   variant(species: Exclude<Species, 'pine'>, seed: number, assetId?: string): TreeVariant;
+  /** The variant whose size and shape placement, spacing and colliders use: the supplied tree a generated one replaces. */
+  footprint(species: Exclude<Species, 'pine'>, seed: number, assetId?: string): TreeVariant;
   materialsFor(variant: TreeVariant): readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[];
   dispose(): void;
 }
@@ -403,6 +451,7 @@ export function remapStrayFernCell(geometry: THREE.BufferGeometry): number {
 
 /** Only source transforms, one uniform family scale and root translation; no crown/axis deformation. */
 export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
+  const conifers = new Map<string, THREE.Texture>();
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
   const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species) => {
@@ -420,7 +469,17 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
     // Playtest 7: the fir sheet's needles average a linear albedo of about 0.035 (broadleaf sheets 0.10-0.15), so firs
     // read near-black at dusk beside lit broadleaf crowns. Lift them to a dark but lit green (~0.085).
-    if (!wood && species && CONIFER_LEAF_LIFT[species]) material.color.multiply(CONIFER_LEAF_LIFT[species]!);
+    if (!wood && species && CONIFER_LEAF_LIFT[species]) {
+      // B12: the procedural needle pads are painted at the lifted mean, so they take no lift and keep their own mips.
+      const pads = leafAtlasInUse();
+      if (pads) {
+        const cutoff = Math.max(0.05, material.alphaTest) / 1.3, key = cutoff.toFixed(3);
+        let needles = conifers.get(key);
+        if (!needles) { needles = leafAtlasTexture(pads.fir, 'fir', cutoff, 'fir-needle-sheet'); conifers.set(key, needles); }
+        material.map = needles; material.color.set(0xffffff);
+        material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
+      } else material.color.multiply(CONIFER_LEAF_LIFT[species]!);
+    }
     // A133: a broadleaf trunk's source atlas is soft and has no normal map, so close up it read flat and untextured. It
     // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
     if (wood && species && BARK_DETAIL.has(species)) {
@@ -431,11 +490,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     materials.add(material); return material;
   };
   // A134: one procedural leaf-cluster atlas for every rebuilt crown, with coverage-preserving mips.
-  let atlas: THREE.DataTexture | null = null;
+  let atlas: THREE.DataTexture | null = null, broadleafAtlas: THREE.DataTexture | null = null;
   const clusterMaterial = (source: THREE.MeshStandardMaterial) => {
     const material = cloneMaterial(source, false);
-    atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, Math.max(0.05, material.alphaTest) / 1.3);
-    material.map = atlas;
+    const cutoff = Math.max(0.05, material.alphaTest) / 1.3, pads = leafAtlasInUse();
+    // B12: the 4 x 4 procedural cluster atlas (16 distinct twigs) replaces the 2 x 2 generated one behind ?leafatlas=1.
+    if (pads) { broadleafAtlas ??= leafAtlasTexture(pads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas'); material.map = broadleafAtlas; }
+    else { atlas ??= canopyAtlasTexture(1024, NEAR_CANOPY.cells, cutoff); material.map = atlas; }
     for (const slot of ['normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const) material[slot] = null;
     material.color.set(0xffffff); material.roughness = 0.85;
     material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' };
@@ -444,15 +505,16 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.needsUpdate = true;
     return material;
   };
-  let disposed = false;
-  return {
-    variant(species, seed, explicit) {
+    const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
-      const id = meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      // The generated hero oak (flag-gated; its templates are loaded only then) replaces every oak variant.
+      const id = species === 'oak' && !explicit && !forceLive && templates.has(HERO_OAK_ID) ? HERO_TREE_IDS[Math.abs(seed) % HERO_TREE_IDS.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
       const decoded = source.map(meshyTreeParts), bounds = new THREE.Box3().setFromObject(source[0].scene);
-      const nativeHeight = bounds.max.y - bounds.min.y;
+      // A generated tree's roots and trunk foot are modelled below its ground plane (y = 0): that plane stays the ground.
+      const bottom = hero ? 0 : bounds.min.y, nativeHeight = bounds.max.y - bottom;
       if (!(nativeHeight > 0)) throw new Error(`Tree ${id} has no height.`);
       const scale = HEIGHT[species] / nativeHeight;
       let height = 0, crownRadius = 0, trunkRadius = 0;
@@ -460,22 +522,52 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (!part || leaf && species === 'dead') return null;
         const geometry = part.geometry.clone().applyMatrix4(part.matrix);
         if (leaf && (species === 'fir' || species === 'shorepine')) remapStrayFernCell(geometry);
-        geometry.translate(0, -bounds.min.y, 0).scale(scale, scale, scale);
+        // A hero tree's branch pivots (_pivot, see foliageWind.ts) are points in the model's space: they follow it.
+        const pivot = geometry.getAttribute('_pivot') as THREE.BufferAttribute | undefined;
+        if (pivot) {
+          pivot.applyMatrix4(part.matrix);
+          for (let i = 0; i < pivot.count; i++) pivot.setXYZ(i, pivot.getX(i) * scale, (pivot.getY(i) - bottom) * scale, pivot.getZ(i) * scale);
+        }
+        geometry.translate(0, -bottom, 0).scale(scale, scale, scale);
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
         const p = geometry.getAttribute('position');
+        // Hero wood: roots and the soil skirt follow the trunk and branches in the index; colliders are trunk-only (treeGrounding twigIndex).
+        const trunkOnly = !leaf && hero ? geometry.userData.tervainWoodCollisionIndex as number | undefined : undefined;
+        if (trunkOnly) geometry.userData.twigIndex = trunkOnly;
+        const trunkVertices = trunkOnly && geometry.index ? new Set(Array.from({ length: trunkOnly }, (_, k) => geometry.index!.getX(k))) : null;
         for (let i = 0; i < p.count; i++) {
           height = Math.max(height, p.getY(i));
           // Clearing guards cover every rendered branch as well as leaves, including deadwood.
           crownRadius = Math.max(crownRadius, Math.hypot(p.getX(i), p.getZ(i)));
-          if (!leaf && p.getY(i) < 2.6) trunkRadius = Math.max(trunkRadius, Math.hypot(p.getX(i), p.getZ(i)));
+          if (!leaf && p.getY(i) < 2.6 && (!trunkVertices || trunkVertices.has(i))) trunkRadius = Math.max(trunkRadius, Math.hypot(p.getX(i), p.getZ(i)));
         }
         geometries.add(geometry); return geometry;
       };
-      const clusters = BROADLEAF.has(species);
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, species) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, species)) : null }));
+      const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
+      // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
+      // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod < 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
+      // B12: behind ?leafatlas=1 the hero oak's cards (the same 4 x 4 cells, oak twigs picked by the atlas's own oak weights) take the real atlas.
+      const heroPads = hero ? leafAtlasInUse() : null;
+      if (heroPads) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) {
+        const material = entry.leaf as THREE.MeshStandardMaterial, cutoff = Math.max(0.05, material.alphaTest) / 1.3;
+        broadleafAtlas ??= leafAtlasTexture(heroPads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas');
+        material.map = broadleafAtlas; material.color.setRGB(0.92, 1.0, 0.88);
+        material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' }; material.needsUpdate = true;
+      }
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
+        // The shipped models carry no branch data: derive it (branchWind.ts) so the limbs sway on their own, not the crown as one.
+        const branch = (clusters || CONIFER.has(species)) && wood && exported && !ownBranchData(lod, exported) ? deriveBranchWood(wood, clusters ? undefined : CONIFER_BRANCH) : null;
+        // A tree whose leaves found no limbs keeps the whole-crown sway: wood and leaves must agree.
+        const settle = <T extends { wood: THREE.BufferGeometry | null; leaf: THREE.BufferGeometry | null }>(v: T): T => {
+          if (v.wood && v.leaf && v.wood.getAttribute('_wind') && !v.leaf.getAttribute('_wind')) { v.wood.deleteAttribute('_wind'); v.wood.deleteAttribute('_pivot'); }
+          return v;
+        };
         // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
         // source sheets only say where the leaves go. Far crowns keep the source cards.
         if (exported && lod < 2 && clusters) {
@@ -486,9 +578,12 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
           // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
+          // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
+          const anchor = woodAnchor(wood);
           for (let attempt = 0; attempt < 4; attempt++) {
-            canopy = buildCanopy(exported, wood, { ...shape, cards, seed });
-            trimmedWood = wood ? trimExposedWood(wood, canopy, shape.clump * 1.6).geometry : null;
+            const pads = leafAtlasInUse();
+            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
+            trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15)) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;
@@ -499,24 +594,32 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (wood && trimmedWood !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmedWood!); wood = trimmedWood; }
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
-          if (wood && twigs.length) { const grownWood = growTwigs(wood, twigs); geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (branch) deriveBranchLeaf(canopy, branch, twigs);
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           const tris = triangles(wood) + triangles(canopy);
-          return { wood, leaf: canopy, tris };
+          return settle({ wood, leaf: canopy, tris });
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species), TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
-        return { wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) };
+        if (branch && leaf) deriveBranchLeaf(leaf, branch);
+        return settle({ wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) });
       }) as TreeVariant['lods'];
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf
         ? sampleLeafSurfaceSites(lods[0].leaf, palette[0]!.leaf as THREE.MeshStandardMaterial) : [];
       const variant: TreeVariant = { species, assetId: id, leafSurfaceSites, height, crownRadius, trunkRadius, bark: species === 'fir' || species === 'shorepine' ? 'pine' : species === 'dead' ? 'dead' : 'oak', leafTexture: 'oak', crownTexture: 'crown', lods };
       variants.set(key, variant); palettes.set(key, palette); return variant;
-    },
+    };
+  let disposed = false;
+  return {
+    variant(species, seed, explicit) { return build(species, seed, explicit, false); },
+    // Swapping a model must not move or remove a tree: spacing, clearing guards, colliders and grounding read the footprint of the tree
+    // the generated oak replaces (its own model only changes how the tree looks).
+    footprint(species, seed, explicit) { return build(species, seed, explicit, true); },
     materialsFor(variant) { const found = palettes.get(`${variant.species}:${variant.assetId}`); if (!found) throw new Error('No owned materials for this tree.'); return found; },
     dispose() {
       if (disposed) return; disposed = true;
-      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); atlas?.dispose(); atlas = null;
+      geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); textures.forEach(t => t.dispose()); conifers.forEach(t => t.dispose()); conifers.clear(); atlas?.dispose(); atlas = null; broadleafAtlas?.dispose(); broadleafAtlas = null;
       variants.clear(); palettes.clear(); geometries.clear(); materials.clear(); textures.clear();
     },
   };

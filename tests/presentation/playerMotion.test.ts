@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import RAPIER from '@dimforge/rapier3d-compat';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
@@ -47,6 +48,32 @@ beforeEach(() => vi.clearAllMocks());
 beforeAll(() => initializePhysics());
 
 describe('player motion and action contacts', () => {
+  it('refreshes borrowed body contacts, exclusions and replacement identities without mixing players', () => {
+    const s = setup(), other = setup();
+    const id = Object.keys(s.ctx.game.state.npcs)[0]! as keyof typeof s.ctx.game.state.npcs;
+    const resident = { id, x: 1, y: 2, z: 3, hidden: false } as NpcActor;
+    const enemy = { id: 'contact-enemy', x: 4, y: 5, z: 6, radius: .4, alive: true };
+    const animal = { id: 'animal:test', kind: 'circle' as const, x: 8, z: 0, r: .5, active: true };
+    s.ctx.npcs = [resident]; s.ctx.enemies = [enemy as unknown as EnemyActor]; s.ctx.wildlifeContacts = [animal];
+    const read = (player = s.player, ctx = s.ctx) => Reflect.get(player, 'contacts').call(player, ctx) as import('../../src/world/colliders').Collider[];
+    const rows = read(), person = rows[1], foe = rows[2];
+    resident.x = 10; resident.y = 11; enemy.radius = .8; enemy.y = 12;
+    expect(read()).toBe(rows); expect(rows[0]).toBe(animal); expect(rows[1]).toBe(person); expect(rows[2]).toBe(foe);
+    expect(rows[1]).toMatchObject({ x: 10, minY: 11, maxY: 13.1 });
+    expect(rows[2]).toMatchObject({ r: .8, minY: 12, maxY: 14.1 });
+    const secondRows = read(other.player, s.ctx);
+    expect(secondRows).not.toBe(rows); expect(secondRows[1]).not.toBe(person);
+    resident.hidden = true; enemy.alive = false;
+    expect(read()).toEqual([animal]);
+    resident.hidden = false; s.ctx.game.state.npcs[id]!.available = false;
+    expect(read()).toEqual([animal]);
+    s.ctx.game.state.npcs[id]!.available = true;
+    s.ctx.npcs = [{ ...resident, x: 20 } as NpcActor];
+    expect(read()[1]).not.toBe(person); expect(rows[1]).toMatchObject({ x: 20 });
+    s.ctx.npcs = []; s.ctx.wildlifeContacts = undefined;
+    expect(read()).toEqual([]);
+  });
+
   it('keeps bow input out of the legacy fist/sword attack and block paths', () => {
     const s = setup();
     s.ctx.game.state.inventory.hunting_bow = 1;
@@ -306,6 +333,82 @@ describe('player motion and action contacts', () => {
     expect(failures.length, failures.slice(0, 8).join('; ')).toBe(0);
   }, 60_000);
 
+  it('keeps the player capsule clear of the drawn rail on rising and falling vaults', () => {
+    const penetrations: string[] = [];
+    for (const distance of [.55, 1.1, 1.8]) for (const rise of [-.55, 0, .55]) for (const yaw of [0, Math.PI / 4, Math.PI / 2]) {
+      const slope = rise / (distance + .82), cos = Math.cos(yaw), sin = Math.sin(yaw);
+      const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+      const s = setup(ground); s.ctx.terrain.heightAt = ground;
+      s.ctx.colliders.box('fence', 0, 0, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.setPosition(-distance * cos, distance * sin, Math.PI / 2 + yaw, s.ctx.terrain);
+      const rail = new RAPIER.Cuboid(.12, .55, 3), capsule = new RAPIER.Capsule(.575, .4);
+      const rotation = { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) };
+      s.presses.add('jump'); s.tick(); expect(s.player.vault).not.toBeNull();
+      let deepest = 0;
+      for (let i = 0; i < 180 && s.player.vault; i++) {
+        const p = s.player;
+        const hit = rail.contactShape({ x: 0, y: .55, z: 0 }, rotation, capsule,
+          { x: p.x, y: p.y + .975, z: p.z }, { x: 0, y: 0, z: 0, w: 1 }, 0);
+        if (hit) deepest = Math.min(deepest, hit.distance);
+        s.tick();
+      }
+      if (deepest < -.005) penetrations.push(`distance=${distance} rise=${rise} yaw=${yaw}: ${deepest}`);
+    }
+    expect(penetrations, penetrations.join('\n')).toEqual([]);
+  });
+
+  it.each([false, true])('vaults end posts touched by the body footprint across slopes and orientations (sprint=%s)', sprint => {
+    for (const yaw of [0, Math.PI / 4, Math.PI / 2]) for (const slope of [-.15, 0, .15])
+      for (const side of [-1, 1]) for (const end of [-1, 1]) for (const inset of [.1, 0, -.15]) {
+        const cos = Math.cos(yaw), sin = Math.sin(yaw);
+        const ground = (x: number, z: number) => (x * cos - z * sin) * slope;
+        const s = setup(ground); s.ctx.terrain.heightAt = ground;
+        s.ctx.colliders.box('fence', 0, 0, .12, 6, yaw, true, { minY: -.6, maxY: 1.7 });
+        const lx = side * .77, lz = end * (6 - inset), facing = Math.atan2(-side * cos, side * sin);
+        s.player.setPosition(lx * cos + lz * sin, -lx * sin + lz * cos, facing, s.ctx.terrain);
+        s.ctx.viewYaw = facing; s.setMove(0, 1); if (sprint) s.held.add('sprint');
+        for (let frame = 0; frame < 12; frame++) s.tick();
+        s.presses.add('jump'); s.tick();
+        expect(s.player.vault, `yaw=${yaw} slope=${slope} side=${side} end=${end} inset=${inset}`).not.toBeNull();
+        s.setMove(0, 0);
+        for (let frame = 0; frame < 120; frame++) s.tick();
+        expect(side * (s.player.x * cos - s.player.z * sin)).toBeLessThan(0);
+        expect(s.player.grounded).toBe(true);
+      }
+  });
+
+  it('waits for rail clearance before crossing tall end posts without raising the planned apex', () => {
+    for (const top of [1.1, 2.5]) for (const slope of [-.2, 0, .2]) for (const side of [-1, 1]) {
+      const ground = (x: number) => x * slope, s = setup(ground); s.ctx.terrain.heightAt = ground;
+      s.ctx.colliders.box('fence', 0, 0, .12, 6, 0, true, { minY: -.6, maxY: top + .6 });
+      s.player.setPosition(side * .55, 5.95, -side * Math.PI / 2, s.ctx.terrain);
+      const initialY = s.player.y; s.ctx.viewYaw = -side * Math.PI / 2;
+      s.presses.add('jump'); s.tick(1 / 240);
+      const vault = s.player.vault!; expect(vault).not.toBeNull();
+      expect(vault.peak).toBeCloseTo(Math.max(top + .25, initialY + .5), 12);
+      expect(vault.seconds).toBeCloseTo(.55, 12);
+      for (let frame = 0; frame < 180 && s.player.vault; frame++) {
+        s.tick(1 / 240);
+        if (s.player.vault && s.player.y < top + .03 - 1e-8) {
+          expect(Math.min(Math.abs(s.player.x - vault.from.x), Math.abs(s.player.x - vault.to.x))).toBeLessThan(1e-9);
+        }
+      }
+      expect(s.player.vault).toBeNull(); expect(s.player.grounded).toBe(true);
+    }
+  });
+
+  it('leaves ordinary jumps beyond the end-post footprint and still rejects obstructed landings', () => {
+    for (const blocked of [false, true]) {
+      const s = setup(); s.ctx.terrain.heightAt = () => 0;
+      s.ctx.colliders.box('fence', 0, 0, .12, 6, 0, true, { minY: 0, maxY: 1.7 });
+      const z = blocked ? 5.95 : 6.6;
+      if (blocked) s.ctx.colliders.box('wall', -.82, z, .3, .3, 0, true, { minY: 0, maxY: 3 });
+      s.player.setPosition(.77, z, -Math.PI / 2, s.ctx.terrain); s.ctx.viewYaw = -Math.PI / 2;
+      s.presses.add('jump'); s.tick();
+      expect(s.player.vault).toBeNull();
+    }
+  });
+
   it.each(['jump', 'vault'])('waits for landing before starting a mount during a %s', action => {
     const s = setup();
     s.ctx.terrain.heightAt = () => 0;
@@ -371,6 +474,29 @@ describe('player motion and action contacts', () => {
       { minY: s.player.y + .03, maxY: s.player.y + 1.95 })).toBe(false);
   });
 
+  it.each(Array.from({ length: 8 }, (_, i) => i * Math.PI / 4).flatMap(yaw =>
+    ['inactive', 'overhead', 'buried', 'active'].map(state => ({ yaw, state }))))(
+    'uses body contact rules for neighboring fence landings (yaw=$yaw, state=$state)', ({ yaw, state }) => {
+      const s = setup(); s.ctx.terrain.heightAt = () => 0;
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
+      s.ctx.colliders.box('fence', .8 * cos, -.8 * sin, .12, 3, yaw, true, { minY: -.3, maxY: 1.7 });
+      s.player.yaw = Math.PI / 2 + yaw;
+      const clear = s.player['fenceVault'](s.ctx)!;
+      expect(clear).not.toBeNull();
+      s.ctx.colliders.box('fence', 1.62 * cos, -1.62 * sin, .08, .35, yaw, state !== 'inactive', {
+        minY: state === 'overhead' ? 5 : state === 'buried' ? -2 : 0,
+        maxY: state === 'overhead' ? 6 : state === 'buried' ? -.1 : 1.5,
+      });
+      s.player.yaw = Math.PI / 2 + yaw;
+      s.presses.add('jump'); s.tick();
+      if (state === 'active') expect(s.player.vault).toBeNull();
+      else {
+        expect(s.player.vault).not.toBeNull();
+        expect(s.player.vault!.to).toEqual(clear.to);
+        expect(s.player.vault!.peak).toBe(clear.peak);
+      }
+    });
+
   it.each(['absent', 'landing', 'nearby'])('checks loose cargo before a scripted fence crossing (cargo=%s)', cargo => {
     const s = setup(); s.ctx.terrain.heightAt = () => 0;
     s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
@@ -389,6 +515,51 @@ describe('player motion and action contacts', () => {
     } finally { physics.dispose(); }
   });
 
+  it.each(['resident', 'enemy', 'wildlife'] as const)('stops before a %s entering the vault after takeoff', kind => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+    const planned = s.player.vault!; expect(planned).not.toBeNull();
+    for (let i = 0; i < 8; i++) s.tick();
+    const actor = { x: planned.to.x, y: planned.to.y, z: planned.to.z };
+    if (kind === 'resident') {
+      const id = Object.keys(s.ctx.game.state.npcs)[0]!;
+      (s.ctx.game.state.npcs as Record<string, { available: boolean }>)[id]!.available = true;
+      s.ctx.npcs = [{ ...actor, id, hidden: false } as NpcActor];
+    } else if (kind === 'enemy') s.ctx.enemies = [{ ...actor, id: 'late-enemy', alive: true, radius: .35 } as unknown as EnemyActor];
+    else s.ctx.wildlifeContacts = [{ ...actor, id: 'late-animal', active: true, kind: 'circle', r: .35, minY: actor.y, maxY: actor.y + 2.1 }];
+    for (let i = 0; i < 90 && s.player.vault; i++) s.tick();
+    expect(planned.t).toBeLessThan(1);
+    expect(s.player.grounded).toBe(false);
+    expect(Math.hypot(s.player.x - actor.x, s.player.z - actor.z)).toBeGreaterThanOrEqual(.75);
+    for (let i = 0; i < 120; i++) s.tick();
+    expect(s.player.grounded).toBe(true);
+  });
+
+  it('stops an airborne vault before cargo entering after takeoff, then returns to ordinary falling', () => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    const floor = { nx: 1, nz: 1, vertexX: (i: number) => i * 20 - 10, vertexZ: (i: number) => i * 20 - 10,
+      vertexHeight: () => 0, heightAt: () => 0, groundAt: () => 0 } as unknown as Terrain;
+    const physics = new RealmPhysics(floor, new Colliders(), [{ id: 'crate', name: 'Crate', kind: 'crate',
+      x: 5, z: 5, width: .86, height: .57, depth: .62, yaw: 0, mass: 12 }]);
+    s.ctx.physics = physics;
+    try {
+      s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+      const planned = s.player.vault!; expect(planned).not.toBeNull();
+      for (let i = 0; i < 8; i++) s.tick();
+      const poses = physics.snapshot(); poses[0]!.position = { x: planned.to.x, y: .295, z: planned.to.z };
+      physics.restore(poses);
+      for (let i = 0; i < 60 && s.player.vault; i++) s.tick();
+      expect(s.player.vault).toBeNull(); expect(planned.t).toBeLessThan(1);
+      expect(s.player.grounded).toBe(false);
+      expect([s.player.vx, s.player.vy, s.player.vz]).toEqual([0, 0, 0]);
+      for (let i = 0; i < 120; i++) s.tick();
+      expect(s.player.grounded).toBe(true);
+      expect(Number.isFinite(s.player.y)).toBe(true);
+    } finally { physics.dispose(); }
+  });
+
   it.each([0, Math.PI / 4, Math.PI / 2].flatMap(yaw => ['absent', 'active', 'inactive'].map(other => ({ yaw, other }))))(
     'checks other fence segments along the vault arc (yaw=$yaw, second fence=$other)', ({ yaw, other }) => {
       const s = setup();
@@ -401,6 +572,19 @@ describe('player motion and action contacts', () => {
       if (other === 'active') expect(s.player.vault).toBeNull();
       else expect(s.player.vault).not.toBeNull();
     });
+
+  it.each(['wildlife', 'resident', 'enemy'] as const)('rejects a fence vault into a standing %s', kind => {
+    const s = setup(); s.ctx.terrain.heightAt = () => 0;
+    s.ctx.colliders.box('fence', .8, 0, .12, 3, 0, true, { minY: -.3, maxY: 1.7 });
+    if (kind === 'wildlife') s.ctx.wildlifeContacts = [{ id: 'animal:blocker', kind: 'circle', x: 1.62, z: 0, r: .35, active: true, minY: 0, maxY: 2.1 }];
+    else if (kind === 'resident') {
+      const id = Object.keys(s.ctx.game.state.npcs)[0]! as keyof typeof s.ctx.game.state.npcs;
+      s.ctx.game.state.npcs[id]!.available = true;
+      s.ctx.npcs = [{ id, x: 1.62, y: 0, z: 0, hidden: false } as NpcActor];
+    } else s.ctx.enemies = [{ id: 'blocker', x: 1.62, y: 0, z: 0, radius: .35, alive: true } as unknown as EnemyActor];
+    s.player.yaw = Math.PI / 2; s.presses.add('jump'); s.tick();
+    expect(s.player.vault).toBeNull();
+  });
 
   it.each([false, true])('keeps a fence vault below solid overhead scenery (roof=%s)', (roof) => {
     const s = setup();
@@ -751,4 +935,21 @@ describe('explicit player equipment', () => {
     expect(s.player.stamina).toBe(stamina); expect(s.player.drawn).toBe(true);
   });
 
+});
+
+
+it.each([30,60,120])('stops a released-input fence vault at its checked landing (%i Hz)',hz=>{
+  for(const distance of [.55,1.2,1.85])for(const yaw of [0,.7,Math.PI/2]){
+    const s=setup();s.ctx.terrain.heightAt=()=>0;
+    s.ctx.colliders.box('fence',0,0,.12,3,yaw,true,{minY:-.3,maxY:1.7});
+    const cos=Math.cos(yaw),sin=Math.sin(yaw);
+    s.player.setPosition(distance*cos,-distance*sin,Math.atan2(-cos,sin),s.ctx.terrain);
+    s.presses.add('jump');s.tick(1/hz);
+    expect(s.player.vault).not.toBeNull();const landing={...s.player.vault!.to};
+    for(let i=0;s.player.vault&&i<hz*3;i++)s.tick(1/hz);
+    expect(s.player.grounded).toBe(true);
+    expect(Math.hypot(s.player.vx,s.player.vz)).toBeLessThan(1e-8);
+    for(let i=0;i<hz;i++)s.tick(1/hz);
+    expect(Math.hypot(s.player.x-landing.x,s.player.z-landing.z)).toBeLessThan(1e-8);
+  }
 });

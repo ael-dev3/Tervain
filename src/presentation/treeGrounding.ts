@@ -51,10 +51,14 @@ export function treeWoodCollisionRadius(variant: TreeVariant, scale: number, gro
     const e = cache.edges;
     for (let i = 0; i < e.length; i += 6) {
       const ax = e[i]!, ay = e[i + 1]!, az = e[i + 2]!, bx = e[i + 3]!, by = e[i + 4]!, bz = e[i + 5]!;
-      if (ay <= top) radius = Math.max(radius, Math.hypot(ax, az));
+      // The Manhattan distance bounds the Euclidean radius from above. Points
+      // already inside that bound cannot enlarge the footprint. Keep hypot for
+      // possible maxima rather than changing its rounding at the boundary.
+      if (ay <= top && !(Math.abs(ax) + Math.abs(az) <= radius)) radius = Math.max(radius, Math.hypot(ax, az));
       if ((ay < top && by > top) || (ay > top && by < top)) {
         const t = (top - ay) / (by - ay);
-        radius = Math.max(radius, Math.hypot(ax + (bx - ax) * t, az + (bz - az) * t));
+        const x = ax + (bx - ax) * t, z = az + (bz - az) * t;
+        if (!(Math.abs(x) + Math.abs(z) <= radius)) radius = Math.max(radius, Math.hypot(x, z));
       }
     }
     cache.radii.set(top, radius);
@@ -84,6 +88,10 @@ function basalPolygons(geometry: THREE.BufferGeometry, plane: number): Point[][]
   const p = geometry.getAttribute('position'), index = geometry.index;
   const count = index?.count ?? p.count;
   for (let i = 0; i < count; i += 3) {
+    // Most wood is above the basal band. Reject it before constructing three
+    // points and two clipping arrays; an entirely upper triangle cannot cross it.
+    const a = index ? index.getX(i) : i, b = index ? index.getX(i + 1) : i + 1, c = index ? index.getX(i + 2) : i + 2;
+    if (p.getY(a) > plane && p.getY(b) > plane && p.getY(c) > plane) continue;
     const triangle: Point[] = [];
     for (let j = 0; j < 3; j++) {
       const at = index ? index.getX(i + j) : i + j;
@@ -150,7 +158,12 @@ export function groundedTreeFlareY(terrain: Pick<Terrain, 'heightAt'>, tree: Pic
   let polygons = flares.get(variant);
   if (!polygons) {
     const all: Point[][] = [];
-    for (const lod of variant.lods) if (lod.wood) all.push(...basalPolygons(lod.wood, TREE_ROOT_FLARE));
+    for (const lod of variant.lods) if (lod.wood) {
+      if (!lod.wood.boundingBox) lod.wood.computeBoundingBox();
+      // Coarse source LODs can start above the shared origin; include their actual basal flare too.
+      const plane = TREE_ROOT_FLARE + Math.max(0, lod.wood.boundingBox!.min.y);
+      all.push(...basalPolygons(lod.wood, plane));
+    }
     flares.set(variant, polygons = all);
   }
   if (!polygons.length) return seated;

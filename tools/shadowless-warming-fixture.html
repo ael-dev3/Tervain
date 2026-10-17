@@ -1,0 +1,22 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {createGltfLoader} from '/src/presentation/assets/gltfLoader.ts';
+import {matteHide} from '/src/presentation/matte.ts';
+try {
+ const {App}=await import(new URLSearchParams(location.search).get('mode')==='before'?'/src/__baseline-app.ts':'/src/app.ts');
+ const model=await createGltfLoader().loadAsync('/models/animals/cat-1005232556.glb');
+ model.scene.traverse(o=>{if(o.isMesh)for(const material of Array.isArray(o.material)?o.material:[o.material])if(material.isMeshStandardMaterial)matteHide(material)});
+ model.scene.updateMatrixWorld(true);
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x303943);scene.add(new THREE.HemisphereLight(0xffffff,0x303035,2));const sun=new THREE.DirectionalLight(0xffffff,3);sun.position.set(3,5,4);scene.add(sun);
+ const box=new THREE.Box3().setFromObject(model.scene),centre=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3()).length();
+ const camera=new THREE.PerspectiveCamera(40,480/360,.01,100);camera.position.copy(centre).add(new THREE.Vector3(size,size*.5,size));camera.lookAt(centre);camera.updateMatrixWorld(true);
+ const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:false});renderer.shadowMap.enabled=false;renderer.setSize(480,360);document.body.append(renderer.domElement);
+ const world={scene};const app=Object.assign(Object.create(App.prototype),{renderer,world,worldDisposed:false,cam:{camera},grade:{enabled:false},warmDepth:new Map()});
+ let uploadCalls=0,firstDrawCalls=0;const upload=app.uploadTextures,firstDraw=app.firstDraws;
+ app.uploadTextures=function(...a){uploadCalls++;return upload.apply(this,a)};app.firstDraws=function(...a){firstDrawCalls++;return firstDraw.apply(this,a)};
+ const cost=__renderCostStates.get(renderer.getContext());if(!cost)throw Error('Missing render-cost state');
+ const before=cost.uploads;await app.warmShaders(model.scene,scene,true,world);const prepared=cost.uploads;
+ scene.add(model.scene);renderer.info.autoReset=false;renderer.info.reset();renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
+ window.warmProof={warmUploadBytes:prepared-before,firstVisibleUploadBytes:cost.uploads-prepared,uploadCalls,firstDrawCalls,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,glError:renderer.getContext().getError(),contextLost:renderer.getContext().isContextLost(),image};
+}catch(e){window.fixtureError=String(e.stack??e)}
+</script></body></html>

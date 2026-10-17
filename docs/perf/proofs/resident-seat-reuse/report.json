@@ -1,0 +1,50 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "3259d3a401b8122a08c5c9a293b605cdbe2722bd8a9fe919ca4c28029e3487eb",
+  "scope": "Delivered resident rigs and sit clip; instrumented sum.clone calls during seat preparation only. Exact coordinate and generator-turn equality. No whole-crossing hitch or hardware frame-time claim.",
+  "rows": [
+    {
+      "id": "rillford-reeve",
+      "before": {
+        "vectorClones": 40041,
+        "turns": 292,
+        "seat": {
+          "x": 0.18868835620238214,
+          "y": 0.41916618361401137,
+          "z": -0.2240143806849946
+        }
+      },
+      "after": {
+        "vectorClones": 13347,
+        "turns": 292,
+        "seat": {
+          "x": 0.18868835620238214,
+          "y": 0.41916618361401137,
+          "z": -0.2240143806849946
+        }
+      }
+    },
+    {
+      "id": "ash-recorder",
+      "before": {
+        "vectorClones": 25464,
+        "turns": 176,
+        "seat": {
+          "x": 0.11559099062241826,
+          "y": 0.3614854289398306,
+          "z": -0.18165091729209978
+        }
+      },
+      "after": {
+        "vectorClones": 8488,
+        "turns": 176,
+        "seat": {
+          "x": 0.11559099062241826,
+          "y": 0.3614854289398306,
+          "z": -0.18165091729209978
+        }
+      }
+    }
+  ],
+  "pass": true
+}

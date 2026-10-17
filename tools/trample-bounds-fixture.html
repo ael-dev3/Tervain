@@ -1,0 +1,30 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {GrassTrample as Before} from '/@baseline-trample';
+import {GrassTrample as After} from '/src/presentation/grass/trample.ts';
+try {
+const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(320,240);document.body.append(renderer.domElement);renderer.setClearColor(0,0);
+const camera=new THREE.OrthographicCamera(-1,1,1,-1,0,1),scene=new THREE.Scene(),quadGeo=new THREE.BufferGeometry();quadGeo.setAttribute('position',new THREE.Float32BufferAttribute([-1,-1,0,3,-1,0,-1,3,0],3));quadGeo.setAttribute('uv',new THREE.Float32BufferAttribute([0,0,2,0,0,2],2));
+const material=new THREE.ShaderMaterial({uniforms:{tState:{value:null},preview:{value:0}},vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:'uniform sampler2D tState;uniform float preview;varying vec2 vUv;void main(){vec4 s=texture2D(tState,vUv);gl_FragColor=preview>0.5?vec4(.5+.5*s.xy,s.z,1.):s;}',depthTest:false,depthWrite:false,toneMapped:false,blending:THREE.NoBlending});const quad=new THREE.Mesh(quadGeo,material);quad.frustumCulled=false;scene.add(quad);
+const hash=async data=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data))).map(v=>v.toString(16).padStart(2,'0')).join('');
+const results={},images={},gl=renderer.getContext(),cost=globalThis.__renderCostStates.get(gl);
+for(const [mode,Class]of [['before',Before],['after',After]]){const rows=[];
+for(const [size,extent,base]of [[16,8,0],[64,28,-268],[128,40,1000],[256,48,-2]]){
+const field=new Class(size,extent),target=new THREE.WebGLRenderTarget(size,size,{type:THREE.FloatType,format:THREE.RGBAFormat,depthBuffer:false,minFilter:THREE.NearestFilter,magFilter:THREE.NearestFilter,colorSpace:THREE.NoColorSpace});field.warm(renderer);
+const shader=field.stepMaterial.fragmentShader;
+for(let i=0;i<30;i++){
+ const focus=base+(i<10?0:i<20?extent*.3:extent*1.6),focusZ=base/3;
+ const movers=[{x:focus,z:focusZ,radius:1.2,weight:.75,vx:2,vz:.5},{x:focus+extent/2+.3,z:focusZ,radius:.8,weight:.7},...Array.from({length:46},(_,j)=>({x:focus+100+j,z:focusZ-100,radius:.5,weight:.8,vx:3}))];
+ field.setMovers(movers,focus,focusZ);
+ if(i%6===0)field.queueStamps(Array.from({length:71},(_,j)=>({x:focus+(j%2===0?(j%9-4)*.2:extent*4),z:focusZ+(j%7-3)*.2,radius:.7,weight:.4,vz:2})));
+ const passes=[],render=renderer.render;renderer.render=function(s,c){const u=s.children[0]?.material?.uniforms;const kind=u?.uMoverCount?'stamp':'shift';const result=render.call(this,s,c);passes.push({kind,submitted:u?.uMoverCount?.value??0,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles});return result;};
+ const uploads=cost.uploads;try{field.update(renderer,focus,focusZ,i%7===2?.1:i%5===0?0:1/60);}finally{renderer.render=render;}
+ const fieldUploads=cost.uploads-uploads;material.uniforms.tState.value=field.uniforms.tTrample.value;material.uniforms.preview.value=0;renderer.setRenderTarget(target);renderer.render(scene,camera);const pixels=new Float32Array(size*size*4);renderer.readRenderTargetPixels(target,0,0,size,size,pixels);if(!pixels.every(Number.isFinite))throw Error('Nonfinite field');
+ const nonzero=pixels.filter((v,k)=>k%4!==3&&Math.abs(v)>.001).length;rows.push({size,extent,base,i,passes,nonzero,uploadBytes:fieldUploads,fieldTexturePayloadBytes:size*size*4*2*2,stateSha256:await hash(pixels.buffer),glError:gl.getError()});
+ if(i===29){material.uniforms.preview.value=1;renderer.setRenderTarget(null);renderer.render(scene,camera);images[mode+'-'+size]=renderer.domElement.toDataURL('image/png');}
+}
+field.dispose();target.dispose();}
+results[mode]=rows;}
+window.trampleProof={results,images};
+}catch(e){window.fixtureError=e.stack??String(e);}
+</script></body></html>

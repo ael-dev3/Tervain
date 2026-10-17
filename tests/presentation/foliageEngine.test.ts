@@ -1,12 +1,12 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
-import { FOLIAGE_MAX_MOVERS, FOLIAGE_MAX_SHAKES, FOLIAGE_RESPONSE, createFoliageField, patchFloorPlantVertex, patchFoliageVertex, foliageUniforms } from '../../src/presentation/foliage/foliageWind';
+import { FOLIAGE_MAX_MOVERS, FOLIAGE_MAX_SHAKES, FOLIAGE_RESPONSE, createFoliageField, expireFoliageShakes, patchFloorPlantVertex, patchFoliageVertex, foliageUniforms } from '../../src/presentation/foliage/foliageWind';
 import { FOLIAGE_FOCUS, FOLIAGE_LOOK, crownOf, installFoliage, installFoliageShadow } from '../../src/presentation/foliage/foliageMaterial';
 import { installShadowOnlyGroup, shadowDepthMaterial, shadowGeometry } from '../../src/presentation/foliage/shadowCasters';
 import { LEAF_BURST_POOL, createLeafBurst } from '../../src/presentation/foliage/leafBurst';
 import { GrassWind } from '../../src/presentation/grass/wind';
 import { attachInstanceDistanceVisibility } from '../../src/presentation/distanceVisibility';
-import { FLORA_SHADOW_LOD, buildFlora, floraShadowLod, foliageResponse } from '../../src/presentation/flora';
+import { FLORA_SHADOW_LOD, buildFlora, floraShadowLod, floraShadowWeights, foliageResponse } from '../../src/presentation/flora';
 import { SHRUB_LOD_BANDS, createFloraPopulation, floraLodWeights, floraLodWeightsFor, registerFloraColliders, type FloraTree } from '../../src/presentation/floraPopulation';
 import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { createPineForest, isPineSpecies, type PineTemplates } from '../../src/presentation/solitaryPine';
@@ -51,6 +51,24 @@ describe('foliage wind', () => {
     expect(u.uFoliageMovers).toBe(f.movers);
     expect(u.uFoliage.value.toArray()).toEqual([0.7, 0.75, 0.45, 16]);
     wind.dispose();
+  });
+
+  it('keeps fresh strikes across the clock wrap, then retires them permanently', () => {
+    const f = field(), slot = f.shakes.value[0]!;
+    slot.set(10, 20, 16383.75, 1);
+    f.wind.uniforms.uGrassTime.value = 0.25;
+    expireFoliageShakes(f);
+    expect(slot.w).toBe(1);
+    f.wind.uniforms.uGrassTime.value = 2.75; // Exactly three seconds remains drawable.
+    expireFoliageShakes(f);
+    expect(slot.w).toBe(1);
+    f.wind.uniforms.uGrassTime.value = 2.875;
+    expireFoliageShakes(f);
+    expect(slot.w).toBe(0);
+    f.wind.uniforms.uGrassTime.value = 0.25; // A later cycle cannot replay the old hit.
+    expireFoliageShakes(f);
+    expect(slot.w).toBe(0);
+    f.wind.dispose();
   });
 
   it('moves vertices in the actual standard and depth chunks, in world space and back, and pins weighted vertices', () => {
@@ -128,9 +146,13 @@ describe('foliage look', () => {
       material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
-      expect(shader.fragmentShader).toContain('tvDistanceNoise(gl_FragCoord.xy)');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v1\|tervain-foliage-v2-leaf\|foliage-options:\[null,null\]$/);
+      expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
+      // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
+      const ramps = [...frag.matchAll(/smoothstep\(\s*(-?[\d.]+),\s*(-?[\d.]+),/g)];
+      expect(ramps.length).toBeGreaterThan(0);
+      for (const ramp of ramps) expect(Number(ramp[1]), ramp[0]).toBeLessThan(Number(ramp[2]));
       expect(frag).toContain('#define RE_Direct RE_Direct_Foliage');
       expect(frag.indexOf('void RE_Direct_Foliage')).toBeGreaterThan(frag.indexOf('#include <lights_physical_pars_fragment>'));
       // A69: each face keeps its own normal (not turned toward the eye) under the crown's, and the cut-out is centred on
@@ -142,7 +164,8 @@ describe('foliage look', () => {
       expect(frag).toContain('float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;');
       // A133: a stable quarter-step dither inside the ramp only; a fixed-grid dithered cut without multisampling.
       expect(frag).toContain('diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );');
-      expect(frag).toContain('if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;');
+      expect(frag).toContain('if ( tvLowCov <= tvIgn ) discard;');
+      expect(frag).toContain('if ( uFoliageMsaa > 0.5 ) {');
       expect(frag.indexOf('tvCoverageSample <')).toBeGreaterThan(frag.indexOf('tvA *= 1.0 + 0.22 * tvMip;'));
       // Each light's colour is noted before its shadow, so some light still passes through a shaded leaf.
       expect(frag).not.toContain('#include <lights_fragment_begin>');
@@ -174,7 +197,11 @@ describe('foliage look', () => {
     shader.defines = { ...(shader.defines ?? {}), USE_ALPHATEST: '' };
     leaf.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.uniforms.uFoliageFocus).toBe(FOLIAGE_FOCUS);
-    expect(shader.vertexShader).toContain('vTvWorld = tvP;');
+    const focusPosition = shader.vertexShader.indexOf('vTvWorld = (tvFocusWorld * vec4(transformed, 1.0)).xyz;');
+    // Clearance follows the rendered leaf after wind; crown lighting and noise stay in rest space.
+    expect(focusPosition).toBeGreaterThan(shader.vertexShader.indexOf('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;'));
+    expect(focusPosition).toBeLessThan(shader.vertexShader.indexOf('#include <project_vertex>'));
+    expect(shader.vertexShader.indexOf('vTvLeafP =')).toBeLessThan(shader.vertexShader.indexOf('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;'));
     expect(shader.fragmentShader).toContain('if ( uFoliageFocus.w > 0.0 ) tvNearEnd = clamp(');
     expect(shader.fragmentShader).toContain('smoothstep( 0.6, tvNearEnd, length( vViewPosition ) )');
     expect(FOLIAGE_FOCUS.value.w).toBe(0);
@@ -188,7 +215,7 @@ describe('foliage look', () => {
     wood.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
     expect(shader.vertexShader).toContain('tvFoliageOffset(tvWorld, tvOrigin, 0.0');
     expect(shader.fragmentShader).not.toContain('RE_Direct_Foliage');
-    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
+    expect(wood.customProgramCacheKey()).toMatch(/tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
     const leaf = new THREE.MeshStandardMaterial(), installed = installFoliage(leaf, { field: f, response: FOLIAGE_RESPONSE.broadleaf, leaf: true });
     const broken = lib('standard');
     broken.fragmentShader = broken.fragmentShader.replace('#include <aomap_fragment>', '');
@@ -233,6 +260,22 @@ describe('shadow-only casters', () => {
     expect([depth.map, depth.alphaTest, depth.side, depth.depthPacking]).toEqual([map, 0.35, THREE.DoubleSide, THREE.RGBADepthPacking]);
   });
 
+  it('reuses caller-owned shadow weights across both bands and species without mutating retained default results', () => {
+    const retained = floraShadowWeights(14, false);
+    const independent = floraShadowWeights(14, false);
+    expect(retained).not.toBe(independent);
+    const out: [number, number, number] = [99, 99, 99];
+    for (const [distance, pine, expected] of [
+      [200, true, [0, 1, 0]], [200, false, [0, 0, 1]],
+      [64, false, [0, 0.5, 0.5]], [14, false, [0.5, 0.5, 0]],
+      [0, false, [1, 0, 0]], [16, true, [0, 1, 0]],
+    ] as const) {
+      expect(floraShadowWeights(distance, pine, out)).toBe(out);
+      expect(out).toEqual(expected);
+      expect(retained).toEqual([0.5, 0.5, 0]);
+    }
+  });
+
   it('casts with the full model near the camera and lighter source models beyond, the Pine never from its crossed planes', () => {
     expect(floraShadowLod(0, false)).toBe(0);
     expect(floraShadowLod(FLORA_SHADOW_LOD.full - 0.01, false)).toBe(0);
@@ -262,6 +305,35 @@ describe('low shrubs fade to their own lighter models', () => {
 });
 
 describe('leaves knocked loose', () => {
+  it('stops falling leaves when an edge reaches terrain, before their centres sink', () => {
+    const ground = (x: number, z: number) => x * 0.3 + z * 0.2;
+    let queries = 0;
+    const burst = createLeafBurst({ heightAt(x, z) { queries++; return ground(x, z); } }, null);
+    const matrix = new THREE.Matrix4(), vertex = new THREE.Vector3();
+    let checked = 0;
+    try {
+      burst.release(0, 0.4, 0, 0.2, LEAF_BURST_POOL);
+      for (let frame = 0; frame < 180; frame++) {
+        burst.update(1 / 60, false);
+        const held = burst.mesh.instanceMatrix.array.slice(), before = queries;
+        burst.update(0, true);
+        expect(burst.mesh.instanceMatrix.array).toEqual(held);
+        expect(queries - before).toBe(0);
+        for (let i = 0; i < burst.mesh.count; i++) {
+          burst.mesh.getMatrixAt(i, matrix);
+          if (matrix.elements[0] === 0 && matrix.elements[1] === 0 && matrix.elements[2] === 0) continue;
+          const positions = burst.mesh.geometry.getAttribute('position');
+          for (let v = 0; v < positions.count; v++) {
+            vertex.fromBufferAttribute(positions, v).applyMatrix4(matrix);
+            expect(vertex.y - ground(vertex.x, vertex.z)).toBeGreaterThanOrEqual(-1e-5);
+            checked++;
+          }
+        }
+      }
+      expect(checked).toBeGreaterThan(1000);
+    } finally { burst.dispose(); }
+  });
+
   it('fall, drift downwind, settle on the ground and fade, within a fixed pool, and hold still in Reduced Motion', () => {
     const wind = new GrassWind(REALM_WIND), terrain = { heightAt: (x: number) => x * 0.05 };
     const burst = createLeafBurst(terrain, wind);
@@ -291,6 +363,39 @@ describe('leaves knocked loose', () => {
     burst.dispose(); burst.dispose();
     wind.dispose();
   });
+  it('keeps grounded struck-leaf vertices clear of slopes while they settle', () => {
+    let queries = 0;
+    const ground = (x: number, z: number) => x * 0.3 + z * 0.2;
+    const burst = createLeafBurst({ heightAt(x, z) { queries++; return ground(x, z); } }, null);
+    const matrix = new THREE.Matrix4(), vertex = new THREE.Vector3();
+    const previous = Array.from({ length: LEAF_BURST_POOL }, () => new THREE.Vector3(Infinity, Infinity, Infinity));
+    let grounded = 0;
+    try {
+      burst.release(0, 0.4, 0, 0.2, LEAF_BURST_POOL);
+      for (let frame = 0; frame < 240; frame++) {
+        burst.update(1 / 60, false);
+        for (let i = 0; i < burst.mesh.count; i++) {
+          burst.mesh.getMatrixAt(i, matrix);
+          if (matrix.elements[0] === 0 && matrix.elements[1] === 0 && matrix.elements[2] === 0) continue;
+          const p = previous[i]!, e = matrix.elements;
+          if (p.x === e[12] && p.z === e[14]) {
+            grounded++;
+            const positions = burst.mesh.geometry.getAttribute('position');
+            for (let v = 0; v < positions.count; v++) {
+              vertex.fromBufferAttribute(positions, v).applyMatrix4(matrix);
+              expect(vertex.y - ground(vertex.x, vertex.z)).toBeGreaterThanOrEqual(0.012 - 1e-5);
+            }
+          }
+          p.set(e[12], e[13], e[14]);
+        }
+      }
+      expect(grounded).toBeGreaterThan(100);
+      const before = queries;
+      for (let i = 0; i < 120; i++) burst.update(0, false);
+      expect(queries - before).toBe(0);
+    } finally { burst.dispose(); }
+  });
+
 });
 
 let templates: PineTemplates, terrain: Terrain, excl: Exclusions, population: FloraTree[];
@@ -348,7 +453,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v2-leaf\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v2-wood-fill1\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
@@ -459,17 +564,39 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
     const before = full.map((m) => m.geometry);
+    const beforeMaterials = full.map((m) => m.material);
     const restore = forest.lighterForReflection();
     for (const [i, m] of full.entries()) {
       const middles = colour.filter((o) => o.name === m.name.replace(':0:', ':1:'));
       expect(m.geometry).not.toBe(before[i]);
       expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
       expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
+      if (m.name.endsWith(':wood')) expect(middles.some(o => o.material === m.material)).toBe(true);
+      else expect(m.material).toBe(beforeMaterials[i]);
     }
     assertCaptureBounds();
     const proxies = full.map((m) => m.geometry);
+    const captureMaterials = full.map(m => m.material);
+    const restoreNested = forest.lighterForReflection();
+    restoreNested();
+    full.forEach((m, i) => { expect(m.geometry).toBe(proxies[i]); expect(m.material).toBe(captureMaterials[i]); });
     restore();
-    full.forEach((m, i) => expect(m.geometry).toBe(before[i]));
+    full.forEach((m, i) => { expect(m.geometry).toBe(before[i]); expect(m.material).toBe(beforeMaterials[i]); });
+    const pairs = new Set<unknown>(), push = Array.prototype.push;
+    Array.prototype.push = function(this: unknown[], ...values: unknown[]) {
+      for (const value of values) if (Array.isArray(value) && value.length === 2
+        && (value[0] as THREE.InstancedMesh)?.isInstancedMesh && (value[1] as THREE.BufferGeometry)?.isBufferGeometry) pairs.add(value);
+      return push.apply(this, values);
+    };
+    try { for (let i = 0; i < 12; i++) forest.lighterForReflection()(); }
+    finally { Array.prototype.push = push; }
+    expect(pairs.size).toBe(0);
+    const outer = forest.lighterForReflection(), inner = forest.lighterForReflection();
+    inner(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(proxies[i]));
+    outer(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(before[i]));
+    const next = forest.lighterForReflection();
+    outer(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(proxies[i]));
+    next(); next(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(before[i]));
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
     const ground = terrain.heightAt(tree.x, tree.z);
     expect(forest.strike(tree.x + 0.1, ground + 1.5, tree.z, 1, tree.collisionId!)).toBe(true);
@@ -505,10 +632,17 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     vi.stubGlobal('location', { search: '' });
     const low = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'low', settings: { ...defaultSettings(), quality: 'low' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: field() }, templates);
     expect(low.shadowCasters.children).toHaveLength(0);
+    const lowLeaves = low.group.children.filter(o => (o as THREE.Mesh).isMesh && o.name.endsWith(':foliage')) as THREE.Mesh[];
+    const maskedLow = lowLeaves.filter(o => (o.material as THREE.Material).alphaTest > 0);
+    expect(maskedLow.length).toBeGreaterThan(0);
+    expect(maskedLow.every(o => !(o.material as THREE.Material).alphaToCoverage)).toBe(true);
     low.dispose!();
     const plain = buildFlora({ terrain, excl, colliders: new Colliders(), quality: 'medium', settings: { ...defaultSettings(), quality: 'medium' }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
     const leaf = plain.group.children.find((o) => o.name.endsWith(':0:foliage')) as THREE.InstancedMesh;
     expect((leaf.material as THREE.Material).customProgramCacheKey()).not.toContain('tervain-foliage');
+    const maskedMedium = plain.group.children.filter(o => (o as THREE.Mesh).isMesh && o.name.endsWith(':foliage') && ((o as THREE.Mesh).material as THREE.Material).alphaTest > 0) as THREE.Mesh[];
+    expect(maskedMedium.length).toBeGreaterThan(0);
+    expect(maskedMedium.every(o => (o.material as THREE.Material).alphaToCoverage)).toBe(true);
     expect(plain.strike(0, 0, 0)).toBe(false);
     plain.dispose!();
     vi.unstubAllGlobals();

@@ -1,0 +1,79 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 12716,
+      "terrainCalls": {
+        "heightAt": 77662,
+        "slopeAt": 12716,
+        "carveAt": 12716
+      },
+      "shoreCalls": null,
+      "wetnessCalls": null,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "before": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 6358,
+      "terrainCalls": {
+        "heightAt": 52230,
+        "slopeAt": 6358,
+        "carveAt": 6358
+      },
+      "shoreCalls": 14965,
+      "wetnessCalls": 2249,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 6358,
+      "terrainCalls": {
+        "heightAt": 52230,
+        "slopeAt": 6358,
+        "carveAt": 6358
+      },
+      "shoreCalls": 6358,
+      "wetnessCalls": 2249,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "coastSha256": "644464da0a05927f5130cbd6b259553e61f415cafb8c7ee4d5246a9493bb98e8",
+  "baselineRevision": "18a61f374",
+  "sourceSha256": "5cb438030315a917548f3f9fb4dd3e0182c3817072f5e81afbe675ffc342b8d0",
+  "groundSplatSha256": "48bb64a5c21e307a8aee92a83ffaa6191336cc6b7979af1d2d27ce6f13e6e7e9",
+  "scope": "Native published Habitat, planted crown field, grass generators, tile meshes and renderer. Replace only evalNode with baseline/candidate methods and their matching groundSplat dependencies. Both dependencies share one instrumented coastline module per arm, re-exporting its actual counter binding. Reset each raster cache and refill actual native tile buffers. Counts cover this coastline module, not every shoreline evaluation elsewhere in the world. Baseline already includes #539/#540; no prior savings are attributed here. Exact full buffers, bounds, rasters and native Grade/post pixels required. Low preset, no hardware timing or hitch-resolution claim",
+  "pass": true
+}

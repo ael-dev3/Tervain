@@ -85,7 +85,7 @@ describe('opaque distance continuity', () => {
       const shader = { uniforms: {}, vertexShader: original.vertexShader, fragmentShader: original.fragmentShader } as Parameters<THREE.Material['onBeforeCompile']>[0];
       candidate.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(shader.vertexShader).toContain('aDistanceCoverage');
-      expect(shader.fragmentShader).toContain('tvDistanceNoise(gl_FragCoord.xy)');
+      expect(shader.fragmentShader).toContain(shaderName === 'standard' ? 'tvDistanceNoise((-vViewPosition' : 'tvCoverageSample = tvCellHash(vec3(gl_FragCoord.xy');
       expect(shader.fragmentShader.indexOf('tvCoverageSample <')).toBeGreaterThan(shader.fragmentShader.indexOf('#include <alphatest_fragment>'));
       expect((candidate as THREE.MeshStandardMaterial).map).toBe(texture);
       expect((candidate as THREE.MeshStandardMaterial).alphaTest).toBe(0.42);

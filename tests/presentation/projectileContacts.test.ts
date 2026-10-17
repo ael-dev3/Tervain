@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { Colliders } from '../../src/world/colliders';
 import { initializePhysics, RealmPhysics, type PropSpec } from '../../src/world/physics';
 import type { PhysicalWoodGeometry } from '../../src/world/physicsGeometry';
@@ -29,6 +29,25 @@ describe('real finite projectile world contacts', () => {
       for (let i = 0; i < 120; i++) expect(physics.traceProjectile(from, to)).toBeNull();
       expect(reads).toBe(0);
     } finally { physics.dispose(); }
+  });
+
+  it('does not read backend enabled flags for unchanged distant fixed scenery', () => {
+    const colliders = new Colliders();
+    for (let i = 0; i < 100; i++) colliders.box(`scenery:${i}`, 30 + i * 2, 30, .5, .5);
+    const physics = new RealmPhysics(floor, colliders, []);
+    const checks: ReturnType<typeof vi.spyOn>[] = [];
+    physics.world.colliders.forEach(collider => {
+      if (collider.translation().x >= 30 && collider.translation().z === 30) checks.push(vi.spyOn(collider, 'isEnabled'));
+    });
+    try {
+      expect(checks).toHaveLength(100);
+      for (let i = 0; i < 120; i++) {
+        physics.step(1 / 60, { x: 0, y: 0, z: 0 }, 0, 0);
+        expect(physics.traceProjectile(from, to)).toBeNull();
+      }
+      expect(physics.stats().steps).toBe(120);
+      expect(checks.reduce((n, check) => n + check.mock.calls.length, 0)).toBe(0);
+    } finally { checks.forEach(check => check.mockRestore()); physics.dispose(); }
   });
 
   it('ignores wildlife contact capsules while retaining NPC and cargo projectile blockers', () => {

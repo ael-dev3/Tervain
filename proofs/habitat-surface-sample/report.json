@@ -1,0 +1,71 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 12716,
+      "terrainCalls": {
+        "heightAt": 77662,
+        "slopeAt": 12716,
+        "carveAt": 12716
+      },
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "before": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 6358,
+      "terrainCalls": {
+        "heightAt": 77662,
+        "slopeAt": 12716,
+        "carveAt": 12716
+      },
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "coverCalls": 6358,
+      "terrainCalls": {
+        "heightAt": 52230,
+        "slopeAt": 6358,
+        "carveAt": 6358
+      },
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "2a21f1d2d62c2ae163b9e6a5cdb640692bff997a79ffc5aebd42f8b321e3d59d",
+  "groundSplatSha256": "c338cf908bbc7caed3ceb8aff5c5747a4f4396f20cf599f755cd45bb68a1389b",
+  "scope": "Native published Habitat, planted crown field, grass generator, existing tile meshes and renderer. Only evalNode replaced with actual baseline/candidate method and current groundSplat import, per-arm raster cache reset. Baseline contains the separate crown-query reuse; slope/height controls must still match the published implementation. One reusable surface-sample object supplies the candidate constructor field on the native instance. Counters wrap actual terrain methods, native field calls and node evaluations; regenerated active buffers/bounds and raster values must match native. Final native Grade/post pixels compared. Low preset, no hardware timing or historical hitch-resolution claim.",
+  "pass": true
+}

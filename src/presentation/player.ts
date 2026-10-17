@@ -1,12 +1,12 @@
 import { ROCK_STEP_HEIGHT } from '../world/rockContacts';
-import { FENCE_WALL_LIFT } from '../world/colliders';
+import { Colliders, FENCE_WALL_LIFT } from '../world/colliders';
 import { roomFloorSurface } from './sound/soundscape';
 import * as THREE from 'three';
 import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
 import type { Input } from '../platform/input';
 import type { Settings } from '../platform/settings';
-import type { Collider, Colliders } from '../world/colliders';
+import type { CircleCollider, Collider } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
 import { LIGHTHOUSE, SEA_LEVEL, WORLD } from '../world/layout';
@@ -96,6 +96,12 @@ const GRAVITY = 17;
  */
 export const VAULT = { reach: 1.9, facing: 0.2, land: 0.7, step: 0.6, seconds: 0.55 } as const;
 const VAULT_NEAR_SPAN = 0.6 + 0.12 + 0.7;
+// Rise before crossing the rail, and finish crossing before descending beside it.
+const VAULT_TRAVEL_START = 0.2;
+function vaultEase(u: number, start = VAULT_TRAVEL_START): number {
+  const travel = THREE.MathUtils.clamp((u - start) / (1 - 2 * start), 0, 1);
+  return travel * travel * (3 - 2 * travel);
+}
 const FIRM_FOOTING_SLOPE = 0.95;
 /** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
@@ -651,16 +657,33 @@ export class Player {
     return { x: -GRAVITY * dx / normalLengthSquared * slip, z: -GRAVITY * dz / normalLengthSquared * slip, slip };
   }
 
-  /** Living people are contact volumes, not unrestricted post-physics position pushes. */
+  private readonly contactRows: Collider[] = [];
+  private readonly residentContactRows = new WeakMap<object, CircleCollider>();
+  private readonly enemyContactRows = new WeakMap<object, CircleCollider>();
+
+  private bodyContact(actor: { id: string; x: number; y: number; z: number }, radius: number, prefix: string, records: WeakMap<object, CircleCollider>): CircleCollider {
+    let contact = records.get(actor);
+    if (!contact) {
+      contact = { id: `${prefix}:${actor.id}`, kind: 'circle', x: 0, z: 0, r: radius, active: true, minY: 0, maxY: 0 };
+      records.set(actor, contact);
+    }
+    contact.x = actor.x; contact.z = actor.z; contact.r = radius;
+    contact.minY = actor.y; contact.maxY = actor.y + 2.1;
+    return contact;
+  }
+
+  /** Borrowed until the next query; movement and settling consume these contacts synchronously. */
   private contacts(ctx: PlayerCtx): Collider[] {
-    const contacts: Collider[] = [...(ctx.wildlifeContacts ?? [])];
+    const contacts = this.contactRows;
+    contacts.length = 0;
+    if (ctx.wildlifeContacts) for (const contact of ctx.wildlifeContacts) contacts.push(contact);
     for (const n of ctx.npcs) {
       if (n.hidden || !ctx.game.state.npcs[n.id]?.available) continue;
-      contacts.push({ id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: 0.35, active: true, minY: n.y, maxY: n.y + 2.1 });
+      contacts.push(this.bodyContact(n, .35, 'person', this.residentContactRows));
     }
     for (const e of ctx.enemies) {
       if (!e.alive) continue;
-      contacts.push({ id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius, active: true, minY: e.y, maxY: e.y + 2.1 });
+      contacts.push(this.bodyContact(e, e.radius, 'enemy', this.enemyContactRows));
     }
     return contacts;
   }
@@ -700,7 +723,7 @@ export class Player {
 
   /** Sweep every move (including dodge, attack and recoil), including real movable-body contacts. */
   /** A vault in progress (A125): from where he left the ground over a fence to where he lands. */
-  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number } | null = null;
+  vault: { t: number; from: { x: number; y: number; z: number }; to: { x: number; y: number; z: number }; peak: number; seconds: number; travelStart: number } | null = null;
 
   /**
    * A vault over the fence before him, if there is one within reach and he approaches across it (A125). The fences
@@ -708,12 +731,14 @@ export class Player {
    */
   private fenceVault(ctx: PlayerCtx, approach?: { x: number; z: number }): Player['vault'] {
     const fx = approach?.x ?? Math.sin(this.yaw), fz = approach?.z ?? Math.cos(this.yaw);
+    let people: Collider[] | undefined;
     for (const c of ctx.colliders.withId('fence')) {
       if (c.kind !== 'box' || !c.active) continue;
       const cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
       const lx = (this.x - c.x) * cos - (this.z - c.z) * sin, lz = (this.x - c.x) * sin + (this.z - c.z) * cos;
-      // Within reach across the fence, and along its length (not round its end).
-      if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) > c.hd - 0.15) continue;
+      // A capsule can still strike an end post with its centre just beyond the rail.
+      // Keep those crossings vaultable; outside its radius an ordinary jump clears the end.
+      if (Math.abs(lx) > c.hw + VAULT.reach || Math.abs(lz) >= c.hd + PLAYER_RADIUS) continue;
       // Use the requested approach while moving; the body can still be turning toward it. Reject tangent/away motion.
       const side = Math.sign(lx) || 1, nx = -side * cos, nz = side * sin;
       if (fx * nx + fz * nz < VAULT.facing) continue;
@@ -722,27 +747,35 @@ export class Player {
       const ground = ctx.terrain.heightAt(land.x, land.z);
       // The far side must be open ground at about this height, and clear of any other fence.
       if (!Number.isFinite(ground) || Math.abs(ground - this.y) > VAULT.step || !ctx.terrain.walkable(land.x, land.z)) continue;
-      const blocked = ctx.colliders.withId('fence').some((o) => {
-        if (o === c || o.kind !== 'box') return false;
-        const ox = (land.x - o.x) * Math.cos(o.yaw) - (land.z - o.z) * Math.sin(o.yaw), oz = (land.x - o.x) * Math.sin(o.yaw) + (land.z - o.z) * Math.cos(o.yaw);
-        return Math.abs(ox) < o.hw + PLAYER_RADIUS && Math.abs(oz) < o.hd + PLAYER_RADIUS;
-      });
-      if (blocked) continue;
       const landingBounds = { minY: ground + PLAYER_FOOT_CLEARANCE, maxY: ground + PLAYER_BODY_HEIGHT };
       if (ctx.colliders.blocked(land.x, land.z, PLAYER_RADIUS, landingBounds)) continue;
       const top = c.maxY === undefined ? this.y + 1.1 : c.maxY - FENCE_WALL_LIFT;
       const span = Math.hypot(land.x - this.x, land.z - this.z);
       const vault = { t: 0, from: { x: this.x, y: this.y, z: this.z }, to: { x: land.x, y: ground, z: land.z }, peak: Math.max(top + 0.25, this.y + 0.5),
-        seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN) };
+        seconds: VAULT.seconds * Math.max(1, span / VAULT_NEAR_SPAN), travelStart: VAULT_TRAVEL_START };
       // The scripted arc bypasses ordinary movement collision: check body clearance before taking it.
       const ignored = new Set([c]); // Only this rail is crossed; neighboring fences still block the arc.
-      const lift = vault.peak - Math.max(vault.from.y, vault.to.y);
-      // Smoothstep's maximum second derivative is six; enclose its horizontal deviation from each chord too.
-      const horizontalGuard = span * 6 / (8 * 20 * 20);
+      // At u=1/2 the linear base is the endpoint mean, including on slopes.
+      const lift = vault.peak - (vault.from.y + vault.to.y) / 2;
+      // Taller rails need more takeoff time. Keep feet above the rail throughout horizontal travel,
+      // without raising the apex or changing the total duration. The lower symmetric arc is monotone to its apex.
+      const clearHeight = top + PLAYER_FOOT_CLEARANCE;
+      const lowerArc = (u: number) => Math.min(vault.from.y, vault.to.y) + Math.abs(vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u);
+      if (lowerArc(vault.travelStart) < clearHeight) {
+        let lo = vault.travelStart, hi = 0.5;
+        for (let n = 0; n < 16; n++) {
+          const mid = (lo + hi) / 2;
+          if (lowerArc(mid) < clearHeight) lo = mid; else hi = mid;
+        }
+        vault.travelStart = hi;
+      }
+      const travelSpan = 1 - 2 * vault.travelStart;
+      // The shortened smoothstep travel phase has maximum second derivative 6 / span².
+      const horizontalGuard = span * (6 / (travelSpan * travelSpan)) / (8 * 20 * 20);
       let previous = vault.from;
       let clear = true;
       for (let i = 1; i <= 20; i++) {
-        const u = i / 20, ease = u * u * (3 - 2 * u);
+        const u = i / 20, ease = vaultEase(u, vault.travelStart);
         const next = { x: vault.from.x + (vault.to.x - vault.from.x) * ease,
           z: vault.from.z + (vault.to.z - vault.from.z) * ease,
           y: vault.from.y + (vault.to.y - vault.from.y) * u + lift * Math.sin(Math.PI * u) };
@@ -750,7 +783,7 @@ export class Player {
         const arcGuard = Math.abs(lift) * Math.PI * Math.PI / (8 * 20 * 20);
         const bounds = { minY: Math.min(previous.y, next.y) + PLAYER_FOOT_CLEARANCE,
           maxY: Math.max(previous.y, next.y) + PLAYER_BODY_HEIGHT + arcGuard };
-        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds) ||
+        if (ctx.colliders.cast(previous.x, previous.z, next.x, next.z, PLAYER_RADIUS, ignored, bounds, people ??= this.contacts(ctx)) ||
           ctx.physics?.propsBlockBodySweep?.(previous, next, arcGuard + horizontalGuard)) { clear = false; break; }
         previous = next;
       }
@@ -759,21 +792,47 @@ export class Player {
     return null;
   }
 
-  /** One step of a vault: an arc over the rail, then down on the far side; collisions wait until he lands (A125). */
+  /** Actor-only sweeps must not collide with the rail this vault deliberately crosses. */
+  private readonly vaultActorSweep = new Colliders();
+
+  /** Advance the planned arc only while actors and moving cargo leave the next segment clear. */
   private stepVault(dt: number, ctx: PlayerCtx): void {
     const v = this.vault!;
-    v.t = Math.min(1, v.t + dt / v.seconds);
-    const u = v.t, ease = u * u * (3 - 2 * u);
-    this.x = v.from.x + (v.to.x - v.from.x) * ease;
-    this.z = v.from.z + (v.to.z - v.from.z) * ease;
+    const nextT = Math.min(1, v.t + dt / v.seconds);
+    const u = nextT, ease = vaultEase(u, v.travelStart);
+    const x = v.from.x + (v.to.x - v.from.x) * ease;
+    const z = v.from.z + (v.to.z - v.from.z) * ease;
     const base = v.from.y + (v.to.y - v.from.y) * u;
-    this.y = base + (v.peak - Math.max(v.from.y, v.to.y)) * Math.sin(Math.PI * u);
+    const lift = v.peak - (v.from.y + v.to.y) / 2;
+    const y = base + lift * Math.sin(Math.PI * u);
+    const du = nextT - v.t;
+    // Enclose the curved segment, including the shortened smoothstep travel phase of the arc.
+    const span = Math.hypot(v.to.x - v.from.x, v.to.z - v.from.z);
+    const liftBound = Math.abs(lift) + Math.abs(v.to.y - v.from.y);
+    // The planning sweep omits the foot clearance; an airborne body must enclose the full foot too.
+    // A lowered travelStart (a high rail) shortens the travel phase, so the bound follows this vault's own span.
+    const travelSpan = Math.max(1e-3, 1 - 2 * v.travelStart);
+    const padding = PLAYER_FOOT_CLEARANCE + du * du * (span * 6 / (travelSpan * travelSpan) + liftBound * Math.PI * Math.PI) / 8;
+    const actors = this.contacts(ctx);
+    const actorBounds = { minY: Math.min(this.y, y) - padding,
+      maxY: Math.max(this.y, y) + PLAYER_BODY_HEIGHT + padding };
+    if (this.vaultActorSweep.cast(this.x, this.z, x, z, PLAYER_RADIUS + padding, undefined, actorBounds, actors) ||
+      ctx.physics?.propsBlockBodySweep?.({ x: this.x, y: this.y, z: this.z }, { x, y, z }, padding)) {
+      // Actors or cargo can enter after takeoff. Stay at the last clear pose, then fall through ordinary collision handling.
+      this.vault = null;
+      this.vx = this.vz = this.vy = 0;
+      this.grounded = false;
+      return;
+    }
+    v.t = nextT;
+    this.x = x; this.y = y; this.z = z;
     this.vx = (v.to.x - v.from.x) / v.seconds; this.vz = (v.to.z - v.from.z) / v.seconds;
     this.yaw = Math.atan2(v.to.x - v.from.x, v.to.z - v.from.z);
     if (u >= 1) {
       this.vault = null;
       this.y = this.supportAt(this.x, this.z, ctx);
-      this.vy = 0;
+      // The smoothstep arc ends at rest; its average travel speed must not carry him past the checked landing.
+      this.vx = this.vy = this.vz = 0;
       this.grounded = true;
       ctx.audio.land(this.surface, 3.5);
     }

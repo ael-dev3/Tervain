@@ -116,7 +116,7 @@ function groundExteriorProp(R: Region, terrain: Terrain, author: () => void) {
  * round the opening, tie beams under the roof, the stack of the chimney standing on the floor, and the inner face of
  * every window, which shows the daylight outside. Drawn on its own random sequence, so the outside is unchanged.
  */
-export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[], floorOf: 'planks' | 'stone' = 'planks', openings = false) {
+export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number; z: number; y: number; ry: number; w: number; h: number }[], floorOf: 'planks' | 'stone' = 'planks', openings = false, roof?: { ridgeY: number; pitch: number }) {
   const b = room.building, t = room.wall, hw = b.w / 2 - t, hd = b.d / 2 - t;
   const inner: Rnd = mulberry32(Math.floor(hash3(b.x, b.z, 23) * 1e9));
   const { x: dx, halfWidth: dw, height: dh } = room.door;
@@ -129,7 +129,8 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   for (const side of [-1, 1]) R.timber.bx(dx + side * dw - (side < 0 ? 0.12 : 0), floor - 0.01, hd - 0.05, dx + side * dw + (side > 0 ? 0.12 : 0), base + dh + 0.04, hd + 0.03, frame(), { grain: 'y', jit: 0.03 });
   R.timber.bx(dx - dw - 0.16, base + dh, hd - 0.06, dx + dw + 0.16, base + dh + 0.18, hd + 0.03, frame(), { grain: 'x', jit: 0.03 });
   // A boarded ceiling at the wall top (where the room's ceiling collider is), tie beams under it, wall plates along it.
-  R.planks.bx(-hw - 0.02, top - 0.05, -hd - 0.02, hw + 0.02, top + 0.02, hd + 0.02, jitterTone(TINT.wood, inner, 0.08), { grain: 'x', jit: 0.04, amp: 0.03, sub: floorOf === 'planks' ? 0.45 : 0.9 });
+  // A139: under a gable roof the room is open to the rafters instead (the collider stays at the wall top).
+  if (!roof) R.planks.bx(-hw - 0.02, top - 0.05, -hd - 0.02, hw + 0.02, top + 0.02, hd + 0.02, jitterTone(TINT.wood, inner, 0.08), { grain: 'x', jit: 0.04, amp: 0.03, sub: floorOf === 'planks' ? 0.45 : 0.9 });
   const beams = Math.max(1, Math.round(b.w / 2.4) - 1);
   for (let i = 1; i <= beams; i++) {
     const x = -hw + (i * 2 * hw) / (beams + 1) + (inner() - 0.5) * 0.2;
@@ -138,6 +139,7 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
   }
   for (const sz of [-1, 1]) R.timber.bx(-hw - 0.02, top - 0.19, sz * hd - 0.08, hw + 0.02, top - 0.05, sz * hd + 0.08, frame(), { grain: 'x', jit: 0.04, amp: 0.02 });
   if (floorOf === 'planks') roomFrame(R, room, windows, inner, frame);
+  if (roof) openRoof(R, room, roof, mulberry32(Math.floor(hash3(b.x, b.z, 43) * 1e9)));
   // The hearth (A135): a chimney breast built out of its wall up to the ceiling, the stack carried on up inside the wall
   // to the chimney outside; before it an open fireplace with a soot-black firebox, logs on an ash bed, a stone hood, a
   // timber mantel shelf and a hearthstone. The fire itself burns in presentation/hearthFire.ts.
@@ -204,6 +206,86 @@ export function roomInterior(R: Region, room: InteriorSpec, windows: { x: number
 }
 
 type RoomWindow = { x: number; z: number; y: number; ry: number; w: number; h: number };
+
+/**
+ * The open roof over a room (A139): the gable roof's boards seen from below between its rafters, a purlin along each
+ * slope, the eaves closed over the walls and the chimney breast carried up to the roof. The ridge beam is the roof's own.
+ * Smoke darkens it all, more towards the ridge and over the hearth, by tint (roomShade stops at the wall top so as not
+ * to darken the roof outside). The room's ceiling collider stays at the wall top; only the look changes.
+ */
+function openRoof(R: Region, room: InteriorSpec, roof: { ridgeY: number; pitch: number }, inner: Rnd) {
+  const b = room.building, t = room.wall, { hw, hd } = roomHalfSize(room), top = room.wallTop, tn = Math.tan(roof.pitch);
+  // The underside of the roof's shell (roofs.ts: 0.016 + 0.09 below its planes), less a few millimetres.
+  const under = (z: number) => roof.ridgeY - 0.112 - Math.abs(z) * tn;
+  const hearth = hearthOf(room), sooty = hearth && b.kind !== 'bakery';
+  // A140: one smoke for everything up here, per vertex, so the boards, rafters and gable ends darken together from the
+  // wall top to near black at the ridge, and more over the fire. It stands in for roomShade while the roof is drawn.
+  const smoke = (x: number, y: number, z: number) => {
+    const up = Math.min(1, Math.max(0, (y - top) / Math.max(0.5, roof.ridgeY - top)));
+    let k = 0.7 - 0.45 * up ** 0.8;
+    if (sooty) k *= 1 - 0.35 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 3);
+    return k;
+  };
+  const e = R.ctx.matrix.clone().invert().elements, before = R.ctx.shade;
+  R.ctx.shade = (wx, wy, wz) => smoke(e[0]! * wx + e[4]! * wy + e[8]! * wz + e[12]!, e[1]! * wx + e[5]! * wy + e[9]! * wz + e[13]!, e[2]! * wx + e[6]! * wy + e[10]! * wz + e[14]!);
+  const tone = (base: number, _x: number, _y: number, _z: number, j = 0.08) => jitterTone(base, inner, j);
+  // The eaves closed over the front and back walls, from the wall top up to the roof, in steps under its slope.
+  for (const sz of [-1, 1]) {
+    // The first step starts 1 cm inside the wall, and ends 1 cm inside the outer face, so neither face shares a wall plane below the wall top.
+    const steps = 4, z0 = b.d / 2 - t + 0.01, z1 = b.d / 2 - 0.01;
+    for (let i = 0; i < steps; i++) {
+      const a = z0 + ((z1 - z0) * i) / steps, c = z0 + ((z1 - z0) * (i + 1)) / steps;
+      if (under(c) <= top) continue;
+      R.planks.bx(-b.w / 2 + 0.01, top - 0.05, sz * a, b.w / 2 - 0.01, under(c), sz * c, tone(TINT.wood, 0, top, sz * hd, 0.04), { grain: 'x', jit: 0.03, amp: 0.02 });
+    }
+  }
+  // Roof boards between the rafters: strips up each slope, each its own tone.
+  const strip = 0.24, slopeLen = hd / Math.cos(roof.pitch), n = Math.max(2, Math.round(slopeLen / strip));
+  for (const sz of [-1, 1]) {
+    for (let i = 0; i < n; i++) {
+      const za = hd * (1 - i / n), zb = hd * (1 - (i + 1) / n), ya = under(za) - 0.004, yb = under(zb) - 0.004;
+      const c = tone(TINT.wood, 0, (ya + yb) / 2, sz * (za + zb) / 2, 0.1), L = hw + 0.02, s = Math.hypot(za - zb, ya - yb);
+      // Facing down into the room (the winding of roofs.ts's underside).
+      const pts = sz > 0 ? [-L, yb, zb, L, yb, zb, L, ya, za, -L, ya, za] : [L, yb, -zb, -L, yb, -zb, -L, ya, -za, L, ya, -za];
+      R.planks.quad(pts, c, { uv: [0, 0, 2 * L, 0, 2 * L, s, 0, s], nu: Math.max(1, Math.round(L / 0.6)), amp: 0.02 });
+    }
+  }
+  // The gable ends inside, above the wall top: lime wash gone dark with smoke, up to the roof.
+  for (const sx of [-1, 1]) {
+    // Lime wash, but no whiter than the boards beside it once smoked: the same smoke, on a duller base.
+    const X = sx * (hw - 0.012), U = under(hd), Rr = under(0), c = mulc(jitterTone(0xf2ead8, inner, 0.05), 0.55);
+    const quad = [X, top - 0.05, -hd, X, top - 0.05, hd, X, U, hd, X, U, -hd];
+    // Both windings: the one facing the room shows, the other faces the gable's own infill a hand's breadth behind.
+    for (const flip of [false, true]) R.lime.quad(quad, c, { flip, uv: [-hd, top, hd, top, hd, U, -hd, U], nu: Math.max(1, Math.round(hd / 0.6)), nv: 2, amp: 0.02 });
+    R.lime.tri3(X, U, -hd, X, U, hd, X, Rr, 0, c, 1, [-hd, U, hd, U, 0, Rr]);
+    R.lime.tri3(X, U, hd, X, U, -hd, X, Rr, 0, c, 1, [hd, U, -hd, U, 0, Rr]);
+  }
+  // Rafters, about 0.6 m apart, from the wall plate to the ridge; a purlin under them half way up each slope.
+  const rafters = Math.max(3, Math.round((2 * hw) / 0.6));
+  for (let i = 0; i <= rafters; i++) {
+    const x = -hw + 0.08 + (i * (2 * hw - 0.16)) / rafters;
+    for (const sz of [-1, 1]) {
+      R.timber.rod(x, under(hd + 0.1) - 0.07, sz * (hd + 0.1), x, under(0.06) - 0.07, sz * 0.06, 0.06, 4, tone(TINT.woodDark, x, (top + roof.ridgeY) / 2, sz * hd / 2), { jit: 0.03, amp: 0.02 });
+    }
+  }
+  for (const sz of [-1, 1]) {
+    const zc = hd * 0.5, y1 = under(zc + 0.08) - 0.13;
+    R.timber.bx(-hw - 0.02, y1 - 0.17, sz * zc - 0.08, hw + 0.02, y1, sz * zc + 0.08, tone(TINT.woodDark, 0, y1, sz * zc), { grain: 'x', jit: 0.04, amp: 0.02 });
+  }
+  R.ctx.shade = before;
+  // The chimney breast carried on up to the roof, in slices that each stop under the slope over them.
+  if (hearth) {
+    const c = CHIMNEY_STACK, face = c - BREAST_DEPTH;
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) {
+      const lx0 = -c + (i * 2 * c) / 4, lx1 = -c + ((i + 1) * 2 * c) / 4, lz0 = face - 0.02 + (j * (c - face + 0.02)) / 2, lz1 = face - 0.02 + ((j + 1) * (c - face + 0.02)) / 2;
+      const y1 = Math.min(...[[lx0, lz0], [lx1, lz0], [lx0, lz1], [lx1, lz1]].map(([lx, lz]) => under(hearth.at(lx!, lz!).z))) - 0.01;
+      if (y1 <= top) continue;
+      R.ctx.push(hearth.stack.x, 0, hearth.stack.z, hearth.yaw);
+      R.stone.bx(lx0, top - 0.06, lz0, lx1, y1, lz1, mulc(jitterTone(TINT.stone, inner, 0.1), sooty ? 0.45 : 0.7), { sub: 0.22, jit: 0.06, amp: 0.05 });
+      R.ctx.pop();
+    }
+  }
+}
 
 /**
  * The timber of a lived-in room (A135), after Gothic 3's houses: corner posts and wall posts with knee braces up to the
@@ -319,11 +401,29 @@ export function roomShade(room: InteriorSpec, frame: THREE.Matrix4): (x: number,
       k *= 0.9 + 0.1 * valueNoise(t * 1.6, y * 2.1) + 0.05 * (valueNoise(t * 5.3 + 7, y * 4.7) - 0.5);
       k *= 0.93 + 0.09 * hashUnit(Math.floor((t + 20) / 0.78) + (ax < az ? 0.5 : 0));
       k *= 1 - 0.22 * Math.max(0, (y - (top - 0.9)) / 0.9) ** 1.5;
-      if (soot) k *= 1 - 0.3 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 2.2) * Math.min(1, Math.max(0, y - floor - 1.1));
+      // A140: plank walls take the smoke harder and wider than lime wash (the woodcutter's).
+      const planked = room.building.wall === 'timber';
+      if (soot) k *= 1 - (planked ? 0.5 : 0.3) * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / (planked ? 3.4 : 2.2)) * Math.min(1, Math.max(0, y - floor - (planked ? 0.8 : 1.1)));
     }
     if (y > top - 0.06 && y < top + 0.03) k *= 0.5 * (soot ? 1 - 0.25 * Math.exp(-((x - hearth.stack.x) ** 2 + (z - hearth.stack.z) ** 2) / 4) : 1);
     return Math.max(0.2, k);
   };
+}
+
+/**
+ * A140: the lime wash's map turned and shifted differently on each wall face, and drifted slowly along it, so its 1.5 m
+ * repeat does not line up from panel to panel. Seamless: each wall face is its own geometry, and the drift is smooth.
+ */
+function scatterLime(B: Region['lime'], from: number, seed: number) {
+  const uv = B.uv.a, nr = B.nr.a;
+  for (let i = from / 2; i < B.uv.n / 2; i++) {
+    const face = (Math.round(Math.atan2(nr[i * 3]!, nr[i * 3 + 2]!) / (Math.PI / 2)) + 4) % 4 + (Math.abs(nr[i * 3 + 1]!) > 0.7 ? 4 : 0);
+    const a = (hashUnit(seed * 31 + face * 7.3) - 0.5) * 1.1, c = Math.cos(a), s = Math.sin(a);
+    const u = uv[i * 2]!, v = uv[i * 2 + 1]!;
+    const du = 0.55 * (valueNoise(u * 0.6 + face * 9.1, v * 0.6) - 0.5), dv = 0.55 * (valueNoise(u * 0.6 + 31, v * 0.6 + face * 4.7) - 0.5);
+    uv[i * 2] = c * u - s * v + hashUnit(seed * 13 + face) * 4 + du;
+    uv[i * 2 + 1] = s * u + c * v + hashUnit(seed * 17 + face * 3) * 4 + dv;
+  }
 }
 
 const hashUnit = (n: number) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
@@ -392,6 +492,11 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
   } else if (b.wall === 'plaster') {
     // A136: finer cells (0.3 m) so the lime wash and smoke inside (roomShade) read; the outside takes the same cells.
     roomWalls(R.plaster, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.plaster, rnd, 0.06), 0.3, openings);
+    // A139: the lime wash inside, a skin 12 mm before the walls' inner faces in its own small texture, with the same
+    // doorway and window openings. Its tint is taken from a hash, not `rnd`, so the building's sequence is unchanged.
+    const limeFrom = R.lime.uv.n;
+    roomWalls(R.lime, b.w - 2 * t, b.d - 2 * t, wallH, y0, 0.012, room.door, jitterTone(0xf2ead8, mulberry32(Math.floor(hash3(b.x, b.z, 41) * 1e9)), 0.05), 0.3, openings);
+    scatterLime(R.lime, limeFrom, hash3(b.x, b.z, 47));
     timberFrame(R, rnd, b.w, b.d, wallH, y0, gap, openings);
   } else {
     roomWalls(R.stone, b.w, b.d, wallH, y0, t, room.door, jitterTone(TINT.stone, rnd, 0.05), 0.9, openings);
@@ -476,7 +581,7 @@ function buildStandardPass(R: Region, terrain: Terrain, b: BuildingSpec, out: Bu
     inside(side * b.w * 0.24, -b.d / 2 + t + 0.005, 0);
     opening('back', side * b.w * 0.24);
   }
-  roomInterior(R, room, windows, 'planks', true);
+  roomInterior(R, room, windows, 'planks', true, roofKind === 'gable' ? roof : undefined);
 
   // Chimney (A135): the stack of the hearth inside rises up the outside of the same wall, from the ground to the eaves
   // as a stone breast proud of the wall, then on up through the roof, on the centre the room's breast is built on.

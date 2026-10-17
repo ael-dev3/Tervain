@@ -1,0 +1,61 @@
+{
+  "baseline": "421d34b",
+  "sourceHashes": {
+    "tools/grass-phase-controls.mjs": "87b651fefe2d5697c7199bb55ac9396b078f88c0082f1197585d73a31324487f",
+    "tools/capture-live-grass-walk.mjs": "cbb4c3d187c28e43c9fdcc3a3803652467c2095bb281da14c71b2a2e6a9cf7cf"
+  },
+  "scope": "Actual baseline control replay and real SkyRig in a native software-WebGL fixture. The invalid baseline sky is checked numerically and not rendered. Corrected legacy/full replays render pixel-identically to the valid canonical sky. Wind/grade hosts are diagnostic adapters, not a full world replay or hardware timing result.",
+  "legacyMissingHour": true,
+  "canonical": {
+    "hour": 19.3,
+    "cloudTime": 7,
+    "wind": {
+      "time": 3,
+      "direction": [
+        1,
+        0,
+        0.1,
+        0.2
+      ],
+      "scroll": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sway": 4,
+    "gradeTime": 9
+  },
+  "beforeFinite": false,
+  "beforeNonfiniteValues": 8,
+  "afterFinite": true,
+  "after": {
+    "hour": 19.3,
+    "cloudTime": 7,
+    "wind": {
+      "time": 3,
+      "direction": [
+        1,
+        0,
+        0.1,
+        0.2
+      ],
+      "scroll": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sway": 4,
+    "gradeTime": 9
+  },
+  "legacyReplayMatchesCanonical": true,
+  "fullReplayMatchesCanonical": true,
+  "glError": 0,
+  "contextLost": false,
+  "draws": 4,
+  "triangles": 2222,
+  "pass": true
+}

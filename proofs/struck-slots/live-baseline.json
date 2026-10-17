@@ -1,0 +1,191 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "accepted": true,
+  "rows": [
+    {
+      "i": 0,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 1,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 2,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 3,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 4,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 5,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 6,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 7,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 8,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 9,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 10,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 11,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 12,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 13,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 14,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 15,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 16,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 17,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 18,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 19,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 20,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 21,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 22,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 23,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 24,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 25,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 26,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 27,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 28,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    },
+    {
+      "i": 29,
+      "writes": 48,
+      "active": 4,
+      "drawCount": 4
+    }
+  ],
+  "scope": "Published native forest strike, thirty fixed 1/60 s forest updates, counting struck-pool CPU matrix writes. No hardware timing.",
+  "pass": true
+}

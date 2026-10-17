@@ -16,7 +16,7 @@ function* navigationSteps(terrain: Terrain, colliders: Colliders, radius: number
       // Sample the whole cell: 2 m cells would otherwise let a route slip through a thin wall.
       for (let k = 0; !bad && k < 9; k++) {
         const ox = ((k % 3) - 1) * (WORLD.cell * 0.45), oz = (Math.floor(k / 3) - 1) * (WORLD.cell * 0.45);
-        if (colliders.blocked(x + ox, z + oz, radius)) bad = true;
+        if (colliders.blockedForNavigation(x + ox, z + oz, radius)) bad = true;
       }
       blocked[j * terrain.nx + i] = bad ? 1 : 0;
     }
@@ -34,6 +34,8 @@ export class NavGrid {
   readonly h: number;
   private blocked: Uint8Array;
   private readonly widerGrids = new Map<number, NavGrid>();
+  // Route searches are synchronous; retain scratch buffers rather than allocating the whole grid per actor retry.
+  private searchWorkspace?: { gScore: Float32Array; came: Int32Array; closed: Uint8Array };
   builtVersion = -1;
 
   constructor(private terrain: Terrain, private colliders: Colliders, private radius = 0.55, prepared?: { blocked: Uint8Array; version: number }) {
@@ -142,9 +144,12 @@ export class NavGrid {
     if (!s || !g) return null;
     const W = this.w;
     const total = W * this.h;
-    const gScore = new Float32Array(total).fill(Infinity);
-    const came = new Int32Array(total).fill(-1);
-    const closed = new Uint8Array(total);
+    const { gScore, came, closed } = this.searchWorkspace ??= {
+      gScore: new Float32Array(total), came: new Int32Array(total), closed: new Uint8Array(total),
+    };
+    gScore.fill(Infinity);
+    came.fill(-1);
+    closed.fill(0);
     const startIdx = s.j * W + s.i;
     const goalIdx = g.j * W + g.i;
     gScore[startIdx] = 0;
@@ -254,7 +259,8 @@ export class NavGrid {
     // grid's: when the leg before it already reaches the goal, the route goes straight there instead of stepping up to
     // a point as much as 1.4 m aside and turning back (A69).
     const last = out[out.length - 1];
-    if (last && this.lineClear(last, to)) {
+    // Grid sampling omits the endpoint; never replace a safe snapped goal with an obstructed exact point.
+    if (last && !this.colliders.blockedForNavigation(to.x, to.z, this.radius) && this.lineClear(last, to)) {
       if (this.lineClear(out.length > 1 ? out[out.length - 2]! : from, to)) out[out.length - 1] = { x: to.x, z: to.z };
       else out.push({ x: to.x, z: to.z });
     }

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { WaterRenderPass, type WaterRenderInputs, type WaterUnder } from './waterRenderPass';
 import { detachWaterOptics } from './waterOptics';
+import { FOLIAGE_MSAA } from './foliage/foliageMaterial';
 
 /**
  * The final image. The scene is drawn into a half-float target (multisampled where the quality allows), then one
@@ -59,6 +60,7 @@ uniform float uGrain;
 uniform float uEarth;
 uniform float uNight;
 uniform float uChromatic;
+uniform float uSharpen;
 uniform vec2 uTexel;
 uniform sampler2D tDepth;
 uniform float uWaterTime;
@@ -91,6 +93,15 @@ void main() {
   vec2 off = d * r2 * uChromatic;
   c.r = mix(c.r, texture2D(tScene, vUv + off).r, 0.6);
   c.b = mix(c.b, texture2D(tScene, vUv - off).b, 0.6);
+  if (uSharpen > 0.0 && uUnder < 0.5) {
+    // Contrast-adaptive sharpen for a lowered drawing resolution: the four neighbours pull the pixel away from their mean,
+    // held inside the neighbourhood's own range so an edge gains no halo. Flat areas and the noise floor are left alone.
+    vec3 sn = texture2D(tScene, vUv + vec2(0.0, -uTexel.y)).rgb, ss = texture2D(tScene, vUv + vec2(0.0, uTexel.y)).rgb;
+    vec3 sw = texture2D(tScene, vUv + vec2(-uTexel.x, 0.0)).rgb, se = texture2D(tScene, vUv + vec2(uTexel.x, 0.0)).rgb;
+    vec3 lo = min(c, min(min(sn, ss), min(sw, se))), hi = max(c, max(max(sn, ss), max(sw, se)));
+    float k = -0.18 * uSharpen;
+    c = clamp((c + k * (sn + ss + sw + se)) / (1.0 + 4.0 * k), lo, hi);
+  }
   c += texture2D(tBloom, vUv).rgb * uBloom;
   if (uUnder > 0.5) {
     // Under the surface everything is seen through water: a slow refractive wobble, then absorption and in-scatter over
@@ -190,6 +201,7 @@ export class Grade {
     // Half-float targets need a WebGL2 colour-buffer extension; without one fall back to 8 bits (sun highlights clip, nothing else breaks).
     const half = renderer.extensions.has('EXT_color_buffer_float') || renderer.extensions.has('EXT_color_buffer_half_float');
     this.target = new THREE.WebGLRenderTarget(4, 4, { type: half ? THREE.HalfFloatType : THREE.UnsignedByteType, samples: opts.msaa ? 4 : 0, depthBuffer: true, colorSpace: THREE.LinearSRGBColorSpace });
+    FOLIAGE_MSAA.value = opts.msaa ? 1 : 0;
     this.target.texture.minFilter = THREE.LinearFilter;
     this.target.texture.magFilter = THREE.LinearFilter;
     this.material = new THREE.ShaderMaterial({
@@ -205,6 +217,7 @@ export class Grade {
         uEarth: { value: 1 },
         uNight: { value: 0 },
         uChromatic: { value: 0 },
+        uSharpen: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },
         tDepth: { value: null as THREE.Texture | null },
         uWaterTime: { value: 0 },
@@ -284,9 +297,14 @@ export class Grade {
     this.bloom = on;
   }
 
+  /** Strength of the final pass's sharpen, 0 (off) to 1. */
+  get sharpen(): number { return this.material.uniforms.uSharpen!.value as number; }
+  set sharpen(v: number) { this.material.uniforms.uSharpen!.value = v; }
+
   /** Turn multisampling on or off (quality setting). */
   setMsaa(on: boolean) {
     const samples = on ? 4 : 0;
+    FOLIAGE_MSAA.value = on ? 1 : 0;
     if (this.target.samples === samples) return;
     this.target.samples = samples;
     this.target.dispose();

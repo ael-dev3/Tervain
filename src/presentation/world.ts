@@ -43,12 +43,13 @@ import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, PINE_FILES, type PineTemplates } from './solitaryPine';
+import { heroPineEnabled, loadHeroPine } from './heroPine';
 import { LanternLightPool } from './lanternLights';
 import { RealmPhysics, initializePhysics, type PropMotion } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
-import { loadMeshyTrees, MESHY_TREE_IDS, MESHY_TREE_LODS, type MeshyTreeTemplates } from './meshyTrees';
+import { activeMeshyTreeIds, loadMeshyTrees, MESHY_TREE_LODS, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
@@ -58,7 +59,8 @@ import { checkCancelled, yieldToBrowser, type CooperativeOptions } from '../plat
 import { disposeSceneResources } from './disposeScene';
 import { GrassWind, SHADER_CLOCK_WRAP } from './grass/wind';
 import { REALM_WIND } from './realmWind';
-import { FOLIAGE_MAX_MOVERS, createFoliageField, type FoliageField } from './foliage/foliageWind';
+import { FoliageMoverSelection } from './foliage/movers';
+import { createFoliageField, expireFoliageShakes, type FoliageField } from './foliage/foliageWind';
 import { installShadowOnlyGroup } from './foliage/shadowCasters';
 
 export interface WorldBuildProgress {
@@ -188,7 +190,7 @@ export class WorldScene {
       library: { completed: 0, total: libraryModels.size },
       pine: { completed: 0, total: PINE_FILES.length },
       stone: { completed: 0, total: 1 },
-      trees: { completed: 0, total: new Set(MESHY_TREE_IDS).size * MESHY_TREE_LODS.length },
+      trees: { completed: 0, total: new Set(activeMeshyTreeIds()).size * MESHY_TREE_LODS.length },
       animals: { completed: 0, total: options.deferWildlife ? 0 : ANIMALS.length },
       furniture: { completed: 0, total: options.deferFurniture ? 0 : 1 },
     };
@@ -209,7 +211,7 @@ export class WorldScene {
     try {
       await library.preload(ALL_NEEDS, progress => modelProgress('library', progress.loaded, progress.total, progress.label));
       [pine, rockPile, treeTemplates, animalTemplates, furniture] = await Promise.all([
-        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')),
+        loadSolitaryPine((loaded, total) => modelProgress('pine', loaded, total, 'Coastal pines')).then(async (templates) => { if (heroPineEnabled()) await loadHeroPine(); return templates; }),
         loadSourceRockPile((loaded, total) => modelProgress('stone', loaded, total, 'Woodland stone')),
         loadMeshyTrees(undefined, (loaded, total) => modelProgress('trees', loaded, total, 'Woodland models', MESHY_TREE_LODS.length)),
         options.deferWildlife ? Promise.resolve(null) : loadAnimalTemplates((loaded, total) => modelProgress('animals', loaded, total, 'Wildlife models')),
@@ -369,8 +371,9 @@ export class WorldScene {
       // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
       const contacts = createGroundContactField(terrain, colliders.rockMeshes);
       await checkpoint('physics', 'Preparing terrain surface');
+      const grassCover = modules.find((m) => m.name === 'groundcover')?.module as Groundcover | undefined;
       const terrainMesh = await buildTerrainTilesAsync(terrain, terrainTex, ctx.plantedCrowns, undefined, contacts, {
-        ...options, onProgress: progress => phase('physics', progress.phase === 'surface' ? 'Preparing terrain surface' : 'Ground tiles'),
+        ...options, meadow: grassCover?.meadowAt, onProgress: progress => phase('physics', progress.phase === 'surface' ? 'Preparing terrain surface' : 'Ground tiles'),
       });
       scene.add(terrainMesh);
       await checkpoint('physics', 'Physical contacts');
@@ -536,6 +539,24 @@ export class WorldScene {
     }
   }
 
+  private advanceDust(dt: number) {
+    const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
+    let changed = this.dustNeedsClear, live = false;
+    this.dustData.forEach((p, i) => {
+      if (p.life > 0) {
+        live = changed = true;
+        p.life -= dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.z += p.vz * dt;
+        arr.setXYZ(i, p.x, p.y, p.z);
+      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
+    });
+    this.dustNeedsClear = live;
+    if (changed) arr.needsUpdate = true;
+    this.dust.visible = live;
+  }
+
   /** Everything moving through the grass: the app's people, every visible animal and any loose cargo that is moving. */
   private grassMovers(dt: number): GrassMover[] {
     const movers: GrassMover[] = [...this.grassPeople];
@@ -600,18 +621,9 @@ export class WorldScene {
   }
 
   /** The hero and the nearest bodies moving through low foliage, as spheres the leaves are pushed out of. */
+  private readonly foliageMoverSelection = new FoliageMoverSelection();
   private setFoliageMovers(focus: THREE.Vector3, movers: readonly GrassMover[]) {
-    // The hero's push sits at his own height: standing on a rock or a deck, the plants below him stay still (A105 scout).
-    const heroLift = Math.max(0, focus.y - this.terrain.heightAt(focus.x, focus.z));
-    const near = [{ x: focus.x, z: focus.z, radius: 0.75, centre: 1.0 + heroLift },
-      ...movers.map((m) => ({ x: m.x, z: m.z, radius: m.radius * 1.4, centre: Math.max(0.5, m.radius * 1.2) }))]
-      .map((m) => ({ ...m, d: Math.hypot(m.x - focus.x, m.z - focus.z) }))
-      .filter((m) => m.d < 40 && [m.x, m.z, m.radius].every(Number.isFinite))
-      .sort((a, b) => a.d - b.d)
-      .slice(0, FOLIAGE_MAX_MOVERS);
-    const slots = this.foliage.movers.value;
-    near.forEach((m, i) => slots[i]!.set(m.x, this.terrain.heightAt(m.x, m.z) + m.centre, m.z, m.radius));
-    this.foliage.moverCount.value = near.length;
+    this.foliageMoverSelection.update(focus, movers, this.terrain, this.foliage);
   }
 
   waterRenderInputs(settings: Settings): WaterRenderInputs {
@@ -676,6 +688,7 @@ export class WorldScene {
     this.sway.uWind.value = reduced ? 0.25 : 1;
     // The wind crosses grass and trees alike; Reduced Motion holds the trees entirely still.
     this.foliage.wind.update(dt, { reducedMotion: reduced });
+    expireFoliageShakes(this.foliage);
     this.foliage.strength.value = reduced ? 0 : 1;
     this.sky.brightness = settings.brightness;
     this.sky.update(hour, focus, dt, reduced);
@@ -740,20 +753,7 @@ export class WorldScene {
     // Quarry dust and the local response of the rite's bowl, water and altar.
     const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
     this.emitDust(dt, working ? 1 : 0);
-    const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
-    let changed = this.dustNeedsClear, live = false;
-    this.dustData.forEach((p, i) => {
-      if (p.life > 0) {
-        live = changed = true;
-        p.life -= dt;
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        p.z += p.vz * dt;
-        arr.setXYZ(i, p.x, p.y, p.z);
-      } else if (this.dustNeedsClear) arr.setXYZ(i, 0, -200, 0);
-    });
-    this.dustNeedsClear = live;
-    if (changed) arr.needsUpdate = true;
+    this.advanceDust(dt);
     this.riteResponse.update(dt, reduced, night);
     // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
     this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;

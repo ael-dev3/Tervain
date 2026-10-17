@@ -9,7 +9,9 @@ import { woodAnchor } from './canopy';
  * Run once on a tree template's leaf geometry at load: every chunk of linked cards with no opaque leaf within `reach`
  * of the wood is moved, whole, toward its nearest bough until it is (a chunk farther than `drop`, if given, is removed).
  */
-export interface LeafCutout { uv: string; cutoff: number; alpha(u: number, v: number): number }
+export interface LeafCutout { uv: string; cutoff: number; alpha(u: number, v: number): number;
+  /** Conservative texture hint: false only when the whole UV triangle is transparent. */
+  mayHaveOpaque?(u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean }
 export interface LeafIslandOptions { reach?: number; gap?: number; drop?: number }
 
 export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, cutout: LeafCutout | null,
@@ -20,19 +22,23 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   if (!wood || !p || p.count === 0 || (cutout && !uv)) return result;
   const index = leaf.index, triangles = Math.floor((index?.count ?? p.count) / 3), at = (t: number, k: number) => index ? index.getX(t * 3 + k) : t * 3 + k;
   // Each triangle's opaque coverage is its own part (a quad can touch its neighbour while its leaves do not).
+  const finePatterns = new Set<string>();
+  const edgeA = new THREE.Vector3(), edgeB = new THREE.Vector3();
   const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();
-  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
+  let triangle = 0;
+  let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;
+  // Bounds consume q immediately; retained samples clone it. Reuse one collector across all triangles.
+  const add = (w0: number, w1: number, w2: number, keep: boolean, all = false) => {
+    q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);
+    if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [triangle] }; opaque.set(triangle, part); }
+    part.box.expandByPoint(q);
+    if (keep && (all || part.samples.length < 6)) part.samples.push(q.clone());
+  };
   for (let t = 0; t < triangles; t++) {
+    triangle = t; part = undefined;
     const v0 = at(t, 0), v1 = at(t, 1), v2 = at(t, 2);
-    let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;
     a.fromBufferAttribute(p, v0); b.fromBufferAttribute(p, v1); c.fromBufferAttribute(p, v2);
-    const q = new THREE.Vector3();
-    const add = (w0: number, w1: number, w2: number, keep: boolean) => {
-      q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);
-      if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [t] }; opaque.set(t, part); }
-      part.box.expandByPoint(q);
-      if (keep && part.samples.length < 6) part.samples.push(q.clone());
-    };
     if (!cutout || !uv) { add(1, 0, 0, true); add(0, 1, 0, true); add(0, 0, 1, true); add(1 / 3, 1 / 3, 1 / 3, true); continue; }
     const u0 = uv.getX(v0), u1 = uv.getX(v1), u2 = uv.getX(v2), t0 = uv.getY(v0), t1 = uv.getY(v1), t2 = uv.getY(v2);
     // Cards reuse a few atlas cells: the opaque sample points of each distinct UV triangle are found once.
@@ -44,9 +50,22 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
         const w0 = i / N, w1 = j / N, w2 = 1 - w0 - w1;
         if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);
       }
+      // Thin opaque needles can fall between the coarse samples. Search only empty UV patterns more finely.
+      if (!points.length) {
+        // A collapsed triangle cannot witness foliage, or seed a miss for a later real card sharing its UVs.
+        if (edgeA.subVectors(b, a).cross(edgeB.subVectors(c, a)).lengthSq() === 0) continue;
+        if (cutout.mayHaveOpaque?.(u0, t0, u1, t1, u2, t2) === false) { opaqueAt.set(key, points); continue; }
+        for (let i = 0; i <= 48; i++) for (let j = 0; i + j <= 48; j++) {
+          const w0 = i / 48, w1 = j / 48, w2 = 1 - w0 - w1;
+          if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);
+        }
+        if (points.length) finePatterns.add(key);
+      }
       opaqueAt.set(key, points);
     }
-    for (let n = 0; n < points.length; n += 2) add(points[n]! / N, points[n + 1]! / N, 1 - (points[n]! + points[n + 1]!) / N, (points[n]! + points[n + 1]!) % 2 === 0);
+    const fine = finePatterns.has(key), divisions = fine ? 48 : N;
+    for (let n = 0; n < points.length; n += 2) add(points[n]! / divisions, points[n + 1]! / divisions,
+      1 - (points[n]! + points[n + 1]!) / divisions, fine || (points[n]! + points[n + 1]!) % 2 === 0, fine);
   }
   const list = [...opaque.values()];
   if (!list.length) return result;
@@ -61,7 +80,7 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   };
   const nearest = (part: (typeof list)[number]) => {
     let d = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
-    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit); if (e < d) { d = e; from.copy(q); to.copy(hit); } }
+    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit, d); if (e < d) { d = e; from.copy(q); to.copy(hit); } }
     return { d, from, to };
   };
   // Parts in a grid by their boxes grown by half the gap: parts within `gap` share a cell.
@@ -78,10 +97,16 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const flat = new Float32Array(list.length * 6);
   list.forEach((part, i) => { part.box.min.toArray(flat, i * 6); part.box.max.toArray(flat, i * 6 + 3); });
   const gap2 = gap * gap;
+  const visited = new Uint32Array(list.length);
+  let visitId = 0;
   const neighbours = (i: number) => {
+    if (++visitId === 0x100000000) { visited.fill(0); visitId = 1; }
     const found: number[] = [], o = i * 6;
     const x0 = flat[o]!, y0 = flat[o + 1]!, z0 = flat[o + 2]!, x1 = flat[o + 3]!, y1 = flat[o + 4]!, z1 = flat[o + 5]!;
     for (const k of cellsOf[i]!) for (const j of grid.get(k)!) {
+      // A pair can share several cells; retain only its first visit and original ordering.
+      if (visited[j] === visitId) continue;
+      visited[j] = visitId;
       const q = j * 6;
       const dx = Math.max(0, x0 - flat[q + 3]!, flat[q]! - x1), dy = Math.max(0, y0 - flat[q + 4]!, flat[q + 1]! - y1), dz = Math.max(0, z0 - flat[q + 5]!, flat[q + 2]! - z1);
       if (dx * dx + dy * dy + dz * dz <= gap2) found.push(j);

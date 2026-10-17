@@ -30,7 +30,7 @@ interface Surface {
   mesh: THREE.SkinnedMesh;
   bounds: THREE.Box3;
   headJoints: Set<number>;
-  cells: { bounds: THREE.Box3; triangles: number[]; joints: number[] }[];
+  cells: { bounds: THREE.Box3; worldBounds: THREE.Box3; triangles: number[]; joints: number[] }[];
   transforms: THREE.Matrix4[];
   vertices: Float64Array;
   versions: Uint32Array;
@@ -53,7 +53,6 @@ export class AnimalArrowSurface {
   private source = new THREE.Vector3();
   private sphere = new THREE.Sphere();
   private nearest = new THREE.Vector3();
-  private cellBounds = new THREE.Box3();
   private poseTransform = new THREE.Matrix4();
   private transformed = new THREE.Box3();
   private point = new THREE.Vector3();
@@ -81,7 +80,7 @@ export class AnimalArrowSurface {
           for (let component = 0; component < 4; component++) if (skinWeight.getComponent(vertex, component) > 0) cell.joints.add(skinIndex.getComponent(vertex, component));
         }
       }
-      this.surfaces.push({ mesh, bounds, cells: [...cells.values()].map((cell) => ({ ...cell, joints: [...cell.joints] })),
+      this.surfaces.push({ mesh, bounds, cells: [...cells.values()].map((cell) => ({ ...cell, worldBounds: new THREE.Box3(), joints: [...cell.joints] })),
         headJoints: new Set(mesh.skeleton.bones.flatMap((bone, index) => bone.name === 'head' || bone.name === 'jaw' ? [index] : [])),
         transforms: mesh.skeleton.bones.map(() => new THREE.Matrix4()), vertices: new Float64Array(position.count * 3), versions: new Uint32Array(position.count), version: 0, geometryVersion: -1 });
     });
@@ -114,12 +113,17 @@ export class AnimalArrowSurface {
       surface.geometryVersion = geometryVersion;
       const index = mesh.geometry.index;
       for (const cell of surface.cells) {
-        this.cellBounds.makeEmpty();
-        // A weighted vertex is a convex blend of joint-transformed rest vertices. This union encloses that blend.
-        for (const joint of cell.joints) this.cellBounds.union(this.transformed.copy(cell.bounds).applyMatrix4(surface.transforms[joint]!));
-        this.cellBounds.expandByScalar(.00001);
-        const inBox = this.raycaster.ray.intersectBox(this.cellBounds, this.point);
-        if (!inBox || !this.cellBounds.containsPoint(origin) && origin.distanceToSquared(inBox) > (result?.distance ?? maxDistance) ** 2) continue;
+        // Arrow subsegments share a pose. Rebuild its conservative cell bounds only
+        // when the same pose/geometry invalidation that refreshes vertices fires.
+        const cellBounds = cell.worldBounds;
+        if (poseChanged) {
+          cellBounds.makeEmpty();
+          // A weighted vertex is a convex blend of joint-transformed rest vertices. This union encloses that blend.
+          for (const joint of cell.joints) cellBounds.union(this.transformed.copy(cell.bounds).applyMatrix4(surface.transforms[joint]!));
+          cellBounds.expandByScalar(.00001);
+        }
+        const inBox = this.raycaster.ray.intersectBox(cellBounds, this.point);
+        if (!inBox || !cellBounds.containsPoint(origin) && origin.distanceToSquared(inBox) > (result?.distance ?? maxDistance) ** 2) continue;
         for (const triangle of cell.triangles) {
           const a = index?.getX(triangle) ?? triangle, b = index?.getX(triangle + 1) ?? triangle + 1, c = index?.getX(triangle + 2) ?? triangle + 2;
           this.posedVertex(surface, a, this.a); this.posedVertex(surface, b, this.b); this.posedVertex(surface, c, this.c);

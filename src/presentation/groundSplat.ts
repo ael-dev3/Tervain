@@ -22,12 +22,16 @@ export function streamDistance(x: number, z: number): number {
   return d;
 }
 
+// Authored crop fields are fixed; share their rotations across surface samples.
+const fieldRotations = FIELDS.map(field => ({ field, cosine: Math.cos(field.yaw), sine: Math.sin(field.yaw) }));
+
 function inField(x: number, z: number) {
-  for (const f of FIELDS) {
+  for (const cached of fieldRotations) {
+    const f = cached.field;
     const dx = x - f.x;
     const dz = z - f.z;
-    const lx = dx * Math.cos(f.yaw) - dz * Math.sin(f.yaw);
-    const lz = dx * Math.sin(f.yaw) + dz * Math.cos(f.yaw);
+    const lx = dx * cached.cosine - dz * cached.sine;
+    const lz = dx * cached.sine + dz * cached.cosine;
     if (Math.abs(lx) < f.w / 2 && Math.abs(lz) < f.d / 2) return f;
   }
   return null;
@@ -41,15 +45,26 @@ function blend(w: Float32Array, layer: number, a: number) {
   w[layer]! += Math.min(1, a);
 }
 
+/** Surface values already evaluated at the same world point, kept at ordinary number precision. */
+export interface GroundSurfaceSample {
+  readonly slope: number;
+  readonly carve: number;
+  readonly shoreDistance?: number;
+}
+
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>, sampledRoad?: number): number {
+export function groundSplat(
+  terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField,
+  sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>,
+  sampledRoad?: number, sampledSurface?: GroundSurfaceSample,
+): number {
   const h = terrain.heightAt(x, z);
-  const slope = terrain.slopeAt(x, z);
-  const carve = terrain.carveAt(x, z);
+  const slope = sampledSurface?.slope ?? terrain.slopeAt(x, z);
+  const carve = sampledSurface?.carve ?? terrain.carveAt(x, z);
   const nLow = fbm(x / 40, z / 40, 3, 21) * 0.5 + 0.5;
   const nMid = fbm(x / 11, z / 11, 3, 23) * 0.5 + 0.5;
   const nHi = fbm(x / 3.3, z / 3.3, 2, 27) * 0.5 + 0.5;
-  const sd = shoreDistance(x, z);
+  const sd = sampledSurface?.shoreDistance ?? shoreDistance(x, z);
   const nearSea = sd < 90;
   const cl = nearSea ? cliffiness(z) : 0;
   const sDist = streamDistance(x, z);
@@ -96,7 +111,7 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
     // Horizontal distance alone marks the entire lighthouse cliff as soaked. Only the actual tidal/splash band is wet;
     // elevated stone remains dry even when it stands directly above the shoreline.
     const splash = 1 - smoothstep(0.55, 2.4, h - SEA_LEVEL);
-    const sw = seaWetness(x, z) * splash;
+    const sw = seaWetness(x, z, sd) * splash;
     wet = sw;
     blend(w, LAYER.wetsand, sw * (1 - cl * 0.85));
     // The raised lighthouse outcrop reaches seaward of the approximate horizontal coastline. Only genuinely submerged

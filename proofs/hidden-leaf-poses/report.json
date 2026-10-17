@@ -1,0 +1,13 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "ca5e8b1113cdb11d484c37a417e38c9d70f4669f629ef08b70916567f6aef49c",
+  "frames": 211,
+  "beforePoseWrites": 54016,
+  "afterPoseWrites": 43189,
+  "visibleMatricesAlphaBoundsOrderAndRenderCountersIdentical": true,
+  "pixelDifferences": 0,
+  "captures": 9,
+  "scope": "Production falling-leaf module with 256 seeded streams on a controlled woodland plane, transparent overlap, delayed first visibility, camera turns/horizon exit/re-entry and later phase advances. Software WebGL; not whole-world image quality or hardware timing.",
+  "pass": true,
+  "sampleColorCount": 1913
+}

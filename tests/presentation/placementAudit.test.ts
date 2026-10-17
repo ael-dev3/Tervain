@@ -1,3 +1,4 @@
+import { mergeStaticParts } from '../../src/presentation/staticMerge';
 import { buildFurniture, deferredFurniture } from '../../src/presentation/furniture';
 import { FURNITURE } from '../../src/world/furniture';
 import type { RoomLocator } from '../../src/world/interiors';
@@ -99,4 +100,117 @@ it('audits the full supplied root population independently of oversized prop geo
   const report=auditPlacements(scene,()=>0,populations,{kind:'root'});
   expect(report.complete).toBe(true);expect(report.summary.roots).toBe(2);expect(report.summary.props).toBe(0);expect(report.skipped).toEqual([]);
   expect(()=>auditPlacements(scene,()=>0,populations,{kind:'invalid' as 'root'})).toThrow('Invalid placement audit kind');
+});
+
+
+it('reports one exposed root sector even when the tree is below the floater threshold', () => {
+  const geometry = new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0);
+  const target: PlacementAuditTarget = { label: 'partial root', kind: 'root', geometry, matrix: new THREE.Matrix4() };
+  // Locate a sampled sector, then put a small cut beneath only that point.
+  const probes: number[][] = [];
+  auditPlacements(new THREE.Scene(), (x, z) => { probes.push([x, z]); return 0; }, [target], { kind: 'root' });
+  const [px, pz] = probes[0]!;
+  const report = auditPlacements(new THREE.Scene(), (x, z) => Math.hypot(x - px!, z - pz!) < 1e-5 ? -.24 : 0, [target], { kind: 'root' });
+  expect(report.summary.candidates).toBe(0);
+  expect(report.summary.rootCoverage?.unsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.rootsWithUnsupportedSamples).toBe(1);
+  expect(report.summary.rootCoverage?.supportedFraction).toBeLessThan(1);
+  expect(report.summary.rootCoverage?.maxGap).toBeCloseTo(.24);
+  const grounded = auditPlacements(new THREE.Scene(), () => 0, [target], { kind: 'root' });
+  expect(grounded.summary.rootCoverage?.unsupportedSamples).toBe(0);
+  expect(grounded.summary.rootCoverage?.supportedFraction).toBe(1);
+  expect(auditPlacements(new THREE.Scene(), () => 0).summary.rootCoverage).toBeNull();
+  geometry.dispose();
+});
+
+it.each([NaN, Infinity, -Infinity])('does not clear a prop with a partially invalid terrain footprint (%s)', invalid => {
+  const scene = new THREE.Scene(); scene.add(box(0, .5));
+  const report = auditPlacements(scene, x => x < 0 ? invalid : 0);
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
+
+it('does not clear root coverage after discarding invalid basal samples', () => {
+  const target: PlacementAuditTarget = { label: 'root', kind: 'root', geometry: new THREE.CylinderGeometry(1, 1, 2, 32).translate(0, 1, 0), matrix: new THREE.Matrix4() };
+  const report = auditPlacements(new THREE.Scene(), x => x < 0 ? NaN : 0, [target], {kind:'root'});
+  expect(report.complete).toBe(false);
+  expect(report.invalid).toBe(1);
+  expect(report.checks).toHaveLength(0);
+});
+
+it('indexes large support triangles only when a footprint probe needs them', () => {
+  const scene = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(128, 128, 32, 32).rotateX(-Math.PI / 2);
+  for (let i=0;i<100;i++) {
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    mesh.name = 'terrain support'; mesh.position.set(i * 512, 1, 0); scene.add(mesh);
+  }
+  scene.add(box(0, 1.5));
+  const apply = THREE.Vector3.prototype.applyMatrix4;
+  let transformed = 0;
+  THREE.Vector3.prototype.applyMatrix4 = function(m) { transformed++; return apply.call(this, m); };
+  try {
+    const report = auditPlacements(scene, () => 0);
+    expect(report.complete).toBe(true);
+    expect(report.summary.props).toBe(1);
+    expect(report.summary.candidates).toBe(0);
+    expect(transformed).toBeLessThan(20_000);
+  } finally {
+    THREE.Vector3.prototype.applyMatrix4 = apply;
+    geometry.dispose();
+    for (const mesh of scene.children as THREE.Mesh[]) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }
+  }
+});
+
+it('does not let hidden merged source parts support their own rendered copies', () => {
+  const scene = new THREE.Scene(), group = new THREE.Group(), material = new THREE.MeshBasicMaterial(); scene.add(group);
+  const geometry = new THREE.BoxGeometry(1,1,1);
+  for (const x of [0,3]) { const part = new THREE.Mesh(geometry,material); part.position.set(x,2,0); group.add(part); }
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:2,candidates:2});
+});
+
+it('retains hidden prop coverage without an attached replacement batch', () => {
+  const scene = new THREE.Scene(), part = box(0,2); part.visible=false; scene.add(part);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+  part.userData.mergedInto=new THREE.Mesh(part.geometry,part.material);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:1,candidates:1});
+});
+it('retains grounded and independently supported batched props', () => {
+  const scene=new THREE.Scene(),group=new THREE.Group(),material=new THREE.MeshBasicMaterial();scene.add(group);
+  for(const [x,y]of [[0,.5],[3,1.5]]){const part=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),material);part.position.set(x!,y!,0);group.add(part);}
+  const support=box(3,.5);scene.add(support);
+  mergeStaticParts(group);
+  expect(auditPlacements(scene,()=>0).summary).toMatchObject({props:3,candidates:0});
+});
+
+function unusedPoint(geometry: THREE.BufferGeometry, point: [number,number,number]) {
+  for(const [name,p] of Object.entries(geometry.attributes)){
+    const values=new Float32Array(p.array.length+p.itemSize);values.set(p.array);if(name==='position')values.set(point,p.array.length);
+    geometry.setAttribute(name,new THREE.BufferAttribute(values,p.itemSize,p.normalized));
+  }
+  return geometry;
+}
+it('does not report an unreferenced source vertex as a floating prop', () => {
+  const geometry=unusedPoint(new THREE.BoxGeometry(1,1,1).translate(0,.5,0),[3,2,0]),material=new THREE.MeshBasicMaterial(),scene=new THREE.Scene();scene.add(new THREE.Mesh(geometry,material));
+  try {const report=auditPlacements(scene,()=>0);expect(report.complete).toBe(true);expect(report.summary).toMatchObject({props:1,candidates:0});}
+  finally{geometry.dispose();material.dispose();}
+});
+it.each([false,true])('does not let an unused low point clear floating root support (non-indexed=%s)', nonIndexed => {
+  let geometry:THREE.BufferGeometry=new THREE.CylinderGeometry(.5,.5,2,16).translate(0,1.3,0);
+  if(nonIndexed){const original=geometry;geometry=original.toNonIndexed();original.dispose();}
+  unusedPoint(geometry,[100,-100,100]);
+  try {
+    const target:PlacementAuditTarget={label:'root',kind:'root',geometry,matrix:new THREE.Matrix4()};
+    const report=auditPlacements(new THREE.Scene(),()=>0,[target],{kind:'root'});
+    expect(report.complete).toBe(true);expect(report.summary).toMatchObject({roots:1,candidates:1});
+    expect(report.checks[0]!.minGap).toBeCloseTo(.3);
+  } finally {geometry.dispose();}
+});
+
+it('reports selected root LOD and rejects unsupported levels', () => {
+  for (const lod of [0, 1, 2]) expect(auditPlacements(new THREE.Scene(), () => 0, [], { kind: 'root', lod }).lod).toBe(lod);
+  for (const lod of [-1, .5, 3, NaN]) expect(() => auditPlacements(new THREE.Scene(), () => 0, [], { lod })).toThrow('Invalid placement LOD');
 });

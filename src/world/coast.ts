@@ -8,8 +8,18 @@ import { COAST, COAST_SHELVES, LIGHTHOUSE, SEA_LEVEL } from './layout';
 
 const P = COAST;
 
+let lastCoastZ = Number.NaN, lastCoastX = 0;
+
 /** Cubic Hermite (Catmull-Rom) through the mean waterline, then a little noise so the edge is never a clean curve. */
 export function coastX(z: number): number {
+  // Raster rows share z; retain only their latest curve value, without a coordinate cache that can grow.
+  if (z === lastCoastZ) return lastCoastX;
+  const x = coastCurveAt(z);
+  lastCoastZ = z; lastCoastX = x;
+  return x;
+}
+
+function coastCurveAt(z: number): number {
   const n = P.length;
   if (z <= P[0]!.z) return P[0]!.x + shoreNoise(z);
   if (z >= P[n - 1]!.z) return P[n - 1]!.x + shoreNoise(z);
@@ -36,9 +46,10 @@ function shoreNoise(z: number) {
 /** Grassy bench cover shared by physical terrain and its surface paint. The noisy radius breaks a smooth oval lip. */
 export function coastalShelfAt(x: number, z: number): number {
   let cover = 0;
+  const noise = fbm(x / 12, z / 14, 2, 211) * 0.075;
   for (const shelf of COAST_SHELVES) {
     const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
-      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+      + noise;
     cover = Math.max(cover, 1 - smoothstep(1 - shelf.edge, 1, d));
   }
   return cover;
@@ -47,9 +58,10 @@ export function coastalShelfAt(x: number, z: number): number {
 /** Height of the original bench tops. Cut roads and source-tree grounding still sample the final physical grid. */
 export function coastalShelfHeight(x: number, z: number): number {
   let height = 0;
+  const noise = fbm(x / 12, z / 14, 2, 211) * 0.075;
   for (const shelf of COAST_SHELVES) {
     const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
-      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+      + noise;
     height = Math.max(height, shelf.height * (1 - smoothstep(1 - shelf.edge, 1, d)));
   }
   return height;
@@ -106,7 +118,7 @@ export function lighthouseRock(x: number, z: number): number {
 }
 
 /** 0..1 how wet the ground is from the sea (wet sand line, spray on the rocks). */
-export function seaWetness(x: number, z: number): number {
-  const sd = shoreDistance(x, z);
+export function seaWetness(x: number, z: number, sampledShoreDistance?: number): number {
+  const sd = sampledShoreDistance ?? shoreDistance(x, z);
   return 1 - smoothstep(-2, 5.5 + 2.5 * fbm(x / 6, z / 6, 2, 79), sd);
 }

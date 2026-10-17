@@ -65,8 +65,8 @@ export interface SceneModule {
   group: THREE.Group;
   /** Full selected-LOD tree populations for offline crown checks, independent of camera culling. */
   canopyAuditTargets?(lod?: number): CanopyAuditTarget[];
-  /** Full static populations for offline placement checks, independent of camera culling. */
-  placementAuditTargets?(): PlacementAuditTarget[];
+  /** Full static populations for offline placement checks, independent of camera culling; tree LOD defaults to near (0). */
+  placementAuditTargets?(lod?: number): PlacementAuditTarget[];
   update(dt: number, f: FrameContext): void;
   /** Counters for the debug panel. */
   stats?(): Record<string, number>;

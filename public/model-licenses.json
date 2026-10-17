@@ -3,13 +3,13 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 119,
-    "publicModelBytes": 157435456,
+    "publicModelFiles": 131,
+    "publicModelBytes": 179586096,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 328,
+    "hashesMatchedExistingSourceRecords": 340,
     "modelsWithEmbeddedCcDeclaration": 0,
-    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer\u2019s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis \u201cowner recollection, not individually verified\u201d, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero\u2019s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source\u2019s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
+    "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer’s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis “owner recollection, not individually verified”, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero’s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source’s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
       "ael-generated-meshy-pro": {
         "sources": 20,
@@ -28,7 +28,7 @@
   "scope": "Original Tervain GLB catalog and historical Warpkeep model archive. This ledger does not apply the source-code license to model content.",
   "credit": "Original-game imported models created with Meshy (https://www.meshy.ai/). Furniture, resident rigs, resident motion and the wanderer's current body were generated for Tervain through its own Meshy account. Thanks to the Meshy Community creators whose models Tervain uses: most supplied trees, residents, animals and scenery were downloaded from the Meshy Community (CC0 1.0, which asks no attribution); their individual creators were not recorded, and the classification rests on the owner's recollection, not on per-model listings. Supplied sources were adapted for Tervain. The historical Warpkeep archive retains its separate source records and notices.",
   "licenseFreedomExceptions": {
-    "principle": "An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients\u2019 existing CC rights. A source confirmed as a Meshy Community download keeps its CC0 1.0 status (and any CC BY-NC 4.0 Community content its non-commercial condition); project-generated paid-plan output is not a CC grant. Unresolved status is an evidence gap, not a restriction added to an existing license.",
+    "principle": "An actual per-source CC license takes precedence over general repository media wording for the rights it grants. No project notice limits recipients’ existing CC rights. A source confirmed as a Meshy Community download keeps its CC0 1.0 status (and any CC BY-NC 4.0 Community content its non-commercial condition); project-generated paid-plan output is not a CC grant. Unresolved status is an evidence gap, not a restriction added to an existing license.",
     "ccBy4": {
       "url": "https://creativecommons.org/licenses/by/4.0/",
       "conditions": "When confirmed: retain supplied creator/copyright/license/disclaimer/source notices, credit Meshy as designated, identify changes, and link CC BY 4.0. Do not impose additional restrictions or imply endorsement.",
@@ -38,7 +38,7 @@
       "url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "condition": "When an applicable source is confirmed CC0, this ledger does not impose attribution or noncommercial restrictions on its CC0-covered rights; source credit is retained for provenance."
     },
-    "unresolvedOrSpecial": "Unresolved Meshy sources, owner-specific permission and other unresolved records (the animated hero\u2019s source, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.",
+    "unresolvedOrSpecial": "Unresolved Meshy sources, owner-specific permission and other unresolved records (the animated hero’s source, the Warpkeep archive) are not relabeled CC or privately owned by this ledger.",
     "ccByNc4": {
       "url": "https://creativecommons.org/licenses/by-nc/4.0/",
       "condition": "Meshy terms section 3.3(b): Community content other than Customer Output (for example images uploaded to the Community) is CC BY-NC 4.0, which requires attribution and permits no commercial use. No source is recorded under it; any such content found among the supplied sources must be attributed and flagged as non-commercial."
@@ -65,8 +65,8 @@
     "communityOutput": "You agree that, if You upload, post, submit, or otherwise make available any image or other content on the Meshy Community page (collectively, \"Community Content\"), such Community Content is licensed to the public and other users of the Meshy Community page as follows: (a) Customer Output, including 3D models, is licensed under the Creative Commons Zero (CC0) 1.0 Universal Public Domain Dedication (the \"CC0 License\"); and (b) all other Community Content, including images You upload, is licensed under the Creative Commons Attribution-NonCommercial 4.0 International license (the \"CC BY-NC 4.0 License\").",
     "communityLicenseToMeshy": "Section 3.3 also grants Meshy a non-exclusive, royalty-free, worldwide, perpetual, irrevocable and sublicensable license to Community Content for providing, operating, developing, improving, marketing and commercializing its services.",
     "nonCommercialFlag": "CC BY-NC 4.0 (section 3.3(b)) requires attribution and permits no commercial use. No source in this ledger is recorded under it, but any Community image or other non-model Community content used with a model would carry it.",
-    "serviceAssets": "Section 3.1 (Meshy\u2019s Intellectual Property): Meshy owns the Service; Service Assets are licensed only to the extent incorporated into and necessary to use the Customer Output.",
-    "training": "Section 2.9: Meshy may use non-Enterprise customers\u2019 inputs and outputs to train, validate, test or improve its Services.",
+    "serviceAssets": "Section 3.1 (Meshy’s Intellectual Property): Meshy owns the Service; Service Assets are licensed only to the extent incorporated into and necessary to use the Customer Output.",
+    "training": "Section 2.9: Meshy may use non-Enterprise customers’ inputs and outputs to train, validate, test or improve its Services.",
     "disclaimers": "Section 7.2 (Disclaimers): Customer Output is provided as is and may be inaccurate; Meshy does not guarantee that it is unique or unlike existing 3D models, and it may not qualify for intellectual-property protection.",
     "boundary": "This records terms branches and the evidence for each source. It does not certify commercial clearance, which remains unsettled until the unresolved sources are confirmed."
   },
@@ -86,7 +86,7 @@
         "creator": "creator not recorded",
         "terms": "Not determined. If the project generated it under Meshy Pro: Meshy terms (https://www.meshy.ai/terms-of-use, Last Updated 2026-09-19) section 3.2, paid-plan Customer Output. If it was downloaded from the Meshy Community: the 3D model is CC0 1.0 under section 3.3(a), and any other Community content used with it, such as images, is CC BY-NC 4.0 (attribution, non-commercial) under section 3.3(b); the creator should then be credited. If it came from a free-plan account: CC BY 4.0 with Meshy credit (section 3.2)."
       },
-      "credit": "The Weathered Wanderer \u2014 supplied by Ael; Meshy-generated source, refined and rigged for Tervain using Blender and owner-authorized ImageGen textures.",
+      "credit": "The Weathered Wanderer — supplied by Ael; Meshy-generated source, refined and rigged for Tervain using Blender and owner-authorized ImageGen textures.",
       "changes": "UV-preserving reduction, original Tervain rig and clips, ImageGen material refinement and lossless runtime texture preparation.",
       "rightsBoundary": "Provenance unresolved: who generated this source, or whether it was downloaded from the Meshy Community, is not recorded. Its license is not determined and no clearance of any kind is recorded.",
       "provenance": {
@@ -110,14 +110,14 @@
         "creator": "creator not recorded",
         "terms": "Not determined. If the project generated it under Meshy Pro: Meshy terms (https://www.meshy.ai/terms-of-use, Last Updated 2026-09-19) section 3.2, paid-plan Customer Output. If it was downloaded from the Meshy Community: the 3D model is CC0 1.0 under section 3.3(a), and any other Community content used with it, such as images, is CC BY-NC 4.0 (attribution, non-commercial) under section 3.3(b); the creator should then be credited. If it came from a free-plan account: CC BY 4.0 with Meshy credit (section 3.2)."
       },
-      "credit": "The Weathered Wanderer \u2014 owner-supplied Meshy source; prepared for Tervain. Animation/source rights remain separately recorded.",
+      "credit": "The Weathered Wanderer — owner-supplied Meshy source; prepared for Tervain. Animation/source rights remain separately recorded.",
       "changes": "Blender reduction and consistent unit conversion retaining supplied textures, UVs, joints and clips; source includes Mixamo-named animation/skeleton content whose separate source rights are not independently established. Since A74 the game draws the Meshy 7.1 body (source wanderer-meshy71) skinned to this skeleton with these clips; from A69 until then it drew the approved 49,500-triangle mesh of the same character, because this reduction opens into cracks when animated.",
       "rightsBoundary": "Provenance unresolved: who generated this source, or whether it was downloaded from the Meshy Community, is not recorded. Its license is not determined and no clearance of any kind is recorded.",
       "separateRights": [
         {
           "component": "Mixamo-named skeleton and animation content in the supplied animated source",
           "evidenceStatus": "meshy-output-by-public-evidence",
-          "note": "Public Meshy evidence (read 2026-10-11) indicates this is Meshy output in Mixamo-compatible naming, not Adobe Mixamo content: of its six clips, Run_03, Casual_Walk, Dead and Boxing_Practice are Meshy animation-library actions 15, 30, 8 and 87 (https://docs.meshy.ai/en/api/animation-library), and Walking and Running are the default animations a Meshy rigging task returns (basic_animations, https://docs.meshy.ai/en/api/rigging); Meshy states its rigs follow Mixamo bone naming (https://www.meshy.ai/features/ai-auto-rigging). It therefore follows the source\u2019s Meshy provenance, which remains unresolved. No license or clearance is asserted by this record."
+          "note": "Public Meshy evidence (read 2026-10-11) indicates this is Meshy output in Mixamo-compatible naming, not Adobe Mixamo content: of its six clips, Run_03, Casual_Walk, Dead and Boxing_Practice are Meshy animation-library actions 15, 30, 8 and 87 (https://docs.meshy.ai/en/api/animation-library), and Walking and Running are the default animations a Meshy rigging task returns (basic_animations, https://docs.meshy.ai/en/api/rigging); Meshy states its rigs follow Mixamo bone naming (https://www.meshy.ai/features/ai-auto-rigging). It therefore follows the source’s Meshy provenance, which remains unresolved. No license or clearance is asserted by this record."
         }
       ],
       "provenance": {
@@ -2442,6 +2442,56 @@
       "provenance": {
         "classification": "ael-generated-meshy-pro",
         "evidence": "Generated through the project's own Meshy API calls (tools/meshy-furniture/generate.mjs for the furniture, 8 October 2026, and tools/meshy-props/generate.mjs for the small props in the rooms, 12 October 2026; text to 3D); the preview and refine task ids and the prompt are recorded in public/models/furniture/manifest.json."
+      }
+    },
+    "tervain-hero-oak": {
+      "filename": "tools/tree-gen (procedural generator, no input files)",
+      "sha256": null,
+      "sourceRecord": "tools/tree-gen/build.mjs",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Tervain project",
+      "creator": "Tervain project (generated by tools/tree-gen)",
+      "generationService": "Tervain procedural generator",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project",
+        "terms": "Original work of the Tervain project. Geometry, bark textures and the placeholder leaf atlas are computed by tools/tree-gen from seeded noise and algorithms written for Tervain; no third-party model, image, scan or Meshy output is an input. Rights are reserved by the project owner; LICENSE-SCOPE.md grants nothing for 3D models."
+      },
+      "credit": "Hero oak: grown and textured procedurally by Tervain (tools/tree-gen).",
+      "changes": "Generated at build time by tools/tree-gen/build.mjs (seeded; four-level branch skeleton, bark-relief tubes, buttress roots, leaf cards). Not derived from any other model.",
+      "rightsBoundary": "Original Tervain procedural output. No Meshy, Community or third-party rights are involved.",
+      "provenance": {
+        "classification": "tervain-original-procedural",
+        "evidence": "The files are the deterministic output of tools/tree-gen/build.mjs (seed recorded in each file’s asset.extras); the generator and every texture it writes are original code in this repository.",
+        "creator": "Tervain project",
+        "listingUrl": null
+      }
+    },
+    "tervain-hero-pine": {
+      "filename": "tools/tree-gen-pine (procedural generator, no input files)",
+      "sha256": null,
+      "sourceRecord": "tools/tree-gen-pine/generate.mjs",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Tervain project",
+      "creator": "Tervain project (generated by tools/tree-gen-pine)",
+      "generationService": "Tervain procedural generator",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project",
+        "terms": "Original work of the Tervain project. Geometry, bark textures and the placeholder needle atlas are computed by tools/tree-gen-pine from seeded noise and algorithms written for Tervain; no third-party model, image, scan or Meshy output is an input. Rights are reserved by the project owner; LICENSE-SCOPE.md grants nothing for 3D models."
+      },
+      "credit": "Hero pine: grown and textured procedurally by Tervain (tools/tree-gen-pine).",
+      "changes": "Generated at build time by tools/tree-gen-pine/generate.mjs (seeded; whorled branch skeleton, bark-relief trunk, buttress roots, bent needle pads). Not derived from any other model.",
+      "rightsBoundary": "Original Tervain procedural output. No Meshy, Community or third-party rights are involved.",
+      "provenance": {
+        "classification": "tervain-original-procedural",
+        "evidence": "The files are the deterministic output of tools/tree-gen-pine/generate.mjs (variant seeds fixed in tools/tree-gen-pine/lib/skeleton.mjs); the generator and every texture it writes are original code in this repository.",
+        "creator": "Tervain project",
+        "listingUrl": null
       }
     }
   },
@@ -7532,8 +7582,8 @@
     },
     {
       "file": "public/models/animals/boar-1005232450.glb",
-      "bytes": 2765308,
-      "sha256": "42e03c45b1a7692344e8047bb41790f38cada2a5d809918d3eabcfe8fae29346",
+      "bytes": 2758928,
+      "sha256": "78fa25dc7660822fd6f3dca240721a5566a9b2108d0188b86ad8364ab2336f9a",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7651,8 +7701,8 @@
     },
     {
       "file": "public/models/animals/deer-1005232424.glb",
-      "bytes": 2301032,
-      "sha256": "4501c75164d239759e32f5912e5078093cd9b5ec9b688c009096e07fe5271f9d",
+      "bytes": 2294648,
+      "sha256": "135441cb0b9315b78d599f1d37e8d592a5aefe6695f3a44c0b3f8ddc7c3b3898",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7719,8 +7769,8 @@
     },
     {
       "file": "public/models/animals/tiger-1005232739.glb",
-      "bytes": 2549468,
-      "sha256": "fc52666253a8a4a7e22b2ebb5b6d526d02e195a40f0fc24a3469ef91c3102ef4",
+      "bytes": 2543088,
+      "sha256": "1e800e4222f3af1abb923dd0a565545ec0f8e264acf17f01bab717d3e831074a",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7770,8 +7820,8 @@
     },
     {
       "file": "public/models/animals/wolf-1005232644.glb",
-      "bytes": 2543072,
-      "sha256": "8030c38340a68deeaadc69bd90818ca3248263694c14256c7e01a42ee0491702",
+      "bytes": 2536688,
+      "sha256": "48b200c67372d60f93a7aa4afd3aef6206f87331211ef88da15f72575ce3c727",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7784,6 +7834,159 @@
         "provenanceBasis": "owner recollection, not individually verified"
       },
       "modified": true
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-b-far.glb",
+      "bytes": 140820,
+      "sha256": "e39b6f3d0ea6b19062661f3bbe64a248658045e0c1a5f6c897febbb3f65bb8f9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-b-mid.glb",
+      "bytes": 1100636,
+      "sha256": "425caa35353cd2d4166a14c4248806ce9f703248d257b5730c99f7f4e9cff0dc",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-b-near.glb",
+      "bytes": 3953468,
+      "sha256": "10106c8f16b512a30d42622d11df68ebf2eabb0f02351a3792284fc07f62072c",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-far.glb",
+      "bytes": 131392,
+      "sha256": "7a42109e1b3fd8076a6cfaec5b9ac43a57687c32e9b8cfb721d9cc99c4cedd2e",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-mid.glb",
+      "bytes": 1001804,
+      "sha256": "95fe8e38cf7e9c9237b01cb29f16238d79cd7d1e2cb9f89ddfbbda35ee63026f",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-c-near.glb",
+      "bytes": 3770568,
+      "sha256": "ec0aaf2699bf664d718d92c7237e293f433082f25dd5127568af86c1c0234c55",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-far.glb",
+      "bytes": 141572,
+      "sha256": "e76c281a44ca368f809b8a83b846c3baf9a984a554fa1614dab75cbef88e6e1f",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-mid.glb",
+      "bytes": 1137296,
+      "sha256": "6ca378b7e47a68b7e76ff3bd2cdd3573a2bff0db756f112617930d417967be8a",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-oak-near.glb",
+      "bytes": 4007172,
+      "sha256": "11ba6e505742acbd5fed142c0be70b32af907b93c45ad461efa42da631b04fc7",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
     },
     {
       "file": "public/models/flora/meshy-012/fir-spire-far.glb",
@@ -9482,6 +9685,57 @@
         "provenanceBasis": "owner recollection, not individually verified"
       },
       "modified": true
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-far.glb",
+      "bytes": 302264,
+      "sha256": "3b019e8538ef031f719eee3bc1d51cdea7c2b18752667657a716059883d7701b",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-pine",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-mid.glb",
+      "bytes": 1715928,
+      "sha256": "6da9a11ba6b5146089dc71a7cc2ba89bff4932581b888d1e4365a03d6e1ee931",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-pine",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-near.glb",
+      "bytes": 4711140,
+      "sha256": "dec2ddebd7ff4687dbb43c514f444656a7902deff70cc17502d4814c850315a3",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-pine",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
     }
   ],
   "proceduralGeometry": {

@@ -8,17 +8,21 @@ import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, F
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
+import { createHeroPineForest, heroPineEnabled, heroPineTemplates } from './heroPine';
 import { groundedTreeY, seatTreeFlares, treeWoodCollisionRadius } from './treeGrounding';
 import { PlantedCrownIndex } from './plantedCrowns';
+import { parseTreeLab, pickLabSpot } from './treeLab';
 import { CROWN_FLOOR, CrownIndex, type CameraCrown } from './cameraCrowns';
 import { attachCasterCoverage, attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import { FOLIAGE_RESPONSE, type FoliageResponse } from './foliage/foliageWind';
 import { SHADER_CLOCK_WRAP } from './grass/wind';
-import { crownOf, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
+import { crownOf, foliageGeometryFeatures, installFoliage, installFoliageShadow, type FoliageLook, type InstalledFoliage } from './foliage/foliageMaterial';
 import { shadowDepthMaterial, shadowGeometry } from './foliage/shadowCasters';
+import { createWindTestTree, windTestRequested } from './foliage/windTestTree';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
+import { cloneTreeProfileMaterial } from './treeProfileMaterial';
 import { leafCutoutSampler } from './leafSurfaceSites';
 import { anchorLeafIslands } from './leafIslands';
 
@@ -56,10 +60,14 @@ export function floraShadowLod(distance: number, pine: boolean): 0 | 1 | 2 {
  * the bands end at the old switches' near side (full 12-16 m, middle 60-68 m) so the sun's pass carries no more
  * triangles than the hard switches at 16 and 70 m did. */
 export const FLORA_SHADOW_BANDS = { full: [12, 16], middle: [60, 68] } as const;
-export function floraShadowWeights(distance: number, pine: boolean): readonly [number, number, number] {
+/** The optional destination belongs to the caller; ordinary callers retain independent result arrays. */
+export function floraShadowWeights(distance: number, pine: boolean, out: [number, number, number] = [0, 0, 0]): readonly [number, number, number] {
   const full = smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.full);
   const middle = pine ? 1 : smoothDistanceFade(distance, ...FLORA_SHADOW_BANDS.middle);
-  return [full, Math.max(0, middle - full), 1 - Math.max(middle, full)];
+  out[0] = full;
+  out[1] = Math.max(0, middle - full);
+  out[2] = 1 - Math.max(middle, full);
+  return out;
 }
 
 /** How a tree answers the wind, from its kind and its own height. */
@@ -67,6 +75,18 @@ export function foliageResponse(variant: Pick<TreeVariant, 'species' | 'height'>
   const kind = variant.species === 'pine' || variant.species === 'fir' || variant.species === 'shorepine' ? 'conifer'
     : variant.species === 'palm' ? 'palm' : variant.species === 'shrub' ? 'shrub' : variant.species === 'dead' ? 'dead' : 'broadleaf';
   return { ...FOLIAGE_RESPONSE[kind], height: Math.max(0.6, variant.height) };
+}
+
+interface ReflectionSwapFrame {
+  active: boolean;
+  epoch: number;
+  used: number;
+  swapped: [THREE.InstancedMesh, THREE.BufferGeometry, THREE.Material | THREE.Material[]][];
+}
+function rememberReflectionGeometry(frame: ReflectionSwapFrame, mesh: THREE.InstancedMesh) {
+  const record = frame.swapped[frame.used++];
+  if (record) { record[0] = mesh; record[1] = mesh.geometry; record[2] = mesh.material; }
+  else frame.swapped.push([mesh, mesh.geometry, mesh.material]);
 }
 
 interface Batch {
@@ -104,6 +124,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   group.name = 'flora';
   const pine = createPineForest(pineTemplates);
   const meshy = meshyTemplates ? createMeshyForest(meshyTemplates) : null;
+  // ?heropine=1 (default off): species 'pine' draws the generated hero pines; placement, colliders and seating keep reading the live pine's footprint.
+  const heroTemplates = heroPineEnabled() ? heroPineTemplates() : null;
+  const hero = heroTemplates ? createHeroPineForest(heroTemplates) : null;
+  const heroVariants = new Set<TreeVariant>();
+  const usesHero = (sp: Species) => !!hero && sp === 'pine';
   // Component authoring tools may intentionally omit the new catalog. The shipped world always supplies it.
   const usesPine = (sp: Species) => sp === 'pine' || !meshy && isPineSpecies(sp);
   const variants = new Map<string, TreeVariant>();
@@ -111,20 +136,32 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ""}`;
     let variant = variants.get(key);
     if (!variant) {
-      variant = usesPine(tree.sp) ? pine.variant(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1) : meshy ? meshy.variant(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId) : buildTreeVariant(tree.sp, tree.v + 1);
+      if (hero && usesHero(tree.sp)) { variant = hero.variant(tree.v); heroVariants.add(variant); }
+      else variant = usesPine(tree.sp) ? pine.variant(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1) : meshy ? meshy.variant(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId) : buildTreeVariant(tree.sp, tree.v + 1);
       variants.set(key, variant);
     }
     return variant;
   };
+  // Placement reads the footprint of the supplied tree a generated model replaces, so swapping a model never moves or removes a tree.
+  const footprints = new Map<string, TreeVariant>();
+  const footprintFor = (tree: Pick<FloraTree, 'sp' | 'v' | 'assetId'>): TreeVariant => {
+    if (usesPine(tree.sp) || !meshy) return variantFor(tree);
+    const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ""}`;
+    let found = footprints.get(key);
+    if (!found) { found = meshy.footprint(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId); footprints.set(key, found); }
+    return found;
+  };
   const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => usesPine(tree.sp)
     ? pine.collisionRadius(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
-    : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
-    (tree) => groundedTreeY(terrain, tree, variantFor(tree)), undefined,
-    meshy ? (tree) => variantFor(tree).crownRadius * tree.s : undefined);
+    : legacyFootprint > 0 ? treeWoodCollisionRadius(footprintFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
+    (tree) => groundedTreeY(terrain, tree, footprintFor(tree)), undefined,
+    meshy ? (tree) => footprintFor(tree).crownRadius * tree.s : undefined);
   // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
   // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
-  seatTreeFlares(population, terrain, variantFor, usesPine);
-  registerFloraColliders(population, colliders);
+  seatTreeFlares(population, terrain, footprintFor, usesPine);
+  // Navigation uses the wood actually drawn after seating (a generated oak's flare and roots differ from the footprint that keeps placement).
+  registerFloraColliders(population, colliders, undefined, tree => usesPine(tree.sp) ? tree.radius
+    : treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
   // Static rigid-body contact uses the same complete wood as the visible source tree,
   // rather than treating its broad ground-plane navigation circle as an infinite cylinder.
   // Pack only once per variant; hundreds of instances share these source buffers.
@@ -146,10 +183,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         for (let i = 0; i < position.count; i++) positions.set([position.getX(i), position.getY(i), position.getZ(i)], i * 3);
       }
       const index = wood.index;
-      const indices = index?.array instanceof Uint32Array ? index.array : new Uint32Array(index?.count ?? position.count);
+      let indices = index?.array instanceof Uint32Array ? index.array : new Uint32Array(index?.count ?? position.count);
       if (!(index?.array instanceof Uint32Array)) {
         for (let i = 0; i < indices.length; i++) indices[i] = index ? index.getX(i) : i;
       }
+      // Hero pines: only the trunk and roots are solid; limbs and stubs stay visual (userData.twigIndex).
+      if (heroVariants.has(variant) && typeof wood.userData.twigIndex === 'number') indices = indices.subarray(0, wood.userData.twigIndex);
       buffers = { positions, indices };
       woodBuffers.set(variant, buffers);
     }
@@ -184,10 +223,25 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const x = lineup[0]! + i * 11;
         const z = lineup[1]! + v * 15;
         const tree = { sp, v, x, y: 0, z, s: 1, yaw: 0.3 * v, tint: 1, radius: 0, collisionId: null, decorationRank: 0 };
-        tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+        tree.y = groundedTreeY(terrain, tree, footprintFor(tree));
         trees.push(tree);
       }
     });
+  }
+
+  /* Developer aid for tools/tree-lab.mjs: `?treelab=species[:assetId][@x,z]` leaves exactly one tree, on a cleared meadow. */
+  const lab = typeof location !== 'undefined' ? parseTreeLab(location.search) : null;
+  if (lab) {
+    let spot: { x: number; z: number } | null = lab.x !== undefined && lab.z !== undefined ? { x: lab.x, z: lab.z } : null;
+    for (const pad of [25, 8, 0]) spot ??= pickLabSpot(terrain, (x, z, r) => colliders.blocked(x, z, r) || excl.blocked(x, z, Math.min(r, pad)));
+    console.info(`[treelab] ${lab.species}:${lab.assetId ?? '-'} spot ${spot ? `${spot.x},${spot.z}` : 'none found'}`);
+    if (spot) {
+      trees.length = 0;
+      const tree: FloraTree = { sp: lab.species, v: 0, x: spot.x, y: 0, z: spot.z, s: lab.scale, yaw: 0, tint: 1, radius: 0, collisionId: null, decorationRank: 0, ...(lab.assetId ? { assetId: lab.assetId } : {}) };
+      tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+      trees.push(tree);
+      (globalThis as { __treelab?: unknown }).__treelab = { x: tree.x, y: tree.y, z: tree.z, groundY: terrain.heightAt(tree.x, tree.z), species: tree.sp, assetId: tree.assetId ?? null, scale: tree.s };
+    }
   }
 
   /* ---- Build the meshes ---- */
@@ -251,34 +305,34 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const profileMaterial = (source: THREE.Material): THREE.Material => {
       const existing = palette.get(source);
       if (existing) return existing;
-      const material = source.clone();
-      // Material.clone() does not copy these hooks; preserve bark detail and other source patches explicitly.
-      material.onBeforeCompile = source.onBeforeCompile;
-      material.customProgramCacheKey = source.customProgramCacheKey;
+      const material = cloneTreeProfileMaterial(source, quality);
       palette.set(source, material);
       profileMaterials.add(material);
       return material;
     };
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
-      const importedMaterials = usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
+      const importedMaterials = hero && heroVariants.has(v) ? hero.materials[l]! : usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
       const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, profileMaterial(importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway)), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
       const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, profileMaterial(importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway)), b.trees.length) : null;
-      // Playtest 7: leaf cards whose opaque leaves hang clear of every branch are moved onto the boughs, once per near or
-      // middle template (a far crown is too small on screen to show a gap).
-      if (l < 2 && leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
+      // Repair each source detail level once: lighter crowns can lose their supporting boughs, too.
+      // Billboard-only sources without separate wood remain outside this contact pass.
+      if (leaf && lod.wood && !islandChecked.has(lod.leaf!)) {
         islandChecked.add(lod.leaf!);
         const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
         lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
       }
       for (const m of [wood, leaf]) {
         if (!m) continue;
+        // Tree placement lives in instance matrices; the batch's local pose stays fixed.
+        m.updateMatrix();
+        m.matrixAutoUpdate = false;
         m.count = 0;
         // Secondary cameras need their own culling of the main view's packed instances.
         m.frustumCulled = true;
         m.boundingSphere = b.drawBounds[l]!;
-        m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
+        m.name = `${hero && heroVariants.has(v) ? 'hero-pine' : usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
         // source LODs away from the camera.
         m.castShadow = false;
@@ -292,8 +346,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
       const installed: { wood: InstalledFoliage | null; leaf: InstalledFoliage | null } = { wood: null, leaf: null };
       if (foliage) {
-        if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown });
-        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined });
+        if (wood) installed.wood = installFoliage(wood.material as THREE.Material, { field: foliage, response, leaf: false, crown, hierarchical: foliageGeometryFeatures(lod.wood).hierarchical });
+        if (leaf) installed.leaf = installFoliage(leaf.material as THREE.Material, { field: foliage, response, leaf: true, crown, look: (leaf.material as THREE.Material).userData.foliageLook as Partial<FoliageLook> | undefined, ...foliageGeometryFeatures(lod.leaf) });
       }
       const caster = (mesh: THREE.InstancedMesh | null, part: 'wood' | 'leaf') => {
         if (!mesh || !castsShadows) return null;
@@ -311,7 +365,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         c.receiveShadow = false;
         c.name = `${mesh.name}:shadow`;
         const depth = shadowDepthMaterial(mesh.material as THREE.Material);
-        if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf' }, installed[part] ?? undefined);
+        if (foliage) installFoliageShadow(depth, { field: foliage, response, leaf: part === 'leaf', hierarchical: foliageGeometryFeatures(mesh.geometry).hierarchical }, installed[part] ?? undefined);
         casterCoverage.set(c, attachCasterCoverage(c, depth));
         c.customDepthMaterial = depth;
         shadowCasters.add(c);
@@ -371,6 +425,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   let shadowTris = 0;
   let disposed = false;
   const reflectionProxies = new Map<THREE.InstancedMesh, THREE.BufferGeometry>();
+  const reflectionFrames: ReflectionSwapFrame[] = [];
   // High draws the full model at every distance (0.0.10, A62); its players may opt into Medium's bands (A76).
   let lodQuality = quality;
 
@@ -414,6 +469,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     return false;
   };
 
+  // Each tree's weights are consumed before the next tree; no result escapes this module's refresh.
+  const shadowWeights: [number, number, number] = [0, 0, 0];
+  // Reuse the fixed part order across every visible tree and LOD refresh.
+  const colourParts = ['wood', 'leaf'] as const;
+
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
@@ -427,9 +487,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     drawTris = 0;
     shadowTrees = 0;
     shadowTris = 0;
+    const counts = [0, 0, 0], shadowCounts = [0, 0, 0];
     for (const b of batches) {
-      const counts = [0, 0, 0];
-      const shadowCounts = [0, 0, 0];
+      counts.fill(0); shadowCounts.fill(0);
       const v = b.variant;
       const pineShadows = usesPine(v.species);
       for (let treeIndex = 0; treeIndex < b.trees.length; treeIndex++) {
@@ -447,7 +507,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
-          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows);
+          const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
           let from = 0, cast = false;
           for (let sl = 0; sl < 3; sl++) {
             const to = from + sw[sl]!;
@@ -456,7 +516,16 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const i = shadowCounts[sl]!++;
               packStatic(c.wood, i, treeIndex, mtx);
               packStatic(c.leaf, i, treeIndex, mtx);
-              for (const mesh of [c.wood, c.leaf]) { const cov = mesh && casterCoverage.get(mesh); if (cov) cov.setXY(i, from, to >= 0.9999 ? 1 : to); }
+              for (const mesh of [c.wood, c.leaf]) {
+                const cov = mesh && casterCoverage.get(mesh);
+                if (!cov) continue;
+                // Match the stored precision: stable blends must not dirty a GPU buffer on every camera turn.
+                const start = Math.fround(from), end = Math.fround(to >= 0.9999 ? 1 : to);
+                if (cov.getX(i) !== start || cov.getY(i) !== end) {
+                  cov.setXY(i, start, end);
+                  coverageChanged.add(cov);
+                }
+              }
               cast = true;
             }
             from = to;
@@ -474,7 +543,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           if (intervalEnd > intervalStart) {
             const m = b.meshes[l]!, visibility = b.visibility[l]!;
             const i = counts[l]!++;
-            for (const part of ['wood', 'leaf'] as const) {
+            for (const part of colourParts) {
               const mesh = m[part];
               if (!mesh) continue;
               packStatic(mesh, i, treeIndex, mtx, col);
@@ -524,19 +593,31 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (c) {
           for (const mesh of [c.wood, c.leaf]) {
             if (!mesh) continue;
+            const previousCasterCount = mesh.count;
             mesh.count = shadowCounts[l]!;
             mesh.visible = shadowCounts[l]! > 0;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadPrefix(mesh.instanceMatrix, mesh.count);
             const cov = casterCoverage.get(mesh);
-            if (cov) uploadPrefix(cov, mesh.count);
+            if (cov && (coverageChanged.has(cov) || mesh.count > previousCasterCount)) uploadPrefix(cov, mesh.count);
           }
           shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
       }
     }
   };
+
+  // ?windtest=1 (debug, off by default): the synthetic branch-wise wind tree, placed with ?windat=x,z.
+  if (foliage && windTestRequested()) {
+    const at = (new URLSearchParams(location.search).get('windat') ?? '-60,70').split(',').map(Number);
+    void createWindTestTree(foliage).then((test) => {
+      if (!test || disposed) return;
+      test.group.position.set(at[0]!, terrain.heightAt(at[0]!, at[1]!), at[1]!);
+      group.add(test.group);
+      (window as unknown as { tervainWindTest?: unknown }).tervainWindTest = test;
+    });
+  }
 
   return {
     group,
@@ -548,12 +629,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
-          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
+          species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], cutoutRequired: ((b.meshes[Math.min(lod, b.meshes.length - 1)]?.leaf?.material as THREE.Material | undefined)?.alphaTest ?? 0) > 0, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
-    placementAuditTargets() {
+    placementAuditTargets(lod = 0) {
+      if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid placement LOD');
       return batches.flatMap((b, batch) => {
-        const mesh = b.meshes[0]?.wood;
+        const mesh = b.meshes[lod]?.wood;
         if (!mesh) return [];
         mesh.updateWorldMatrix(true, false);
         return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: 'root' as const,
@@ -648,8 +730,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     lighterForReflection() {
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
       // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
-      // coverage; only the vertex buffers are the middle model's, shared, never copied or freed (A76).
-      const swapped: [THREE.InstancedMesh, THREE.BufferGeometry][] = [];
+      // coverage. Wood must also use the middle model's material: its baked atlas can have a different UV layout.
+      // Buffers and materials remain shared, never copied or freed here (A76).
+      let frame: ReflectionSwapFrame | undefined;
+      for (const reusable of reflectionFrames) if (!reusable.active) { frame = reusable; break; }
+      if (!frame) { frame = { active: false, epoch: 0, used: 0, swapped: [] }; reflectionFrames.push(frame); }
+      frame.active = true; frame.used = 0;
+      const epoch = ++frame.epoch;
       for (const b of batches) for (const part of ['wood', 'leaf'] as const) {
         const near = b.meshes[0]?.[part], mid = b.meshes[1]?.[part];
         if (!near || !mid || near.count === 0) continue;
@@ -662,12 +749,19 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           proxy.setIndex(mid.geometry.index);
           reflectionProxies.set(near, proxy);
         }
-        swapped.push([near, near.geometry]);
+        rememberReflectionGeometry(frame, near);
         near.geometry = proxy;
+        if (part === 'wood') near.material = mid.material;
         const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
-        if (depth) { swapped.push([depth, depth.geometry]); depth.geometry = proxy; }
+        if (depth) { rememberReflectionGeometry(frame, depth); depth.geometry = proxy; }
       }
-      return () => { for (const [mesh, geometry] of swapped) mesh.geometry = geometry; };
+      const releaseFrame = frame;
+      return () => {
+        // A released callback cannot restore a later capture that reused the frame.
+        if (!releaseFrame.active || releaseFrame.epoch !== epoch) return;
+        for (let i = 0; i < releaseFrame.used; i++) { const [mesh, geometry, material] = releaseFrame.swapped[i]!; mesh.geometry = geometry; mesh.material = material; }
+        releaseFrame.active = false;
+      };
     },
     stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris),
       shadowTrees, shadowTris: Math.round(shadowTris), struckLeaves: burst?.active ?? 0, ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
@@ -701,6 +795,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         proxy.dispose();
       }
       reflectionProxies.clear();
+      for (const frame of reflectionFrames) { frame.active = false; frame.used = 0; frame.swapped.length = 0; }
+      reflectionFrames.length = 0;
       for (const material of profileMaterials) material.dispose();
       profileMaterials.clear();
       woodTrees.clear();
@@ -712,6 +808,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
       }
       pine.dispose();
+      hero?.dispose();
       meshy?.dispose();
       variants.clear();
       disposeTreeMaterials();

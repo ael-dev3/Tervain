@@ -47,6 +47,8 @@ export interface TileLayerOptions {
   drawCountAt?(nearestDistance: number): number;
   /** Distances (m) between which this layer draws at all; tiles wholly outside the band submit nothing. */
   band?: { start: number; end: number };
+  /** Generator writes all four slope channels for every returned instance; skip the default scratch clear. */
+  writesSlope?: boolean;
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
   generate(tx: number, tz: number, out: TileBuffers): number;
 }
@@ -139,12 +141,17 @@ export class TileLayer {
         tile.renderInstances = geo.instanceCount;
         const e = camera.matrixWorld.elements;
         const main = e[12] === this.drawFocus.x && e[13] === this.drawFocus.y && e[14] === this.drawFocus.z;
-        this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
-        const distance = this.distTo(tile, this.captureFocus);
-        // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
-        if (!main) geo.instanceCount = this.instanceCountAt(tile, distance);
+        if (main) {
+          // update() already computed this camera's density and blade prefix.
+          if (o.drawCountAt) geo.setDrawRange(0, tile.drawCount);
+        } else {
+          this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
+          const distance = this.distTo(tile, this.captureFocus);
+          // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
+          geo.instanceCount = this.instanceCountAt(tile, distance);
+          if (o.drawCountAt) geo.setDrawRange(0, Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
+        }
         if (o.maxRadius !== undefined && !this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
-        if (o.drawCountAt) geo.setDrawRange(0, main ? tile.drawCount : Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
       };
       // Captures must not leave their density on the shared main-camera geometry.
       mesh.onAfterRender = () => { geo.instanceCount = tile.renderInstances; };
@@ -166,7 +173,7 @@ export class TileLayer {
     const o = this.o;
     this.buf.ymin = Infinity;
     this.buf.ymax = -Infinity;
-    this.buf.slope.fill(0);
+    if (!o.writesSlope) this.buf.slope.fill(0);
     const n = Math.min(o.generate(tx, tz, this.buf), o.capacity);
     t.tx = tx;
     t.tz = tz;
@@ -231,49 +238,54 @@ export class TileLayer {
       return;
     }
     this.group.visible = true;
+    const streamChanged = this.first || !this.drawFocus.equals(cam) || this.wantList.length > 0;
     this.drawFocus.copy(cam);
-    const T = o.tileSize;
-    // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
-    // horizontal distance: high terrain must not be released and immediately regenerated every frame.
-    const visibleEnd = Math.min(o.fadeEnd, o.band?.end ?? Infinity);
-    const reach = visibleEnd + T * 2;
-    const tx0 = Math.floor((cam.x - reach) / T);
-    const tx1 = Math.floor((cam.x + reach) / T);
-    const tz0 = Math.floor((cam.z - reach) / T);
-    const tz1 = Math.floor((cam.z + reach) / T);
+    // A stationary, fully prepared view has no new requests. Keep polling while
+    // reserve work is pending; per-tile distance/rank selection still runs below.
+    if (streamChanged) {
+      const T = o.tileSize;
+      // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
+      // horizontal distance: high terrain must not be released and immediately regenerated every frame.
+      const visibleEnd = Math.min(o.fadeEnd, o.band?.end ?? Infinity);
+      const reach = visibleEnd + T * 2;
+      const tx0 = Math.floor((cam.x - reach) / T);
+      const tx1 = Math.floor((cam.x + reach) / T);
+      const tz0 = Math.floor((cam.z - reach) / T);
+      const tz1 = Math.floor((cam.z + reach) / T);
 
-    // Drop tiles that are far behind us (hysteresis keeps a border from thrashing).
-    const drop = reach + T * 1.5;
-    for (const t of this.tiles.values()) {
-      if (tileHorizontalDistance(t.x0, t.z0, T, cam) > drop) this.release(t);
-    }
-
-    // Build the missing tiles the camera can see, nearest first.
-    const want = this.wantList;
-    want.length = 0;
-    for (let tz = tz0; tz <= tz1; tz++) {
-      for (let tx = tx0; tx <= tx1; tx++) {
-        if (this.tiles.has(this.key(tx, tz))) continue;
-        const d = tileHorizontalDistance(tx * T, tz * T, T, cam);
-        if (d < reach) want.push({ tx, tz, d });
+      // Drop tiles that are far behind us (hysteresis keeps a border from thrashing).
+      const drop = reach + T * 1.5;
+      for (const t of this.tiles.values()) {
+        if (tileHorizontalDistance(t.x0, t.z0, T, cam) > drop) this.release(t);
       }
-    }
-    if (want.length) {
-      want.sort((a, b) => a.d - b.d);
-      const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
-      // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
-      // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
-      for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
-        const w = want[i]!;
-        if (!this.first && w.d >= visibleEnd && reserve) {
-          if (reserve.remaining <= 0 || (reserve.deadline !== undefined && performance.now() >= reserve.deadline)) break;
-          reserve.remaining--;
+
+      // Build the missing tiles the camera can see, nearest first.
+      const want = this.wantList;
+      want.length = 0;
+      for (let tz = tz0; tz <= tz1; tz++) {
+        for (let tx = tx0; tx <= tx1; tx++) {
+          if (this.tiles.has(this.key(tx, tz))) continue;
+          const d = tileHorizontalDistance(tx * T, tz * T, T, cam);
+          if (d < reach) want.push({ tx, tz, d });
         }
-        const t = this.acquire();
-        this.fill(t, w.tx, w.tz);
-        this.tiles.set(t.key, t);
       }
-      this.first = false;
+      if (want.length) {
+        want.sort((a, b) => a.d - b.d);
+        const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
+        // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
+        // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
+        for (let i = 0; i < want.length && (i < cap || want[i]!.d < visibleEnd); i++) {
+          const w = want[i]!;
+          if (!this.first && w.d >= visibleEnd && reserve) {
+            if (reserve.remaining <= 0 || (reserve.deadline !== undefined && performance.now() >= reserve.deadline)) break;
+            reserve.remaining--;
+          }
+          const t = this.acquire();
+          this.fill(t, w.tx, w.tz);
+          this.tiles.set(t.key, t);
+        }
+        this.first = false;
+      }
     }
 
     // Set every tile's instance count from the camera distance and show only what could be on screen.
@@ -286,7 +298,8 @@ export class TileLayer {
       t.drawCount = drawCount;
       if (o.drawCountAt) t.geo.setDrawRange(0, drawCount);
       // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
-      if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
+      // Only tiles whose nearest point is inside the inner cutoff can lie wholly inside it.
+      if (o.band && (d > o.band.end || (d < o.band.start && this.farthest(t, cam) < o.band.start))) {
             t.geo.instanceCount = 0;
         t.mesh.visible = false;
         continue;
@@ -309,11 +322,15 @@ export class TileLayer {
 
   private instanceCountAt(t: Tile, d: number): number {
     const q = Math.pow(1 - smoothstep(this.o.fadeStart, this.o.fadeEnd, d), this.o.power);
+    // Reserve tiles beyond the fade contain no visible ranks; avoid searching their buffers.
+    if (q <= 0) return 0;
     // gKeep = smoothstep(0,.12,gQ*RANK_HEADROOM-rank) has zero coverage when rank >= gQ*RANK_HEADROOM. The nearest
     // anchor interval is conservative for every patch, so no extra rank tail needs to be submitted.
     const limit = q * RANK_HEADROOM + 1e-6;
     // Binary search: first instance whose rank >= limit.
     const base = t.attrs[0]!.array as Float32Array;
+    // Fully dense tiles normally retain their whole sorted prefix. Check its highest rank once.
+    if (q >= 1 && t.count > 0 && base[(t.count - 1) * 4 + 3]! < limit) return t.count;
     let lo = 0;
     let hi = t.count;
     while (lo < hi) {
@@ -321,7 +338,7 @@ export class TileLayer {
       if (base[mid * 4 + 3]! < limit) lo = mid + 1;
       else hi = mid;
     }
-    return q <= 0 ? 0 : lo;
+    return lo;
   }
 
   dispose() {

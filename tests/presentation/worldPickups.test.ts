@@ -7,7 +7,7 @@ import { S } from '../../src/content/strings';
 import { Game } from '../../src/game/game';
 import { MemoryStore, SaveStore } from '../../src/platform/storage';
 import { finishNpcPath, NpcActor } from '../../src/presentation/actors';
-import type { Rig } from '../../src/presentation/characters';
+import { createStandInRig, type Rig } from '../../src/presentation/characters';
 import * as characterPoses from '../../src/presentation/characters';
 import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
 import { forestLandmarkGeometry } from '../../src/presentation/forestLandmarks';
@@ -57,7 +57,7 @@ describe('original loose pickup geometry', () => {
     expect(count / 3).toBeGreaterThan(50);
     expect(count / 3).toBeLessThan(1400);
     expect(Math.max(size.x, size.y, size.z)).toBeGreaterThan(0.1);
-    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(item === 'hunting_bow' ? 1.4 : 0.9);
+    expect(Math.max(size.x, size.y, size.z)).toBeLessThan(item === 'hunting_bow' ? 1.6 : 0.9);
     expect(Math.min(size.x, size.y, size.z)).toBeGreaterThan(0.035);
     for (let i = 0; i < position.count; i++) {
       expect(Number.isFinite(position.getX(i) + position.getY(i) + position.getZ(i)), item).toBe(true);
@@ -70,7 +70,7 @@ describe('original loose pickup geometry', () => {
     const ranges = {
       shore_apple: [0.10, 0.18], bread: [0.40, 0.60], field_mushroom: [0.14, 0.24],
       healing_herb: [0.45, 0.65], iron_scrap: [0.35, 0.60],
-      hunting_bow: [1.2, 1.4], skinning_knife: [.35, .50], arrow: [.60, .80],
+      hunting_bow: [1.4, 1.6], skinning_knife: [.35, .50], arrow: [.60, .80],
     } as const;
     for (const item of WORLD_PICKUP_ITEM_IDS) {
       const { geometry } = pickupGeometry(item);
@@ -351,7 +351,7 @@ describe('persistent reachable world pickups with full scenery and vegetation', 
     hunter.snapToGoal({ terrain, colliders, nav, state: stationGame.state, hour: 12,
       player: { x: HUNTER_SUPPLY.x, y: terrain.groundAt(HUNTER_SUPPLY.x, HUNTER_SUPPLY.z), z: HUNTER_SUPPLY.z },
       reducedMotion: true, onBark: () => false });
-    const people = Reflect.apply(Reflect.get(Player.prototype, 'contacts'), Object.create(Player.prototype),
+    const people = Reflect.apply(Reflect.get(Player.prototype, 'contacts'), new Player(createStandInRig(1.8)),
       [{ game: stationGame, npcs: [hunter], enemies: [] }]) as Collider[];
     const audio = { interact: vi.fn(), pickup: vi.fn() };
     const hud = { setPrompt: vi.fn(), toast: vi.fn() };

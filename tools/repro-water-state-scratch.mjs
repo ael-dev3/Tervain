@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createServer} from 'vite';import sharp from 'sharp';import {openPage} from './cdp.mjs';
+const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));const ref=args.baseline??'421d34b',out=path.resolve(args.out??'water-state-proof');fs.mkdirSync(out,{recursive:true});for(const f of ['report.json','fixture.png'])fs.rmSync(path.join(out,f),{force:true});
+const id=path.resolve('src/presentation/__baseline-state.ts'),source=execFileSync('git',['show',`${ref}:src/presentation/waterRenderPass.ts`],{encoding:'utf8'});const server=await createServer({configFile:false,logLevel:'error',optimizeDeps:{include:['three'],noDiscovery:true},server:{host:'127.0.0.1',port:0,ws:false,hmr:false},plugins:[{name:'baseline-state',enforce:'pre',resolveId(name){if(name==='/src/presentation/__baseline-state.ts')return id;},load(name){if(name===id)return source;}}]});let page;
+try{
+ await server.listen();page=await openPage(`http://127.0.0.1:${server.httpServer.address().port}/tools/water-state-scratch-fixture.html`,{w:320,h:180,requestTimeoutMs:120000});let ready=false;for(let i=0;i<600;i++){const e=await page.eval('return window.waterStateError');if(e)throw Error(e);if(await page.eval('return !!window.waterStateProof')){ready=true;break;}await page.wait(100);}assert(ready);
+ const r=await page.eval('return waterStateProof');
+ assert.equal(r.before.snapshotMapAllocations,96);assert.equal(r.after.snapshotMapAllocations,0);assert.deepEqual(r.before.renderFrames,r.after.renderFrames);
+ for(const k of ['before','after']){assert.equal(r[k].statePass,true);assert.equal(r[k].glError,0);assert.equal(r[k].contextLost,false);assert(r[k].renderFrames.every(x=>x.draws>0&&x.triangles>0));}
+ const imageHashes=[];for(let i=0;i<r.before.images.length;i++){
+  const a=Buffer.from(r.before.images[i].split(',')[1],'base64'),b=Buffer.from(r.after.images[i].split(',')[1],'base64');assert(a.equals(b));assert((await sharp(b).stats()).channels.slice(0,3).some(c=>c.stdev>3));imageHashes.push(createHash('sha256').update(b).digest('hex'));if(i===2)fs.writeFileSync(path.join(out,'fixture.png'),b);
+ }
+ delete r.before.images;delete r.after.images;
+ const report={baseline:ref,sourceSha256:createHash('sha256').update(fs.readFileSync('src/presentation/waterRenderPass.ts')).digest('hex'),scope:'Native software-WebGL water capture/compositor orchestration fixture with a simple capture-consuming shader, not the full ocean/world. 24 moving-camera frames, changing overlay/unreflected lengths, three pixel-identical sampled frames. Counts cover four explicit snapshot map allocations only, not all JavaScript allocations or hardware frame timing.',...r,pixelIdenticalFrames:3,imageHashes,pass:true};fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
+}finally{page?.close();await server.close();}

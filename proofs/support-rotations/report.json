@@ -1,0 +1,28 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "queries": 8208,
+      "sampleTrig": 82382,
+      "cameraSteps": 120,
+      "cameraTrig": 258398,
+      "sampleSha256": "0aa35078e8b904e7190463ea075cefcca0990da9f15db57028970993d43fd9a9",
+      "cameraSha256": "7409984304a94b5b83af9149d90018b722cebec467185a0fbf5472de351ef0aa"
+    },
+    "after": {
+      "queries": 8208,
+      "sampleTrig": 302,
+      "cameraSteps": 120,
+      "cameraTrig": 61694,
+      "sampleSha256": "0aa35078e8b904e7190463ea075cefcca0990da9f15db57028970993d43fd9a9",
+      "cameraSha256": "7409984304a94b5b83af9149d90018b722cebec467185a0fbf5472de351ef0aa"
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "c64d7d178f6ec730cf7c545bd17b5819536206049fbc63582a6d905b9b71258a",
+  "scope": "Actual before/after deckAt and groundAt methods on the published Low-preset terrain grid and native camera/colliders. Whole Math.sin/cos call counts during fixed query sets and camera steps; cache initialization excluded. Source-level CPU-work count, not elapsed time, total allocations, hardware FPS, or a complete candidate build.",
+  "pass": true
+}

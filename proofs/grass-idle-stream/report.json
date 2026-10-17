@@ -1,0 +1,50 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "coldMapReads": 130,
+      "walkingMapReads": 16076,
+      "idleMapReads": 15600,
+      "relocationMapReads": 15730,
+      "walkingUpdates": 120,
+      "idleUpdates": 120,
+      "relocationUpdates": 121,
+      "pendingStart": 69,
+      "pendingEnd": 0,
+      "activeStart": 78,
+      "activeEnd": 133,
+      "layers": 2,
+      "generatedTiles": 184,
+      "framesSha256": "68dbad15ad034d8516c525e6cb95cdd9e6944ee87d1dc08ce7c748e8dd20f96b",
+      "generationSha256": "95656d8f1f809fae5f9e9764e7b4684a7c79603c71e142de7a2fec0ac5a5ca3b",
+      "bufferBytes": 6111744,
+      "buffersSha256": "e737c0c172b13484a5e2fe48b03c569a0a4f84f0f3dca4d3825df7d086e8abad"
+    },
+    "after": {
+      "coldMapReads": 130,
+      "walkingMapReads": 16076,
+      "idleMapReads": 0,
+      "relocationMapReads": 3312,
+      "walkingUpdates": 120,
+      "idleUpdates": 120,
+      "relocationUpdates": 121,
+      "pendingStart": 69,
+      "pendingEnd": 0,
+      "activeStart": 78,
+      "activeEnd": 133,
+      "layers": 2,
+      "generatedTiles": 184,
+      "framesSha256": "68dbad15ad034d8516c525e6cb95cdd9e6944ee87d1dc08ce7c748e8dd20f96b",
+      "generationSha256": "95656d8f1f809fae5f9e9764e7b4684a7c79603c71e142de7a2fec0ac5a5ca3b",
+      "bufferBytes": 6111744,
+      "buffersSha256": "e737c0c172b13484a5e2fe48b03c569a0a4f84f0f3dca4d3825df7d086e8abad"
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "27454bc1c49a02485c6db7071e7cc8ee783af5814191b8971a98b993bb92a9ee",
+  "scope": "Actual baseline/candidate TileLayer.update source on fresh native tile-layer instances sharing the published exact geometry/material/generator/terrain/habitat. Native camera follows 120 fence-route targets, then holds a settled position for 120 updates, then relocates 80m and exercises pending reserve work for 121 updates. Deterministic shared two-tile reserve quota; first relocation update has zero reserve and wall-clock deadline is omitted. Only tile-residency Map.has calls counted, not total CPU work, frame times or hardware FPS. Complete per-update resident/count/range/visibility state, generation order/raw bytes and native Grade/post walking pixels must match. Borrowed resources are confined to this disposable proof page.",
+  "pass": true
+}

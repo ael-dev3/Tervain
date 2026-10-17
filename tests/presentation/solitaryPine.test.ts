@@ -12,6 +12,36 @@ let templates: PineTemplates;
 beforeAll(async () => { templates = await pineTemplates(); });
 
 describe('delivered Solitary Pine forest', () => {
+  it('skips upper pine triangles without changing finite slab contacts', () => {
+    const forest = createPineForest(templates), variant = forest.variant('pine', 1), hypot = Math.hypot;
+    let referenceReads = 0;
+    const reference = (top: number) => {
+      let radius = 0;
+      const a = new THREE.Vector3(), b = new THREE.Vector3();
+      for (const lod of variant.lods.slice(0, 2)) {
+        const g = lod.wood; if (!g) continue;
+        const p = g.getAttribute('position'), index = g.index, count = index?.count ?? p.count;
+        for (let i = 0; i < count; i += 3) for (let edge = 0; edge < 3; edge++) {
+          referenceReads += 2; a.fromBufferAttribute(p, index ? index.getX(i + edge) : i + edge);
+          b.fromBufferAttribute(p, index ? index.getX(i + (edge + 1) % 3) : i + (edge + 1) % 3);
+          if (a.y <= top) { radius = Math.max(radius, hypot(a.x, a.z)); }
+          if ((a.y < top && b.y > top) || (b.y < top && a.y > top)) {
+            const t = (top - a.y) / (b.y - a.y);
+            radius = Math.max(radius, hypot(THREE.MathUtils.lerp(a.x, b.x, t), THREE.MathUtils.lerp(a.z, b.z, t)));
+          }
+        }
+      }
+      return radius;
+    };
+    const cases = [[0.35, 0.06], [0.75, 0.3], [1, 0], [1.4, 1.2]] as const;
+    const expected = cases.map(([scale, depth]) => reference((2.6 + depth) / scale) * scale + 0.03);
+    const spy = vi.spyOn(THREE.Vector3.prototype, 'fromBufferAttribute');
+    try {
+      expect(cases.map(([scale, depth]) => forest.collisionRadius('pine', 1, scale, depth))).toEqual(expected);
+      expect(spy.mock.calls.length).toBeLessThan(referenceReads);
+    } finally { spy.mockRestore(); forest.dispose(); }
+  });
+
   it('uses locally hosted, complete GLB files with embedded standard textures and a subdirectory-safe URL', () => {
     expect(solitaryPineUrl(PINE_FILES[0], './', 'https://ael-dev3.github.io/Tervain/index.html').href).toBe('https://ael-dev3.github.io/Tervain/models/flora/solitary-pine-under-10k.glb');
     for (const file of PINE_FILES) {

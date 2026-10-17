@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { HuntingAudio, HUNTING_SOUND_KINDS, huntingSoundMix, type HuntingSoundKind } from '../../src/presentation/huntingAudio';
+import { HuntingAudio, HUNTING_SOUND_KINDS, HUNTING_SOUND_ASSETS, huntingSoundMix, type HuntingSoundKind } from '../../src/presentation/huntingAudio';
 import type { HuntingAudioListener } from '../../src/presentation/huntingAudio';
 
 afterEach(() => { vi.unstubAllGlobals(); });
@@ -14,6 +14,7 @@ class Pan extends Node { pan = { value: 0 }; }
 class Source extends Node {
   buffer: unknown = null;
   loop = false;
+  playbackRate = { value: 1 };
   onended: (() => void) | null = null;
   start = vi.fn();
   stop = vi.fn();
@@ -30,7 +31,7 @@ class Context {
 }
 
 function manifest() {
-  return { assets: HUNTING_SOUND_KINDS.map((id) => ({ id, path: `public/assets/audio/hunting/${id}.mp3`, sha256: 'b'.repeat(64) })) };
+  return { assets: HUNTING_SOUND_ASSETS.map((id) => ({ id, path: `public/assets/audio/hunting/${id}.mp3`, sha256: 'b'.repeat(64) })) };
 }
 
 function fixture(assets: unknown = manifest()) {
@@ -96,6 +97,21 @@ describe('local hunting recordings', () => {
     expect(ctx.decodeAudioData).toHaveBeenCalledTimes(1);
     audio.dispose();
     expect([...ctx.sources, ...ctx.gains, ...ctx.pans].every((node) => node.disconnect.mock.calls.length === 1)).toBe(true);
+  });
+
+  it('knocks wood with the ground recording pitched up, sharing its one download (B11)', async () => {
+    const { audio, ctx, fetch } = fixture();
+    audio.setActive(true);
+    audio.sound('arrow_ground');
+    await flush();
+    ctx.currentTime = 1;
+    audio.sound('arrow_wood');
+    await flush();
+    expect(fetch.mock.calls.slice(1).map(([url]) => String(url))).toEqual([expect.stringMatching(/arrow_ground\.mp3$/)]);
+    expect(ctx.sources).toHaveLength(2);
+    expect(ctx.sources[0]!.playbackRate.value).toBeGreaterThan(.9); expect(ctx.sources[0]!.playbackRate.value).toBeLessThan(1.1);
+    expect(ctx.sources[1]!.playbackRate.value).toBeGreaterThan(1.3);
+    audio.dispose();
   });
 
   it('plays one skinning loop until selective cancellation and keeps other effects running', async () => {

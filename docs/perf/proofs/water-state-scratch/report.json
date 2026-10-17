@@ -1,0 +1,222 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "a554173c404b757ef4f4edcdaae8e482d25397c937ed5a209ec6cb431fc0ae80",
+  "scope": "Native software-WebGL water capture/compositor orchestration fixture with a simple capture-consuming shader, not the full ocean/world. 24 moving-camera frames, changing overlay/unreflected lengths, three pixel-identical sampled frames. Counts cover four explicit snapshot map allocations only, not all JavaScript allocations or hardware frame timing.",
+  "before": {
+    "frames": 24,
+    "snapshotMapAllocations": 96,
+    "statePass": true,
+    "renderFrames": [
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      }
+    ],
+    "glError": 0,
+    "contextLost": false
+  },
+  "after": {
+    "frames": 24,
+    "snapshotMapAllocations": 0,
+    "statePass": true,
+    "renderFrames": [
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 7,
+        "triangles": 53
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      },
+      {
+        "draws": 8,
+        "triangles": 65
+      }
+    ],
+    "glError": 0,
+    "contextLost": false
+  },
+  "pixelIdenticalFrames": 3,
+  "imageHashes": [
+    "20fd391a284f37802746c3ceddf0b4fb82725b632a3d990b1d64f119a4a6f8bb",
+    "45885ca4ff7b41b4f662183aa0ef37ea4dd17b61cc3812d42d0e1ff4d879a477",
+    "66ef7fb32a22bbd28d85a2046aa5b837fdf02633806a016392c8fa008283e892"
+  ],
+  "pass": true
+}

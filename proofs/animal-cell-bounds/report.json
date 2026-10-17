@@ -1,0 +1,114 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "skins": 1,
+  "rows": {
+    "before": {
+      "cells": 92,
+      "queries": 648,
+      "hits": 392,
+      "transformedBounds": 333720,
+      "phases": [
+        {
+          "pose": "rest",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            41715,
+            41715
+          ],
+          "sha256": "8d97ff6c13873fdfa0a9429d79afa540b86851f3ee9cdc4f531e7b867d18b9d6"
+        },
+        {
+          "pose": "head-offset",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            41715,
+            41715
+          ],
+          "sha256": "f051e88473f74936ae0bb6e4cbcbce44113279a194e6090ba2065b10e9f64d79"
+        },
+        {
+          "pose": "root-translation",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            41715,
+            41715
+          ],
+          "sha256": "2a158661baac1535ef170e8ddc8347ee185f580b4cceac16257ee9efe2d5d63f"
+        },
+        {
+          "pose": "root-scale",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            41715,
+            41715
+          ],
+          "sha256": "83e78b71a7d73b63729521e763de4073902f53a90fecbee630302a0a18014a9e"
+        }
+      ],
+      "resultSha256": "d2d1e2a0526389718ba63e097a4cb7c2868d6c504c3bdbf8bcfa6057e9bf15cf",
+      "publishedControlMatches": true
+    },
+    "after": {
+      "cells": 92,
+      "queries": 648,
+      "hits": 392,
+      "transformedBounds": 2060,
+      "phases": [
+        {
+          "pose": "rest",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            515,
+            0
+          ],
+          "sha256": "8d97ff6c13873fdfa0a9429d79afa540b86851f3ee9cdc4f531e7b867d18b9d6"
+        },
+        {
+          "pose": "head-offset",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            515,
+            0
+          ],
+          "sha256": "f051e88473f74936ae0bb6e4cbcbce44113279a194e6090ba2065b10e9f64d79"
+        },
+        {
+          "pose": "root-translation",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            515,
+            0
+          ],
+          "sha256": "2a158661baac1535ef170e8ddc8347ee185f580b4cceac16257ee9efe2d5d63f"
+        },
+        {
+          "pose": "root-scale",
+          "queries": 162,
+          "hits": 98,
+          "transformedBounds": [
+            515,
+            0
+          ],
+          "sha256": "83e78b71a7d73b63729521e763de4073902f53a90fecbee630302a0a18014a9e"
+        }
+      ],
+      "resultSha256": "d2d1e2a0526389718ba63e097a4cb7c2868d6c504c3bdbf8bcfa6057e9bf15cf",
+      "publishedControlMatches": true
+    }
+  },
+  "identicalPixels": true,
+  "animalVisiblePixels": 14053,
+  "sourceSha256": "187f7efe80c79286f314041e5fe1355721c75de482eb133f6691cd97775c5d12",
+  "scope": "Actual before/after AnimalArrowSurface source on a delivered native tiger rig from the published world. Four controlled poses, 81 grid rays twice per pose, exact full result hashes and native Grade/post pixel comparison. Box3 transforms counted only inside trace; constructors excluded, cold pose rebuilds included. Not hardware frame times, FPS, total allocations, or a complete candidate-build gate.",
+  "pass": true
+}

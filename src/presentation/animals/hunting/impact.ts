@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import type { AnimalArrowHit } from './hit';
 
 const CAPACITY = 48;
+/** A struck body's shove (B11): pushed along the arrow's line and rocked off its feet a little, then settled back. */
+interface Flinch { scene: THREE.Object3D; base: THREE.Vector3; baseQ: THREE.Quaternion; push: THREE.Vector3; axis: THREE.Vector3; age: number; strength: number }
+const FLINCH_SECONDS = .42;
 interface Droplet { position: THREE.Vector3; velocity: THREE.Vector3; life: number; size: number }
 
 /** Small, bounded feedback. Gameplay and wound persistence remain in the domain records. */
@@ -12,6 +15,7 @@ export class AnimalImpactEffects {
   private stainGeometry = new THREE.CircleGeometry(1, 9);
   private droplets = new THREE.InstancedMesh(this.dropletGeometry, this.blood, CAPACITY);
   private particles: Droplet[] = [];
+  private flinches = new Map<THREE.Object3D, Flinch>();
   private stains = new Map<string, THREE.Group>();
   private arrows = new Map<string, THREE.Group[]>();
   private arrowGeometry = new THREE.CylinderGeometry(.004, .004, .55, 4);
@@ -39,6 +43,8 @@ export class AnimalImpactEffects {
       this.particles.push({ position: point.clone(), velocity: incoming.clone().multiplyScalar(-.3)
         .add(new THREE.Vector3(Math.cos(angle) * .45, .25 + i * .055, Math.sin(angle) * .45)), life: .45 + i * .025, size: .009 + (i % 3) * .004 });
     }
+    // The shove moves the model inside its root; a rig whose model is its root is left where its motion put it.
+    if (!reducedMotion && !this.reduced && rig.scene !== rig.root) this.flinch(rig, incoming, hit.zone ? (hit.zone === 'head' ? 1.25 : 1) : .35);
     const embeds = this.arrows.get(hit.id) ?? [];
     if (embeds.length < 2) {
       const arrow = new THREE.Group(); arrow.name = 'embedded hunting arrow';
@@ -54,6 +60,18 @@ export class AnimalImpactEffects {
       arrow.quaternion.copy(anchor.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(rotation));
       anchor.add(arrow); embeds.push(arrow); this.arrows.set(hit.id, embeds);
     }
+  }
+
+  private flinch(rig: { scene: THREE.Group; root: THREE.Group }, incoming: THREE.Vector3, strength: number) {
+    const existing = this.flinches.get(rig.scene);
+    // Struck again mid-flinch: restart from the true rest pose, never from a shoved one.
+    const base = existing?.base ?? rig.scene.position.clone(), baseQ = existing?.baseQ ?? rig.scene.quaternion.clone();
+    rig.root.updateWorldMatrix(true, false);
+    const toLocal = rig.root.getWorldQuaternion(new THREE.Quaternion()).invert();
+    const push = incoming.clone().setY(0).applyQuaternion(toLocal);
+    if (push.lengthSq() < 1e-6) push.set(0, 0, 1);
+    push.normalize();
+    this.flinches.set(rig.scene, { scene: rig.scene, base, baseQ, push, axis: new THREE.Vector3(push.z, 0, -push.x), age: 0, strength });
   }
 
   carcass(id: string, position: { x: number; z: number }, radius: number) {
@@ -82,7 +100,11 @@ export class AnimalImpactEffects {
 
   setReduced(value: boolean) {
     this.reduced = value;
-    if (value) { this.particles.length = 0; this.droplets.count = 0; }
+    if (value) {
+      this.particles.length = 0; this.droplets.count = 0;
+      for (const f of this.flinches.values()) { f.scene.position.copy(f.base); f.scene.quaternion.copy(f.baseQ); }
+      this.flinches.clear();
+    }
     for (const stain of this.stains.values()) stain.visible = !value;
   }
 
@@ -96,7 +118,9 @@ export class AnimalImpactEffects {
   }
 
   update(dt: number) {
-    if (this.disposed || this.particles.length === 0) return;
+    if (this.disposed) return;
+    this.updateFlinches(dt);
+    if (this.particles.length === 0) return;
     this.particles = this.particles.filter((particle) => {
       particle.life -= dt;
       if (particle.life <= 0) return false;
@@ -112,12 +136,26 @@ export class AnimalImpactEffects {
     this.droplets.instanceMatrix.needsUpdate = true;
   }
 
+  private updateFlinches(dt: number) {
+    for (const [scene, f] of this.flinches) {
+      f.age += Math.max(0, dt);
+      scene.position.copy(f.base); scene.quaternion.copy(f.baseQ);
+      if (f.age >= FLINCH_SECONDS || !scene.parent) { this.flinches.delete(scene); continue; }
+      // A fast shove out and a damped settle: peak in ~0.05 s, one small overshoot.
+      const t = f.age / FLINCH_SECONDS, envelope = Math.sin(Math.min(1, f.age / .05) * Math.PI / 2) * Math.exp(-5 * t) * Math.cos(t * Math.PI * 1.4);
+      scene.position.addScaledVector(f.push, .07 * f.strength * envelope);
+      scene.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(f.axis, .09 * f.strength * envelope));
+    }
+  }
+
   stats() { return { droplets: this.particles.length, stains: this.stains.size, embeddedArrows: [...this.arrows.values()].reduce((sum, arrows) => sum + arrows.length, 0) }; }
 
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
     for (const id of this.arrows.keys()) this.releaseRig(id);
+    for (const f of this.flinches.values()) { f.scene.position.copy(f.base); f.scene.quaternion.copy(f.baseQ); }
+    this.flinches.clear();
     this.group.clear(); this.group.removeFromParent(); this.stains.clear(); this.particles.length = 0;
     for (const geometry of [this.dropletGeometry, this.stainGeometry, this.arrowGeometry, this.pointGeometry, this.featherGeometry]) geometry.dispose();
     for (const material of [this.blood, this.arrowMaterial, this.pointMaterial, this.featherMaterial]) material.dispose();

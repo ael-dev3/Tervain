@@ -256,10 +256,13 @@ export class Habitat {
 
   private scratch = new Float32Array(8);
   private streamCentre = new Float64Array(1);
+  private readonly surfaceSample = { slope: 0, carve: 0, shoreDistance: 0 };
 
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
     const biome = biomeAt(x, z);
+    // Soil blending and grass shade use the same planted projection at this raster node.
+    const sampledCanopy = this.plantedCrowns?.coverAt(x, z);
     let open = 1;
     const road = roadWeight(x, z);
     // The worn core stays completely bare. Outside it, continuous pockets interrupt the
@@ -274,19 +277,28 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, undefined, undefined, road);
+      this.surfaceSample.slope = slope;
+      this.surfaceSample.carve = carve;
       const sd = shoreDistance(x, z);
+      this.surfaceSample.shoreDistance = sd;
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome, sampledCanopy, undefined, road, this.surfaceSample);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
       open *= clamp(soil, 0, 1);
       if (sd < 8) open = 0;
     }
-    const soft = this.softCircleHash.get(this.cell(x, z));
+    // Once bare, further exclusion factors cannot reduce openness any further. Other habitat channels still run.
+    const soft = open > 0 ? this.softCircleHash.get(this.cell(x, z)) : undefined;
     if (soft) for (const c of soft) {
-      const d = Math.hypot(x - c.x, z - c.z) - c.hard;
+      if (open === 0) break;
+      const dx = x - c.x, dz = z - c.z;
+      // The radial fade ends at hard + 1.8; keep a conservative 0.2 m guard.
+      if (Math.max(Math.abs(dx), Math.abs(dz)) > c.hard + 2) continue;
+      const d = Math.hypot(dx, dz) - c.hard;
       if (d < 1.8) open *= smoothstep(0, 1.8, d);
     }
     for (const f of fieldRotations) {
+      if (open === 0) break;
       const dx = x - f.x;
       const dz = z - f.z;
       const lx = dx * f.cosine - dz * f.sine;
@@ -304,7 +316,7 @@ export class Habitat {
     o[k] = open * biome.grassDensity;
     o[k + 1] = wet;
     o[k + 2] = dry;
-    o[k + 3] = this.woodAt(x, z);
+    o[k + 3] = sampledCanopy === undefined ? this.woodAt(x, z) : clamp(sampledCanopy, 0, 1);
     o[k + 4] = slope;
   }
 
@@ -315,8 +327,25 @@ export class Habitat {
     t = new Float32Array(NODES * NODES * CH);
     const x0 = WORLD.minX + tx * TILE;
     const z0 = WORLD.minZ + tz * TILE;
+    // Completed neighboring rasters already contain the exact same world-fixed edge nodes.
+    // Reuse their Float32 channels rather than repeating terrain, soil, water and crown queries.
+    const west = this.tiles.get(key - 256), east = this.tiles.get(key + 256);
+    const north = this.tiles.get(key - 1), south = this.tiles.get(key + 1);
     for (let j = 0; j < NODES; j++) {
-      for (let i = 0; i < NODES; i++) this.evalNode(x0 + i * STEP, z0 + j * STEP, t, (j * NODES + i) * CH);
+      const row = j === 0 ? north : j === TILE_CELLS ? south : undefined;
+      if (row) {
+        const start = (j === 0 ? TILE_CELLS : 0) * NODES * CH;
+        t.set(row.subarray(start, start + NODES * CH), j * NODES * CH);
+        continue;
+      }
+      for (let i = 0; i < NODES; i++) {
+        const side = i === 0 ? west : i === TILE_CELLS ? east : undefined;
+        const k = (j * NODES + i) * CH;
+        if (side) {
+          const source = (j * NODES + (i === 0 ? TILE_CELLS : 0)) * CH;
+          for (let c = 0; c < CH; c++) t[k + c] = side[source + c]!;
+        } else this.evalNode(x0 + i * STEP, z0 + j * STEP, t, k);
+      }
     }
     this.tiles.set(key, t);
     return t;
@@ -342,12 +371,12 @@ export class Habitat {
     const w10 = u * (1 - v);
     const w01 = (1 - u) * v;
     const w11 = u * v;
-    const q = (o: number) => t[a + o]! * w00 + t[b + o]! * w10 + t[c + o]! * w01 + t[d + o]! * w11;
-    out.open = q(0);
-    out.wet = q(1);
-    out.dry = q(2);
-    out.wood = q(3);
-    out.slope = q(4);
+    // Keep channel arithmetic in the original order without a per-sample helper closure.
+    out.open = t[a + 0]! * w00 + t[b + 0]! * w10 + t[c + 0]! * w01 + t[d + 0]! * w11;
+    out.wet = t[a + 1]! * w00 + t[b + 1]! * w10 + t[c + 1]! * w01 + t[d + 1]! * w11;
+    out.dry = t[a + 2]! * w00 + t[b + 2]! * w10 + t[c + 2]! * w01 + t[d + 2]! * w11;
+    out.wood = t[a + 3]! * w00 + t[b + 3]! * w10 + t[c + 3]! * w01 + t[d + 3]! * w11;
+    out.slope = t[a + 4]! * w00 + t[b + 4]! * w10 + t[c + 4]! * w01 + t[d + 4]! * w11;
     return out;
   }
 }

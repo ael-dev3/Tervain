@@ -1,0 +1,123 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "quality": "low",
+  "position": {
+    "x": 18,
+    "y": 1.1747645139694214,
+    "z": 20
+  },
+  "size": 64,
+  "extent": 28,
+  "nativeMoverCount": 32,
+  "rows": {
+    "native": {
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 1127,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    },
+    "before": {
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 1127,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    },
+    "after": {
+      "updates": 60,
+      "passes": 35,
+      "shiftPasses": 1,
+      "moverRecords": 167,
+      "maxMovers": 48,
+      "passSequenceSha256": "eba41e569a5e25fb6fd5b62e13a5de4bed524d1d2ae4452833c4c74082148250",
+      "allFrameFieldSha256": "c0138435459673907a984f2bbea8586f8ebe658180b553b69278d7a593a0803e",
+      "drawCalls": 117,
+      "triangles": 644502
+    }
+  },
+  "counts": {
+    "native": {
+      "before": {
+        "size": 64,
+        "extent": 28,
+        "submittedMovers": 32,
+        "inputMovers": 32,
+        "loopVisits": 131072,
+        "fieldSha256": "0edaad17c7b5c4351eab5d550c064261adb5842ea958853fdefbc46e0aaa5f84",
+        "nonzeroChannels": 18
+      },
+      "after": {
+        "size": 64,
+        "extent": 28,
+        "submittedMovers": 2,
+        "inputMovers": 32,
+        "loopVisits": 8192,
+        "fieldSha256": "0edaad17c7b5c4351eab5d550c064261adb5842ea958853fdefbc46e0aaa5f84",
+        "nonzeroChannels": 18
+      }
+    },
+    "high": {
+      "before": {
+        "size": 256,
+        "extent": 48,
+        "submittedMovers": 32,
+        "inputMovers": 32,
+        "loopVisits": 2097152,
+        "fieldSha256": "b541aba1222fc6293f8e07dbf8db6198c7196d512424fa513d011df84743dbaf",
+        "nonzeroChannels": 168
+      },
+      "after": {
+        "size": 256,
+        "extent": 48,
+        "submittedMovers": 3,
+        "inputMovers": 32,
+        "loopVisits": 196608,
+        "fieldSha256": "b541aba1222fc6293f8e07dbf8db6198c7196d512424fa513d011df84743dbaf",
+        "nonzeroChannels": 168
+      }
+    },
+    "edge": {
+      "before": {
+        "size": 64,
+        "extent": 28,
+        "submittedMovers": 3,
+        "inputMovers": 3,
+        "loopVisits": 12288,
+        "fieldSha256": "5fa9723c5b0e473c6a4d5223c72b64db1b252cadd7126e3e4c26fa69ecef3a26",
+        "nonzeroChannels": 15
+      },
+      "after": {
+        "size": 64,
+        "extent": 28,
+        "submittedMovers": 2,
+        "inputMovers": 3,
+        "loopVisits": 8192,
+        "fieldSha256": "5fa9723c5b0e473c6a4d5223c72b64db1b252cadd7126e3e4c26fa69ecef3a26",
+        "nonzeroChannels": 15
+      }
+    }
+  },
+  "changedChannels": {
+    "before": 0,
+    "after": 0
+  },
+  "sourceSha256": {
+    "original": "e4e8b5b093fc7b86bf8a432fe2c90b68aa6ff292a5793805dbc30b15e6f45069",
+    "before": "da3ecfb1380fea4c8f5bca5faf91f427ebd264ebeffdf3ce986a14f382533c1c",
+    "after": "033b66d3d08600149a703aa7ffbdc7fd392116919e02944d6e7ec0cb6ab53e89"
+  },
+  "scope": "Published native mover snapshot and field. Compare native original, parent shader-only fix and CPU-filter candidate across a 60-update walk/brush/scroll/catch-up replay; exact half-float bytes and pass layout checked. Count submitted mover records and logical loop visits at every texel. High is a controlled High-sized field in a Low world; edge fixture is controlled. No physical upload-byte or hardware frame-time claim.",
+  "pass": true
+}

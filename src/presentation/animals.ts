@@ -391,6 +391,7 @@ interface AnimalInstance extends AnimalBody {
 export interface AnimalWildlife extends SceneModule {
   setPeople(people: readonly PhysicalActor[]): void;
   readonly contacts: readonly Collider[];
+  /** Borrowed inputs refreshed on each read; copy values when retaining a historical snapshot. */
   readonly physicalActors: readonly PhysicalActor[];
   snapshot(): AnimalSnapshot[];
   /** `hunter`: where the hunter stands for a restore, so returning animals settle away from him (A101 scout). */
@@ -631,6 +632,10 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
   yield* hunting.prepare(animals);
   hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = ctx.quality !== 'low'; });
   group.add(hunting.group);
+  const physicalInputs: PhysicalActor[] = [];
+  const physicalRows: PhysicalActor[] = animals.map(animal => ({ id: `animal:${animal.definition.id}`,
+    x: 0, y: 0, z: 0, radius: 0, height: 0, active: true }));
+  let animalShadows = ctx.quality !== 'low';
 
   return {
     group,
@@ -668,12 +673,19 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
         minY: animal.root.position.y, maxY: animal.root.position.y + animal.size.y }));
     },
     get physicalActors(): PhysicalActor[] {
-      return animals.filter(animal => hunting.isVisible(animal) && animal !== ridden?.animal).map(animal => {
-        const corpse = hunting.corpseContact(animal);
-        return { id: `animal:${animal.definition.id}`, x: corpse?.x ?? animal.root.position.x, y: corpse?.minY ?? animal.root.position.y, z: corpse?.z ?? animal.root.position.z,
-          radius: corpse ? corpse.kind === 'box' ? Math.max(.18, Math.hypot(corpse.hw, corpse.hd)) : corpse.r : Math.max(.18, animal.size.x * .5),
-          height: corpse ? Math.max(.25, corpse.maxY! - corpse.minY!) : Math.max(animal.size.x, animal.size.y), active: true };
-      });
+      physicalInputs.length = 0;
+      for (let i = 0; i < animals.length; i++) {
+        const animal = animals[i]!;
+        if (!hunting.isVisible(animal) || animal === ridden?.animal) continue;
+        const corpse = hunting.corpseContact(animal), row = physicalRows[i]!;
+        row.x = corpse?.x ?? animal.root.position.x;
+        row.y = corpse?.minY ?? animal.root.position.y;
+        row.z = corpse?.z ?? animal.root.position.z;
+        row.radius = corpse ? corpse.kind === 'box' ? Math.max(.18, Math.hypot(corpse.hw, corpse.hd)) : corpse.r : Math.max(.18, animal.size.x * .5);
+        row.height = corpse ? Math.max(.25, corpse.maxY! - corpse.minY!) : Math.max(animal.size.x, animal.size.y);
+        physicalInputs.push(row);
+      }
+      return physicalInputs;
     },
     snapshot: () => animals.map(animal => ({ id: animal.definition.id, species: animal.definition.species, x: animal.root.position.x,
       y: animal.root.position.y, z: animal.root.position.z, yaw: animal.yaw, radius: animal.home.radius,
@@ -687,6 +699,16 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
       hunter = { x: frame.focus.x, z: frame.focus.z };
       hunting.update(dt, frame.reducedMotion);
       hunting.group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
+      const shadows = frame.quality !== 'low';
+      if (shadows !== animalShadows) {
+        // Animal meshes are fixed after construction. Refresh them only when shadow
+        // policy changes, before the ridden-animal early return as well. Effects
+        // above can create meshes during hunting.update and still need their walk.
+        for (const animal of animals) animal.scene.traverse(object => {
+          if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = shadows;
+        });
+        animalShadows = shadows;
+      }
       for (const animal of animals) {
         const p = animal.root.position, distance = Math.hypot(p.x - frame.focus.x, p.z - frame.focus.z);
         if (ridden?.animal === animal) {
@@ -709,7 +731,6 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
         }
         // All nineteen remain in the scene on every preset. Expanded skin bounds let Three's actual
         // camera/shadow frusta reject submissions without a visible distance seam.
-        animal.scene.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = frame.quality !== 'low'; });
         if (!hunting.isVisible(animal) || hunting.isDead(animal)) continue;
         if (animal.alarm) { animal.alarm.remaining -= dt; if (animal.alarm.remaining <= 0) animal.alarm = null; }
         const fleeingFrom = animal.alarm ? new THREE.Vector3(animal.alarm.x, p.y, animal.alarm.z) : frame.focus;
@@ -737,7 +758,12 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
             const dx = target.x - p.x, dz = target.z - p.z, length = Math.hypot(dx, dz);
             const desiredYaw = Math.atan2(dx, dz), turn = Math.atan2(Math.sin(desiredYaw - animal.yaw), Math.cos(desiredYaw - animal.yaw));
             animal.yaw += THREE.MathUtils.clamp(turn, -dt * 3.5, dt * 3.5);
-            const turning = Math.abs(turn) > 0.18;
+            // The rendered body eases toward navigation yaw in place(). Do not
+            // translate along the new path while it still faces the old one.
+            forward.set(0, 0, 1).applyQuaternion(animal.root.quaternion);
+            const facing = Math.atan2(forward.x, forward.z);
+            const facingTurn = Math.atan2(Math.sin(desiredYaw - facing), Math.cos(desiredYaw - facing));
+            const turning = Math.abs(turn) > 0.18 || Math.abs(facingTurn) > 0.18;
             const step = turning ? 0 : Math.min(length, dt * animal.animation.referenceSpeed(animal.state));
             const extras = extrasFor(animal, frame.focus);
             const next = colliders.move(p.x, p.z, dx / Math.max(length, 1e-5) * step, dz / Math.max(length, 1e-5) * step, animal.home.radius,

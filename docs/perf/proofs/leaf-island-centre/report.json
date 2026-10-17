@@ -1,0 +1,69 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "f86a4ab953312fe6ebf0b3d9088b78749431b1bf9be50881b8d30e4f6a579138",
+  "supportSha256": "83a9dc1a76e7d259a5eb425861e48d1a9751ca6fc8bd88672ed8f7db2b56c8ca",
+  "referenceSha256": "0c4aa3ff3ce451c7a8b951916768cd9eeec4b4757180a5be142d2f015ef51b8b",
+  "scope": "Actual load-time island repair on synthetic alpha cards. Diagnostic-only opaque-sample reference retains every N=6 sample and excludes transparent centres from contact/move origins; not a shipping patch or live crown-quality/performance result. A reference contact does not establish that every opaque island inside a triangle is connected.",
+  "rows": [
+    {
+      "kind": "transparent-centre",
+      "reach": 0.5,
+      "opaqueSampleGapBefore": 2.899999998509884,
+      "live": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "liveGap": 2.899999998509884,
+      "livePositionsUnchanged": true,
+      "reference": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "referenceGap": 0.3999999985098839
+    },
+    {
+      "kind": "opaque-tip-control",
+      "reach": 0.5,
+      "opaqueSampleGapBefore": 0.09999990463256836,
+      "live": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "liveGap": 0.09999990463256836,
+      "livePositionsUnchanged": true,
+      "reference": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "referenceGap": 0.09999990463256836
+    },
+    {
+      "kind": "opaque-filled-control",
+      "reach": 0.5,
+      "opaqueSampleGapBefore": 0.3999999985098839,
+      "live": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "liveGap": 0.3999999985098839,
+      "livePositionsUnchanged": true,
+      "reference": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "referenceGap": 0.3999999985098839
+    }
+  ],
+  "glError": 0,
+  "contextLost": false,
+  "draws": 4,
+  "triangles": 26,
+  "baselineBugReproduced": true,
+  "pass": true
+}

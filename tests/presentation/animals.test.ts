@@ -8,7 +8,7 @@ import { Terrain } from '../../src/world/terrain';
 import type { FrameContext } from '../../src/presentation/context';
 import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
-import { animalFixture } from './animalFixture';
+import { animalFixture, animalTemplates } from './animalFixture';
 import * as navigation from '../../src/presentation/animals/navigation';
 
 const flat: AnimalTerrain = { heightAt: () => 0, walkable: () => true, carveAt: () => 0, seaDepth: () => 0, deckAt: () => null };
@@ -115,6 +115,31 @@ describe('peaceful animated land wildlife', () => {
       expect(module.snapshot().every(animal => animal.visible)).toBe(true);
       module.dispose?.();
     }
+  });
+
+  it('refreshes animal shadow flags only on policy changes, including the ridden mount', () => {
+    const templates = new Map(ANIMALS.map(definition => [definition.id, animalFixture()]));
+    const module = buildAnimals({ terrain: new Terrain(), colliders: new Colliders(), quality: 'high' }, templates, ANIMALS, () => {});
+    const meshes: THREE.Mesh[] = [];
+    for (const root of module.movers!()) root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
+    let writes = 0;
+    for (const mesh of meshes) {
+      let value = mesh.castShadow;
+      Object.defineProperty(mesh, 'castShadow', { configurable: true, get: () => value, set: next => { writes++; value = next; } });
+    }
+    const input = frame(new THREE.Vector3(1000, 50, -1000));
+    try {
+      for (let i = 0; i < 120; i++) module.update(1 / 60, input);
+      expect(writes).toBe(0);
+      const mount = ANIMALS.find(a => a.tame && !a.seated && a.species === 'deer')!;
+      module.ride(mount.id, { x: 0, z: 15, yaw: 0, speed: 0 });
+      input.quality = 'low'; module.update(1 / 60, input);
+      expect(writes).toBe(meshes.length); expect(meshes.every(mesh => !mesh.castShadow)).toBe(true);
+      input.quality = 'medium'; module.update(1 / 60, input);
+      expect(writes).toBe(meshes.length * 2); expect(meshes.every(mesh => mesh.castShadow)).toBe(true);
+      input.quality = 'high'; module.update(1 / 60, input);
+      expect(writes).toBe(meshes.length * 2);
+    } finally { module.dispose?.(); }
   });
 
   it('freezes wildlife and gesture events while play is paused, then emits from the actual Call pose', () => {
@@ -294,3 +319,28 @@ it('keeps cached path coordinates local to a search while refreshing changed dyn
   colliders.setActive('thin-wall',false);
   expect(findAnimalPath(dog,home,goal,home,.45,flat,colliders)).toEqual([goal]);
 });
+
+
+it('waits for the displayed cat heading before translating onto a new path', async () => {
+  const definition = ANIMALS.find(a => a.id === '1005232556')!;
+  const terrain = new Terrain(), templates = await animalTemplates([definition]);
+  const module = buildAnimals({ terrain, colliders: buildStaticColliders(terrain), quality: 'high' }, templates, [definition], () => {});
+  const root = module.group.children.find(o => o.name === `cat / ${definition.id}`)!;
+  const input = frame(new THREE.Vector3(1000, 50, -1000));
+  let previous = root.position.clone(), moving = 0, maxError = 0;
+  try {
+    for (let i = 0; i < 600; i++) {
+      module.update(1 / 60, input);
+      const dx = root.position.x - previous.x, dz = root.position.z - previous.z;
+      if (Math.hypot(dx, dz) * 60 > .01) {
+        const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(root.quaternion);
+        const turn = Math.atan2(dx, dz) - Math.atan2(forward.x, forward.z);
+        maxError = Math.max(maxError, Math.abs(Math.atan2(Math.sin(turn), Math.cos(turn))));
+        moving++;
+      }
+      previous.copy(root.position);
+    }
+    expect(moving).toBeGreaterThan(100);
+    expect(maxError).toBeLessThan(.18);
+  } finally { module.dispose?.(); }
+}, 20_000);

@@ -1,0 +1,162 @@
+{
+  "baseline": "1915d729b",
+  "beforeSourceSha256": "a740991a0640bf36f46d9f99c327c5304209d09e0e536da030c3e5ca14f69a1d",
+  "sourceSha256": "a740991a0640bf36f46d9f99c327c5304209d09e0e536da030c3e5ca14f69a1d",
+  "scope": "Actual production placement audits and software-WebGL fixture with native drawRange rendering. Hidden complete triangles are referenced by index/vertex data but outside the rendered prefix or tail. Diagnostic correctness only; not a live asset count, visual repair or hardware performance claim.",
+  "rows": {
+    "before": {
+      "prop-tail-indexed": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 0
+      },
+      "prop-tail-vertices": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 0
+      },
+      "prop-prefix-indexed": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 2.5
+      },
+      "prop-prefix-vertices": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 2.5
+      },
+      "root-tail-indexed": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-tail-vertices": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-prefix-indexed": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-prefix-vertices": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "prop-control": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "minGap": 0
+      },
+      "root-control": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 1,
+        "minGap": 0.30000001192092896
+      }
+    },
+    "after": {
+      "prop-tail-indexed": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 0
+      },
+      "prop-tail-vertices": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 0
+      },
+      "prop-prefix-indexed": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 2.5
+      },
+      "prop-prefix-vertices": {
+        "complete": true,
+        "checks": 2,
+        "candidates": 1,
+        "invalid": 0,
+        "minGap": 2.5
+      },
+      "root-tail-indexed": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-tail-vertices": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-prefix-indexed": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "root-prefix-vertices": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "invalid": 0,
+        "minGap": -2.4492937051703357e-16
+      },
+      "prop-control": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 0,
+        "minGap": 0
+      },
+      "root-control": {
+        "complete": true,
+        "checks": 1,
+        "candidates": 1,
+        "minGap": 0.30000001192092896
+      }
+    }
+  },
+  "draws": {
+    "before": {
+      "calls": 3,
+      "triangles": 78
+    },
+    "after": {
+      "calls": 3,
+      "triangles": 78
+    }
+  },
+  "glError": 0,
+  "contextLost": false,
+  "identicalPixels": true,
+  "pass": false
+}

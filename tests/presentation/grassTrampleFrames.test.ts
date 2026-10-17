@@ -22,10 +22,11 @@ function rendererFixture() {
       const material = (scene.children[0] as THREE.Mesh).material as THREE.ShaderMaterial;
       const u = material.uniforms;
       if (!u.uMoverCount) return;
-      const movers = u.uMovers!.value as THREE.Vector4[], velocities = u.uMoverVel!.value as THREE.Vector2[];
+      const movers = u.uMovers!.value as Float32Array, velocities = u.uMoverVel!.value as Float32Array;
       passes.push({
-        stamps: movers.slice(0, u.uMoverCount.value as number).map((m, i) => ({
-          x: m.x, z: m.y, radius: m.z, weight: m.w, vx: velocities[i]!.x, vz: velocities[i]!.y,
+        stamps: Array.from({ length: u.uMoverCount.value as number }, (_, i) => ({
+          x: movers[i * 4]!, z: movers[i * 4 + 1]!, radius: movers[i * 4 + 2]!, weight: movers[i * 4 + 3]!,
+          vx: velocities[i * 2]!, vz: velocities[i * 2 + 1]!,
         })),
         keep: (u.uKeep!.value as THREE.Vector2).toArray(),
         fragment: material.fragmentShader,
@@ -36,6 +37,19 @@ function rendererFixture() {
 }
 
 describe('grass brush stamps between fixed GPU steps', () => {
+  it('keeps edge-crossing footprints and selects retained actors again after scrolling', () => {
+    const field = new GrassTrample(16, 8);
+    const { renderer, passes, previous } = rendererFixture();
+    try {
+      field.setMovers([{ x: 4.4, z: 0, radius: 1 }, { x: 100, z: 0, radius: 1 }]);
+      field.queueStamps([{ x: 104, z: 0, radius: 1 }]);
+      field.update(renderer, 0, 0, 1 / 30);
+      expect(passes[0]!.stamps.map(s => s.x)).toEqual([Math.fround(4.4)]);
+      field.update(renderer, 100, 0, 1 / 30);
+      expect(passes[1]!.stamps.map(s => s.x)).toEqual([100]);
+    } finally { field.dispose(); previous.dispose(); }
+  });
+
   it('drops footprints without half-float targets and keeps only the newest when steps stall (A71)', () => {
     const field = new GrassTrample(16, 1000, { x: 0, z: 0 });
     const { renderer, passes, previous } = rendererFixture();
@@ -58,6 +72,26 @@ describe('grass brush stamps between fixed GPU steps', () => {
     } finally { GPU.halfTargets = half; field.dispose(); previous.dispose(); }
   });
 
+  it('omits footprints outside the current field while retaining edge contacts and consuming queued stamps', () => {
+    const field = new GrassTrample(16, 8), { renderer, passes, previous } = rendererFixture();
+    try {
+      field.setMovers([{ x: 0, z: 0, radius: .5 }, { x: 100, z: 0, radius: .5 },
+        { x: 4.2, z: 0, radius: .5 }, { x: 0, z: -4.2, radius: .5 }]);
+      field.queueStamps([{ x: -100, z: 0, radius: .5 }]);
+      field.update(renderer, 0, 0, 1 / 30);
+      // Uploaded mover coordinates are single precision, as the shader receives them.
+      expect(passes[0]!.stamps.map(s => [s.x, s.z])).toEqual([[0, 0], [Math.fround(4.2), 0], [0, -Math.fround(4.2)]]);
+      // Filtering is after recentering, not in setMovers against the previous origin.
+      field.setMovers([{ x: 100, z: 0, radius: .5 }]);
+      field.update(renderer, 100, 0, 1 / 30);
+      expect(passes.at(-1)!.stamps.map(s => s.x)).toEqual([100]);
+      field.setMovers([]);
+      field.update(renderer, -100, 0, 1 / 30);
+      expect(passes.at(-1)!.stamps).toEqual([]);
+      expect(renderer.getRenderTarget()).toBe(previous);
+    } finally { field.dispose(); previous.dispose(); }
+  });
+
   it.each([60, 120])('keeps every transient sample across %i Hz frames until the 30 Hz step consumes it', (hz) => {
     const field = new GrassTrample(16, 100, { x: 0, z: 0 });
     const { renderer, passes, previous } = rendererFixture();
@@ -71,7 +105,7 @@ describe('grass brush stamps between fixed GPU steps', () => {
       }
       expect(passes).toHaveLength(1);
       expect(passes[0]!.stamps.map((s) => s.x)).toEqual([20 + frames - 1, ...Array.from({ length: frames }, (_, i) => i)]);
-      expect(passes[0]!.stamps.slice(1).every((s) => s.weight === 0.3 && s.vx === 3 && s.vz === 1)).toBe(true);
+      expect(passes[0]!.stamps.slice(1).every((s) => s.weight === Math.fround(0.3) && s.vx === 3 && s.vz === 1)).toBe(true);
       field.setMovers([]);
       field.update(renderer, 0, 0, 1 / 30);
       expect(passes[1]!.stamps).toHaveLength(0);

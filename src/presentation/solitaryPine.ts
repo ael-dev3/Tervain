@@ -4,6 +4,7 @@ import { createGltfLoader } from './assets/gltfLoader';
 import { mulberry32 } from '../world/noise';
 import type { Species, TreeVariant } from './treeGen';
 import { barkTextures } from './treeTextures';
+import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, remapPineToAtlas } from './leafAtlas';
 import { installBarkDetail } from './treeMaterials';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { modelAssetUrl } from './assets/modelUrl';
@@ -52,6 +53,8 @@ function load(file: string): Promise<GLTF> {
 export async function loadSolitaryPine(progress?: ModelLoadProgress): Promise<PineTemplates> {
   let complete = 0, active = true;
   progress?.(0, PINE_FILES.length);
+  // B12: the procedural leaf atlases load beside the models (a failure keeps the earlier needle sheet).
+  if (leafAtlasWanted()) await loadLeafAtlas();
   try {
     return await Promise.all(PINE_FILES.map(async file => {
       const template = await load(file);
@@ -109,6 +112,10 @@ function woodRadius(lods: TreeVariant['lods'], top: number): number {
     const positions = geometry.getAttribute('position'), index = geometry.index;
     const count = index?.count ?? positions.count;
     for (let i = 0; i < count; i += 3) {
+      const ai = index ? index.getX(i) : i, bi = index ? index.getX(i + 1) : i + 1, ci = index ? index.getX(i + 2) : i + 2;
+      // A triangle wholly above the clearance plane cannot enter the footprint.
+      // Keep crossing edges on the original path, including their exact interpolation.
+      if (positions.getY(ai) > top && positions.getY(bi) > top && positions.getY(ci) > top) continue;
       for (let edge = 0; edge < 3; edge++) {
         const ai = index ? index.getX(i + edge) : i + edge;
         const bi = index ? index.getX(i + (edge + 1) % 3) : i + (edge + 1) % 3;
@@ -166,6 +173,16 @@ export function createPineForest(templates: PineTemplates): PineForest {
     return material;
   };
   const nearMaterials = { wood: cloneMaterial(source[0]!.wood!.material), leaf: cloneMaterial(source[0]!.leaf.material) };
+  // B12: near and mid needles (one shared material) take the procedural pine pads, painted at the sheet's mean colour.
+  const pads = leafAtlasInUse();
+  let needleAtlas: THREE.DataTexture | null = null;
+  if (pads) {
+    const cutoff = Math.max(0.05, nearMaterials.leaf.alphaTest) / 1.3;
+    needleAtlas = leafAtlasTexture(pads.conifer, 'conifer', cutoff, 'conifer-needle-atlas');
+    nearMaterials.leaf.map = needleAtlas;
+    nearMaterials.leaf.defines = { ...nearMaterials.leaf.defines, TV_COVERAGE_MIPS: '' };
+    nearMaterials.leaf.needsUpdate = true;
+  }
   // Needle UVs match near; remeshed mid wood has its own baked bark atlas.
   const materials = [nearMaterials, { wood: cloneMaterial(source[1]!.wood!.material), leaf: nearMaterials.leaf }, { wood: source[2]!.wood ? cloneMaterial(source[2]!.wood.material) : null, leaf: cloneMaterial(source[2]!.leaf.material) }];
   // Playtest 7: the far model's baked needle planes average a linear albedo of 0.04 against the near needles' 0.16, so
@@ -199,8 +216,9 @@ export function createPineForest(templates: PineTemplates): PineForest {
         geometries.add(g);
         return g;
       };
-      const lods = source.map((part) => {
+      const lods = source.map((part, lod) => {
         const wood = prepare(part.wood), leaf = prepare(part.leaf);
+        if (leaf && pads && lod < 2) remapPineToAtlas(leaf);
         const triangles = (g: THREE.BufferGeometry | null) => g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0;
         return { wood, leaf, tris: triangles(wood) + triangles(leaf) };
       }) as TreeVariant['lods'];
@@ -217,7 +235,7 @@ export function createPineForest(templates: PineTemplates): PineForest {
       disposed = true;
       geometries.forEach((geometry) => geometry.dispose());
       ownedMaterials.forEach((material) => material.dispose());
-      textures.forEach((texture) => texture.dispose());
+      textures.forEach((texture) => texture.dispose()); needleAtlas?.dispose();
       variants.clear(); geometries.clear(); ownedMaterials.clear(); textures.clear();
     },
   };

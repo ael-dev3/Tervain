@@ -1,0 +1,905 @@
+{
+  "refs": {
+    "base": "4234920b2",
+    "references": "1915d729b",
+    "batch": "566a435a9"
+  },
+  "sourceHashes": {
+    "before": "d2794e3badadd086249735f9d4f96285b3f7aa77c6b0fada74454621571878e5",
+    "after": "9452402f2b5237ee232b7f30874d67b0e93fa2bed61a3ba6804bd18af54665ad",
+    "verticalSupports": "f67cbf557e2bc7326faf680645987877ff815c75e7766eca0175b51cea2efe4e",
+    "postprocessor": "d480a4f0ed64541a38d84d94ddcf43e792bd898dbe63bd60121e0d6fbd692444"
+  },
+  "maxVertices": 114839,
+  "summary": {
+    "before": {
+      "schema": 1,
+      "clearance": 0.08,
+      "maxVertices": 114839,
+      "kind": "prop",
+      "scope": "static scene components plus supplied full populations; intentional hanging/floating objects require review",
+      "complete": true,
+      "truncated": false,
+      "skipped": [],
+      "invalid": 0,
+      "summary": {
+        "checks": 26458,
+        "roots": 0,
+        "props": 26458,
+        "candidates": 2823
+      },
+      "furnitureReady": true
+    },
+    "after": {
+      "schema": 1,
+      "clearance": 0.08,
+      "maxVertices": 114839,
+      "kind": "prop",
+      "scope": "static scene components plus supplied full populations; intentional hanging/floating objects require review",
+      "complete": true,
+      "truncated": false,
+      "skipped": [],
+      "invalid": 0,
+      "summary": {
+        "checks": 26373,
+        "roots": 0,
+        "props": 26373,
+        "candidates": 2832
+      },
+      "furnitureReady": true
+    }
+  },
+  "regions": [
+    {
+      "name": "walk-fence",
+      "x": -2,
+      "z": 37.25,
+      "radius": 10,
+      "before": {
+        "checks": 1455,
+        "candidates": 136
+      },
+      "after": {
+        "checks": 1455,
+        "candidates": 136
+      }
+    },
+    {
+      "name": "run-round",
+      "x": -12.3,
+      "z": 44.8,
+      "radius": 10,
+      "before": {
+        "checks": 1203,
+        "candidates": 158
+      },
+      "after": {
+        "checks": 1203,
+        "candidates": 158
+      }
+    }
+  ],
+  "scope": "One frozen served 0.0.18 world, identical scene/populations/terrain for both public diagnostic implementations. Regional selection uses component centres within 10 m of tracked gate positions. Roots are the registered near/collision wood basal rings, not other LODs or wind deformation. Directional candidates require support review. Context images only; no gameplay replay, hardware timing, quality PASS or production placement change claim.",
+  "pass": true,
+  "rootSummary": {
+    "expectedRoots": 341,
+    "before": {
+      "summary": {
+        "checks": 341,
+        "roots": 341,
+        "props": 0,
+        "candidates": 0
+      },
+      "complete": true,
+      "rootsWithProbeGapOverClearance": 10,
+      "partialProbeChecks": [
+        {
+          "label": "tree:wild:74:7",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            88.17926285192195,
+            11.531043498111128,
+            -120.39269560014294
+          ],
+          "samples": 11,
+          "minGap": -0.3159351607450933,
+          "maxGap": 0.11037244220869624,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:30:31",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -184.08618532822345,
+            1.5824067953366407,
+            29.375415485659566
+          ],
+          "samples": 11,
+          "minGap": -0.7938933553797765,
+          "maxGap": 0.16429721304693312,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:26:34",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -210.2356330981562,
+            0.8085088932659963,
+            48.53345847815016
+          ],
+          "samples": 11,
+          "minGap": -0.33155195556844863,
+          "maxGap": 0.11832050651592219,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:27:34",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -204.56518425225346,
+            0.8598190889384463,
+            51.01809903155513
+          ],
+          "samples": 11,
+          "minGap": -0.1520875938282047,
+          "maxGap": 0.12274034677334389,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:25:37",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -216.52370954629077,
+            0.9523580451911756,
+            67.13112526299939
+          ],
+          "samples": 11,
+          "minGap": -0.36273291223495097,
+          "maxGap": 0.1724897809698751,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:76:40",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            98.04657435848432,
+            2.526568479744933,
+            88.61083377629082
+          ],
+          "samples": 11,
+          "minGap": -0.6291402896191745,
+          "maxGap": 0.08779596115726873,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:57:39",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -20.20238268807284,
+            1.3759234655434698,
+            78.56648131849079
+          ],
+          "samples": 11,
+          "minGap": -0.28421334750437977,
+          "maxGap": 0.09139788437816643,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:54:43",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -34.0340698428454,
+            0.5679034988090379,
+            106.56157971604391
+          ],
+          "samples": 11,
+          "minGap": -0.11363233670166767,
+          "maxGap": 0.11140531299698353,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:3:41",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            136.19040616418175,
+            3.5574263869501728,
+            56.40578389060111
+          ],
+          "samples": 11,
+          "minGap": -1.01506395645939,
+          "maxGap": 0.08267835331721018,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:3:42",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -97.78165723853425,
+            0.7818542189484016,
+            115.12262452915405
+          ],
+          "samples": 11,
+          "minGap": -0.17710482087233226,
+          "maxGap": 0.13255649492288513,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        }
+      ],
+      "maxProbeGap": 0.1724897809698751
+    },
+    "after": {
+      "summary": {
+        "checks": 341,
+        "roots": 341,
+        "props": 0,
+        "candidates": 0
+      },
+      "complete": true,
+      "rootsWithProbeGapOverClearance": 10,
+      "partialProbeChecks": [
+        {
+          "label": "tree:wild:74:7",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            88.17926285192195,
+            11.531043498111128,
+            -120.39269560014294
+          ],
+          "samples": 11,
+          "minGap": -0.3159351607450933,
+          "maxGap": 0.11037244220869624,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:30:31",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -184.08618532822345,
+            1.5824067953366407,
+            29.375415485659566
+          ],
+          "samples": 11,
+          "minGap": -0.7938933553797765,
+          "maxGap": 0.16429721304693312,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:26:34",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -210.2356330981562,
+            0.8085088932659963,
+            48.53345847815016
+          ],
+          "samples": 11,
+          "minGap": -0.33155195556844863,
+          "maxGap": 0.11832050651592219,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:27:34",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -204.56518425225346,
+            0.8598190889384463,
+            51.01809903155513
+          ],
+          "samples": 11,
+          "minGap": -0.1520875938282047,
+          "maxGap": 0.12274034677334389,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:25:37",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -216.52370954629077,
+            0.9523580451911756,
+            67.13112526299939
+          ],
+          "samples": 11,
+          "minGap": -0.36273291223495097,
+          "maxGap": 0.1724897809698751,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:76:40",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            98.04657435848432,
+            2.526568479744933,
+            88.61083377629082
+          ],
+          "samples": 11,
+          "minGap": -0.6291402896191745,
+          "maxGap": 0.08779596115726873,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:57:39",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -20.20238268807284,
+            1.3759234655434698,
+            78.56648131849079
+          ],
+          "samples": 11,
+          "minGap": -0.28421334750437977,
+          "maxGap": 0.09139788437816643,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:wild:54:43",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -34.0340698428454,
+            0.5679034988090379,
+            106.56157971604391
+          ],
+          "samples": 11,
+          "minGap": -0.11363233670166767,
+          "maxGap": 0.11140531299698353,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:3:41",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            136.19040616418175,
+            3.5574263869501728,
+            56.40578389060111
+          ],
+          "samples": 11,
+          "minGap": -1.01506395645939,
+          "maxGap": 0.08267835331721018,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        },
+        {
+          "label": "tree:3:42",
+          "kind": "root",
+          "component": 0,
+          "position": [
+            -97.78165723853425,
+            0.7818542189484016,
+            115.12262452915405
+          ],
+          "samples": 11,
+          "minGap": -0.17710482087233226,
+          "maxGap": 0.13255649492288513,
+          "unsupportedFraction": 0.09090909090909091,
+          "candidate": false
+        }
+      ],
+      "maxProbeGap": 0.1724897809698751
+    }
+  },
+  "changes": {
+    "removed": 85,
+    "removedCandidates": 7,
+    "added": 0,
+    "candidateChanges": [
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 0,
+          "position": [
+            -216,
+            2.0311986640095716,
+            31
+          ],
+          "minGap": 1.7881394160507158e-9,
+          "maxGap": 1.7881394160507158e-9,
+          "unsupportedFraction": 0,
+          "samples": 14,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 0,
+          "position": [
+            -216,
+            2.0311986640095716,
+            31
+          ],
+          "minGap": 0.91727590134556,
+          "maxGap": 1.008677793095588,
+          "unsupportedFraction": 1,
+          "samples": 14,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 7,
+          "position": [
+            -215.01000002026558,
+            1.846198660731316,
+            31
+          ],
+          "minGap": 4.172325153775636e-9,
+          "maxGap": 0.7501145190798049,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 7,
+          "position": [
+            -215.01000002026558,
+            1.846198660731316,
+            31
+          ],
+          "minGap": 0.7108234323989517,
+          "maxGap": 0.7501145190798049,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 8,
+          "position": [
+            -216.98999997973442,
+            1.846198660731316,
+            31
+          ],
+          "minGap": 4.172325153775636e-9,
+          "maxGap": 0.7898884895705311,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 8,
+          "position": [
+            -216.98999997973442,
+            1.846198660731316,
+            31
+          ],
+          "minGap": 0.7669299081982803,
+          "maxGap": 0.7898884895705311,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 9,
+          "position": [
+            -216,
+            1.41619866847992,
+            31
+          ],
+          "minGap": 2.5928020617668746e-8,
+          "maxGap": 2.5928020617668746e-8,
+          "unsupportedFraction": 0,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 9,
+          "position": [
+            -216,
+            1.41619866847992,
+            31
+          ],
+          "minGap": 0.32609799810478357,
+          "maxGap": 0.37797717813670606,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 16,
+          "position": [
+            -211.09999990463257,
+            1.8824028497934346,
+            32.55000001192093
+          ],
+          "minGap": 4.8428780968085006e-9,
+          "maxGap": 0.5594330605264783,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 16,
+          "position": [
+            -211.09999990463257,
+            1.8824028497934346,
+            32.55000001192093
+          ],
+          "minGap": 0.47743128335905105,
+          "maxGap": 0.5732378774176237,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 18,
+          "position": [
+            -211.94999992847443,
+            1.7910172319412236,
+            32.55000001192093
+          ],
+          "minGap": 1.244246905680868e-8,
+          "maxGap": 0.5416249175182113,
+          "unsupportedFraction": 0.75,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 18,
+          "position": [
+            -211.94999992847443,
+            1.7910172319412236,
+            32.55000001192093
+          ],
+          "minGap": 0.47880620974787824,
+          "maxGap": 0.5544931156631758,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 20,
+          "position": [
+            -216,
+            2.796198648810387,
+            32.12999999523163
+          ],
+          "minGap": 1.1920924265079735e-9,
+          "maxGap": 1.1920924265079735e-9,
+          "unsupportedFraction": 0,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:0",
+          "component": 20,
+          "position": [
+            -216,
+            2.796198648810387,
+            32.12999999523163
+          ],
+          "minGap": 1.4450878563330942,
+          "maxGap": 1.4861299099313412,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:1",
+          "component": 8,
+          "position": [
+            -215.38499999046326,
+            2.7961986637115483,
+            32.092000007629395
+          ],
+          "minGap": 2.4884939662725425e-8,
+          "maxGap": 1.7412126720426269,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:1",
+          "component": 8,
+          "position": [
+            -215.38499999046326,
+            2.7961986637115483,
+            32.092000007629395
+          ],
+          "minGap": 0.29100003838539146,
+          "maxGap": 1.7422007917728788,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:1",
+          "component": 9,
+          "position": [
+            -216.61500000953674,
+            2.7961986637115483,
+            32.092000007629395
+          ],
+          "minGap": 2.4884939662725425e-8,
+          "maxGap": 1.7771048926151336,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:1",
+          "component": 9,
+          "position": [
+            -216.61500000953674,
+            2.7961986637115483,
+            32.092000007629395
+          ],
+          "minGap": 0.29100003838539146,
+          "maxGap": 1.7771048926151336,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 0,
+          "position": [
+            -218.78999996185303,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 3.9904449524244545e-8,
+          "maxGap": 0.008391536940438373,
+          "unsupportedFraction": 0,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 0,
+          "position": [
+            -218.78999996185303,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 0.8363043111309576,
+          "maxGap": 0.8369958964431401,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 1,
+          "position": [
+            -219.69000005722046,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 1.417859838443586e-7,
+          "maxGap": 0.00839147965061038,
+          "unsupportedFraction": 0,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 1,
+          "position": [
+            -219.69000005722046,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 0.7990722956290863,
+          "maxGap": 0.7997638455048541,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 2,
+          "position": [
+            -220.5900001525879,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 2.4837311274512885e-7,
+          "maxGap": 0.008391483646907007,
+          "unsupportedFraction": 0,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Hunter’s supplies / woodland counter:merged:3",
+          "component": 2,
+          "position": [
+            -220.5900001525879,
+            2.461791132986546,
+            34.75600004196167
+          ],
+          "minGap": 0.764715808974584,
+          "maxGap": 0.7653951740318785,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 0,
+          "position": [
+            -101.4000015258789,
+            2.6234418153762817,
+            32.44999885559082
+          ],
+          "minGap": 7.420777747672858e-8,
+          "maxGap": 0.9013979910573655,
+          "unsupportedFraction": 0.75,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 0,
+          "position": [
+            -101.4000015258789,
+            2.6234418153762817,
+            32.44999885559082
+          ],
+          "minGap": 0.852334903555857,
+          "maxGap": 0.9013979910573655,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 1,
+          "position": [
+            -98.20000076293945,
+            2.6234418153762817,
+            32.44999885559082
+          ],
+          "minGap": 7.420777747672858e-8,
+          "maxGap": 1.4937000199433896,
+          "unsupportedFraction": 0.5,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 1,
+          "position": [
+            -98.20000076293945,
+            2.6234418153762817,
+            32.44999885559082
+          ],
+          "minGap": 1.4644705424343556,
+          "maxGap": 1.4937000199433896,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 2,
+          "position": [
+            -97.85000228881836,
+            1.3586187362670898,
+            31.074000358581543
+          ],
+          "minGap": 3.1143426502608373e-8,
+          "maxGap": 0.29967494890183843,
+          "unsupportedFraction": 0.75,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 2,
+          "position": [
+            -97.85000228881836,
+            1.3586187362670898,
+            31.074000358581543
+          ],
+          "minGap": 0.29850480117147526,
+          "maxGap": 0.29967494890183843,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      },
+      {
+        "before": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 3,
+          "position": [
+            -97.5099983215332,
+            1.3586187362670898,
+            31.074000358581543
+          ],
+          "minGap": 3.1143426502608373e-8,
+          "maxGap": 0.29967494890183843,
+          "unsupportedFraction": 0.75,
+          "samples": 4,
+          "candidate": false
+        },
+        "after": {
+          "label": "Caravan mount / hitching rest:merged:1",
+          "component": 3,
+          "position": [
+            -97.5099983215332,
+            1.3586187362670898,
+            31.074000358581543
+          ],
+          "minGap": 0.29850480117147526,
+          "maxGap": 0.29967494890183843,
+          "unsupportedFraction": 1,
+          "samples": 4,
+          "candidate": true
+        }
+      }
+    ]
+  },
+  "servedBuild": {
+    "version": "0.0.18",
+    "revision": "4234920b2"
+  },
+  "detailFile": "comparison-details.json.gz"
+}

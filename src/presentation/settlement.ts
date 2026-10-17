@@ -1,5 +1,6 @@
+import { buildFenceRun } from './fenceContacts';
 import * as THREE from 'three';
-import { addCartColliders, FENCE_WALL_LIFT, type Colliders, type VerticalBounds } from '../world/colliders';
+import { addCartColliders, type Colliders, type VerticalBounds } from '../world/colliders';
 import {
   ANCHORS,
   ARRIVAL_WRECK,
@@ -29,7 +30,7 @@ import { authorMillWheel, authorMillWheelSupports } from './millWheel';
 import { buildArchiveShell, buildLighthouse, buildStandard, DOOR_LEAF_INSET, groundOf, roomInterior, type BuildOut, type DoorLeaf } from './buildings';
 import { roomOf } from '../world/interiors';
 import { FURNITURE } from '../world/furniture';
-import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, workTable, wreck } from './props';
+import { benchSet, campfire, cart, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, workTable, wreck } from './props';
 import { MaterialSet, Region } from './regions';
 import { signSway, type SwingingPart } from './innSign';
 import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, villageBell, windowAt, woodpile, type Rnd } from './structures';
@@ -576,7 +577,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const fireBounds = physicalBounds(R);
     campfire(R, rnd, fire.x, gy(fire.x, fire.z), fire.z);
     const fireLimits = fireBounds();
-    benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4);
+    benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4, gy);
     lanternPositions.push(new THREE.Vector3(fire.x, gy(fire.x, fire.z) + 1.0, fire.z));
     const pots = HAMLET_PROPS.pots;
     for (let i = 0; i < 4; i++) {
@@ -760,18 +761,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   {
     const R = region('village');
     const rnd: Rnd = mulberry32(6400);
-    const fenceRun = (pts: [number, number][]) => {
-      const bounds = physicalBounds(R);
-      fence(R, rnd, pts, gy);
-      // The fence stands as a wall 0.6 m above its top rail (A125): at its own height it was a step onto the rail on any
-      // slope, and the hero walked along it as along a ramp. It is crossed by a vault (player.ts) instead.
-      const drawn = bounds(), limits = { ...drawn, maxY: drawn.maxY === undefined ? undefined : drawn.maxY + FENCE_WALL_LIFT };
-      for (let i = 0; i < pts.length - 1; i++) {
-        const [ax, az] = pts[i]!;
-        const [bx, bz] = pts[i + 1]!;
-        colliders.box('fence', (ax + bx) / 2, (az + bz) / 2, 0.12, Math.hypot(bx - ax, bz - az) / 2, Math.atan2(bx - ax, bz - az), true, limits);
-      }
-    };
+    const fenceRun = (pts: [number, number][]) => buildFenceRun(R, rnd, pts, gy, colliders);
     for (const f of FIELDS) {
       const c = Math.cos(f.yaw);
       const s = Math.sin(f.yaw);
@@ -810,7 +800,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   {
     const R = region('village');
     const rnd: Rnd = mulberry32(6600);
-    for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw);
+    for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw, gy);
     // The town's loose barrels now belong to the same physical work-supply system.
     const ky = gy(15, 20.5);
     // Existing tool station: trestles, a folded repair cloth, a gauge and a mallet share one coherent work site.

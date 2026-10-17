@@ -4,11 +4,11 @@
  * fixed stills at each, and runs the automated checks a fix must pass before it is claimed.
  *
  *   node tools/visual-gate.mjs [--url <build>] [--tag <name>] [--out visual-gate-runs] [--profile mac|desktop]
- *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,room_b,room_c,room_d,room_f,sign,woods,deepwoods]
+ *                              [--baseline <metrics.json>] [--spots giant,grove,meadow,fence,hearth,fireplace,room_b,room_c,room_d,room_f,sign,woods,deepwoods]
  *
  * Writes <out>/<tag>/: one folder per spot (still-*.jpg, frames/, clip.mp4), metrics.json and report.md (media as
  * MEDIA/<tag>/... for tools/publish-gate.mjs). Checks, each failing the run:
- *  - placement: complete forest-root coverage; more root candidates than --baseline is a regression;
+ *  - placement: complete forest-root coverage; new root candidates relative to --baseline are a regression;
  *    run tools/audit-placement.mjs separately for informational static-prop candidates;
  *  - vault: real-key fence approaches (walk and run, 0°/30°/50°, jump at 1.6/1.0/0.6 m) must all cross;
  *  - bow: the slung bow's limbs and string must stay outside the hero's torso while he walks and runs;
@@ -17,7 +17,8 @@
  * report afterwards; the gate cannot judge art.
  */
 import { shimmerVerdict } from './shimmer-verdict.mjs';
-import { rootAuditVerdict } from './root-audit-verdict.mjs';
+import { readVisualBaseline } from './read-visual-baseline.mjs';
+import { rootAuditVerdict, rootBaselineLabels } from './root-audit-verdict.mjs';
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,7 +29,7 @@ const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
 const TAG = args.tag ?? `vg-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
 const OUT = path.join(path.resolve(args.out ?? 'visual-gate-runs'), TAG);
 const PROFILE = { mac: { w: 1440, h: 900, dpr: 2 }, desktop: { w: 1280, h: 720, dpr: 1 } }[args.profile ?? 'mac'];
-const baseline = args.baseline && fs.existsSync(args.baseline) ? JSON.parse(fs.readFileSync(args.baseline, 'utf8')) : null;
+const baseline = readVisualBaseline(args.baseline);
 
 /** The playtest's spots. `hero`: [x, z, yaw]; `still`: fixed cameras [px, py, pz, lx, ly, lz] relative to the hero's
  * ground; `path`: a camera move (start and end camera) for the clip, or `run` to record the hero running through. */
@@ -39,6 +40,7 @@ const SPOTS = {
   meadow: { item: 'Grass: sparkle and pop-in while moving', hero: [6, 26, 0], still: [[0, 1.9, -3.2, 0, 1, 4], [2, 1.6, -1, 0, .6, 6]], run: 4500 },
   fence: { item: 'Fences: vault in real play', hero: [-4, 49, 0], still: [[2.6, 1.8, -1.5, 0, 1, 2.5]], path: [[3, 1.8, -2, 0, 1, 3], [-3, 1.8, -2, 0, 1, 3]] },
   hearth: { item: 'Interiors: hearth and lived-in room', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.7, 0, 3, 1.4, 0], [0, 1.7, 0, -3, 1.4, 0], [0, 1.7, 0, 0, 1.4, -3]], path: [[-1.5, 1.7, -1, 3, 1.3, 1], [1.5, 1.7, 1, -3, 1.3, -1]] },
+  fireplace: { item: 'Interiors: the fireplace against its wall, fire and mantel centred', hero: [-6, -6, 1.6], hide: true, still: [[0, 1.5, 0, 3, 1.0, -2.5], [1, 1.5, 0.5, 3, 0.9, -2.6], [0.4, 1.3, -0.4, 3, 0.9, -2.5]], path: [[-0.5, 1.5, 0.6, 3, 1.0, -2.4], [1.2, 1.4, -0.2, 3, 0.9, -2.5]] },
   // Playtest 7: the fisher mends nets 2.4 m in front of the net store (yaw 0.5); his head and hands at conversation range.
   peddler: { item: 'Residents: the net-mender by the cabin', hero: [-82.7, 32.1, 0.5], hide: true, still: [[1.2, 1.7, 2.2, 0, 1.55, 0], [-1.6, 1.6, 1.4, 0, 1.4, 0]], path: [[1.9, 1.7, 1.2, 0, 1.5, 0], [-1.2, 1.7, 2.2, 0, 1.5, 0]] },
   // Playtest 7, 0:28-0:33: looking up a wooded slope from below, where needle and leaf clumps floated against the sky.
@@ -51,6 +53,21 @@ const SPOTS = {
   deepwoods: { item: 'Trees: no floating leaf chunks deep in the forest at dusk', hero: [-166.9, -42.8, 0.6], hour: 19.8, still: [[0, 2.2, -3.2, 0, 4, 8]], run: 9000 },
   // Other households' rooms (A136), each from its middle towards both side walls and the back wall.
   ...Object.fromEntries([['b', 8, -10], ['c', 30, 14], ['d', -22, 20], ['f', -12, 44]].map(([k, x, z]) => [`room_${k}`, { item: `Interiors: house_${k}`, hero: [x, z, 0], hide: true, still: [[0, 1.7, 0.8, 3, 1.3, -0.6], [0, 1.7, 0.8, -3, 1.3, -0.6], [0, 1.7, 1.6, 0, 1.3, -3]], path: [[-1.2, 1.7, 1, 3, 1.3, -1], [1.2, 1.7, 1, -3, 1.3, -1]] }])),
+  // B12: the follow camera through the inn's door, in and out at noon and at dusk (never through the roof or the wall,
+  // never up among the rafters; tools/camera-doors.mjs measures every door).
+  door_in: { item: 'Camera: walking in through the inn door', hero: [-4.74, 39, Math.PI], still: [], run: 5600, keys: ['KeyW'] },
+  door_out: { item: 'Camera: walking out through the inn door', hero: [-4.74, 31, 0], still: [], run: 5200, keys: ['KeyW'] },
+  door_in_dusk: { item: 'Camera: walking in through the inn door at dusk', hero: [-4.74, 39, Math.PI], hour: 19.5, still: [], run: 5600, keys: ['KeyW'] },
+  door_out_dusk: { item: 'Camera: walking out through the inn door at dusk', hero: [-4.74, 31, 0], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
+  door_bakery_out: { item: 'Camera: walking out through the bakery door', hero: [14.7, 16.88, -0.54], still: [], run: 5200, keys: ['KeyW'] },
+  door_bakery_out_dusk: { item: 'Camera: walking out through the bakery door at dusk', hero: [14.7, 16.88, -0.54], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
+  door_house_e_out: { item: 'Camera: walking out through the house_e door', hero: [24.73, 29.21, -0.259], still: [], run: 5200, keys: ['KeyW'] },
+  door_house_e_out_dusk: { item: 'Camera: walking out through the house_e door at dusk', hero: [24.73, 29.21, -0.259], hour: 19.5, still: [], run: 5200, keys: ['KeyW'] },
+  // B11: the bow's feel. Over the shoulder at the grove's edge: raise, draw, hold, loose into the trunks, twice, the
+  // follow camera behind him (`shoot`), with a still at full draw.
+  bow: { item: 'Combat: drawing and loosing the bow', hero: [-31, 0, -Math.PI / 2], still: [], shoot: 2 },
+  // B11: two arrows into a grazing doe from 12 m (`hunt`: the hero is stood off the animal and the view laid on its chest).
+  deer: { item: 'Hunting: shooting a deer at 12 m', hero: [0, 0, 0], still: [], shoot: 2, hunt: 'deer' },
   // The inn's hanging sign (A136) hangs out from its east end near the front corner, about (1.9, 32.4).
   sign: { item: 'Props: shop sign and supports', hero: [3.2, 36.6, Math.PI], hide: true, still: [[0.2, 1.7, 0.4, -1.3, 2.9, -4.2], [-3.4, 1.7, -1.2, -1.3, 2.9, -4.2], [1.6, 2.1, -2.6, -1.3, 2.9, -4.2]], path: [[-1.5, 1.7, .3, -1.3, 2.9, -4.2], [1.5, 1.7, .3, -1.3, 2.9, -4.2]] },
 };
@@ -67,7 +84,7 @@ const capture = async (file) => {
   const data = r?.result?.data ?? r?.data;
   if (data) fs.writeFileSync(file, Buffer.from(data, 'base64'));
 };
-const keyCodes = { KeyW: 87, KeyS: 83, KeyA: 65, KeyD: 68, KeyZ: 90, KeyC: 67, ShiftLeft: 16, Space: 32 };
+const keyCodes = { KeyW: 87, KeyS: 83, KeyA: 65, KeyD: 68, KeyZ: 90, KeyC: 67, KeyJ: 74, KeyL: 76, ShiftLeft: 16, Space: 32 };
 const key = (type, code, extra = {}) => page.cdp('Input.dispatchKeyEvent', { type, code, key: code === 'Space' ? ' ' : code === 'ShiftLeft' ? 'Shift' : code.slice(3).toLowerCase(), windowsVirtualKeyCode: keyCodes[code], ...extra });
 const holdWhile = async (codes, ms, each) => {
   for (const c of codes) await key('rawKeyDown', c);
@@ -98,20 +115,43 @@ try {
     fs.mkdirSync(path.join(dir, 'frames'), { recursive: true });
     // Each spot at the asked hour: the run takes minutes of game time, and residents retire indoors after dark.
     await page.eval(`window.tervain.debugTime?.(${Number(spot.hour ?? args.hour ?? 11)}); return 1`);
+    if (spot.hunt) {
+      const at = await page.eval(`const all = window.tervain.world.animals.snapshot(), a = all.find((s) => s.species === ${JSON.stringify(spot.hunt)} && s.state !== 'Dead'); window.__huntId = a?.id; return a ? [a.x, a.z] : all.map((s) => s.id + ':' + s.species).join(' ')`);
+      if (!Array.isArray(at)) { failures.push(`${id}: no ${spot.hunt} among ${at}`); continue; }
+      spot.hero = [at[0], at[1] - 12, 0];
+    }
     await place(...spot.hero);
     // Scenery spots park the hero out of shot (the game keeps his body visible itself); the cameras stay where they are.
     if (spot.hide) await place(spot.hero[0] + 40, spot.hero[1] + 40, spot.hero[2]);
     await page.wait(2500);
     for (const [k, c] of spot.still.entries()) { await camAt(spot.hero, c); await page.wait(900); await capture(path.join(dir, `still-${k + 1}.jpg`)); }
     let n = 0;
-    if (spot.run) {
+    if (spot.run || spot.shoot) {
       // The hero runs through, the ordinary follow camera behind him: the real motion the playtest saw.
       // Screencast frames at their own presentation times: real 60 Hz motion, unlike stepped screenshots.
       await page.eval('window.tervain.cam.manual = null; return 1');
       await page.wait(600);
       const from = page.frames.length;
       await page.cdp('Page.startScreencast', { format: 'jpeg', quality: 85, everyNthFrame: 1, maxWidth: 1280, maxHeight: 800 });
-      await holdWhile(spot.keys ?? ['ShiftLeft', 'KeyW'], spot.run);
+      if (spot.shoot) {
+        // The keyboard bindings (L aims, J draws): synthetic mouse presses do not reach an unlocked canvas reliably.
+        await page.eval(`const T = window.tervain, S = T.game.state; S.inventory.hunting_bow = 1; S.inventory.arrow = 6; S.equippedWeapon = 'hunting_bow'; T.player.syncEquipment(T.game); return 1`);
+        // The reticle is part of what is judged here.
+        await page.eval('window.tervain.hud.show(true); return 1');
+        for (let i = 0; i < spot.shoot; i++) {
+          await page.eval(`window.tervain.cam.pitch = ${0.05 - i * 0.06}; window.tervain.cam.yaw += ${i ? 0.25 : 0}; return 1`);
+          const aim = () => spot.hunt && page.eval(`const T = window.tervain, a = T.world.animals.snapshot().find((s) => s.id === window.__huntId), c = T.cam.camera.position;
+            if (a) { const dx = a.x - c.x, dy = a.y + .75 - c.y, dz = a.z - c.z; T.cam.yaw = Math.atan2(dx, dz); T.cam.pitch = Math.atan2(-dy, Math.hypot(dx, dz)); } return 1`);
+          await key('rawKeyDown', 'KeyL'); for (let k = 0; k < 8; k++) { await aim(); await page.wait(60); }
+          await key('rawKeyDown', 'KeyJ'); await page.wait(1200);
+          for (let k = 0; k < 3; k++) { await aim(); await page.wait(40); }
+          if (i === 0) await capture(path.join(dir, 'still-1.jpg'));
+          (spot.releases ??= []).push(page.frames.length - from);
+          await key('keyUp', 'KeyJ'); await page.wait(900);
+          await key('keyUp', 'KeyL'); await page.wait(700);
+        }
+        await page.eval('window.tervain.hud.show(false); return 1');
+      } else await holdWhile(spot.keys ?? ['ShiftLeft', 'KeyW'], spot.run);
       await page.cdp('Page.stopScreencast');
       const frames = page.frames.slice(from).filter((f) => f.t), list = [];
       frames.forEach((f, i) => {
@@ -128,8 +168,8 @@ try {
         await capture(path.join(dir, 'frames', `f${String(n++).padStart(4, '0')}.jpg`));
       }
     }
-    const clip = spot.run ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
-    metrics.spots[id] = { item: spot.item, stills: spot.still.length, frames: n, clip };
+    const clip = spot.run || spot.shoot ? spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'frames.txt', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-fps_mode', 'vfr', '-pix_fmt', 'yuv420p', 'clip.mp4'], { cwd: dir, timeout: 300000 }).status === 0 : encode(dir);
+    metrics.spots[id] = { releases: spot.releases, item: spot.item, stills: spot.shoot ? 1 : spot.still.length, frames: n, clip };
   }
   await page.eval('window.tervain.cam.manual = null; return 1');
 
@@ -200,10 +240,12 @@ try {
     fs.writeFileSync(path.join(OUT, 'placement-audit.json'), auditText);
     const worst = (kind) => audit.checks.filter((c) => c.kind === kind && c.candidate).sort((a, b) => b.maxGap - a.maxGap).slice(0, 8)
       .map((c) => ({ label: c.label, at: c.position.map((v) => +v.toFixed(1)), gap: +(kind === 'root' ? c.maxGap : c.minGap).toFixed(2) }));
-    metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop') };
+    metrics.checks.placement = { ...audit.summary, complete: audit.complete, roots: worst('root'), props: worst('prop'),
+      rootCandidateLabels: audit.checks.filter(c => c.kind === 'root' && c.candidate).map(c => c.label) };
     // Tree roots are the regression check: prop candidates include large merged meshes (building timbers seen from below)
     // that need a reviewer, so they are listed, not counted.
-    const verdict = rootAuditVerdict(audit, baseline?.checks?.placement?.rootCandidates);
+    const prior = baseline?.checks?.placement;
+    const verdict = rootAuditVerdict(audit, prior?.rootCandidates, baseline ? rootBaselineLabels(prior) : undefined);
     Object.assign(metrics.checks.placement, verdict);
     if (!verdict.pass) failures.push(`tree-root check failed: ${verdict.reason}`);
   } else {

@@ -1,0 +1,6 @@
+{
+  "variant": "Original published physics restored temporarily, then candidate restored",
+  "command": "npx vitest run tests/fenceProjectiles.test.ts --testTimeout=90000",
+  "expectedFailure": true,
+  "scope": "Original query stops above real fence bounds and reports the invisible cap before a later real hit"
+}

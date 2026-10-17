@@ -1,0 +1,62 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "initialGeneratedMatches": true,
+  "rows": {
+    "native": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "calls": 16089,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "samplesSha256": "fe266288198c8e0201790cf359f434e6504f4347249c11d75742c0f346af783b",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "nativeSamplesMatch": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "before": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "calls": 16089,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "samplesSha256": "fe266288198c8e0201790cf359f434e6504f4347249c11d75742c0f346af783b",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "nativeSamplesMatch": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    },
+    "after": {
+      "grassTiles": 31,
+      "grassInstances": 4088,
+      "rasterTiles": 22,
+      "nodes": 6358,
+      "calls": 16089,
+      "generatedSha256": "20d09afae8cc889ae23deb2be8492d201b8949447e592f8a844759109dc161aa",
+      "rasterSha256": "6ab48c315cdd42626327d581da29809c60151a45eed223579dcdcc825be8199f",
+      "samplesSha256": "fe266288198c8e0201790cf359f434e6504f4347249c11d75742c0f346af783b",
+      "nativeGeneratedMatches": true,
+      "nativeRasterMatches": true,
+      "nativeSamplesMatch": true,
+      "drawCalls": 245,
+      "triangles": 1889302,
+      "textureCount": 174
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "4f7f70d0e2d28cbdf5ffb591f23d6b092456f84c3ef9b4c7d61f21cdd0016c24",
+  "baselineRevision": "421d34b",
+  "scope": "Native published Habitat and grass generators. Override only tile with actual baseline/candidate methods; leave evalNode and sample native. Refill actual tile buffers with cold raster caches. Count actual raster-node evaluations. Require identical sampled values, generated buffers/bounds, complete rasters and native Grade/post pixels. Low preset; no hardware timing or hitch-resolution claim.",
+  "pass": false
+}

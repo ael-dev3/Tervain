@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "6b79aaa779ee61d8aad1ad5fd9a0b0274f1b80f9ba9c986bb51ef29a1bffad31",
+  "scope": "Instrumented production canopy detector on 200 opaque leaf triangles. Diagnostic allocation count; not gameplay timing or live foliage quality.",
+  "before": {
+    "vectorAllocations": 17079
+  },
+  "after": {
+    "vectorAllocations": 282
+  },
+  "reportsIdentical": true,
+  "pass": true
+}

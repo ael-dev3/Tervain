@@ -1,4 +1,4 @@
-import type { PhysicalRockGeometry } from './physicsGeometry';
+import type { PhysicalRockGeometry, PhysicalProjectileGeometry } from './physicsGeometry';
 import { buildingGround } from './buildingEntries';
 import { FIREPLACE, fromBuildingLocal, hearthOf, roomOf, type InteriorSpec } from './interiors';
 import { footprint, FURNITURE, hearthPiece, pieceSize } from './furniture';
@@ -16,10 +16,14 @@ export interface VerticalBounds {
   excludePrecise?: boolean;
 }
 export interface ColliderBounds extends VerticalBounds {
+  /** Walking-height wood after final seating; other collision/ground-cover queries retain their original radius. */
+  navigationRadius?: number;
   /** Authored standing planks block a rising head/camera, while Terrain owns steps and landing. */
   supportOnly?: boolean;
   /** Retained navigation footprint with a source-exact finite physical counterpart. */
   rockMesh?: PhysicalRockGeometry;
+  /** Exact opaque surfaces for projectile queries, without changing movement or navigation. */
+  projectileMesh?: PhysicalProjectileGeometry;
 }
 /** Simple collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider extends ColliderBounds {
@@ -143,7 +147,7 @@ export class Colliders {
   }
 
   private extent(c: Collider) {
-    return c.kind === 'circle' ? c.r : Math.hypot(c.hw, c.hd);
+    return c.kind === 'circle' ? Math.max(c.r, c.navigationRadius ?? c.r) : Math.hypot(c.hw, c.hd);
   }
 
   add(c: Collider) {
@@ -310,8 +314,8 @@ export class Colliders {
     return best;
   }
 
-  private overlapsDisc(c: Collider, x: number, z: number, radius: number): boolean {
-    if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < c.r + radius - CONTACT_EPS;
+  private overlapsDisc(c: Collider, x: number, z: number, radius: number, navigation = false): boolean {
+    if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < (navigation ? c.navigationRadius ?? c.r : c.r) + radius - CONTACT_EPS;
     const cos = Math.cos(c.yaw);
     const sin = Math.sin(c.yaw);
     const lx = (x - c.x) * cos - (z - c.z) * sin;
@@ -320,9 +324,13 @@ export class Colliders {
     return Math.hypot(Math.max(0, Math.abs(lx) - c.hw), Math.max(0, Math.abs(lz) - c.hd)) < radius - CONTACT_EPS;
   }
 
-  blocked(x: number, z: number, radius: number, bounds?: VerticalBounds): boolean {
+  blockedForNavigation(x: number, z: number, radius: number): boolean {
+    return this.blocked(x, z, radius, undefined, true);
+  }
+
+  blocked(x: number, z: number, radius: number, bounds?: VerticalBounds, navigation = false): boolean {
     // Preserve custom near providers; the normal grid query needs neither a collected list nor a temporary Set.
-    if (this.near !== Colliders.prototype.near) return this.near(x, z, radius).some(c => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius));
+    if (this.near !== Colliders.prototype.near) return this.near(x, z, radius).some(c => !c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius, navigation));
     // Bound stamps to small integers and clear marks before reusing a stamp.
     if (this.blockedQuery >= 0x3fffffff) { this.blockedQuery = 0; this.blockedSeen = new WeakMap(); }
     const query = ++this.blockedQuery;
@@ -334,7 +342,7 @@ export class Colliders {
       for (const c of bucket) {
         if (!c.active || this.blockedSeen.get(c) === query) continue;
         this.blockedSeen.set(c, query);
-        if (!c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius)) return true;
+        if (!c.supportOnly && overlapsHeight(c, bounds) && this.overlapsDisc(c, x, z, radius, navigation)) return true;
       }
     }
     return false;
@@ -356,7 +364,9 @@ export class Colliders {
     const dx = bx - ax;
     const dz = bz - az;
     let nearest: ColliderHit | null = null;
-    for (const c of [...this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius), ...extra]) {
+    const scenery = this.near((ax + bx) / 2, (az + bz) / 2, Math.hypot(dx, dz) / 2 + radius);
+    for (let i = 0; i < scenery.length + extra.length; i++) {
+      const c = i < scenery.length ? scenery[i]! : extra[i - scenery.length]!;
       if (!c.active || excludeSupports && c.supportOnly) continue;
       if (ignoreIds?.has(c.id) || ignoreIds?.has(c) || !overlapsHeight(c, bounds)) continue;
       const hit = c.kind === 'circle'
@@ -493,6 +503,11 @@ function roomColliders(c: Colliders, room: InteriorSpec, base: number) {
   }
   roomBox(c, `${id}:doorframe`, b, dx - dw - .16, dx + dw + .16, innerFront - .06, innerFront + .03,
     { minY: base + room.wallBase + dh, maxY: base + room.wallBase + dh + .18 }, true);
+  // The tavern's tiled gable extends 0.45 m past its ends and 0.6 m
+  // past its walls. Its fascia hangs 0.32 m below wallTop (gableRoof).
+  // Keep this envelope camera-only: routes and actor clearance use the room above.
+  if (b.kind === 'inn') roomBox(c, `${id}:eaves`, b, -hw - .5, hw + .5, -hd - .7, hd + .7,
+    { minY: top - .35, maxY: base + b.h + Math.min(b.w, b.d) * .65 + .5 }, true);
   // The chimney stack and its fireplace, and the furniture (each as tall as it stands).
   const floor = base + room.floorTop, hearth = hearthOf(room);
   if (hearth) {
@@ -530,6 +545,9 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
       // dynamic: door and shutter fill the openings until opened
       wallBox(c, 'archive_door', b, -gap, gap, hd - t, hd + t, 'archive_door');
       wallBox(c, 'archive_shutter', b, -sw, sw, -hd - t, -hd + t, 'archive_shutter');
+      // The roof over the room, for the follow camera only (B12): it keeps the lens under the ceiling inside and out of the slates.
+      const base = terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0, wallTop = base + ARCHIVE_ROOM.wallBase + b.h;
+      c.cameraBox('archive_roof', b.x, b.z, hw + t, hd + t, b.yaw, { minY: wallTop, maxY: wallTop + ARCHIVE_ROOM.roofPitch * hw + 0.4 });
     } else {
       // Without a terrain the rooms stand on level ground at zero, so every part keeps a finite height.
       roomColliders(c, roomOf(b)!, terrain ? buildingGround((x, z) => terrain.heightAt(x, z), b).avg : 0);

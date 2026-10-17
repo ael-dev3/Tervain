@@ -1,0 +1,34 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "batches": 20,
+      "refreshes": 120,
+      "countListAllocations": 4800,
+      "nativeControlMatches": true,
+      "statesSha256": "eafba06b5ff2e60c1f22fde55adcfc3c4ed755de2f768a883f9b2a03f824ac17",
+      "drawCalls": 255,
+      "triangles": 1313876,
+      "textureCount": 180,
+      "bufferUploadBytes": 0
+    },
+    "after": {
+      "batches": 20,
+      "refreshes": 120,
+      "countListAllocations": 240,
+      "nativeControlMatches": true,
+      "statesSha256": "eafba06b5ff2e60c1f22fde55adcfc3c4ed755de2f768a883f9b2a03f824ac17",
+      "drawCalls": 255,
+      "triangles": 1313876,
+      "textureCount": 180,
+      "bufferUploadBytes": 0
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "8d002c4b52004146e61db56f0398cb97141dae6f41fb18cf5092c1b6b6b04e3c",
+  "scope": "Actual baseline/candidate forest refresh block, including its original packing and upload helpers, executed on native published forest batches and camera path. Only count-list literals instrumented to count allocations. 120 turning/walking refreshes; active matrices/colors/coverage/counts/visibility/bounds/statistics compared each update, plus native Grade/post final pixels. Low-quality color path; no hardware timing or shadow-pass performance claim.",
+  "pass": true
+}

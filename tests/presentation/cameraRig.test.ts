@@ -1,21 +1,49 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
-import { CameraRig } from '../../src/presentation/cameraRig';
-import { CAMERA_CLEARANCE } from '../../src/presentation/cameraObstruction';
+import { AIM_VIEW, CameraRig } from '../../src/presentation/cameraRig';
+import { CAMERA_CLEARANCE, cameraColliderEntry } from '../../src/presentation/cameraObstruction';
 import { buildStaticColliders, Colliders } from '../../src/world/colliders';
 import { Terrain } from '../../src/world/terrain';
+import { BUILDINGS } from '../../src/world/layout';
+import { interiorOf } from '../../src/world/interiors';
 import { WaterWorld } from '../../src/world/water/waterWorld';
 
 const flat = { groundAt: () => 0 };
 const distance = (cam: CameraRig) => Math.hypot(cam.camera.position.x, cam.camera.position.y - 1.55, cam.camera.position.z);
 
 describe('woodland camera obstruction', () => {
+  it('eases into the shoulder view, tightens with the draw and lifts briefly on the loose (B11)', () => {
+    const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    cam.setAiming(true);
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.aimBlend).toBeGreaterThan(0); expect(cam.aimBlend).toBeLessThan(.5);
+    expect(cam.lastBoom).toBeGreaterThan(5);
+    for (let i = 0; i < 60; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.aimBlend).toBe(1); expect(cam.lastBoom).toBeCloseTo(AIM_VIEW.boom, 5);
+    cam.setAiming(true, 1);
+    for (let i = 0; i < 120; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    expect(cam.camera.fov).toBeCloseTo(44, 1);
+    const level = new THREE.Vector3(); cam.camera.getWorldDirection(level);
+    cam.bowKick();
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    const kicked = new THREE.Vector3(); cam.camera.getWorldDirection(kicked);
+    expect(kicked.y).toBeGreaterThan(level.y + .005);
+    for (let i = 0; i < 30; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), false, 0);
+    cam.camera.getWorldDirection(kicked);
+    expect(kicked.y).toBeCloseTo(level.y, 6);
+    const still = new CameraRig(); still.setAiming(true);
+    still.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
+    expect(still.aimBlend).toBe(1);
+  });
+
   it('aims over the right shoulder with a closer boom and narrower field of view without changing exploration zoom', () => {
     const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
     cam.setAiming(true);
     cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
-    expect(cam.camera.position.x).toBeCloseTo(-.42, 8);
-    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+    expect(cam.camera.position.x).toBeCloseTo(-AIM_VIEW.right, 8);
+    expect(cam.camera.position.y).toBeCloseTo(1.55 + AIM_VIEW.up, 8);
+    expect(cam.camera.position.z).toBeCloseTo(-AIM_VIEW.boom, 8);
     expect(cam.camera.fov).toBe(48);
     expect(cam.wantDist).toBe(7);
     expect(cam.camera.getWorldDirection(new THREE.Vector3()).dot(new THREE.Vector3(0, 0, 1))).toBeCloseTo(1, 8);
@@ -30,6 +58,29 @@ describe('woodland camera obstruction', () => {
     expect(distance(cam)).toBeCloseTo(7, 8);
   });
 
+  it('retains turn history when doorway trim enters a previously empty query', () => {
+    const actual = new CameraRig(), control = new CameraRig(), list = new Colliders();
+    list.box('test:doorframe', 100, 100, .05, .05, 0, true, { minY: 0, maxY: 5 });
+    const trim = list.withId('test:doorframe')[0]!;
+    const absent = new Colliders(), present = new Colliders();
+    // The far trim cannot affect either boom, but makes the control run anticipation throughout.
+    vi.spyOn(present, 'nearCamera').mockImplementation(() => [trim]);
+    for (let i = 0; i < 60; i++) {
+      actual.yaw = control.yaw = i * .01;
+      actual.follow(1 / 60, 0, 0, 0, flat, absent, true, 0);
+      control.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    }
+    actual.yaw = control.yaw = .69;
+    const futureYaw = .69 + 1; // The last turn's angular speed reaches the existing lookahead cap.
+    trim.x = -Math.sin(futureYaw) * Math.cos(.32) * 4;
+    trim.z = -Math.cos(futureYaw) * Math.cos(.32) * 4;
+    actual.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    control.follow(1 / 60, 0, 0, 0, flat, present, true, 0);
+    expect(distance(control)).toBeLessThan(6.19); // The newly relevant trim actually shortens the future boom.
+    expect(actual.camera.position.distanceTo(control.camera.position)).toBeLessThan(1e-10);
+    expect(actual.camera.quaternion.toArray()).toEqual(control.camera.quaternion.toArray());
+  });
+
   it('sweeps both the shoulder shift and aimed boom against nearby walls and trees', () => {
     const wall = new Colliders(); wall.box('ruin:shoulder-wall', -.65, 0, .1, .8, 0);
     const cam = new CameraRig(); cam.pitch = 0; cam.setAiming(true);
@@ -37,11 +88,11 @@ describe('woodland camera obstruction', () => {
     cam.follow(1 / 60, 0, 0, 0, flat, wall, true, 0);
     expect(cam.camera.position.x).toBeGreaterThan(-.21);
     expect(near).toHaveBeenCalledTimes(1);
-    const trunk = new Colliders(); trunk.circle('tree:aim-path', -.42, -1.7, .3);
+    const trunk = new Colliders(); trunk.circle('tree:aim-path', -AIM_VIEW.right, -1.7, .3);
     cam.reset(); cam.setAiming(true);
     cam.follow(1 / 60, 0, 0, 0, flat, trunk, true, 0);
     expect(cam.camera.position.z).toBeGreaterThan(-1.05);
-    expect(Math.hypot(cam.camera.position.x + .42, cam.camera.position.z + 1.7)).toBeGreaterThan(.64);
+    expect(Math.hypot(cam.camera.position.x + AIM_VIEW.right, cam.camera.position.z + 1.7)).toBeGreaterThan(.64);
   });
 
   it('keeps an aimed low camera above a rising bank and smooths aim FOV only when motion is enabled', () => {
@@ -60,8 +111,9 @@ describe('woodland camera obstruction', () => {
     const bank = { groundAt: (x: number) => x < -.4 ? 3 : 0 };
     cam.follow(1 / 60, 0, 0, 0, bank, new Colliders(), true, 0);
     expect(cam.camera.position.x).toBeGreaterThan(-.06);
-    expect(cam.camera.position.y).toBeCloseTo(1.55, 8);
-    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+    // The lift follows the shoulder shift: a bank that stops the shift keeps the view at his head.
+    expect(cam.camera.position.y).toBeLessThan(1.55 + AIM_VIEW.up * .2);
+    expect(cam.camera.position.z).toBeCloseTo(-AIM_VIEW.boom, 8);
   });
 
   it('allows a regular upward view of tall landmarks while retaining terrain clearance', () => {
@@ -232,5 +284,23 @@ describe('waterline camera stability', () => {
     cam.follow(1 / 60, 0, -1.25, 0, deep, colliders, true, 0);
     cam.clearWater(() => 0, true);
     expect(cam.camera.position.y).toBeCloseTo(0.28, 8);
+  });
+});
+
+
+describe('tavern eave clearance', () => {
+  it('stops the exit boom before the fascia outside the wall footprint without adding actor obstacles', () => {
+    const b = BUILDINGS.find(b => b.id === 'inn')!, room = interiorOf(b)!;
+    const colliders = buildStaticColliders(), x = b.x + room.door.x;
+    const fasciaZ = b.z + b.d / 2 + .6 + .075;
+    const fasciaBottom = room.wallTop - .06 - .26;
+    for (const pitch of [.6, .9, 1.2]) {
+      const cam = new CameraRig(); cam.pitch = pitch;
+      cam.follow(1 / 60, x, room.floorTop, b.z + b.d / 2 + 2, flat, colliders, true, 0);
+      // The rearward boom faces the roof from outside the front door.
+      expect(cameraColliderEntry({ x, y: room.floorTop + 1.55, z: b.z + b.d / 2 + 2 }, cam.camera.position, { id: 'drawn fascia', kind: 'box', active: true, x: b.x, z: fasciaZ - .075, hw: b.w / 2 + .45, hd: .075, yaw: b.yaw, minY: fasciaBottom, maxY: room.wallTop - .07 }, 0, 5)).toBeNull();
+    }
+    expect(colliders.nearCamera(x, b.z, 10).some(c => c.id === 'room:inn:eaves' && c.minY! < fasciaBottom)).toBe(true);
+    expect(colliders.near(x, b.z, 10).some(c => c.id === 'room:inn:eaves')).toBe(false);
   });
 });

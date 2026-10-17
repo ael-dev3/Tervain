@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tervain tree preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html,body{margin:0;height:100%;background:#9cc3e6;overflow:hidden}canvas{display:block;width:100vw;height:100vh}#hud{position:fixed;left:8px;top:8px;font:12px/1.4 system-ui,sans-serif;color:#102;background:#fffa;padding:4px 8px;border-radius:4px}</style>
+<!-- Standalone inspector for tools/tree-gen output. Serve the repo root (node tools/tree-gen/shots.mjs does) and open
+     /tools/tree-gen/preview.html?glb=/public/models/flora/hero/hero-oak-near.glb&dist=10&yaw=30&h=1.7&aim=7
+     Controls: drag to orbit, wheel to zoom. window.tvShot({dist,yaw,pitch,aim,fov,height}) sets the camera for scripted stills. -->
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="hud">loading</div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const q = new URLSearchParams(location.search);
+const glbUrl = q.get('glb') || '/public/models/flora/hero/hero-oak-near.glb';
+const sharedUrl = q.get('near');            // optional near file to borrow images from (mid/far)
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const sky = new THREE.Color(0x9cc3e6); scene.background = sky; scene.fog = new THREE.Fog(0xb7d2ea, 60, 260);
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 500);
+const hemi = new THREE.HemisphereLight(0xcfe3ff, 0x4a4a30, 1.0); scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff0d8, 3.2); sun.position.set(-18, 30, 14); sun.castShadow = true;
+sun.shadow.mapSize.set(q.get('fast') ? 1024 : 2048, q.get('fast') ? 1024 : 2048); Object.assign(sun.shadow.camera, { left: -22, right: 22, top: 22, bottom: -22, near: 1, far: 90 }); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
+scene.add(sun);
+// Ground: a gentle bumpy meadow so roots are judged against something that is not a perfect plane.
+const gg = new THREE.PlaneGeometry(400, 400, 160, 160); gg.rotateX(-Math.PI / 2);
+const gp = gg.getAttribute('position'); const col = new Float32Array(gp.count * 3);
+for (let i = 0; i < gp.count; i++) { const x = gp.getX(i), z = gp.getZ(i); const h = 0.07 * Math.sin(x * 0.9) * Math.cos(z * 0.8) + 0.04 * Math.sin(x * 2.3 + z * 1.7); gp.setY(i, Math.hypot(x, z) < 1.2 ? 0 : h * Math.min(1, (Math.hypot(x, z) - 1.2) / 2)); const g = 0.85 + 0.15 * Math.sin(x * 0.31) * Math.sin(z * 0.27); col[i * 3] = 0.30 * g; col[i * 3 + 1] = 0.42 * g; col[i * 3 + 2] = 0.16 * g; }
+gg.setAttribute('color', new THREE.BufferAttribute(col, 3)); gg.computeVertexNormals();
+const ground = new THREE.Mesh(gg, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 })); ground.receiveShadow = true; scene.add(ground);
+
+let tree = null, stats = {};
+const loader = new GLTFLoader();
+function patchLeaf(m) {
+  // crown AO in vertex colour R, thickness in G, tint in B: the game's wind/AO shader will consume these; here a tiny stand-in.
+  m.vertexColors = true; m.alphaToCoverage = true; m.side = THREE.DoubleSide;
+  m.onBeforeCompile = (s) => { s.fragmentShader = s.fragmentShader.replace('#include <color_fragment>', 'diffuseColor.rgb *= mix(0.38, 1.12, vColor.r) * (0.88 + 0.24 * vColor.b);'); };
+  m.customProgramCacheKey = () => 'tv-leaf-ao';
+}
+function patchWood(m) { m.alphaToCoverage = true; }
+async function load() {
+  const gltf = await loader.loadAsync(glbUrl);
+  let near = null; if (sharedUrl) near = await loader.loadAsync(sharedUrl);
+  const mats = new Map(); if (near) near.scene.traverse((o) => { if (o.isMesh) mats.set(o.material.name, o.material); });
+  tree = gltf.scene; stats = { tris: 0 };
+  tree.traverse((o) => {
+    if (!o.isMesh) return;
+    const m = o.material, from = mats.get(m.name);
+    if (from) for (const k of ['map', 'normalMap']) if (from[k]) m[k] = from[k];
+    const n = o.geometry.index.count / 3; stats[o.name] = n; stats.tris += n;
+    o.castShadow = true; o.receiveShadow = o.name === 'Wood';
+    if (o.name === 'Foliage') { patchLeaf(m); m.shadowSide = THREE.DoubleSide; } else patchWood(m);
+    m.needsUpdate = true;
+  });
+  scene.add(tree);
+  document.getElementById('hud').textContent = `${glbUrl.split('/').pop()}  ${JSON.stringify(stats)}`;
+}
+const view = { dist: +(q.get('dist') || 10), yaw: +(q.get('yaw') || 25), pitch: +(q.get('pitch') || 0), aim: +(q.get('aim') || 7), fov: +(q.get('fov') || 50), height: +(q.get('h') || 1.7) };
+function apply() {
+  const yaw = view.yaw * Math.PI / 180, pitch = view.pitch * Math.PI / 180;
+  camera.fov = view.fov; camera.updateProjectionMatrix();
+  camera.position.set(Math.sin(yaw) * view.dist, view.height, Math.cos(yaw) * view.dist);
+  camera.lookAt(0, view.aim, 0); camera.rotateX(pitch);
+  const sc = THREE.MathUtils.clamp(view.dist / 12, 0.4, 3); void sc;
+  renderer.render(scene, camera);
+}
+window.tvShot = (o = {}) => { Object.assign(view, o); apply(); return stats; };
+window.tvSet = (o) => { if (o.sunAz !== undefined) sun.position.set(Math.cos(o.sunAz) * 22, o.sunEl ?? 30, Math.sin(o.sunAz) * 22); apply(); };
+let drag = null;
+addEventListener('pointerdown', (e) => { drag = [e.clientX, e.clientY]; });
+addEventListener('pointerup', () => { drag = null; });
+addEventListener('pointermove', (e) => { if (!drag) return; view.yaw -= (e.clientX - drag[0]) * 0.4; view.height = THREE.MathUtils.clamp(view.height + (e.clientY - drag[1]) * 0.03, 0.2, 40); drag = [e.clientX, e.clientY]; apply(); });
+addEventListener('wheel', (e) => { view.dist = THREE.MathUtils.clamp(view.dist * (1 + e.deltaY * 0.001), 1, 200); apply(); });
+addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; apply(); });
+load().then(() => { window.tvReady = true; apply(); }).catch((e) => { window.tvError = String(e); document.getElementById('hud').textContent = String(e); });
+</script>
+</body>
+</html>

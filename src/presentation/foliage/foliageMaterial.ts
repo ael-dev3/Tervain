@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { installLeafTargetCoverage } from './leafTargetCoverage';
 import { foliageUniforms, patchFoliageVertex, type FoliageField, type FoliageResponse } from './foliageWind';
 
 /**
@@ -92,6 +93,16 @@ export interface FoliageInstall {
   key?: string;
   /** A per-vertex attribute scaling the motion (0 pins a vertex). */
   weight?: string;
+  /** The geometry carries the branch hierarchy (`_wind`, `_pivot`): branch-wise wind (TV_HIERARCHICAL_WIND). */
+  hierarchical?: boolean;
+  /** The geometry's vertex colour is baked crown light, R occlusion (0 inside .. 1 outer rim), G thickness (TV_BAKED_CROWN). */
+  bakedCrown?: boolean;
+}
+
+/** What a geometry offers the foliage shaders: its branch hierarchy and baked crown light, from its vertex attributes. */
+export function foliageGeometryFeatures(geometry: THREE.BufferGeometry | null | undefined): Pick<FoliageInstall, 'hierarchical' | 'bakedCrown'> {
+  if (!geometry) return {};
+  return { hierarchical: !!geometry.getAttribute('_wind') && !!geometry.getAttribute('_pivot'), bakedCrown: !!geometry.getAttribute('color') };
 }
 
 /**
@@ -99,6 +110,8 @@ export interface FoliageInstall {
  * Leaves between the lens and the wanderer fade there, as a game camera's occluders do, so from under a crown he is not
  * lost behind a screen of leaf masses. One value for every leaf material; the app sets it for each picture of the world.
  */
+/** 1 while the scene is drawn into a multisampled target (alpha to coverage resolves leaf edges), 0 without (Low): the leaf cut-out then dithers. Set by Grade. */
+export const FOLIAGE_MSAA: THREE.IUniform<number> = { value: 1 };
 export const FOLIAGE_FOCUS: THREE.IUniform<THREE.Vector4> = { value: new THREE.Vector4(0, 0, 0, 0) };
 
 /**
@@ -143,6 +156,13 @@ export function clumpNoiseTexture(): THREE.Data3DTexture {
   return clumpNoise;
 }
 
+/** Share of a leaf's ambient light that glows through its outer shell again (scaled by the look's translucency). */
+const FOLIAGE_PARAMS = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
+// Profiling switches: ?ambthru=<share> sets it (0 leaves the old look), ?foliagelight=legacy also drops the rim glow.
+const LEGACY_LIGHT = FOLIAGE_PARAMS.get('foliagelight') === 'legacy';
+const AMBIENT_THROUGH = LEGACY_LIGHT ? 0 : Number.isFinite(Number(FOLIAGE_PARAMS.get('ambthru') ?? NaN)) && FOLIAGE_PARAMS.has('ambthru') ? Number(FOLIAGE_PARAMS.get('ambthru')) : 0.6;
+const RIM_GLOW = LEGACY_LIGHT ? 0 : 0.9;
+
 const LEAF_VERTEX_DECL = /* glsl */ `
 // The leaf depth and colour passes must place every vertex identically (leafPrepass.ts).
 invariant gl_Position;
@@ -153,6 +173,10 @@ varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
 varying vec3 vTvLeafP;
+#ifdef TV_BAKED_CROWN
+attribute vec3 color;
+varying vec2 vTvBake;
+#endif
 `;
 
 const LEAF_VERTEX_BODY = /* glsl */ `
@@ -164,17 +188,32 @@ const LEAF_VERTEX_BODY = /* glsl */ `
   float tvCS = sqrt(max(dot(tvCW[0].xyz, tvCW[0].xyz), 1e-6));
   vec3 tvCentre = (tvCW * vec4(uCrownCentre.xyz, 1.0)).xyz;
   vec3 tvP = (tvCW * vec4(transformed, 1.0)).xyz;
-  vTvWorld = tvP;
   vec3 tvD = tvP - tvCentre;
   float tvRh = uCrownRadii.x * tvCS, tvRv = uCrownRadii.y * tvCS;
   vec3 tvE = vec3(tvD.x / tvRh, tvD.y / tvRv, tvD.z / tvRh);
   vCrownDepth = length(tvE);
+  #ifdef TV_BAKED_CROWN
+  // A baked crown: occlusion from the tree's own structure (R: 0 in the heart .. 1 on the rim) replaces the spheroid's ramp.
+  vTvBake = color.rg;
+  vCrownDepth = mix(0.12, 1.05, clamp(color.r, 0.0, 1.0));
+  #endif
   // The spheroid's outward normal, in view space for the fragment's lighting.
   vec3 tvN = normalize(vec3(tvE.x / tvRh, tvE.y / tvRv, tvE.z / tvRh) + vec3(0.0, 0.45, 0.0) / max(tvRv, 0.1));
   vCrownN = normalize((viewMatrix * vec4(tvN, 0.0)).xyz);
   vFoliageHue = fract(sin(dot(tvCW[3].xz, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
   // Where the leaf is in its crown, in metres, offset by where the tree stands: each tree's clumps fall differently (A76).
   vTvLeafP = (transformed - uCrownCentre.xyz) * tvCS + tvCW[3].xyz * 0.37;
+}
+`;
+
+// Clearance is measured against rendered leaves; crown lighting/noise above remain anchored before wind.
+const LEAF_FOCUS_VERTEX_BODY = /* glsl */ `
+{
+  mat4 tvFocusWorld = modelMatrix;
+  #ifdef USE_INSTANCING
+    tvFocusWorld = modelMatrix * instanceMatrix;
+  #endif
+  vTvWorld = (tvFocusWorld * vec4(transformed, 1.0)).xyz;
 }
 `;
 
@@ -186,12 +225,16 @@ uniform float uFoliageShadeThrough;
 uniform vec4 uFoliageClump;
 uniform vec2 uFoliageEdgeOn;
 uniform vec4 uFoliageFocus;
+uniform float uFoliageMsaa;
 uniform highp sampler3D uFoliageClumpNoise;
 varying vec3 vTvWorld;
 varying vec3 vCrownN;
 varying float vCrownDepth;
 varying float vFoliageHue;
 varying vec3 vTvLeafP;
+#ifdef TV_BAKED_CROWN
+varying vec2 vTvBake;
+#endif
 // How much of a leaf mass this point is in (0 the gap between masses, 1 the heart of one), for its colour and its edge.
 float tvClump = 0.5;
 float tvLeafHash( vec3 p ) { p = fract( p * 0.3183099 + 0.1 ); p *= 17.0; return fract( p.x * p.y * p.z * ( p.x + p.y + p.z ) ); }
@@ -243,7 +286,8 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   // with sky between them instead of the cards' own edges; the cards' straight cut is roughened at leaf scale, fading
   // out once a pixel covers several leaves so it never shimmers.
   float tvShell = smoothstep( 0.6, 1.02, vCrownDepth );
-  tvA *= 1.0 - uFoliageClump.x * tvShell * smoothstep( 0.5, 0.27, tvClump );
+  // Negate the domain for the descending ramp: smoothstep requires ascending edges on every driver.
+  tvA *= 1.0 - uFoliageClump.x * tvShell * smoothstep( -0.5, -0.27, -tvClump );
   // A card seen edge-on smears its texture into streaks; it fades out as it turns away, and the cards behind fill in.
   float tvFacing = abs( dot( normalize( cross( dFdx( vViewPosition ), dFdy( vViewPosition ) ) ), normalize( vViewPosition ) ) );
   tvA *= smoothstep( uFoliageEdgeOn.x, uFoliageEdgeOn.y, tvFacing );
@@ -281,18 +325,31 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     // rather than reading as the cards' cut shapes; inside the crown it keeps its two. Continuous in depth: nothing pops.
     float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
     float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;
-    // A133: four samples give only five coverage steps, which read as a pixel staircase along every card edge. A stable
-    // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
-    // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
     float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
-    float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
-    diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
-    if ( diffuseColor.a <= 0.0 ) discard;
+    if ( uFoliageMsaa > 0.5 ) {
+      // A133: four samples give only five coverage steps, which read as a pixel staircase along every card edge. A stable
+      // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
+      // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
+      float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
+      diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
+      if ( diffuseColor.a <= 0.0 ) discard;
+    } else {
+      // Low has no multisampling, so alpha to coverage would cut at one threshold: a one-pixel staircase with the texture's
+      // dark rim round every card at full strength. The same coverage is resolved here by the dither instead: a pixel on the
+      // ramp is drawn with the probability its coverage gives, so the edge dissolves over about two pixels of fine stipple.
+      // A narrower ramp than the multisampled one: fewer stippled pixels to flicker as the edge moves.
+      float tvLowCov = ( tvA - alphaTest ) / max( 1.2 * fwidth( tvA ), 1e-4 ) + 0.5;
+      #ifdef TV_FOLIAGE_OPAQUE
+      diffuseColor.a = 1.0;
+      #endif
+      if ( tvLowCov <= tvIgn ) discard;
+    }
   #else
-    // A133: without multisampling (Low) the cut is dithered over about a pixel and a half of alpha, so edges break
-    // into a fine stable stipple rather than a hard staircase.
+    // Plain cut-out (no alpha to coverage): the same stipple.
+    float tvRamp = 2.0 * mix( 1.0, 1.8, smoothstep( 0.55, 0.95, vCrownDepth ) );
+    float tvCov = ( tvA - alphaTest ) / max( tvRamp * fwidth( tvA ), 1e-4 ) + 0.5;
     float tvIgn = fract( 52.9829189 * fract( dot( gl_FragCoord.xy, vec2( 0.06711056, 0.00583715 ) ) ) );
-    if ( tvA < alphaTest + ( tvIgn - 0.5 ) * 1.5 * fwidth( tvA ) ) discard;
+    if ( tvCov <= tvIgn ) discard;
   #endif
 }
 #endif
@@ -319,6 +376,12 @@ void RE_Direct_Foliage( const in IncidentLight directLight, const in vec3 geomet
   float behind = saturate( dot( - geometryViewDir, directLight.direction ) );
   float through = pow( behind, 4.0 ) * 1.25 + pow( behind, 1.4 ) * 0.18;
   float shell = 0.35 + 0.65 * smoothstep( 0.35, 1.0, vCrownDepth );
+  // A small glow where the light's disc is behind the leaf, on the rim.
+  through += pow( behind, 12.0 ) * ${RIM_GLOW.toFixed(3)} * smoothstep( 0.5, 1.0, vCrownDepth );
+  #ifdef TV_BAKED_CROWN
+  // A thick clump passes less light than a thin sprig.
+  through *= 1.0 - 0.55 * vTvBake.y;
+  #endif
   vec3 throughColour = max( directLight.color, tvLitColour * uFoliageShadeThrough );
   reflectedLight.directDiffuse += throughColour * material.diffuseColor * uFoliageTransTint * through * shell * uFoliageLook.y;
 }
@@ -362,6 +425,23 @@ const LEAF_SKY_GLSL = /* glsl */ `
 #endif
 `;
 
+/**
+ * Light that has passed through the leaves from everywhere, not from one lamp: a leaf is thin, so the sky's (and at
+ * night the moon's) ambient also glows through its outer shell. It does not depend on a light being behind the leaf, so
+ * a crown keeps its volume under the dim moon, where the transmission scaled by a light's colour gives almost nothing.
+ */
+const LEAF_AMBIENT_THROUGH_GLSL = /* glsl */ `
+{
+  float tvRim = smoothstep( 0.3, 1.0, vCrownDepth );
+  #ifdef TV_BAKED_CROWN
+  float tvThin = 1.0 - 0.55 * vTvBake.y;
+  #else
+  float tvThin = 1.0;
+  #endif
+  reflectedLight.indirectDiffuse += reflectedLight.indirectDiffuse * uFoliageTransTint * ( ${AMBIENT_THROUGH.toFixed(3)} * tvRim * tvThin ) * uFoliageLook.y;
+}
+`;
+
 export interface InstalledFoliage {
   /** Uniforms this material owns (look and crown); the wind and touch uniforms are the field's, shared. */
   uniforms: Record<string, THREE.IUniform>;
@@ -399,15 +479,20 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
     uFoliageEdgeOn: { value: new THREE.Vector2(look.edgeOn[0], look.edgeOn[1]) },
     uFoliageClump: { value: new THREE.Vector4(look.clumps.gaps, look.clumps.shade, look.clumps.rough, look.clumps.size) },
     uFoliageFocus: FOLIAGE_FOCUS,
+    uFoliageMsaa: FOLIAGE_MSAA,
     uFoliageClumpNoise: { value: clumpNoiseTexture() },
   };
   let failed = false;
+  const hier = opts.hierarchical === true, baked = opts.bakedCrown === true && opts.leaf;
   const physical = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true;
+  // The coverage mode follows each render target's own sample count (captures and depth draws can be single-sample while the view is not).
+  const targetMsaa = opts.leaf ? installLeafTargetCoverage(material) : null;
+  if (targetMsaa) own.uFoliageMsaa = targetMsaa;
   const compile = material.onBeforeCompile;
   const programKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
-    if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight)) { failed = true; return; }
+    if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight, hier)) { failed = true; return; }
     if (!opts.leaf) {
       // Playtest 7: boughs and twigs inside a crown sat in the leaves' shadow with little sky, and read as black shards
       // through the gaps between clumps. Inside the crown spheroid the bark's ambient is lifted, as the leaves' own is
@@ -434,12 +519,13 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
     const lights = lightsWithUnshadowedColour();
     const needs = ['#include <common>', '#include <color_fragment>', '#include <alphatest_fragment>', '#include <normal_fragment_maps>',
       '#include <lights_physical_pars_fragment>', '#include <lights_fragment_begin>', '#include <aomap_fragment>'];
-    if (!lights || !needs.every((n) => f0.includes(n))) { failed = true; return; }
+    if (!lights || !shader.vertexShader.includes('#include <project_vertex>') || !needs.every((n) => f0.includes(n))) { failed = true; return; }
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', `#include <common>\n${LEAF_VERTEX_DECL}`)
-      .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`);
+      .replace('#include <common>', `#include <common>\n${baked ? '#define TV_BAKED_CROWN\n' : ''}${LEAF_VERTEX_DECL}`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>\n${LEAF_VERTEX_BODY}`)
+      .replace('#include <project_vertex>', `${LEAF_FOCUS_VERTEX_BODY}\n#include <project_vertex>`);
     shader.fragmentShader = f0
-      .replace('#include <common>', `#include <common>\n${LEAF_FRAGMENT_DECL}`)
+      .replace('#include <common>', `#include <common>\n${baked ? '#define TV_BAKED_CROWN\n' : ''}${LEAF_FRAGMENT_DECL}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${LEAF_COLOUR_GLSL}`)
       // The distance dither (if any) follows the cut-out, as it followed Three's.
       .replace('#include <alphatest_fragment>', LEAF_ALPHA_TEST_GLSL)
@@ -452,16 +538,24 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
       // Three turns a double-sided card's normal toward the eye; a leaf takes its own face's normal, mostly the crown's,
       // so the far side of a crown seen through it is not shaded as if it faced the viewer (A69).
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
-        normal = normalize( mix( normal * faceDirection, vCrownN, uFoliageLook.x ) );`)
+        #ifdef TV_BAKED_CROWN
+        // A hero crown's cards carry their own rounded cluster normals: the crown's takes less of them.
+        normal = normalize( mix( normal * faceDirection, vCrownN, min( uFoliageLook.x, 0.35 ) ) );
+        #else
+        normal = normalize( mix( normal * faceDirection, vCrownN, uFoliageLook.x ) );
+        #endif`)
       .replace('#include <lights_physical_pars_fragment>', `#include <lights_physical_pars_fragment>\n${LEAF_LIGHT_GLSL}`)
       .replace('#include <lights_fragment_begin>', lights)
       .replace('#include <aomap_fragment>', `#include <aomap_fragment>
         reflectedLight.indirectDiffuse *= mix( uFoliageLook.z, 1.0, smoothstep( 0.15, 1.0, vCrownDepth ) );
+        ${LEAF_AMBIENT_THROUGH_GLSL}
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v2-${opts.leaf ? 'leaf' : 'wood-fill1'}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
+  // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
+  if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;
   material.needsUpdate = true;
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
   installed.set(material, result);
@@ -471,7 +565,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
 }
 
 /** The same wind on a shadow depth or distance material, so shadows sway with the foliage they are cast by. */
-export function installFoliageShadow(material: THREE.Material, opts: Pick<FoliageInstall, 'field' | 'response' | 'leaf' | 'weight'>, shared?: InstalledFoliage): void {
+export function installFoliageShadow(material: THREE.Material, opts: Pick<FoliageInstall, 'field' | 'response' | 'leaf' | 'weight' | 'hierarchical'>, shared?: InstalledFoliage): void {
   if (installed.has(material)) return;
   const wind = foliageUniforms(opts.field, opts.response);
   if (shared?.uniforms.uFoliage) wind.uFoliage = shared.uniforms.uFoliage as THREE.IUniform<THREE.Vector4>;
@@ -480,9 +574,9 @@ export function installFoliageShadow(material: THREE.Material, opts: Pick<Foliag
   let failed = false;
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
-    if (!patchFoliageVertex(shader, wind, opts.leaf, opts.weight)) failed = true;
+    if (!patchFoliageVertex(shader, wind, opts.leaf, opts.weight, opts.hierarchical === true)) failed = true;
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v1-shadow-${opts.leaf ? 'leaf' : 'wood'}${foliageOptionsKey(opts.weight)}`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-foliage-v4-shadow-${opts.leaf ? 'leaf' : 'wood'}${opts.hierarchical ? '-hier' : ''}${foliageOptionsKey(opts.weight)}`; };
   material.needsUpdate = true;
   installed.set(material, { uniforms: { uFoliage: wind.uFoliage }, ok: () => !failed });
 }

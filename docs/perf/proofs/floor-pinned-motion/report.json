@@ -1,0 +1,200 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "focus": [
+    -180,
+    1.6074930429458618,
+    12
+  ],
+  "rows": [
+    {
+      "name": "forest_floor_shrub:0",
+      "nativeInstances": 1,
+      "vertices": 320,
+      "scale": 0.956203713798914,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.009314944343006839,
+          "windCalls": 320,
+          "trampleFetches": 0,
+          "poseSha256": "6180f990605ad3014018f92b60016cf0b0ddb5d3763ed831a2e34b3a012ab2da"
+        },
+        "after": {
+          "maximumMotion": 0.009314944343006839,
+          "windCalls": 300,
+          "trampleFetches": 0,
+          "poseSha256": "6180f990605ad3014018f92b60016cf0b0ddb5d3763ed831a2e34b3a012ab2da"
+        }
+      },
+      "pinnedVertices": 20
+    },
+    {
+      "name": "forest_floor_litter:2",
+      "nativeInstances": 3,
+      "vertices": 120,
+      "scale": 1.023022097120332,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.0002465436078609688,
+          "windCalls": 120,
+          "trampleFetches": 0,
+          "poseSha256": "b9a03868ae546352eb790b6bec099a0066b043935bcff3301dfcdb37f9040cf6"
+        },
+        "after": {
+          "maximumMotion": 0.0002465436078609688,
+          "windCalls": 120,
+          "trampleFetches": 0,
+          "poseSha256": "b9a03868ae546352eb790b6bec099a0066b043935bcff3301dfcdb37f9040cf6"
+        }
+      },
+      "pinnedVertices": 0
+    },
+    {
+      "name": "forest_floor_fern:0",
+      "nativeInstances": 3,
+      "vertices": 616,
+      "scale": 0.7333954828711526,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.015304119441012549,
+          "windCalls": 616,
+          "trampleFetches": 0,
+          "poseSha256": "597e8027ed1ec6b7f15105bdc6c6816e54c445cf8a6dd1cd03f50c369e7d60d4"
+        },
+        "after": {
+          "maximumMotion": 0.015304119441012549,
+          "windCalls": 602,
+          "trampleFetches": 0,
+          "poseSha256": "597e8027ed1ec6b7f15105bdc6c6816e54c445cf8a6dd1cd03f50c369e7d60d4"
+        }
+      },
+      "pinnedVertices": 14
+    },
+    {
+      "name": "forest_floor_shrub:1",
+      "nativeInstances": 1,
+      "vertices": 320,
+      "scale": 0.8704088920548877,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.00930179752283429,
+          "windCalls": 320,
+          "trampleFetches": 0,
+          "poseSha256": "8dac7264b5d9e773eb02cc0bc2809d800f475e817590f794b0188a05d08a3222"
+        },
+        "after": {
+          "maximumMotion": 0.00930179752283429,
+          "windCalls": 300,
+          "trampleFetches": 0,
+          "poseSha256": "8dac7264b5d9e773eb02cc0bc2809d800f475e817590f794b0188a05d08a3222"
+        }
+      },
+      "pinnedVertices": 20
+    },
+    {
+      "name": "forest_floor_fern:2",
+      "nativeInstances": 4,
+      "vertices": 616,
+      "scale": 0.7863196239708029,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.021925234134598136,
+          "windCalls": 616,
+          "trampleFetches": 0,
+          "poseSha256": "97564134ad313daaaa80f3cdcca0710cfbf95f777258d6362a0a0785d0ff1467"
+        },
+        "after": {
+          "maximumMotion": 0.021925234134598136,
+          "windCalls": 602,
+          "trampleFetches": 0,
+          "poseSha256": "97564134ad313daaaa80f3cdcca0710cfbf95f777258d6362a0a0785d0ff1467"
+        }
+      },
+      "pinnedVertices": 14
+    },
+    {
+      "name": "forest_floor_fern:1",
+      "nativeInstances": 2,
+      "vertices": 616,
+      "scale": 1.1187158421152783,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.03889807076821758,
+          "windCalls": 616,
+          "trampleFetches": 0,
+          "poseSha256": "39ce74d61fe77e67a1d65b9ebccbe29dc6aa7600a31f7dfa9f3dc8c786d13bf7"
+        },
+        "after": {
+          "maximumMotion": 0.03889807076821758,
+          "windCalls": 602,
+          "trampleFetches": 0,
+          "poseSha256": "39ce74d61fe77e67a1d65b9ebccbe29dc6aa7600a31f7dfa9f3dc8c786d13bf7"
+        }
+      },
+      "pinnedVertices": 14
+    },
+    {
+      "name": "forest_floor_moss:0",
+      "nativeInstances": 6,
+      "vertices": 240,
+      "scale": 0.9859298256722614,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.00001759204810290556,
+          "windCalls": 240,
+          "trampleFetches": 0,
+          "poseSha256": "c79ea0ef8eb7158f3c1454c89ff910dc81b01199326c4185cddceea9cf214473"
+        },
+        "after": {
+          "maximumMotion": 0.00001759204810290556,
+          "windCalls": 98,
+          "trampleFetches": 0,
+          "poseSha256": "c79ea0ef8eb7158f3c1454c89ff910dc81b01199326c4185cddceea9cf214473"
+        }
+      },
+      "pinnedVertices": 142
+    },
+    {
+      "name": "forest_floor_fungi:0",
+      "nativeInstances": 1,
+      "vertices": 57,
+      "scale": 1.2921357299255785,
+      "modes": {
+        "before": {
+          "maximumMotion": 0.0007781344444433597,
+          "windCalls": 57,
+          "trampleFetches": 0,
+          "poseSha256": "ee8c477f2f068d2ca8a89db193765768512d9eb96b02c2930b06588c488817dc"
+        },
+        "after": {
+          "maximumMotion": 0.0007781344444433597,
+          "windCalls": 42,
+          "trampleFetches": 0,
+          "poseSha256": "ee8c477f2f068d2ca8a89db193765768512d9eb96b02c2930b06588c488817dc"
+        }
+      },
+      "pinnedVertices": 15
+    }
+  ],
+  "cost": {
+    "before": {
+      "drawCalls": 122,
+      "triangles": 661742
+    },
+    "after": {
+      "drawCalls": 122,
+      "triangles": 661742
+    }
+  },
+  "beforeGeometry": "abb946607502d6a922b21df6d052a1ad354634d677326548f4701c6f2c2e132a",
+  "afterGeometry": "abb946607502d6a922b21df6d052a1ad354634d677326548f4701c6f2c2e132a",
+  "changedChannels": 0,
+  "sourceSha256": {
+    "before": "2ed17e3bc97871901a1b167ba97bfd8ccf498987b57801baa83fcd7f82a61f6f",
+    "after": "457959670e1cf2c40b8463947d819070c10d709948986e645db44adea28c1560"
+  },
+  "scope": "Published native forest-floor geometry and first visible instance per batch, with actual wind/trample uniforms. Counter instrumentation counts logical GLSL wind-function entries and trample lookups; it does not measure GPU instructions, physical traffic, timings or hardware FPS. Uninstrumented position captures and full-scene native post captures must match. Both use the published wind helper; only the floor vertex patch is varied.",
+  "pass": true
+}

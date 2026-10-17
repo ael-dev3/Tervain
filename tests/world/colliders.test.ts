@@ -44,6 +44,16 @@ describe('swept scenery contacts', () => {
     expect(c.blocked(m.x, m.z, 0.4)).toBe(false);
   });
 
+  it('preserves custom near queries, equal-hit order and ignored collider identities with actor extras', () => {
+    const c = new Colliders();
+    const scenery = { id: 'same-id', kind: 'circle' as const, x: 2, z: 0, r: .5, active: true };
+    const actor = { ...scenery };
+    c.near = () => [scenery];
+    expect(c.cast(0, 0, 4, 0, .4, undefined, undefined, [actor])?.collider).toBe(scenery);
+    expect(c.cast(0, 0, 4, 0, .4, new Set([scenery]), undefined, [actor])?.collider).toBe(actor);
+    expect(c.cast(0, 0, 4, 0, .4, new Set(['same-id']), undefined, [actor])).toBeNull();
+  });
+
   it('finds the earliest collider across spatial cells and honours dynamic gates', () => {
     const c = new Colliders();
     c.circle('later', 21, 0, 1);
@@ -103,4 +113,20 @@ it('deduplicates spanning-grid candidates and refreshes them after stamp rollove
 it('preserves overridden near providers for boolean queries',()=>{
   const c=new Colliders(),extra={id:'external',kind:'circle' as const,x:2,z:3,r:.4,active:true};
   c.near=()=>[extra];expect(c.blocked(2,3,.2)).toBe(true);expect(c.blocked(5,5,.2)).toBe(false);
+});
+
+it('indexes enlarged walking-height tree bounds only for navigation queries', () => {
+  const c = new Colliders();
+  c.circle('tree:test', 0, 0, .5, true, { navigationRadius: 12 });
+  // This point is in a different spatial bucket from the original trunk.
+  expect(c.near(10, 0, .4).some(o => o.id === 'tree:test')).toBe(true);
+  expect(c.blocked(10, 0, .4)).toBe(false);
+  expect(c.blockedForNavigation(10, 0, .4)).toBe(true);
+  expect(c.cast(9, 0, 11, 0, .4)).toBeNull();
+  const near = c.near;
+  c.near = () => c.all;
+  expect(c.blockedForNavigation(10, 0, .4)).toBe(true);
+  c.near = near;
+  c.setActive('tree:test', false);
+  expect(c.blockedForNavigation(10, 0, .4)).toBe(false);
 });

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
 import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, ANCHOR_LIMIT, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
@@ -44,6 +44,38 @@ function wood(): THREE.BufferGeometry {
 const opts = { ...NEAR_CANOPY, cards: 3000, seed: 7 };
 
 describe('cluster canopy (A134)', () => {
+  it('builds the source area distribution once across spacing retries, without retaining it across builds', () => {
+    const leaf = sourceCrown(), arrays: number[] = [], Native = Float64Array;
+    class Observed extends Native { constructor(length: number) { super(length); arrays.push(length); } }
+    vi.stubGlobal('Float64Array', Observed);
+    let a: THREE.BufferGeometry | undefined, b: THREE.BufferGeometry | undefined;
+    try {
+      a = buildCanopy(leaf, null, opts);
+      b = buildCanopy(leaf, null, opts);
+    } finally { vi.unstubAllGlobals(); }
+    try {
+      expect(arrays).toEqual([leaf.index!.count / 3, leaf.index!.count / 3]);
+      for (const key of Object.keys(a!.attributes)) expect(a!.getAttribute(key).array).toEqual(b!.getAttribute(key).array);
+      expect(a!.index!.array).toEqual(b!.index!.array);
+      expect(a!.userData).toEqual(b!.userData);
+    } finally { a?.dispose(); b?.dispose(); leaf.dispose(); }
+  });
+
+  it('reuses an immutable wood index across leaf-budget retries without changing any buffers or twig plans', () => {
+    const leaf = sourceCrown(), w = wood(), query = woodAnchor(w);
+    let queries = 0;
+    const shared: typeof query = (point, hit, max) => { queries++; return query(point, hit, max); };
+    for (const cards of [3000, 2200, 1700]) {
+      const options = { ...opts, cards }, fresh = buildCanopy(leaf, w, options), reused = buildCanopy(leaf, w, options, shared);
+      for (const key of Object.keys(fresh.attributes)) expect(reused.getAttribute(key).array).toEqual(fresh.getAttribute(key).array);
+      expect(reused.index!.array).toEqual(fresh.index!.array);
+      expect(reused.userData).toEqual(fresh.userData);
+      fresh.dispose(); reused.dispose();
+    }
+    expect(queries).toBeGreaterThan(0);
+    leaf.dispose(); w.dispose();
+  });
+
   it('is deterministic for a source and seed, and differs with the seed', () => {
     const leaf = sourceCrown(), w = wood();
     const a = buildCanopy(leaf, w, opts), b = buildCanopy(leaf, w, opts), c = buildCanopy(leaf, w, { ...opts, seed: 8 });

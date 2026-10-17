@@ -1,0 +1,135 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "name": "forest-pan",
+      "position": {
+        "x": -121,
+        "z": 95
+      },
+      "frames": 120,
+      "models": {
+        "before": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 0,
+          "poseSha256": "d29753c2d74dd9126e2986179c3126876bbd5bc22440380e5a1d632822afdef1",
+          "maxNativeDifference": 0
+        },
+        "after": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 0,
+          "poseSha256": "d29753c2d74dd9126e2986179c3126876bbd5bc22440380e5a1d632822afdef1",
+          "maxNativeDifference": 0
+        }
+      }
+    },
+    {
+      "name": "walk-fence",
+      "position": {
+        "x": -2,
+        "z": 35
+      },
+      "frames": 120,
+      "models": {
+        "before": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "fb73e69bba64429409185c9162b9cde2ed943aa3c94ff38b6ba561f73377341e",
+          "maxNativeDifference": 0
+        },
+        "after": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "fb73e69bba64429409185c9162b9cde2ed943aa3c94ff38b6ba561f73377341e",
+          "maxNativeDifference": 0
+        }
+      }
+    },
+    {
+      "name": "village-turn",
+      "position": {
+        "x": -5.2,
+        "z": -4
+      },
+      "frames": 120,
+      "models": {
+        "before": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "2c45ba22f6e84047aa2fe208f468b944d4c53022a6a4e7cb211a60d6b78a5649",
+          "maxNativeDifference": 0
+        },
+        "after": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "2c45ba22f6e84047aa2fe208f468b944d4c53022a6a4e7cb211a60d6b78a5649",
+          "maxNativeDifference": 0
+        }
+      }
+    },
+    {
+      "name": "grass-pan",
+      "position": {
+        "x": 18,
+        "z": 20
+      },
+      "frames": 120,
+      "models": {
+        "before": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "5cec91a98df17c311c0a1f779d5abda06452295f70022331f6e3a6eb68c2477f",
+          "maxNativeDifference": 0
+        },
+        "after": {
+          "calls": {
+            "sin": 479,
+            "cos": 479,
+            "atan2": 119
+          },
+          "doorwayFrames": 120,
+          "poseSha256": "5cec91a98df17c311c0a1f779d5abda06452295f70022331f6e3a6eb68c2477f",
+          "maxNativeDifference": 0
+        }
+      }
+    }
+  ],
+  "changedChannels": {},
+  "sourceSha256": {
+    "before": "6449b1f8f3a9fc6d2d77e5b0e44a4033a13c3018b49a7b026a4ccde169b48177",
+    "after": "6449b1f8f3a9fc6d2d77e5b0e44a4033a13c3018b49a7b026a4ccde169b48177"
+  },
+  "scope": "Published native terrain, colliders and crown callback. Actual original/candidate CameraRig modules count only their own Math.sin/cos/atan2 calls. Each route replays 120 fixed follow updates; snapshots include position, orientation and FOV. Both models use the original crown helper to isolate lookahead. Native before pose must match. Static native-post images at route endpoints with collision-clear forest anchor, native hero fade, shared world preparation and auxiliary water/window captures held at their common warmed state; not hardware timing or a walking-video gate.",
+  "pass": false
+}

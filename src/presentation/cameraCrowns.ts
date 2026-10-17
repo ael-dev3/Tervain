@@ -22,6 +22,12 @@ export const CROWN_FLOOR = 2.6;
 /** Crowns by grid cell, for the camera's neighbourhood. */
 export class CrownIndex {
   private readonly cells = new Map<number, CameraCrown[]>();
+  private readonly queryCells: CameraCrown[][] = [];
+  private cacheValid = false;
+  private lastX0 = NaN;
+  private lastX1 = NaN;
+  private lastZ0 = NaN;
+  private lastZ1 = NaN;
   private largest = 0;
   private readonly found: CameraCrown[] = [];
 
@@ -36,19 +42,29 @@ export class CrownIndex {
     if (!list) { list = []; this.cells.set(k, list); }
     list.push(crown);
     this.largest = Math.max(this.largest, crown.h);
+    this.cacheValid = false;
   }
 
   get size() { let n = 0; for (const list of this.cells.values()) n += list.length; return n; }
 
-  /** The crowns whose centres lie within `r` (plus the widest crown) of (x, z). The list is reused between calls. */
+  /** Crowns whose horizontal extent can reach within `r` of (x, z). The list is reused between calls. */
   near(x: number, z: number, r: number): readonly CameraCrown[] {
     this.found.length = 0;
     const reach = r + this.largest;
     const x0 = Math.floor((x - reach) / this.cell), x1 = Math.floor((x + reach) / this.cell);
     const z0 = Math.floor((z - reach) / this.cell), z1 = Math.floor((z + reach) / this.cell);
-    for (let ix = x0; ix <= x1; ix++) for (let iz = z0; iz <= z1; iz++) {
-      const list = this.cells.get(this.key(ix, iz));
-      if (list) for (const c of list) if (Math.hypot(c.x - x, c.z - z) <= reach) this.found.push(c);
+    if (!this.cacheValid || x0 !== this.lastX0 || x1 !== this.lastX1 || z0 !== this.lastZ0 || z1 !== this.lastZ1) {
+      this.queryCells.length = 0;
+      this.lastX0 = x0; this.lastX1 = x1; this.lastZ0 = z0; this.lastZ1 = z1;
+      for (let ix = x0; ix <= x1; ix++) for (let iz = z0; iz <= z1; iz++) {
+        const list = this.cells.get(this.key(ix, iz));
+        if (list) this.queryCells.push(list);
+      }
+      this.cacheValid = true;
+    }
+    // Reuse only cells; current position/radius and each crown's own reach still decide every result.
+    for (const list of this.queryCells) for (const c of list) {
+      if (Math.hypot(c.x - x, c.z - z) <= r + c.h) this.found.push(c);
     }
     return this.found;
   }
@@ -68,12 +84,22 @@ function inCore(c: CameraCrown, x: number, y: number, z: number): boolean {
 export function crownBoom(pivot: { x: number; y: number; z: number }, dir: { x: number; y: number; z: number }, boom: number,
   crowns: readonly CameraCrown[]): number {
   let allowed = boom;
+  const endY = pivot.y + dir.y * boom;
+  const minY = Math.min(pivot.y, endY) - 1e-6, maxY = Math.max(pivot.y, endY) + 1e-6;
   for (const c of crowns) {
+    // Keep tangent/rounding cases on the original sampled path; only a disjoint height range is skipped.
+    const halfHeight = Math.abs(c.v * CROWN_CORE);
+    if (maxY < c.floor || maxY < c.y - halfHeight || minY > c.y + halfHeight) continue;
     if (inCore(c, pivot.x, pivot.y, pivot.z)) continue;
-    for (let d = 0.2; d <= allowed; d += 0.2) {
-      if (!inCore(c, pivot.x + dir.x * d, pivot.y + dir.y * d, pivot.z + dir.z * d)) continue;
-      allowed = Math.min(allowed, d - 0.3);
-      break;
+    for (let d = 0.2; d - 0.2 < allowed; d += 0.2) {
+      // Zoom and floating-point step accumulation can leave a final interval untested.
+      // Always include the actual lens position, even for the default 6.2 m boom.
+      const probe = Math.min(d, allowed);
+      if (inCore(c, pivot.x + dir.x * probe, pivot.y + dir.y * probe, pivot.z + dir.z * probe)) {
+        allowed = Math.min(allowed, probe - 0.3);
+        break;
+      }
+      if (probe === allowed) break;
     }
   }
   return Math.max(Math.min(boom, CROWN_MIN_BOOM), allowed);

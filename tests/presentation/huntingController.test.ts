@@ -60,7 +60,7 @@ function fixture() {
   camera.position.set(player.x, player.y + 2, player.z - 3);
   camera.lookAt(corpse.x, corpse.y + 1, corpse.z);
   camera.updateMatrixWorld();
-  const cam = { camera, yaw: 0, pitch: 0, setAiming: vi.fn() };
+  const cam = { camera, yaw: 0, pitch: 0, setAiming: vi.fn(), bowKick: vi.fn() };
   const input = {
     bowMode: false,
     isDown: vi.fn((action: string) => action === 'attack' ? mutable.held : action === 'block' ? mutable.aimHeld : false),
@@ -68,7 +68,7 @@ function fixture() {
     label: vi.fn((action: string) => action),
   };
   const audio = { huntingSound: vi.fn(), stopHuntingSounds: vi.fn() };
-  const hud = { toast: vi.fn(), setHunting: vi.fn() };
+  const hud = { toast: vi.fn(), setHunting: vi.fn(), bowHit: vi.fn() };
   const animals = {
     alertShot: vi.fn(), showArrowImpact: vi.fn(), syncHunting: vi.fn(),
     traceArrow: vi.fn((origin: THREE.Vector3, direction: THREE.Vector3, limit: number): AnimalArrowHit | null => {

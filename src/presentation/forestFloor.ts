@@ -18,6 +18,12 @@ import { woodlandColonyAt } from './ground/habitat';
 export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; colonyId?: string; parentLogId?: string }
 
+// Keep the exact eight contact directions without repeating trigonometry per floor piece.
+const FLOOR_CONTACT_DIRECTIONS = Array.from({ length: 8 }, (_, sample) => {
+  const az = sample * Math.PI / 4;
+  return [Math.cos(az), Math.sin(az)] as const;
+});
+
 /** Authored once, then graphics settings thin only low, nonblocking woodland detail. */
 export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions), crowns?: PlantedCrownField): ForestFloorPiece[] {
   const out: ForestFloorPiece[] = [];
@@ -34,6 +40,16 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return local;
   };
+  // Test the same buckets in source order without collecting every nearby tree first.
+  const nearTrunk = (x: number, z: number, margin: number): boolean => {
+    for (let i = Math.floor((x - 16) / 16); i <= Math.floor((x + 16) / 16); i++) {
+      for (let j = Math.floor((z - 16) / 16); j <= Math.floor((z + 16) / 16); j++) {
+        const bucket = hash.get(`${i}:${j}`);
+        if (bucket) for (const t of bucket) if (Math.hypot(t.x - x, t.z - z) < t.radius + margin) return true;
+      }
+    }
+    return false;
+  };
   const canopyAt = (x: number, z: number) => {
     // The loaded world supplies transformed source-leaf envelopes. The fallback is only for the
     // independent authoring tools and synthetic tests that deliberately omit a source model.
@@ -45,25 +61,29 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return 1 - Math.exp(-cover);
   };
-  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string) => {
+  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string, sampledCanopy?: number) => {
     const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.75 : kind === 'shrub' ? scale * 1.05 : 0.45;
-    if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
-    if (crowns && crowns.coverAt(x, z) < 0.08) return;
+    if (realmRadius(x, z) > 0.97) return;
+    const y = terrain.heightAt(x, z);
+    if (y < 0.35 || terrain.carveAt(x, z) > 0.01) return;
+    const slope = terrain.slopeAt(x, z);
+    if (slope > 0.62 || exclusions.blocked(x, z, reach)) return;
+    if (crowns && (sampledCanopy ?? crowns.coverAt(x, z)) < 0.08) return;
     // Dry palm sand carries sparse litter; moist temperate ferns never appear beneath it.
     if ((kind === 'fern' || kind === 'moss') && (sampledBiome ?? biomeAt(x, z)).weights['sheltered-palms'] > 0.35) return;
-    if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
+    if (kind === 'log' && slope > 0.22) return;
     if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : kind === 'fern' || kind === 'shrub' ? reach : 0.4)) return;
-    if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
+    if (nearTrunk(x, z, kind === 'log' ? scale * 1.7 + 0.25 : 0.24)) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
     const nz = (terrain.heightAt(x, z - 0.4) - terrain.heightAt(x, z + 0.4)) / 0.8;
-    const y = terrain.heightAt(x, z);
     // Carpet pieces follow a local tangent plane. Reject a folded ground edge rather than
     // leave the edges of rigid litter or moss suspended over it. Tall plants only root at their base.
     if (kind === 'moss' || kind === 'litter') {
       const footprint = scale * (kind === 'moss' ? 0.76 : 1.05);
       for (let sample = 0; sample < 8; sample++) {
-        const az = sample * Math.PI / 4, dx = Math.cos(az) * footprint, dz = Math.sin(az) * footprint;
+        const direction = FLOOR_CONTACT_DIRECTIONS[sample]!;
+        const dx = direction[0] * footprint, dz = direction[1] * footprint;
         if (Math.abs(terrain.heightAt(x + dx, z + dz) - (y - nx * dx - nz * dz)) > 0.065) return;
       }
     }
@@ -98,7 +118,7 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const fernGrowth = biome.lowGrowth * (1 - biome.exposure * 0.7);
       const fernRandom = mulberry32(cellSeed ^ 701);
       if (fernRandom() < cover * canopy * (0.38 + colony * 0.62 + wet * 0.3) * fernGrowth) {
-        const fern = put('fern', x, z, 0.66 + fernRandom() * 0.57, Math.floor(fernRandom() * 3), biome, colonyId);
+        const fern = put('fern', x, z, 0.66 + fernRandom() * 0.57, Math.floor(fernRandom() * 3), biome, colonyId, canopy);
         if (fern) for (let child = 0; child < 2; child++) {
           const member = mulberry32(cellSeed ^ Math.imul(child + 1, 92719));
           if (member() >= colony * (0.22 + wet * 0.24)) continue;
@@ -119,8 +139,11 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const litterRandom = mulberry32(cellSeed ^ 704);
       if (litterRandom() < cover * canopy * (0.65 + colony * 0.25)) {
         const [lx, lz] = offset(litterRandom, 0.4, 2.25);
-        const variant = crowns && crowns.broadleafAt(lx, lz) < canopyAt(lx, lz) * 0.3 ? 2 : Math.floor(litterRandom() * 2);
-        put('litter', lx, lz, 0.95 + litterRandom() * 0.75, variant, undefined, colonyId);
+        // Litter selection and placement share a shade sample; keep the original lookup order.
+        const broadleaf = crowns?.broadleafAt(lx, lz);
+        const litterCanopy = crowns ? canopyAt(lx, lz) : undefined;
+        const variant = crowns && broadleaf! < litterCanopy! * 0.3 ? 2 : Math.floor(litterRandom() * 2);
+        put('litter', lx, lz, 0.95 + litterRandom() * 0.75, variant, undefined, colonyId, litterCanopy);
       }
       const logRandom = mulberry32(cellSeed ^ 705);
       if (logRandom() < cover * canopy * 0.05) {
@@ -444,7 +467,7 @@ function installFloorPlantWind(material: THREE.Material, foliage: FoliageField) 
     compile.call(this, shader, renderer);
     patchFloorPlantVertex(shader, foliage);
   };
-  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-plant-wind-v1`; };
+  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-plant-wind-v5`; };
 }
 
 function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: THREE.DataTexture) {
@@ -469,6 +492,14 @@ function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: 
       `);
   };
   material.customProgramCacheKey = () => 'tervain-floor-leaf-surface-v2';
+}
+
+/** Upload only rewritten visible slots; an empty batch has no GPU work. */
+function uploadFloorPrefix(attribute: THREE.BufferAttribute | null, count: number) {
+  if (!attribute || count === 0) return;
+  attribute.clearUpdateRanges();
+  attribute.addUpdateRange(0, count * attribute.itemSize);
+  attribute.needsUpdate = true;
 }
 
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
@@ -500,6 +531,9 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     if (!geometry.hasAttribute('aLeafDetail')) geometry.setAttribute('aLeafDetail', new THREE.Float32BufferAttribute(new Float32Array(geometry.getAttribute('position').count * 3), 3));
     const mesh = new THREE.InstancedMesh(geometry, first.kind === 'log' ? logMaterial : material, batch.length);
     mesh.name = `forest_floor_${key}`;
+    // Placements live in instanceMatrix; wind moves vertices in the shader. The batch's local transform is static.
+    mesh.updateMatrix();
+    mesh.matrixAutoUpdate = false;
     mesh.receiveShadow = true;
     mesh.castShadow = quality === 'high' && first.kind === 'fern';
     mesh.frustumCulled = false;
@@ -563,7 +597,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       frustum.setFromProjectionMatrix(pv);
       visible = 0;
       for (const b of owned) {
-        let count = 0, staticChanged = false;
+        let count = 0, staticChanged = false, coverageChanged = false;
         for (let i = 0; i < b.pieces.length; i++) {
           const p = b.pieces[i]!;
           const coverage = smoothDistanceFade(Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z), fade.start, fade.end);
@@ -577,18 +611,20 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
             staticChanged = true;
           }
           b.packed[count] = i;
-          b.visibility.coverage.setXY(count, 0, coverage);
+          // Compare the stored Float32 value, rather than a higher-precision value that rounds to the same bits.
+          if (b.visibility.coverage.getX(count) !== 0 || b.visibility.coverage.getY(count) !== Math.fround(coverage)) {
+            b.visibility.coverage.setXY(count, 0, coverage);
+            coverageChanged = true;
+          }
           count++;
         }
         b.mesh.count = count;
         b.packed.length = count;
-        // Only the packed visible prefix was rewritten; keep unused population capacity off the bus.
-        for (const attribute of staticChanged ? [b.mesh.instanceMatrix, b.mesh.instanceColor, b.visibility.coverage] : [b.visibility.coverage]) {
-          if (!attribute) continue;
-          attribute.clearUpdateRanges();
-          attribute.addUpdateRange(0, Math.max(1, count) * attribute.itemSize);
-          attribute.needsUpdate = true;
+        if (staticChanged) {
+          uploadFloorPrefix(b.mesh.instanceMatrix, count);
+          uploadFloorPrefix(b.mesh.instanceColor, count);
         }
+        if (coverageChanged) uploadFloorPrefix(b.visibility.coverage, count);
         visible += count;
       }
     },

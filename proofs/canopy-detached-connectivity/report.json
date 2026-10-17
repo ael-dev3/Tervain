@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "baselineRef": "421d34b",
+  "sourceSha256": "2d572207b25549a902b083519b358efbb906cb09734d980ecc9f080c6a3a80b0",
+  "scope": "Actual audit source on controlled opaque cards, compared with an independent all-pairs connectivity oracle. Diagnostic correctness only; no visual changes or hardware timing claim.",
+  "cases": 72,
+  "beforeMismatches": 18,
+  "afterMismatches": 0,
+  "invariantsIdentical": true,
+  "pass": true,
+  "casesFile": "cases.json.gz",
+  "casesSha256": "3312e629e054c32441a2525a8c764ad65246a750bbd3708b5bbb9c38f473e6fa"
+}

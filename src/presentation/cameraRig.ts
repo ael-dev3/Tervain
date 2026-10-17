@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { Collider, Colliders } from '../world/colliders';
+import type { BoxCollider, Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { BUILDINGS, LIGHTHOUSE, PLACES } from '../world/layout';
 import { CAMERA_CLEARANCE, cameraColliderEntry } from './cameraObstruction';
@@ -7,6 +7,17 @@ import { RIDE_CAMERA } from './riding';
 import { crownBoom, type CameraCrown } from './cameraCrowns';
 
 const MAX_RECOIL = 0.04;
+/** Inside a room the lens stays this far under the wall top (the tie beams and rafters), never floating up among them. */
+export const CEILING_CLEARANCE = 0.8;
+/** The hero is inside a room from this far outside its footprint, and stays so until this far; the camera's own hold is 0.6. */
+const ROOM_ENTER = 0.5, ROOM_LEAVE = 1.2, ROOM_CAMERA_HOLD = 0.6;
+const isRoof = (c: Collider) => c.id.endsWith(':roof') || c.id === 'archive_roof';
+
+/** A point in a box collider's own frame (x along its width, z along its depth). */
+function boxLocal(c: BoxCollider, x: number, z: number): [number, number] {
+  const ox = x - c.x, oz = z - c.z, cos = Math.cos(c.yaw), sin = Math.sin(c.yaw);
+  return [ox * cos - oz * sin, ox * sin + oz * cos];
+}
 
 function obstacleHeight(c: Collider): number {
   const building = c.id.startsWith('b:') ? BUILDINGS.find((b) => `b:${b.id}` === c.id) : null;
@@ -20,6 +31,9 @@ function obstacleHeight(c: Collider): number {
  * A stable third-person camera. Obstruction shortens the boom immediately but lets it
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
+/** The aim view (B11): boom length, shift to the screen's right and lift of the pivot, in metres. */
+export const AIM_VIEW = { boom: 2.3, right: 1.0, up: 0.3 };
+
 export class CameraRig {
   readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
   yaw = 0;
@@ -29,10 +43,25 @@ export class CameraRig {
   /** The tree crowns near a point, kept out of by the follow camera (A82); none when unset. */
   crowns: ((x: number, z: number, r: number) => readonly CameraCrown[]) | null = null;
   private curDist = 6.2;
+  /** 0 in the open .. 1 in a room: eases the view down under the ceiling and back out again (B12). */
+  interiorBlend = 0;
+  private interiorRoof: string | null = null;
+  private interiorCap = Infinity;
+  private lintelDrop = 0;
+  private lastPx = Number.NaN;
+  private lastPz = Number.NaN;
+  private paceX = 0;
+  private paceZ = 0;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
   private followPivot = new THREE.Vector3();
   private aiming = false;
+  /** Eases 0..1 into the shoulder view instead of snapping the boom and offset (B11). */
+  aimBlend = 0;
+  /** Bow draw 0..1: the view tightens a little as the string comes back (B11). */
+  private draw = 0;
+  /** A short upward kick on the loose, decaying in a few tenths of a second (B11). */
+  private kick = 0;
   get isAiming() { return this.aiming; }
   /** In the saddle the camera rides further back and higher (A71); `rideBlend` eases 0 afoot .. 1 mounted. */
   mounted = false;
@@ -57,8 +86,15 @@ export class CameraRig {
     this.waterTerrain = null;
     this.waterColliders = [];
     this.curDist = this.wantDist;
+    this.interiorBlend = 0;
+    this.interiorRoof = null;
+    this.interiorCap = Infinity;
+    this.lintelDrop = 0;
+    this.lastPx = this.lastPz = Number.NaN;
+    this.paceX = this.paceZ = 0;
     this.shakeT = 0;
     this.aiming = false;
+    this.aimBlend = this.draw = this.kick = 0;
     this.camera.fov = 60;
     this.camera.updateProjectionMatrix();
   }
@@ -81,9 +117,13 @@ export class CameraRig {
   }
 
   /** A closer shoulder view leaves the exploration zoom preference intact. */
-  setAiming(aiming: boolean) {
+  setAiming(aiming: boolean, draw = 0) {
     this.aiming = aiming;
+    this.draw = aiming && Number.isFinite(draw) ? Math.max(0, Math.min(1, draw)) : 0;
   }
+
+  /** The loose: a small lift of the view that settles back (B11). */
+  bowKick(reducedMotion = false) { this.kick = reducedMotion ? 0 : 1; }
 
   applyLook(dyaw: number, dpitch: number, zoom: number) {
     if (Number.isFinite(dyaw)) this.yaw = Math.atan2(Math.sin(this.yaw + dyaw), Math.cos(this.yaw + dyaw));
@@ -119,19 +159,62 @@ export class CameraRig {
       this.smoothTarget.y += (this.target.y - this.smoothTarget.y) * kHeight;
     }
 
-    const cp = Math.cos(this.pitch);
-    const dirX = -Math.sin(this.yaw) * cp;
-    const dirY = Math.sin(this.pitch);
-    const dirZ = -Math.cos(this.yaw) * cp;
-    const boomDistance = (this.aiming ? 2.8 : this.wantDist) + RIDE_CAMERA.back * this.rideBlend;
+    const aimTarget = this.aiming ? 1 : 0;
+    this.aimBlend = !this.initialized || reducedMotion ? aimTarget
+      : this.aimBlend + (aimTarget - this.aimBlend) * (1 - Math.exp(-Math.max(0, dt) * 20));
+    if (Math.abs(this.aimBlend - aimTarget) < 1e-3) this.aimBlend = aimTarget;
+    const aimEase = this.aimBlend * this.aimBlend * (3 - 2 * this.aimBlend);
+    const boomDistance = this.wantDist + (AIM_VIEW.boom - this.wantDist) * aimEase + RIDE_CAMERA.back * this.rideBlend;
     this.lastBoom = boomDistance;
-    const aimOffset = this.aiming ? 0.42 : 0;
+    const aimOffset = AIM_VIEW.right * aimEase;
     this.followPivot.copy(this.smoothTarget);
     // A rail fence is seen through (A125): its wall above the rails keeps the hero off them, not the camera, which pulled
     // in to a metre from his back whenever it swung across one.
     const candidates = colliders.nearCamera(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL).filter((c) => c.id !== 'fence');
     this.waterTerrain = terrain;
     this.waterColliders = candidates;
+    // B12: in a room (decided by the hero's footprint, with hysteresis) the boom drops under the ceiling, eased, instead
+    // of floating up among the tie beams and rafters; it eases back out once hero and lens are both clear.
+    const roofs = candidates.filter(isRoof);
+    let room: Collider | null = null;
+    for (const r of roofs) {
+      if (r.kind !== 'box') continue;
+      const [hx, hz] = boxLocal(r, px, pz);
+      const here = this.interiorRoof === r.id;
+      const m = here ? ROOM_LEAVE : ROOM_ENTER;
+      let inside = Math.abs(hx) <= r.hw + m && Math.abs(hz) <= r.hd + m;
+      if (!inside && here && this.interiorBlend > 0.02) {
+        const [cx, cz] = boxLocal(r, this.camera.position.x, this.camera.position.z);
+        inside = Math.abs(cx) <= r.hw + ROOM_CAMERA_HOLD && Math.abs(cz) <= r.hd + ROOM_CAMERA_HOLD;
+      }
+      if (inside && (!room || here)) room = r;
+    }
+    if (room) { this.interiorRoof = room.id; this.interiorCap = (room.minY ?? Infinity) - CEILING_CLEARANCE; }
+    else if (this.interiorBlend <= 0.001) { this.interiorRoof = null; this.interiorCap = Infinity; }
+    const roomTarget = room ? 1 : 0;
+    const roomRate = (roomTarget ? 4 : 2) * (reducedMotion ? 2 : 1);
+    this.interiorBlend = !this.initialized ? roomTarget : this.interiorBlend + (roomTarget - this.interiorBlend) * (1 - Math.exp(-Math.max(0, dt) * roomRate));
+    if (Math.abs(this.interiorBlend - roomTarget) < 1e-3) this.interiorBlend = roomTarget;
+    let pitch = this.pitch;
+    if (this.interiorBlend > 0 && Number.isFinite(this.interiorCap)) {
+      const rise = (this.interiorCap - this.smoothTarget.y) / boomDistance;
+      // A low room (a store or hut) leaves little over the hero's head: the view may level out or look slightly up at him to fit.
+      const cap = Math.max(Math.asin(Math.max(-1, Math.min(1, rise))), -0.3);
+      const ease = this.interiorBlend * this.interiorBlend * (3 - 2 * this.interiorBlend);
+      if (cap < pitch) pitch += (cap - pitch) * ease;
+    }
+    let cp = Math.cos(pitch);
+    let dirX = -Math.sin(this.yaw) * cp;
+    let dirY = Math.sin(pitch);
+    let dirZ = -Math.cos(this.yaw) * cp;
+    // The hero's pace, for looking a moment ahead at the doorways (below); a jump is a teleport, not a run.
+    if (Number.isFinite(this.lastPx) && dt > 0) {
+      const vx = (px - this.lastPx) / dt, vz = (pz - this.lastPz) / dt, speed = Math.hypot(vx, vz);
+      const k2 = speed > 12 ? 0 : 1 - Math.exp(-dt * 10);
+      this.paceX = speed > 12 ? 0 : this.paceX + (vx - this.paceX) * k2;
+      this.paceZ = speed > 12 ? 0 : this.paceZ + (vz - this.paceZ) * k2;
+    } else { this.paceX = this.paceZ = 0; }
+    this.lastPx = px; this.lastPz = pz;
     if (aimOffset > 0) {
       // At yaw zero the screen's right is -X. Sweep the short shoulder shift before sweeping the boom.
       const offset = new THREE.Vector3(-Math.cos(this.yaw) * aimOffset, 0, Math.sin(this.yaw) * aimOffset);
@@ -165,6 +248,35 @@ export class CameraRig {
         previousShoulder = fraction;
       }
       this.followPivot.addScaledVector(offset, shoulderFraction);
+      // Over the shoulder and a little above it, so the drawn bow ahead of him is framed, not hidden by his back (B11).
+      this.followPivot.y += AIM_VIEW.up * aimEase * shoulderFraction;
+    }
+    // A doorway's lintel is the one wall a boom can pass under: lower the view, continuously, just enough for the boom to
+    // clear it, rather than shortening the boom to nothing the moment it would touch (a cut).
+    const lintels = candidates.filter((c) => c.id.endsWith(':lintel') || (c.id.endsWith(':doorframe') && (c.minY ?? 0) > this.followPivot.y));
+    if (lintels.length) {
+      const hits = (pt: number) => {
+        const cpt = Math.cos(pt), end = { x: this.followPivot.x - Math.sin(this.yaw) * cpt * boomDistance, y: this.followPivot.y + Math.sin(pt) * boomDistance, z: this.followPivot.z - Math.cos(this.yaw) * cpt * boomDistance };
+        return lintels.some((c) => cameraColliderEntry(this.followPivot, end, c, terrain.groundAt(c.x, c.z), obstacleHeight(c)) !== null);
+      };
+      const floorPitch = Math.min(pitch, 0.02);
+      let want = 0;
+      if (hits(pitch)) {
+        if (hits(floorPitch)) want = pitch - floorPitch;
+        else {
+          let lo = floorPitch, hi = pitch;
+          for (let j = 0; j < 14; j++) { const mid = (lo + hi) / 2; if (hits(mid)) hi = mid; else lo = mid; }
+          want = pitch - lo;
+        }
+      }
+      // Lowered at once as far as needed, raised again slowly: the view never pops back up as the doorway falls behind.
+      const kDrop = want > this.lintelDrop ? 40 : 2.5;
+      this.lintelDrop += (want - this.lintelDrop) * (1 - Math.exp(-Math.max(0, dt) * kDrop));
+      if (want > this.lintelDrop) this.lintelDrop = want;
+    } else this.lintelDrop += (0 - this.lintelDrop) * (1 - Math.exp(-Math.max(0, dt) * 2.5));
+    if (this.lintelDrop > 1e-4) {
+      pitch -= this.lintelDrop; cp = Math.cos(pitch);
+      dirX = -Math.sin(this.yaw) * cp; dirY = Math.sin(pitch); dirZ = -Math.cos(this.yaw) * cp;
     }
     const desired = {
       x: this.followPivot.x + dirX * boomDistance,
@@ -172,16 +284,41 @@ export class CameraRig {
       z: this.followPivot.z + dirZ * boomDistance,
     };
     // Begin easing before a turn brings the boom into narrow doorway trim; hard clearance still wins.
-    const yawStep = Number.isFinite(this.lastFollowYaw)
-      ? Math.atan2(Math.sin(this.yaw - this.lastFollowYaw), Math.cos(this.yaw - this.lastFollowYaw)) : 0;
+    const previousYaw = this.lastFollowYaw;
     this.lastFollowYaw = this.yaw;
-    const futureYaw = this.yaw + Math.max(-4, Math.min(4, yawStep / Math.max(dt, 1 / 120))) * .25;
-    const future = { x: this.followPivot.x - Math.sin(futureYaw) * cp * boomDistance,
-      y: desired.y, z: this.followPivot.z - Math.cos(futureYaw) * cp * boomDistance };
+    let future: { x: number; y: number; z: number } | null = null;
     let trimTarget = boomDistance;
     for (const c of candidates) if (c.id.endsWith(':doorframe')) {
+      if (!future) {
+        // Keep yaw history everywhere, but build the lookahead only when doorway trim can use it.
+        const yawStep = Number.isFinite(previousYaw)
+          ? Math.atan2(Math.sin(this.yaw - previousYaw), Math.cos(this.yaw - previousYaw)) : 0;
+        const futureYaw = this.yaw + Math.max(-4, Math.min(4, yawStep / Math.max(dt, 1 / 120))) * .25;
+        future = { x: this.followPivot.x - Math.sin(futureYaw) * cp * boomDistance,
+          y: desired.y, z: this.followPivot.z - Math.cos(futureYaw) * cp * boomDistance };
+      }
       const t = cameraColliderEntry(this.followPivot, future, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
       if (t !== null) trimTarget = Math.min(trimTarget, Math.max(.04, t * boomDistance - .025));
+    }
+    // The ceiling zone (the wall top less the clearance) draws the boom in softly, never to less than a metre.
+    let ceilingTarget = boomDistance;
+    for (const r of roofs) {
+      if (r.minY === undefined) continue;
+      const zone = { ...r, minY: r.minY - (CEILING_CLEARANCE - CAMERA_CLEARANCE) } as Collider;
+      const t = cameraColliderEntry(this.followPivot, desired, zone, terrain.groundAt(r.x, r.z), obstacleHeight(r));
+      if (t !== null) ceilingTarget = Math.min(ceilingTarget, Math.max(1, t * boomDistance - 0.025));
+    }
+    // A moment ahead at the walls and trim of a room: the boom draws in as he nears a doorway, not at the instant its ray
+    // meets a jamb, and lengthens again once he has passed (hard clearance below still wins every frame).
+    let leadTarget = boomDistance;
+    if (roofs.length && (this.paceX !== 0 || this.paceZ !== 0)) {
+      const ahead = { x: this.followPivot.x + this.paceX * 0.3, y: this.followPivot.y, z: this.followPivot.z + this.paceZ * 0.3 };
+      const reach = { x: ahead.x + dirX * boomDistance, y: ahead.y + dirY * boomDistance, z: ahead.z + dirZ * boomDistance };
+      for (const c of candidates) {
+        if (!c.id.startsWith('room:') || isRoof(c)) continue;
+        const t = cameraColliderEntry(ahead, reach, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
+        if (t !== null) leadTarget = Math.min(leadTarget, Math.max(0.8, t * boomDistance - 0.025));
+      }
     }
     let allowed = boomDistance;
     for (const c of candidates) {
@@ -220,10 +357,11 @@ export class CameraRig {
     const crowned = this.crowns
       ? crownBoom(this.followPivot, { x: dirX, y: dirY, z: dirZ }, boomDistance, this.crowns(this.followPivot.x, this.followPivot.z, boomDistance))
       : boomDistance;
-    const target = Math.min(allowed, crowned, trimTarget);
-    // Shorten instantly for walls and ground; lengthen slowly.
+    const firm = Math.min(allowed, crowned, trimTarget), soft = Math.min(ceilingTarget, leadTarget), target = Math.min(firm, soft);
+    // Shorten instantly for walls and ground; lengthen slowly. The ceiling and the doorway ahead are anticipations, and
+    // draw the boom in more gently than a trunk or a wall does.
     if (allowed < this.curDist) this.curDist = allowed;
-    if (target < this.curDist) this.curDist += (target - this.curDist) * (1 - Math.exp(-Math.max(0, dt) * 7));
+    if (target < this.curDist) this.curDist += (target - this.curDist) * (1 - Math.exp(-Math.max(0, dt) * (firm <= soft ? 7 : 3.2)));
     else this.curDist += (target - this.curDist) * (1 - Math.exp(-dt * 1.6));
     const cx = this.followPivot.x + dirX * this.curDist;
     let cy = this.followPivot.y + dirY * this.curDist;
@@ -272,7 +410,12 @@ export class CameraRig {
       this.camera.position.set(cx + (recoil.x - cx) * share, cy + (recoil.y - cy) * share, cz + (recoil.z - cz) * share);
     }
     this.camera.lookAt(this.followPivot);
-    const fov = this.aiming ? 48 : 60;
+    if (this.kick > 0) {
+      // Lift the view a hair and let it settle; the pivot itself never moves, so aim recovers exactly.
+      this.camera.rotateX(this.kick * this.kick * 0.022);
+      this.kick = Math.max(0, this.kick - Math.max(0, dt) * 5);
+    }
+    const fov = this.aiming ? 48 - 4 * this.draw : 60;
     if (this.camera.fov !== fov) {
       this.camera.fov += (fov - this.camera.fov) * k;
       if (Math.abs(this.camera.fov - fov) < 0.01) this.camera.fov = fov;

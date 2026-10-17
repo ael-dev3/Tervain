@@ -1,0 +1,414 @@
+{
+  "baseline": "421d34b",
+  "sourceSha256": "b3e98688c615fe313b3e19ea1ca05f8d06b1db3394e669f55c092b561af17cbe",
+  "scope": "Actual medium forest-floor producer and shaders with deterministic terrain and a local ground mesh in native software WebGL. Warm buffers, 18 small pan frames then six walking frames. GL bufferData/bufferSubData byte counts, not texture traffic, hardware timings or a full world/play-gate result.",
+  "before": {
+    "frames": [
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2368,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2360,
+        "uploadCalls": 11,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 7976,
+        "uploadCalls": 13,
+        "draws": 12,
+        "triangles": 97046,
+        "drawn": 294
+      }
+    ],
+    "glError": 0,
+    "contextLost": false
+  },
+  "after": {
+    "frames": [
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97630,
+        "drawn": 296
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "turn",
+        "uploadBytes": 0,
+        "uploadCalls": 0,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2312,
+        "uploadCalls": 8,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2312,
+        "uploadCalls": 8,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2312,
+        "uploadCalls": 8,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2312,
+        "uploadCalls": 8,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 2312,
+        "uploadCalls": 8,
+        "draws": 12,
+        "triangles": 97550,
+        "drawn": 295
+      },
+      {
+        "stage": "walk",
+        "uploadBytes": 7928,
+        "uploadCalls": 10,
+        "draws": 12,
+        "triangles": 97046,
+        "drawn": 294
+      }
+    ],
+    "glError": 0,
+    "contextLost": false
+  },
+  "totals": {
+    "beforeTurn": 42568,
+    "afterTurn": 0,
+    "beforeWalk": 19776,
+    "afterWalk": 19488
+  },
+  "pixelIdenticalFrames": 3,
+  "imageHashes": [
+    "d512ef7e61c145b54bf968b609bf817be00ea6522b13cc136f489d2ece408e56",
+    "db7c616227722b5e06c7c526529d3e879bffc4cd3bb7e7bdd23442a17532012f",
+    "719410916d1f4f6d488d1e600797cfbe17285993dfef461053ba17f25b5fc11a"
+  ],
+  "pass": true
+}

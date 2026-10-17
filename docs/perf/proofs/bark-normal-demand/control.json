@@ -1,0 +1,287 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "nativeKinds": [
+    "pine",
+    "oak"
+  ],
+  "nativeRows": [
+    {
+      "name": "solitary-pine:0:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "solitary-pine:1:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "solitary-pine:0:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "solitary-pine:1:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "solitary-pine:0:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "solitary-pine:1:wood",
+      "kind": "pine",
+      "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+      "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08"
+    },
+    {
+      "name": "tree-1521:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1521:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1521:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "oak-elder:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "oak-elder:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "oak-elder:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1521:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1521:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1521:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-0208:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-0208:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-0208:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "verdant-sentinel:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "verdant-sentinel:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "verdant-sentinel:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1505:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1505:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-1505:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4949:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4815:0:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4815:1:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    },
+    {
+      "name": "tree-4815:2:wood",
+      "kind": "oak",
+      "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+      "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca"
+    }
+  ],
+  "rows": {
+    "before": {
+      "oak": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+        "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca",
+        "requestedNormalSha256": "0d1f68014caced46d3ee80f5bd1141921d7c7d97242e1b38388cfe7ed4a288b1",
+        "normalPixelsOnRequest": 0
+      },
+      "pine": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+        "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08",
+        "requestedNormalSha256": "e5c5051c25477655cff4f7bc847e9f1955c2b54ea15163bbb6724d67ccc8083b",
+        "normalPixelsOnRequest": 0
+      },
+      "dead": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "7d85e77e056d25449d072bb2b2a6c72ce0934914c3e21cc6da58e12c367aae97",
+        "surfaceSha256": "d8a65ed62fc893781b7d3e1911debe115332c0ccf7052a092602c6ef68f073ee",
+        "requestedNormalSha256": "92712f1e13fe0c8c76bc15519d499bb5bc617955812ca61e4eaca3e32fdab260",
+        "normalPixelsOnRequest": 0
+      },
+      "unusedDisposal": {
+        "generatedPixels": 1024,
+        "pixelsDuringDisposal": 0
+      }
+    },
+    "after": {
+      "oak": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "d77e8eacac5443ec72e009572f16e61eedada083f07d9ddac193539a3ee9b707",
+        "surfaceSha256": "98c42383c0d8e99c12b37429afb832829dcf1ef80022847d285b59f2bfec11ca",
+        "requestedNormalSha256": "0d1f68014caced46d3ee80f5bd1141921d7c7d97242e1b38388cfe7ed4a288b1",
+        "normalPixelsOnRequest": 0
+      },
+      "pine": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "2725cee96bc58f26e5e110721f4a9d9bea62a0c8a428bc52b17bc5e7d283ab88",
+        "surfaceSha256": "0a9c32ec064803182608f9194b219025d50b7da2e3330d3bec089313d7c19c08",
+        "requestedNormalSha256": "e5c5051c25477655cff4f7bc847e9f1955c2b54ea15163bbb6724d67ccc8083b",
+        "normalPixelsOnRequest": 0
+      },
+      "dead": {
+        "normalPixelsAtDetailUse": 1048576,
+        "mapSha256": "7d85e77e056d25449d072bb2b2a6c72ce0934914c3e21cc6da58e12c367aae97",
+        "surfaceSha256": "d8a65ed62fc893781b7d3e1911debe115332c0ccf7052a092602c6ef68f073ee",
+        "requestedNormalSha256": "92712f1e13fe0c8c76bc15519d499bb5bc617955812ca61e4eaca3e32fdab260",
+        "normalPixelsOnRequest": 0
+      },
+      "unusedDisposal": {
+        "generatedPixels": 1024,
+        "pixelsDuringDisposal": 0
+      }
+    }
+  },
+  "cost": {
+    "before": {
+      "drawCalls": 47,
+      "triangles": 196106
+    },
+    "after": {
+      "drawCalls": 47,
+      "triangles": 196106
+    }
+  },
+  "changedChannels": 0,
+  "normalPixelsAtNativeDetailUse": {
+    "before": 2097152,
+    "after": 2097152
+  },
+  "sourceSha256": {
+    "before": "0fc91ecb63b7730f39be0685e228945288bc890f3aafd9e9a22a967794e66833",
+    "after": "0fc91ecb63b7730f39be0685e228945288bc890f3aafd9e9a22a967794e66833"
+  },
+  "scope": "Native published 1024px bark colour/relief textures identify the kinds in actual forest materials. Source modules count height-to-normal texel visits for each kind. A fixed native oak placement and unchanged native material hook render with the generated colour/relief pair through native post/MSAA. Requested normal maps are also byte-compared. Not hardware timing, GPU upload savings or a net heap saving: unused normals retain their Float32 source heights instead of generating RGBA normal bytes.",
+  "pass": false
+}

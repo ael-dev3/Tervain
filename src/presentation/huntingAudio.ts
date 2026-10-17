@@ -1,13 +1,29 @@
 /** The provider is used only by an offline asset tool; all playback stays local. */
-export type HuntingSoundKind = 'bow_draw' | 'bow_release' | 'arrow_flesh' | 'arrow_ground' | 'skinning' | 'skinning_complete';
+export type HuntingSoundKind = 'bow_draw' | 'bow_release' | 'arrow_flesh' | 'arrow_ground' | 'arrow_wood' | 'skinning' | 'skinning_complete';
+/** The six recordings; a kind without its own plays one of these at another pitch. */
+type HuntingAssetId = Exclude<HuntingSoundKind, 'arrow_wood'>;
 export interface HuntingSoundPosition { x: number; y: number; z: number }
 export interface HuntingAudioListener extends HuntingSoundPosition { heading: number }
 export type HuntingSoundListener = HuntingAudioListener;
 
 export const HUNTING_SOUND_KINDS: readonly HuntingSoundKind[] = [
-  'bow_draw', 'bow_release', 'arrow_flesh', 'arrow_ground', 'skinning', 'skinning_complete',
+  'bow_draw', 'bow_release', 'arrow_flesh', 'arrow_ground', 'arrow_wood', 'skinning', 'skinning_complete',
 ];
 const KINDS: ReadonlySet<string> = new Set(HUNTING_SOUND_KINDS);
+/** The recordings the manifest carries. */
+export const HUNTING_SOUND_ASSETS: readonly HuntingAssetId[] = HUNTING_SOUND_KINDS.filter((kind): kind is HuntingAssetId => kind !== 'arrow_wood');
+const ASSET_IDS: ReadonlySet<string> = new Set(HUNTING_SOUND_ASSETS);
+/**
+ * Which recording a kind plays and at what rate (B11): an arrow into a trunk is the ground strike pitched up into a dry
+ * knock, and shots and strikes vary a few percent so a volley does not repeat one sample.
+ */
+const VOICING: Record<HuntingSoundKind, { asset: HuntingAssetId; rate: number; vary: number }> = {
+  bow_draw: { asset: 'bow_draw', rate: 1, vary: .03 }, bow_release: { asset: 'bow_release', rate: 1, vary: .06 },
+  arrow_flesh: { asset: 'arrow_flesh', rate: 1, vary: .06 }, arrow_ground: { asset: 'arrow_ground', rate: 1, vary: .08 },
+  arrow_wood: { asset: 'arrow_ground', rate: 1.45, vary: .08 }, skinning: { asset: 'skinning', rate: 1, vary: 0 },
+  skinning_complete: { asset: 'skinning_complete', rate: 1, vary: 0 },
+};
+export function huntingSoundVoicing(kind: HuntingSoundKind) { return VOICING[kind]; }
 /** Bounded retries for transient load failures (A71). */
 const LOAD_TRIES = 5;
 const LOAD_BACKOFF_MS = 5_000;
@@ -15,7 +31,7 @@ const MANIFEST_URL = `${import.meta.env.BASE_URL}assets/audio/hunting/manifest.j
 const MAX_VOICES = 6;
 const CAPTIONS: Record<HuntingSoundKind, string> = {
   bow_draw: '[Bowstring draws taut]', bow_release: '[Bowstring releases]', arrow_flesh: '[Arrow strikes an animal]',
-  arrow_ground: '[Arrow strikes the ground]', skinning: '[Knife scrapes through hide]', skinning_complete: '[Pelt packed away]',
+  arrow_ground: '[Arrow strikes the ground]', arrow_wood: '[Arrow strikes wood]', skinning: '[Knife scrapes through hide]', skinning_complete: '[Pelt packed away]',
 };
 
 export function huntingSoundCaption(kind: HuntingSoundKind): string | null {
@@ -38,18 +54,18 @@ export function huntingSoundMix(position?: HuntingSoundPosition, listener?: Hunt
   return { gain: .36 * (4 / Math.max(4, distance)) * edge, pan: Math.max(-1, Math.min(1, pan)), distance };
 }
 
-interface Asset { id: HuntingSoundKind; url: string; sha256: string }
+interface Asset { id: HuntingAssetId; url: string; sha256: string }
 interface Voice { kind: HuntingSoundKind; source: AudioBufferSourceNode; clean: () => void }
 
 function assetsFromManifest(value: unknown): Asset[] {
   if (typeof value !== 'object' || value === null || !('assets' in value) || !Array.isArray(value.assets)) return [];
-  const entries = new Map<HuntingSoundKind, Asset>();
+  const entries = new Map<HuntingAssetId, Asset>();
   for (const candidate of value.assets as unknown[]) {
     if (typeof candidate !== 'object' || candidate === null) continue;
     const entry = candidate as Record<string, unknown>;
-    if (typeof entry.id !== 'string' || !KINDS.has(entry.id) || typeof entry.sha256 !== 'string'
+    if (typeof entry.id !== 'string' || !ASSET_IDS.has(entry.id) || typeof entry.sha256 !== 'string'
       || !/^[a-f0-9]{64}$/.test(entry.sha256) || entry.path !== `public/assets/audio/hunting/${entry.id}.mp3`) continue;
-    const id = entry.id as HuntingSoundKind;
+    const id = entry.id as HuntingAssetId;
     entries.set(id, { id, url: `${import.meta.env.BASE_URL}assets/audio/hunting/${id}.mp3`, sha256: entry.sha256 });
   }
   return [...entries.values()];
@@ -178,7 +194,7 @@ export class HuntingAudio {
     const generation = this.generation;
     const kindGeneration = this.kindGenerations.get(kind) ?? 0;
     this.pending.set(kind, kindGeneration);
-    void this.loadBuffer(kind).then((buffer) => {
+    void this.loadBuffer(VOICING[kind].asset).then((buffer) => {
       if (!buffer || this.disposed || !this.active || !this.canPlay() || generation !== this.generation
         || kindGeneration !== (this.kindGenerations.get(kind) ?? 0)) return;
       // Slow decoding must not replay an old shot. A still-active skinning loop remains useful.
@@ -198,6 +214,8 @@ export class HuntingAudio {
       gain = this.ctx.createGain();
       pan = this.ctx.createStereoPanner();
       source.buffer = buffer;
+      const voicing = VOICING[kind];
+      source.playbackRate.value = voicing.rate * (1 + (Math.random() * 2 - 1) * voicing.vary);
       source.loop = kind === 'skinning';
       gain.gain.value = mix.gain * (kind === 'skinning' ? 0.7 : 1);
       pan.pan.value = mix.pan;

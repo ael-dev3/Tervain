@@ -7,7 +7,7 @@ it('welds split-normal faces and accepts a wood-connected leaf chunk',()=>{const
 it('detects a separated chunk and reports its transformed position',()=>{const r=auditCanopies([fixture(4,2)]);expect(r.summary.candidates).toBe(1);expect(r.trees[0]!.candidates[0]!.position[0]).toBe(8);});
 it('uses world-space gap thresholds and includes leafless trees in population coverage',()=>{const leafless=fixture();leafless.leaves=null;expect(auditCanopies([fixture(1),leafless]).summary).toMatchObject({trees:2,leafless:1,candidates:0});expect(auditCanopies([fixture(1,3)]).summary.candidates).toBe(1);});
 it('rejects unsupported transforms and exhausted budgets instead of claiming coverage',()=>{const target=fixture();target.matrix.makeScale(1,2,1);expect(()=>auditCanopies([target])).toThrow(/nonuniform/);expect(()=>auditCanopies([fixture()],{maxOperations:1})).toThrow(/budget/);expect(()=>auditCanopies([fixture()],{gap:NaN})).toThrow(/Invalid/);});
-it('rejects empty leaves and nonfinite geometry/transforms instead of reporting complete',()=>{const target=fixture();target.leaves=new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute([],3));expect(()=>auditCanopies([target])).toThrow(/Missing leaf/);const bad=fixture();bad.matrix.elements[12]=NaN;expect(()=>auditCanopies([bad])).toThrow(/transform/);const badLeaf=fixture();badLeaf.leaves!.translate(NaN,0,0);expect(()=>auditCanopies([badLeaf])).toThrow(/Nonfinite/);});
+it('rejects empty leaves and nonfinite geometry/transforms instead of reporting complete',()=>{const target=fixture();target.leaves=new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute([],3));expect(()=>auditCanopies([target])).toThrow(/Missing leaf/);const bad=fixture();bad.matrix.elements[12]=NaN;expect(()=>auditCanopies([bad])).toThrow(/transform/);const badLeaf=fixture();badLeaf.leaves!.translate(NaN,0,0);expect(()=>auditCanopies([badLeaf])).toThrow(/Nonfinite/);badLeaf.cutout={uv:'uv',cutoff:.42,alpha:()=>0};expect(()=>auditCanopies([badLeaf],{alpha:true})).toThrow(/Nonfinite/);});
 it('ignores unreferenced source vertices instead of flagging invisible debris',()=>{const t=fixture(),p=t.leaves!.getAttribute('position'),positions=new Float32Array(p.array.length+3);positions.set(p.array);positions.set([100,100,100],p.array.length);t.leaves!.setAttribute('position',new THREE.BufferAttribute(positions,3));const r=auditCanopies([t]);expect(r.summary.components).toBe(1);expect(r.summary.candidates).toBe(0);});
 
 it('keeps transitive crown connectivity at instance-scaled gap cutoffs',()=>{const t=fixture();t.leaves=mergeGeometries([.45,1.45,2.45].map(x=>new THREE.BoxGeometry(.5,.5,.5).translate(x,1,0)));expect(auditCanopies([t]).summary).toMatchObject({components:3,chunks:1,candidates:0});t.matrix.makeScale(2,2,2);expect(auditCanopies([t]).summary).toMatchObject({chunks:3,candidates:2});});
@@ -62,4 +62,56 @@ it('retains leaf-only LOD targets as missing wood instead of claiming complete c
   expect(report.trees[1]).toMatchObject({ label: 'far-pine', lod: 2, species: 'pine', missingWood: true, position: [12, 3, -8], leafless: false });
   expect(report.bySpecies.pine?.trees).toBe(1);
   expect(auditCanopies([supported], { lod: 2 })).toMatchObject({ complete: true, summary: { missingWood: 0 } });
+});
+
+it('does not use transparent space inside alpha bounds as a wood contact', () => {
+  const wood = new THREE.BoxGeometry(.2, .2, .2);
+  const leaves = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute([-3,-3,0, 3,-3,0, 0,3,0],3))
+    .setAttribute('uv', new THREE.Float32BufferAttribute([0,0, 1,0, .5,1],2));
+  const target: CanopyAuditTarget = { label: 'cutout-hole', wood, leaves, matrix: new THREE.Matrix4(),
+    cutout: { uv: 'uv', cutoff: .5, alpha: (u,v) => Math.min(Math.hypot(u,v),Math.hypot(u-1,v),Math.hypot(u-.5,v-1)) < .1 ? 1 : 0 } };
+  try {
+    // The uncut triangle really crosses the wood; only its three distant opaque tips remain in alpha mode.
+    expect(auditCanopies([target]).summary.candidates).toBe(0);
+    expect(auditCanopies([target], { alpha: true }).summary.candidates).toBe(1);
+    wood.translate(-3,-3,0);
+    expect(auditCanopies([target], { alpha: true }).summary.candidates).toBe(0);
+  } finally { wood.dispose(); leaves.dispose(); }
+});
+
+it('rejects unavailable required cutouts rather than claiming opaque coverage in alpha mode',()=>{
+ const t={...fixture(),cutoutRequired:true,cutout:null};
+ expect(()=>auditCanopies([t],{alpha:true})).toThrow(/Missing required leaf cutout/);
+ expect(auditCanopies([t],{alpha:false}).complete).toBe(true);
+ const opaque={...t,cutoutRequired:false};expect(auditCanopies([opaque],{alpha:true}).complete).toBe(true);
+ const decoded={...t,cutout:{uv:'uv',cutoff:.5,alpha:()=>1}};expect(auditCanopies([decoded],{alpha:true}).complete).toBe(true);
+ const leafless={...t,leaves:null};expect(auditCanopies([leafless],{alpha:true}).complete).toBe(true);
+});
+
+it('keeps tighter wood-reach classifications independent of wood triangle order', () => {
+  const near = new THREE.PlaneGeometry(1, 1).translate(0, 0, .1);
+  const far = new THREE.PlaneGeometry(1, 1).translate(0, 0, .5);
+  const leaves = new THREE.PlaneGeometry(.02, .02);
+  const geometries = [mergeGeometries([far, near]), mergeGeometries([near, far]), far.clone()];
+  try {
+    for (const [i, wood] of geometries.entries()) {
+      const r = auditCanopies([{ label: 'tight-reach', wood, leaves, matrix: new THREE.Matrix4() }],
+        { gap: .75, woodReach: .2 });
+      expect(r.summary.candidates).toBe(0); // All three stay connected at the wider connectivity gap.
+      expect(r.summary.detachedCards).toBe(i === 2 ? 1 : 0);
+      expect(r.summary.detachedClumps).toBe(i === 2 ? 1 : 0);
+    }
+  } finally { near.dispose(); far.dispose(); leaves.dispose(); for (const g of geometries) g.dispose(); }
+});
+
+it('connects detached cards directly even when the full crown spanning tree routes through supported leaves',()=>{
+  for(const scale of [.5,1,2])for(const reverse of [false,true]){
+    const cards=[new THREE.PlaneGeometry(.02,.02).translate(0,0,1),new THREE.PlaneGeometry(.02,.02).translate(-.3,0,1.2),new THREE.PlaneGeometry(.02,.02).translate(.3,0,1.2)];
+    const wood=new THREE.PlaneGeometry(4,4),leaves=mergeGeometries(reverse?cards.reverse():cards),target={label:'supported-shortcut',wood,leaves,matrix:new THREE.Matrix4().makeScale(scale,scale,scale)};
+    try{
+      expect(auditCanopies([target],{gap:.75*scale,woodReach:1.05*scale}).summary).toMatchObject({components:3,chunks:1,candidates:1,detachedCards:2,detachedClumps:1});
+      expect(auditCanopies([target],{gap:.4*scale,woodReach:1.05*scale}).summary).toMatchObject({detachedCards:2,detachedClumps:2});
+    }finally{wood.dispose();leaves.dispose();cards.forEach(g=>g.dispose());}
+  }
 });

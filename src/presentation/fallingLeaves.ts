@@ -13,6 +13,7 @@ export const FALLING_LEAF_DISTANCE = [30, 55] as const;
 
 interface Site { x: number; y: number; z: number }
 interface Stream {
+  driftCos: number; driftSin: number; flutterSin: number; flutterZSin: number;
   origin: Site; phase: number; speed: number; drift: number; flutter: number; yaw: number; size: number;
   contactTime: number; contact: Site; cycle: number; tint: number; terrainCeiling: number;
 }
@@ -96,17 +97,22 @@ function airbornePosition(stream: Stream, age: number, out: Site): void {
   const t = Math.min(age, stream.contactTime);
   // Bounded downwind drift and slow alternating sideslip start exactly on the selected canopy card.
   const breeze = t / (14 + t) * 2.2;
-  out.x = stream.origin.x + Math.cos(stream.drift) * breeze + 0.31 * (Math.sin(t * 0.63 + stream.flutter) - Math.sin(stream.flutter));
-  out.z = stream.origin.z + Math.sin(stream.drift) * breeze + 0.26 * (Math.sin(t * 0.49 + stream.flutter * 1.3) - Math.sin(stream.flutter * 1.3));
+  out.x = stream.origin.x + stream.driftCos * breeze + 0.31 * (Math.sin(t * 0.63 + stream.flutter) - stream.flutterSin);
+  out.z = stream.origin.z + stream.driftSin * breeze + 0.26 * (Math.sin(t * 0.49 + stream.flutter * 1.3) - stream.flutterZSin);
   out.y = stream.origin.y - stream.speed * t;
 }
+
+const groundDirections: readonly Readonly<{ x: number; z: number }>[] = Array.from({ length: 8 }, (_, i) => {
+  const angle = i * Math.PI / 4;
+  return { x: Math.cos(angle), z: Math.sin(angle) };
+});
 
 /** Cover the entire tiny folded mesh on hills, including its maximum rotated vertical/horizontal radius. */
 function groundClearance(terrain: Pick<Terrain, 'heightAt'>, p: Site, radius: number): number {
   let ground = terrain.heightAt(p.x, p.z);
-  for (let i = 0; i < 8; i++) {
-    const angle = i * Math.PI / 4;
-    ground = Math.max(ground, terrain.heightAt(p.x + Math.cos(angle) * radius, p.z + Math.sin(angle) * radius));
+  for (let i = 0; i < groundDirections.length; i++) {
+    const direction = groundDirections[i]!;
+    ground = Math.max(ground, terrain.heightAt(p.x + direction.x * radius, p.z + direction.z * radius));
   }
   return ground + radius + 0.015;
 }
@@ -141,8 +147,10 @@ export function buildFallingLeaves(
       const rng = mulberry32(seedFor(tree, slot));
       const site = sites[Math.floor(rng() * sites.length)]!;
       const origin = worldCanopySite(tree, site);
-      const stream: Stream = { origin, phase: rng(), speed: 0.24 + rng() * 0.18, drift: windAngle - 0.45 + rng() * 0.9,
-        flutter: rng() * Math.PI * 2, yaw: rng() * Math.PI * 2, size: 0.16 + rng() * 0.08,
+      const phase = rng(), speed = 0.24 + rng() * 0.18, drift = windAngle - 0.45 + rng() * 0.9, flutter = rng() * Math.PI * 2;
+      const stream: Stream = { origin, phase, speed, drift, flutter,
+        driftCos: Math.cos(drift), driftSin: Math.sin(drift), flutterSin: Math.sin(flutter), flutterZSin: Math.sin(flutter * 1.3),
+        yaw: rng() * Math.PI * 2, size: 0.16 + rng() * 0.08,
         contactTime: Infinity, contact: { x: 0, y: 0, z: 0 }, cycle: 0, tint: rng(), terrainCeiling: -Infinity };
       const leafRadius = radius * stream.size;
       const startFloor = groundClearance(terrain, origin, leafRadius);
@@ -208,12 +216,17 @@ export function buildFallingLeaves(
       : colour.setRGB(0.91 + (tint - 0.5) * 0.1, 0.84 - (tint - 0.5) * 0.5, 0.45 - (tint - 0.5) * 0.3));
   }
   let clock = 0, visible = 0, disposed = false;
+  let lastClock = NaN, lastEyeX = NaN, lastEyeZ = NaN;
   return {
     group,
     update(dt, frame) {
       if (disposed) return;
       if (!frame.reducedMotion && Number.isFinite(dt) && dt > 0 && Number.isFinite(clock + dt)) clock += dt;
+      const eye = frame.camera.position;
+      // Leaf poses depend on this clock; coverage depends only on horizontal eye distance.
+      if (clock === lastClock && eye.x === lastEyeX && eye.z === lastEyeZ) return;
       visible = 0;
+      let drawCount = 0, uploadStart = streams.length;
       for (let i = 0; i < streams.length; i++) {
         const stream = streams[i]!, age = (clock + stream.phase) % stream.cycle;
         airbornePosition(stream, age, temporary);
@@ -224,7 +237,12 @@ export function buildFallingLeaves(
         alpha.setX(i, coverage);
         if (coverage > 0.001) {
           visible++;
+          uploadStart = Math.min(uploadStart, i);
+          drawCount = i + 1;
         }
+        // Hidden poses still initialize the renderer's cached transparent-sort sphere. Once it exists,
+        // discarded instances need no pose until they re-enter coverage; opacity is always current.
+        if (coverage <= 0.001 && mesh.boundingSphere !== null) continue;
         const landed = smoothstep(stream.contactTime - 0.25, stream.contactTime + 0.6, age);
         euler.set((0.5 + Math.sin(age * 1.1 + stream.flutter) * 0.38) * (1 - landed) + Math.PI / 2 * landed,
           stream.yaw + age * 0.29, Math.sin(age * 0.8 + stream.flutter) * 0.5 * (1 - landed));
@@ -253,10 +271,19 @@ export function buildFallingLeaves(
       // Below the discard cutoff the whole batch is empty. Keep it out of render lists;
       // the latest opacity and matrices are uploaded as soon as any leaf is visible again.
       mesh.visible = visible > 0;
-      if (visible > 0) mesh.instanceMatrix.needsUpdate = true;
+      mesh.count = drawCount;
+      if (visible > 0) {
+        mesh.instanceMatrix.clearUpdateRanges();
+        // Leading discarded slots need no fresh pose on the GPU; opacity still clears the full drawn prefix.
+        mesh.instanceMatrix.addUpdateRange(uploadStart * 16, (drawCount - uploadStart) * 16);
+        mesh.instanceMatrix.needsUpdate = true;
+        alpha.clearUpdateRanges();
+        alpha.addUpdateRange(0, drawCount);
+      }
       alpha.needsUpdate = true;
+      lastClock = clock; lastEyeX = eye.x; lastEyeZ = eye.z;
     },
-    stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10 }),
+    stats: () => ({ fallingLeaves: streams.length, fallingLeavesVisible: visible, fallingLeafTris: streams.length * 10, fallingLeafDrawnTris: mesh.count * 10 }),
     dispose() {
       if (disposed) return;
       disposed = true;

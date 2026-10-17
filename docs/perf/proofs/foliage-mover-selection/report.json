@@ -1,0 +1,37 @@
+{
+  "controlChangedRGBChannels": 1631,
+  "schema": 1,
+  "baseline": "421d34b",
+  "candidateSourceSha256": "ac843062135ee33c34748f744ebf17fe8c23f575229e4d0064368293fadbe0a2",
+  "before": {
+    "steps": 600,
+    "inputBodies": 83,
+    "observedArrayIdentities": 2400,
+    "recordIdentities": 100200,
+    "snapshotHash": "5a2b472637abcc2f271aff82294a626c04e6ece7834b1093bfe8be1263383be6",
+    "drawCalls": 157,
+    "triangles": 2452,
+    "textures": 5,
+    "sourceUploadBytes": 67580,
+    "texturePayloadBytes": 1621796,
+    "msaa": 4,
+    "glError": 0
+  },
+  "after": {
+    "steps": 600,
+    "inputBodies": 83,
+    "observedArrayIdentities": 0,
+    "recordIdentities": 6,
+    "snapshotHash": "5a2b472637abcc2f271aff82294a626c04e6ece7834b1093bfe8be1263383be6",
+    "drawCalls": 157,
+    "triangles": 2452,
+    "textures": 5,
+    "sourceUploadBytes": 67580,
+    "texturePayloadBytes": 1621796,
+    "msaa": 4,
+    "glError": 0
+  },
+  "changedRGBChannels": 0,
+  "pass": true,
+  "scope": "600 production WorldScene foliage-selection calls with 83 input bodies; observed map/filter/slice arrays and mapped candidate records versus six retained slots. Array literals, engine internals and total heap bytes are not counted. Native floor-plant shader through Grade/4xMSAA. No hardware timing or whole-world stall claim."
+}

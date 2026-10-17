@@ -1,0 +1,43 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "sourceParts": 85,
+  "mergedMeshes": 9,
+  "matrixWalks": 120,
+  "rows": {
+    "native": {
+      "localCompositions": 10200,
+      "autoUpdatingParts": 85,
+      "matricesSha256": "f75eadb8b5fc6f62a9b996ab01626feef4887def93a1b85ded439d545f5729e2",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    },
+    "before": {
+      "localCompositions": 10200,
+      "autoUpdatingParts": 85,
+      "matricesSha256": "f75eadb8b5fc6f62a9b996ab01626feef4887def93a1b85ded439d545f5729e2",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    },
+    "after": {
+      "localCompositions": 0,
+      "autoUpdatingParts": 0,
+      "matricesSha256": "f75eadb8b5fc6f62a9b996ab01626feef4887def93a1b85ded439d545f5729e2",
+      "nativeMatricesMatch": true,
+      "drawCalls": 121,
+      "triangles": 824790,
+      "textureCount": 102
+    }
+  },
+  "identicalPixels": true,
+  "sourceSha256": "d734393c6efb26e25d3c81c9c2dd4974fa85c924c705e4017ffcb1dc007335f2",
+  "baselineRevision": "421d34b",
+  "scope": "Published static source meshes retained by actual mergeStaticParts replacements. Execute the exact baseline/candidate completion-loop source on their existing native parts, then count their actual Matrix4.compose calls during 120 forced scene matrix walks. Whole-builder behavior is checked separately by unit tests. Preserve local/world matrices and full native endpoint pixels. Not 120 rendered frames or a hardware timing/FPS claim.",
+  "pass": true
+}

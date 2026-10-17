@@ -6,11 +6,25 @@ export function smoothDistanceFade(distance: number, start: number, end: number)
   return 1 - t * t * (3 - 2 * t);
 }
 
-/** A fixed pixel pattern, shared by both LODs and the depth/shadow passes.
- * No frame counter or randomness: standing still never sparkles. */
+/** B11: a pattern fixed to the world, not the screen, shared by both LODs and the depth/shadow passes. Cells are
+ * cubes about one pixel across (the power of two nearest the pixel's footprint); between two sizes each coarse cell
+ * picks its own size by a second stable hash, so moving nearer splits cells one at a time instead of re-rolling the
+ * whole pattern. Walking past a fade no longer drags a screen-fixed sieve across the object, and standing still never
+ * sparkles: no frame counter, no randomness. */
 export const DISTANCE_DITHER_GLSL = /* glsl */ `
-float tvDistanceNoise(vec2 pixel) {
-  return fract(52.9829189 * fract(dot(floor(pixel), vec2(0.06711056, 0.00583715))));
+float tvCellHash(vec3 cell, float seed) {
+  // Interleaved gradient noise over the cell lattice, wrapped to keep float precision at any world coordinate.
+  vec3 c = mod(cell, 289.0) + seed;
+  return fract(52.9829189 * fract(dot(c, vec3(0.06711056, 0.00583715, 0.03798128)) + 0.0137 * c.z));
+}
+float tvDistanceNoise(vec3 world) {
+  float px = max(max(length(dFdx(world)), length(dFdy(world))), 1e-4);
+  float level = log2(px);
+  float fine = floor(level);
+  float coarseCell = exp2(fine + 1.0), fineCell = exp2(fine);
+  // Each coarse cell turns fine once the footprint has shrunk far enough toward the fine size.
+  bool useFine = tvCellHash(floor(world / coarseCell), 17.31) >= level - fine;
+  return useFine ? tvCellHash(floor(world / fineCell), fine * 3.7) : tvCellHash(floor(world / coarseCell), fine * 3.7 + 3.7);
 }
 `;
 
@@ -33,16 +47,22 @@ function installDistanceDither(material: THREE.Material): void {
       #else
         vDistanceCoverage = vec2(0.0, 1.0);
       #endif`);
+    // Colour passes recover the world position from the view position three already passes (no extra varying: the
+    // foliage programs are near the varying limit). Depth and shadow passes have none and draw in the shadow map, whose
+    // texels are snapped to the world, so they keep its pixel grid.
+    const world = (material as THREE.MeshStandardMaterial).isMeshStandardMaterial
+      ? 'tvDistanceNoise((-vViewPosition - viewMatrix[3].xyz) * mat3(viewMatrix))'
+      : 'tvCellHash(vec3(gl_FragCoord.xy, 0.0), 0.0)';
     shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
       varying vec2 vDistanceCoverage;
       ${DISTANCE_DITHER_GLSL}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
-      float tvCoverageSample = tvDistanceNoise(gl_FragCoord.xy);
+      float tvCoverageSample = ${world};
       #ifndef TV_LEAF_SHADE_ONLY
       if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
       #endif`);
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v1`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v2-world`; };
   material.needsUpdate = true;
 }
 

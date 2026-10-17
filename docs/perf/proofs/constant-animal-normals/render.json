@@ -1,0 +1,301 @@
+{
+  "schema": 1,
+  "baselineRef": "5da2776",
+  "scope": "Four delivered rigged models with original materials, two authored Walk poses/views each, native Grade/MSAA. Software source uploads and nominal texture payload, not driver VRAM or frame timings.",
+  "models": [
+    {
+      "file": "boar-1005232450.glb",
+      "sha256": "78fa25dc7660822fd6f3dca240721a5566a9b2108d0188b86ad8364ab2336f9a"
+    },
+    {
+      "file": "deer-1005232424.glb",
+      "sha256": "135441cb0b9315b78d599f1d37e8d592a5aefe6695f3a44c0b3f8ddc7c3b3898"
+    },
+    {
+      "file": "tiger-1005232739.glb",
+      "sha256": "1e800e4222f3af1abb923dd0a565545ec0f8e264acf17f01bab717d3e831074a"
+    },
+    {
+      "file": "wolf-1005232644.glb",
+      "sha256": "48b200c67372d60f93a7aa4afd3aef6206f87331211ef88da15f72575ce3c727"
+    }
+  ],
+  "baseline": {
+    "rows": [
+      {
+        "file": "boar-1005232450.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 15541558,
+        "textures": 8,
+        "textureImagePayloadBytes": 17860576,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "boar-1005232450.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 2304,
+        "textures": 8,
+        "textureImagePayloadBytes": 17860576,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "deer-1005232424.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 15017106,
+        "textures": 12,
+        "textureImagePayloadBytes": 34640092,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "deer-1005232424.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 2304,
+        "textures": 12,
+        "textureImagePayloadBytes": 34640092,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "tiger-1005232739.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 47159,
+        "sourceUploadBytes": 15307434,
+        "textures": 16,
+        "textureImagePayloadBytes": 51419608,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "tiger-1005232739.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 47159,
+        "sourceUploadBytes": 2304,
+        "textures": 16,
+        "textureImagePayloadBytes": 51419608,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "wolf-1005232644.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 45972,
+        "sourceUploadBytes": 15171792,
+        "textures": 20,
+        "textureImagePayloadBytes": 68199124,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "wolf-1005232644.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 45972,
+        "sourceUploadBytes": 2304,
+        "textures": 20,
+        "textureImagePayloadBytes": 68199124,
+        "postSamples": 4,
+        "glError": 0
+      }
+    ],
+    "colours": [
+      {
+        "width": 1024,
+        "height": 1024,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1024,
+        "height": 1024,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1024,
+        "height": 1024,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1024,
+        "height": 1024,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      }
+    ]
+  },
+  "candidate": {
+    "rows": [
+      {
+        "file": "boar-1005232450.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 11347258,
+        "textures": 8,
+        "textureImagePayloadBytes": 12268176,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "boar-1005232450.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 2304,
+        "textures": 8,
+        "textureImagePayloadBytes": 12268176,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "deer-1005232424.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 10822806,
+        "textures": 12,
+        "textureImagePayloadBytes": 23455292,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "deer-1005232424.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 46003,
+        "sourceUploadBytes": 2304,
+        "textures": 12,
+        "textureImagePayloadBytes": 23455292,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "tiger-1005232739.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 47159,
+        "sourceUploadBytes": 11113134,
+        "textures": 16,
+        "textureImagePayloadBytes": 34642408,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "tiger-1005232739.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 47159,
+        "sourceUploadBytes": 2304,
+        "textures": 16,
+        "textureImagePayloadBytes": 34642408,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "wolf-1005232644.glb",
+        "angle": 0,
+        "drawCalls": 5,
+        "triangles": 45972,
+        "sourceUploadBytes": 10977492,
+        "textures": 20,
+        "textureImagePayloadBytes": 45829524,
+        "postSamples": 4,
+        "glError": 0
+      },
+      {
+        "file": "wolf-1005232644.glb",
+        "angle": 1,
+        "drawCalls": 5,
+        "triangles": 45972,
+        "sourceUploadBytes": 2304,
+        "textures": 20,
+        "textureImagePayloadBytes": 45829524,
+        "postSamples": 4,
+        "glError": 0
+      }
+    ],
+    "colours": [
+      {
+        "width": 1,
+        "height": 1,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1,
+        "height": 1,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1,
+        "height": 1,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      },
+      {
+        "width": 1,
+        "height": 1,
+        "rgba": [
+          128,
+          127,
+          255,
+          255
+        ],
+        "constant": true
+      }
+    ]
+  },
+  "changedRGBChannels": 0,
+  "pass": true
+}

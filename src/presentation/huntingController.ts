@@ -95,7 +95,7 @@ export class HuntingController {
       if (!held) { this.drawing = false; this.releasePending = true; audio.stopHuntingSounds('bow_draw'); }
     }
     const aiming = aimHeld || this.drawing || this.releasePending;
-    cam.setAiming(aiming);
+    cam.setAiming(aiming, this.drawing ? this.drawFraction : 0);
     player.setBowAim(aiming ? {
       x: Math.sin(cam.yaw) * Math.cos(cam.pitch), y: -Math.sin(cam.pitch), z: Math.cos(cam.yaw) * Math.cos(cam.pitch),
     } : null, this.drawFraction);
@@ -107,6 +107,7 @@ export class HuntingController {
     // Movement can enter deep water after controls ran. Cancel before releasing, while existing arrows keep flying.
     if (this.host.player.swimming) { this.cancelDraw(); this.host.cam.setAiming(false); }
     if (this.releasePending) { this.releasePending = false; this.release(); this.drawTime = 0; }
+    this.arrows.quiver = !this.host.settings.reducedMotion;
     const water = this.host.world.water as WorldScene['water'] | undefined;
     this.arrows.update(dt, (from, to, shot) => this.sweep(from, to, shot), (shot, impact) => this.impact(shot, impact as HuntingImpact), water && {
       sample: (x, z) => water.sample(x, z),
@@ -121,6 +122,7 @@ export class HuntingController {
     const result = game.dispatch({ t: 'fireBow' });
     if (!result.ok) { hud.toast(S(`hunting.${result.reason}`), 'bad'); return; }
     audio.huntingSound('bow_release');
+    cam.bowKick(this.host.settings.reducedMotion);
     world.animals.alertShot(player);
     const ray = new THREE.Raycaster();
     cam.camera.updateMatrixWorld(); ray.setFromCamera(center, cam.camera);
@@ -185,11 +187,12 @@ export class HuntingController {
         game.dispatch({ t: 'hitAnimal', hit: { id: hit.id, zone: hit.zone, position: hit.position, yaw: hit.yaw } });
         world.animals.syncHunting(game.state.hunting);
         audio.huntingSound('arrow_flesh', impact.point, this.listener());
+        this.host.hud.bowHit(game.state.hunting[hit.id]?.status === 'dead' ? 'kill' : 'hit');
       } else audio.huntingSound('arrow_ground', impact.point, this.listener());
     } else if (!this.underWater(impact.point)) {
       // Only the actual finite wood contact may shake a tree; nearby ground and cargo do not.
       if (impact.treeId) world.strikeTree?.(impact.point.x, impact.point.y, impact.point.z, 1, impact.treeId);
-      audio.huntingSound('arrow_ground', impact.point, this.listener());
+      audio.huntingSound(impact.treeId ? 'arrow_wood' : 'arrow_ground', impact.point, this.listener());
     }
   }
 

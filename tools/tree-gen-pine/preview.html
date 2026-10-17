@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8"><title>hero pine preview</title>
+<style>html,body{margin:0;background:#9fb8c8;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight); document.body.appendChild(renderer.domElement);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xa9c3d3);
+const sun = new THREE.DirectionalLight(0xfff0d8, 3.2); sun.position.set(-30, 45, 25); sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096); const sc = sun.shadow.camera; sc.left = -40; sc.right = 40; sc.top = 40; sc.bottom = -40; sc.far = 150; sun.shadow.bias = -0.0004;
+scene.add(sun, new THREE.HemisphereLight(0xbcd6f0, 0x6a6040, 1.6));
+const ground = new THREE.Mesh(new THREE.CircleGeometry(200, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x55703a, roughness: 1 }));
+ground.receiveShadow = true; scene.add(ground);
+const loader = new GLTFLoader();
+const cache = {};
+const load = (lod) => cache[lod] ??= loader.loadAsync(`/public/models/flora/hero/hero-pine-${lod}.glb`);
+let current = null;
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 400);
+window.stats = {};
+window.show = async ({ lod = 'near', variants = [0], spacing = 14, dist = 10, camY = 1.7, lookY = 6, az = 0.5, fov = 50, hide = '' }) => {
+  const gltf = await load(lod);
+  if (current) scene.remove(current);
+  current = new THREE.Group();
+  variants.forEach((vi, k) => {
+    const g = new THREE.Group();
+    for (const part of ['wood', 'leaf']) {
+      const n = gltf.scene.getObjectByName(`v${vi}-${part}`);
+      if (!n || hide.includes(part)) continue;
+      const m = n.clone(); m.castShadow = true; m.receiveShadow = true;
+      m.material = m.material.clone(); m.geometry = m.geometry.clone();
+      const col = m.geometry.getAttribute('color'), cnt = col.count, out = new Float32Array(cnt * 3);
+      for (let i = 0; i < cnt; i++) {
+        const ao = col.getX(i), gr = col.getZ(i);
+        if (part === 'leaf') { const k = 0.5 + 0.5 * ao; out[i*3] = k; out[i*3+1] = k; out[i*3+2] = k; }
+        else { const k = ao * (0.35 + 0.65 * gr); const soil = 1 - gr; out[i*3] = k * (1 + 0.5 * soil); out[i*3+1] = k * (1 + 0.1 * soil); out[i*3+2] = k * (1 - 0.25 * soil); }
+      }
+      m.geometry.setAttribute('color', new THREE.BufferAttribute(out, 3));
+      if (part === 'leaf') m.material.alphaToCoverage = true;
+      g.add(m);
+    }
+    g.position.x = (k - (variants.length - 1) / 2) * spacing;
+    current.add(g);
+  });
+  scene.add(current);
+  camera.fov = fov; camera.updateProjectionMatrix();
+  camera.position.set(Math.sin(az) * dist, camY, Math.cos(az) * dist);
+  camera.lookAt(0, lookY, 0);
+  renderer.render(scene, camera);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  renderer.render(scene, camera);
+  const attrs = []; gltf.scene.traverse(o => { if (o.isMesh && o.name === 'v0-wood') attrs.push(Object.keys(o.geometry.attributes)); });
+  return attrs[0];
+};
+window.ready = true;
+</script>
