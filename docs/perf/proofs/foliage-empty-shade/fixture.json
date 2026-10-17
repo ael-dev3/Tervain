@@ -1,0 +1,238 @@
+{
+  "baselineRef": "7884c88",
+  "rows": {
+    "before": {
+      "minified": {
+        "prepass": {
+          "kind": "minified",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "minified",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "far": {
+        "prepass": {
+          "kind": "far",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "far",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "separated": {
+        "prepass": {
+          "kind": "separated",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "separated",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "magnified": {
+        "prepass": {
+          "kind": "magnified",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "magnified",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "partial": {
+        "prepass": {
+          "kind": "partial",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "partial",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      }
+    },
+    "after": {
+      "minified": {
+        "prepass": {
+          "kind": "minified",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "minified",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "far": {
+        "prepass": {
+          "kind": "far",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "far",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "separated": {
+        "prepass": {
+          "kind": "separated",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "separated",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "magnified": {
+        "prepass": {
+          "kind": "magnified",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "magnified",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      },
+      "partial": {
+        "prepass": {
+          "kind": "partial",
+          "reference": false,
+          "draws": 4,
+          "triangles": 8,
+          "samples": 4
+        },
+        "reference": {
+          "kind": "partial",
+          "reference": true,
+          "draws": 2,
+          "triangles": 4,
+          "samples": 4
+        }
+      }
+    }
+  },
+  "errors": {
+    "before": {
+      "minified": {
+        "pixels": 400,
+        "max": 97
+      },
+      "far": {
+        "pixels": 30,
+        "max": 97
+      },
+      "separated": {
+        "pixels": 0,
+        "max": 0
+      },
+      "magnified": {
+        "pixels": 475,
+        "max": 97
+      },
+      "partial": {
+        "pixels": 400,
+        "max": 97
+      }
+    },
+    "after": {
+      "minified": {
+        "pixels": 0,
+        "max": 0
+      },
+      "far": {
+        "pixels": 0,
+        "max": 0
+      },
+      "separated": {
+        "pixels": 0,
+        "max": 0
+      },
+      "magnified": {
+        "pixels": 475,
+        "max": 97
+      },
+      "partial": {
+        "pixels": 400,
+        "max": 97
+      }
+    }
+  },
+  "unchanged": {
+    "separated": {
+      "pixels": 0,
+      "max": 0
+    },
+    "magnified": {
+      "pixels": 0,
+      "max": 0
+    },
+    "partial": {
+      "pixels": 0,
+      "max": 0
+    }
+  },
+  "assertions": {
+    "reproduced": true,
+    "minifiedMatchesReference": true,
+    "farMatchesReference": true,
+    "controlsUnchanged": true,
+    "sameWork": true
+  },
+  "pass": true,
+  "scope": "Production foliage shader and split prepass, real four-sample WebGL. An entirely transparent card is one micrometre behind a cutout card at 50 m and 200 m: their depths quantize together. Single-pass cutout is the image reference. Software correctness fixture, not an asset or hardware timing claim."
+}

@@ -9,6 +9,7 @@ const R=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});R.
 const wind=new GrassWind({direction:[1,0],steady:0,gust:0,speed:0}),field=createFoliageField(wind);field.strength.value=0;
 const camera=new THREE.PerspectiveCamera(45,4/3,.1,1000);camera.position.set(0,0,50);camera.lookAt(0,0,0);camera.updateMatrixWorld();
 window.emptyShadeFixture={run(kind,reference=false){
+camera.position.set(0,0,kind==='far'?200:50);camera.lookAt(0,0,0);camera.updateMatrixWorld();
 const scene=new THREE.Scene();scene.background=new THREE.Color(.12,.12,.12);scene.add(new THREE.HemisphereLight(0xffffff,0x666666,1));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(0,2,10);scene.add(sun);
 const size=kind==='magnified'?8:512,texture=(empty)=>{const a=new Uint8Array(size*size*4);for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=(y*size+x)*4;a[i]=empty?100:35;a[i+1]=empty?210:120;a[i+2]=empty?230:50;a[i+3]=empty?(kind==='partial'?10:0):(x<size*.65?255:0);}const t=new THREE.DataTexture(a,size,size,THREE.RGBAFormat);t.minFilter=THREE.LinearMipmapLinearFilter;t.magFilter=THREE.LinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;};
 const leaves=[],depths=[],textures=[];
