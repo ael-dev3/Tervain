@@ -1,0 +1,168 @@
+{
+  "build": {
+    "version": "0.0.19",
+    "revision": "77c6866"
+  },
+  "mainCamera": [
+    -21.5,
+    9.732978239059449,
+    -110
+  ],
+  "captureCamera": [
+    -28,
+    9.732978239059449,
+    -106
+  ],
+  "missing": [
+    {
+      "layer": "grass-near",
+      "key": 520696,
+      "count": 329,
+      "captureInstances": 329,
+      "distance": 12.806248474865697
+    },
+    {
+      "layer": "grass-far",
+      "key": 521726,
+      "count": 363,
+      "captureInstances": 3,
+      "distance": 61.45853453791715
+    }
+  ],
+  "rows": {
+    "before": {
+      "restored": true,
+      "draws": [],
+      "primary": {
+        "drawCalls": 345,
+        "triangles": 5142791,
+        "textures": 275
+      }
+    },
+    "after": {
+      "restored": true,
+      "draws": [
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 521726,
+          "instances": 3
+        }
+      ],
+      "primary": {
+        "drawCalls": 345,
+        "triangles": 5142791,
+        "textures": 275
+      }
+    },
+    "repeat": {
+      "restored": true,
+      "draws": [
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 521726,
+          "instances": 3
+        }
+      ],
+      "primary": {
+        "drawCalls": 345,
+        "triangles": 5142791,
+        "textures": 275
+      }
+    },
+    "control": {
+      "restored": true,
+      "draws": [
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 520696,
+          "instances": 329
+        },
+        {
+          "key": 521726,
+          "instances": 3
+        }
+      ],
+      "primary": {
+        "drawCalls": 345,
+        "triangles": 5142791,
+        "textures": 275
+      }
+    }
+  },
+  "primaryPixelDifferences": 0,
+  "differences": [
+    {
+      "face": 0,
+      "changedPixels": 0,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    },
+    {
+      "face": 1,
+      "changedPixels": 99,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    },
+    {
+      "face": 2,
+      "changedPixels": 0,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    },
+    {
+      "face": 3,
+      "changedPixels": 0,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    },
+    {
+      "face": 4,
+      "changedPixels": 475,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    },
+    {
+      "face": 5,
+      "changedPixels": 0,
+      "repeatDifferences": 0,
+      "controlDifferences": 0
+    }
+  ],
+  "sourceSha256": {
+    "src/presentation/ground/tileStream.ts": "9787409d0705b5f1c9cc11aedc893564357c485253a16a5279624986ae2370f7",
+    "src/presentation/windowView.ts": "23612a936550bd3e9d0e65768ddc7489f989862654901afa957b7762b1667ee3",
+    "src/presentation/groundcover.ts": "98731094cde7219568d622ce208f123540cb7dd16101ffdd95ee296f2d8d378a",
+    "src/presentation/world.ts": "71ee3834929bb3f945391d4c414ab61702faf09c2a3aa4911ce0809a291abb83"
+  },
+  "scope": "Published native shrine scene, medium preset, six native 640px cube faces. Candidate production WindowView update and TileLayer visibility scope run on the same native scene, materials and buffers. Frozen simulation and one shared shadow map; manual admission of the witnessed tiles must match the production fix. Software WebGL, no hardware timing claim.",
+  "pass": true
+}
