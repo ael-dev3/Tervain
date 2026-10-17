@@ -1,0 +1,8 @@
+{
+  "command": "npx vitest run tests/presentation/leafTargetCoverage.test.ts --testTimeout=90000",
+  "variant": "Original constructor argument restored temporarily, then candidate restored",
+  "expectedFailure": true,
+  "failedTests": 1,
+  "passedTests": 2,
+  "assertion": "setMatrixAt expected zero calls; received 73"
+}

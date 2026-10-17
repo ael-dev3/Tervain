@@ -1,0 +1,38 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": {
+    "before": {
+      "discardedMatrixBytes": 65472,
+      "identityMatrixWrites": 1023,
+      "shared": true,
+      "capacity": 1023,
+      "batches": 60,
+      "drawCalls": 137,
+      "triangles": 869582,
+      "textures": 102
+    },
+    "after": {
+      "discardedMatrixBytes": 0,
+      "identityMatrixWrites": 0,
+      "shared": true,
+      "capacity": 1023,
+      "batches": 60,
+      "drawCalls": 137,
+      "triangles": 869582,
+      "textures": 102
+    }
+  },
+  "changedChannels": {
+    "beforeAfter": 0,
+    "beforeEmpty": 65480
+  },
+  "sourceSha256": {
+    "before": "47448a2fd5b0b3f23a140309c02916ffc3e597b6204a8c6782af34c2cafa8416",
+    "after": "6e26c696d857e1fbc7071bd98ade8c08f8f53ccd5b1e8cb8b3ee685ec933170d"
+  },
+  "pass": true,
+  "scope": "Published forest batch capacities replayed through original/candidate depth-pass constructors. Current target-coverage hooks shared by both variants. Low world uses a controlled split-depth pipeline for this comparison. Counts discarded CPU matrix payload and actual identity writes, not total heap, GPU traffic, timings or FPS. Full-scene software-rendered output must match, with a hidden-foliage control."
+}
