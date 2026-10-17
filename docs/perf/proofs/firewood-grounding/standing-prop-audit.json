@@ -1,0 +1,108 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "rows": [
+    {
+      "id": "schedule-post--1",
+      "x": 0.1782386951974514,
+      "z": 13.826817228521834,
+      "gap": 0.0015314180577135073
+    },
+    {
+      "id": "schedule-post-1",
+      "x": -1.1782386951974515,
+      "z": 14.173182771478166,
+      "gap": -0.0003646471115330563
+    },
+    {
+      "id": "border",
+      "x": 122,
+      "z": 70,
+      "gap": -0.10000002384185791
+    },
+    {
+      "id": "arrival",
+      "x": -248,
+      "z": 38,
+      "gap": -0.30000001192092896
+    }
+  ],
+  "cargo": [
+    {
+      "id": "camp_barrel_0",
+      "bottom": 1.0453187620518216,
+      "minGap": 0.0019345984970535746,
+      "maxGap": 0.013795810980111511,
+      "points": 22,
+      "minAllVertexGap": 0.0019345984970535746
+    },
+    {
+      "id": "camp_barrel_1",
+      "bottom": 1.0565199052380305,
+      "minGap": 0.0015262393667427876,
+      "maxGap": 0.01204735477398522,
+      "points": 22,
+      "minAllVertexGap": 0.0015262393667427876
+    },
+    {
+      "id": "camp_crate_0",
+      "bottom": 1.2966410043677958,
+      "minGap": 0.06391986579766407,
+      "maxGap": 0.0752928492464302,
+      "points": 9,
+      "minAllVertexGap": -0.006200976305019257
+    },
+    {
+      "id": "camp_crate_1",
+      "bottom": 1.3647291679756275,
+      "minGap": -0.00008294246931894733,
+      "maxGap": 0.061613355558302274,
+      "points": 33,
+      "minAllVertexGap": -0.00008294246931894733
+    },
+    {
+      "id": "loose_barrel_0",
+      "bottom": 0.8323225179364637,
+      "minGap": 0.01898120058672248,
+      "maxGap": 0.06788092140097013,
+      "points": 19,
+      "minAllVertexGap": -0.0035645516442308622
+    },
+    {
+      "id": "loose_barrel_1",
+      "bottom": 1.1702314869729342,
+      "minGap": 0.001642200428887186,
+      "maxGap": 0.011633553117277096,
+      "points": 22,
+      "minAllVertexGap": 0.001642200428887186
+    },
+    {
+      "id": "loose_barrel_2",
+      "bottom": 5.832536136177745,
+      "minGap": 0.0032519305830156497,
+      "maxGap": 0.026212337720131096,
+      "points": 22,
+      "minAllVertexGap": 0.0032519305830156497
+    },
+    {
+      "id": "loose_barrel_3",
+      "bottom": 2.105750560760498,
+      "minGap": -0.002953640524740564,
+      "maxGap": 0.0015042988474003316,
+      "points": 22,
+      "minAllVertexGap": -0.002953640524740564
+    },
+    {
+      "id": "loose_barrel_4",
+      "bottom": 0.27987167840116844,
+      "minGap": 0.04934715386156324,
+      "maxGap": 0.10923562600064374,
+      "points": 17,
+      "minAllVertexGap": -0.01054131827753474
+    }
+  ],
+  "scope": "Published native geometry: centre underside rays on four sign supports, plus minimum terrain clearance over every rendered vertex of all nine loose cargo props at the captured pose. This is a bounded support audit, not coverage of every static prop or saved cargo position. Negative clearance means soil intersection; downhill corner clearance alone is not a floater verdict.",
+  "pass": true
+}

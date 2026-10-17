@@ -1,0 +1,8 @@
+{
+  "baseline": "421d34b",
+  "test": "tests/presentation/woodpileGrounding.test.ts",
+  "baselineFailed": 4,
+  "baselinePassed": 1,
+  "scope": "Four slope cases fail against the original builder; preservation control passes. The additional actual-terrain test was added after this negative-control run.",
+  "candidateSuitePassed": 25
+}
