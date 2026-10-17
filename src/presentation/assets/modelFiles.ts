@@ -31,7 +31,7 @@ export const MODEL_FILES: Readonly<Record<string, readonly [sha256: string, byte
   'flora/hero/hero-oak-near.glb': ['11ba6e505742acbd5fed142c0be70b32af907b93c45ad461efa42da631b04fc7', 4007172],
   'flora/hero/hero-pine-far.glb': ['b5d56506fde47541096367105e7e17df9470a7fc1f3309cfe698a78a3368b7db', 318432],
   'flora/hero/hero-pine-mid.glb': ['255d59b04ef0e1939f265ca69e6bd506400455ee76b6e566000426d1c807392b', 1964464],
-  'flora/hero/hero-pine-near.glb': ['638881691659357258e9124d47402b91da1587c7d21d643a436ca891ced279bf', 4655844],
+  'flora/hero/hero-pine-near.glb': ['d1a99215d8a69f35732e2d9dea64e06c9696e77b503b9f5cc5c7c60751d15ed4', 4655844],
   'flora/meshy-012/fir-spire-far.glb': ['3bb11257f177896a52388a325f9b2fca2f1d36761a391e08be6eb82c6d75f34c', 127868],
   'flora/meshy-012/fir-spire-mid.glb': ['f21e7464b6e7b2b7e540d88b0b96a928da76381665998b126aad2379b2b46688', 277908],
   'flora/meshy-012/fir-spire-near.glb': ['509cbc8b27a2de0a021aa269e7a5f02194beeed503af5697a9fccf57064b7fe5', 1750540],
