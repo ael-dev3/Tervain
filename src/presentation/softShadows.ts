@@ -35,16 +35,14 @@ const SOFT_PCF = /* glsl */ `
 
 		float getShadow( sampler2DShadow shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord ) {
 
-			// The sun keeps its shadowed-light slot at night to avoid shader recompilation. Its final mix is exactly 1 at zero intensity.
-			if ( shadowIntensity == 0.0 ) return 1.0;
-
 			float shadow = 1.0;
 
 			shadowCoord.xyz /= shadowCoord.w;
 			shadowCoord.z += shadowBias;
 
 			bool inFrustum = shadowCoord.x >= 0.0 && shadowCoord.x <= 1.0 && shadowCoord.y >= 0.0 && shadowCoord.y <= 1.0;
-			bool frustumTest = inFrustum && shadowCoord.z <= 1.0;
+			// A zero-intensity light needs no comparisons; retain the existing branch and single final return.
+			bool frustumTest = inFrustum && shadowCoord.z <= 1.0 && shadowIntensity != 0.0;
 
 			if ( frustumTest ) {
 

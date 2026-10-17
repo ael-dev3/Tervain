@@ -22,7 +22,8 @@ export function shadowZeroIntensityFixture(nativeSource, guard) {
     void main(){vec2 p=gl_VertexID==0?vec2(-1.,-1.):gl_VertexID==1?vec2(3.,-1.):vec2(-1.,3.);gl_Position=vec4(p,0.,1.);}`);
   const helper = name => functionText(name);
   const tap = helper('tvShadowTap').replace('{', '{ taps += 1.0;');
-  const original = helper('getShadow'), candidate = original.replace('{', '{\n' + guard);
+  const original = helper('getShadow'), candidate = typeof guard === 'string' ? original.replace('{', '{\n' + guard) : original.replace(guard.before, guard.after);
+  if (candidate === original) throw Error('Production shadow patch was not applied');
   const noise = helper('interleavedGradientNoise');
   // Vogel's helper returns vec2 rather than float.
   const vogelStart = nativeSource.indexOf('vec2 vogelDiskSample'), vogelOpen = nativeSource.indexOf('{', vogelStart), vogelEnd = nativeSource.indexOf('}', vogelOpen) + 1;

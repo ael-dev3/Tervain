@@ -7,7 +7,7 @@ import {installRenderCost} from './render-cost.mjs';
 import {textureUploadBytes} from './webgl-upload-bytes.mjs';
 import {shadowZeroIntensityFixture} from './shadow-zero-intensity-fixture.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((v,i,a)=>v.startsWith('--')?[[v.slice(2),a[i+1]]]:[])),out=args.out??'zero-shadow-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
-const file='src/presentation/softShadows.ts',source=fs.readFileSync(file,'utf8'),guard=source.match(/if \( shadowIntensity == 0\.0 \) return 1\.0;/)?.[0];if(!guard)throw Error('Production zero-intensity guard missing');let page;
+const file='src/presentation/softShadows.ts',source=fs.readFileSync(file,'utf8'),guard={before:'bool frustumTest = inFrustum && shadowCoord.z <= 1.0;',after:'bool frustumTest = inFrustum && shadowCoord.z <= 1.0 && shadowIntensity != 0.0;'};if(!source.includes(guard.after))throw Error('Production zero-intensity guard missing');let page;
 try{
  const url=new URL(args.url??'https://ael-dev3.github.io/Tervain/');for(const[k,v]of Object.entries({shot:'1',quality:'high',place:'rillford',settle:'1',hud:'0',hour:'21.5'}))url.searchParams.set(k,v);
  const init=(process.env.REPRO_INIT_FILE?fs.readFileSync(process.env.REPRO_INIT_FILE,'utf8'):'')+'\n('+installRenderCost.toString()+')('+textureUploadBytes.toString()+');';
@@ -16,12 +16,11 @@ try{
  const report=await page.eval(`const T=window.tervain,W=T.world,R=T.renderer,gl=R.getContext(),cam=T.cam.camera,cost=window.__renderCostStates.get(gl),guard=${JSON.stringify(guard)};
  T.settings.reducedMotion=true;T.lastFrameDt=0;const ext=gl.getExtension('EXT_disjoint_timer_query_webgl2');if(!ext||!cost)throw Error('Timer/cost counters missing');
  const debug=gl.getExtension('WEBGL_debug_renderer_info'),renderer=debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
- const nativeSource=R.info.programs.map(p=>p.fragmentShader&&gl.getShaderSource(p.fragmentShader)).find(s=>s?.includes('float tvShadowTap')&&!s.includes(guard));if(!nativeSource)throw Error('Unmodified native shadow kernel missing');
+ const nativeSource=R.info.programs.map(p=>p.fragmentShader&&gl.getShaderSource(p.fragmentShader)).find(s=>s?.includes('float tvShadowTap')&&!s.includes(guard.after));if(!nativeSource)throw Error('Unmodified native shadow kernel missing');
  const fixture=(${shadowZeroIntensityFixture.toString()})(nativeSource,guard);if(!fixture.pass)throw Error('Shadow tap fixture failed');
  const mats=new Set();W.scene.traverse(o=>{if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])mats.add(m);if(o.customDepthMaterial)mats.add(o.customDepthMaterial)});
  const keys=new Map([...mats].map(m=>[m,m.customProgramCacheKey])),shaderSource=gl.shaderSource;let active=null,patches=0;
- const signature=/float getShadow\\( sampler2DShadow shadowMap, vec2 shadowMapSize, float shadowIntensity, float shadowBias, float shadowRadius, vec4 shadowCoord \\)\\s*\\{/;
- gl.shaderSource=function(shader,text){if(active==='after'&&signature.test(text)){text=text.replace(signature,'$&\\n'+guard);patches++;}return shaderSource.call(this,shader,text)};
+ gl.shaderSource=function(shader,text){if(active==='after'&&text.includes(guard.before)){text=text.replace(guard.before,guard.after);patches++;}return shaderSource.call(this,shader,text)};
  const activate=mode=>{if(active===mode)return;active=mode;for(const m of mats){const key=keys.get(m);m.customProgramCacheKey=function(){return key.call(this)+'|zero-shadow-proof-'+mode};m.needsUpdate=true;}T.renderWorld();};
  const median=xs=>{const s=[...xs].sort((a,b)=>a-b);return(s[Math.floor((s.length-1)/2)]+s[Math.ceil((s.length-1)/2)])/2;};
  const rows=[],images={},order=['before','after','after','before','after','before','before','after'];
