@@ -247,6 +247,31 @@ describe('peaceful animated land wildlife', () => {
     module.dispose?.();
   });
 
+  it.each([false, true])('refreshes the final hierarchy only when soles can change the height (empty=%s)', empty => {
+    const source = animalFixture(), sourceSkin = source.scene.children.find(object => (object as THREE.SkinnedMesh).isSkinnedMesh) as THREE.SkinnedMesh;
+    if (empty) {
+      // Named paw joints exist, but no vertex is weighted to them: no sole can be retained.
+      const indices = sourceSkin.geometry.getAttribute('skinIndex'), weights = sourceSkin.geometry.getAttribute('skinWeight');
+      for (let i = 0; i < indices.count; i++) { indices.setXYZW(i, 0, 0, 0, 0); weights.setXYZW(i, 1, 0, 0, 0); }
+    }
+    const module = buildAnimals({ terrain: level as unknown as Terrain, colliders: new Colliders(), quality: 'high' }, new Map([[dog.id, source]]), [dog], () => {});
+    try {
+      const root = module.movers!()[0]!, skins: THREE.SkinnedMesh[] = [];
+      root.traverse(object => { if ((object as THREE.SkinnedMesh).isSkinnedMesh) skins.push(object as THREE.SkinnedMesh); });
+      const worlds = vi.spyOn(root, 'updateMatrixWorld'), updates = vi.spyOn(skins[0]!.skeleton, 'update'), samples = vi.spyOn(skins[0]!, 'getVertexPosition');
+      module.update(1 / 60, frame(new THREE.Vector3(root.position.x, 0, root.position.z + 20)));
+      expect(worlds).toHaveBeenCalledTimes(empty ? 1 : 2);
+      expect(updates).toHaveBeenCalledTimes(1);
+      expect(samples.mock.calls.length > 0).toBe(!empty);
+      const matrices: number[][] = [];
+      root.traverse(object => matrices.push([...object.matrixWorld.elements]));
+      root.updateMatrixWorld(true);
+      const refreshed: number[][] = [];
+      root.traverse(object => refreshed.push([...object.matrixWorld.elements]));
+      expect(matrices).toEqual(refreshed); // The final hierarchy refresh is required in either case.
+    } finally { module.dispose?.(); }
+  });
+
   it('keeps a paw raised in the source pose in the contact set when its animation lands on higher soil', () => {
     const source = animalFixture(), skin = source.scene.children.find(object => (object as THREE.SkinnedMesh).isSkinnedMesh) as THREE.SkinnedMesh;
     const positions = skin.geometry.getAttribute('position'), joints = skin.geometry.getAttribute('skinIndex');
