@@ -1,0 +1,62 @@
+{
+  "build": {
+    "version": "0.0.29",
+    "revision": "d244d39"
+  },
+  "rows": [
+    {
+      "metres": 0,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 342
+    },
+    {
+      "metres": 10,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 314
+    },
+    {
+      "metres": 20,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 271
+    },
+    {
+      "metres": 30,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 246
+    },
+    {
+      "metres": 40,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 219
+    },
+    {
+      "metres": 50,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 187
+    },
+    {
+      "metres": 60,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 172
+    },
+    {
+      "metres": 70,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 139
+    },
+    {
+      "metres": 80,
+      "hypotCalls": 705,
+      "forestFloorPieces": 705,
+      "forestFloorDrawn": 124
+    }
+  ]
+}

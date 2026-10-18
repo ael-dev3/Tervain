@@ -1,0 +1,297 @@
+{
+  "build": {
+    "version": "0.0.29",
+    "revision": "d244d39"
+  },
+  "rows": [
+    {
+      "pose": [
+        0,
+        0
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "4e854489a9f8c7484274eedae428fbe08fc9679f5de2edf871681b04d32ca088",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 373,
+          "calls": 364,
+          "triangles": 5848988
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "4e854489a9f8c7484274eedae428fbe08fc9679f5de2edf871681b04d32ca088",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 373,
+          "calls": 364,
+          "triangles": 5848988
+        },
+        "after": {
+          "hypotCalls": 507,
+          "buffers": "4e854489a9f8c7484274eedae428fbe08fc9679f5de2edf871681b04d32ca088",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 373,
+          "calls": 364,
+          "triangles": 5848988
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d",
+        "before": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d",
+        "after": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d"
+      }
+    },
+    {
+      "pose": [
+        10,
+        0
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "8ed0f8f32a918baf76d798dd7deee6a6a1a253be5657738a2603fdf64b1d6c10",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 357,
+          "calls": 354,
+          "triangles": 5759954
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "8ed0f8f32a918baf76d798dd7deee6a6a1a253be5657738a2603fdf64b1d6c10",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 357,
+          "calls": 354,
+          "triangles": 5759954
+        },
+        "after": {
+          "hypotCalls": 459,
+          "buffers": "8ed0f8f32a918baf76d798dd7deee6a6a1a253be5657738a2603fdf64b1d6c10",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 357,
+          "calls": 354,
+          "triangles": 5759954
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "e867af27fc7e78c95da45a17f2b44b9b7a49fb5b38b0b56f70889803ff071fec",
+        "before": "e867af27fc7e78c95da45a17f2b44b9b7a49fb5b38b0b56f70889803ff071fec",
+        "after": "e867af27fc7e78c95da45a17f2b44b9b7a49fb5b38b0b56f70889803ff071fec"
+      }
+    },
+    {
+      "pose": [
+        20,
+        0
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "b63754802917d57499c64bc04b6140a1d5434e56f240a045620da9439ea1e28c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 330,
+          "calls": 348,
+          "triangles": 5506485
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "b63754802917d57499c64bc04b6140a1d5434e56f240a045620da9439ea1e28c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 330,
+          "calls": 348,
+          "triangles": 5506485
+        },
+        "after": {
+          "hypotCalls": 400,
+          "buffers": "b63754802917d57499c64bc04b6140a1d5434e56f240a045620da9439ea1e28c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 330,
+          "calls": 348,
+          "triangles": 5506485
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "8231f34253dd6f8adda49d6788ec4d5017c4c78e0cb1ac6dba4c0a33a7d58ae6",
+        "before": "8231f34253dd6f8adda49d6788ec4d5017c4c78e0cb1ac6dba4c0a33a7d58ae6",
+        "after": "8231f34253dd6f8adda49d6788ec4d5017c4c78e0cb1ac6dba4c0a33a7d58ae6"
+      }
+    },
+    {
+      "pose": [
+        40,
+        0
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "ba236fb0f08dc268f5b0b03dad6b9d18603858321d4b729ba7cfb0af93ab755c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 310,
+          "calls": 316,
+          "triangles": 4914246
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "ba236fb0f08dc268f5b0b03dad6b9d18603858321d4b729ba7cfb0af93ab755c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 310,
+          "calls": 316,
+          "triangles": 4914246
+        },
+        "after": {
+          "hypotCalls": 296,
+          "buffers": "ba236fb0f08dc268f5b0b03dad6b9d18603858321d4b729ba7cfb0af93ab755c",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 310,
+          "calls": 316,
+          "triangles": 4914246
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "e93d2439624fc3a223b801c42f68e881f1cae0454ed047a3a2460998818042f7",
+        "before": "e93d2439624fc3a223b801c42f68e881f1cae0454ed047a3a2460998818042f7",
+        "after": "e93d2439624fc3a223b801c42f68e881f1cae0454ed047a3a2460998818042f7"
+      }
+    },
+    {
+      "pose": [
+        80,
+        0
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "62339e0c0f231a5bd395c25f5c824834c4bbc92dd568812bb18f2b8521913a9b",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 240,
+          "calls": 271,
+          "triangles": 3396477
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "62339e0c0f231a5bd395c25f5c824834c4bbc92dd568812bb18f2b8521913a9b",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 240,
+          "calls": 271,
+          "triangles": 3396477
+        },
+        "after": {
+          "hypotCalls": 142,
+          "buffers": "62339e0c0f231a5bd395c25f5c824834c4bbc92dd568812bb18f2b8521913a9b",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 240,
+          "calls": 271,
+          "triangles": 3396477
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "764c2cc57f1690a6f6810ebbda50e079f6a50552ad06d1c503d625e9960b11fb",
+        "before": "764c2cc57f1690a6f6810ebbda50e079f6a50552ad06d1c503d625e9960b11fb",
+        "after": "764c2cc57f1690a6f6810ebbda50e079f6a50552ad06d1c503d625e9960b11fb"
+      }
+    },
+    {
+      "pose": [
+        0,
+        -0.6
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "b36bd2e5e4af199b0e3245b63f36fb62ee3280ba055d32d69e5d4d1e8b9cd4de",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 580,
+          "calls": 375,
+          "triangles": 6512391
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "b36bd2e5e4af199b0e3245b63f36fb62ee3280ba055d32d69e5d4d1e8b9cd4de",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 580,
+          "calls": 375,
+          "triangles": 6512391
+        },
+        "after": {
+          "hypotCalls": 507,
+          "buffers": "b36bd2e5e4af199b0e3245b63f36fb62ee3280ba055d32d69e5d4d1e8b9cd4de",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 580,
+          "calls": 375,
+          "triangles": 6512391
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "67f378444e0f6cd757c6cec2b7e4232245fb6fb90d0a62fd4c42261bf8d0c7f2",
+        "before": "67f378444e0f6cd757c6cec2b7e4232245fb6fb90d0a62fd4c42261bf8d0c7f2",
+        "after": "67f378444e0f6cd757c6cec2b7e4232245fb6fb90d0a62fd4c42261bf8d0c7f2"
+      }
+    },
+    {
+      "pose": [
+        0,
+        0.6
+      ],
+      "modes": {
+        "native": {
+          "hypotCalls": 705,
+          "buffers": "bb66094706aa0477e1275070fa922a2229528cf34f63437a9d8421e6ff74e8a8",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 98,
+          "calls": 263,
+          "triangles": 3884710
+        },
+        "before": {
+          "hypotCalls": 705,
+          "buffers": "bb66094706aa0477e1275070fa922a2229528cf34f63437a9d8421e6ff74e8a8",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 98,
+          "calls": 263,
+          "triangles": 3884710
+        },
+        "after": {
+          "hypotCalls": 507,
+          "buffers": "bb66094706aa0477e1275070fa922a2229528cf34f63437a9d8421e6ff74e8a8",
+          "forestFloorPieces": 705,
+          "forestFloorDrawn": 98,
+          "calls": 263,
+          "triangles": 3884710
+        }
+      },
+      "identicalPixels": true,
+      "pass": true,
+      "imageSha256": {
+        "native": "5ee4fedba4e94456080e914884e0682b3fa66776c7918c2b00e3f685ae57f9bc",
+        "before": "5ee4fedba4e94456080e914884e0682b3fa66776c7918c2b00e3f685ae57f9bc",
+        "after": "5ee4fedba4e94456080e914884e0682b3fa66776c7918c2b00e3f685ae57f9bc"
+      }
+    }
+  ],
+  "scope": "Published world inputs and native floor vs original/candidate rebuilt modules; High frozen native post/MSAA at seven poses. CPU separately times only floor.update over the same repeated 80 m camera path, not complete game-frame or GPU cost.",
+  "cpuSummary": {
+    "before": {
+      "frames": 6000,
+      "average": 0.025850000001490115,
+      "p95": 0.10000000149011612
+    },
+    "after": {
+      "frames": 6000,
+      "average": 0.018933333336065214,
+      "p95": 0.10000000149011612
+    }
+  },
+  "errors": [],
+  "pass": true,
+  "sourceSha256": "bd0246c0ba80967d946346ce3aab92f2c380950f99ea3aa570e50667d0943501"
+}
