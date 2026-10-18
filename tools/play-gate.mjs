@@ -61,6 +61,11 @@ if (args['budget-url']) {
   };
   // Live is probed twice: its own run-to-run spread (a dynamic draw can appear in one run and not the next) is the band the candidate is compared against.
   const liveA = await probe(args['budget-url']), liveB = await probe(args['budget-url']);
+  // A deployment between probes is not a same-build spread; its old budget cannot approve a new baseline.
+  if (typeof liveA.revision !== 'string' || !/^[0-9a-f]{7,40}$/i.test(liveA.revision) || liveA.revision !== liveB.revision) {
+    console.error(`Budget gate: FAIL: Live budget revision changed or is unavailable (${liveA.revision ?? 'missing'} -> ${liveB.revision ?? 'missing'}). Retry against a single published revision.`);
+    process.exit(1);
+  }
   const live = { ...liveA, calls: Math.max(liveA.calls, liveB.calls), triangles: Math.max(liveA.triangles, liveB.triangles), errors: [...liveA.errors, ...liveB.errors] };
   const candidate = await probe(URL_);
   const headOk = !args.head || (candidate.revision !== null && args.head.startsWith(candidate.revision));
