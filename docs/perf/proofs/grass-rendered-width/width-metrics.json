@@ -1,0 +1,295 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.26",
+    "revision": "03d82c3"
+  },
+  "profile": {
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      2160,
+      1350
+    ]
+  },
+  "route": {
+    "x": 6,
+    "z": 26,
+    "frames": 9,
+    "startFrame": 0,
+    "metres": 0.3466666666666667,
+    "stationary": false,
+    "syntheticCadence": 60
+  },
+  "roi": {
+    "left": 288,
+    "top": 630,
+    "width": 2304,
+    "height": 1080
+  },
+  "scope": "Native software post/MSAA, fixed camera poses and lighting. Bright threshold events include ordinary motion; not a shimmer-only classifier. Strict white uses min RGB>=180, luminance>=200 and RGB spread<=40. No hardware timing claim.",
+  "summary": {
+    "baseline": {
+      "grassObservations": 12908771,
+      "bright180": 272,
+      "strictWhite": 0,
+      "maxLuminance": 199.66359999999997,
+      "meanFrameLuminance": 72.11094696048461,
+      "temporalEligible": 10089066,
+      "brightChangesOver20": 434,
+      "brightThresholdEntries": 238,
+      "unionEligible": 12864647,
+      "unionBrightChangesOver20": 741,
+      "samples": [
+        {
+          "frame": 0,
+          "grassPixels": 1447898,
+          "bright180": 21,
+          "strictWhite": 0,
+          "maxLuminance": 183.9594,
+          "meanLuminance": 72.23539583661962,
+          "temporalEligible": 0,
+          "brightChangesOver20": 0,
+          "brightThresholdEntries": 0,
+          "unionEligible": 0,
+          "unionBrightChangesOver20": 0
+        },
+        {
+          "frame": 1,
+          "grassPixels": 1447631,
+          "bright180": 26,
+          "strictWhite": 0,
+          "maxLuminance": 186.8854,
+          "meanLuminance": 72.19899777958994,
+          "temporalEligible": 1276078,
+          "brightChangesOver20": 41,
+          "brightThresholdEntries": 23,
+          "unionEligible": 1619451,
+          "unionBrightChangesOver20": 72
+        },
+        {
+          "frame": 2,
+          "grassPixels": 1442592,
+          "bright180": 37,
+          "strictWhite": 0,
+          "maxLuminance": 195.392,
+          "meanLuminance": 72.15099028378539,
+          "temporalEligible": 1273720,
+          "brightChangesOver20": 52,
+          "brightThresholdEntries": 33,
+          "unionEligible": 1616503,
+          "unionBrightChangesOver20": 100
+        },
+        {
+          "frame": 3,
+          "grassPixels": 1438813,
+          "bright180": 29,
+          "strictWhite": 0,
+          "maxLuminance": 199.66359999999997,
+          "meanLuminance": 72.09960620376923,
+          "temporalEligible": 1267426,
+          "brightChangesOver20": 56,
+          "brightThresholdEntries": 27,
+          "unionEligible": 1613979,
+          "unionBrightChangesOver20": 118
+        },
+        {
+          "frame": 4,
+          "grassPixels": 1433713,
+          "bright180": 24,
+          "strictWhite": 0,
+          "maxLuminance": 184.0316,
+          "meanLuminance": 72.09996363948508,
+          "temporalEligible": 1261818,
+          "brightChangesOver20": 47,
+          "brightThresholdEntries": 22,
+          "unionEligible": 1610708,
+          "unionBrightChangesOver20": 82
+        },
+        {
+          "frame": 5,
+          "grassPixels": 1431232,
+          "bright180": 32,
+          "strictWhite": 0,
+          "maxLuminance": 188.4654,
+          "meanLuminance": 72.08268941936106,
+          "temporalEligible": 1257943,
+          "brightChangesOver20": 51,
+          "brightThresholdEntries": 32,
+          "unionEligible": 1607002,
+          "unionBrightChangesOver20": 83
+        },
+        {
+          "frame": 6,
+          "grassPixels": 1428451,
+          "bright180": 36,
+          "strictWhite": 0,
+          "maxLuminance": 185.035,
+          "meanLuminance": 72.04255581944673,
+          "temporalEligible": 1255784,
+          "brightChangesOver20": 61,
+          "brightThresholdEntries": 36,
+          "unionEligible": 1603899,
+          "unionBrightChangesOver20": 103
+        },
+        {
+          "frame": 7,
+          "grassPixels": 1422510,
+          "bright180": 34,
+          "strictWhite": 0,
+          "maxLuminance": 189.682,
+          "meanLuminance": 72.0807623638784,
+          "temporalEligible": 1251810,
+          "brightChangesOver20": 64,
+          "brightThresholdEntries": 34,
+          "unionEligible": 1599151,
+          "unionBrightChangesOver20": 85
+        },
+        {
+          "frame": 8,
+          "grassPixels": 1415931,
+          "bright180": 33,
+          "strictWhite": 0,
+          "maxLuminance": 198.1794,
+          "meanLuminance": 72.00756129842598,
+          "temporalEligible": 1244487,
+          "brightChangesOver20": 62,
+          "brightThresholdEntries": 31,
+          "unionEligible": 1593954,
+          "unionBrightChangesOver20": 98
+        }
+      ]
+    },
+    "coveragePresence": {
+      "grassObservations": 12908771,
+      "bright180": 206,
+      "strictWhite": 0,
+      "maxLuminance": 199.451,
+      "meanFrameLuminance": 66.90006110145423,
+      "temporalEligible": 10089066,
+      "brightChangesOver20": 353,
+      "brightThresholdEntries": 186,
+      "unionEligible": 12864647,
+      "unionBrightChangesOver20": 661,
+      "samples": [
+        {
+          "frame": 0,
+          "grassPixels": 1447898,
+          "bright180": 14,
+          "strictWhite": 0,
+          "maxLuminance": 183.9594,
+          "meanLuminance": 67.01935200618651,
+          "temporalEligible": 0,
+          "brightChangesOver20": 0,
+          "brightThresholdEntries": 0,
+          "unionEligible": 0,
+          "unionBrightChangesOver20": 0
+        },
+        {
+          "frame": 1,
+          "grassPixels": 1447631,
+          "bright180": 17,
+          "strictWhite": 0,
+          "maxLuminance": 186.8854,
+          "meanLuminance": 66.9950313174147,
+          "temporalEligible": 1276078,
+          "brightChangesOver20": 31,
+          "brightThresholdEntries": 17,
+          "unionEligible": 1619451,
+          "unionBrightChangesOver20": 62
+        },
+        {
+          "frame": 2,
+          "grassPixels": 1442592,
+          "bright180": 26,
+          "strictWhite": 0,
+          "maxLuminance": 195.392,
+          "meanLuminance": 66.95076735560936,
+          "temporalEligible": 1273720,
+          "brightChangesOver20": 38,
+          "brightThresholdEntries": 22,
+          "unionEligible": 1616503,
+          "unionBrightChangesOver20": 88
+        },
+        {
+          "frame": 3,
+          "grassPixels": 1438813,
+          "bright180": 25,
+          "strictWhite": 0,
+          "maxLuminance": 199.451,
+          "meanLuminance": 66.90070738369286,
+          "temporalEligible": 1267426,
+          "brightChangesOver20": 46,
+          "brightThresholdEntries": 25,
+          "unionEligible": 1613979,
+          "unionBrightChangesOver20": 108
+        },
+        {
+          "frame": 4,
+          "grassPixels": 1433713,
+          "bright180": 21,
+          "strictWhite": 0,
+          "maxLuminance": 184.0316,
+          "meanLuminance": 66.89884040365108,
+          "temporalEligible": 1261818,
+          "brightChangesOver20": 43,
+          "brightThresholdEntries": 19,
+          "unionEligible": 1610708,
+          "unionBrightChangesOver20": 79
+        },
+        {
+          "frame": 5,
+          "grassPixels": 1431232,
+          "bright180": 27,
+          "strictWhite": 0,
+          "maxLuminance": 186.6098,
+          "meanLuminance": 66.87223800910228,
+          "temporalEligible": 1257943,
+          "brightChangesOver20": 45,
+          "brightThresholdEntries": 27,
+          "unionEligible": 1607002,
+          "unionBrightChangesOver20": 77
+        },
+        {
+          "frame": 6,
+          "grassPixels": 1428451,
+          "bright180": 25,
+          "strictWhite": 0,
+          "maxLuminance": 183.89459999999997,
+          "meanLuminance": 66.82657373997222,
+          "temporalEligible": 1255784,
+          "brightChangesOver20": 50,
+          "brightThresholdEntries": 25,
+          "unionEligible": 1603899,
+          "unionBrightChangesOver20": 91
+        },
+        {
+          "frame": 7,
+          "grassPixels": 1422510,
+          "bright180": 25,
+          "strictWhite": 0,
+          "maxLuminance": 188.75419999999997,
+          "meanLuminance": 66.84867344414553,
+          "temporalEligible": 1251810,
+          "brightChangesOver20": 50,
+          "brightThresholdEntries": 25,
+          "unionEligible": 1599151,
+          "unionBrightChangesOver20": 70
+        },
+        {
+          "frame": 8,
+          "grassPixels": 1415931,
+          "bright180": 26,
+          "strictWhite": 0,
+          "maxLuminance": 197.25159999999997,
+          "meanLuminance": 66.78836625331348,
+          "temporalEligible": 1244487,
+          "brightChangesOver20": 50,
+          "brightThresholdEntries": 26,
+          "unionEligible": 1593954,
+          "unionBrightChangesOver20": 86
+        }
+      ]
+    }
+  }
+}
