@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { cacheSingleDirectionalShadowMatrix } from './singleShadowMatrix';
 import { installLeafTargetCoverage } from './leafTargetCoverage';
 import { foliageUniforms, patchFoliageVertex, type FoliageField, type FoliageResponse } from './foliageWind';
 
@@ -494,6 +495,7 @@ export function installFoliage(material: THREE.Material, opts: FoliageInstall): 
   const programKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
     compile.call(this, shader, renderer);
+    if (physical) cacheSingleDirectionalShadowMatrix(shader, THREE.ShaderChunk);
     if (!patchFoliageVertex(shader, { ...wind, ...own }, opts.leaf, opts.weight, hier)) { failed = true; return; }
     if (!opts.leaf) {
       // Playtest 7: boughs and twigs inside a crown sat in the leaves' shadow with little sky, and read as black shards
@@ -554,7 +556,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-mip1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}|shake-matrix1`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-mip1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}|single-shadow-matrix1|shake-matrix1`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;

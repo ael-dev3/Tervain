@@ -1,0 +1,27 @@
+{
+  "runtimeRevision": "5c10edcc248737729c7b9fc4ae0c16a988667502",
+  "runtimeSourceSha256": {
+    "src/presentation/foliage/singleShadowMatrix.ts": "0d22ff7a8ad2e91f27543c28e8e6be68800b7836037be07d56640766193d9fab",
+    "src/presentation/foliage/foliageMaterial.ts": "cd8b0d4776f654b5bc115705862511b61e5293511c05de7d651ab47ff7449022"
+  },
+  "tests": {
+    "command": "npx vitest run tests/presentation/singleShadowMatrix.test.ts tests/presentation/foliageEngine.test.ts tests/presentation/treeBarkDetail.test.ts",
+    "exitCode": 0,
+    "passed": 30,
+    "files": 3
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0
+  },
+  "productionBuild": {
+    "command": "npm run build",
+    "exitCode": 0,
+    "embeddedRevision": "5c10edcc2"
+  },
+  "nativePairs": 5,
+  "compiledFixtureCases": 15,
+  "uniformReductionAndDrawTriangleBudgetsVerified": true,
+  "movingCpuNonIncreaseEstablished": false,
+  "hardwareGatePassClaimed": false
+}
