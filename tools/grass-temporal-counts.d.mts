@@ -1,0 +1,1 @@
+export function temporalGrassCounts(previous: Uint8Array, current: Uint8Array, previousMask: Uint8Array, currentMask: Uint8Array, options?: {threshold?: number; maskThreshold?: number}): {eligiblePixels: number; changedPixels: number; brightChangedPixels: number; maskChangedPixels: number; changedShare: number | null};
