@@ -6,24 +6,32 @@ Six single-member struct entries use Three's cached vec4 setters. All 24 GPU flo
 
 ## Current evidence
 
-Published baseline: 0.0.23 · `5144dd3`, High forest. First moving renderer replay, 120 warm pairs and 120 measured pairs in alternating A/B order:
+Published baseline: 0.0.23 · `5144dd3`, High forest. Three predefined moving renderer replays, each with 120 warm pairs and 120 measured pairs in alternating A/B order. Pool all 360 measured pairs without discarding runs:
 
 | Metric | Before | After |
 | --- | ---: | ---: |
 | Mover upload calls / frame, mean | 97.367 | 23.767 |
 | Mover uniform payload bytes / frame, mean | 9,347.20 | 380.27 |
-| Renderer thread CPU mean | 3.283 ms | 3.244 ms |
-| Renderer thread CPU p95 | 5.042 ms | 5.233 ms |
+| Renderer thread CPU mean | 3.666 ms | 3.571 ms |
+| Renderer thread CPU p95 | 5.730 ms | 5.272 ms |
 | Maximum intended draw calls | 423 | 423 |
 | Maximum intended triangles | 8,005,237 | 8,005,237 |
 | Textures | 274 | 274 |
 | Added wind arithmetic expressions / texture samples | 0 | 0 |
 
-Every paired draw/triangle/texture count matches. The first CPU mean is slightly lower but p95 is higher; **CPU tail verification remains pending**. These are instrumented renderer-thread measurements with raster draws suppressed, not hardware GPU time, total game FPS, power use or Mac measurements. Uniform bytes mean GL API input payload, not measured bus traffic. `allUniformCalls` in the raw samples counts the instrumented vec4 upload methods only.
+Every paired draw/triangle/texture count matches. Pooled average and nearest-rank p95 are both lower. Individual runs remain visible below; the first run's tail increase is retained, not discarded.
+
+| Run (120 pairs each) | Main mean | Candidate mean | Main p95 | Candidate p95 |
+| --- | ---: | ---: | ---: | ---: |
+| 1 | 3.283 ms | 3.244 ms | 5.042 ms | 5.233 ms |
+| 2 | 3.524 ms | 3.613 ms | 5.307 ms | 5.083 ms |
+| 3 | 4.192 ms | 3.857 ms | 6.593 ms | 5.466 ms |
+
+Median per-run p95 is 5.307 → 5.233 ms. [Pooled calculation](proofs/foliage-mover-uniform-rebased/cpu-pooled.json) and all three complete runs are published. These are paired software-renderer measurements with varying absolute CPU levels, not a claim that every individual run improves. These are instrumented renderer-thread measurements with raster draws suppressed, not hardware GPU time, total game FPS, power use or Mac measurements. Uniform bytes mean GL API input payload, not measured bus traffic. `allUniformCalls` in the raw samples counts the instrumented vec4 upload methods only.
 
 The eight compiled colour/shadow cases pass with exact RGB and GPU float values: unchanged slots, a moving slot, all six slots, expiry and array replacement. A same-time inactive control confirms the mover still deforms geometry. **Tradeoff:** changing all slots in a small scene increases individual setter calls (fixture 5 → 12) while reducing payload (480 → 192 bytes). The shared-program forest reduces both.
 
-The first replay and compiled fixture results are in [the proof directory](proofs/foliage-mover-uniform-rebased). Fresh full-scene five-pose pixel proof and compiled-head deterministic gate are still pending; no native or play-gate PASS is claimed here yet.
+All three CPU replays and compiled fixture results are in [the proof directory](proofs/foliage-mover-uniform-rebased). Fresh full-scene five-pose pixel proof and compiled-head deterministic gate are still pending; no native or play-gate PASS is claimed here yet.
 
 ## Reproduction
 
