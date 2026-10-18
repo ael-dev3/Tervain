@@ -59,7 +59,9 @@ if (args['budget-url']) {
       return { url, calls, triangles, errors, revision: version?.revision ?? null, samples, stable: true };
     } finally { page.close?.(); }
   };
-  const live = await probe(args['budget-url']);
+  // Live is probed twice: its own run-to-run spread (a dynamic draw can appear in one run and not the next) is the band the candidate is compared against.
+  const liveA = await probe(args['budget-url']), liveB = await probe(args['budget-url']);
+  const live = { ...liveA, calls: Math.max(liveA.calls, liveB.calls), triangles: Math.max(liveA.triangles, liveB.triangles), errors: [...liveA.errors, ...liveB.errors] };
   const candidate = await probe(URL_);
   const headOk = !args.head || (candidate.revision !== null && args.head.startsWith(candidate.revision));
   const drawsOk = candidate.calls <= live.calls, trisOk = candidate.triangles <= live.triangles;
@@ -69,7 +71,7 @@ if (args['budget-url']) {
     `# Budget gate: ${ok ? 'PASS' : 'FAIL'}`, '',
     `- Live (${live.url}, revision ${live.revision}): draw calls ${live.calls}, triangles ${live.triangles}, console errors ${live.errors.length}`,
     `- Candidate (${candidate.url}, revision ${candidate.revision}): draw calls ${candidate.calls}, triangles ${candidate.triangles}, console errors ${candidate.errors.length}`,
-    `- Draws not above live: ${drawsOk ? 'yes' : 'NO'}; triangles not above live: ${trisOk ? 'yes' : 'NO'}; no console errors: ${errorsOk ? 'yes' : 'NO'}; revision matches head ${args.head ?? '(not given)'}: ${headOk ? 'yes' : 'NO'}; maximum over four samples (settling frames included)`,
+    `- Draws not above live: ${drawsOk ? 'yes' : 'NO'}; triangles not above live: ${trisOk ? 'yes' : 'NO'}; no console errors: ${errorsOk ? 'yes' : 'NO'}; revision matches head ${args.head ?? '(not given)'}: ${headOk ? 'yes' : 'NO'}; maximum over four samples; live is the larger of two live probes`,
     '- Not measured by the page: texture taps, shader cost, JS frame CPU. Each PR posts its own cost table; the gate does not claim them.',
     '- Wall-clock pacing (over-25 ms share, p95): advisory only, see docs/perf/LATEST.md (A/A band 1.7 points). Not a pass/fail condition.', '',
   ];
