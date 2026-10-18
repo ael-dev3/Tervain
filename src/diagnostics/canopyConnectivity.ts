@@ -87,10 +87,12 @@ export function spanningLeafEdges(parts: Component[], limit: number, charge: () 
   const mark=(node:LeafNode):number=>{charge();if(node.ids){const first=graph.find(node.ids[0]!);return node.uniform=node.ids.every(i=>graph.find(i)===first)?first:-1;}const a=mark(node.left!),b=mark(node.right!);return node.uniform=a===b?a:-1;};
   for(;;){mark(root);const best=new Map<number,[number,number,number]>();
     for(let i=0;i<parts.length;i++){const group=graph.find(i);if(best.get(group)?.[2]===0)continue;const box=parts[i]!.box;let distance=best.get(group)?.[2]??limit,other=-1;
-      const visit=(node:LeafNode)=>{charge();if(node.uniform===group||boxGap(box,node.box)>distance)return;
+      const visit=(node:LeafNode,bound?:number)=>{charge();if(node.uniform===group||(bound??boxGap(box,node.box))>distance)return;
         if(node.ids){for(const j of node.ids){if(graph.find(j)===group)continue;charge();const d=boxGap(box,parts[j]!.box);if(d<=distance){distance=d;other=j;if(d===0)return;}}return;}
-        const left=node.left!,right=node.right!,first=boxGap(box,left.box)<=boxGap(box,right.box)?left:right,second=first===left?right:left;
-        visit(first);if(distance!==0)visit(second);
+        const left=node.left!,right=node.right!,leftBound=boxGap(box,left.box),rightBound=boxGap(box,right.box);
+        const first=leftBound<=rightBound?left:right,second=first===left?right:left;
+        // Box/query bounds stay fixed while the current best distance tightens.
+        visit(first,first===left?leftBound:rightBound);if(distance!==0)visit(second,second===left?leftBound:rightBound);
       };visit(root);if(other>=0)best.set(group,[i,other,distance]);
     }
     let changed=false;for(const[a,b,d]of best.values())if(graph.find(a)!==graph.find(b)){graph.join(a,b);edges.push([a,b,d]);changed=true;}
