@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { woodReachLocal } from '../presentation/canopy';
 
 export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry | null; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
   /** Material requires alpha testing; an unavailable mask must not silently become opaque. */
@@ -143,7 +144,7 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
     const candidates=[...chunks.values()].filter(c=>c.contact>limit).map(c=>({position:c.box.getCenter(new THREE.Vector3()).applyMatrix4(t.matrix).toArray(),components:c.count,sampledWoodGap:Number.isFinite(c.contact)?c.contact*s:null}));
     // Playtest 6: a crown is one chunk, yet a clump in it can still hang clear of every branch. Cards farther than
     // `woodReach` from the wood are grouped (by the same proximity links) into detached clumps.
-    const reach=woodReach/s,far=union(entry.components.length),isFar=(i:number)=>!(entry.contacts[i]!<=reach);let farCards=0,maxWoodGap=0;
+    const reach=woodReachLocal(woodReach,s),far=union(entry.components.length),isFar=(i:number)=>!(entry.contacts[i]!<=reach);let farCards=0,maxWoodGap=0;
     for(let i=0;i<entry.components.length;i++)if(isFar(i)){farCards++;maxWoodGap=Math.max(maxWoodGap,Number.isFinite(entry.contacts[i]!)?entry.contacts[i]!*s:Infinity);}
     // A spanning tree preserves connectivity only before vertices are removed. A supported card can be the
     // shortcut between two detached cards, hiding their direct link when that supported card is excluded.
