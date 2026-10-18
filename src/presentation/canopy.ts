@@ -534,6 +534,73 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   return geometry;
 }
 
+/** Largest instance scale a tree can be placed at (floraPopulation: veteran oaks reach 1.46). */
+export const MAX_TREE_SCALE = 1.46;
+/** Converts a world distance in metres into a tree's local units for an instance scale (world = local × scale). */
+export function woodReachLocal(metres: number, scale: number): number { return metres / scale; }
+
+/**
+ * Detached clumps (0.0.25): leaf cards whose corners join through `gap` form one clump. A clump with no corner within `reach`
+ * of the wood is moved as a whole: its nearest wood point is found and the clump is translated `pull` of the way there,
+ * so it sits just short of the branch with its size and orientation unchanged. No card is deleted.
+ */
+export function snapDetachedClumps(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number, reach: number, gap = 0.75, pull = 0.9): { geometry: THREE.BufferGeometry; moved: number } {
+  const position = canopy.getAttribute("position"), index = canopy.index;
+  if (!position || !index) return { geometry: canopy, moved: 0 };
+  const cards = index.count / 6;
+  const verts = Array.from({ length: cards * 4 }, (_, i) => new THREE.Vector3().fromBufferAttribute(position, index.getX(Math.floor(i / 4) * 6) + (i % 4)));
+  const parent = Array.from({ length: cards }, (_, i) => i);
+  const find = (i: number): number => { let r = i; while (parent[r]! !== r) r = parent[r]!; return r; };
+  const cell = new Map<string, number[]>(), key = (x: number, y: number, z: number) => `${x},${y},${z}`;
+  const cellOf = (p: THREE.Vector3) => [Math.floor(p.x / gap), Math.floor(p.y / gap), Math.floor(p.z / gap)] as const;
+  verts.forEach((p, i) => { const [cx, cy, cz] = cellOf(p); const k = key(cx, cy, cz); const list = cell.get(k); if (list) list.push(i); else cell.set(k, [i]); });
+  const gap2 = gap * gap;
+  verts.forEach((p, i) => {
+    const [cx, cy, cz] = cellOf(p);
+    for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) for (let dz = -1; dz <= 1; dz++) {
+      for (const j of cell.get(key(cx + dx, cy + dy, cz + dz)) ?? []) {
+        const a = Math.floor(i / 4), b = Math.floor(j / 4);
+        if (a === b || verts[j]!.distanceToSquared(p) > gap2) continue;
+        const ra = find(a), rb = find(b);
+        if (ra !== rb) parent[ra] = rb;
+      }
+    }
+  });
+  const groups = new Map<number, number[]>();
+  for (let c = 0; c < cards; c++) { const r = find(c); const list = groups.get(r); if (list) list.push(c); else groups.set(r, [c]); }
+  const out = new Float32Array(position.count * 3);
+  for (let v = 0; v < position.count; v++) out.set([position.getX(v), position.getY(v), position.getZ(v)], v * 3);
+  const centre = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3();
+  let moved = 0;
+  for (const cardsInClump of groups.values()) {
+    // The audit measures a clump at its box-centre-nearest point plus up to 8 evenly spaced points, not every corner.
+    const pts: THREE.Vector3[] = [];
+    for (const c of cardsInClump) for (let k = 0; k < 4; k++) pts.push(verts[c * 4 + k]!);
+    const box = new THREE.Box3().setFromPoints(pts), mid = box.getCenter(new THREE.Vector3());
+    let nearest = pts[0]!;
+    for (const p of pts) if (p.distanceToSquared(mid) < nearest.distanceToSquared(mid)) nearest = p;
+    const samples = [nearest];
+    for (let i = 0; i < Math.min(8, pts.length); i++) samples.push(pts[Math.floor(i * pts.length / Math.min(8, pts.length))]!);
+    const near = samples.some(p => anchor(p, hit, reach) <= reach);
+    if (near) continue;
+    centre.copy(mid);
+    anchor(centre, hit);
+    delta.copy(hit).sub(centre).multiplyScalar(pull);
+    for (const c of cardsInClump) for (let k = 0; k < 4; k++) {
+      const v = index.getX(c * 6) + k;
+      out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z;
+    }
+    moved++;
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(out, 3));
+  for (const name of ["normal", "uv"]) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
+  geometry.setIndex(index.clone());
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, snappedClumps: moved };
+  return { geometry, moved };
+}
+
 /**
  * Wood triangles that stand clear of the canopy (A134): the giant oak's upper branch tips end in open, flat shards that
  * read black against the sky. Any wood triangle above the crown's lower third whose centroid is farther than `reach`
