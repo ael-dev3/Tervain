@@ -9,7 +9,7 @@ import type { Quality, SceneModule } from './context';
 import { barkTextures } from './treeTextures';
 import { createFloraPopulation, type FloraTree } from './floraPopulation';
 import { streamDistance } from './vegetation';
-import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
+import { attachInstanceDistanceVisibility, createPlanarDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PlantedCrownField } from './plantedCrowns';
 import { biomeAt, type BiomeSample } from '../world/biomes';
 import { clamp01, fbmField, sstep } from './procTex';
@@ -571,6 +571,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
   const hasCasters = owned.some((b) => b.mesh.castShadow);
   const frustum = new THREE.Frustum(), pv = new THREE.Matrix4(), sphere = new THREE.Sphere();
   const fade = FOREST_FLOOR_DISTANCE[quality];
+  const coverageAt = createPlanarDistanceFade(fade.start, fade.end);
   return {
     group,
     update(dt, f) {
@@ -601,7 +602,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
         let count = 0, staticChanged = false, coverageChanged = false;
         for (let i = 0; i < b.pieces.length; i++) {
           const p = b.pieces[i]!;
-          const coverage = smoothDistanceFade(Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z), fade.start, fade.end);
+          const coverage = coverageAt(p.x - f.camera.position.x, p.z - f.camera.position.z);
           if (coverage <= 0) continue;
           sphere.copy(b.bounds[i]!);
           if (!frustum.intersectsSphere(sphere) && !(b.mesh.castShadow && f.shadowFrustum?.intersectsSphere(sphere))) continue;
