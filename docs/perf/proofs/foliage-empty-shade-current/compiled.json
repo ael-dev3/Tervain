@@ -1,0 +1,36 @@
+{
+  "build": {
+    "version": "0.0.23",
+    "revision": "6ba76cf1f"
+  },
+  "cost": {
+    "draws": 376,
+    "triangles": 6413125,
+    "textures": 274
+  },
+  "samples": 4,
+  "post": true,
+  "programs": [
+    {
+      "mesh": "hero-pine:0:foliage",
+      "guard": true,
+      "shadeOnly": true,
+      "mapped": true,
+      "alphaTest": true,
+      "sourceSha256": "f0c776dd24f1715fc33dc00a9f2370d9a6c968618ecb99ffbc212a01dfbdfdf2"
+    },
+    {
+      "mesh": "fir-spire:0:foliage",
+      "guard": true,
+      "shadeOnly": true,
+      "mapped": true,
+      "alphaTest": true,
+      "sourceSha256": "d10fe45dddf6c150baae4416d22fb5e0f58681808046915397d0cfba3d0f7633"
+    }
+  ],
+  "error": 0,
+  "consoleErrors": [],
+  "expectedRevision": "6ba76cf1f",
+  "pass": true,
+  "scope": "Unmodified production-preview world and actual linked WebGL fragment shaders read back from native non-oak colour programs. No shader substitution, mode toggle or renderer replacement. Software correctness/startup check, not hardware timing."
+}

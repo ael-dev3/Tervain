@@ -1,0 +1,10 @@
+{
+  "frames": 5,
+  "width": 768,
+  "height": 280,
+  "playbackFps": 6,
+  "sourceCadence": 60,
+  "decodedRgbIdentical": true,
+  "decodedSha256": "c454721f2857b91fd25acf9e206f9348db98f4443be4479d2d54e6b5cdca3a27",
+  "layout": "Before left, after right; non-oak-focused ROI. Preview is lossy and not metric input. Error maps amplify RGB difference from the single-pass reference 8x; they are diagnostic, not product frames."
+}

@@ -1,5 +1,32 @@
 # Empty foliage fragments inheriting another leaf's depth
 
+## Fresh aligned 0.0.23 capture
+
+Candidate runtime **6ba76cf1f**, aligned to published 0.0.23 source `1743c9484` (same game source as `ef4222d8b`), is replayed in five matched walking/turning samples through native High post/MSAA4. The physical hero anchors sky/grass focus. This is a short 0.173 m / 0.69° sample, not a whole-forest audit. Pages later advanced to `7d7eacd`, changing the grass shader; that later change is not in this frozen build.
+
+Reference-error observations fall **302→221 (−26.8%)**. All five pairs have zero new reference errors and no changes to previously exact pixels. Three stationary controls are identical; native candidate equals the enabled adapter; all restored baseline images are exact. Draws/triangles/textures match in every pair:
+
+| Cost | Before | After | Delta |
+| --- | ---: | ---: | ---: |
+| Draw calls across the five poses | 280–285 | 280–285 | 0 per pair |
+| Triangles | 5,224,983–5,316,424 | 5,224,983–5,316,424 | 0 per pair |
+| Textures | 274 | 274 | 0 |
+| Added texture instructions / uniforms / passes | — | None | 0 by source |
+| Per-frame JS update / callback code | — | Unchanged | Structural source comparison, not measured 0 ms |
+| Shade-only fragment work | Existing path | Extra footprint/alpha derivatives, comparison and conditional discard | **Added work; not certified free** |
+
+The adapter toggles a uniform but keeps the discard instruction compiled in both variants. It therefore proves pixel/count invariants, **not the real early-depth/pipeline cost of adding discard**. No GPU timing, Mac FPS or pacing improvement is claimed.
+
+General ROI sparkle is effectively unchanged: **5.12116%→5.11017%**. Strict near-white transient observations remain **105→105**. This is an empty-fragment correctness fix, not a general crown/grass sparkle closure.
+
+[Fresh raw receipt](proofs/foliage-empty-shade-current/report.json) · [Lossless paired clip](proofs/foliage-empty-shade-current/motion.mp4) · [Web preview](proofs/foliage-empty-shade-current/motion-preview.mp4) · [Decoded RGB check](proofs/foliage-empty-shade-current/video-verification.json) · [Before](proofs/foliage-empty-shade-current/before.png) · [After](proofs/foliage-empty-shade-current/after.png) · [Single-pass diagnostic reference](proofs/foliage-empty-shade-current/reference.png).
+
+The clip decoder matches every original RGB channel. The paired capture checks GL errors on every draw. The separate [unmodified compiled-world probe](proofs/foliage-empty-shade-current/compiled.json) passes with **zero console errors and zero GL errors**, verifies revision `6ba76cf1f`, and reads the actual linked native pine/fir guard programs. Its [native frame](proofs/foliage-empty-shade-current/compiled.png) includes shadow/capture preparation and its costs must not be compared with the warmed paired table. This is separate from the instrumented pixel experiment. Future paired runs also record console errors explicitly; the completed five-pair receipt above records its original GL-error checks.
+
+Twenty-one selected foliage/shader tests and production build/type-check pass on the aligned runtime. The compiled checker now removes stale receipts, checks an optional expected revision, records console errors, and anchors lighting to the physical hero.
+
+## Original published reproduction
+
 Published **0.0.22 · 7884c88** can shade fully transparent card regions as opaque foliage during a forest walk/turn. The two-pass leaf renderer writes cutout coverage in its depth pass, then shades with `EQUAL` depth and no cutout. Equal depth does not identify the originating primitive: another card can project to the same stored depth. Its empty texels can then overwrite the leaf that supplied the covered samples. Moving the camera changes these coincidences, producing false colour specks.
 
 The correction keeps the two-pass renderer and rejects only a provably empty subset in the colour pass: mapped, minified samples with zero alpha across the derivative quad. The UV-footprint bound excludes magnification, whose cubic alpha reconstruction can fill an empty raw texel. Derivatives are evaluated before divergent rejection. Alpha maps, vertex alpha and uncertain nonzero/edge alpha stay on the existing path. There are no additional texture fetches, uniforms or passes in the production change.
