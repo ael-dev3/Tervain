@@ -1,0 +1,767 @@
+{
+  "setup": {
+    "version": "0.0.28",
+    "revision": "30d1f0d",
+    "viewport": [
+      492,
+      320,
+      1
+    ],
+    "buffer": [
+      492,
+      320
+    ],
+    "renderer": "WebKit WebGL",
+    "settings": {
+      "textScale": 1,
+      "reducedMotion": false,
+      "highContrast": false,
+      "reduceEffects": false,
+      "brightness": 1,
+      "quality": "high",
+      "guidance": true,
+      "showFps": false,
+      "frameCap60": true,
+      "dynamicResolution": true,
+      "treeDetailByDistance": false,
+      "barks": true,
+      "captions": true,
+      "mouseSensitivity": 1,
+      "invertY": false,
+      "toggleSprint": false,
+      "toggleBlock": false,
+      "volumes": {
+        "master": 0.8,
+        "music": 0.55,
+        "effects": 0.8,
+        "ambience": 0.7,
+        "dialogue": 0.8
+      },
+      "bindings": {
+        "forward": [
+          "KeyW",
+          "ArrowUp"
+        ],
+        "back": [
+          "KeyS",
+          "ArrowDown"
+        ],
+        "left": [
+          "KeyA",
+          "ArrowLeft"
+        ],
+        "right": [
+          "KeyD",
+          "ArrowRight"
+        ],
+        "sprint": [
+          "ShiftLeft"
+        ],
+        "jump": [
+          "Space"
+        ],
+        "interact": [
+          "KeyE"
+        ],
+        "skin": [
+          "KeyV"
+        ],
+        "grab": [
+          "KeyF"
+        ],
+        "throw": [
+          "KeyR"
+        ],
+        "attack": [
+          "Mouse0",
+          "KeyJ"
+        ],
+        "heavy": [
+          "KeyK"
+        ],
+        "block": [
+          "Mouse2",
+          "KeyL"
+        ],
+        "dodge": [
+          "KeyQ"
+        ],
+        "heal": [
+          "KeyH"
+        ],
+        "journal": [
+          "Tab"
+        ],
+        "map": [
+          "KeyM"
+        ],
+        "inventory": [
+          "KeyI"
+        ],
+        "camLeft": [
+          "KeyZ"
+        ],
+        "camRight": [
+          "KeyC"
+        ],
+        "quicksave": [
+          "F5"
+        ],
+        "quickload": [
+          "F9"
+        ],
+        "pause": [
+          "Escape"
+        ]
+      }
+    }
+  },
+  "records": [
+    {
+      "m": 0,
+      "submissionMs": 10.699999995529652,
+      "render": {
+        "frame": 200,
+        "calls": 364,
+        "triangles": 5848988,
+        "points": 1642,
+        "lines": 0
+      },
+      "passes": [
+        {
+          "name": "shadow",
+          "cpuMs": 3.399999998509884,
+          "draws": 119,
+          "triangles": 1270107
+        },
+        {
+          "name": "scene-main",
+          "cpuMs": 8.899999998509884,
+          "draws": 358,
+          "triangles": 5754903
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 94080
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0.6000000014901161,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-B",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-final",
+          "cpuMs": 0.19999999552965164,
+          "draws": 1,
+          "triangles": 1
+        }
+      ],
+      "categories": {
+        "shadow": {
+          "calls": 119,
+          "triangles": 1270107,
+          "cpuMs": 2.2999999970197678
+        },
+        "other": {
+          "calls": 171,
+          "triangles": 2071895,
+          "cpuMs": 2.200000010430813
+        },
+        "wood": {
+          "calls": 35,
+          "triangles": 727330,
+          "cpuMs": 0.4000000059604645
+        },
+        "foliage": {
+          "calls": 19,
+          "triangles": 906926,
+          "cpuMs": 0.3999999910593033
+        },
+        "grass": {
+          "calls": 20,
+          "triangles": 872730,
+          "cpuMs": 1.1000000014901161
+        }
+      },
+      "position": [
+        -55,
+        1.685680091381073,
+        70
+      ],
+      "gpu": [
+        {
+          "name": "scene-main",
+          "ms": 0.001482
+        },
+        {
+          "name": "shadow",
+          "ms": 1903.460516
+        },
+        {
+          "name": "scene-main",
+          "ms": 8760.422099
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.001292
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000701
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 2.278953
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.000711
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000911
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 186.459598
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.000831
+        },
+        {
+          "name": "shadow",
+          "ms": 0.001101
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.614321
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 0.000721
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000621
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 1.192166
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.000581
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000561
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.996502
+        },
+        {
+          "name": "post-final",
+          "ms": 0.000951
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000981
+        },
+        {
+          "name": "post-final",
+          "ms": 6.812834
+        }
+      ]
+    },
+    {
+      "m": 40,
+      "submissionMs": 7.899999998509884,
+      "render": {
+        "frame": 218,
+        "calls": 316,
+        "triangles": 4914246,
+        "points": 1642,
+        "lines": 0
+      },
+      "passes": [
+        {
+          "name": "shadow",
+          "cpuMs": 1,
+          "draws": 113,
+          "triangles": 1429991
+        },
+        {
+          "name": "scene-main",
+          "cpuMs": 6.799999997019768,
+          "draws": 310,
+          "triangles": 4820161
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 94080
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-B",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-final",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        }
+      ],
+      "categories": {
+        "shadow": {
+          "calls": 113,
+          "triangles": 1429991,
+          "cpuMs": 0.4999999925494194
+        },
+        "other": {
+          "calls": 136,
+          "triangles": 1558792,
+          "cpuMs": 1.1999999955296516
+        },
+        "wood": {
+          "calls": 30,
+          "triangles": 504152,
+          "cpuMs": 0.6000000014901161
+        },
+        "foliage": {
+          "calls": 19,
+          "triangles": 645634,
+          "cpuMs": 0.10000000149011612
+        },
+        "grass": {
+          "calls": 18,
+          "triangles": 775677,
+          "cpuMs": 0.10000000149011612
+        }
+      },
+      "position": [
+        -95,
+        0.6956059038639069,
+        70
+      ],
+      "gpu": [
+        {
+          "name": "scene-main",
+          "ms": 0.000902
+        },
+        {
+          "name": "shadow",
+          "ms": 2697.437709
+        },
+        {
+          "name": "scene-main",
+          "ms": 6308.078055
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.000922
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000611
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 3.727994
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.000671
+        },
+        {
+          "name": "shadow",
+          "ms": 0.00047
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 174.481945
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.000631
+        },
+        {
+          "name": "shadow",
+          "ms": 0.00043
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.697334
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 0.000731
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000431
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 1.0013
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.00057
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000441
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.787269
+        },
+        {
+          "name": "post-final",
+          "ms": 0.000561
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000401
+        },
+        {
+          "name": "post-final",
+          "ms": 6.82938
+        }
+      ]
+    },
+    {
+      "m": 80,
+      "submissionMs": 3.600000001490116,
+      "render": {
+        "frame": 236,
+        "calls": 271,
+        "triangles": 3396477,
+        "points": 1786,
+        "lines": 0
+      },
+      "passes": [
+        {
+          "name": "shadow",
+          "cpuMs": 0.6000000014901161,
+          "draws": 103,
+          "triangles": 1217997
+        },
+        {
+          "name": "scene-main",
+          "cpuMs": 2.2999999970197678,
+          "draws": 265,
+          "triangles": 3302392
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 94080
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0.10000000149011612,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0.10000000149011612,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0.5,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-B",
+          "cpuMs": 0.5,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-bloom-A",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        },
+        {
+          "name": "shadow",
+          "cpuMs": 0,
+          "draws": 0,
+          "triangles": 0
+        },
+        {
+          "name": "post-final",
+          "cpuMs": 0,
+          "draws": 1,
+          "triangles": 1
+        }
+      ],
+      "categories": {
+        "shadow": {
+          "calls": 103,
+          "triangles": 1217997,
+          "cpuMs": 0.6000000014901161
+        },
+        "other": {
+          "calls": 113,
+          "triangles": 955231,
+          "cpuMs": 1
+        },
+        "wood": {
+          "calls": 22,
+          "triangles": 277241,
+          "cpuMs": 0.19999999552965164
+        },
+        "foliage": {
+          "calls": 15,
+          "triangles": 326400,
+          "cpuMs": 0
+        },
+        "grass": {
+          "calls": 18,
+          "triangles": 619608,
+          "cpuMs": 0
+        }
+      },
+      "position": [
+        -135,
+        5.598028182983398,
+        70
+      ],
+      "gpu": [
+        {
+          "name": "scene-main",
+          "ms": 0.001192
+        },
+        {
+          "name": "shadow",
+          "ms": 1821.31433
+        },
+        {
+          "name": "scene-main",
+          "ms": 4334.938883
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.000911
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000751
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 4.473979
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 0.000701
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000501
+        },
+        {
+          "name": "scene-secondary-492x320",
+          "ms": 202.276232
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.001702
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000781
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 3.116096
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 0.000631
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000721
+        },
+        {
+          "name": "post-bloom-B",
+          "ms": 2.785831
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.000441
+        },
+        {
+          "name": "shadow",
+          "ms": 0.000731
+        },
+        {
+          "name": "post-bloom-A",
+          "ms": 0.4205
+        },
+        {
+          "name": "post-final",
+          "ms": 0.000641
+        },
+        {
+          "name": "shadow",
+          "ms": 0.00037
+        },
+        {
+          "name": "post-final",
+          "ms": 8.964162
+        }
+      ]
+    }
+  ],
+  "console": []
+}
