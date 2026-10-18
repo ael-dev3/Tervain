@@ -1,0 +1,70 @@
+{
+  "cpu": {
+    "updateCpuMs": {
+      "before": {
+        "average": 0.6003666666666665,
+        "p95": 0.975,
+        "samples": 120
+      },
+      "after": {
+        "average": 0.6887500000000003,
+        "p95": 1.142,
+        "samples": 120
+      },
+      "averageDelta": 0.08838333333333381,
+      "p95Delta": 0.16699999999999993
+    },
+    "renderCpuMs": {
+      "before": {
+        "average": 5.038508333333332,
+        "p95": 7.858,
+        "samples": 120
+      },
+      "after": {
+        "average": 5.887008333333333,
+        "p95": 9.488,
+        "samples": 120
+      },
+      "averageDelta": 0.8485000000000014,
+      "p95Delta": 1.63
+    },
+    "totalCpuMs": {
+      "before": {
+        "average": 5.638874999999998,
+        "p95": 8.35,
+        "samples": 120
+      },
+      "after": {
+        "average": 6.575758333333332,
+        "p95": 10.042,
+        "samples": 120
+      },
+      "averageDelta": 0.9368833333333342,
+      "p95Delta": 1.6920000000000002
+    }
+  },
+  "matchingCpuRenderRows": 10,
+  "cpuFrames": 120,
+  "cpuMaxima": {
+    "before": {
+      "draws": 778,
+      "triangles": 12538875
+    },
+    "after": {
+      "draws": 778,
+      "triangles": 12549627
+    }
+  },
+  "gpuMatchedRenderGroups": [
+    {
+      "draws": 751,
+      "triangles": 11874943,
+      "beforeSamples": 3,
+      "afterSamples": 3,
+      "beforeMedianMs": 18825.439805,
+      "afterMedianMs": 18841.546326,
+      "deltaMs": 16.106520999997883
+    }
+  ],
+  "scope": "Measurement, not a no-increase gate. CPU raster draws suppressed; full-scene software GPU query samples are grouped by equal submitted draws/triangles. No hardware claim."
+}

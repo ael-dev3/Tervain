@@ -576,8 +576,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
               const coverage = visibility[part]!.coverage;
               // Compare the stored precision: double-precision fade weights otherwise stay dirty forever.
               const start = Math.fround(intervalStart), end = Math.fround(intervalEnd);
-              if (coverage.getX(i) !== start || coverage.getY(i) !== end) {
-                coverage.setXY(i, start, end);
+              // Both source levels share the same float radius, independent of their vertices and normals.
+              // Complete intervals need no reference or per-frame reference uploads.
+              const reference = start > 0 || end < 1 ? Math.fround(d) : 0;
+              if (coverage.getX(i) !== start || coverage.getY(i) !== end || coverage.getZ(i) !== reference) {
+                coverage.setXYZ(i, start, end, reference);
                 coverageChanged.add(coverage);
               }
             }

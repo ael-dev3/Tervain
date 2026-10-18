@@ -1,0 +1,1445 @@
+{
+  "setup": {
+    "version": {
+      "version": "0.0.23",
+      "revision": "6f88ca6be"
+    },
+    "target": {
+      "label": "tree:wild:33:21",
+      "x": -168.19665829044806,
+      "z": -31.325527595733305
+    },
+    "size": [
+      640,
+      360
+    ],
+    "quality": "high",
+    "samples": 4
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "draws": 445,
+      "triangles": 7122435,
+      "links": 0,
+      "updateCpuMs": 0.631,
+      "renderCpuMs": 6.353,
+      "totalCpuMs": 6.984,
+      "updateWallMs": 0.632,
+      "renderWallMs": 6.408
+    },
+    {
+      "frame": 1,
+      "draws": 767,
+      "triangles": 12538879,
+      "links": 0,
+      "updateCpuMs": 0.835,
+      "renderCpuMs": 6.817,
+      "totalCpuMs": 7.652,
+      "updateWallMs": 0.836,
+      "renderWallMs": 6.815
+    },
+    {
+      "frame": 2,
+      "draws": 766,
+      "triangles": 12536379,
+      "links": 0,
+      "updateCpuMs": 0.659,
+      "renderCpuMs": 5.332,
+      "totalCpuMs": 5.991,
+      "updateWallMs": 0.659,
+      "renderWallMs": 5.471
+    },
+    {
+      "frame": 3,
+      "draws": 778,
+      "triangles": 12549627,
+      "links": 0,
+      "updateCpuMs": 0.648,
+      "renderCpuMs": 5.154,
+      "totalCpuMs": 5.802,
+      "updateWallMs": 0.649,
+      "renderWallMs": 5.21
+    },
+    {
+      "frame": 4,
+      "draws": 762,
+      "triangles": 12513925,
+      "links": 0,
+      "updateCpuMs": 0.581,
+      "renderCpuMs": 4.397,
+      "totalCpuMs": 4.978,
+      "updateWallMs": 0.58,
+      "renderWallMs": 4.396
+    },
+    {
+      "frame": 5,
+      "draws": 763,
+      "triangles": 12501134,
+      "links": 0,
+      "updateCpuMs": 0.413,
+      "renderCpuMs": 4.564,
+      "totalCpuMs": 4.977,
+      "updateWallMs": 0.413,
+      "renderWallMs": 20.371
+    },
+    {
+      "frame": 6,
+      "draws": 762,
+      "triangles": 12501133,
+      "links": 0,
+      "updateCpuMs": 0.637,
+      "renderCpuMs": 4.853,
+      "totalCpuMs": 5.49,
+      "updateWallMs": 0.637,
+      "renderWallMs": 4.96
+    },
+    {
+      "frame": 7,
+      "draws": 763,
+      "triangles": 12501134,
+      "links": 0,
+      "updateCpuMs": 0.429,
+      "renderCpuMs": 3.979,
+      "totalCpuMs": 4.408,
+      "updateWallMs": 0.43,
+      "renderWallMs": 3.978
+    },
+    {
+      "frame": 8,
+      "draws": 762,
+      "triangles": 12501133,
+      "links": 0,
+      "updateCpuMs": 0.429,
+      "renderCpuMs": 4.483,
+      "totalCpuMs": 4.912,
+      "updateWallMs": 0.429,
+      "renderWallMs": 4.482
+    },
+    {
+      "frame": 9,
+      "draws": 763,
+      "triangles": 12492576,
+      "links": 0,
+      "updateCpuMs": 0.505,
+      "renderCpuMs": 6.243,
+      "totalCpuMs": 6.748,
+      "updateWallMs": 0.505,
+      "renderWallMs": 44.564
+    },
+    {
+      "frame": 10,
+      "draws": 766,
+      "triangles": 12492633,
+      "links": 0,
+      "updateCpuMs": 0.822,
+      "renderCpuMs": 4.952,
+      "totalCpuMs": 5.774,
+      "updateWallMs": 0.822,
+      "renderWallMs": 4.951
+    },
+    {
+      "frame": 11,
+      "draws": 766,
+      "triangles": 12470003,
+      "links": 0,
+      "updateCpuMs": 0.678,
+      "renderCpuMs": 5.03,
+      "totalCpuMs": 5.708,
+      "updateWallMs": 0.679,
+      "renderWallMs": 26.45
+    },
+    {
+      "frame": 12,
+      "draws": 764,
+      "triangles": 12470001,
+      "links": 0,
+      "updateCpuMs": 0.642,
+      "renderCpuMs": 4.492,
+      "totalCpuMs": 5.134,
+      "updateWallMs": 0.642,
+      "renderWallMs": 4.491
+    },
+    {
+      "frame": 13,
+      "draws": 763,
+      "triangles": 12464001,
+      "links": 0,
+      "updateCpuMs": 0.473,
+      "renderCpuMs": 4.081,
+      "totalCpuMs": 4.554,
+      "updateWallMs": 0.475,
+      "renderWallMs": 4.08
+    },
+    {
+      "frame": 14,
+      "draws": 763,
+      "triangles": 12482521,
+      "links": 0,
+      "updateCpuMs": 0.44,
+      "renderCpuMs": 4.024,
+      "totalCpuMs": 4.464,
+      "updateWallMs": 0.441,
+      "renderWallMs": 4.023
+    },
+    {
+      "frame": 15,
+      "draws": 763,
+      "triangles": 12482521,
+      "links": 0,
+      "updateCpuMs": 0.411,
+      "renderCpuMs": 4.933,
+      "totalCpuMs": 5.343999999999999,
+      "updateWallMs": 0.411,
+      "renderWallMs": 42.547
+    },
+    {
+      "frame": 16,
+      "draws": 765,
+      "triangles": 12482523,
+      "links": 0,
+      "updateCpuMs": 0.567,
+      "renderCpuMs": 4.794,
+      "totalCpuMs": 5.361,
+      "updateWallMs": 0.568,
+      "renderWallMs": 4.895
+    },
+    {
+      "frame": 17,
+      "draws": 765,
+      "triangles": 12483027,
+      "links": 0,
+      "updateCpuMs": 0.572,
+      "renderCpuMs": 6.365,
+      "totalCpuMs": 6.937,
+      "updateWallMs": 0.573,
+      "renderWallMs": 27.49
+    },
+    {
+      "frame": 18,
+      "draws": 763,
+      "triangles": 12483105,
+      "links": 0,
+      "updateCpuMs": 0.747,
+      "renderCpuMs": 5.499,
+      "totalCpuMs": 6.2459999999999996,
+      "updateWallMs": 0.83,
+      "renderWallMs": 5.498
+    },
+    {
+      "frame": 19,
+      "draws": 763,
+      "triangles": 12483345,
+      "links": 0,
+      "updateCpuMs": 0.603,
+      "renderCpuMs": 4.871,
+      "totalCpuMs": 5.474,
+      "updateWallMs": 0.604,
+      "renderWallMs": 4.933
+    },
+    {
+      "frame": 20,
+      "draws": 775,
+      "triangles": 12496593,
+      "links": 0,
+      "updateCpuMs": 0.554,
+      "renderCpuMs": 4.63,
+      "totalCpuMs": 5.184,
+      "updateWallMs": 0.554,
+      "renderWallMs": 4.629
+    },
+    {
+      "frame": 21,
+      "draws": 763,
+      "triangles": 12476185,
+      "links": 0,
+      "updateCpuMs": 0.481,
+      "renderCpuMs": 6.24,
+      "totalCpuMs": 6.721,
+      "updateWallMs": 0.482,
+      "renderWallMs": 42.984
+    },
+    {
+      "frame": 22,
+      "draws": 761,
+      "triangles": 12476183,
+      "links": 0,
+      "updateCpuMs": 0.764,
+      "renderCpuMs": 5.185,
+      "totalCpuMs": 5.949,
+      "updateWallMs": 0.845,
+      "renderWallMs": 5.207
+    },
+    {
+      "frame": 23,
+      "draws": 762,
+      "triangles": 12476331,
+      "links": 0,
+      "updateCpuMs": 0.611,
+      "renderCpuMs": 4.833,
+      "totalCpuMs": 5.444,
+      "updateWallMs": 0.612,
+      "renderWallMs": 23.675
+    },
+    {
+      "frame": 24,
+      "draws": 761,
+      "triangles": 12476378,
+      "links": 0,
+      "updateCpuMs": 0.587,
+      "renderCpuMs": 4.422,
+      "totalCpuMs": 5.0089999999999995,
+      "updateWallMs": 0.586,
+      "renderWallMs": 4.42
+    },
+    {
+      "frame": 25,
+      "draws": 762,
+      "triangles": 12476937,
+      "links": 0,
+      "updateCpuMs": 0.468,
+      "renderCpuMs": 4.218,
+      "totalCpuMs": 4.686,
+      "updateWallMs": 0.469,
+      "renderWallMs": 4.218
+    },
+    {
+      "frame": 26,
+      "draws": 761,
+      "triangles": 12477956,
+      "links": 0,
+      "updateCpuMs": 0.516,
+      "renderCpuMs": 4.312,
+      "totalCpuMs": 4.828,
+      "updateWallMs": 0.517,
+      "renderWallMs": 4.349
+    },
+    {
+      "frame": 27,
+      "draws": 762,
+      "triangles": 12478461,
+      "links": 0,
+      "updateCpuMs": 0.424,
+      "renderCpuMs": 7.537,
+      "totalCpuMs": 7.961,
+      "updateWallMs": 0.425,
+      "renderWallMs": 52.212
+    },
+    {
+      "frame": 28,
+      "draws": 761,
+      "triangles": 12478460,
+      "links": 0,
+      "updateCpuMs": 0.885,
+      "renderCpuMs": 6.8,
+      "totalCpuMs": 7.685,
+      "updateWallMs": 0.975,
+      "renderWallMs": 6.799
+    },
+    {
+      "frame": 29,
+      "draws": 762,
+      "triangles": 12478461,
+      "links": 0,
+      "updateCpuMs": 0.761,
+      "renderCpuMs": 5.754,
+      "totalCpuMs": 6.515,
+      "updateWallMs": 0.79,
+      "renderWallMs": 20.077
+    },
+    {
+      "frame": 30,
+      "draws": 761,
+      "triangles": 12478460,
+      "links": 0,
+      "updateCpuMs": 0.697,
+      "renderCpuMs": 4.515,
+      "totalCpuMs": 5.212,
+      "updateWallMs": 0.698,
+      "renderWallMs": 4.514
+    },
+    {
+      "frame": 31,
+      "draws": 762,
+      "triangles": 12478937,
+      "links": 0,
+      "updateCpuMs": 0.463,
+      "renderCpuMs": 4.191,
+      "totalCpuMs": 4.654,
+      "updateWallMs": 0.464,
+      "renderWallMs": 4.232
+    },
+    {
+      "frame": 32,
+      "draws": 761,
+      "triangles": 12478936,
+      "links": 0,
+      "updateCpuMs": 0.461,
+      "renderCpuMs": 4.366,
+      "totalCpuMs": 4.827,
+      "updateWallMs": 0.462,
+      "renderWallMs": 4.524
+    },
+    {
+      "frame": 33,
+      "draws": 762,
+      "triangles": 12447805,
+      "links": 0,
+      "updateCpuMs": 0.418,
+      "renderCpuMs": 6.67,
+      "totalCpuMs": 7.088,
+      "updateWallMs": 0.419,
+      "renderWallMs": 51.507
+    },
+    {
+      "frame": 34,
+      "draws": 761,
+      "triangles": 12467608,
+      "links": 0,
+      "updateCpuMs": 0.79,
+      "renderCpuMs": 4.768,
+      "totalCpuMs": 5.558,
+      "updateWallMs": 0.79,
+      "renderWallMs": 4.768
+    },
+    {
+      "frame": 35,
+      "draws": 762,
+      "triangles": 12497541,
+      "links": 0,
+      "updateCpuMs": 0.523,
+      "renderCpuMs": 5.284,
+      "totalCpuMs": 5.8069999999999995,
+      "updateWallMs": 0.524,
+      "renderWallMs": 28.255
+    },
+    {
+      "frame": 36,
+      "draws": 760,
+      "triangles": 12476837,
+      "links": 0,
+      "updateCpuMs": 0.631,
+      "renderCpuMs": 6.061,
+      "totalCpuMs": 6.692,
+      "updateWallMs": 0.631,
+      "renderWallMs": 6.06
+    },
+    {
+      "frame": 37,
+      "draws": 760,
+      "triangles": 12476837,
+      "links": 0,
+      "updateCpuMs": 0.891,
+      "renderCpuMs": 7.664,
+      "totalCpuMs": 8.555,
+      "updateWallMs": 0.89,
+      "renderWallMs": 7.663
+    },
+    {
+      "frame": 38,
+      "draws": 760,
+      "triangles": 12389411,
+      "links": 0,
+      "updateCpuMs": 0.695,
+      "renderCpuMs": 4.68,
+      "totalCpuMs": 5.375,
+      "updateWallMs": 0.696,
+      "renderWallMs": 4.679
+    },
+    {
+      "frame": 39,
+      "draws": 761,
+      "triangles": 12307185,
+      "links": 0,
+      "updateCpuMs": 0.585,
+      "renderCpuMs": 4.692,
+      "totalCpuMs": 5.277,
+      "updateWallMs": 0.585,
+      "renderWallMs": 40.269
+    },
+    {
+      "frame": 40,
+      "draws": 763,
+      "triangles": 12307187,
+      "links": 0,
+      "updateCpuMs": 0.992,
+      "renderCpuMs": 4.318,
+      "totalCpuMs": 5.31,
+      "updateWallMs": 0.992,
+      "renderWallMs": 4.424
+    },
+    {
+      "frame": 41,
+      "draws": 762,
+      "triangles": 12299075,
+      "links": 0,
+      "updateCpuMs": 0.473,
+      "renderCpuMs": 4.765,
+      "totalCpuMs": 5.2379999999999995,
+      "updateWallMs": 0.474,
+      "renderWallMs": 20.05
+    },
+    {
+      "frame": 42,
+      "draws": 759,
+      "triangles": 12342101,
+      "links": 0,
+      "updateCpuMs": 0.472,
+      "renderCpuMs": 4.155,
+      "totalCpuMs": 4.627000000000001,
+      "updateWallMs": 0.473,
+      "renderWallMs": 4.154
+    },
+    {
+      "frame": 43,
+      "draws": 770,
+      "triangles": 12347157,
+      "links": 0,
+      "updateCpuMs": 0.466,
+      "renderCpuMs": 4.764,
+      "totalCpuMs": 5.23,
+      "updateWallMs": 0.467,
+      "renderWallMs": 4.794
+    },
+    {
+      "frame": 44,
+      "draws": 758,
+      "triangles": 12334107,
+      "links": 0,
+      "updateCpuMs": 0.437,
+      "renderCpuMs": 4.008,
+      "totalCpuMs": 4.445,
+      "updateWallMs": 0.438,
+      "renderWallMs": 4.007
+    },
+    {
+      "frame": 45,
+      "draws": 757,
+      "triangles": 12325915,
+      "links": 0,
+      "updateCpuMs": 0.38,
+      "renderCpuMs": 5.084,
+      "totalCpuMs": 5.4639999999999995,
+      "updateWallMs": 0.381,
+      "renderWallMs": 41.753
+    },
+    {
+      "frame": 46,
+      "draws": 754,
+      "triangles": 12317721,
+      "links": 0,
+      "updateCpuMs": 0.647,
+      "renderCpuMs": 4.391,
+      "totalCpuMs": 5.038,
+      "updateWallMs": 0.647,
+      "renderWallMs": 4.414
+    },
+    {
+      "frame": 47,
+      "draws": 754,
+      "triangles": 12309530,
+      "links": 0,
+      "updateCpuMs": 0.484,
+      "renderCpuMs": 4.399,
+      "totalCpuMs": 4.883,
+      "updateWallMs": 0.485,
+      "renderWallMs": 19.576
+    },
+    {
+      "frame": 48,
+      "draws": 753,
+      "triangles": 12309529,
+      "links": 0,
+      "updateCpuMs": 0.46,
+      "renderCpuMs": 4.101,
+      "totalCpuMs": 4.561,
+      "updateWallMs": 0.461,
+      "renderWallMs": 4.101
+    },
+    {
+      "frame": 49,
+      "draws": 754,
+      "triangles": 12309478,
+      "links": 0,
+      "updateCpuMs": 0.421,
+      "renderCpuMs": 4.161,
+      "totalCpuMs": 4.582,
+      "updateWallMs": 0.422,
+      "renderWallMs": 4.16
+    },
+    {
+      "frame": 50,
+      "draws": 752,
+      "triangles": 12301285,
+      "links": 0,
+      "updateCpuMs": 0.371,
+      "renderCpuMs": 3.944,
+      "totalCpuMs": 4.3149999999999995,
+      "updateWallMs": 0.371,
+      "renderWallMs": 3.943
+    },
+    {
+      "frame": 51,
+      "draws": 751,
+      "triangles": 12284902,
+      "links": 0,
+      "updateCpuMs": 0.365,
+      "renderCpuMs": 6.842,
+      "totalCpuMs": 7.207,
+      "updateWallMs": 0.366,
+      "renderWallMs": 48.008
+    },
+    {
+      "frame": 52,
+      "draws": 754,
+      "triangles": 12284905,
+      "links": 0,
+      "updateCpuMs": 0.837,
+      "renderCpuMs": 5.24,
+      "totalCpuMs": 6.077,
+      "updateWallMs": 0.837,
+      "renderWallMs": 5.238
+    },
+    {
+      "frame": 53,
+      "draws": 754,
+      "triangles": 12284905,
+      "links": 0,
+      "updateCpuMs": 0.563,
+      "renderCpuMs": 6.01,
+      "totalCpuMs": 6.5729999999999995,
+      "updateWallMs": 0.564,
+      "renderWallMs": 21.531
+    },
+    {
+      "frame": 54,
+      "draws": 750,
+      "triangles": 12214968,
+      "links": 0,
+      "updateCpuMs": 0.792,
+      "renderCpuMs": 4.868,
+      "totalCpuMs": 5.66,
+      "updateWallMs": 0.811,
+      "renderWallMs": 4.867
+    },
+    {
+      "frame": 55,
+      "draws": 751,
+      "triangles": 12215332,
+      "links": 0,
+      "updateCpuMs": 0.502,
+      "renderCpuMs": 4.492,
+      "totalCpuMs": 4.994,
+      "updateWallMs": 0.503,
+      "renderWallMs": 4.49
+    },
+    {
+      "frame": 56,
+      "draws": 749,
+      "triangles": 12199044,
+      "links": 0,
+      "updateCpuMs": 0.522,
+      "renderCpuMs": 4.354,
+      "totalCpuMs": 4.876,
+      "updateWallMs": 0.522,
+      "renderWallMs": 4.353
+    },
+    {
+      "frame": 57,
+      "draws": 749,
+      "triangles": 12199548,
+      "links": 0,
+      "updateCpuMs": 1.532,
+      "renderCpuMs": 8.159,
+      "totalCpuMs": 9.691,
+      "updateWallMs": 1.533,
+      "renderWallMs": 44.645
+    },
+    {
+      "frame": 58,
+      "draws": 752,
+      "triangles": 12199685,
+      "links": 0,
+      "updateCpuMs": 0.945,
+      "renderCpuMs": 5.929,
+      "totalCpuMs": 6.8740000000000006,
+      "updateWallMs": 0.946,
+      "renderWallMs": 5.928
+    },
+    {
+      "frame": 59,
+      "draws": 752,
+      "triangles": 12191127,
+      "links": 0,
+      "updateCpuMs": 0.708,
+      "renderCpuMs": 6.797,
+      "totalCpuMs": 7.505,
+      "updateWallMs": 0.708,
+      "renderWallMs": 20.28
+    },
+    {
+      "frame": 60,
+      "draws": 749,
+      "triangles": 12191584,
+      "links": 0,
+      "updateCpuMs": 0.929,
+      "renderCpuMs": 5.905,
+      "totalCpuMs": 6.8340000000000005,
+      "updateWallMs": 0.929,
+      "renderWallMs": 5.904
+    },
+    {
+      "frame": 61,
+      "draws": 762,
+      "triangles": 12204833,
+      "links": 0,
+      "updateCpuMs": 0.819,
+      "renderCpuMs": 5.181,
+      "totalCpuMs": 6,
+      "updateWallMs": 0.82,
+      "renderWallMs": 5.18
+    },
+    {
+      "frame": 62,
+      "draws": 749,
+      "triangles": 12183423,
+      "links": 0,
+      "updateCpuMs": 0.532,
+      "renderCpuMs": 4.262,
+      "totalCpuMs": 4.794,
+      "updateWallMs": 0.532,
+      "renderWallMs": 4.261
+    },
+    {
+      "frame": 63,
+      "draws": 749,
+      "triangles": 12183423,
+      "links": 0,
+      "updateCpuMs": 0.474,
+      "renderCpuMs": 8.555,
+      "totalCpuMs": 9.029,
+      "updateWallMs": 0.475,
+      "renderWallMs": 43.942
+    },
+    {
+      "frame": 64,
+      "draws": 747,
+      "triangles": 12183369,
+      "links": 0,
+      "updateCpuMs": 1.048,
+      "renderCpuMs": 6.604,
+      "totalCpuMs": 7.652,
+      "updateWallMs": 1.049,
+      "renderWallMs": 6.74
+    },
+    {
+      "frame": 65,
+      "draws": 748,
+      "triangles": 12117987,
+      "links": 0,
+      "updateCpuMs": 0.749,
+      "renderCpuMs": 5.58,
+      "totalCpuMs": 6.329,
+      "updateWallMs": 0.75,
+      "renderWallMs": 17.84
+    },
+    {
+      "frame": 66,
+      "draws": 749,
+      "triangles": 12117988,
+      "links": 0,
+      "updateCpuMs": 0.69,
+      "renderCpuMs": 4.802,
+      "totalCpuMs": 5.491999999999999,
+      "updateWallMs": 0.69,
+      "renderWallMs": 4.8
+    },
+    {
+      "frame": 67,
+      "draws": 749,
+      "triangles": 12052605,
+      "links": 0,
+      "updateCpuMs": 0.517,
+      "renderCpuMs": 4.09,
+      "totalCpuMs": 4.607,
+      "updateWallMs": 0.518,
+      "renderWallMs": 4.089
+    },
+    {
+      "frame": 68,
+      "draws": 749,
+      "triangles": 12052605,
+      "links": 0,
+      "updateCpuMs": 0.447,
+      "renderCpuMs": 3.968,
+      "totalCpuMs": 4.415,
+      "updateWallMs": 0.447,
+      "renderWallMs": 3.967
+    },
+    {
+      "frame": 69,
+      "draws": 749,
+      "triangles": 12040041,
+      "links": 0,
+      "updateCpuMs": 0.431,
+      "renderCpuMs": 6.486,
+      "totalCpuMs": 6.917,
+      "updateWallMs": 0.431,
+      "renderWallMs": 45.698
+    },
+    {
+      "frame": 70,
+      "draws": 747,
+      "triangles": 12040039,
+      "links": 0,
+      "updateCpuMs": 0.799,
+      "renderCpuMs": 5.384,
+      "totalCpuMs": 6.183000000000001,
+      "updateWallMs": 0.799,
+      "renderWallMs": 5.383
+    },
+    {
+      "frame": 71,
+      "draws": 748,
+      "triangles": 12040040,
+      "links": 0,
+      "updateCpuMs": 0.557,
+      "renderCpuMs": 6.562,
+      "totalCpuMs": 7.119000000000001,
+      "updateWallMs": 0.557,
+      "renderWallMs": 24.225
+    },
+    {
+      "frame": 72,
+      "draws": 747,
+      "triangles": 12040039,
+      "links": 0,
+      "updateCpuMs": 0.891,
+      "renderCpuMs": 5.569,
+      "totalCpuMs": 6.46,
+      "updateWallMs": 0.891,
+      "renderWallMs": 5.631
+    },
+    {
+      "frame": 73,
+      "draws": 748,
+      "triangles": 12040040,
+      "links": 0,
+      "updateCpuMs": 0.625,
+      "renderCpuMs": 4.351,
+      "totalCpuMs": 4.976,
+      "updateWallMs": 0.626,
+      "renderWallMs": 4.35
+    },
+    {
+      "frame": 74,
+      "draws": 747,
+      "triangles": 12027379,
+      "links": 0,
+      "updateCpuMs": 0.527,
+      "renderCpuMs": 4.703,
+      "totalCpuMs": 5.23,
+      "updateWallMs": 0.527,
+      "renderWallMs": 4.47
+    },
+    {
+      "frame": 75,
+      "draws": 748,
+      "triangles": 12027380,
+      "links": 0,
+      "updateCpuMs": 0.477,
+      "renderCpuMs": 8.481,
+      "totalCpuMs": 8.958,
+      "updateWallMs": 0.478,
+      "renderWallMs": 43.171
+    },
+    {
+      "frame": 76,
+      "draws": 750,
+      "triangles": 12027382,
+      "links": 0,
+      "updateCpuMs": 0.958,
+      "renderCpuMs": 5.749,
+      "totalCpuMs": 6.707,
+      "updateWallMs": 0.959,
+      "renderWallMs": 5.749
+    },
+    {
+      "frame": 77,
+      "draws": 751,
+      "triangles": 11988775,
+      "links": 0,
+      "updateCpuMs": 0.563,
+      "renderCpuMs": 5.034,
+      "totalCpuMs": 5.5969999999999995,
+      "updateWallMs": 0.564,
+      "renderWallMs": 20.857
+    },
+    {
+      "frame": 78,
+      "draws": 749,
+      "triangles": 12007293,
+      "links": 0,
+      "updateCpuMs": 0.631,
+      "renderCpuMs": 4.433,
+      "totalCpuMs": 5.064,
+      "updateWallMs": 0.632,
+      "renderWallMs": 4.432
+    },
+    {
+      "frame": 79,
+      "draws": 749,
+      "triangles": 12007293,
+      "links": 0,
+      "updateCpuMs": 0.473,
+      "renderCpuMs": 4.246,
+      "totalCpuMs": 4.719,
+      "updateWallMs": 0.474,
+      "renderWallMs": 4.246
+    },
+    {
+      "frame": 80,
+      "draws": 749,
+      "triangles": 12007293,
+      "links": 0,
+      "updateCpuMs": 0.438,
+      "renderCpuMs": 4.061,
+      "totalCpuMs": 4.499,
+      "updateWallMs": 0.439,
+      "renderWallMs": 4.06
+    },
+    {
+      "frame": 81,
+      "draws": 749,
+      "triangles": 11994633,
+      "links": 0,
+      "updateCpuMs": 0.422,
+      "renderCpuMs": 4.902,
+      "totalCpuMs": 5.324,
+      "updateWallMs": 0.423,
+      "renderWallMs": 44.505
+    },
+    {
+      "frame": 82,
+      "draws": 763,
+      "triangles": 11985253,
+      "links": 0,
+      "updateCpuMs": 0.653,
+      "renderCpuMs": 5.015,
+      "totalCpuMs": 5.667999999999999,
+      "updateWallMs": 0.654,
+      "renderWallMs": 5.014
+    },
+    {
+      "frame": 83,
+      "draws": 751,
+      "triangles": 11980563,
+      "links": 0,
+      "updateCpuMs": 0.521,
+      "renderCpuMs": 5.134,
+      "totalCpuMs": 5.655,
+      "updateWallMs": 0.522,
+      "renderWallMs": 23.973
+    },
+    {
+      "frame": 84,
+      "draws": 748,
+      "triangles": 11980640,
+      "links": 0,
+      "updateCpuMs": 0.648,
+      "renderCpuMs": 5.069,
+      "totalCpuMs": 5.717,
+      "updateWallMs": 0.648,
+      "renderWallMs": 5.068
+    },
+    {
+      "frame": 85,
+      "draws": 749,
+      "triangles": 11980641,
+      "links": 0,
+      "updateCpuMs": 0.575,
+      "renderCpuMs": 6.216,
+      "totalCpuMs": 6.791,
+      "updateWallMs": 0.575,
+      "renderWallMs": 6.214
+    },
+    {
+      "frame": 86,
+      "draws": 749,
+      "triangles": 11980641,
+      "links": 0,
+      "updateCpuMs": 0.544,
+      "renderCpuMs": 4.302,
+      "totalCpuMs": 4.846,
+      "updateWallMs": 0.544,
+      "renderWallMs": 4.301
+    },
+    {
+      "frame": 87,
+      "draws": 749,
+      "triangles": 11980737,
+      "links": 0,
+      "updateCpuMs": 0.427,
+      "renderCpuMs": 6.739,
+      "totalCpuMs": 7.1659999999999995,
+      "updateWallMs": 0.428,
+      "renderWallMs": 42.197
+    },
+    {
+      "frame": 88,
+      "draws": 748,
+      "triangles": 12010878,
+      "links": 0,
+      "updateCpuMs": 0.884,
+      "renderCpuMs": 6.148,
+      "totalCpuMs": 7.032,
+      "updateWallMs": 0.885,
+      "renderWallMs": 6.147
+    },
+    {
+      "frame": 89,
+      "draws": 748,
+      "triangles": 12030682,
+      "links": 0,
+      "updateCpuMs": 0.71,
+      "renderCpuMs": 5.382,
+      "totalCpuMs": 6.092,
+      "updateWallMs": 0.71,
+      "renderWallMs": 24.959
+    },
+    {
+      "frame": 90,
+      "draws": 749,
+      "triangles": 12030683,
+      "links": 0,
+      "updateCpuMs": 0.718,
+      "renderCpuMs": 4.838,
+      "totalCpuMs": 5.556,
+      "updateWallMs": 0.719,
+      "renderWallMs": 4.837
+    },
+    {
+      "frame": 91,
+      "draws": 749,
+      "triangles": 12030683,
+      "links": 0,
+      "updateCpuMs": 0.564,
+      "renderCpuMs": 4.153,
+      "totalCpuMs": 4.717,
+      "updateWallMs": 0.564,
+      "renderWallMs": 4.152
+    },
+    {
+      "frame": 92,
+      "draws": 749,
+      "triangles": 12030683,
+      "links": 0,
+      "updateCpuMs": 0.416,
+      "renderCpuMs": 4.175,
+      "totalCpuMs": 4.591,
+      "updateWallMs": 0.417,
+      "renderWallMs": 4.175
+    },
+    {
+      "frame": 93,
+      "draws": 763,
+      "triangles": 12031846,
+      "links": 0,
+      "updateCpuMs": 1.099,
+      "renderCpuMs": 11.211,
+      "totalCpuMs": 12.31,
+      "updateWallMs": 1.098,
+      "renderWallMs": 45.405
+    },
+    {
+      "frame": 94,
+      "draws": 747,
+      "triangles": 11973003,
+      "links": 0,
+      "updateCpuMs": 0.978,
+      "renderCpuMs": 5.937,
+      "totalCpuMs": 6.915,
+      "updateWallMs": 0.979,
+      "renderWallMs": 5.936
+    },
+    {
+      "frame": 95,
+      "draws": 748,
+      "triangles": 11973004,
+      "links": 0,
+      "updateCpuMs": 0.785,
+      "renderCpuMs": 4.929,
+      "totalCpuMs": 5.714,
+      "updateWallMs": 0.785,
+      "renderWallMs": 17.293
+    },
+    {
+      "frame": 96,
+      "draws": 747,
+      "triangles": 11973348,
+      "links": 0,
+      "updateCpuMs": 0.671,
+      "renderCpuMs": 4.426,
+      "totalCpuMs": 5.097,
+      "updateWallMs": 0.671,
+      "renderWallMs": 4.425
+    },
+    {
+      "frame": 97,
+      "draws": 748,
+      "triangles": 11973349,
+      "links": 0,
+      "updateCpuMs": 0.503,
+      "renderCpuMs": 4.254,
+      "totalCpuMs": 4.757,
+      "updateWallMs": 0.504,
+      "renderWallMs": 4.252
+    },
+    {
+      "frame": 98,
+      "draws": 747,
+      "triangles": 11973348,
+      "links": 0,
+      "updateCpuMs": 0.495,
+      "renderCpuMs": 4.527,
+      "totalCpuMs": 5.022,
+      "updateWallMs": 0.496,
+      "renderWallMs": 4.526
+    },
+    {
+      "frame": 99,
+      "draws": 748,
+      "triangles": 11960689,
+      "links": 0,
+      "updateCpuMs": 0.554,
+      "renderCpuMs": 9.488,
+      "totalCpuMs": 10.042,
+      "updateWallMs": 0.556,
+      "renderWallMs": 43.276
+    },
+    {
+      "frame": 100,
+      "draws": 751,
+      "triangles": 11960752,
+      "links": 0,
+      "updateCpuMs": 1.021,
+      "renderCpuMs": 7.5,
+      "totalCpuMs": 8.521,
+      "updateWallMs": 1.022,
+      "renderWallMs": 7.523
+    },
+    {
+      "frame": 101,
+      "draws": 751,
+      "triangles": 11960752,
+      "links": 0,
+      "updateCpuMs": 0.786,
+      "renderCpuMs": 7.839,
+      "totalCpuMs": 8.625,
+      "updateWallMs": 0.787,
+      "renderWallMs": 17.703
+    },
+    {
+      "frame": 102,
+      "draws": 760,
+      "triangles": 11973997,
+      "links": 0,
+      "updateCpuMs": 0.978,
+      "renderCpuMs": 7.073,
+      "totalCpuMs": 8.051,
+      "updateWallMs": 0.977,
+      "renderWallMs": 7.071
+    },
+    {
+      "frame": 103,
+      "draws": 749,
+      "triangles": 11961257,
+      "links": 0,
+      "updateCpuMs": 2.255,
+      "renderCpuMs": 7.165,
+      "totalCpuMs": 9.42,
+      "updateWallMs": 2.255,
+      "renderWallMs": 7.163
+    },
+    {
+      "frame": 104,
+      "draws": 749,
+      "triangles": 11961257,
+      "links": 0,
+      "updateCpuMs": 0.855,
+      "renderCpuMs": 5.535,
+      "totalCpuMs": 6.390000000000001,
+      "updateWallMs": 0.855,
+      "renderWallMs": 6.158
+    },
+    {
+      "frame": 105,
+      "draws": 749,
+      "triangles": 11961257,
+      "links": 0,
+      "updateCpuMs": 0.802,
+      "renderCpuMs": 8.379,
+      "totalCpuMs": 9.181,
+      "updateWallMs": 0.817,
+      "renderWallMs": 32.151
+    },
+    {
+      "frame": 106,
+      "draws": 751,
+      "triangles": 11961259,
+      "links": 0,
+      "updateCpuMs": 0.936,
+      "renderCpuMs": 7.089,
+      "totalCpuMs": 8.025,
+      "updateWallMs": 0.937,
+      "renderWallMs": 7.087
+    },
+    {
+      "frame": 107,
+      "draws": 751,
+      "triangles": 11961259,
+      "links": 0,
+      "updateCpuMs": 0.955,
+      "renderCpuMs": 19.348,
+      "totalCpuMs": 20.302999999999997,
+      "updateWallMs": 0.954,
+      "renderWallMs": 35.523
+    },
+    {
+      "frame": 108,
+      "draws": 746,
+      "triangles": 11953063,
+      "links": 0,
+      "updateCpuMs": 1.142,
+      "renderCpuMs": 25.424,
+      "totalCpuMs": 26.566,
+      "updateWallMs": 1.142,
+      "renderWallMs": 25.417
+    },
+    {
+      "frame": 109,
+      "draws": 747,
+      "triangles": 11954210,
+      "links": 0,
+      "updateCpuMs": 1.17,
+      "renderCpuMs": 10.789,
+      "totalCpuMs": 11.959,
+      "updateWallMs": 1.173,
+      "renderWallMs": 10.791
+    },
+    {
+      "frame": 110,
+      "draws": 746,
+      "triangles": 11954209,
+      "links": 0,
+      "updateCpuMs": 1.272,
+      "renderCpuMs": 11.064,
+      "totalCpuMs": 12.336,
+      "updateWallMs": 1.273,
+      "renderWallMs": 11.059
+    },
+    {
+      "frame": 111,
+      "draws": 747,
+      "triangles": 11978474,
+      "links": 0,
+      "updateCpuMs": 1.938,
+      "renderCpuMs": 11.303,
+      "totalCpuMs": 13.241000000000001,
+      "updateWallMs": 1.937,
+      "renderWallMs": 11.298
+    },
+    {
+      "frame": 112,
+      "draws": 746,
+      "triangles": 11955843,
+      "links": 0,
+      "updateCpuMs": 0.966,
+      "renderCpuMs": 6.697,
+      "totalCpuMs": 7.663,
+      "updateWallMs": 0.966,
+      "renderWallMs": 6.696
+    },
+    {
+      "frame": 113,
+      "draws": 747,
+      "triangles": 11955844,
+      "links": 0,
+      "updateCpuMs": 0.818,
+      "renderCpuMs": 5.041,
+      "totalCpuMs": 5.859,
+      "updateWallMs": 0.818,
+      "renderWallMs": 5.04
+    },
+    {
+      "frame": 114,
+      "draws": 746,
+      "triangles": 11955843,
+      "links": 0,
+      "updateCpuMs": 0.577,
+      "renderCpuMs": 4.55,
+      "totalCpuMs": 5.127,
+      "updateWallMs": 0.578,
+      "renderWallMs": 4.549
+    },
+    {
+      "frame": 115,
+      "draws": 747,
+      "triangles": 11955844,
+      "links": 0,
+      "updateCpuMs": 0.555,
+      "renderCpuMs": 4.534,
+      "totalCpuMs": 5.0889999999999995,
+      "updateWallMs": 0.556,
+      "renderWallMs": 4.533
+    },
+    {
+      "frame": 116,
+      "draws": 746,
+      "triangles": 11956683,
+      "links": 0,
+      "updateCpuMs": 0.522,
+      "renderCpuMs": 7.551,
+      "totalCpuMs": 8.073,
+      "updateWallMs": 0.523,
+      "renderWallMs": 33.031
+    },
+    {
+      "frame": 117,
+      "draws": 750,
+      "triangles": 11956687,
+      "links": 0,
+      "updateCpuMs": 1.276,
+      "renderCpuMs": 6.807,
+      "totalCpuMs": 8.083,
+      "updateWallMs": 1.277,
+      "renderWallMs": 6.804
+    },
+    {
+      "frame": 118,
+      "draws": 749,
+      "triangles": 11874952,
+      "links": 0,
+      "updateCpuMs": 0.885,
+      "renderCpuMs": 6.775,
+      "totalCpuMs": 7.66,
+      "updateWallMs": 0.885,
+      "renderWallMs": 18.909
+    },
+    {
+      "frame": 119,
+      "draws": 746,
+      "triangles": 11874938,
+      "links": 0,
+      "updateCpuMs": 0.903,
+      "renderCpuMs": 6.308,
+      "totalCpuMs": 7.211,
+      "updateWallMs": 0.903,
+      "renderWallMs": 7.981
+    }
+  ],
+  "summary": {
+    "updateCpuMs": {
+      "average": 0.6887500000000003,
+      "p95": 1.142,
+      "samples": 120
+    },
+    "renderCpuMs": {
+      "average": 5.887008333333333,
+      "p95": 9.488,
+      "samples": 120
+    },
+    "totalCpuMs": {
+      "average": 6.575758333333332,
+      "p95": 10.042,
+      "samples": 120
+    }
+  },
+  "state": {
+    "suppressed": 181751,
+    "intervals": [
+      {
+        "mesh": "hero-pine:0:wood",
+        "interval": [
+          0,
+          0.6276470422744751
+        ],
+        "radius": 144.8433380126953
+      },
+      {
+        "mesh": "hero-pine:0:foliage",
+        "interval": [
+          0,
+          0.6276470422744751
+        ],
+        "radius": 144.8433380126953
+      },
+      {
+        "mesh": "hero-pine:0:foliage:depth",
+        "interval": [
+          0,
+          0.6276470422744751
+        ],
+        "radius": 144.8433380126953
+      },
+      {
+        "mesh": "hero-pine:1:wood",
+        "interval": [
+          0.6276470422744751,
+          1
+        ],
+        "radius": 144.8433380126953
+      },
+      {
+        "mesh": "hero-pine:1:foliage",
+        "interval": [
+          0.6276470422744751,
+          1
+        ],
+        "radius": 144.8433380126953
+      },
+      {
+        "mesh": "hero-pine:1:foliage:depth",
+        "interval": [
+          0.6276470422744751,
+          1
+        ],
+        "radius": 144.8433380126953
+      }
+    ]
+  },
+  "gpu": [
+    {
+      "ms": 18968.674271,
+      "draws": 759,
+      "triangles": 11888187
+    },
+    {
+      "ms": 18874.492569,
+      "draws": 751,
+      "triangles": 11874943
+    },
+    {
+      "ms": 18719.46829,
+      "draws": 751,
+      "triangles": 11874943
+    },
+    {
+      "ms": 18841.546326,
+      "draws": 751,
+      "triangles": 11874943
+    },
+    {
+      "ms": 15325.30425,
+      "draws": 429,
+      "triangles": 6782711
+    }
+  ],
+  "gpuSummary": {
+    "median": 18841.546326,
+    "p95": 18968.674271
+  },
+  "scope": "Native High forest update and renderer/callback replay with tree detail by distance enabled. CPU uses Chrome trace thread-CPU timestamps, excluding scheduler/GPU waiting. Raster draw entry points are suppressed only for CPU collection; JS scene traversal, packing, callbacks and uniform submission still run, but native draw-driver CPU cost is omitted. Warm replay precedes measurements. GPU samples restore real draws and measure the frozen full scene in a verified partial transition; software elapsed-query time is not isolated mask ALU or Apple GPU timing. CPU includes native bindings other than suppressed draw calls; not whole-game FPS. No raw trace IDs or source URLs are published.",
+  "collectionValid": true,
+  "passScope": "Measurement completed, not a no-increase cost gate."
+}

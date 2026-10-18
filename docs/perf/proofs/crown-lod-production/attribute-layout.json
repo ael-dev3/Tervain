@@ -1,0 +1,19 @@
+{
+  "uniqueBuffers": 252,
+  "baselineBytes": 48968,
+  "candidateBytes": 62628,
+  "extraBytes": 13660,
+  "byStride": [
+    {
+      "stride": 2,
+      "buffers": 120,
+      "capacity": 2706
+    },
+    {
+      "stride": 3,
+      "buffers": 132,
+      "capacity": 3415
+    }
+  ],
+  "scope": "Unique distance attributes attached to the native scene, including floor and shadow casters; nominal CPU attribute payload, not driver VRAM."
+}
