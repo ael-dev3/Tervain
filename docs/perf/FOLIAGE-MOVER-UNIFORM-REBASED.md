@@ -31,7 +31,7 @@ Median per-run p95 is 5.307 → 5.233 ms. [Pooled calculation](proofs/foliage-mo
 
 The eight compiled colour/shadow cases pass with exact RGB and GPU float values: unchanged slots, a moving slot, all six slots, expiry and array replacement. A same-time inactive control confirms the mover still deforms geometry. **Tradeoff:** changing all slots in a small scene increases individual setter calls (fixture 5 → 12) while reducing payload (480 → 192 bytes). The shared-program forest reduces both.
 
-All three CPU replays and compiled fixture results are in [the proof directory](proofs/foliage-mover-uniform-rebased). Fresh full-scene five-pose pixel proof and compiled-head deterministic gate are still pending; no native or play-gate PASS is claimed here yet.
+All three CPU replays and compiled fixture results are in [the proof directory](proofs/foliage-mover-uniform-rebased). **All five fresh native High forest poses are RGB-identical**, with exact restored controls, refreshing shadows, and equal draw/triangle/texture counts. Each frozen pose skips 96 mover uploads / 9,216 API payload bytes. The compiled-head deterministic gate is still pending; no play-gate PASS is claimed here yet.
 
 ## Reproduction
 
