@@ -52,3 +52,18 @@ A follow-up live trace reproduced the same live pose at both 285 / 3,061,335 and
 ## Root follow-up
 
 All 451 registered roots were audited independently at each of three LODs, with a five-million-operation cap: complete, zero unsupported roots/candidates at every level. Maximum support gap: −0.0679 / −0.0668 / −0.0286 metres for LOD0/1/2. This rules out the sampled rest-geometry root contact bug on this revision; it is not a wind-deformed or visual quality rating. [Raw root reports](proofs/shadow-part-cull-029/roots.json.gz).
+
+## Completed-frame exact-head result
+
+The full native High Retina run completed with exit 0 using #673's startup correction and #678's completed-frame recorder. Two live probes and four completed frames/probe; no allowances, no render suppression, unchanged draw/triangle/error/revision rejection rules.
+
+| Budget | Live d244d39 | Candidate cbfdc10c8 |
+| --- | ---: | ---: |
+| Maximum draws | 285 | 285 |
+| Maximum triangles | 3,061,335 | 3,048,306 |
+| Console errors | 0 | 0 |
+| Candidate revision matches exact tested head | — | yes |
+
+Candidate samples observed immediately before completion included the refreshed frame (285 / 3,048,306) and cached frames (226 / 2,401,151). They were actual successive completed frames, unlike the repeated frame in the initial failed run. The result is a software-WebGL draw/triangle budget receipt, not a hardware GPU or frame-pacing claim. Producer tooling is #673 plus #678; it is not an unmodified-main-tool receipt.
+
+`play-gate: PASS cbfdc10c8`
