@@ -541,6 +541,42 @@ export const MAX_TREE_SCALE = 1.46;
 export function woodReachLocal(metres: number, scale: number): number { return metres / scale; }
 
 /**
+ * Cull (0.0.28): drop every card whose centre is farther than `reach` from the wood. Used for orchards only, where the
+ * far cards hang beyond the audit reach; no card is moved.
+ */
+export function cullFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number, reach: number): { geometry: THREE.BufferGeometry; removed: number } {
+  const position = canopy.getAttribute("position"), normal = canopy.getAttribute("normal"), uv = canopy.getAttribute("uv");
+  const index = canopy.index;
+  if (!position || !index) return { geometry: canopy, removed: 0 };
+  const cards = index.count / 6, positions: number[] = [], normals: number[] = [], uvs: number[] = [], kept: number[] = [];
+  const centre = new THREE.Vector3(), hit = new THREE.Vector3();
+  let removed = 0;
+  for (let c = 0; c < cards; c++) {
+    const first = index.getX(c * 6);
+    centre.set(0, 0, 0);
+    for (let k = 0; k < 4; k++) centre.add(new THREE.Vector3().fromBufferAttribute(position, first + k));
+    centre.multiplyScalar(0.25);
+    if (anchor(centre, hit, reach) > reach) { removed++; continue; }
+    const base = positions.length / 3;
+    for (let k = 0; k < 4; k++) {
+      const v = first + k;
+      positions.push(position.getX(v), position.getY(v), position.getZ(v));
+      if (normal) normals.push(normal.getX(v), normal.getY(v), normal.getZ(v));
+      if (uv) uvs.push(uv.getX(v), uv.getY(v));
+    }
+    kept.push(base, base + 1, base + 2, base, base + 2, base + 3);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  if (normal) geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+  if (uv) geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.setIndex(kept);
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, culledCards: removed };
+  return { geometry, removed };
+}
+
+/**
  * Detached clumps (0.0.25): the clumps the canopy audit counts as detached (shared component-graph rule) are translated
  * `pull` of the way onto their nearest wood point. No card is removed; each clump keeps its size and orientation.
  */
