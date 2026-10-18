@@ -1,0 +1,8 @@
+{
+  "runtimeBuild": "4ebcbcf4b",
+  "publishedBaseline": "d40777b",
+  "captureControllerCommit": "89520ded7",
+  "captureControllerSha256": "365cb5f1eba4fe8103c1bdce3ed4e30b72df5b1f9fa178d74a302610a9f4c173",
+  "currentControllerSha256": "181db19c67258ee9e7508f4e894890c97b87457716a432b24de97f04bd728da4",
+  "scope": "Current controller changes only optional summary dispatch and additional recorded hashes. Native rendering, PNG acquisition, cost and pixel assertions are unchanged. Primary scores are independently recomputed from the native PNGs, not the capture summaries."
+}
