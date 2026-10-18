@@ -33,6 +33,50 @@ const AGAINST = args.against ?? 'main';
 const TAG = args.tag ?? new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const OUT = path.resolve(args.out ?? 'play-gate-runs');
 const VIDEO = args.video !== 'false';
+// Deterministic budget gate (the rule in docs/perf/LATEST.md): `--budget-url <live>` probes the live build and the candidate at
+// the same spot, reads draw calls and triangles from the renderer, and collects console errors. PASS requires the candidate's
+// draws and triangles not above live, no console errors or crashes, and the served revision equal to `--head`. Texture taps,
+// shader cost and JS frame CPU are not visible to the page: each PR posts its own cost table, and the gate says so. Wall-clock
+// pacing (over-25 ms share, p95) is printed as advisory only, next to the A/A noise band, and never decides the result.
+if (args['budget-url']) {
+  const probe = async (url) => {
+    const page = await openPage(url + '?shot=1&quality=high&settle=1&hud=0', { w: 1440, h: 900, headed: true });
+    try {
+      await page.cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 2, mobile: false });
+      for (let i = 0; i < 1200 && !(await page.eval('return window.tervain?.mode === "title"').catch(() => false)); i++) await page.wait(250);
+      await page.wait(2500);
+      const rect = await page.eval(`const b = [...document.querySelectorAll('.menu-choices button')].find((x) => /new/i.test(x.textContent)); const r = b.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]`);
+      for (const type of ['mousePressed', 'mouseReleased']) await page.cdp('Input.dispatchMouseEvent', { type, x: rect[0], y: rect[1], button: 'left', buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
+      for (let i = 0; i < 2400 && !(await page.eval('const T = window.tervain; return T.mode === "play" && !!T.world && T.loadingEl.classList.contains("off")').catch(() => false)); i++) await page.wait(250);
+      await page.wait(15000);
+      await page.eval(`const T = window.tervain; T.hud.show(false); T.debugTime?.(11); T.player.setPosition(-33.4, 55, 0, T.world.terrain); T.cam.yaw = 0; T.cam.manual = null; return 1`);
+      await page.wait(6000);
+      const samples = [];
+      for (let k = 0; k < 4; k++) { await page.wait(1500); samples.push(await page.eval('const r = window.tervain.renderer.info.render; return [r.calls, r.triangles]')); }
+      const version = await page.eval('return fetch(new URL("version.json", document.baseURI)).then((r) => r.json()).catch(() => null)');
+      const errors = page.console().filter((l) => l.startsWith('[error]') || l.startsWith('[exception]'));
+      const calls = Math.max(...samples.map((x) => x[0])), triangles = Math.max(...samples.map((x) => x[1]));
+      return { url, calls, triangles, errors, revision: version?.revision ?? null, samples, stable: true };
+    } finally { page.close?.(); }
+  };
+  const live = await probe(args['budget-url']);
+  const candidate = await probe(URL_);
+  const headOk = !args.head || (candidate.revision !== null && args.head.startsWith(candidate.revision));
+  const drawsOk = candidate.calls <= live.calls, trisOk = candidate.triangles <= live.triangles;
+  const errorsOk = candidate.errors.length === 0 && live.errors.length === 0;
+  const ok = drawsOk && trisOk && errorsOk && headOk;
+  const out = [
+    `# Budget gate: ${ok ? 'PASS' : 'FAIL'}`, '',
+    `- Live (${live.url}, revision ${live.revision}): draw calls ${live.calls}, triangles ${live.triangles}, console errors ${live.errors.length}`,
+    `- Candidate (${candidate.url}, revision ${candidate.revision}): draw calls ${candidate.calls}, triangles ${candidate.triangles}, console errors ${candidate.errors.length}`,
+    `- Draws not above live: ${drawsOk ? 'yes' : 'NO'}; triangles not above live: ${trisOk ? 'yes' : 'NO'}; no console errors: ${errorsOk ? 'yes' : 'NO'}; revision matches head ${args.head ?? '(not given)'}: ${headOk ? 'yes' : 'NO'}; maximum over four samples (settling frames included)`,
+    '- Not measured by the page: texture taps, shader cost, JS frame CPU. Each PR posts its own cost table; the gate does not claim them.',
+    '- Wall-clock pacing (over-25 ms share, p95): advisory only, see docs/perf/LATEST.md (A/A band 1.7 points). Not a pass/fail condition.', '',
+  ];
+  if (ok && args.head) out.push(`play-gate: PASS ${candidate.revision}`);
+  console.log(out.join('\n'));
+  process.exit(ok ? 0 : 1);
+}
 const PROFILES = {
   desktop: { w: 1280, h: 720, dpr: 1, cpu: 1, p95: 20 },
   mac: { w: 1440, h: 900, dpr: 2, cpu: Number(args['mac-cpu'] ?? 1), p95: 20 },
