@@ -333,7 +333,14 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
       // screen-space dither of a quarter step inside the ramp spreads them into a smooth gradient; it is fixed to the
       // pixel grid (no temporal noise) and never touches fully covered or empty pixels.
       float tvInRamp = step( 0.0, tvCov ) * step( tvCov, 1.0 );
-      diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * 0.25 * tvInRamp, 0.0, 1.0 );
+      // A minified leaf already integrates several texels. Screen-fixed stipple there is resampled
+      // as the camera moves and makes the crown sparkle. Keep the near-edge treatment, fading
+      // only its extra noise over the first mip; the coverage ramp and MSAA samples are unchanged.
+      float tvStipple = 0.25;
+      #ifdef USE_MAP
+      tvStipple *= 1.0 - smoothstep( 0.0, 1.0, tvMip );
+      #endif
+      diffuseColor.a = clamp( tvCov + ( tvIgn - 0.5 ) * tvStipple * tvInRamp, 0.0, 1.0 );
       if ( diffuseColor.a <= 0.0 ) discard;
     } else {
       // Low has no multisampling, so alpha to coverage would cut at one threshold: a one-pixel staircase with the texture's
@@ -554,7 +561,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-mip1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-mip1-minstipple1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;

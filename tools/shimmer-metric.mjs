@@ -51,7 +51,10 @@ export function frameShimmer(previous, current, next, w, h, options = {}) {
   if(options.sparkleMask && options.sparkleMask.length!==w*h)throw new Error('Invalid sparkle mask dimensions');
   const block = options.block ?? 16, radius = options.searchRadius ?? 8, threshold = options.threshold ?? 18, maxCost = options.maxCost ?? 24;
   if (!Number.isInteger(block) || block < 8 || !Number.isInteger(radius) || radius < 0 || radius > 64 || !(threshold > 0 && threshold <= 255)) throw new Error('Invalid shimmer options');
-  const p = motion(current, previous, w, h, block, radius), n = motion(current, next, w, h, block, radius);
+  // Matched A/B clips may share one neutral motion estimate, keeping their alignment mask identical.
+  const reference = options.motionReference ?? { previous, current, next };
+  if ([reference.previous, reference.current, reference.next].some(a => a?.length !== w * h)) throw new Error('Invalid motion reference');
+  const p = motion(reference.current, reference.previous, w, h, block, radius), n = motion(reference.current, reference.next, w, h, block, radius);
   const sample = (x, y) => {
     const b = Math.floor(y / block) * p.cols + Math.floor(x / block), a = p.values[b], c = n.values[b];
     if (a.cost > maxCost || c.cost > maxCost) return null;

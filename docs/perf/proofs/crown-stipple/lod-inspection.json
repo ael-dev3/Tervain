@@ -1,0 +1,27 @@
+{
+  "quality": "high",
+  "treeDetailByDistance": false,
+  "camera": [
+    -198.93229457616667,
+    16.63992852669596,
+    -53.0698323403
+  ],
+  "activeNonOak": [
+    {
+      "mesh": "hero-pine:0:foliage",
+      "count": 29
+    },
+    {
+      "mesh": "fir-spire:0:foliage",
+      "count": 65
+    },
+    {
+      "mesh": "hero-pine:0:foliage",
+      "count": 36
+    },
+    {
+      "mesh": "hero-pine:0:foliage",
+      "count": 34
+    }
+  ]
+}
