@@ -5,8 +5,8 @@ export function rgbFrame(rgb,width,height) {
  for(let i=0;i<gray.length;i++){const r=rgb[i*3],g=rgb[i*3+1],b=rgb[i*3+2];gray[i]=Math.round(.2126*r+.7152*g+.0722*b);white[i]=Number(Math.min(r,g,b)>=180&&gray[i]>=200&&Math.max(r,g,b)-Math.min(r,g,b)<=40);}
  return{gray,white};
 }
-export function walkingFlicker(frames,width,height) {
- const samples=[];for(let i=1;i+1<frames.length;i++)samples.push({...frameShimmer(frames[i-1].gray,frames[i].gray,frames[i+1].gray,width,height,{searchRadius:6,sparkleMask:frames[i].white}),frame:i});
+export function walkingFlicker(frames,width,height,{searchRadius=6}={}) {
+ const samples=[];for(let i=1;i+1<frames.length;i++)samples.push({...frameShimmer(frames[i-1].gray,frames[i].gray,frames[i+1].gray,width,height,{searchRadius,sparkleMask:frames[i].white}),frame:i});
  const valid=samples.reduce((n,s)=>n+s.validPixels,0),white=samples.reduce((n,s)=>n+s.maskedSparklePixels,0);
  return{summary:summarizeShimmer(samples),whitePixelsFlickered:white,whiteFlickerShare:valid?white/valid:null,whiteThreshold:{minimumChannel:180,minimumLuma:200,maximumChannelSpread:40},samples};
 }

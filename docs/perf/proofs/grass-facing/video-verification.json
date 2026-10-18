@@ -1,0 +1,19 @@
+{
+  "frames": 5,
+  "sourceCadenceHz": 60,
+  "playbackHz": 6,
+  "metres": 0.13168498654749622,
+  "roi": {
+    "left": 216,
+    "top": 472,
+    "width": 1728,
+    "height": 810
+  },
+  "comparison": "before left / after right",
+  "decodedRGBSha256": "3f3d8f41cb0bf62f1f87a01cc9f3f6e37acaacd580e2129aa5ce3758b75cb246",
+  "sourceRGBSha256": "3f3d8f41cb0bf62f1f87a01cc9f3f6e37acaacd580e2129aa5ce3758b75cb246",
+  "videoSha256": "b1ef2dab6de415df2ab6ffc84e42b925179bf2cb3f0c271aced8395f9adb45d1",
+  "previewSha256": "f3a7fe3c84df313715b1a8ae0623f2a47997c7b6905797b7903aa18d9512a386",
+  "pass": true,
+  "scope": "Lossless RGB video matches every native post/MSAA source crop byte-for-byte. Browser preview is lossy and never metric input. Slow synthetic samples are not frame pacing or a complete playtest."
+}
