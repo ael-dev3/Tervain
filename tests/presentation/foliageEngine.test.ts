@@ -21,6 +21,7 @@ import type { FrameContext } from '../../src/presentation/context';
 import { worldView } from '../../src/game/worldView';
 import { createInitialState } from '../../src/game/state';
 import { REALM_WIND } from '../../src/presentation/realmWind';
+import { splitLeafPrepass } from '../../src/presentation/foliage/leafPrepass';
 
 vi.mock('../../src/presentation/forestFloor', () => ({ buildForestFloor: () => ({ group: new THREE.Group(), update() {}, dispose() {} }) }));
 vi.mock('../../src/presentation/treeMaterials', () => ({
@@ -32,6 +33,27 @@ type Shader = Parameters<THREE.Material['onBeforeCompile']>[0];
 const lib = (name: 'standard' | 'physical' | 'depth' | 'distance' | 'lambert'): Shader =>
   ({ uniforms: {}, vertexShader: THREE.ShaderLib[name].vertexShader, fragmentShader: THREE.ShaderLib[name].fragmentShader } as Shader);
 const field = () => createFoliageField(new GrassWind(REALM_WIND));
+
+it('clones foliage twins without serializing live shader resources', () => {
+  const f = field(), material = new THREE.MeshStandardMaterial({ alphaTest: .5 });
+  material.userData.label = 'tree';
+  const installed = installFoliage(material, { field: f, response: FOLIAGE_RESPONSE.conifer, leaf: true });
+  const texture = installed.uniforms.uFoliageClumpNoise!.value as THREE.Data3DTexture;
+  const serialize = vi.spyOn(texture, 'toJSON');
+  const geometry = new THREE.PlaneGeometry(), mesh = new THREE.InstancedMesh(geometry, material, 1);
+  const ordinary = material.clone(), depth = splitLeafPrepass(mesh)!;
+  expect(serialize).not.toHaveBeenCalled();
+  expect(material.userData.tvFoliage).toBe(installed.uniforms);
+  expect(ordinary.userData).toEqual({ label: 'tree' });
+  expect((depth.material as THREE.Material).userData).toEqual({ label: 'tree' });
+  const shader = lib('standard');
+  (depth.material as THREE.Material).onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+  expect(shader.uniforms.uFoliageClumpNoise).toBe(installed.uniforms.uFoliageClumpNoise);
+  expect(shader.uniforms.uCrownCentre).toBe(installed.uniforms.uCrownCentre);
+  expect(shader.uniforms.uGrassTime).toBe(f.wind.uniforms.uGrassTime);
+  serialize.mockRestore();
+  ordinary.dispose(); (depth.material as THREE.Material).dispose(); material.dispose(); geometry.dispose(); f.wind.dispose();
+});
 
 describe('foliage wind', () => {
   it('shares one wind with the grass and starts still and untouched', () => {
