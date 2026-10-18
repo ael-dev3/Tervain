@@ -597,7 +597,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
           if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
-          if (species === 'oak' && wood) { const snapped = snapDetachedClumps(canopy, woodAnchor(wood), woodReachLocal(1.5, MAX_TREE_SCALE), 0.25).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped; }
+          if (species === 'oak' && wood) { const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped; }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
