@@ -1,0 +1,20 @@
+{
+  "validReportExitCode": 0,
+  "negativeControls": [
+    {
+      "case": "truncated_samples",
+      "exitCode": 1,
+      "rejected": true
+    },
+    {
+      "case": "changed_inactive_control",
+      "exitCode": 1,
+      "rejected": true
+    },
+    {
+      "case": "mismatched_total",
+      "exitCode": 1,
+      "rejected": true
+    }
+  ]
+}

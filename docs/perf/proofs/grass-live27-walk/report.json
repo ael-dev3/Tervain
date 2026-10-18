@@ -1,0 +1,627 @@
+{
+  "schema": 1,
+  "reference": null,
+  "effects": {
+    "mask": {
+      "changedChannels": 443098037,
+      "maxChannelDelta": 253
+    }
+  },
+  "build": {
+    "version": "0.0.27",
+    "revision": "163ee68"
+  },
+  "profile": {
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      2160,
+      1350
+    ]
+  },
+  "setup": {
+    "cloudTime": 0.016666666666666666,
+    "materials": 467,
+    "grassMaterials": 2
+  },
+  "controls": {
+    "hour": 17.5,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333,
+    "skyTime": null,
+    "cloudTime": 0.016666666666666666
+  },
+  "roi": {
+    "left": 288,
+    "top": 630,
+    "width": 2304,
+    "height": 1080
+  },
+  "route": {
+    "x": 6,
+    "z": 26,
+    "frames": 61,
+    "startFrame": 0,
+    "metres": 2.6,
+    "stationary": false,
+    "syntheticCadence": 60
+  },
+  "instrumentationChangedChannels": 0,
+  "reports": {
+    "baseline": {
+      "grassObservations": 82527824,
+      "strictWhite": 0,
+      "bright180": 1099,
+      "temporalEligible": 70628376,
+      "changesOver20": 15037920,
+      "maxLuminance": 203.4928,
+      "samples": [
+        {
+          "frame": 0,
+          "grassObservations": 1447903,
+          "strictWhite": 0,
+          "bright180": 14,
+          "maxLuminance": 183.9594,
+          "temporalEligible": 0,
+          "changesOver20": 0
+        },
+        {
+          "frame": 1,
+          "grassObservations": 1447634,
+          "strictWhite": 0,
+          "bright180": 17,
+          "maxLuminance": 186.8854,
+          "temporalEligible": 1276079,
+          "changesOver20": 272458
+        },
+        {
+          "frame": 2,
+          "grassObservations": 1442590,
+          "strictWhite": 0,
+          "bright180": 26,
+          "maxLuminance": 195.392,
+          "temporalEligible": 1273718,
+          "changesOver20": 272664
+        },
+        {
+          "frame": 3,
+          "grassObservations": 1438817,
+          "strictWhite": 0,
+          "bright180": 25,
+          "maxLuminance": 199.451,
+          "temporalEligible": 1267429,
+          "changesOver20": 271621
+        },
+        {
+          "frame": 4,
+          "grassObservations": 1433716,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 184.0316,
+          "temporalEligible": 1261821,
+          "changesOver20": 267954
+        },
+        {
+          "frame": 5,
+          "grassObservations": 1431232,
+          "strictWhite": 0,
+          "bright180": 27,
+          "maxLuminance": 186.6098,
+          "temporalEligible": 1257945,
+          "changesOver20": 268412
+        },
+        {
+          "frame": 6,
+          "grassObservations": 1428445,
+          "strictWhite": 0,
+          "bright180": 25,
+          "maxLuminance": 183.89459999999997,
+          "temporalEligible": 1255785,
+          "changesOver20": 267222
+        },
+        {
+          "frame": 7,
+          "grassObservations": 1422512,
+          "strictWhite": 0,
+          "bright180": 25,
+          "maxLuminance": 188.75419999999997,
+          "temporalEligible": 1251808,
+          "changesOver20": 268780
+        },
+        {
+          "frame": 8,
+          "grassObservations": 1415931,
+          "strictWhite": 0,
+          "bright180": 26,
+          "maxLuminance": 197.25159999999997,
+          "temporalEligible": 1244485,
+          "changesOver20": 268294
+        },
+        {
+          "frame": 9,
+          "grassObservations": 1410279,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 184.8964,
+          "temporalEligible": 1237042,
+          "changesOver20": 266636
+        },
+        {
+          "frame": 10,
+          "grassObservations": 1405930,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 197.7542,
+          "temporalEligible": 1231588,
+          "changesOver20": 262835
+        },
+        {
+          "frame": 11,
+          "grassObservations": 1402160,
+          "strictWhite": 0,
+          "bright180": 24,
+          "maxLuminance": 184.2534,
+          "temporalEligible": 1227177,
+          "changesOver20": 261824
+        },
+        {
+          "frame": 12,
+          "grassObservations": 1398176,
+          "strictWhite": 0,
+          "bright180": 22,
+          "maxLuminance": 185.4012,
+          "temporalEligible": 1222627,
+          "changesOver20": 262739
+        },
+        {
+          "frame": 13,
+          "grassObservations": 1390481,
+          "strictWhite": 0,
+          "bright180": 31,
+          "maxLuminance": 187.388,
+          "temporalEligible": 1216576,
+          "changesOver20": 262191
+        },
+        {
+          "frame": 14,
+          "grassObservations": 1382449,
+          "strictWhite": 0,
+          "bright180": 14,
+          "maxLuminance": 185.2252,
+          "temporalEligible": 1207422,
+          "changesOver20": 259950
+        },
+        {
+          "frame": 15,
+          "grassObservations": 1375510,
+          "strictWhite": 0,
+          "bright180": 18,
+          "maxLuminance": 183.15300000000002,
+          "temporalEligible": 1198211,
+          "changesOver20": 261226
+        },
+        {
+          "frame": 16,
+          "grassObservations": 1373158,
+          "strictWhite": 0,
+          "bright180": 18,
+          "maxLuminance": 183.03159999999997,
+          "temporalEligible": 1190745,
+          "changesOver20": 258243
+        },
+        {
+          "frame": 17,
+          "grassObservations": 1370807,
+          "strictWhite": 0,
+          "bright180": 10,
+          "maxLuminance": 181.819,
+          "temporalEligible": 1188678,
+          "changesOver20": 257561
+        },
+        {
+          "frame": 18,
+          "grassObservations": 1368180,
+          "strictWhite": 0,
+          "bright180": 12,
+          "maxLuminance": 182.0316,
+          "temporalEligible": 1188998,
+          "changesOver20": 258979
+        },
+        {
+          "frame": 19,
+          "grassObservations": 1364876,
+          "strictWhite": 0,
+          "bright180": 12,
+          "maxLuminance": 184.54160000000002,
+          "temporalEligible": 1185968,
+          "changesOver20": 255545
+        },
+        {
+          "frame": 20,
+          "grassObservations": 1359796,
+          "strictWhite": 0,
+          "bright180": 19,
+          "maxLuminance": 193.61379999999997,
+          "temporalEligible": 1179869,
+          "changesOver20": 257236
+        },
+        {
+          "frame": 21,
+          "grassObservations": 1354159,
+          "strictWhite": 0,
+          "bright180": 23,
+          "maxLuminance": 182.46599999999998,
+          "temporalEligible": 1174082,
+          "changesOver20": 255642
+        },
+        {
+          "frame": 22,
+          "grassObservations": 1350791,
+          "strictWhite": 0,
+          "bright180": 25,
+          "maxLuminance": 187.92720000000003,
+          "temporalEligible": 1170002,
+          "changesOver20": 255381
+        },
+        {
+          "frame": 23,
+          "grassObservations": 1349755,
+          "strictWhite": 0,
+          "bright180": 37,
+          "maxLuminance": 203.4928,
+          "temporalEligible": 1168081,
+          "changesOver20": 254043
+        },
+        {
+          "frame": 24,
+          "grassObservations": 1343395,
+          "strictWhite": 0,
+          "bright180": 23,
+          "maxLuminance": 184.18120000000002,
+          "temporalEligible": 1164833,
+          "changesOver20": 249895
+        },
+        {
+          "frame": 25,
+          "grassObservations": 1340359,
+          "strictWhite": 0,
+          "bright180": 28,
+          "maxLuminance": 185.18119999999996,
+          "temporalEligible": 1160069,
+          "changesOver20": 248642
+        },
+        {
+          "frame": 26,
+          "grassObservations": 1340018,
+          "strictWhite": 0,
+          "bright180": 27,
+          "maxLuminance": 183.9686,
+          "temporalEligible": 1160326,
+          "changesOver20": 247766
+        },
+        {
+          "frame": 27,
+          "grassObservations": 1339646,
+          "strictWhite": 0,
+          "bright180": 30,
+          "maxLuminance": 183.1812,
+          "temporalEligible": 1160241,
+          "changesOver20": 247703
+        },
+        {
+          "frame": 28,
+          "grassObservations": 1338211,
+          "strictWhite": 0,
+          "bright180": 20,
+          "maxLuminance": 185.18119999999996,
+          "temporalEligible": 1160291,
+          "changesOver20": 248146
+        },
+        {
+          "frame": 29,
+          "grassObservations": 1335470,
+          "strictWhite": 0,
+          "bright180": 25,
+          "maxLuminance": 183.8964,
+          "temporalEligible": 1160377,
+          "changesOver20": 246344
+        },
+        {
+          "frame": 30,
+          "grassObservations": 1335369,
+          "strictWhite": 0,
+          "bright180": 28,
+          "maxLuminance": 184.18120000000002,
+          "temporalEligible": 1159639,
+          "changesOver20": 244574
+        },
+        {
+          "frame": 31,
+          "grassObservations": 1332604,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 183.2534,
+          "temporalEligible": 1159853,
+          "changesOver20": 247396
+        },
+        {
+          "frame": 32,
+          "grassObservations": 1332216,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 184.2534,
+          "temporalEligible": 1160131,
+          "changesOver20": 248346
+        },
+        {
+          "frame": 33,
+          "grassObservations": 1332627,
+          "strictWhite": 0,
+          "bright180": 23,
+          "maxLuminance": 184.2534,
+          "temporalEligible": 1160814,
+          "changesOver20": 244677
+        },
+        {
+          "frame": 34,
+          "grassObservations": 1330826,
+          "strictWhite": 0,
+          "bright180": 21,
+          "maxLuminance": 184.18120000000002,
+          "temporalEligible": 1160579,
+          "changesOver20": 244260
+        },
+        {
+          "frame": 35,
+          "grassObservations": 1329217,
+          "strictWhite": 0,
+          "bright180": 22,
+          "maxLuminance": 183.1812,
+          "temporalEligible": 1159426,
+          "changesOver20": 244344
+        },
+        {
+          "frame": 36,
+          "grassObservations": 1326538,
+          "strictWhite": 0,
+          "bright180": 26,
+          "maxLuminance": 183.2534,
+          "temporalEligible": 1158629,
+          "changesOver20": 244673
+        },
+        {
+          "frame": 37,
+          "grassObservations": 1327127,
+          "strictWhite": 0,
+          "bright180": 18,
+          "maxLuminance": 183.3938,
+          "temporalEligible": 1158349,
+          "changesOver20": 243010
+        },
+        {
+          "frame": 38,
+          "grassObservations": 1326295,
+          "strictWhite": 0,
+          "bright180": 23,
+          "maxLuminance": 185.25339999999997,
+          "temporalEligible": 1158984,
+          "changesOver20": 243323
+        },
+        {
+          "frame": 39,
+          "grassObservations": 1322963,
+          "strictWhite": 0,
+          "bright180": 19,
+          "maxLuminance": 184.2534,
+          "temporalEligible": 1155773,
+          "changesOver20": 244217
+        },
+        {
+          "frame": 40,
+          "grassObservations": 1320492,
+          "strictWhite": 0,
+          "bright180": 17,
+          "maxLuminance": 183.1812,
+          "temporalEligible": 1153505,
+          "changesOver20": 244379
+        },
+        {
+          "frame": 41,
+          "grassObservations": 1319325,
+          "strictWhite": 0,
+          "bright180": 17,
+          "maxLuminance": 183.1812,
+          "temporalEligible": 1151151,
+          "changesOver20": 243832
+        },
+        {
+          "frame": 42,
+          "grassObservations": 1318684,
+          "strictWhite": 0,
+          "bright180": 17,
+          "maxLuminance": 183.1812,
+          "temporalEligible": 1150979,
+          "changesOver20": 244090
+        },
+        {
+          "frame": 43,
+          "grassObservations": 1320166,
+          "strictWhite": 0,
+          "bright180": 15,
+          "maxLuminance": 183.2534,
+          "temporalEligible": 1151589,
+          "changesOver20": 243485
+        },
+        {
+          "frame": 44,
+          "grassObservations": 1319365,
+          "strictWhite": 0,
+          "bright180": 14,
+          "maxLuminance": 184.0408,
+          "temporalEligible": 1151163,
+          "changesOver20": 243712
+        },
+        {
+          "frame": 45,
+          "grassObservations": 1319513,
+          "strictWhite": 0,
+          "bright180": 12,
+          "maxLuminance": 183.1772,
+          "temporalEligible": 1148846,
+          "changesOver20": 245614
+        },
+        {
+          "frame": 46,
+          "grassObservations": 1320785,
+          "strictWhite": 0,
+          "bright180": 12,
+          "maxLuminance": 182.90039999999996,
+          "temporalEligible": 1148417,
+          "changesOver20": 246194
+        },
+        {
+          "frame": 47,
+          "grassObservations": 1322520,
+          "strictWhite": 0,
+          "bright180": 14,
+          "maxLuminance": 183.1772,
+          "temporalEligible": 1150721,
+          "changesOver20": 243310
+        },
+        {
+          "frame": 48,
+          "grassObservations": 1319529,
+          "strictWhite": 0,
+          "bright180": 11,
+          "maxLuminance": 182.9646,
+          "temporalEligible": 1147468,
+          "changesOver20": 241594
+        },
+        {
+          "frame": 49,
+          "grassObservations": 1317319,
+          "strictWhite": 0,
+          "bright180": 10,
+          "maxLuminance": 181.32559999999998,
+          "temporalEligible": 1144873,
+          "changesOver20": 241961
+        },
+        {
+          "frame": 50,
+          "grassObservations": 1317786,
+          "strictWhite": 0,
+          "bright180": 7,
+          "maxLuminance": 183.1772,
+          "temporalEligible": 1144847,
+          "changesOver20": 242400
+        },
+        {
+          "frame": 51,
+          "grassObservations": 1316775,
+          "strictWhite": 0,
+          "bright180": 6,
+          "maxLuminance": 182.17719999999997,
+          "temporalEligible": 1142770,
+          "changesOver20": 241045
+        },
+        {
+          "frame": 52,
+          "grassObservations": 1315823,
+          "strictWhite": 0,
+          "bright180": 9,
+          "maxLuminance": 182.24939999999998,
+          "temporalEligible": 1140243,
+          "changesOver20": 236919
+        },
+        {
+          "frame": 53,
+          "grassObservations": 1315301,
+          "strictWhite": 0,
+          "bright180": 6,
+          "maxLuminance": 182.17719999999997,
+          "temporalEligible": 1139868,
+          "changesOver20": 236083
+        },
+        {
+          "frame": 54,
+          "grassObservations": 1313879,
+          "strictWhite": 0,
+          "bright180": 5,
+          "maxLuminance": 183.1772,
+          "temporalEligible": 1138414,
+          "changesOver20": 235705
+        },
+        {
+          "frame": 55,
+          "grassObservations": 1314023,
+          "strictWhite": 0,
+          "bright180": 7,
+          "maxLuminance": 182.17719999999997,
+          "temporalEligible": 1137567,
+          "changesOver20": 235879
+        },
+        {
+          "frame": 56,
+          "grassObservations": 1311586,
+          "strictWhite": 0,
+          "bright180": 7,
+          "maxLuminance": 183.1772,
+          "temporalEligible": 1136040,
+          "changesOver20": 235679
+        },
+        {
+          "frame": 57,
+          "grassObservations": 1308716,
+          "strictWhite": 0,
+          "bright180": 6,
+          "maxLuminance": 182.24939999999998,
+          "temporalEligible": 1133627,
+          "changesOver20": 238038
+        },
+        {
+          "frame": 58,
+          "grassObservations": 1305897,
+          "strictWhite": 0,
+          "bright180": 6,
+          "maxLuminance": 182.24939999999998,
+          "temporalEligible": 1129219,
+          "changesOver20": 238019
+        },
+        {
+          "frame": 59,
+          "grassObservations": 1306604,
+          "strictWhite": 0,
+          "bright180": 7,
+          "maxLuminance": 182.03679999999997,
+          "temporalEligible": 1126129,
+          "changesOver20": 237132
+        },
+        {
+          "frame": 60,
+          "grassObservations": 1305568,
+          "strictWhite": 0,
+          "bright180": 6,
+          "maxLuminance": 182.24939999999998,
+          "temporalEligible": 1126490,
+          "changesOver20": 238098
+        }
+      ]
+    }
+  },
+  "scope": "Diagnostic-only shader ablations, native whole-scene post/MSAA. Mask identifies grass contribution, not unique pixel ownership. Fixed clock/wind; synthetic captures are not frame-time evidence. Strict white uses min RGB 180, rounded luminance 200, maximum spread 40. Raw consecutive changes over 20 include ordinary motion, not a shimmer-only classifier. No product appearance changes or quality-pass claim."
+}
