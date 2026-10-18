@@ -136,3 +136,8 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Budget gate against live 0.0.28 (30d1f0d) on the release head: draws 232, triangles 2,745,696, console errors 0. The #672 head run measured draws 225 and triangles 2,421,092.
 - Same-pose live clip (40 frames, orchard pose): crown mean luminance 0.0.24 62.51, 0.0.29 64.49. Visually the crowns match: dense, no holes or thinning.
 - Not yet done: covered-pixel counting against 0.0.24, and the refill along the boughs (a 0.0.30 follow-up if needed).
+
+## 0.0.29: covered-pixel check against 0.0.24, 2026-10-18
+
+- Method: the orchard pose crown crop (top 400 px of each frame, first 10 of 40 frames, fixed camera). A pixel counts as foliage when it is green-dominant and mid-to-dark. Crude but repeatable.
+- Mean foliage-covered fraction: 0.0.24 0.9304, 0.0.29 0.9426. The 0.0.29 crown covers at least as much as 0.0.24 at this pose, so no refill is needed (refill is parked for 0.0.30).
