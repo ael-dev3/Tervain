@@ -1,0 +1,42 @@
+{
+  "scope": "Controlled CDP fixture, not a live-site or GPU run. Uses byte-verified #678 sampler plus #673 startup correction; candidate exceeds second baseline, but not first. Only the baseline-identity guard differs in the after producer.",
+  "baselineA": {
+    "revision": "1111111",
+    "calls": 285,
+    "triangles": 3061335
+  },
+  "baselineB": {
+    "revision": "2222222",
+    "calls": 226,
+    "triangles": 2414180
+  },
+  "candidate": {
+    "revision": "3333333",
+    "calls": 285,
+    "triangles": 3061335
+  },
+  "rows": [
+    {
+      "label": "before",
+      "changed": true,
+      "exit": 0,
+      "stderr": "",
+      "runnerSha256": "ca0f414e3e7cdd1b289529cb90fbfba23f4aab490340bb60c4c48593b2d3b01c"
+    },
+    {
+      "label": "after",
+      "changed": true,
+      "exit": 1,
+      "stderr": "Budget gate: FAIL: Live budget revision changed or is unavailable (1111111 -> 2222222). Retry against a single published revision.\n",
+      "runnerSha256": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1"
+    },
+    {
+      "label": "stable-control",
+      "changed": false,
+      "exit": 0,
+      "stderr": "",
+      "runnerSha256": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1"
+    }
+  ],
+  "pass": true
+}
