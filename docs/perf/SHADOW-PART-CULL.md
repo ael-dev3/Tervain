@@ -41,7 +41,7 @@ These results increase, so they do **not** establish a CPU win. [Raw samples' su
 | Live baseline | 0.7176 / 1.1 | 2.9476 / 3.6 | 3.6652 / 4.6 |
 | Candidate after baseline | 0.7240 / 1.1 | 2.9539 / 3.6 | 3.6779 / 4.7 |
 
-The immediate baseline-then-build pair adds 0.01275 ms on average and 0.1 ms at p95; it does not prove a CPU reduction. The earlier candidate run is retained rather than discarded. A second live baseline is pending to estimate run variation. Raw reports are in the proof directory. Keep the candidate draft until the CPU result is reviewed and the full exact-head stock budget receipt is available; the seven-pose count comparison above is not that receipt.
+The immediate baseline-then-build pair adds 0.01275 ms on average and 0.1 ms at p95; it does not prove a CPU reduction. The earlier candidate run is retained rather than discarded. The second live baseline did not produce a measurement: Pages moved to 0.0.29 · `4b4982b`, while that browser requested the removed `world-dNS2xJIy.js` chunk (HTTP 404). This is a load failure, not a CPU sample. Rebase and repeat against the new published revision before clearing the candidate. Raw reports are in the proof directory. Keep the candidate draft until the CPU result is reviewed and the full exact-head stock budget receipt is available; the seven-pose count comparison above is not that receipt.
 
 ## Regression and reproduction
 
