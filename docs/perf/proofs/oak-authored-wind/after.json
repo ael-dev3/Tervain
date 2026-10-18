@@ -1,0 +1,130 @@
+{
+  "setup": {
+    "controls": {
+      "cloud": 0.016666666666666666,
+      "grade": 0.03333333333333333,
+      "wind": {
+        "direction": [
+          0.9060848207495054,
+          0.4230960855495319,
+          0.055999999999999994,
+          0
+        ],
+        "scroll": [
+          0.06342593745246537,
+          0.02961672598846723,
+          0.1014814999239446,
+          0.04738676158154757
+        ]
+      }
+    },
+    "version": "0.0.27",
+    "revision": "cf0df55f6",
+    "renderer": "ANGLE SwiftShader (software)",
+    "buffer": [
+      2160,
+      1350
+    ],
+    "msaa": 4,
+    "target": {
+      "windDerivation": {
+        "cards": 6000,
+        "found": 6000,
+        "anchored": 1,
+        "productionThreshold": 0.5
+      },
+      "windFieldAvailable": true,
+      "label": "tree:wild:45:12",
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "leafAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ],
+      "woodAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "pose": "oak",
+      "samples": [
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19202.775468,
+          "submitMs": 2.300000000745058
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19107.238308,
+          "submitMs": 4.800000004470348
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19073.973557,
+          "submitMs": 6
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19131.920531,
+          "submitMs": 6
+        }
+      ]
+    },
+    {
+      "pose": "forest",
+      "samples": [
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 17189.664407,
+          "submitMs": 4
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 17520.583003,
+          "submitMs": 5
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16817.904577,
+          "submitMs": 6
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16987.730295,
+          "submitMs": 4.9000000059604645
+        }
+      ]
+    }
+  ],
+  "motion": {
+    "frames": 12,
+    "cadence": 6,
+    "startWindTime": 3,
+    "seconds": 1.8333333333333333
+  },
+  "consoleErrors": [],
+  "scope": "Native High whole-scene post/MSAA. Eight warmed software WebGL timer-query frames per fixed pose. GPU-query time is SwiftShader work, not Apple hardware FPS; submitMs includes driver/scheduler effects and is not isolated JS CPU. Fixed sun/cloud and actors; wind phase advanced only for motion proof. No source intervention on the published page."
+}

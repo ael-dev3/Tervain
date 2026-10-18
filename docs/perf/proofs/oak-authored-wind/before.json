@@ -1,0 +1,149 @@
+{
+  "setup": {
+    "version": "0.0.27",
+    "revision": "163ee68",
+    "renderer": "ANGLE SwiftShader (software)",
+    "buffer": [
+      2160,
+      1350
+    ],
+    "msaa": 4,
+    "target": {
+      "label": "tree:wild:45:12",
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "leafAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ],
+      "woodAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "pose": "oak",
+      "samples": [
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19189.256184,
+          "submitMs": 6.699999999254942
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19113.869381,
+          "submitMs": 7.800000000745058
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 18848.89645,
+          "submitMs": 4.399999998509884
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 18943.911609,
+          "submitMs": 5.399999998509884
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 18872.119621,
+          "submitMs": 5.300000000745058
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 18883.902866,
+          "submitMs": 5
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19112.707204,
+          "submitMs": 5.5
+        },
+        {
+          "draws": 251,
+          "triangles": 2919454,
+          "gpuQueryMs": 19184.082659,
+          "submitMs": 5.400000002235174
+        }
+      ]
+    },
+    {
+      "pose": "forest",
+      "samples": [
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16702.519331,
+          "submitMs": 1.6000000014901161
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16739.95779,
+          "submitMs": 4.199999999254942
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 17372.207325,
+          "submitMs": 4.5
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 17982.260588,
+          "submitMs": 4.300000000745058
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16851.202638,
+          "submitMs": 4.199999999254942
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 17237.259252,
+          "submitMs": 3.800000000745058
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16926.139696,
+          "submitMs": 4.300000000745058
+        },
+        {
+          "draws": 216,
+          "triangles": 2135865,
+          "gpuQueryMs": 16892.114222,
+          "submitMs": 4.699999999254942
+        }
+      ]
+    }
+  ],
+  "motion": {
+    "frames": 12,
+    "cadence": 6,
+    "startWindTime": 3,
+    "seconds": 1.8333333333333333
+  },
+  "consoleErrors": [],
+  "scope": "Native High whole-scene post/MSAA. Eight warmed software WebGL timer-query frames per fixed pose. GPU-query time is SwiftShader work, not Apple hardware FPS; submitMs includes driver/scheduler effects and is not isolated JS CPU. Fixed sun/cloud and actors; wind phase advanced only for motion proof. No source intervention on the published page."
+}

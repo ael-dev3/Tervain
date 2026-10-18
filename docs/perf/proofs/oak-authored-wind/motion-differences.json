@@ -1,0 +1,78 @@
+{
+  "frames": 12,
+  "scope": "Pixel differences demonstrate the synthetic phase comparison; they are not a shimmer score, quality PASS or real-time cadence.",
+  "rows": [
+    {
+      "frame": 0,
+      "changedPixels": 72643,
+      "pixelsOver20": 10667,
+      "meanAbsoluteChannelDifference": 2.780060763888889
+    },
+    {
+      "frame": 1,
+      "changedPixels": 72635,
+      "pixelsOver20": 8003,
+      "meanAbsoluteChannelDifference": 2.4217549189814815
+    },
+    {
+      "frame": 2,
+      "changedPixels": 72501,
+      "pixelsOver20": 11660,
+      "meanAbsoluteChannelDifference": 2.8365567129629627
+    },
+    {
+      "frame": 3,
+      "changedPixels": 73078,
+      "pixelsOver20": 15875,
+      "meanAbsoluteChannelDifference": 3.4194039351851853
+    },
+    {
+      "frame": 4,
+      "changedPixels": 73412,
+      "pixelsOver20": 14374,
+      "meanAbsoluteChannelDifference": 3.2607609953703705
+    },
+    {
+      "frame": 5,
+      "changedPixels": 73130,
+      "pixelsOver20": 13345,
+      "meanAbsoluteChannelDifference": 3.124603587962963
+    },
+    {
+      "frame": 6,
+      "changedPixels": 73391,
+      "pixelsOver20": 14031,
+      "meanAbsoluteChannelDifference": 3.2435619212962963
+    },
+    {
+      "frame": 7,
+      "changedPixels": 72609,
+      "pixelsOver20": 8871,
+      "meanAbsoluteChannelDifference": 2.5297569444444443
+    },
+    {
+      "frame": 8,
+      "changedPixels": 73328,
+      "pixelsOver20": 11369,
+      "meanAbsoluteChannelDifference": 2.9083969907407408
+    },
+    {
+      "frame": 9,
+      "changedPixels": 73302,
+      "pixelsOver20": 10716,
+      "meanAbsoluteChannelDifference": 2.8564713541666666
+    },
+    {
+      "frame": 10,
+      "changedPixels": 72571,
+      "pixelsOver20": 8131,
+      "meanAbsoluteChannelDifference": 2.475189525462963
+    },
+    {
+      "frame": 11,
+      "changedPixels": 74039,
+      "pixelsOver20": 12890,
+      "meanAbsoluteChannelDifference": 3.1656119791666666
+    }
+  ]
+}
