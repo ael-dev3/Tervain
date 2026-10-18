@@ -1,0 +1,54 @@
+{
+  "baseline": "d40777b",
+  "sourceSha256": "09ea250f4a4e03d0a5521514ac7a241c489e60ca173269e6248b0e80efc79381",
+  "cases": 16200,
+  "maxCurveErrorMetres": 0,
+  "maxNormalError": 0,
+  "maxFaceOnWidthErrorPixels": 2.384185791015625e-7,
+  "edgeCoverageWitnesses": {
+    "before": 3240,
+    "after": 0
+  },
+  "resolvedCoveragePairs": 3240,
+  "cost": {
+    "textureInstructionsAdded": 0,
+    "fragmentChanges": 0,
+    "runtimeJsIdenticalExceptCompileKey": true,
+    "normalViewDotAdded": 0,
+    "vertexVectorLengths": {
+      "before": 3,
+      "after": 3
+    },
+    "coverageScalarMultiplications": {
+      "before": 11,
+      "after": 13
+    },
+    "normalTangentScalarMultiplications": {
+      "before": 2,
+      "after": 0
+    },
+    "normalEdgeScalarEquivalentMultiplications": {
+      "before": 6,
+      "after": 4
+    },
+    "scalarProxyDelta": 0,
+    "operatorTokenDeltas": {
+      "multiply": 0,
+      "add": 0,
+      "subtract": 0,
+      "divide": 0
+    },
+    "typedVectorLaneSaving": 2,
+    "additionalVertexOps": [
+      "abs",
+      "min"
+    ],
+    "scalarProxy": {
+      "removed": "2 scalar multiplications in tangent normalization + 2 scalar multiplications by factoring the normal edge scale",
+      "added": "2 scalar multiplications + abs + min",
+      "scope": "Deterministic scalar-operation budget, not compiled ISA, driver latency or hardware timing."
+    }
+  },
+  "pass": true,
+  "scope": "16200 WebGL2 transform-feedback probes run exact production arc and coverage expressions against the published shader. Unit horizontal direction is the GrassWind/gTiltDir contract. Curve outputs are bit-identical; normal outputs are bit-identical over the sampled blade rows and sides; whole-scene image controls and motion are separate."
+}

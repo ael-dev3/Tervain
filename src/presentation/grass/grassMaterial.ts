@@ -199,23 +199,14 @@ gP1 *= gLen;
 gP2 *= gLen;
 float gU = 1.0 - gT;
 vec3 gCurve = 2.0 * gU * gT * gP1 + gT * gT * gP2;
-vec3 gTangent = normalize(2.0 * gU * gP1 + 2.0 * gT * (gP2 - gP1) + vec3(0.0, 1e-4, 0.0));
+// Normalization is invariant under a positive factor: halve the tangent and its bias together.
+vec3 gTangent = normalize(gU * gP1 + gT * (gP2 - gP1) + vec3(0.0, 5e-5, 0.0));
 
 // Width profile: leaves taper to a point; stems stay thin under a spindle of seed; flowers hold a small head.
 float gLeaf = pow(max(gU, 0.0), 0.72) * (1.0 + 0.22 * sin(gT * 3.1416));
 float gHead = smoothstep(0.66, 0.82, gT) * (1.0 - smoothstep(0.9, 1.0, gT));
 float gBloom = smoothstep(0.8, 0.88, gT) * (1.0 - smoothstep(0.96, 1.0, gT));
 float gProfile = gLeaf * (1.0 - gStem - gFlower) + (0.22 + gHead * 2.3) * gStem + (0.16 + gBloom * 3.4) * gFlower;
-// A139: how many pixels wide the blade and its head are. Where they fall below a pixel or two they can only alias
-// (a bright head lands on a pixel centre one frame and misses it the next), so heads, light through the blade and the
-// pale tips fade toward the leaf's own colour with projected size.
-float gPxPerM = uGrassPx * projectionMatrix[1][1] * 0.5 / max(gDist, 0.5);
-float gBladePx = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPxPerM;
-float gHeadPx = gBladePx * 0.28 * max(gStem * 2.52, gFlower * 3.56);
-// Playtest 8: at dusk a pale petal was eight times brighter than its blade and, a pixel or two wide, flickered white as
-// the view moved. Heads need a few pixels to show and fade out with distance; petals tint their blade, never glare.
-float gHeadCov = smoothstep(2.0, 5.0, gHeadPx) * (1.0 - smoothstep(10.0, 18.0, gDist));
-float gBladeCov = smoothstep(0.8, 2.5, gBladePx);
 // The blade's face turns with its root angle, then partly toward the viewer so few blades are seen edge-on.
 float gFace = gAng + 1.5708 + (gR2 - 0.5) * 2.0;
 vec3 gAcross = vec3(cos(gFace), 0.0, sin(gFace));
@@ -238,9 +229,24 @@ vec3 gBladePos = vec3(gRootW.x, gGround, gRootW.y) + gCurve + gAcross * (gEdge *
 // returned a non-number, which the grade turned into single white (or black) pixels flickering through the grass (playtest 8).
 vec3 gNc = cross(gAcross, gTangent);
 vec3 gN = dot(gNc, gNc) > 1e-10 ? normalize(gNc) : vec3(0.0, 1.0, 0.0);
-if (dot(gN, gToEye) < 0.0) gN = -gN;
-gN = normalize(gN + gAcross * gEdge * 0.42);
+float gFaceDot = dot(gN, gToEye);
+if (gFaceDot < 0.0) gN = -gN;
+gN = normalize(gN + gAcross * (gEdge * 0.42));
 vec3 objectNormal = normalize(mix(gN, vec3(0.0, 1.0, 0.0), 0.4));
+
+// A139: how many pixels wide the blade and its head are. Where they fall below a pixel or two they can only alias
+// (a bright head lands on a pixel centre one frame and misses it the next), so heads, light through the blade and the
+// pale tips fade toward the leaf's own colour with projected size.
+// Reuse the face/view dot already needed to orient the normal. The facing fraction estimates
+// projected surface coverage, so a nearly edge-on blade cannot retain a face-on brightness budget.
+float gSafeDist = max(gDist, 0.5);
+float gPxPerM = uGrassPx * projectionMatrix[1][1] * 0.5 / (gSafeDist * gSafeDist);
+float gBladePx = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPxPerM * min(abs(gFaceDot), gSafeDist);
+float gHeadPx = gBladePx * 0.28 * max(gStem * 2.52, gFlower * 3.56);
+// Playtest 8: at dusk a pale petal was eight times brighter than its blade and, a pixel or two wide, flickered white as
+// the view moved. Heads need a few pixels to show and fade out with distance; petals tint their blade, never glare.
+float gHeadCov = smoothstep(2.0, 5.0, gHeadPx) * (1.0 - smoothstep(10.0, 18.0, gDist));
+float gBladeCov = smoothstep(0.8, 2.5, gBladePx);
 
 // Colour: the clump's tint varied per blade; darker in the tuft, paler and drier toward the tips.
 float gHue = gHash(aShape.w * 311.0) - 0.5;
@@ -356,7 +362,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v13-colour-edge-centroid${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v15-colour-edge-centroid-facing-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

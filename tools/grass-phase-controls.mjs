@@ -17,5 +17,7 @@ export function applyGrassPhaseControls(T,phase) {
  const u=T.world.foliage.wind.uniforms;u.uGrassTime.value=phase.wind.time;u.uWindDir.value.fromArray(phase.wind.direction);u.uGustScroll.value.fromArray(phase.wind.scroll);
  T.world.sway.uTime.value=phase.sway;T.grade.time=phase.gradeTime;
  if(phase.cloudTime!==null)T.world.sky.cloudTime=phase.cloudTime;
- T.world.sky.update(phase.hour,T.player.group.position,0,false);T.grade.setLook({night:T.world.sky.state.nightness});
+ // Player.group deliberately stays at the scene origin; the hero moves in world space.
+ const focus=T.player.group.position.clone().set(T.player.x,T.player.y,T.player.z);
+ T.world.sky.update(phase.hour,focus,0,false);T.grade.setLook({night:T.world.sky.state.nightness});
 }
