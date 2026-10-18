@@ -1,0 +1,1308 @@
+{
+  "baseline": "bcb881c",
+  "sourceSha256": {
+    "before": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+    "after": "56068a76f2e70fee4ef32fa165fe68f4df3a5d0684946c93b1fb038457d56030"
+  },
+  "sourceCalls": {
+    "before": {
+      "log2": 2,
+      "textureSize": 2,
+      "dFdx": 5,
+      "dFdy": 5,
+      "dot": 9
+    },
+    "after": {
+      "log2": 1,
+      "textureSize": 1,
+      "dFdx": 3,
+      "dFdy": 3,
+      "dot": 7
+    }
+  },
+  "comparisons": {
+    "minified": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "magnified": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "mip-seam": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "constant-uv": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "coverage-mips": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "single-sample": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ],
+    "unmapped": [
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      },
+      {
+        "changed": 0,
+        "squared": 0
+      }
+    ]
+  },
+  "costs": [
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "minified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "magnified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "mip-seam",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "constant-uv",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "coverage-mips",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "single-sample",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "before",
+      "kind": "unmapped",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "minified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "magnified",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "mip-seam",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "constant-uv",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "coverage-mips",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "single-sample",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 0
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 0,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 1,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 2,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 3,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 4,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 5,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 6,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 7,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    },
+    {
+      "mode": "after",
+      "kind": "unmapped",
+      "frame": 8,
+      "draws": 2,
+      "triangles": 4,
+      "samples": 4
+    }
+  ],
+  "assertions": {
+    "nonemptyImages": true,
+    "allPixelsIdentical": true,
+    "sameWork": true
+  },
+  "pass": true,
+  "scope": "Actual production foliage and depth-prepass shaders. Seven cases, nine subpixel translations each, both variants. Constant UVs, mip-zero seam, magnification, minification, coverage mips, single-sample and unmapped controls must all match exactly in RGBA; every image must contain visible geometry. Source work reduction is not hardware timing."
+}

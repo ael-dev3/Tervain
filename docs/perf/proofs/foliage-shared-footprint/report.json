@@ -1,0 +1,189 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "bcb881c"
+    },
+    "size": [
+      640,
+      360
+    ],
+    "post": true,
+    "samples": 4,
+    "materials": 120
+  },
+  "baseline": "bcb881c",
+  "sourceSha256": {
+    "before": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+    "after": "56068a76f2e70fee4ef32fa165fe68f4df3a5d0684946c93b1fb038457d56030"
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea",
+        "after": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea",
+        "restored": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea"
+      },
+      "costs": {
+        "before": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    },
+    {
+      "frame": 1,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "eeee8295e655c43f4e69d2db364e52ae5867c02e6fce2ede92355faf11b85d55",
+        "after": "eeee8295e655c43f4e69d2db364e52ae5867c02e6fce2ede92355faf11b85d55",
+        "restored": "eeee8295e655c43f4e69d2db364e52ae5867c02e6fce2ede92355faf11b85d55"
+      },
+      "costs": {
+        "before": {
+          "draws": 283,
+          "triangles": 5258063,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 283,
+          "triangles": 5258063,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 283,
+          "triangles": 5258063,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "e2d689d312006d2e7808475d04ec069d7d37eced5643526acb4053ed8fe06269",
+        "after": "e2d689d312006d2e7808475d04ec069d7d37eced5643526acb4053ed8fe06269",
+        "restored": "e2d689d312006d2e7808475d04ec069d7d37eced5643526acb4053ed8fe06269"
+      },
+      "costs": {
+        "before": {
+          "draws": 284,
+          "triangles": 5301668,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 284,
+          "triangles": 5301668,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 284,
+          "triangles": 5301668,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    },
+    {
+      "frame": 3,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "3ab93addd66d78e6a4217aef439d8c6439266ecbc4b65ac35dbccaf6665741f9",
+        "after": "3ab93addd66d78e6a4217aef439d8c6439266ecbc4b65ac35dbccaf6665741f9",
+        "restored": "3ab93addd66d78e6a4217aef439d8c6439266ecbc4b65ac35dbccaf6665741f9"
+      },
+      "costs": {
+        "before": {
+          "draws": 285,
+          "triangles": 5316424,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 285,
+          "triangles": 5316424,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 285,
+          "triangles": 5316424,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    },
+    {
+      "frame": 4,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "fc185d8e94f5de5fdcd1ffc80180a785d25f8ef248e655197ef1aec609f73d68",
+        "after": "fc185d8e94f5de5fdcd1ffc80180a785d25f8ef248e655197ef1aec609f73d68",
+        "restored": "fc185d8e94f5de5fdcd1ffc80180a785d25f8ef248e655197ef1aec609f73d68"
+      },
+      "costs": {
+        "before": {
+          "draws": 284,
+          "triangles": 5316040,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 284,
+          "triangles": 5316040,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 284,
+          "triangles": 5316040,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    }
+  ],
+  "pass": true,
+  "scope": "Native post/MSAA whole-scene forest, frozen wind/cloud/film phases. Five synthetic 60 Hz walk/turn poses over 0.173 m. Each variant warms before measurement; shadows are cached within each pair. Exact restored and native controls, full RGB equality and paired draw/upload budgets. Not hardware timing or a shimmer fix."
+}

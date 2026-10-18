@@ -22,6 +22,7 @@ const start = newSource.indexOf('      // A minified leaf already integrates sev
 const end = newSource.indexOf('\n      if ( diffuseColor.a <= 0.0 ) discard;', start);
 assert.ok(start >= 0 && end > start, 'Missing stipple change');
 const restored = (newSource.slice(0, start) + oldLine + newSource.slice(end))
+  .replace('leaf-focus-world1-gap1-mip1-minstipple1', 'leaf-focus-world1-gap1-mip1')
   .replace('leaf-focus-world1-gap1-minstipple1', 'leaf-focus-world1-gap1');
 assert.equal(restored, oldSource, 'Unexpected additional material changes');
 const hash = source => createHash('sha256').update(source).digest('hex');

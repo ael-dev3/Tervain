@@ -1,0 +1,927 @@
+{
+  "setup": {
+    "samples": 4,
+    "post": true,
+    "build": {
+      "version": "0.0.22",
+      "revision": "d40777b"
+    },
+    "size": [
+      640,
+      360
+    ]
+  },
+  "programs": [
+    "Foliage | meadow oak",
+    "Foliage | meadow oak",
+    "Hero pine needles - placeholder pad atlas",
+    "Foliage | ridge fir",
+    "Hero pine needles - placeholder pad atlas",
+    "Hero pine needles - placeholder pad atlas",
+    "Foliage | round-crown oak",
+    "Foliage | round-crown oak",
+    "Foliage | verdant sentinel",
+    "Foliage | mist alder",
+    "Foliage | hero oak",
+    "Foliage | river broadleaf",
+    "Foliage | hero oak",
+    "Foliage | hero oak",
+    "Foliage | verdant sentinel",
+    "Foliage | rooted oak",
+    "Foliage | round-crown oak",
+    "Foliage | river broadleaf",
+    "Wood | meadow oak",
+    "Foliage | meadow oak",
+    "Wood | meadow oak",
+    "Foliage | meadow oak",
+    "Hero pine bark - procedural plated atlas",
+    "Hero pine needles - placeholder pad atlas",
+    "Wood | ridge fir",
+    "Foliage | ridge fir",
+    "Hero pine bark - procedural plated atlas",
+    "Hero pine needles - placeholder pad atlas",
+    "Hero pine bark - procedural plated atlas",
+    "Hero pine needles - placeholder pad atlas",
+    "Wood | round-crown oak",
+    "Foliage | round-crown oak",
+    "Wood | round-crown oak",
+    "Foliage | round-crown oak",
+    "Wood | verdant sentinel",
+    "Foliage | verdant sentinel",
+    "Wood | mist alder",
+    "Foliage | mist alder",
+    "Wood | hero oak",
+    "Foliage | hero oak",
+    "Wood | river broadleaf",
+    "Foliage | river broadleaf",
+    "Wood | hero oak",
+    "Foliage | hero oak",
+    "Wood | hero oak",
+    "Foliage | hero oak",
+    "Wood | verdant sentinel",
+    "Foliage | verdant sentinel",
+    "Wood | rooted oak",
+    "Foliage | rooted oak",
+    "Wood | round-crown oak",
+    "Foliage | round-crown oak",
+    "Wood | river broadleaf",
+    "Foliage | river broadleaf"
+  ],
+  "rows": [
+    {
+      "frame": 0,
+      "changedPixels": 0,
+      "beforeHash": "d5122abcd34cb07b3e92af1cf6b9a37c829ac311946817a2f28dc675f66ef565",
+      "afterHash": "d5122abcd34cb07b3e92af1cf6b9a37c829ac311946817a2f28dc675f66ef565",
+      "restoredHash": "d5122abcd34cb07b3e92af1cf6b9a37c829ac311946817a2f28dc675f66ef565",
+      "cost": {
+        "draws": 280,
+        "triangles": 5340939,
+        "textures": 274
+      },
+      "coverage": [
+        {
+          "mesh": "tree-1521:1:wood",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage:depth",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:wood",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage:depth",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:wood",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage:depth",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:wood",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage:depth",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:wood",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage:depth",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:wood",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage:depth",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:wood",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage:depth",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "changedPixels": 0,
+      "beforeHash": "3f31b7e9e306eb1b74163c9f9ee273916fbf1a20bccb8b8b356b3cb9b32675ee",
+      "afterHash": "3f31b7e9e306eb1b74163c9f9ee273916fbf1a20bccb8b8b356b3cb9b32675ee",
+      "restoredHash": "3f31b7e9e306eb1b74163c9f9ee273916fbf1a20bccb8b8b356b3cb9b32675ee",
+      "cost": {
+        "draws": 283,
+        "triangles": 5343692,
+        "textures": 274
+      },
+      "coverage": [
+        {
+          "mesh": "tree-1521:1:wood",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage:depth",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:wood",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage:depth",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:wood",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage:depth",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 20,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:wood",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage:depth",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:wood",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage:depth",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:wood",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage:depth",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:wood",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage:depth",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "changedPixels": 0,
+      "beforeHash": "d3d470f7b10ef573a3af0472559dbb47314d9e16ddf589d11642311d781c0de3",
+      "afterHash": "d3d470f7b10ef573a3af0472559dbb47314d9e16ddf589d11642311d781c0de3",
+      "restoredHash": "d3d470f7b10ef573a3af0472559dbb47314d9e16ddf589d11642311d781c0de3",
+      "cost": {
+        "draws": 284,
+        "triangles": 5357851,
+        "textures": 274
+      },
+      "coverage": [
+        {
+          "mesh": "tree-1521:1:wood",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:1:foliage:depth",
+          "full": 2,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:wood",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "tree-1521:2:foliage:depth",
+          "full": 29,
+          "partial": 4
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:wood",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "fir-spire:0:foliage:depth",
+          "full": 24,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 18,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:wood",
+          "full": 21,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage",
+          "full": 21,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-pine:0:foliage:depth",
+          "full": 21,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:wood",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:1:foliage:depth",
+          "full": 1,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:wood",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:2:foliage:depth",
+          "full": 10,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 3,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1527:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 2,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:wood",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-c:0:foliage:depth",
+          "full": 13,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:wood",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "hero-oak-b:0:foliage:depth",
+          "full": 15,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "verdant-sentinel:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:wood",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-1505:0:foliage:depth",
+          "full": 6,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:wood",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4949:0:foliage:depth",
+          "full": 5,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:wood",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage",
+          "full": 4,
+          "partial": 0
+        },
+        {
+          "mesh": "tree-4815:0:foliage:depth",
+          "full": 4,
+          "partial": 0
+        }
+      ]
+    }
+  ],
+  "pass": true,
+  "sourceSha256": "406ee14ba58aa9e71c047cc1630c8a163bba0fce55aecb7546cf3d8830a88089",
+  "scope": "Native High post/MSAA forest synthetic walk/turn, clock and wind fixed. Full colour images and restored baseline exact. Coverage rows are submitted instances, not fragment invocations; no hardware timing claim. General shimmer and LOD shape differences remain open."
+}

@@ -258,6 +258,7 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
 {
   float tvA = diffuseColor.a;
   #ifdef USE_MAP
+  float tvMip;
   {
     // A133: up close a leaf atlas is magnified, and bilinear alpha cut at a threshold traces each texel's diamond: the
     // edges read as pixel steps however well they are anti-aliased. Where the atlas is magnified its alpha is read with
@@ -266,6 +267,9 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
     vec2 tvSize = vec2( textureSize( map, 0 ) );
     vec2 tvT = vMapUv * tvSize;
     float tvLod = 0.5 * log2( max( max( dot( dFdx( tvT ), dFdx( tvT ) ), dot( dFdy( tvT ), dFdy( tvT ) ) ), 1e-8 ) );
+    // The later coverage lift needs the same footprint. Below the logarithm's
+    // safety floor both formulas clamp to mip zero, including constant UVs.
+    tvMip = max( 0.0, tvLod );
     float tvCubic = 1.0 - smoothstep( -0.5, 0.25, tvLod );
     if ( tvCubic > 0.0 ) {
       vec2 tvSt = tvT - 0.5, tvI = floor( tvSt ), tvF = tvSt - tvI, tvF2 = tvF * tvF, tvF3 = tvF2 * tvF;
@@ -312,8 +316,6 @@ const LEAF_ALPHA_TEST_GLSL = /* glsl */ `
   // The roughened cut is off in the shipped look (A79): skip its noise rather than multiply it by zero.
   if ( uFoliageClump.z > 0.0 ) tvA += ( tvLeafNoise( vTvLeafP * 17.0 ) - 0.5 ) * uFoliageClump.z * tvFine * step( 0.02, tvA );
   #ifdef USE_MAP
-    vec2 tvTexels = vMapUv * vec2( textureSize( map, 0 ) );
-    float tvMip = max( 0.0, 0.5 * log2( max( dot( dFdx( tvTexels ), dFdx( tvTexels ) ), dot( dFdy( tvTexels ), dFdy( tvTexels ) ) ) ) );
     // A134: atlases whose mips already keep their coverage (the cluster canopies) take no lift.
     #ifndef TV_COVERAGE_MIPS
     tvA *= 1.0 + 0.22 * tvMip;
@@ -559,7 +561,7 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
         ${LEAF_SKY_GLSL}`);
   };
   material.customProgramCacheKey = function() {
-    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-minstipple1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
+    return `${programKey.call(this)}|tervain-foliage-v6-${opts.leaf ? 'leaf-focus-world1-gap1-mip1-minstipple1' : 'wood-fill1'}${hier ? '-hier' : ''}${baked ? '-baked' : ''}${foliageOptionsKey(opts.weight, opts.key)}`;
   };
   // The baked light is read as a vertex attribute of its own, not multiplied into the albedo.
   if (baked) (material as THREE.MeshStandardMaterial).vertexColors = false;

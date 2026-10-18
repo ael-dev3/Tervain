@@ -1,0 +1,50 @@
+{
+  "declarations": {
+    "vertex": "centroid varying vec4 vGCol;",
+    "fragment": "centroid varying vec4 vGCol;"
+  },
+  "before": {
+    "draws": 1,
+    "overRangePixels": 96,
+    "max": 25,
+    "covered": 536,
+    "samples": 4
+  },
+  "after": {
+    "draws": 1,
+    "overRangePixels": 0,
+    "max": 25,
+    "covered": 632,
+    "samples": 4
+  },
+  "singleBefore": {
+    "draws": 1,
+    "overRangePixels": 0,
+    "max": 25,
+    "covered": 488,
+    "samples": 0
+  },
+  "singleAfter": {
+    "draws": 1,
+    "overRangePixels": 0,
+    "max": 25,
+    "covered": 488,
+    "samples": 0
+  },
+  "sourceSha256": "3635c45dcaa71d2c00fc191f946d70474b8a9a943b170647c7fd7ebe3ce2cbae",
+  "sourceRef": "a77e64efbb084d38a6376117ebfc30d467e4b8f7",
+  "assertions": {
+    "reproduced": true,
+    "bounded": true,
+    "nonempty": true,
+    "singleSampleIdentical": true,
+    "resolvedMsaaWithinOneLSB": true
+  },
+  "resolvedControl": {
+    "pixels": 448,
+    "changedChannels": 6,
+    "maxChannelDelta": 1
+  },
+  "pass": true,
+  "scope": "Controlled slivers, production grass colour interpolation declarations; vertex values 0..0.1, actual WebGL four-sample resolve. This isolates interpolation, not the whole grass shader or hardware timing."
+}

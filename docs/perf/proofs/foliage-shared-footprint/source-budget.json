@@ -1,0 +1,72 @@
+{
+  "baseline": "bcb881c051531529a967d4762859b7825771dafa",
+  "runtimeCandidate": "507c2cd977aef69c52de8cb1b3a30ec3ba79447a",
+  "runtimeFilesChanged": [
+    "src/presentation/foliage/foliageMaterial.ts"
+  ],
+  "sourceSha256": {
+    "before": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+    "after": "56068a76f2e70fee4ef32fa165fe68f4df3a5d0684946c93b1fb038457d56030"
+  },
+  "alphaSourceCalls": {
+    "before": {
+      "texture": 0,
+      "textureLod": 4,
+      "textureSize": 2,
+      "dFdx": 5,
+      "dFdy": 5,
+      "log2": 2,
+      "pow": 0,
+      "exp": 0,
+      "normalize": 2,
+      "clamp": 3,
+      "abs": 1,
+      "sqrt": 0,
+      "inversesqrt": 0,
+      "length": 3,
+      "distance": 1,
+      "dot": 9,
+      "cross": 1,
+      "smoothstep": 10,
+      "fwidth": 4,
+      "max": 8,
+      "min": 0,
+      "floor": 1,
+      "step": 4,
+      "mix": 3,
+      "fract": 4
+    },
+    "after": {
+      "texture": 0,
+      "textureLod": 4,
+      "textureSize": 1,
+      "dFdx": 3,
+      "dFdy": 3,
+      "log2": 1,
+      "pow": 0,
+      "exp": 0,
+      "normalize": 2,
+      "clamp": 3,
+      "abs": 1,
+      "sqrt": 0,
+      "inversesqrt": 0,
+      "length": 3,
+      "distance": 1,
+      "dot": 7,
+      "cross": 1,
+      "smoothstep": 10,
+      "fwidth": 4,
+      "max": 7,
+      "min": 0,
+      "floor": 1,
+      "step": 4,
+      "mix": 3,
+      "fract": 4
+    }
+  },
+  "assertions": {
+    "runtimeOutsideAlphaAndCacheKeyIdentical": true,
+    "allTrackedIntrinsicCallsNonIncreasing": true
+  },
+  "scope": "GLSL source cost model and committed source identity, not optimized ISA, register allocation, hardware time or sustained FPS. Coverage alpha/prepass source is shared; the shade-only pass excludes it. A driver may already eliminate common expressions."
+}
