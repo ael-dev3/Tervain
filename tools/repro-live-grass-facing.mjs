@@ -23,7 +23,7 @@ const partsOf=s=>({coverage:slice(s,s.includes('float gSafeDist =')?'float gSafe
 const patchParts={before:partsOf(publishedSource),after:partsOf(candidateSource)};
 const compareNormal=true,nativeAfter=true;
 assert.ok(args.url,'Candidate build URL required');
-const page=await liveProofPage(args.url,{quality:'high',hour:12,w:Number(args.width??640),h:Number(args.height??360),dpr:Number(args.dpr??1)}),results=[];
+const page=await liveProofPage(args.url,{quality:'high',hour:12,headed:args.headed==='1',w:Number(args.width??640),h:Number(args.height??360),dpr:Number(args.dpr??1)}),results=[];
 let roi;
 const decode=png=>sharp(Buffer.from(png.split(',')[1],'base64')).removeAlpha().raw().toBuffer(),hash=b=>createHash('sha256').update(b).digest('hex');
 try {

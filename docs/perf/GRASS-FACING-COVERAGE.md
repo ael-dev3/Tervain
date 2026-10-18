@@ -55,7 +55,7 @@ Mean ROI luminance changes by at most **0.235%**. Strict near-white grass-affect
 
 [Before](proofs/grass-facing/before.png) · [After](proofs/grass-facing/after.png) · [Browser motion preview](proofs/grass-facing/motion-preview.mp4) · [Lossless RGB motion](proofs/grass-facing/motion-lossless.mp4) · [Decode verification](proofs/grass-facing/video-verification.json).
 
-Before left / after right; playback is 6 fps, 10× slower than the synthetic cadence. The lossless clip matches every source crop byte-for-byte. The lossy preview is never metric input. Primary scores are independently computed from native PNGs; capture-time motion summaries are not used. The acquisition controller is preserved at `89520ded7`; its recorded checksum matches that source. Current changes only correct optional summary dispatch and add recorded hashes.
+Before left / after right; playback is 6 fps, 10× slower than the synthetic cadence. The lossless clip matches every source crop byte-for-byte. The lossy preview is never metric input. Primary scores are independently computed from native PNGs; capture-time motion summaries are not used. The acquisition controller is preserved at `89520ded7`; its recorded checksum matches that source. Current changes correct optional summary dispatch, add recorded hashes and support opt-in headed replay; captured defaults are unchanged.
 
 ## Reproduce
 
@@ -68,5 +68,7 @@ node tools/repro-live-grass-facing.mjs --url BUILD_URL --frames 5 --width 1440 -
 node tools/score-native-grass-facing.mjs facing-native
 node tools/encode-grass-facing-proof.mjs facing-native facing-motion
 ```
+
+Use `--headed 1` for an available hardware-backed browser; this still measures counts and synthetic motion, not cadence.
 
 The published baseline commit must be available to `git show`. Shared-reference scoring support is reused from #643; this adds no foliage runtime changes. The replay depends on #646's corrected lighting focus. Validation: **53 targeted tests**, type-check, the production runtime build, and the rendered probes above pass. This is a **partial bright-transient reduction**, not a 10/10 grass-flicker or M5 performance clearance.
