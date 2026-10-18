@@ -1,0 +1,521 @@
+{
+  "rows": [
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1024,
+      "hashBefore": 1024,
+      "hashAfter": 1024
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2047,
+      "hashBefore": 2047,
+      "hashAfter": 2047
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 0,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1024,
+      "hashBefore": 1024,
+      "hashAfter": 1024
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2047,
+      "hashBefore": 2047,
+      "hashAfter": 2047
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "colour",
+      "samples": 4,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1022,
+      "hashBefore": 1022,
+      "hashAfter": 1022
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2049,
+      "hashBefore": 2049,
+      "hashAfter": 2049
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 0,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1022,
+      "hashBefore": 1022,
+      "hashAfter": 1022
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2049,
+      "hashBefore": 2049,
+      "hashAfter": 2049
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "depth",
+      "samples": 4,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1022,
+      "hashBefore": 1022,
+      "hashAfter": 1022
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2049,
+      "hashBefore": 2049,
+      "hashAfter": 2049
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 0,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        0,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        -0.5,
+        1.5
+      ],
+      "changed": 0,
+      "nonempty": 4096,
+      "hashBefore": 4096,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        0,
+        0.25
+      ],
+      "changed": 0,
+      "nonempty": 1022,
+      "hashBefore": 1022,
+      "hashAfter": 1022
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        0.25,
+        0.75
+      ],
+      "changed": 0,
+      "nonempty": 2049,
+      "hashBefore": 2049,
+      "hashAfter": 2049
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        0.75,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 1025,
+      "hashBefore": 1025,
+      "hashAfter": 1025
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        0,
+        0
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    },
+    {
+      "name": "distance",
+      "samples": 4,
+      "interval": [
+        1,
+        1
+      ],
+      "changed": 0,
+      "nonempty": 0,
+      "hashBefore": 0,
+      "hashAfter": 0
+    }
+  ],
+  "programs": 3,
+  "renderer": "WebKit WebGL",
+  "assertions": {
+    "pairs": true,
+    "imagesIdentical": true,
+    "fullCoverageBeforeExecuted": true,
+    "fullCoverageAfterSkipped": true,
+    "partialCoverageUnchanged": true,
+    "partialNonempty": true
+  },
+  "pass": true,
+  "sourceSha256": "406ee14ba58aa9e71c047cc1630c8a163bba0fce55aecb7546cf3d8830a88089",
+  "scope": "Actual production distance-visibility material hooks, controlled plane, colour/depth/distance, single/four-sample targets. Hash execution counters are shader semantics, not GPU time or whole-scene fragment counts."
+}

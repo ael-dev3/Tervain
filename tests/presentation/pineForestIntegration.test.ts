@@ -218,7 +218,7 @@ describe('historical source-Pine component render substitution without the Meshy
     } finally { bounds.mockRestore(); forest.dispose!(); vi.unstubAllGlobals(); }
   });
 
-  it('uploads only the active tree prefix after turning the camera', () => {
+  it('uploads only changed tree slots after turning the camera', () => {
     vi.stubGlobal('location', { search: '' });
     const quality = 'high';
     const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality,
@@ -242,7 +242,7 @@ describe('historical source-Pine component render substitution without the Meshy
       (mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute).clearUpdateRanges();
     }
     camera.rotateY(.1); camera.updateMatrixWorld(); forest.update(1 / 60, frame);
-    let full = 0, active = 0;
+    let full = 0, active = 0, prefixBytes = 0, staticBytes = 0;
     for (const mesh of meshes) {
       for (const attr of [mesh.instanceMatrix, mesh.instanceColor, mesh.geometry.getAttribute('aDistanceCoverage') as THREE.BufferAttribute]) {
         if (!attr) continue;
@@ -257,11 +257,45 @@ describe('historical source-Pine component render substitution without the Meshy
           continue;
         }
         expect(ranges, mesh.name).toHaveLength(1);
-        expect(ranges[0]).toEqual({ start: 0, count: Math.max(1, mesh.count) * attr.itemSize });
-        active += ranges[0]!.count * 4;
+        const range = ranges[0]!;
+        const gpu = before.get(attr)!.data.slice();
+        expect(range.start).toBeGreaterThanOrEqual(0);
+        expect(range.start + range.count).toBeLessThanOrEqual(attr.array.length);
+        for (let i = range.start; i < range.start + range.count; i++) gpu[i] = attr.array[i]!;
+        const count = mesh.count * attr.itemSize;
+        expect(gpu.slice(0, count), mesh.name).toEqual(Array.from(attr.array.slice(0, count)));
+        if (attr === mesh.instanceMatrix || attr === mesh.instanceColor) {
+          prefixBytes += Math.max(1, mesh.count) * attr.itemSize * 4;
+          staticBytes += range.count * 4;
+        }
+        active += range.count * 4;
       }
     }
     expect(active).toBeLessThan(full / 2);
+    expect(staticBytes).toBeLessThanOrEqual(prefixBytes);
+    let sawPartialUpload = false;
+    // Multiple selection refreshes can precede an actual GPU upload (including culled batches).
+    // Keep a simulated GPU at the preceding draw, then consume the union of all pending writes every fourth turn.
+    const gpu = new Map<THREE.BufferAttribute, number[]>();
+    for (const mesh of meshes) for (const attr of [mesh.instanceMatrix, mesh.instanceColor]) {
+      if (attr) { gpu.set(attr, Array.from(attr.array)); attr.clearUpdateRanges(); }
+    }
+    for (let turn = 0; turn < 32; turn++) {
+      camera.rotateY(turn < 16 ? .04 : -.04); camera.updateMatrixWorld(); forest.update(1 / 60, frame);
+      if (turn % 4 !== 3) continue;
+      for (const mesh of meshes) for (const attr of [mesh.instanceMatrix, mesh.instanceColor]) {
+        if (!attr) continue;
+        const data = gpu.get(attr)!;
+        for (const range of attr.updateRanges) {
+          if (range.start > 0) sawPartialUpload = true;
+          for (let i = range.start; i < range.start + range.count; i++) data[i] = attr.array[i]!;
+        }
+        const count = mesh.count * attr.itemSize;
+        expect(data.slice(0, count), `${mesh.name} turn ${turn}`).toEqual(Array.from(attr.array.slice(0, count)));
+        attr.clearUpdateRanges();
+      }
+    }
+    expect(sawPartialUpload).toBe(true);
     process.stdout.write(`tree turn upload bytes: ${full} full -> ${active} active\n`);
     forest.dispose!(); vi.unstubAllGlobals();
   });

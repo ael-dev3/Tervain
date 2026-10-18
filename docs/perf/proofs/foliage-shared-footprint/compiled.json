@@ -1,0 +1,65 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "507c2cd97"
+    },
+    "size": [
+      640,
+      360
+    ],
+    "post": true,
+    "samples": 4,
+    "materials": 120,
+    "nativePrograms": {
+      "leaf": 31,
+      "shared": 31,
+      "duplicate": 0
+    }
+  },
+  "baseline": "bcb881c",
+  "controllerSha256": "5cf9468b5e814f2e493b5b3cb611d6e482a6093d3d71addb6a3e8fea7618a440",
+  "sourceSha256": {
+    "before": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+    "after": "56068a76f2e70fee4ef32fa165fe68f4df3a5d0684946c93b1fb038457d56030"
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "pixelsIdentical": true,
+      "restored": true,
+      "hashes": {
+        "before": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea",
+        "after": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea",
+        "restored": "75c0c684e32e26c9601e5d53c0ad55d6e70456b69127662f93f68eb0259b20ea"
+      },
+      "costs": {
+        "before": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "after": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        },
+        "restored": {
+          "draws": 280,
+          "triangles": 5224983,
+          "textures": 274,
+          "uploadBytes": 32256,
+          "links": 0
+        }
+      }
+    }
+  ],
+  "pass": true,
+  "frames": 1,
+  "metres": 0,
+  "scope": "Native post/MSAA whole-scene forest, frozen wind/cloud/film phases. Synthetic 60 Hz walk/turn poses. Each variant warms before measurement; shadows are cached within each pair. Exact restored and native controls, full RGB equality and paired draw/upload budgets. Not hardware timing or a shimmer fix."
+}

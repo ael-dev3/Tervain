@@ -49,6 +49,8 @@ export interface TileLayerOptions {
   band?: { start: number; end: number };
   /** Generator writes all four slope channels for every returned instance; skip the default scratch clear. */
   writesSlope?: boolean;
+  /** Grass shader uses anchor distance for rank fading; omit only a certainly zero-coverage tail. */
+  trimFadedTail?: boolean;
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
   generate(tx: number, tz: number, out: TileBuffers): number;
 }
@@ -136,7 +138,7 @@ export class TileLayer {
     mesh.visible = false;
     this.group.add(mesh);
     const tile = { key: -1, tx: 0, tz: 0, mesh, geo, count: 0, x0: 0, z0: 0, ymin: 0, ymax: 0, attrs, drawCount: this.trisPerInstance * 3, renderInstances: 0 };
-    if (o.maxRadius !== undefined || o.drawCountAt) {
+    if (o.maxRadius !== undefined || o.drawCountAt || o.trimFadedTail) {
       mesh.onBeforeRender = (_renderer, _scene, camera) => {
         tile.renderInstances = geo.instanceCount;
         const e = camera.matrixWorld.elements;
@@ -148,7 +150,7 @@ export class TileLayer {
           this.captureFocus.setFromMatrixPosition(camera.matrixWorld);
           const distance = this.distTo(tile, this.captureFocus);
           // Rank thinning, like blade-tail thinning, belongs to this pass's camera.
-          geo.instanceCount = this.instanceCountAt(tile, distance);
+          geo.instanceCount = this.trimFadedTail(tile, this.instanceCountAt(tile, distance), this.captureFocus);
           if (o.drawCountAt) geo.setDrawRange(0, Math.min(this.trisPerInstance * 3, o.drawCountAt(distance)));
         }
         if (o.maxRadius !== undefined && !this.inHorizontalView(tile, camera)) geo.instanceCount = 0;
@@ -304,9 +306,11 @@ export class TileLayer {
         t.mesh.visible = false;
         continue;
       }
-      const n = this.instanceCountAt(t, d);
+      const prefix = this.instanceCountAt(t, d);
+      const n = this.trimFadedTail(t, prefix, cam);
       t.geo.instanceCount = n;
-      t.mesh.visible = n > 0;
+      // A capture camera may need anchors whose main-camera coverage is zero.
+      t.mesh.visible = prefix > 0;
       if (n > 0) {
         // Counters include tiles three.js will frustum-cull, so they are an upper bound.
         inst += n;
@@ -318,6 +322,21 @@ export class TileLayer {
     this.visibleTriangles = tris;
     this.drawCalls = draws;
     this.activeTiles = this.tiles.size;
+  }
+
+  private trimFadedTail(t: Tile, count: number, camera: THREE.Vector3): number {
+    if (!this.o.trimFadedTail) return count;
+    const base = t.attrs[0]!.array as Float32Array;
+    while (count > 0) {
+      const i = (count - 1) * 4;
+      // The tile's nearest point overestimates density at individual anchors. Retain a centimetre
+      // of distance and rank headroom for CPU/GPU float rounding; never trim a partially faded clump.
+      const distance = Math.max(0, Math.hypot(base[i]! - camera.x, base[i + 1]! - camera.y, base[i + 2]! - camera.z) - .01);
+      const q = Math.pow(1 - smoothstep(this.o.fadeStart, this.o.fadeEnd, distance), this.o.power);
+      if (base[i + 3]! < q * RANK_HEADROOM + 1e-5) break;
+      count--;
+    }
+    return count;
   }
 
   private instanceCountAt(t: Tile, d: number): number {

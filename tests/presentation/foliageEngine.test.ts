@@ -147,8 +147,12 @@ describe('foliage look', () => {
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
       expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v6-leaf-focus-world1-gap1-emptyshade1\|foliage-options:\[null,null\]$/);
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v3-full\|tervain-foliage-v6-leaf-focus-world1-gap1-mip1-emptyshade1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
+      // Cubic alpha and the coverage lift share one UV footprint/logarithm.
+      expect(frag.match(/float tvLod = .*log2/g)).toHaveLength(1);
+      expect(frag).not.toContain('vec2 tvTexels =');
+      expect(frag).toContain('tvMip = max( 0.0, tvLod );');
       // GLSL leaves smoothstep undefined when edge0 >= edge1, including decreasing opacity ramps.
       const ramps = [...frag.matchAll(/smoothstep\(\s*(-?[\d.]+),\s*(-?[\d.]+),/g)];
       expect(ramps.length).toBeGreaterThan(0);
@@ -453,7 +457,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
-      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1-emptyshade1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
+      expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1-mip1-emptyshade1\|foliage-options:\[null,null\](\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]$/);
     }
     const tree = population.find((t) => t.sp === 'pine' && t.collisionId)!;
     const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
@@ -626,6 +630,49 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     for (const position of shared) expect(position).toBeDefined();
     f.wind.dispose();
     vi.unstubAllGlobals();
+  });
+
+  it('excludes empty lateral regions of tall-tree spheres from narrow views', () => {
+    vi.stubGlobal('location', { search: '' });
+    const f = field(), quality = 'high';
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: f }, templates);
+    try {
+      // Independent reference: collect every detail level by placement before inspecting packed draws.
+      const source = new Map<string, { matrix: THREE.Matrix4; local: THREE.Box3; world?: THREE.Box3 }>();
+      for (const lod of [0, 1, 2]) for (const target of forest.canopyAuditTargets!(lod)) {
+        let record = source.get(target.label);
+        if (!record) { record = { matrix: target.matrix, local: new THREE.Box3() }; source.set(target.label, record); }
+        for (const geometry of [target.wood, target.leaves]) {
+          if (!geometry) continue;
+          geometry.computeBoundingBox(); record.local.union(geometry.boundingBox!);
+        }
+      }
+      for (const record of source.values()) record.world = record.local.clone().applyMatrix4(record.matrix).expandByScalar(2);
+      const tree = population.find(t => t.sp === 'pine' && t.collisionId)!;
+      const camera = new THREE.PerspectiveCamera(20, 1, .1, 400);
+      const matrix = new THREE.Matrix4(), view = new THREE.Frustum(), records = [...source.values()];
+      let checked = 0;
+      for (const yaw of [0, .7, 1.4]) {
+        camera.position.set(tree.x, tree.y + 8, tree.z + 12);
+        camera.lookAt(camera.position.x + Math.sin(yaw) * 20, camera.position.y, camera.position.z - Math.cos(yaw) * 20);
+        camera.updateMatrixWorld(true);
+        const frame: FrameContext = { camera, quality, time: 1, focus: camera.position, nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), reducedMotion: true, hour: 11, view: worldView(createInitialState()) };
+        forest.update(.1, frame);
+        view.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+        for (const child of forest.group.children) {
+          const mesh = child as THREE.InstancedMesh;
+          if (!mesh.isInstancedMesh || !/:wood$|:foliage$/.test(mesh.name)) continue;
+          for (let i = 0; i < mesh.count; i++) {
+            mesh.getMatrixAt(i, matrix);
+            const record = records.find(r => r.matrix.elements.every((v, j) => Math.abs(v - matrix.elements[j]!) < .001));
+            expect(record, 'packed tree must identify an authored placement').toBeDefined();
+            expect(view.intersectsBox(record!.world!), 'a packed tree must have source bounds in the guarded view').toBe(true);
+            checked++;
+          }
+        }
+      }
+      expect(checked).toBeGreaterThan(0);
+    } finally { forest.dispose!(); f.wind.dispose(); vi.unstubAllGlobals(); }
   });
 
   it('builds no casters on Low and keeps the colour pass unchanged without a shared wind', () => {

@@ -1,0 +1,12 @@
+{
+  "frames": 3,
+  "size": [
+    1280,
+    360
+  ],
+  "playbackFps": 5,
+  "decodedBytes": 4147200,
+  "decodedSha256": "2ce405becde8aa2467bb05284e15d25f18ccfd1e0bdbde6ac1ca33d548835013",
+  "exact": true,
+  "layout": "before left, after right; synthetic samples, not measured frame cadence. Preview is lossy and not metric input."
+}
