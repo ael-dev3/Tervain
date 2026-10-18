@@ -1,0 +1,17 @@
+{
+  "scope": "Native SwiftShader, High Retina deterministic budget; not hardware frame pacing",
+  "head": "8699ac2e0ac2baa54c5c87a5ee532ff1b2591ef9",
+  "liveRevision": "2a13d6c",
+  "live": {
+    "draws": 285,
+    "triangles": 3061335,
+    "errors": 0
+  },
+  "candidate": {
+    "draws": 285,
+    "triangles": 3061335,
+    "errors": 0
+  },
+  "exit": 0,
+  "receipt": "play-gate: PASS 8699ac2"
+}

@@ -14,4 +14,15 @@ Original producer exits 0 despite the candidate exceeding the second published b
 
 [Controlled results and producer hashes](proofs/budget-baseline-revision/controlled-repro.json). The paired fixture additionally uses the byte-verified #678 completed-frame sampler and #673 startup correction; only the new revision guard differs. The checked-in regression is `tests/tooling/budgetBaselineRevision.test.ts` and runs eleven CLI scenarios, including existing draw, triangle, console-error and head-mismatch rejection. Original code fails the changed-revision scenario. Candidate passes all scenarios, the focused tooling suite, type-check and production build.
 
-Application code, draws, triangles, shader taps, uploads and ordinary-frame JS are unchanged: this adds one identity check to the Node gate orchestrator. No image change is possible from this code. A separate native software-renderer budget check is pending on compiled head `8699ac2e0ac2baa54c5c87a5ee532ff1b2591ef9`; no native PASS is claimed here yet.
+Application code, draws, triangles, shader taps, uploads and ordinary-frame JS are unchanged: this adds one identity check to the Node gate orchestrator. No image change is possible from this code.
+
+## Native exact-head software budget
+
+Compiled head `8699ac2e0ac2baa54c5c87a5ee532ff1b2591ef9`, tested using #678 completed-frame sampling, #673 startup correction and this exact revision guard. Two live probes agreed on revision `2a13d6c`. No budget allowance or raster suppression.
+
+| Build | Max draws | Max triangles | Console errors |
+| --- | ---: | ---: | ---: |
+| Published 2a13d6c | 285 | 3,061,335 | 0 |
+| Candidate 8699ac2 | 285 | 3,061,335 | 0 |
+
+Head matched; exit 0. Actual receipt: `play-gate: PASS 8699ac2`. SwiftShader verification only; Apple GPU cost and hardware frame pacing are unmeasured. All CI build, software-WebGL and test shards also pass.
