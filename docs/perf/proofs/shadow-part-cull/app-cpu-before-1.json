@@ -1,0 +1,20 @@
+{
+  "revision": "22b9fd1",
+  "samples": 1200,
+  "summary": {
+    "world": {
+      "average": 0.7175833333469928,
+      "p95": 1.0999999940395355
+    },
+    "submission": {
+      "average": 2.947583333334575,
+      "p95": 3.600000001490116
+    },
+    "total": {
+      "average": 3.665166666681568,
+      "p95": 4.600000001490116
+    }
+  },
+  "scope": "CPU-only JS world update and render submission with all draws, clears and framebuffer blits suppressed; excludes GPU time and does not establish Mac frame pacing.",
+  "errors": []
+}
