@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.23",
+      "revision": "670b96d"
+    },
+    "printed": "v0.0.23 · 670b96d · pre-alpha",
+    "quality": "high",
+    "samples": 4,
+    "rasterSuppressed": false,
+    "bindings": 120
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204
+      ],
+      "time": 0,
+      "before": {
+        "draws": 456,
+        "triangles": 6279232,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 456,
+        "triangles": 6279232,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "ac109936c294234183f752ef3b3ec6246b4688c6b10ff2b501d380143eb17b57"
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        -0.09966865249116204
+      ],
+      "time": 1.3,
+      "before": {
+        "draws": 417,
+        "triangles": 6178449,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 417,
+        "triangles": 6178449,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "4119fb51e19b476a38be744ac71a93191907fb00a1094ed1c07fa24e787432de"
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        -0.09966865249116204
+      ],
+      "time": 2.6,
+      "before": {
+        "draws": 418,
+        "triangles": 6222558,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6222558,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "fed00ec8c7ae00593adb06c19d729a77856fbc3bf170e519d2ef9d44d8fdf2b4"
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        -0.09966865249116204
+      ],
+      "time": 3.9000000000000004,
+      "before": {
+        "draws": 419,
+        "triangles": 6237314,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 419,
+        "triangles": 6237314,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "d3a779ccead27e3302a23463cb9f5627ae48ec0b23950873431a303bf36fb6ac"
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        -0.09966865249116204
+      ],
+      "time": 5.2,
+      "before": {
+        "draws": 418,
+        "triangles": 6236930,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6236930,
+        "uploadBytes": 32256,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "5ca1284d36950c528a20e717feed35b3cc7a416dafc5924c605cb9573491d183"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "before": {
+        "draws": 236,
+        "triangles": 3730188,
+        "uploadBytes": 16128,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 234,
+        "triangles": 3708644,
+        "uploadBytes": 16128,
+        "textures": 274,
+        "estimatedTextureBytes": 1310276620,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "c9fffa682483edb9f1c704e378c4a7988b49701307a3bed1fbd228a80a81bec7"
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "7a469641a1581e533a1018d5af4f654b7f30d17c3f2a23f52cdccdb359a39bc5",
+  "pass": true,
+  "scope": "Published native High post/MSAA4; same production concentric-shrink helper, native packed bounds and all source leaf LODs; colour/depth share bounds. Renderer-only bound swap, wind phases advance per pose, shadows refreshed; source geometry, materials and instance packing unchanged. Native raster draws enabled."
+}
