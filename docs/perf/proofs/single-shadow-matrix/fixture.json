@@ -1,0 +1,435 @@
+{
+  "rows": [
+    {
+      "count": 0,
+      "frame": 0,
+      "moved": false,
+      "before": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      }
+    },
+    {
+      "count": 0,
+      "frame": 1,
+      "moved": false,
+      "before": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      }
+    },
+    {
+      "count": 0,
+      "frame": 2,
+      "moved": false,
+      "before": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      }
+    },
+    {
+      "count": 0,
+      "frame": 3,
+      "moved": true,
+      "before": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      }
+    },
+    {
+      "count": 0,
+      "frame": 4,
+      "moved": true,
+      "before": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 2,
+        "triangles": 14,
+        "uniforms": []
+      }
+    },
+    {
+      "count": 1,
+      "frame": 0,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 128,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 1,
+      "frame": 1,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 128,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 1,
+      "frame": 2,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 128,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 0,
+        "bytes": 0,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 1,
+      "frame": 3,
+      "moved": true,
+      "before": {
+        "calls": 2,
+        "bytes": 128,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 1,
+        "bytes": 64,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 1,
+      "frame": 4,
+      "moved": true,
+      "before": {
+        "calls": 2,
+        "bytes": 128,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 1,
+        "bytes": 64,
+        "draws": 3,
+        "triangles": 26,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix",
+            "size": 1,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "frame": 0,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "frame": 1,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "frame": 2,
+      "moved": false,
+      "before": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "frame": 3,
+      "moved": true,
+      "before": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      }
+    },
+    {
+      "count": 2,
+      "frame": 4,
+      "moved": true,
+      "before": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      },
+      "after": {
+        "calls": 2,
+        "bytes": 256,
+        "draws": 4,
+        "triangles": 38,
+        "uniforms": [
+          {
+            "name": "directionalShadowMatrix[0]",
+            "size": 2,
+            "type": 35676
+          }
+        ]
+      }
+    }
+  ],
+  "size": [
+    192,
+    128
+  ],
+  "scope": "Actual production shader hook, native Three uniform uploads; zero/one/two shadow lights, static and in-place-mutated matrices. Fixed scene and native shadows. Software correctness/command counts, not Mac timing.",
+  "sourceSha256": "0d22ff7a8ad2e91f27543c28e8e6be68800b7836037be07d56640766193d9fab",
+  "consoleErrors": [],
+  "exactRgb": true,
+  "hashes": {
+    "0-0": "44f60bc62d592f2d249938f80b7a108596c9e249f8b153a5197f1a7c2d3ec0f9",
+    "0-1": "44f60bc62d592f2d249938f80b7a108596c9e249f8b153a5197f1a7c2d3ec0f9",
+    "0-2": "44f60bc62d592f2d249938f80b7a108596c9e249f8b153a5197f1a7c2d3ec0f9",
+    "0-3": "44f60bc62d592f2d249938f80b7a108596c9e249f8b153a5197f1a7c2d3ec0f9",
+    "0-4": "44f60bc62d592f2d249938f80b7a108596c9e249f8b153a5197f1a7c2d3ec0f9",
+    "1-0": "57c19f78206a3e36f0ff3747d7023e69d35ff315a1c5f2fc43d77c3dab054f8a",
+    "1-1": "57c19f78206a3e36f0ff3747d7023e69d35ff315a1c5f2fc43d77c3dab054f8a",
+    "1-2": "57c19f78206a3e36f0ff3747d7023e69d35ff315a1c5f2fc43d77c3dab054f8a",
+    "1-3": "cb7555515eff6d09a0617fb62c0a555c2a3f61219a6c873fbde79d12f6d5dfdd",
+    "1-4": "7bb7da6ada4e61255ae3684bf2f2f0693456d71c319bb7f173b5e4212be6c0f1",
+    "2-0": "017699daefe98862cae2a97d4ca69b97c3e45ffbe028fc93fb5c86c5fd519297",
+    "2-1": "017699daefe98862cae2a97d4ca69b97c3e45ffbe028fc93fb5c86c5fd519297",
+    "2-2": "017699daefe98862cae2a97d4ca69b97c3e45ffbe028fc93fb5c86c5fd519297",
+    "2-3": "7bb427deb74945b29cf896fa52976bcdde387efb93863d19f99a225c0feb8335",
+    "2-4": "016f2bc7a799fa037da66f13fce14a77464486f1ad636c11c53fd2e0ad169d69"
+  },
+  "pass": true
+}

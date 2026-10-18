@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>Single shadow matrix cache</title>
+<script type="module">
+import * as THREE from 'three';
+import {cacheSingleDirectionalShadowMatrix} from '/src/presentation/foliage/singleShadowMatrix.ts';
+try{
+ const R=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});R.setSize(192,128);R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFShadowMap;R.info.autoReset=false;document.body.append(R.domElement);
+ const gl=R.getContext(),names=new WeakMap(),getLocation=gl.getUniformLocation,upload=gl.uniformMatrix4fv;let calls=0,bytes=0;
+ gl.getUniformLocation=function(p,n){const loc=getLocation.call(this,p,n);if(loc)names.set(loc,n);return loc;};
+ gl.uniformMatrix4fv=function(loc,transpose,data,...rest){if(names.get(loc)?.startsWith('directionalShadowMatrix')){calls++;bytes+=data.length*4;}return upload.call(this,loc,transpose,data,...rest);};
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#777d87');scene.add(new THREE.AmbientLight(0xffffff,.4));
+ const lights=[0,1].map(i=>{const l=new THREE.DirectionalLight(0xffffff,2);l.castShadow=true;l.position.set(i?-3:3,5,2);l.shadow.mapSize.set(128,128);Object.assign(l.shadow.camera,{left:-5,right:5,top:5,bottom:-5,near:.1,far:20});scene.add(l);return l;});
+ const camera=new THREE.PerspectiveCamera(50,1.5,.1,100);camera.position.set(4,3,5);camera.lookAt(0,.7,0);camera.updateMatrixWorld();
+ const pairs={};for(const mode of ['before','after'])pairs[mode]=[0x78935b,0x936a46].map(color=>{const m=new THREE.MeshStandardMaterial({color,roughness:1});if(mode==='after'){m.onBeforeCompile=(s)=>{if(!cacheSingleDirectionalShadowMatrix(s,THREE.ShaderChunk))throw Error('Production hook did not apply');};m.customProgramCacheKey=()=> 'single-shadow-matrix-fixture';}return m;});
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(14,14),pairs.before[0]);floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+ const box=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.4,1.4),pairs.before[1]);box.position.y=.7;box.castShadow=box.receiveShadow=true;scene.add(box);
+ const render=(mode,count)=>{floor.material=pairs[mode][0];box.material=pairs[mode][1];calls=bytes=0;R.info.reset();R.render(scene,camera);if(gl.getError()||gl.isContextLost())throw Error('Invalid fixture draw');const program=R.properties.get(floor.material).currentProgram.program;const uniforms=Array.from({length:gl.getProgramParameter(program,gl.ACTIVE_UNIFORMS)},(_,i)=>gl.getActiveUniform(program,i)).filter(u=>u.name.startsWith('directionalShadowMatrix')).map(u=>({name:u.name,size:u.size,type:u.type}));return{calls,bytes,draws:R.info.render.calls,triangles:R.info.render.triangles,uniforms,png:R.domElement.toDataURL()};};
+ window.singleShadowFixture={async run(){const rows=[];for(const count of [0,1,2]){lights.forEach((l,i)=>{l.visible=i<count;l.position.x=i?-3:3;});render('before',count);render('after',count);for(let i=0;i<5;i++){const moved=i>=3;if(moved)lights[0].position.x=3+(i-2)*.7;camera.position.x=4;camera.lookAt(0,.7,0);camera.updateMatrixWorld();const before=render('before',count),after=render('after',count);rows.push({count,frame:i,moved,before,after});}}return{rows,size:[192,128],scope:'Actual production shader hook, native Three uniform uploads; zero/one/two shadow lights, static and in-place-mutated matrices. Fixed scene and native shadows. Software correctness/command counts, not Mac timing.'};}};window.fixtureReady=true;
+}catch(e){window.fixtureError=String(e.stack??e);}
+</script>

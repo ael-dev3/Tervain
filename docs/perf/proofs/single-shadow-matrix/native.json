@@ -1,0 +1,437 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.23",
+      "revision": "e3b81ca"
+    },
+    "nativeBuildLine": "v0.0.23 · e3b81ca · pre-alpha",
+    "size": [
+      640,
+      360
+    ],
+    "samples": 4,
+    "quality": "high",
+    "treeDetailByDistance": false,
+    "materials": 180,
+    "bindings": 180
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "before": {
+        "draws": 280,
+        "triangles": 5224983,
+        "textures": 274,
+        "shadowMatrixCalls": 115,
+        "shadowMatrixBytes": 7360,
+        "allMatrixCalls": 286
+      },
+      "after": {
+        "draws": 280,
+        "triangles": 5224983,
+        "textures": 274,
+        "shadowMatrixCalls": 61,
+        "shadowMatrixBytes": 3904,
+        "allMatrixCalls": 232
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "d1679c6a009a97412c6cb3f6fffde00b53f63db65c0a30ebb96edf7df3d5ee32"
+    },
+    {
+      "frame": 1,
+      "before": {
+        "draws": 283,
+        "triangles": 5258063,
+        "textures": 274,
+        "shadowMatrixCalls": 115,
+        "shadowMatrixBytes": 7360,
+        "allMatrixCalls": 294
+      },
+      "after": {
+        "draws": 283,
+        "triangles": 5258063,
+        "textures": 274,
+        "shadowMatrixCalls": 61,
+        "shadowMatrixBytes": 3904,
+        "allMatrixCalls": 240
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "a6657ab01b4e83da1e2b7073e23209b153b8098e46f295e48a91eee5498ce886"
+    },
+    {
+      "frame": 2,
+      "before": {
+        "draws": 284,
+        "triangles": 5301668,
+        "textures": 274,
+        "shadowMatrixCalls": 115,
+        "shadowMatrixBytes": 7360,
+        "allMatrixCalls": 296
+      },
+      "after": {
+        "draws": 284,
+        "triangles": 5301668,
+        "textures": 274,
+        "shadowMatrixCalls": 61,
+        "shadowMatrixBytes": 3904,
+        "allMatrixCalls": 242
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "75e1b6342893c780c09e6a42e86963a9c4a22d3976f9872be787059cd699fae9"
+    },
+    {
+      "frame": 3,
+      "before": {
+        "draws": 285,
+        "triangles": 5316424,
+        "textures": 274,
+        "shadowMatrixCalls": 115,
+        "shadowMatrixBytes": 7360,
+        "allMatrixCalls": 298
+      },
+      "after": {
+        "draws": 285,
+        "triangles": 5316424,
+        "textures": 274,
+        "shadowMatrixCalls": 61,
+        "shadowMatrixBytes": 3904,
+        "allMatrixCalls": 244
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "018eea62006a8e3d67fcd665ae052785ee6a19f7b3d3ba6db20c38a34487ce8a"
+    },
+    {
+      "frame": 4,
+      "before": {
+        "draws": 284,
+        "triangles": 5316040,
+        "textures": 274,
+        "shadowMatrixCalls": 114,
+        "shadowMatrixBytes": 7296,
+        "allMatrixCalls": 297
+      },
+      "after": {
+        "draws": 284,
+        "triangles": 5316040,
+        "textures": 274,
+        "shadowMatrixCalls": 60,
+        "shadowMatrixBytes": 3840,
+        "allMatrixCalls": 243
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "c06603b4d7b49e4dfa6b5f9e7333a5a45bca380f4546348786a5485b63e72979"
+    }
+  ],
+  "uniforms": [
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "before",
+      "name": "directionalShadowMatrix[0]",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    },
+    {
+      "mode": "after",
+      "name": "directionalShadowMatrix",
+      "size": 1,
+      "type": 35676
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "0d22ff7a8ad2e91f27543c28e8e6be68800b7836037be07d56640766193d9fab",
+  "sortSourceSha256": "3139dfcd01675333266c02d853a768913318f353e694de39545aa50747d2011a",
+  "pass": true,
+  "scope": "Published native High post/MSAA4 forest, five nearby moving forest poses and fixed wind phases; shadows primed per pose then frozen only during pixel comparisons (CPU mode keeps shadow updates on). Actual production helper applied to cloned foliage materials; original opaque sort order retained and checked pixel-exact against native. Restored/before/after RGB exact. Uniform command payload is API input, not measured GPU bus traffic or Mac FPS. No oak/fir attachment or style change."
+}
