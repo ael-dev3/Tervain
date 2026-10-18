@@ -1,0 +1,12 @@
+{
+  "static": {
+    "sameDimensions": true,
+    "changedChannels": 0,
+    "maxDelta": 0
+  },
+  "activeReference": {
+    "sameDimensions": true,
+    "changedChannels": 0,
+    "maxDelta": 0
+  }
+}

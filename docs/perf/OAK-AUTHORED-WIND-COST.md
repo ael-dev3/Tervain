@@ -12,7 +12,7 @@ The measured control reads the existing authored wood field, maps the rebuilt ca
 
 ## Native whole-scene measurements
 
-High, browser 1440×900 at device scale 2; preset-capped render buffer **2160×1350**, MSAA4, ANGLE SwiftShader. Hour 15; wind strength 1, wind time 3, sway time 3. [Separately recorded baseline controls](proofs/oak-authored-wind/baseline-controls.json) were applied explicitly to the reader control. Camera, sun, cloud/grade clocks and wind scroll/direction match. Actors remain fixed.
+High, browser 1440×900 at device scale 2; preset-capped render buffer **2160×1350**, MSAA4, ANGLE SwiftShader. Hour 15; wind strength 1, wind time 3, sway time 3. [Separately recorded baseline controls](proofs/oak-authored-wind/baseline-controls.json) were applied explicitly to the reader control. Camera, sun, cloud/grade clocks and wind scroll/direction match. Actors remain fixed. The captured shot/reduced-motion wind vector has steady push 0.056 and gust strength 0; overriding field strength to 1 executes the wind shaders, but this is a calm-wind comparison, not a full-gust stress run.
 
 Two unmeasured renders warm each pose. Query samples are serial, **8 live / 4 study**, with a completion/readback outside the query. The first attempt timed out and contributes no accepted result. No raster suppression was used. These are **software timer-query milliseconds**, including all native rendering passes and any changed raster coverage, not isolated shader instruction timing or Mac frame pacing. The observed p95 is the maximum at these small sample counts.
 
@@ -35,6 +35,8 @@ Static shader cost is nonzero: the active fallback requires one gust fetch per w
 
 ![Live phase 3](proofs/oak-authored-wind/before.png)
 ![Reader control, phase 3](proofs/oak-authored-wind/after.png)
+
+A fresh native 0.0.27 control at 640×360 finds **0 changed RGB channels** between live and study with wind strength 0. A fresh live active-phase-3 capture also repeats the original live phase-3 frame with **0 changed channels**. These are static/context controls, not pixel identity during intentionally different wind motion. [Control counts](proofs/oak-authored-wind/static-controls.json), [live still](proofs/oak-authored-wind/still-before.png), [study still](proofs/oak-authored-wind/still-after.png).
 
 [Before queries](proofs/oak-authored-wind/before.json), [study queries and field metadata](proofs/oak-authored-wind/after.json), [phase differences](proofs/oak-authored-wind/motion-differences.json). The pixel differences demonstrate the comparison, not visual improvement or unchanged pixels during wind.
 
