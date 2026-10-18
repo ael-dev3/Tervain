@@ -86,3 +86,17 @@ Wall-clock pacing is noise on this machine and is no longer a ship blocker. A ch
 3. A recorded clip at the relevant spot shows no visible regression.
 
 The earlier paired gate (build against live, 4 pairs) is kept as a record: it failed on identical code (build 5.1 % against live 3.55 % over 25 ms; p95 25.1 against 17.2 ms), which is the same noise the A/A run shows.
+## The play gate's rule (from 2026-10-18)
+
+Implemented in `tools/play-gate.mjs` as `--budget-url <live> --head <sha>`. A PASS needs all of:
+
+1. The candidate's draw calls and triangles are not above live, measured at the same spot after the same start (renderer info, four samples that must agree).
+2. No console errors or crashes on either build.
+3. The served revision equals the head under test.
+4. Tests and build pass: CI checks these on the PR head.
+
+Texture taps, shader cost and JS frame CPU are not visible to the page. Each PR posts a cost table in its description, and the gate says so in its output.
+
+Wall-clock pacing (over-25 ms share, p95) is advisory and never decides the result. The A/A band on this machine is 1.7 points (see above), so pacing is shown next to that band, and only a difference over twice the band would count, once the gate measures it in the same run.
+
+Result of the first run of the new gate: see the PR that introduces it.
