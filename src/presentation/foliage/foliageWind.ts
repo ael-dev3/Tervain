@@ -1,3 +1,4 @@
+import { cacheFoliageMoverUniform } from './foliageMoverUniform';
 import * as THREE from 'three';
 import { cacheFoliageShakeUniform, SHAKE_COLUMNS } from './foliageShakeUniform';
 import { GUST_SPAN, SHADER_CLOCK_WRAP, TURBULENCE_SPAN, type GrassWind } from '../grass/wind';
@@ -123,6 +124,7 @@ export function patchFloorPlantVertex(shader: { uniforms: Record<string, THREE.I
   }
 }`);
   cacheFoliageShakeUniform(shader);
+  cacheFoliageMoverUniform(shader);
   return true;
 }
 
@@ -320,5 +322,6 @@ export function patchFoliageVertex(shader: { uniforms: Record<string, THREE.IUni
     .replace('#include <common>', `#include <common>\n${hierarchical ? '#define TV_HIERARCHICAL_WIND\n' : ''}${FOLIAGE_WIND_DECL}${weight ? `\nattribute float ${weight};` : ''}`)
     .replace('#include <begin_vertex>', weight ? patch.replace('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;', `transformed += (transpose(mat3(tvW)) * tvOff) / tvS2 * ${weight};`) : patch);
   cacheFoliageShakeUniform(shader);
+  cacheFoliageMoverUniform(shader);
   return true;
 }
