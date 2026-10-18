@@ -1,0 +1,38 @@
+[
+  {
+    "first": "original",
+    "second": "unfrozen-0",
+    "changedChannels": 389,
+    "maxDelta": 158,
+    "bounds": [
+      499,
+      918,
+      648,
+      924
+    ]
+  },
+  {
+    "first": "unfrozen-0",
+    "second": "unfrozen-1",
+    "changedChannels": 136,
+    "maxDelta": 28,
+    "bounds": [
+      499,
+      918,
+      646,
+      924
+    ]
+  },
+  {
+    "first": "frozen-0",
+    "second": "frozen-1",
+    "changedChannels": 33,
+    "maxDelta": 7,
+    "bounds": [
+      500,
+      918,
+      646,
+      923
+    ]
+  }
+]
