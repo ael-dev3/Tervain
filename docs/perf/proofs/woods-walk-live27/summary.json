@@ -1,0 +1,320 @@
+{
+  "build": {
+    "version": "0.0.27",
+    "revision": "163ee68",
+    "quality": "high",
+    "buffer": [
+      640,
+      360
+    ],
+    "msaa": 4
+  },
+  "route": {
+    "start": [
+      -55,
+      70
+    ],
+    "end": [
+      -255,
+      70
+    ],
+    "lengthMetres": 200,
+    "stepMetres": 1,
+    "presentationStepsPerMetre": 23,
+    "presentationStepSeconds": 0.016666666666666666,
+    "nominalSpeedMetresPerSecond": 2.608695652173913
+  },
+  "complete": true,
+  "metres": 200,
+  "stateSamples": 201,
+  "nativeCheckpoints": 21,
+  "proxyCheckpointMismatches": 0,
+  "consoleErrors": [],
+  "abruptEntryCandidates": {
+    "tree": 0,
+    "grass": 0,
+    "denominatorMetres": 200
+  },
+  "lodHandovers": {
+    "total": 72,
+    "byTransition": {
+      "2 \u2192 1+2": {
+        "count": 32,
+        "minDistance": 89.05316838032525,
+        "maxDistance": 89.95554668496165,
+        "kinds": [
+          "shrub/tree-1521",
+          "shrub/tree-4949"
+        ]
+      },
+      "1 \u2192 0+1": {
+        "count": 10,
+        "minDistance": 33.05920142439473,
+        "maxDistance": 33.96653058697969,
+        "kinds": [
+          "shrub/tree-1521",
+          "shrub/tree-4949"
+        ]
+      },
+      "0+1 \u2192 0": {
+        "count": 9,
+        "minDistance": 21.113747931794038,
+        "maxDistance": 21.967372876889957,
+        "kinds": [
+          "shrub/tree-1521",
+          "shrub/tree-4949"
+        ]
+      },
+      "1+2 \u2192 1": {
+        "count": 21,
+        "minDistance": 59.047689417727064,
+        "maxDistance": 59.97935448800818,
+        "kinds": [
+          "shrub/tree-1521",
+          "shrub/tree-4949"
+        ]
+      }
+    }
+  },
+  "presentationUpdateWallMs": {
+    "count": 4600,
+    "mean": 0.31045652179290417,
+    "p50": 0.20000000298023224,
+    "p95": 0.7000000029802322,
+    "p99": 1.6000000014901161,
+    "max": 22.700000002980232,
+    "over25": 0,
+    "worst": [
+      {
+        "batchEndMetre": 80,
+        "estimatedSubstepMetre": 79.08695652173913,
+        "x": -134.08695652173913,
+        "z": 70,
+        "updateMs": 22.700000002980232,
+        "dominantModuleInBatch": {
+          "name": "groundcover",
+          "calls": 23,
+          "sumMs": 23.700000002980232,
+          "maxMs": 21.899999998509884
+        }
+      },
+      {
+        "batchEndMetre": 42,
+        "estimatedSubstepMetre": 41.04347826086956,
+        "x": -96.04347826086956,
+        "z": 70,
+        "updateMs": 5.600000001490116,
+        "dominantModuleInBatch": {
+          "name": "forest",
+          "calls": 23,
+          "sumMs": 8.299999989569187,
+          "maxMs": 3.399999998509884
+        }
+      },
+      {
+        "batchEndMetre": 96,
+        "estimatedSubstepMetre": 95.08695652173913,
+        "x": -150.08695652173913,
+        "z": 70,
+        "updateMs": 4.700000002980232,
+        "dominantModuleInBatch": {
+          "name": "groundcover",
+          "calls": 23,
+          "sumMs": 9.000000029802322,
+          "maxMs": 3.5
+        }
+      },
+      {
+        "batchEndMetre": 145,
+        "estimatedSubstepMetre": 144.1304347826087,
+        "x": -199.1304347826087,
+        "z": 70,
+        "updateMs": 4.299999997019768,
+        "dominantModuleInBatch": {
+          "name": "groundcover",
+          "calls": 23,
+          "sumMs": 5.800000004470348,
+          "maxMs": 4.100000001490116
+        }
+      },
+      {
+        "batchEndMetre": 1,
+        "estimatedSubstepMetre": 0.043478260869565216,
+        "x": -55.04347826086956,
+        "z": 70,
+        "updateMs": 4.100000001490116,
+        "dominantModuleInBatch": {
+          "name": "groundcover",
+          "calls": 23,
+          "sumMs": 22.69999998807907,
+          "maxMs": 2.5
+        }
+      }
+    ]
+  },
+  "initialPlacement": {
+    "maxUpdateMs": 27.899999998509884,
+    "dominantModule": {
+      "name": "groundcover",
+      "calls": 23,
+      "sumMs": 85.80000001192093,
+      "maxMs": 23.600000001490116
+    }
+  },
+  "gpuQueryMs": {
+    "min": 2323.117285,
+    "max": 14556.076876,
+    "rows": [
+      {
+        "metre": 0,
+        "ms": 14556.076876,
+        "draws": 579,
+        "triangles": 8377809,
+        "uploadBytes": 16207414
+      },
+      {
+        "metre": 10,
+        "ms": 12523.660253,
+        "draws": 587,
+        "triangles": 8106606,
+        "uploadBytes": 476188
+      },
+      {
+        "metre": 20,
+        "ms": 11719.654462,
+        "draws": 548,
+        "triangles": 7585244,
+        "uploadBytes": 654096
+      },
+      {
+        "metre": 30,
+        "ms": 10296.874766,
+        "draws": 540,
+        "triangles": 7389107,
+        "uploadBytes": 828188
+      },
+      {
+        "metre": 40,
+        "ms": 9894.220138,
+        "draws": 519,
+        "triangles": 6714220,
+        "uploadBytes": 694840
+      },
+      {
+        "metre": 50,
+        "ms": 9079.353429,
+        "draws": 496,
+        "triangles": 6135805,
+        "uploadBytes": 703472
+      },
+      {
+        "metre": 60,
+        "ms": 8066.073397,
+        "draws": 485,
+        "triangles": 5335083,
+        "uploadBytes": 804500
+      },
+      {
+        "metre": 70,
+        "ms": 7220.476808,
+        "draws": 468,
+        "triangles": 4797842,
+        "uploadBytes": 245948
+      },
+      {
+        "metre": 80,
+        "ms": 6247.322885,
+        "draws": 440,
+        "triangles": 4380191,
+        "uploadBytes": 905184
+      },
+      {
+        "metre": 90,
+        "ms": 5638.298166,
+        "draws": 426,
+        "triangles": 3947505,
+        "uploadBytes": 598132
+      },
+      {
+        "metre": 100,
+        "ms": 5164.323625,
+        "draws": 420,
+        "triangles": 3593292,
+        "uploadBytes": 400388
+      },
+      {
+        "metre": 110,
+        "ms": 4690.553608,
+        "draws": 413,
+        "triangles": 3600361,
+        "uploadBytes": 805520
+      },
+      {
+        "metre": 120,
+        "ms": 4182.355577,
+        "draws": 397,
+        "triangles": 3156716,
+        "uploadBytes": 211004
+      },
+      {
+        "metre": 130,
+        "ms": 4244.184546,
+        "draws": 374,
+        "triangles": 3166564,
+        "uploadBytes": 551508
+      },
+      {
+        "metre": 140,
+        "ms": 4047.947398,
+        "draws": 363,
+        "triangles": 3047454,
+        "uploadBytes": 154120
+      },
+      {
+        "metre": 150,
+        "ms": 3860.054075,
+        "draws": 337,
+        "triangles": 2937331,
+        "uploadBytes": 384896
+      },
+      {
+        "metre": 160,
+        "ms": 3265.368346,
+        "draws": 317,
+        "triangles": 2762182,
+        "uploadBytes": 695748
+      },
+      {
+        "metre": 170,
+        "ms": 3065.246995,
+        "draws": 307,
+        "triangles": 2615159,
+        "uploadBytes": 195320
+      },
+      {
+        "metre": 180,
+        "ms": 2831.546107,
+        "draws": 286,
+        "triangles": 2373226,
+        "uploadBytes": 383112
+      },
+      {
+        "metre": 190,
+        "ms": 2752.432828,
+        "draws": 265,
+        "triangles": 2161125,
+        "uploadBytes": 215352
+      },
+      {
+        "metre": 200,
+        "ms": 2323.117285,
+        "draws": 255,
+        "triangles": 1798689,
+        "uploadBytes": 73928
+      }
+    ]
+  },
+  "shaderLinksAfterLoad": 0,
+  "sourceUploadBytesSampledSchedule": 26188858,
+  "scope": "Collection checks only, not visual-quality or 60 Hz hardware PASS. Entry counts are packed-state proxy candidates, corroborated at native checkpoints. Initial placement excluded from traversal update statistics. Whole App frame CPU, physics/input walking, inter-checkpoint GPU stalls and strict grass specks are not measured."
+}

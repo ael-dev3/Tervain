@@ -1,0 +1,14 @@
+{
+  "valid": {
+    "exit": 0,
+    "expected": 0
+  },
+  "missingSample": {
+    "exit": 1,
+    "expected": 1
+  },
+  "mismatchedCheckpoint": {
+    "exit": 1,
+    "expected": 1
+  }
+}
