@@ -1,0 +1,106 @@
+{
+  "measurementBuild": {
+    "version": "0.0.25",
+    "revision": "bd30438"
+  },
+  "options": {
+    "lod": 0,
+    "alpha": false,
+    "gap": 0.75,
+    "woodReach": 1.5,
+    "maxOperations": 500000000
+  },
+  "tree": {
+    "label": "tree:orchard:0:2",
+    "species": "orchard",
+    "lod": 0,
+    "kind": "orchard/tree-4815",
+    "missingWood": false,
+    "leafless": false,
+    "components": 5674,
+    "chunks": 1,
+    "detachedCards": 298,
+    "detachedClumps": 1,
+    "maxWoodGap": null,
+    "candidates": []
+  },
+  "position": [
+    -49.971630191779695,
+    0.11509189244286738,
+    30.661973488004875
+  ],
+  "rootLods": [
+    {
+      "lod": 0,
+      "complete": true,
+      "summary": {
+        "checks": 451,
+        "roots": 451,
+        "props": 0,
+        "candidates": 0,
+        "rootCoverage": {
+          "samples": 5559,
+          "unsupportedSamples": 0,
+          "rootsWithUnsupportedSamples": 0,
+          "supportedFraction": 1,
+          "maxGap": -0.06786542372834248
+        }
+      }
+    },
+    {
+      "lod": 1,
+      "complete": true,
+      "summary": {
+        "checks": 451,
+        "roots": 451,
+        "props": 0,
+        "candidates": 0,
+        "rootCoverage": {
+          "samples": 5574,
+          "unsupportedSamples": 0,
+          "rootsWithUnsupportedSamples": 0,
+          "supportedFraction": 1,
+          "maxGap": -0.0668306358518258
+        }
+      }
+    },
+    {
+      "lod": 2,
+      "complete": true,
+      "summary": {
+        "checks": 451,
+        "roots": 451,
+        "props": 0,
+        "candidates": 0,
+        "rootCoverage": {
+          "samples": 4870,
+          "unsupportedSamples": 0,
+          "rootsWithUnsupportedSamples": 0,
+          "supportedFraction": 1,
+          "maxGap": -0.02864822970508918
+        }
+      }
+    }
+  ],
+  "views": {
+    "endpointAtCapture": {
+      "version": "0.0.26",
+      "revision": "03d82c3"
+    },
+    "loadedModuleRevisionRetained": false,
+    "hour": 15,
+    "quality": "high",
+    "cameraOffsets": {
+      "radius": 12,
+      "eyeHeight": 4,
+      "lookHeight": 5,
+      "anglesRadians": [
+        0,
+        2.094,
+        4.188
+      ]
+    },
+    "scope": "Inspection views collected during a deployment; endpoint revision is not proof of the loaded module revision. Not a matched release comparison. The middle view is occluded by a neighbouring crown."
+  },
+  "scope": "Read-only rest-geometry audit plus native post/MSAA inspection views; no tree edits or visual-quality pass. Detached components are welded leaf components, not guaranteed authored cards."
+}
