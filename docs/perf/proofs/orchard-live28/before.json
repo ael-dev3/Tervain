@@ -1,0 +1,278 @@
+{
+  "setup": {
+    "version": "0.0.27",
+    "revision": "163ee68",
+    "viewport": [
+      1470,
+      956,
+      2
+    ],
+    "buffer": [
+      2205,
+      1434
+    ],
+    "settings": {
+      "textScale": 1,
+      "reducedMotion": true,
+      "highContrast": false,
+      "reduceEffects": false,
+      "brightness": 1,
+      "quality": "high",
+      "guidance": true,
+      "showFps": false,
+      "frameCap60": true,
+      "dynamicResolution": true,
+      "treeDetailByDistance": false,
+      "barks": true,
+      "captions": true,
+      "mouseSensitivity": 1,
+      "invertY": false,
+      "toggleSprint": false,
+      "toggleBlock": false,
+      "volumes": {
+        "master": 0.8,
+        "music": 0.55,
+        "effects": 0.8,
+        "ambience": 0.7,
+        "dialogue": 0.8
+      },
+      "bindings": {
+        "forward": [
+          "KeyW",
+          "ArrowUp"
+        ],
+        "back": [
+          "KeyS",
+          "ArrowDown"
+        ],
+        "left": [
+          "KeyA",
+          "ArrowLeft"
+        ],
+        "right": [
+          "KeyD",
+          "ArrowRight"
+        ],
+        "sprint": [
+          "ShiftLeft"
+        ],
+        "jump": [
+          "Space"
+        ],
+        "interact": [
+          "KeyE"
+        ],
+        "skin": [
+          "KeyV"
+        ],
+        "grab": [
+          "KeyF"
+        ],
+        "throw": [
+          "KeyR"
+        ],
+        "attack": [
+          "Mouse0",
+          "KeyJ"
+        ],
+        "heavy": [
+          "KeyK"
+        ],
+        "block": [
+          "Mouse2",
+          "KeyL"
+        ],
+        "dodge": [
+          "KeyQ"
+        ],
+        "heal": [
+          "KeyH"
+        ],
+        "journal": [
+          "Tab"
+        ],
+        "map": [
+          "KeyM"
+        ],
+        "inventory": [
+          "KeyI"
+        ],
+        "camLeft": [
+          "KeyZ"
+        ],
+        "camRight": [
+          "KeyC"
+        ],
+        "quicksave": [
+          "F5"
+        ],
+        "quickload": [
+          "F9"
+        ],
+        "pause": [
+          "Escape"
+        ]
+      }
+    },
+    "targets": [
+      {
+        "label": "tree:orchard:0:0",
+        "species": "orchard",
+        "position": [
+          -50.13987142487895,
+          0.2601112538322758,
+          19.78294701257255
+        ]
+      },
+      {
+        "label": "tree:orchard:0:2",
+        "species": "orchard",
+        "position": [
+          -49.971630191779695,
+          0.11509189244286738,
+          30.661973488004875
+        ]
+      },
+      {
+        "label": "tree:orchard:1:0",
+        "species": "orchard",
+        "position": [
+          -44.744189882208595,
+          0.40703954433758993,
+          19.834065158152953
+        ]
+      }
+    ]
+  },
+  "renders": [
+    {
+      "label": "tree:orchard:0:0",
+      "camera": [
+        -50.13987142487895,
+        4.260111253832275,
+        31.78294701257255
+      ],
+      "warm": {
+        "frame": 190,
+        "calls": 470,
+        "triangles": 7213608,
+        "points": 3284,
+        "lines": 0
+      },
+      "render": {
+        "frame": 197,
+        "calls": 338,
+        "triangles": 5434979,
+        "points": 1642,
+        "lines": 0
+      },
+      "submissionMs": 5.200000002980232
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "camera": [
+        -49.971630191779695,
+        4.115091892442868,
+        42.661973488004875
+      ],
+      "warm": {
+        "frame": 205,
+        "calls": 494,
+        "triangles": 7634987,
+        "points": 3284,
+        "lines": 0
+      },
+      "render": {
+        "frame": 212,
+        "calls": 351,
+        "triangles": 5668810,
+        "points": 1642,
+        "lines": 0
+      },
+      "submissionMs": 7.699999995529652
+    },
+    {
+      "label": "tree:orchard:1:0",
+      "camera": [
+        -44.744189882208595,
+        4.40703954433759,
+        31.834065158152953
+      ],
+      "warm": {
+        "frame": 220,
+        "calls": 480,
+        "triangles": 7146669,
+        "points": 3284,
+        "lines": 0
+      },
+      "render": {
+        "frame": 227,
+        "calls": 343,
+        "triangles": 5360694,
+        "points": 1642,
+        "lines": 0
+      },
+      "submissionMs": 4.899999998509884
+    }
+  ],
+  "complete": true,
+  "operations": 12735229,
+  "summary": {
+    "trees": 451,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 721265,
+    "chunks": 459,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 9877,
+    "detachedClumps": 724,
+    "treesWithDetached": 129
+  },
+  "trees": [
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 0,
+      "kind": "orchard/tree-4949",
+      "missingWood": false,
+      "leafless": false,
+      "components": 5901,
+      "chunks": 1,
+      "detachedCards": 34,
+      "detachedClumps": 8,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 0,
+      "kind": "orchard/tree-4815",
+      "missingWood": false,
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "detachedCards": 298,
+      "detachedClumps": 1,
+      "maxWoodGap": null,
+      "candidates": []
+    },
+    {
+      "label": "tree:orchard:1:0",
+      "species": "orchard",
+      "lod": 0,
+      "kind": "orchard/tree-4815",
+      "missingWood": false,
+      "leafless": false,
+      "components": 5674,
+      "chunks": 1,
+      "detachedCards": 75,
+      "detachedClumps": 1,
+      "maxWoodGap": null,
+      "candidates": []
+    }
+  ],
+  "errors": [],
+  "console": []
+}
