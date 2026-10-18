@@ -6,6 +6,18 @@ export function smoothDistanceFade(distance: number, start: number, end: number)
   return 1 - t * t * (3 - 2 * t);
 }
 
+/** Skip square roots in constant-coverage regions; retain the original fade in its transition.
+ * A micrometre boundary guard sends threshold-rounding cases through the original calculation. */
+export function createPlanarDistanceFade(start: number, end: number): (x: number, z: number) => number {
+  const full2 = Math.max(0, start - 1e-6) ** 2, hidden2 = (end + 1e-6) ** 2;
+  return (x, z) => {
+    const distance2 = x * x + z * z;
+    if (distance2 <= full2) return 1;
+    if (distance2 >= hidden2) return 0;
+    return smoothDistanceFade(Math.hypot(x, z), start, end);
+  };
+}
+
 /** B11: a pattern fixed to the world, not the screen, shared by both LODs and the depth/shadow passes. Cells are
  * cubes about one pixel across (the power of two nearest the pixel's footprint); between two sizes each coarse cell
  * picks its own size by a second stable hash, so moving nearer splits cells one at a time instead of re-rolling the
