@@ -1,0 +1,285 @@
+{
+  "rows": [
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 0,
+      "ms": 45.332987,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 0,
+      "ms": 61.425718,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 1,
+      "ms": 60.164102,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 1,
+      "ms": 25.565357,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 2,
+      "ms": 24.487924,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 2,
+      "ms": 61.192513,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 3,
+      "ms": 60.074589,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 3,
+      "ms": 25.033561,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 4,
+      "ms": 25.315878,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 4,
+      "ms": 60.608049,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 5,
+      "ms": 63.10932,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 5,
+      "ms": 26.831541,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 6,
+      "ms": 24.795037,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 6,
+      "ms": 72.417853,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 0,
+      "ms": 28.207698,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 0,
+      "ms": 61.509119,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 1,
+      "ms": 61.348398,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 1,
+      "ms": 24.799913,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 2,
+      "ms": 26.003344,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 2,
+      "ms": 62.229342,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 3,
+      "ms": 60.751315,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 3,
+      "ms": 25.363447,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 4,
+      "ms": 24.792272,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 4,
+      "ms": 60.162414,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 5,
+      "ms": 67.0946,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 5,
+      "ms": 29.883544,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 6,
+      "ms": 35.359847,
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 6,
+      "ms": 83.32177,
+      "draws": 1,
+      "triangles": 256
+    }
+  ],
+  "instances": 128,
+  "size": [
+    128,
+    128
+  ],
+  "programs": 2,
+  "scope": "Actual production hooks, one instanced draw of 128 overlapping opaque planes with depth testing disabled. Partial interval [0,0.5), full interval [0,1); shared radius 150 m. No texture samples. Alternating A/B order; warmed programs. Elapsed query includes the tiny submission interval, not isolated hardware ISA timing or a native forest frame. Software renderer, not Apple GPU.",
+  "summary": [
+    {
+      "mode": "before",
+      "partial": false,
+      "samples": 7,
+      "medianMs": 25.315878,
+      "p95Ms": 45.332987,
+      "averageMs": 28.194612142857146
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "samples": 7,
+      "medianMs": 61.192513,
+      "p95Ms": 72.417853,
+      "averageMs": 62.71316342857143
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "samples": 7,
+      "medianMs": 26.003344,
+      "p95Ms": 35.359847,
+      "averageMs": 27.77286642857143
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "samples": 7,
+      "medianMs": 61.509119,
+      "p95Ms": 83.32177,
+      "averageMs": 65.20242257142857
+    }
+  ],
+  "sourceHashes": {
+    "before": {
+      "vertex": "ad56fd5b814aee1a82e0b8d9497020a865adbd96257657cc1ce9d2d8a1b48818",
+      "fragment": "43c0bd7c77504496ecb4fa676a233056f400007ee5e4629a367f8b72d94fa26a"
+    },
+    "after": {
+      "vertex": "758f3c30b58887d73d3d784e18b71c41619f787136c0a63e897e4491a2de30c2",
+      "fragment": "4a3e5efe13b3f9070db869a6134ee01d0c2498dd349ceec4f69ebf97299835ad"
+    }
+  },
+  "baseline": {
+    "ref": "1743c9484",
+    "sha256": "406ee14ba58aa9e71c047cc1630c8a163bba0fce55aecb7546cf3d8830a88089"
+  },
+  "candidateSha256": "b0c33b8728b147464161f88489e74d4a1d246285467a483a65a8e0a95cb0d5db",
+  "collectionValid": true
+}

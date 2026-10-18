@@ -1,5 +1,7 @@
 # Complementary tree LOD pixel masks
 
+**Cost hold:** the [fresh CPU and shader measurements](CROWN-LOD-COST.md) do not clear the no-increase gate. The scoped CPU replay is higher and the focused software shader benchmark regresses twice. Older correctness captures below do not certify current cost.
+
 Published **0.0.22 · d40777b** samples each LOD's fade noise at its own surface position and derivatives. Different-depth geometry therefore receives different samples at the same pixel. Complementary intervals can leave holes or keep both levels.
 
 This matters during partial fades, including Medium and High with distance detail enabled. Complete High intervals do not explain general camera-motion shimmer.
