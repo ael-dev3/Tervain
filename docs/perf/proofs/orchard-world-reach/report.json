@@ -1,0 +1,361 @@
+{
+  "revision": "30d1f0d",
+  "quality": "high",
+  "buffer": [
+    640,
+    360
+  ],
+  "samples": 4,
+  "beforeAudit": {
+    "summary": {
+      "trees": 451,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 719306,
+      "chunks": 459,
+      "candidates": 0,
+      "woodReach": 1.5,
+      "detachedCards": 9167,
+      "detachedClumps": 698,
+      "treesWithDetached": 124
+    },
+    "trees": [
+      {
+        "label": "tree:orchard:0:0",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5662,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:1:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5662,
+        "chunks": 1,
+        "detachedCards": 6,
+        "detachedClumps": 2,
+        "maxWoodGap": 1.50918298802033,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:2:1",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5662,
+        "chunks": 1,
+        "detachedCards": 57,
+        "detachedClumps": 1,
+        "maxWoodGap": 1.610339211309058,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:4:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5662,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:4:5",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5662,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:0:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5483,
+        "chunks": 1,
+        "detachedCards": 143,
+        "detachedClumps": 1,
+        "maxWoodGap": 1.684816507556513,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:1:0",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5483,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:3:1",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5483,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:3:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5483,
+        "chunks": 1,
+        "detachedCards": 33,
+        "detachedClumps": 1,
+        "maxWoodGap": 1.570952710334263,
+        "candidates": []
+      }
+    ]
+  },
+  "afterAudit": {
+    "summary": {
+      "trees": 451,
+      "missingWood": 0,
+      "leafless": 0,
+      "components": 717630,
+      "chunks": 459,
+      "candidates": 0,
+      "woodReach": 1.5,
+      "detachedCards": 8928,
+      "detachedClumps": 693,
+      "treesWithDetached": 120
+    },
+    "trees": [
+      {
+        "label": "tree:orchard:0:0",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5486,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:1:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5486,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:2:1",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5486,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:4:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5486,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:4:5",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4949",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5486,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:0:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5284,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:1:0",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5284,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:3:1",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5284,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      },
+      {
+        "label": "tree:orchard:3:2",
+        "species": "orchard",
+        "lod": 0,
+        "kind": "orchard/tree-4815",
+        "missingWood": false,
+        "leafless": false,
+        "components": 5284,
+        "chunks": 1,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "maxWoodGap": 0,
+        "candidates": []
+      }
+    ]
+  },
+  "masks": [
+    {
+      "labels": [
+        "tree:orchard:0:0",
+        "tree:orchard:1:2",
+        "tree:orchard:2:1",
+        "tree:orchard:4:2",
+        "tree:orchard:4:5"
+      ],
+      "removed": 176,
+      "loadMs": 197.94562500000757,
+      "beforeTriangles": 11324,
+      "afterTriangles": 10972
+    },
+    {
+      "labels": [
+        "tree:orchard:0:2",
+        "tree:orchard:1:0",
+        "tree:orchard:3:1",
+        "tree:orchard:3:2"
+      ],
+      "removed": 199,
+      "loadMs": 113.8650859999907,
+      "beforeTriangles": 10966,
+      "afterTriangles": 10568
+    }
+  ],
+  "comparison": [
+    {
+      "label": "tree:orchard:0:2",
+      "before": {
+        "frame": 189,
+        "calls": 359,
+        "triangles": 5867518,
+        "points": 1642,
+        "lines": 0
+      },
+      "after": {
+        "frame": 203,
+        "calls": 359,
+        "triangles": 5860768,
+        "points": 1642,
+        "lines": 0
+      },
+      "changedRGBChannels": 71106
+    },
+    {
+      "label": "forest-control",
+      "before": {
+        "frame": 217,
+        "calls": 404,
+        "triangles": 6872757,
+        "points": 1786,
+        "lines": 0
+      },
+      "after": {
+        "frame": 231,
+        "calls": 404,
+        "triangles": 6866053,
+        "points": 1786,
+        "lines": 0
+      },
+      "changedRGBChannels": 0
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "scope": "Full native live 0.0.28 renders with the exact candidate cull computed on its registered orchard geometries then applied as index-only masks to colour/depth and every derived shadow geometry sharing the source index. Candidate indices and surviving per-vertex arrays independently match the actual compiled c1f5359 export. Only initial loading draws were suppressed; native raster methods were restored before setup, and all recorded warm and measured renders use native draws. Each view updates the world selection once before its adjacent before/after pair, with no world update between the pair. Production wiring has separate tests/build; this is a controlled geometry adapter, not two binary comparison. LoadMs is one instrumented Node software source run, not frame CPU or Apple GPU time."
+}

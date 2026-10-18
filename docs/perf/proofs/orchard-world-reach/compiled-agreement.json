@@ -1,0 +1,27 @@
+{
+  "revision": "c1f5359",
+  "groups": [
+    {
+      "labels": [
+        "tree:orchard:0:0",
+        "tree:orchard:1:2",
+        "tree:orchard:2:1",
+        "tree:orchard:4:2",
+        "tree:orchard:4:5"
+      ],
+      "indicesMatch": true,
+      "survivingAttributesMatch": true
+    },
+    {
+      "labels": [
+        "tree:orchard:0:2",
+        "tree:orchard:1:0",
+        "tree:orchard:3:1",
+        "tree:orchard:3:2"
+      ],
+      "indicesMatch": true,
+      "survivingAttributesMatch": true
+    }
+  ],
+  "allNineAuditCountsMatch": true
+}
