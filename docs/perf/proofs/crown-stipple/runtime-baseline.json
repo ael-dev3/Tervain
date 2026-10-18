@@ -1,0 +1,20 @@
+{
+  "baseline": "d40777b71c0e7b1a0581a4382a6f4020e136def8",
+  "candidate": "3b96485f21a053c523d4c9c7e8f1af1a2aa18ee2",
+  "runtimeFilesChanged": [
+    "src/presentation/foliage/foliageMaterial.ts"
+  ],
+  "baselineShaderSha256": "9cf310daf2e8be94bb20d653cec7b1b981b5efcd32e7629b3bbadf8e2e0291d5",
+  "candidateShaderSha256": "82b629abcd39d538557cf013763bf0c886fe5392afbc443ba1716c6fe316cee3",
+  "assertions": {
+    "geometryAndCullingSourcesIdentical": true,
+    "onlyStippleAndProgramKeyChanged": true
+  },
+  "shaderCost": {
+    "addedTextureInstructions": 0,
+    "addedSmoothstep": 1,
+    "note": "Additional scaling/subtraction ALU; compiled instruction count and hardware cost are not measured."
+  },
+  "scope": "Committed runtime source comparison. Does not replace matched rendered counts or motion evidence.",
+  "pass": true
+}

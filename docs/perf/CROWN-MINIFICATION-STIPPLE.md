@@ -53,3 +53,46 @@ node tools/encode-crown-stipple-proof.mjs crown-proof
 A GPU-capable browser can use `--headed 1`; the source path still uses a synthetic cadence and does not measure hardware frame pacing. The motion command defaults to Pages; `--url` selects a served build, and `--native after` asserts the candidate rather than baseline is already native there. For an unmodified compiled build, serve the production output and run `tools/check-compiled-crown-stipple.mjs` with its URL and an output directory.
 
 Hardware play/video verification, broad forest coverage and sustained 60 fps remain **pending**. No hardware FPS or GPU timing is inferred from software rendering.
+
+## Aligning the deterministic comparison with live
+
+The rejected head `d00f183` predates five runtime-file updates in published
+`d40777b`, including faded grass-tail trimming and tighter ocean culling. The
+reported +8,142 triangles therefore compared different geometry/culling source
+implementations, rather than isolating the stipple change. This identifies a
+comparison defect; it does not assign that exact count to a particular mesh.
+
+The branch now incorporates `d40777b`. Only `foliageMaterial.ts` differs under
+`src`, and its differences are restricted to the stipple expression and shader
+cache key. [Committed-source receipt](proofs/crown-stipple/runtime-baseline.json).
+Run `node tools/check-crown-runtime-baseline.mjs d40777b HEAD runtime-baseline.json`
+to enforce this comparison. Unexpected runtime changes fail and remove any old
+output receipt; a regression test exercises that stale-result case.
+
+The fragment change adds **one smoothstep and scaling/subtraction arithmetic**,
+with **zero added texture instructions**, passes, uniforms, attributes or runtime
+JS work. Its justification is the matched motion improvement above. Compiled
+instruction count and GPU latency remain unmeasured: this is an explicit small
+shader-cost tradeoff, not a zero-cost claim.
+
+A fresh **published `d40777b`** native post/MSAA replay has five samples on each
+route (0.173 m walk with a camera turn, fixed wind/lighting). Every paired render
+has identical draws, triangles and texture counts; native, inactive, stationary
+and restored controls pass. Shared-reference motion scoring gives:
+
+| Route | Draws, both | Triangles, both | Bright residuals before → after |
+| --- | ---: | ---: | ---: |
+| Forest | 280–285 | 5,340,939–5,384,378 | 4.9820% → 4.4753% (−10.17%) |
+| Far fir | 334–335 | 7,069,727–7,071,698 | 2.3501% → 1.7474% (−25.64%) |
+
+[Fresh receipt](proofs/crown-stipple/aligned-live/report.json),
+[shared-reference scores](proofs/crown-stipple/aligned-live/paired-metrics.json),
+[forest clip](proofs/crown-stipple/aligned-live/forest/motion-preview.mp4),
+[far-tree clip](proofs/crown-stipple/aligned-live/far-fir/motion-preview.mp4).
+Both lossless clips decode exactly to the source RGB crops:
+[verification](proofs/crown-stipple/aligned-live/video-verification.json).
+This isolates the shader on the live renderer; it does not recreate the unknown
+snapshot behind the earlier +8,142 count. The branch's geometry/culling sources
+are now exactly live's. **30 targeted tests and production build pass** after
+alignment. Hardware timing and acceptance of the explicit shader ALU tradeoff
+remain separate from these deterministic counts.
