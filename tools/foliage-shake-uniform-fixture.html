@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0}</style></head><body><script type="module">
+import * as THREE from 'three';
+import {createFoliageField,FOLIAGE_RESPONSE} from '/src/presentation/foliage/foliageWind.ts';
+import {installFoliage,installFoliageShadow} from '/src/presentation/foliage/foliageMaterial.ts';
+import {GrassWind} from '/src/presentation/grass/wind.ts';
+import {REALM_WIND} from '/src/presentation/realmWind.ts';
+try {
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(256,192);document.body.append(renderer.domElement);
+renderer.info.autoReset=false;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
+const gl=renderer.getContext(),names=new WeakMap(),location=gl.getUniformLocation,uniform4=gl.uniform4fv,uniformMatrix=gl.uniformMatrix4fv;
+let state={calls:0,bytes:0,words:[]};
+gl.getUniformLocation=function(p,n){const v=location.call(this,p,n);if(v)names.set(v,n);return v;};
+const count=(loc,data)=>{if(names.get(loc)?.startsWith('uFoliageShakes')){state.calls++;state.bytes+=data.length*4;state.words.push(Array.from(data));}};
+gl.uniform4fv=function(loc,data,...rest){count(loc,data);return uniform4.call(this,loc,data,...rest);};
+gl.uniformMatrix4fv=function(loc,transpose,data,...rest){count(loc,data);return uniformMatrix.call(this,loc,transpose,data,...rest);};
+const field=createFoliageField(new GrassWind(REALM_WIND)),camera=new THREE.PerspectiveCamera(45,256/192,.1,30);camera.position.set(3,2.5,4);camera.lookAt(0,.55,0);
+const geometry=new THREE.BoxGeometry(.16,1.6,.18,1,12,1);geometry.translate(0,.8,0);
+const patch=(m,mode,shadow=false)=>{
+ const options={field,response:FOLIAGE_RESPONSE.conifer,leaf:true};if(shadow)installFoliageShadow(m,options);else installFoliage(m,options);
+ const hook=m.onBeforeCompile,key=m.customProgramCacheKey;
+ m.onBeforeCompile=function(s,r){hook.call(this,s,r);if(mode==='before'){if(!s.vertexShader.includes('uniform mat4 uFoliageShakes;'))throw Error('Matrix patch missing');s.vertexShader=s.vertexShader.replace('uniform mat4 uFoliageShakes;','uniform vec4 uFoliageShakes[4];');s.uniforms.uFoliageShakes=field.shakes;}};
+ m.customProgramCacheKey=function(){return key.call(this)+'|shake-proof-'+mode;};
+};
+const scenes={};
+for(const mode of ['before','after']){
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#aabfc4');scene.add(new THREE.HemisphereLight('#fff4db','#42534b',2));
+ const sun=new THREE.DirectionalLight('#fff1cd',3);sun.position.set(-2,4,2);sun.castShadow=true;sun.shadow.mapSize.set(256,256);sun.shadow.camera.left=sun.shadow.camera.bottom=-3;sun.shadow.camera.right=sun.shadow.camera.top=3;sun.shadow.camera.far=15;scene.add(sun);
+ const depth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});patch(depth,mode,true);
+ for(const [x,z]of [[-.6,-.5],[.6,-.5],[-.6,.5],[.6,.5]]){const material=new THREE.MeshStandardMaterial({color:'#527244',roughness:1});patch(material,mode);const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,0,z);mesh.castShadow=mesh.receiveShadow=true;mesh.customDepthMaterial=depth;scene.add(mesh);}
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(8,8),new THREE.MeshStandardMaterial({color:'#78694b',roughness:1}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);scenes[mode]=scene;
+}
+const expected=()=>Array.from(new Float32Array(field.shakes.value.flatMap(s=>s.toArray())));
+const capture=mode=>{state={calls:0,bytes:0,words:[]};renderer.info.reset();renderer.render(scenes[mode],camera);const error=gl.getError();if(error||gl.isContextLost())throw Error('Invalid fixture draw '+error);for(const words of state.words)if(JSON.stringify(words)!==JSON.stringify(expected()))throw Error('GPU shake words changed');return{...state,draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,png:renderer.domElement.toDataURL()};};
+window.shakeFixture={run(){
+ field.wind.uniforms.uGrassTime.value=.75;capture('before');capture('after');
+ const rows=[];
+ for(let frame=0;frame<8;frame++){
+  let changed=false;
+  if(frame===2){field.shakes.value[0].set(-.6,-.5,.25,.95);changed=true;}
+  if(frame===3){for(let i=0;i<4;i++){const p=[[-.6,-.5],[.6,-.5],[-.6,.5],[.6,.5]][i];field.shakes.value[i].set(p[0],p[1],.4+i*.1,.4+i*.15);}changed=true;}
+  if(frame===4){for(const slot of field.shakes.value)slot.w=0;changed=true;}
+  if(frame===6){field.shakes.value=field.shakes.value.map((slot,i)=>slot.clone().set(slot.x,slot.y,.65,i===2?.9:0));changed=true;}
+  field.wind.uniforms.uGrassTime.value=.75+frame/60;
+  const data={};for(const mode of frame%2?['after','before']:['before','after'])data[mode]=capture(mode);
+  rows.push({frame,changed,expectedWords:expected(),...data});
+ }
+ const uniforms=[];for(const p of renderer.info.programs){const program=p.program;for(let i=0;i<gl.getProgramParameter(program,gl.ACTIVE_UNIFORMS);i++){const u=gl.getActiveUniform(program,i);if(u.name.startsWith('uFoliageShakes'))uniforms.push({name:u.name,size:u.size,type:u.type});}}
+ return{rows,uniforms,size:[256,192],scope:'Compiled production colour/shadow wind hooks; before restores only the original vec4[4] declaration and field record. Fixed fields exercise unchanged slots, active strikes, expiry and replacement. Actual GL writes are checked against the original Float32 words.'};
+}};window.fixtureReady=true;
+}catch(e){window.fixtureError=String(e?.stack??e);}
+</script></body></html>
