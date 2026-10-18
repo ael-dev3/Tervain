@@ -1,0 +1,373 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.23",
+      "revision": "670b96d"
+    },
+    "animals": [
+      {
+        "animal": "tiger / 1005232739",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "lion / 1005232726",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "bear / 1005170943",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "bear / 1005232657",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232644",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232637",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232631",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232619",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232608",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232556",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "dog / 1005232529",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "dog / 1005232511",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005232450",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005232442",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005174818",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232424",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232412",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232351",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232341",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      }
+    ],
+    "rasterSuppressed": false,
+    "samples": 4
+  },
+  "sourceSha256": "c1184431e3204c9951a8ff6842b1f2c2351ed34299be6703c8dbd3f4030cebdb",
+  "poses": [
+    {
+      "pose": 0,
+      "before": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 29952,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 275
+        },
+        "matrixHash": "de43321118c9b20652b1b574a6aaf0ba67663c761060af872bbd4e39a3768b61"
+      },
+      "after": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 24960,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "de43321118c9b20652b1b574a6aaf0ba67663c761060af872bbd4e39a3768b61"
+      },
+      "identicalRgb": true
+    },
+    {
+      "pose": 1,
+      "before": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 29952,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "94524bf8ee3c3f9f593a37e7046eb8a07f469b533de309181c05a8a34faf9d32"
+      },
+      "after": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 24960,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "94524bf8ee3c3f9f593a37e7046eb8a07f469b533de309181c05a8a34faf9d32"
+      },
+      "identicalRgb": true
+    },
+    {
+      "pose": 2,
+      "before": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 29952,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "4f69419853844ca739178672c498c991ac90049398eaa37ddaa4488de123ffde"
+      },
+      "after": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 24960,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "4f69419853844ca739178672c498c991ac90049398eaa37ddaa4488de123ffde"
+      },
+      "identicalRgb": true
+    },
+    {
+      "pose": 3,
+      "before": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 29952,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "fa819fc49cdacf00b31de609cdc7cdb010a45e3bacceddeb23a59cb4ad93baaa"
+      },
+      "after": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 24960,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "fa819fc49cdacf00b31de609cdc7cdb010a45e3bacceddeb23a59cb4ad93baaa"
+      },
+      "identicalRgb": true
+    },
+    {
+      "pose": 4,
+      "before": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 29952,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "f27cf1dc17cba98a30646442db149e67fe5dd9f30e90d2f9f98ccafeeada58a7"
+      },
+      "after": {
+        "cost": {
+          "uploads": 13,
+          "bytes": 24960,
+          "draws": 311,
+          "triangles": 2626088,
+          "textures": 288
+        },
+        "matrixHash": "f27cf1dc17cba98a30646442db149e67fe5dd9f30e90d2f9f98ccafeeada58a7"
+      },
+      "identicalRgb": true
+    }
+  ],
+  "changedPose": {
+    "uploads": 13,
+    "bytes": 24960,
+    "draws": 311,
+    "triangles": 2626088,
+    "textures": 288,
+    "matrixHash": "9571fd8d1621782070edc9359f5132cbcd379cdcb2bfdc82bfd55e8c0e6c58bf"
+  },
+  "consoleErrors": [],
+  "pass": true
+}
