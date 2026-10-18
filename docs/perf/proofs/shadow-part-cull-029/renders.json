@@ -1,0 +1,2630 @@
+{
+  "revision": "4b4982b",
+  "version": "0.0.29",
+  "buffer": [
+    492,
+    320
+  ],
+  "samples": 4,
+  "comparisons": [
+    {
+      "metres": 0,
+      "angle": 0,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 197,
+          "calls": 364,
+          "triangles": 5848988,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": []
+      },
+      "after": {
+        "cost": {
+          "frame": 211,
+          "calls": 364,
+          "triangles": 5822133,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 7,
+            "triangles": 12537
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 5,
+            "triangles": 9900
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d",
+        "after": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d"
+      }
+    },
+    {
+      "metres": 10,
+      "angle": 0,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 226,
+          "calls": 354,
+          "triangles": 5759954,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 7,
+            "triangles": 12537
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 5,
+            "triangles": 9900
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 240,
+          "calls": 354,
+          "triangles": 5723588,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3732
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2232
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 10746
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3960
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 1,
+            "triangles": 878
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "e867af27fc7e78c95da45a17f2b44b9b7a49fb5b38b0b56f70889803ff071fec",
+        "after": "e867af27fc7e78c95da45a17f2b44b9b7a49fb5b38b0b56f70889803ff071fec"
+      }
+    },
+    {
+      "metres": 20,
+      "angle": 0,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 255,
+          "calls": 348,
+          "triangles": 5506485,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3732
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2232
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 10746
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3960
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 1,
+            "triangles": 878
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 269,
+          "calls": 348,
+          "triangles": 5489630,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1866
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 4,
+            "triangles": 7164
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3960
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "8231f34253dd6f8adda49d6788ec4d5017c4c78e0cb1ac6dba4c0a33a7d58ae6",
+        "after": "8231f34253dd6f8adda49d6788ec4d5017c4c78e0cb1ac6dba4c0a33a7d58ae6"
+      }
+    },
+    {
+      "metres": 40,
+      "angle": 0,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 284,
+          "calls": 316,
+          "triangles": 4914246,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1866
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 4,
+            "triangles": 7164
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 2,
+            "triangles": 3960
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 298,
+          "calls": 315,
+          "triangles": 4903656,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1791
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1980
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 3,
+            "triangles": 405
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 2,
+            "triangles": 4206
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "e93d2439624fc3a223b801c42f68e881f1cae0454ed047a3a2460998818042f7",
+        "after": "e93d2439624fc3a223b801c42f68e881f1cae0454ed047a3a2460998818042f7"
+      }
+    },
+    {
+      "metres": 80,
+      "angle": 0,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 313,
+          "calls": 271,
+          "triangles": 3396477,
+          "points": 1786,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1791
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1980
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2208
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 3,
+            "triangles": 405
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 2,
+            "triangles": 4206
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 327,
+          "calls": 271,
+          "triangles": 3393961,
+          "points": 1786,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1980
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "764c2cc57f1690a6f6810ebbda50e079f6a50552ad06d1c503d625e9960b11fb",
+        "after": "764c2cc57f1690a6f6810ebbda50e079f6a50552ad06d1c503d625e9960b11fb"
+      }
+    },
+    {
+      "metres": 0,
+      "angle": -0.6,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 342,
+          "calls": 375,
+          "triangles": 6512391,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1980
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 1,
+            "triangles": 262
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:0:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 356,
+          "calls": 375,
+          "triangles": 6481249,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1866
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2232
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 10746
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 11880
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "67f378444e0f6cd757c6cec2b7e4232245fb6fb90d0a62fd4c42261bf8d0c7f2",
+        "after": "67f378444e0f6cd757c6cec2b7e4232245fb6fb90d0a62fd4c42261bf8d0c7f2"
+      }
+    },
+    {
+      "metres": 0,
+      "angle": 0.6,
+      "changedChannels": 0,
+      "before": {
+        "cost": {
+          "frame": 371,
+          "calls": 263,
+          "triangles": 3884710,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 1,
+            "triangles": 1866
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 1,
+            "triangles": 2232
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 10746
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 11880
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "after": {
+        "cost": {
+          "frame": 385,
+          "calls": 263,
+          "triangles": 3859646,
+          "points": 1642,
+          "lines": 0
+        },
+        "removed": [
+          {
+            "name": "tree-1521:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1521:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "fir-spire:2:wood:shadow",
+            "instances": 1,
+            "triangles": 1395
+          },
+          {
+            "name": "fir-spire:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 6,
+            "triangles": 10746
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 2,
+            "triangles": 4144
+          },
+          {
+            "name": "hero-pine:1:wood:shadow",
+            "instances": 5,
+            "triangles": 9900
+          },
+          {
+            "name": "hero-pine:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1527:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-c:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "hero-oak-b:2:wood:shadow",
+            "instances": 1,
+            "triangles": 274
+          },
+          {
+            "name": "hero-oak-b:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "verdant-sentinel:2:wood:shadow",
+            "instances": 1,
+            "triangles": 8204
+          },
+          {
+            "name": "verdant-sentinel:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-1505:2:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4949:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4815:1:wood:shadow",
+            "instances": 0,
+            "triangles": 0
+          },
+          {
+            "name": "tree-4815:1:foliage:shadow",
+            "instances": 0,
+            "triangles": 0
+          }
+        ]
+      },
+      "sha256": {
+        "before": "5ee4fedba4e94456080e914884e0682b3fa66776c7918c2b00e3f685ae57f9bc",
+        "after": "5ee4fedba4e94456080e914884e0682b3fa66776c7918c2b00e3f685ae57f9bc"
+      }
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "scope": "Controlled native live-render adapter: independent shadow part packing with a 2 m wind + 1 m sun-drift guard, original colour geometry/materials and source order. Seven adjacent frozen before/after pairs; production wiring separately tested. Loading raster suppression is restored before every recorded native render. Software cost counts, not hardware frame pacing."
+}
