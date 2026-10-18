@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { expect, it } from 'vitest';
-import { casterPlacementBounds, updateCasterBounds, shadowBoundsNeedRefresh, shadowCasterVisible } from '../../src/presentation/foliage/shadowBounds';
+import { casterPlacementBounds, updateCasterBounds, shadowBoundsNeedRefresh, shadowCasterVisible, shadowPlacementVisible } from '../../src/presentation/foliage/shadowBounds';
 
 it('bounds only packed casters, enclosing vertices plus wind at mixed scales and rotations', () => {
   const geometry = new THREE.BoxGeometry(4, 8, 3).translate(3, 6, 0);
@@ -47,4 +47,23 @@ it('keeps rejected casters outside a drifting sun volume and refreshes before it
   expect(shadowCasterVisible(reference, new THREE.Sphere().makeEmpty())).toBe(false);
   const rotated = reference.clone(); rotated.planes[0]!.normal.x += .002;
   expect(shadowBoundsNeedRefresh(rotated, reference)).toBe(true);
+});
+
+it('rejects off-volume parts independently while preserving wind and sun-drift margins', () => {
+  const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, .1, 100);
+  camera.position.set(0, 0, 20); camera.lookAt(0, 0, 0); camera.updateMatrixWorld(true);
+  const reference = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+  const placements = [14.01, 14, 13.99, 0].map(x => ({ matrix: new THREE.Matrix4().makeTranslation(x, 0, 0) }));
+  const trunk = casterPlacementBounds(new THREE.Sphere(new THREE.Vector3(), 1), placements);
+  const crown = casterPlacementBounds(new THREE.Sphere(new THREE.Vector3(-4, 0, 0), 5), placements);
+  expect(shadowPlacementVisible(reference, trunk, 0)).toBe(false);
+  for (const i of [1, 2, 3]) expect(shadowPlacementVisible(reference, trunk, i)).toBe(true);
+  for (let i = 0; i < placements.length; i++) expect(shadowPlacementVisible(reference, crown, i)).toBe(true);
+  const drift = reference.clone(); for (const plane of drift.planes) plane.constant += 1;
+  const scratch = new THREE.Sphere();
+  for (let i = 0; i < placements.length; i++) {
+    scratch.center.fromArray(trunk, i * 4); scratch.radius = trunk[i * 4 + 3]!;
+    expect(shadowPlacementVisible(reference, trunk, i)).toBe(shadowCasterVisible(reference, scratch));
+    if (!shadowPlacementVisible(reference, trunk, i)) expect(drift.intersectsSphere(scratch)).toBe(false);
+  }
 });
