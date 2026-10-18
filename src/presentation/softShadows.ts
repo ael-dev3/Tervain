@@ -41,7 +41,8 @@ const SOFT_PCF = /* glsl */ `
 			shadowCoord.z += shadowBias;
 
 			bool inFrustum = shadowCoord.x >= 0.0 && shadowCoord.x <= 1.0 && shadowCoord.y >= 0.0 && shadowCoord.y <= 1.0;
-			bool frustumTest = inFrustum && shadowCoord.z <= 1.0;
+			// A zero-intensity light needs no comparisons; retain the existing branch and single final return.
+			bool frustumTest = inFrustum && shadowCoord.z <= 1.0 && shadowIntensity != 0.0;
 
 			if ( frustumTest ) {
 
