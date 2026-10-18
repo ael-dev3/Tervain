@@ -1,0 +1,25 @@
+{
+  "validExitCode": 0,
+  "negativeControls": [
+    {
+      "case": "changed_total",
+      "exitCode": 1,
+      "rejected": true
+    },
+    {
+      "case": "nonzero_stationary",
+      "exitCode": 1,
+      "rejected": true
+    },
+    {
+      "case": "empty_far_stratum",
+      "exitCode": 1,
+      "rejected": true
+    },
+    {
+      "case": "truncated_events",
+      "exitCode": 1,
+      "rejected": true
+    }
+  ]
+}

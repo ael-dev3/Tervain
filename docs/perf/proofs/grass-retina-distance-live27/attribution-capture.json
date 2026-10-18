@@ -1,0 +1,937 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.27",
+    "revision": "163ee68"
+  },
+  "profile": {
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      2160,
+      1350
+    ]
+  },
+  "browser": [
+    1440,
+    900
+  ],
+  "dpr": 2,
+  "controls": {
+    "hour": 17.5,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333,
+    "skyTime": null,
+    "cloudTime": 0.016666666666666666
+  },
+  "install": {
+    "nativeGrassMaterials": [
+      {
+        "type": "MeshLambertMaterial",
+        "map": false,
+        "alphaMap": false,
+        "alphaTest": 0,
+        "alphaToCoverage": false,
+        "transparent": false,
+        "opacity": 1,
+        "depthWrite": true
+      },
+      {
+        "type": "MeshLambertMaterial",
+        "map": false,
+        "alphaMap": false,
+        "alphaTest": 0,
+        "alphaToCoverage": false,
+        "transparent": false,
+        "opacity": 1,
+        "depthWrite": true
+      }
+    ]
+  },
+  "inactiveChangedChannels": 0,
+  "old": [
+    {
+      "frame": 0,
+      "crop": {
+        "left": 1101,
+        "top": 838,
+        "width": 138,
+        "height": 35
+      },
+      "labels": {
+        "width": 138,
+        "height": 35,
+        "samples": 4
+      },
+      "reference": {
+        "changedChannels": 0,
+        "maxDelta": 0
+      }
+    },
+    {
+      "frame": 1,
+      "crop": {
+        "left": 1104,
+        "top": 762,
+        "width": 735,
+        "height": 114
+      },
+      "labels": {
+        "width": 735,
+        "height": 114,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 2,
+      "crop": {
+        "left": 1108,
+        "top": 729,
+        "width": 736,
+        "height": 213
+      },
+      "labels": {
+        "width": 736,
+        "height": 213,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 3,
+      "crop": {
+        "left": 1111,
+        "top": 762,
+        "width": 737,
+        "height": 119
+      },
+      "labels": {
+        "width": 737,
+        "height": 119,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 4,
+      "crop": {
+        "left": 1115,
+        "top": 731,
+        "width": 736,
+        "height": 152
+      },
+      "labels": {
+        "width": 736,
+        "height": 152,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 5,
+      "crop": {
+        "left": 1119,
+        "top": 732,
+        "width": 750,
+        "height": 154
+      },
+      "labels": {
+        "width": 750,
+        "height": 154,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 6,
+      "crop": {
+        "left": 1122,
+        "top": 763,
+        "width": 740,
+        "height": 191
+      },
+      "labels": {
+        "width": 740,
+        "height": 191,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 7,
+      "crop": {
+        "left": 1126,
+        "top": 747,
+        "width": 755,
+        "height": 210
+      },
+      "labels": {
+        "width": 755,
+        "height": 210,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 8,
+      "crop": {
+        "left": 720,
+        "top": 766,
+        "width": 1166,
+        "height": 194
+      },
+      "labels": {
+        "width": 1166,
+        "height": 194,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 9,
+      "crop": {
+        "left": 1134,
+        "top": 777,
+        "width": 273,
+        "height": 186
+      },
+      "labels": {
+        "width": 273,
+        "height": 186,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 10,
+      "crop": {
+        "left": 1137,
+        "top": 768,
+        "width": 758,
+        "height": 130
+      },
+      "labels": {
+        "width": 758,
+        "height": 130,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 11,
+      "crop": {
+        "left": 722,
+        "top": 778,
+        "width": 695,
+        "height": 122
+      },
+      "labels": {
+        "width": 695,
+        "height": 122,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 12,
+      "crop": {
+        "left": 1146,
+        "top": 767,
+        "width": 740,
+        "height": 136
+      },
+      "labels": {
+        "width": 740,
+        "height": 136,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 13,
+      "crop": {
+        "left": 723,
+        "top": 752,
+        "width": 1179,
+        "height": 154
+      },
+      "labels": {
+        "width": 1179,
+        "height": 154,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 14,
+      "crop": {
+        "left": 1325,
+        "top": 732,
+        "width": 581,
+        "height": 177
+      },
+      "labels": {
+        "width": 581,
+        "height": 177,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 15,
+      "crop": {
+        "left": 725,
+        "top": 752,
+        "width": 1186,
+        "height": 159
+      },
+      "labels": {
+        "width": 1186,
+        "height": 159,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 16,
+      "crop": {
+        "left": 725,
+        "top": 734,
+        "width": 1189,
+        "height": 179
+      },
+      "labels": {
+        "width": 1189,
+        "height": 179,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 17,
+      "crop": {
+        "left": 726,
+        "top": 733,
+        "width": 1176,
+        "height": 183
+      },
+      "labels": {
+        "width": 1176,
+        "height": 183,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 18,
+      "crop": {
+        "left": 726,
+        "top": 785,
+        "width": 729,
+        "height": 135
+      },
+      "labels": {
+        "width": 729,
+        "height": 135,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 19,
+      "crop": {
+        "left": 727,
+        "top": 771,
+        "width": 1203,
+        "height": 150
+      },
+      "labels": {
+        "width": 1203,
+        "height": 150,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 20,
+      "crop": {
+        "left": 728,
+        "top": 735,
+        "width": 1207,
+        "height": 190
+      },
+      "labels": {
+        "width": 1207,
+        "height": 190,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 21,
+      "crop": {
+        "left": 728,
+        "top": 788,
+        "width": 743,
+        "height": 140
+      },
+      "labels": {
+        "width": 743,
+        "height": 140,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 22,
+      "crop": {
+        "left": 729,
+        "top": 713,
+        "width": 1203,
+        "height": 185
+      },
+      "labels": {
+        "width": 1203,
+        "height": 185,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 23,
+      "crop": {
+        "left": 729,
+        "top": 713,
+        "width": 1217,
+        "height": 223
+      },
+      "labels": {
+        "width": 1217,
+        "height": 223,
+        "samples": 4
+      },
+      "reference": {
+        "changedChannels": 0,
+        "maxDelta": 0
+      }
+    },
+    {
+      "frame": 24,
+      "crop": {
+        "left": 730,
+        "top": 790,
+        "width": 759,
+        "height": 101
+      },
+      "labels": {
+        "width": 759,
+        "height": 101,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 25,
+      "crop": {
+        "left": 731,
+        "top": 792,
+        "width": 765,
+        "height": 114
+      },
+      "labels": {
+        "width": 765,
+        "height": 114,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 26,
+      "crop": {
+        "left": 732,
+        "top": 714,
+        "width": 1212,
+        "height": 232
+      },
+      "labels": {
+        "width": 1212,
+        "height": 232,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 27,
+      "crop": {
+        "left": 732,
+        "top": 794,
+        "width": 777,
+        "height": 116
+      },
+      "labels": {
+        "width": 777,
+        "height": 116,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 28,
+      "crop": {
+        "left": 733,
+        "top": 795,
+        "width": 782,
+        "height": 105
+      },
+      "labels": {
+        "width": 782,
+        "height": 105,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 29,
+      "crop": {
+        "left": 734,
+        "top": 795,
+        "width": 787,
+        "height": 108
+      },
+      "labels": {
+        "width": 787,
+        "height": 108,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 30,
+      "crop": {
+        "left": 735,
+        "top": 797,
+        "width": 793,
+        "height": 108
+      },
+      "labels": {
+        "width": 793,
+        "height": 108,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 31,
+      "crop": {
+        "left": 735,
+        "top": 799,
+        "width": 800,
+        "height": 107
+      },
+      "labels": {
+        "width": 800,
+        "height": 107,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 32,
+      "crop": {
+        "left": 737,
+        "top": 801,
+        "width": 805,
+        "height": 109
+      },
+      "labels": {
+        "width": 805,
+        "height": 109,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 33,
+      "crop": {
+        "left": 738,
+        "top": 801,
+        "width": 810,
+        "height": 111
+      },
+      "labels": {
+        "width": 810,
+        "height": 111,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 34,
+      "crop": {
+        "left": 738,
+        "top": 802,
+        "width": 818,
+        "height": 112
+      },
+      "labels": {
+        "width": 818,
+        "height": 112,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 35,
+      "crop": {
+        "left": 739,
+        "top": 804,
+        "width": 824,
+        "height": 113
+      },
+      "labels": {
+        "width": 824,
+        "height": 113,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 36,
+      "crop": {
+        "left": 740,
+        "top": 805,
+        "width": 830,
+        "height": 115
+      },
+      "labels": {
+        "width": 830,
+        "height": 115,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 37,
+      "crop": {
+        "left": 741,
+        "top": 807,
+        "width": 837,
+        "height": 115
+      },
+      "labels": {
+        "width": 837,
+        "height": 115,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 38,
+      "crop": {
+        "left": 742,
+        "top": 807,
+        "width": 843,
+        "height": 118
+      },
+      "labels": {
+        "width": 843,
+        "height": 118,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 39,
+      "crop": {
+        "left": 743,
+        "top": 810,
+        "width": 850,
+        "height": 117
+      },
+      "labels": {
+        "width": 850,
+        "height": 117,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 40,
+      "crop": {
+        "left": 744,
+        "top": 855,
+        "width": 558,
+        "height": 75
+      },
+      "labels": {
+        "width": 558,
+        "height": 75,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 41,
+      "crop": {
+        "left": 745,
+        "top": 812,
+        "width": 863,
+        "height": 121
+      },
+      "labels": {
+        "width": 863,
+        "height": 121,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 42,
+      "crop": {
+        "left": 746,
+        "top": 858,
+        "width": 569,
+        "height": 78
+      },
+      "labels": {
+        "width": 569,
+        "height": 78,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 43,
+      "crop": {
+        "left": 747,
+        "top": 861,
+        "width": 576,
+        "height": 78
+      },
+      "labels": {
+        "width": 576,
+        "height": 78,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 44,
+      "crop": {
+        "left": 748,
+        "top": 864,
+        "width": 582,
+        "height": 78
+      },
+      "labels": {
+        "width": 582,
+        "height": 78,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 45,
+      "crop": {
+        "left": 750,
+        "top": 865,
+        "width": 588,
+        "height": 80
+      },
+      "labels": {
+        "width": 588,
+        "height": 80,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 46,
+      "crop": {
+        "left": 750,
+        "top": 820,
+        "width": 900,
+        "height": 128
+      },
+      "labels": {
+        "width": 900,
+        "height": 128,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 47,
+      "crop": {
+        "left": 752,
+        "top": 870,
+        "width": 601,
+        "height": 81
+      },
+      "labels": {
+        "width": 601,
+        "height": 81,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 48,
+      "crop": {
+        "left": 753,
+        "top": 873,
+        "width": 607,
+        "height": 81
+      },
+      "labels": {
+        "width": 607,
+        "height": 81,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 49,
+      "crop": {
+        "left": 754,
+        "top": 876,
+        "width": 614,
+        "height": 81
+      },
+      "labels": {
+        "width": 614,
+        "height": 81,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 50,
+      "crop": {
+        "left": 756,
+        "top": 879,
+        "width": 621,
+        "height": 83
+      },
+      "labels": {
+        "width": 621,
+        "height": 83,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 51,
+      "crop": {
+        "left": 756,
+        "top": 882,
+        "width": 9,
+        "height": 9
+      },
+      "labels": {
+        "width": 9,
+        "height": 9,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 52,
+      "crop": {
+        "left": 758,
+        "top": 883,
+        "width": 8,
+        "height": 13
+      },
+      "labels": {
+        "width": 8,
+        "height": 13,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 53,
+      "crop": {
+        "left": 759,
+        "top": 887,
+        "width": 9,
+        "height": 10
+      },
+      "labels": {
+        "width": 9,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 54,
+      "crop": {
+        "left": 760,
+        "top": 890,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 55,
+      "crop": {
+        "left": 762,
+        "top": 893,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 56,
+      "crop": {
+        "left": 763,
+        "top": 896,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 57,
+      "crop": {
+        "left": 765,
+        "top": 899,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 58,
+      "crop": {
+        "left": 766,
+        "top": 903,
+        "width": 8,
+        "height": 9
+      },
+      "labels": {
+        "width": 8,
+        "height": 9,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 59,
+      "crop": {
+        "left": 768,
+        "top": 905,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      }
+    },
+    {
+      "frame": 60,
+      "crop": {
+        "left": 769,
+        "top": 909,
+        "width": 8,
+        "height": 10
+      },
+      "labels": {
+        "width": 8,
+        "height": 10,
+        "samples": 4
+      },
+      "reference": {
+        "changedChannels": 0,
+        "maxDelta": 0
+      }
+    }
+  ],
+  "completeAttribution": true,
+  "scope": "Completed historical-attribution stage only. Subsequent failed pilot produced no motion frames and is excluded. The separate completed Retina capture supplies motion data."
+}

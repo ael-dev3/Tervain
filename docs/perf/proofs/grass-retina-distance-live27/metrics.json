@@ -1,0 +1,2488 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.27",
+    "revision": "163ee68"
+  },
+  "profile": {
+    "browser": [
+      1470,
+      956
+    ],
+    "dpr": 2,
+    "buffer": [
+      2205,
+      1434
+    ],
+    "postEnabled": true,
+    "samples": 4
+  },
+  "screen": [
+    2940,
+    1912
+  ],
+  "frames": 25,
+  "syntheticCadence": 60,
+  "seconds": 0.4,
+  "strafeMetres": 1.04,
+  "yawDegrees": [
+    -8,
+    8
+  ],
+  "distance": "Native gDist: camera-to-clump-root Euclidean world metres. Bucket selection uses current grass where present, otherwise previous grass. Ambiguous cross-bucket samples are separate.",
+  "mask": "Raw 4x MSAA geometric labels at native buffer resolution, linearly resampled to screenshot dimensions. At least 25% coverage, dominant bucket >=80%; both-full subset requires >=90% coverage in both frames. Mask bypasses post; normal picture uses native post/MSAA.",
+  "metric": "Same screen-pixel consecutive decoded RGB luminance difference, absolute >60. Includes ordinary camera motion, occlusion and post effects; no optical-flow compensation or shimmer-only verdict. Luminance uses exact integer coefficients 2126,7152,722 /10000.",
+  "controls": {
+    "inactiveChangedChannels": 0,
+    "stationaryChangedChannels": 0
+  },
+  "buckets": {
+    "0-20": {
+      "observations": 47936284,
+      "fullCoverageObservations": 33104935,
+      "eligibleUnion": 55004407,
+      "eligibleCurrent": 46113988,
+      "jumpsAbsOver60": 2708462,
+      "risesOver60": 1427671,
+      "fallsOver60": 1280791,
+      "jumpsCurrentGrass": 1969209,
+      "jumpsBothFullGrass": 356550,
+      "brightEndpoint180": 1194,
+      "maxAbsJump": 162.4356
+    },
+    "20-60": {
+      "observations": 1582310,
+      "fullCoverageObservations": 684875,
+      "eligibleUnion": 1980124,
+      "eligibleCurrent": 1526217,
+      "jumpsAbsOver60": 246144,
+      "risesOver60": 124934,
+      "fallsOver60": 121210,
+      "jumpsCurrentGrass": 153523,
+      "jumpsBothFullGrass": 5643,
+      "brightEndpoint180": 208,
+      "maxAbsJump": 167.4396
+    },
+    "60-120": {
+      "observations": 93147,
+      "fullCoverageObservations": 29154,
+      "eligibleUnion": 135885,
+      "eligibleCurrent": 92513,
+      "jumpsAbsOver60": 16426,
+      "risesOver60": 8195,
+      "fallsOver60": 8231,
+      "jumpsCurrentGrass": 8745,
+      "jumpsBothFullGrass": 38,
+      "brightEndpoint180": 0,
+      "maxAbsJump": 146.614
+    },
+    "ambiguous": {
+      "observations": 258822,
+      "fullCoverageObservations": 161378,
+      "eligibleUnion": 285316,
+      "eligibleCurrent": 250869,
+      "jumpsAbsOver60": 22658,
+      "risesOver60": 12731,
+      "fallsOver60": 9927,
+      "jumpsCurrentGrass": 15399,
+      "jumpsBothFullGrass": 942,
+      "brightEndpoint180": 17,
+      "maxAbsJump": 145.5262
+    }
+  },
+  "examples": [
+    {
+      "frame": 2,
+      "x": 947,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 169.0052,
+      "afterLuminance": 1.5656,
+      "delta": -167.4396,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 947,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 168.0774,
+      "afterLuminance": 1.353,
+      "delta": -166.7244,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 140,
+      "y": 1037,
+      "bucket": "20-60",
+      "beforeLuminance": 174.4276,
+      "afterLuminance": 7.765,
+      "delta": -166.6626,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 175,
+      "y": 1036,
+      "bucket": "20-60",
+      "beforeLuminance": 174.1428,
+      "afterLuminance": 7.765,
+      "delta": -166.3778,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 10,
+      "x": 1139,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 168.1508,
+      "afterLuminance": 2.1404,
+      "delta": -166.0104,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 9,
+      "x": 1115,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 166.7926,
+      "afterLuminance": 1.1404,
+      "delta": -165.6522,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 922,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 164.8648,
+      "afterLuminance": 0.2126,
+      "delta": -164.6522,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 139,
+      "y": 1037,
+      "bucket": "20-60",
+      "beforeLuminance": 173.6402,
+      "afterLuminance": 9.118,
+      "delta": -164.5222,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 922,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 164.8648,
+      "afterLuminance": 0.6378,
+      "delta": -164.227,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 176,
+      "y": 1036,
+      "bucket": "20-60",
+      "beforeLuminance": 175.3554,
+      "afterLuminance": 11.5524,
+      "delta": -163.803,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 10,
+      "x": 247,
+      "y": 1035,
+      "bucket": "20-60",
+      "beforeLuminance": 175.2098,
+      "afterLuminance": 11.4172,
+      "delta": -163.7926,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 11,
+      "x": 280,
+      "y": 1033,
+      "bucket": "20-60",
+      "beforeLuminance": 173.4958,
+      "afterLuminance": 9.7702,
+      "delta": -163.7256,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 11,
+      "x": 1162,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 165.8648,
+      "afterLuminance": 2.1404,
+      "delta": -163.7244,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 16,
+      "x": 440,
+      "y": 1029,
+      "bucket": "20-60",
+      "beforeLuminance": 172.9262,
+      "afterLuminance": 10.0458,
+      "delta": -162.8804,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 947,
+      "y": 971,
+      "bucket": "20-60",
+      "beforeLuminance": 163.8648,
+      "afterLuminance": 1.353,
+      "delta": -162.5118,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 855,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 165.2138,
+      "afterLuminance": 2.7782,
+      "delta": -162.4356,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 9,
+      "x": 1116,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 163.6522,
+      "afterLuminance": 1.353,
+      "delta": -162.2992,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 312,
+      "y": 1032,
+      "bucket": "20-60",
+      "beforeLuminance": 171.9984,
+      "afterLuminance": 9.9828,
+      "delta": -162.0156,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 971,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 163.4396,
+      "afterLuminance": 1.5656,
+      "delta": -161.874,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 1091,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 163.58,
+      "afterLuminance": 1.7782,
+      "delta": -161.8018,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 10,
+      "x": 247,
+      "y": 1034,
+      "bucket": "20-60",
+      "beforeLuminance": 167.4998,
+      "afterLuminance": 5.9868,
+      "delta": -161.513,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 922,
+      "y": 971,
+      "bucket": "20-60",
+      "beforeLuminance": 161.6522,
+      "afterLuminance": 0.6378,
+      "delta": -161.0144,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 175,
+      "y": 1035,
+      "bucket": "20-60",
+      "beforeLuminance": 168.7136,
+      "afterLuminance": 7.765,
+      "delta": -160.9486,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 880,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 163.0012,
+      "afterLuminance": 2.2034,
+      "delta": -160.7978,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 829,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 163.0012,
+      "afterLuminance": 2.2034,
+      "delta": -160.7978,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 139,
+      "y": 1036,
+      "bucket": "20-60",
+      "beforeLuminance": 168.5732,
+      "afterLuminance": 7.9054,
+      "delta": -160.6678,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 803,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 163.1416,
+      "afterLuminance": 2.8412,
+      "delta": -160.3004,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 1186,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 164.2952,
+      "afterLuminance": 4.2086,
+      "delta": -160.0866,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 174,
+      "y": 1036,
+      "bucket": "20-60",
+      "beforeLuminance": 168.4998,
+      "afterLuminance": 8.6206,
+      "delta": -159.8792,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 923,
+      "y": 973,
+      "bucket": "20-60",
+      "beforeLuminance": 161.227,
+      "afterLuminance": 1.4252,
+      "delta": -159.8018,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 947,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 162.227,
+      "afterLuminance": 2.5656,
+      "delta": -159.6614,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 6,
+      "x": 104,
+      "y": 1038,
+      "bucket": "20-60",
+      "beforeLuminance": 169.4998,
+      "afterLuminance": 9.9054,
+      "delta": -159.5944,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 946,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 160.0156,
+      "afterLuminance": 0.4252,
+      "delta": -159.5904,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 971,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 160.87,
+      "afterLuminance": 1.353,
+      "delta": -159.517,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 345,
+      "y": 1032,
+      "bucket": "20-60",
+      "beforeLuminance": 177.7806,
+      "afterLuminance": 18.3948,
+      "delta": -159.3858,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 923,
+      "y": 972,
+      "bucket": "20-60",
+      "beforeLuminance": 160.4396,
+      "afterLuminance": 1.1404,
+      "delta": -159.2992,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 881,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 161.2138,
+      "afterLuminance": 1.9908,
+      "delta": -159.223,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 855,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 6.0538,
+      "afterLuminance": 165.1416,
+      "delta": 159.0878,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 923,
+      "y": 971,
+      "bucket": "20-60",
+      "beforeLuminance": 160.4396,
+      "afterLuminance": 1.353,
+      "delta": -159.0866,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 828,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 161.286,
+      "afterLuminance": 2.2034,
+      "delta": -159.0826,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 344,
+      "y": 1032,
+      "bucket": "20-60",
+      "beforeLuminance": 169.572,
+      "afterLuminance": 10.6206,
+      "delta": -158.9514,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 1092,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 161.0156,
+      "afterLuminance": 2.353,
+      "delta": -158.6626,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 854,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 160.286,
+      "afterLuminance": 1.7782,
+      "delta": -158.5078,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 802,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 161.2138,
+      "afterLuminance": 2.8412,
+      "delta": -158.3726,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 923,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 159.6522,
+      "afterLuminance": 1.353,
+      "delta": -158.2992,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 312,
+      "y": 1033,
+      "bucket": "20-60",
+      "beforeLuminance": 176.7806,
+      "afterLuminance": 18.4854,
+      "delta": -158.2952,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 1189,
+      "y": 965,
+      "bucket": "20-60",
+      "beforeLuminance": 164.929,
+      "afterLuminance": 7.2624,
+      "delta": -157.6666,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 946,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 157.9422,
+      "afterLuminance": 0.4252,
+      "delta": -157.517,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 11,
+      "x": 280,
+      "y": 1034,
+      "bucket": "20-60",
+      "beforeLuminance": 177.8528,
+      "afterLuminance": 20.4132,
+      "delta": -157.4396,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 10,
+      "x": 1140,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 158.4396,
+      "afterLuminance": 1.4252,
+      "delta": -157.0144,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 175,
+      "y": 1037,
+      "bucket": "20-60",
+      "beforeLuminance": 174.925,
+      "afterLuminance": 17.9106,
+      "delta": -157.0144,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 141,
+      "y": 1037,
+      "bucket": "20-60",
+      "beforeLuminance": 166.572,
+      "afterLuminance": 9.765,
+      "delta": -156.807,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 6,
+      "x": 1044,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 168.58,
+      "afterLuminance": 12.114,
+      "delta": -156.466,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 881,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 7.8412,
+      "afterLuminance": 164.2138,
+      "delta": 156.3726,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 907,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 8.0538,
+      "afterLuminance": 164.4264,
+      "delta": 156.3726,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 1068,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 159.3004,
+      "afterLuminance": 3.1312,
+      "delta": -156.1692,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 25,
+      "y": 1041,
+      "bucket": "20-60",
+      "beforeLuminance": 169.8568,
+      "afterLuminance": 13.761,
+      "delta": -156.0958,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 5,
+      "x": 1119,
+      "y": 965,
+      "bucket": "20-60",
+      "beforeLuminance": 166.0012,
+      "afterLuminance": 9.9684,
+      "delta": -156.0328,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 313,
+      "y": 1032,
+      "bucket": "20-60",
+      "beforeLuminance": 169.858,
+      "afterLuminance": 13.9014,
+      "delta": -155.9566,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 8,
+      "x": 176,
+      "y": 1035,
+      "bucket": "20-60",
+      "beforeLuminance": 167.501,
+      "afterLuminance": 11.5524,
+      "delta": -155.9486,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 923,
+      "y": 974,
+      "bucket": "20-60",
+      "beforeLuminance": 159.0144,
+      "afterLuminance": 3.0682,
+      "delta": -155.9462,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 1104,
+      "y": 969,
+      "bucket": "0-20",
+      "beforeLuminance": 2.706,
+      "afterLuminance": 158.6482,
+      "delta": 155.9422,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 7,
+      "x": 140,
+      "y": 1036,
+      "bucket": "20-60",
+      "beforeLuminance": 163.5772,
+      "afterLuminance": 7.6928,
+      "delta": -155.8844,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 830,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 158.1456,
+      "afterLuminance": 2.416,
+      "delta": -155.7296,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 803,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 165.1416,
+      "afterLuminance": 9.471,
+      "delta": -155.6706,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 12,
+      "x": 313,
+      "y": 1033,
+      "bucket": "20-60",
+      "beforeLuminance": 177.7806,
+      "afterLuminance": 22.1914,
+      "delta": -155.5892,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 17,
+      "x": 470,
+      "y": 1029,
+      "bucket": "20-60",
+      "beforeLuminance": 174.7084,
+      "afterLuminance": 19.1232,
+      "delta": -155.5852,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 11,
+      "x": 279,
+      "y": 1033,
+      "bucket": "20-60",
+      "beforeLuminance": 173.4958,
+      "afterLuminance": 17.9198,
+      "delta": -155.576,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 996,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 169.6482,
+      "afterLuminance": 14.1862,
+      "delta": -155.462,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 995,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 157.9434,
+      "afterLuminance": 2.5656,
+      "delta": -155.3778,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 346,
+      "y": 1032,
+      "bucket": "20-60",
+      "beforeLuminance": 177.8528,
+      "afterLuminance": 22.6034,
+      "delta": -155.2494,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 972,
+      "y": 969,
+      "bucket": "20-60",
+      "beforeLuminance": 165.8648,
+      "afterLuminance": 10.6206,
+      "delta": -155.2442,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 856,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 6.0538,
+      "afterLuminance": 161.2138,
+      "delta": 155.16,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 971,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 157.3004,
+      "afterLuminance": 2.1404,
+      "delta": -155.16,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 6,
+      "x": 105,
+      "y": 1039,
+      "bucket": "20-60",
+      "beforeLuminance": 169.3542,
+      "afterLuminance": 14.1954,
+      "delta": -155.1588,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 5,
+      "x": 905,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 158.0734,
+      "afterLuminance": 2.9908,
+      "delta": -155.0826,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 5,
+      "x": 1120,
+      "y": 965,
+      "bucket": "20-60",
+      "beforeLuminance": 166.0012,
+      "afterLuminance": 10.9684,
+      "delta": -155.0328,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 5,
+      "x": 68,
+      "y": 1040,
+      "bucket": "20-60",
+      "beforeLuminance": 163.0012,
+      "afterLuminance": 7.9776,
+      "delta": -155.0236,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 1092,
+      "y": 966,
+      "bucket": "20-60",
+      "beforeLuminance": 172.7886,
+      "afterLuminance": 17.769,
+      "delta": -155.0196,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 5,
+      "x": 906,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 162.286,
+      "afterLuminance": 7.2716,
+      "delta": -155.0144,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 995,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 157.6574,
+      "afterLuminance": 2.706,
+      "delta": -154.9514,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 856,
+      "y": 972,
+      "bucket": "0-20",
+      "beforeLuminance": 157.1456,
+      "afterLuminance": 2.2034,
+      "delta": -154.9422,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 1,
+      "x": 922,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 157.0866,
+      "afterLuminance": 2.2034,
+      "delta": -154.8832,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 1115,
+      "y": 966,
+      "bucket": "20-60",
+      "beforeLuminance": 15.2034,
+      "afterLuminance": 170.0734,
+      "delta": 154.87,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 6,
+      "x": 104,
+      "y": 1039,
+      "bucket": "20-60",
+      "beforeLuminance": 173.282,
+      "afterLuminance": 18.4762,
+      "delta": -154.8058,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 15,
+      "x": 409,
+      "y": 1030,
+      "bucket": "20-60",
+      "beforeLuminance": 175.211,
+      "afterLuminance": 20.463,
+      "delta": -154.748,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 855,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 165.1416,
+      "afterLuminance": 10.3988,
+      "delta": -154.7428,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 1128,
+      "y": 969,
+      "bucket": "0-20",
+      "beforeLuminance": 2.9186,
+      "afterLuminance": 157.6482,
+      "delta": 154.7296,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 19,
+      "x": 1246,
+      "y": 969,
+      "bucket": "0-20",
+      "beforeLuminance": 160.0012,
+      "afterLuminance": 5.3346,
+      "delta": -154.6666,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 345,
+      "y": 1031,
+      "bucket": "20-60",
+      "beforeLuminance": 171.9262,
+      "afterLuminance": 17.467,
+      "delta": -154.4592,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 11,
+      "x": 1080,
+      "y": 969,
+      "bucket": "0-20",
+      "beforeLuminance": 3.1312,
+      "afterLuminance": 157.576,
+      "delta": 154.4448,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 971,
+      "y": 971,
+      "bucket": "20-60",
+      "beforeLuminance": 156.7308,
+      "afterLuminance": 2.353,
+      "delta": -154.3778,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 10,
+      "x": 248,
+      "y": 1035,
+      "bucket": "20-60",
+      "beforeLuminance": 171.2098,
+      "afterLuminance": 16.8384,
+      "delta": -154.3714,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 13,
+      "x": 1209,
+      "y": 968,
+      "bucket": "20-60",
+      "beforeLuminance": 162.513,
+      "afterLuminance": 8.1994,
+      "delta": -154.3136,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 880,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 6.9134,
+      "afterLuminance": 161.2138,
+      "delta": 154.3004,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 972,
+      "y": 970,
+      "bucket": "20-60",
+      "beforeLuminance": 165.8648,
+      "afterLuminance": 11.6206,
+      "delta": -154.2442,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 4,
+      "x": 906,
+      "y": 971,
+      "bucket": "0-20",
+      "beforeLuminance": 7.9816,
+      "afterLuminance": 162.2138,
+      "delta": 154.2322,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 3,
+      "x": 972,
+      "y": 971,
+      "bucket": "20-60",
+      "beforeLuminance": 165.58,
+      "afterLuminance": 11.408,
+      "delta": -154.172,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 14,
+      "x": 1152,
+      "y": 969,
+      "bucket": "0-20",
+      "beforeLuminance": 4.4842,
+      "afterLuminance": 158.576,
+      "delta": 154.0918,
+      "bothFull": false,
+      "brightEndpoint180": false
+    },
+    {
+      "frame": 2,
+      "x": 947,
+      "y": 972,
+      "bucket": "20-60",
+      "beforeLuminance": 156.227,
+      "afterLuminance": 2.1404,
+      "delta": -154.0866,
+      "bothFull": false,
+      "brightEndpoint180": false
+    }
+  ],
+  "perFrame": [
+    {
+      "frame": 0,
+      "events": 0,
+      "ambiguousMaskPixels": 7953,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 0,
+          "eligibleCurrent": 0,
+          "jumpsAbsOver60": 0,
+          "risesOver60": 0,
+          "fallsOver60": 0,
+          "jumpsCurrentGrass": 0,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 0
+        },
+        "20-60": {
+          "eligibleUnion": 0,
+          "eligibleCurrent": 0,
+          "jumpsAbsOver60": 0,
+          "risesOver60": 0,
+          "fallsOver60": 0,
+          "jumpsCurrentGrass": 0,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 0
+        },
+        "60-120": {
+          "eligibleUnion": 0,
+          "eligibleCurrent": 0,
+          "jumpsAbsOver60": 0,
+          "risesOver60": 0,
+          "fallsOver60": 0,
+          "jumpsCurrentGrass": 0,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 0
+        },
+        "ambiguous": {
+          "eligibleUnion": 0,
+          "eligibleCurrent": 0,
+          "jumpsAbsOver60": 0,
+          "risesOver60": 0,
+          "fallsOver60": 0,
+          "jumpsCurrentGrass": 0,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 0
+        }
+      }
+    },
+    {
+      "frame": 1,
+      "events": 101880,
+      "ambiguousMaskPixels": 8237,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2194411,
+          "eligibleCurrent": 1839428,
+          "jumpsAbsOver60": 91621,
+          "risesOver60": 48881,
+          "fallsOver60": 42740,
+          "jumpsCurrentGrass": 68109,
+          "jumpsBothFullGrass": 13364,
+          "brightEndpoint180": 53,
+          "maxAbsJump": 160.3004
+        },
+        "20-60": {
+          "eligibleUnion": 74647,
+          "eligibleCurrent": 56323,
+          "jumpsAbsOver60": 9242,
+          "risesOver60": 4393,
+          "fallsOver60": 4849,
+          "jumpsCurrentGrass": 5455,
+          "jumpsBothFullGrass": 168,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 164.6522
+        },
+        "60-120": {
+          "eligibleUnion": 1149,
+          "eligibleCurrent": 831,
+          "jumpsAbsOver60": 186,
+          "risesOver60": 80,
+          "fallsOver60": 106,
+          "jumpsCurrentGrass": 80,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 122.953
+        },
+        "ambiguous": {
+          "eligibleUnion": 9482,
+          "eligibleCurrent": 8237,
+          "jumpsAbsOver60": 831,
+          "risesOver60": 455,
+          "fallsOver60": 376,
+          "jumpsCurrentGrass": 559,
+          "jumpsBothFullGrass": 36,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 136.1298
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "events": 101944,
+      "ambiguousMaskPixels": 8645,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2208353,
+          "eligibleCurrent": 1848304,
+          "jumpsAbsOver60": 91471,
+          "risesOver60": 48976,
+          "fallsOver60": 42495,
+          "jumpsCurrentGrass": 68209,
+          "jumpsBothFullGrass": 13564,
+          "brightEndpoint180": 65,
+          "maxAbsJump": 160.7978
+        },
+        "20-60": {
+          "eligibleUnion": 75237,
+          "eligibleCurrent": 56777,
+          "jumpsAbsOver60": 9310,
+          "risesOver60": 4494,
+          "fallsOver60": 4816,
+          "jumpsCurrentGrass": 5518,
+          "jumpsBothFullGrass": 158,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 167.4396
+        },
+        "60-120": {
+          "eligibleUnion": 1575,
+          "eligibleCurrent": 1177,
+          "jumpsAbsOver60": 258,
+          "risesOver60": 140,
+          "fallsOver60": 118,
+          "jumpsCurrentGrass": 140,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 119.6496
+        },
+        "ambiguous": {
+          "eligibleUnion": 9925,
+          "eligibleCurrent": 8645,
+          "jumpsAbsOver60": 905,
+          "risesOver60": 546,
+          "fallsOver60": 359,
+          "jumpsCurrentGrass": 621,
+          "jumpsBothFullGrass": 40,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 129.6364
+        }
+      }
+    },
+    {
+      "frame": 3,
+      "events": 103883,
+      "ambiguousMaskPixels": 9034,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2220843,
+          "eligibleCurrent": 1854980,
+          "jumpsAbsOver60": 93063,
+          "risesOver60": 50333,
+          "fallsOver60": 42730,
+          "jumpsCurrentGrass": 69333,
+          "jumpsBothFullGrass": 13410,
+          "brightEndpoint180": 72,
+          "maxAbsJump": 162.4356
+        },
+        "20-60": {
+          "eligibleUnion": 75550,
+          "eligibleCurrent": 57113,
+          "jumpsAbsOver60": 9540,
+          "risesOver60": 4581,
+          "fallsOver60": 4959,
+          "jumpsCurrentGrass": 5570,
+          "jumpsBothFullGrass": 175,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 161.874
+        },
+        "60-120": {
+          "eligibleUnion": 2238,
+          "eligibleCurrent": 1646,
+          "jumpsAbsOver60": 375,
+          "risesOver60": 173,
+          "fallsOver60": 202,
+          "jumpsCurrentGrass": 184,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 123.243
+        },
+        "ambiguous": {
+          "eligibleUnion": 10382,
+          "eligibleCurrent": 9034,
+          "jumpsAbsOver60": 905,
+          "risesOver60": 554,
+          "fallsOver60": 351,
+          "jumpsCurrentGrass": 635,
+          "jumpsBothFullGrass": 36,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 127.7086
+        }
+      }
+    },
+    {
+      "frame": 4,
+      "events": 105935,
+      "ambiguousMaskPixels": 9258,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2228975,
+          "eligibleCurrent": 1861400,
+          "jumpsAbsOver60": 94835,
+          "risesOver60": 50895,
+          "fallsOver60": 43940,
+          "jumpsCurrentGrass": 70017,
+          "jumpsBothFullGrass": 13682,
+          "brightEndpoint180": 59,
+          "maxAbsJump": 160.7978
+        },
+        "20-60": {
+          "eligibleUnion": 75920,
+          "eligibleCurrent": 57393,
+          "jumpsAbsOver60": 9758,
+          "risesOver60": 4657,
+          "fallsOver60": 5101,
+          "jumpsCurrentGrass": 5783,
+          "jumpsBothFullGrass": 193,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 156.0958
+        },
+        "60-120": {
+          "eligibleUnion": 2918,
+          "eligibleCurrent": 2199,
+          "jumpsAbsOver60": 437,
+          "risesOver60": 233,
+          "fallsOver60": 204,
+          "jumpsCurrentGrass": 243,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 126.0708
+        },
+        "ambiguous": {
+          "eligibleUnion": 10603,
+          "eligibleCurrent": 9258,
+          "jumpsAbsOver60": 905,
+          "risesOver60": 544,
+          "fallsOver60": 361,
+          "jumpsCurrentGrass": 647,
+          "jumpsBothFullGrass": 29,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 136.1206
+        }
+      }
+    },
+    {
+      "frame": 5,
+      "events": 109864,
+      "ambiguousMaskPixels": 9447,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2233229,
+          "eligibleCurrent": 1869970,
+          "jumpsAbsOver60": 98676,
+          "risesOver60": 52068,
+          "fallsOver60": 46608,
+          "jumpsCurrentGrass": 72377,
+          "jumpsBothFullGrass": 13481,
+          "brightEndpoint180": 40,
+          "maxAbsJump": 155.0826
+        },
+        "20-60": {
+          "eligibleUnion": 76277,
+          "eligibleCurrent": 57533,
+          "jumpsAbsOver60": 9687,
+          "risesOver60": 4647,
+          "fallsOver60": 5040,
+          "jumpsCurrentGrass": 5719,
+          "jumpsBothFullGrass": 179,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 156.0328
+        },
+        "60-120": {
+          "eligibleUnion": 3387,
+          "eligibleCurrent": 2339,
+          "jumpsAbsOver60": 513,
+          "risesOver60": 243,
+          "fallsOver60": 270,
+          "jumpsCurrentGrass": 255,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 132.8964
+        },
+        "ambiguous": {
+          "eligibleUnion": 10879,
+          "eligibleCurrent": 9447,
+          "jumpsAbsOver60": 988,
+          "risesOver60": 584,
+          "fallsOver60": 404,
+          "jumpsCurrentGrass": 705,
+          "jumpsBothFullGrass": 38,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 142.3084
+        }
+      }
+    },
+    {
+      "frame": 6,
+      "events": 111116,
+      "ambiguousMaskPixels": 9458,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2240720,
+          "eligibleCurrent": 1882717,
+          "jumpsAbsOver60": 99984,
+          "risesOver60": 52143,
+          "fallsOver60": 47841,
+          "jumpsCurrentGrass": 73344,
+          "jumpsBothFullGrass": 13093,
+          "brightEndpoint180": 42,
+          "maxAbsJump": 149.8832
+        },
+        "20-60": {
+          "eligibleUnion": 76731,
+          "eligibleCurrent": 58143,
+          "jumpsAbsOver60": 9586,
+          "risesOver60": 4650,
+          "fallsOver60": 4936,
+          "jumpsCurrentGrass": 5672,
+          "jumpsBothFullGrass": 185,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 159.5944
+        },
+        "60-120": {
+          "eligibleUnion": 3723,
+          "eligibleCurrent": 2525,
+          "jumpsAbsOver60": 578,
+          "risesOver60": 258,
+          "fallsOver60": 320,
+          "jumpsCurrentGrass": 270,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 124.0264
+        },
+        "ambiguous": {
+          "eligibleUnion": 10966,
+          "eligibleCurrent": 9458,
+          "jumpsAbsOver60": 968,
+          "risesOver60": 570,
+          "fallsOver60": 398,
+          "jumpsCurrentGrass": 676,
+          "jumpsBothFullGrass": 34,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 143.1772
+        }
+      }
+    },
+    {
+      "frame": 7,
+      "events": 113662,
+      "ambiguousMaskPixels": 9679,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2250779,
+          "eligibleCurrent": 1891338,
+          "jumpsAbsOver60": 102517,
+          "risesOver60": 54323,
+          "fallsOver60": 48194,
+          "jumpsCurrentGrass": 75811,
+          "jumpsBothFullGrass": 13363,
+          "brightEndpoint180": 53,
+          "maxAbsJump": 152.807
+        },
+        "20-60": {
+          "eligibleUnion": 76982,
+          "eligibleCurrent": 58479,
+          "jumpsAbsOver60": 9574,
+          "risesOver60": 4634,
+          "fallsOver60": 4940,
+          "jumpsCurrentGrass": 5685,
+          "jumpsBothFullGrass": 217,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 166.6626
+        },
+        "60-120": {
+          "eligibleUnion": 4119,
+          "eligibleCurrent": 2870,
+          "jumpsAbsOver60": 602,
+          "risesOver60": 275,
+          "fallsOver60": 327,
+          "jumpsCurrentGrass": 291,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 124.0974
+        },
+        "ambiguous": {
+          "eligibleUnion": 11184,
+          "eligibleCurrent": 9679,
+          "jumpsAbsOver60": 969,
+          "risesOver60": 561,
+          "fallsOver60": 408,
+          "jumpsCurrentGrass": 663,
+          "jumpsBothFullGrass": 33,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 136.5326
+        }
+      }
+    },
+    {
+      "frame": 8,
+      "events": 116106,
+      "ambiguousMaskPixels": 9714,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2258780,
+          "eligibleCurrent": 1892023,
+          "jumpsAbsOver60": 104766,
+          "risesOver60": 53718,
+          "fallsOver60": 51048,
+          "jumpsCurrentGrass": 75953,
+          "jumpsBothFullGrass": 13544,
+          "brightEndpoint180": 59,
+          "maxAbsJump": 148.1732
+        },
+        "20-60": {
+          "eligibleUnion": 77691,
+          "eligibleCurrent": 59193,
+          "jumpsAbsOver60": 9723,
+          "risesOver60": 4902,
+          "fallsOver60": 4821,
+          "jumpsCurrentGrass": 5958,
+          "jumpsBothFullGrass": 237,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 166.3778
+        },
+        "60-120": {
+          "eligibleUnion": 4588,
+          "eligibleCurrent": 3225,
+          "jumpsAbsOver60": 632,
+          "risesOver60": 278,
+          "fallsOver60": 354,
+          "jumpsCurrentGrass": 299,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 121.6444
+        },
+        "ambiguous": {
+          "eligibleUnion": 11263,
+          "eligibleCurrent": 9714,
+          "jumpsAbsOver60": 985,
+          "risesOver60": 571,
+          "fallsOver60": 414,
+          "jumpsCurrentGrass": 673,
+          "jumpsBothFullGrass": 20,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 145.5262
+        }
+      }
+    },
+    {
+      "frame": 9,
+      "events": 116711,
+      "ambiguousMaskPixels": 9890,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2264741,
+          "eligibleCurrent": 1898988,
+          "jumpsAbsOver60": 105195,
+          "risesOver60": 55185,
+          "fallsOver60": 50010,
+          "jumpsCurrentGrass": 76274,
+          "jumpsBothFullGrass": 13412,
+          "brightEndpoint180": 61,
+          "maxAbsJump": 151.9514
+        },
+        "20-60": {
+          "eligibleUnion": 78098,
+          "eligibleCurrent": 59848,
+          "jumpsAbsOver60": 9868,
+          "risesOver60": 4986,
+          "fallsOver60": 4882,
+          "jumpsCurrentGrass": 6138,
+          "jumpsBothFullGrass": 208,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 165.6522
+        },
+        "60-120": {
+          "eligibleUnion": 5093,
+          "eligibleCurrent": 3562,
+          "jumpsAbsOver60": 624,
+          "risesOver60": 278,
+          "fallsOver60": 346,
+          "jumpsCurrentGrass": 292,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 128.8478
+        },
+        "ambiguous": {
+          "eligibleUnion": 11402,
+          "eligibleCurrent": 9890,
+          "jumpsAbsOver60": 1024,
+          "risesOver60": 623,
+          "fallsOver60": 401,
+          "jumpsCurrentGrass": 709,
+          "jumpsBothFullGrass": 20,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 136.5354
+        }
+      }
+    },
+    {
+      "frame": 10,
+      "events": 119534,
+      "ambiguousMaskPixels": 10116,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2277200,
+          "eligibleCurrent": 1909623,
+          "jumpsAbsOver60": 107850,
+          "risesOver60": 57033,
+          "fallsOver60": 50817,
+          "jumpsCurrentGrass": 78085,
+          "jumpsBothFullGrass": 13466,
+          "brightEndpoint180": 55,
+          "maxAbsJump": 152.5892
+        },
+        "20-60": {
+          "eligibleUnion": 78554,
+          "eligibleCurrent": 60134,
+          "jumpsAbsOver60": 9930,
+          "risesOver60": 4984,
+          "fallsOver60": 4946,
+          "jumpsCurrentGrass": 6099,
+          "jumpsBothFullGrass": 230,
+          "brightEndpoint180": 5,
+          "maxAbsJump": 166.0104
+        },
+        "60-120": {
+          "eligibleUnion": 5643,
+          "eligibleCurrent": 3916,
+          "jumpsAbsOver60": 675,
+          "risesOver60": 273,
+          "fallsOver60": 402,
+          "jumpsCurrentGrass": 306,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 134.559
+        },
+        "ambiguous": {
+          "eligibleUnion": 11635,
+          "eligibleCurrent": 10116,
+          "jumpsAbsOver60": 1079,
+          "risesOver60": 631,
+          "fallsOver60": 448,
+          "jumpsCurrentGrass": 735,
+          "jumpsBothFullGrass": 39,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 130.908
+        }
+      }
+    },
+    {
+      "frame": 11,
+      "events": 120976,
+      "ambiguousMaskPixels": 10228,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2286819,
+          "eligibleCurrent": 1914923,
+          "jumpsAbsOver60": 109190,
+          "risesOver60": 57584,
+          "fallsOver60": 51606,
+          "jumpsCurrentGrass": 79808,
+          "jumpsBothFullGrass": 14196,
+          "brightEndpoint180": 51,
+          "maxAbsJump": 154.4448
+        },
+        "20-60": {
+          "eligibleUnion": 79067,
+          "eligibleCurrent": 60701,
+          "jumpsAbsOver60": 10067,
+          "risesOver60": 5155,
+          "fallsOver60": 4912,
+          "jumpsCurrentGrass": 6284,
+          "jumpsBothFullGrass": 254,
+          "brightEndpoint180": 5,
+          "maxAbsJump": 163.7256
+        },
+        "60-120": {
+          "eligibleUnion": 5902,
+          "eligibleCurrent": 3775,
+          "jumpsAbsOver60": 662,
+          "risesOver60": 258,
+          "fallsOver60": 404,
+          "jumpsCurrentGrass": 289,
+          "jumpsBothFullGrass": 5,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 146.614
+        },
+        "ambiguous": {
+          "eligibleUnion": 11755,
+          "eligibleCurrent": 10228,
+          "jumpsAbsOver60": 1057,
+          "risesOver60": 595,
+          "fallsOver60": 462,
+          "jumpsCurrentGrass": 707,
+          "jumpsBothFullGrass": 35,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 127.7808
+        }
+      }
+    },
+    {
+      "frame": 12,
+      "events": 123214,
+      "ambiguousMaskPixels": 10225,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2292833,
+          "eligibleCurrent": 1920701,
+          "jumpsAbsOver60": 111472,
+          "risesOver60": 58775,
+          "fallsOver60": 52697,
+          "jumpsCurrentGrass": 81343,
+          "jumpsBothFullGrass": 14762,
+          "brightEndpoint180": 57,
+          "maxAbsJump": 155.9422
+        },
+        "20-60": {
+          "eligibleUnion": 79840,
+          "eligibleCurrent": 61423,
+          "jumpsAbsOver60": 10111,
+          "risesOver60": 5065,
+          "fallsOver60": 5046,
+          "jumpsCurrentGrass": 6282,
+          "jumpsBothFullGrass": 258,
+          "brightEndpoint180": 7,
+          "maxAbsJump": 162.0156
+        },
+        "60-120": {
+          "eligibleUnion": 5790,
+          "eligibleCurrent": 3746,
+          "jumpsAbsOver60": 632,
+          "risesOver60": 243,
+          "fallsOver60": 389,
+          "jumpsCurrentGrass": 281,
+          "jumpsBothFullGrass": 1,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 136.0524
+        },
+        "ambiguous": {
+          "eligibleUnion": 11646,
+          "eligibleCurrent": 10225,
+          "jumpsAbsOver60": 999,
+          "risesOver60": 541,
+          "fallsOver60": 458,
+          "jumpsCurrentGrass": 663,
+          "jumpsBothFullGrass": 40,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 115.5984
+        }
+      }
+    },
+    {
+      "frame": 13,
+      "events": 121841,
+      "ambiguousMaskPixels": 10369,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2299427,
+          "eligibleCurrent": 1926957,
+          "jumpsAbsOver60": 110057,
+          "risesOver60": 58121,
+          "fallsOver60": 51936,
+          "jumpsCurrentGrass": 80435,
+          "jumpsBothFullGrass": 14053,
+          "brightEndpoint180": 59,
+          "maxAbsJump": 154.7296
+        },
+        "20-60": {
+          "eligibleUnion": 81235,
+          "eligibleCurrent": 62686,
+          "jumpsAbsOver60": 10268,
+          "risesOver60": 5239,
+          "fallsOver60": 5029,
+          "jumpsCurrentGrass": 6532,
+          "jumpsBothFullGrass": 268,
+          "brightEndpoint180": 8,
+          "maxAbsJump": 159.3858
+        },
+        "60-120": {
+          "eligibleUnion": 5614,
+          "eligibleCurrent": 3592,
+          "jumpsAbsOver60": 638,
+          "risesOver60": 250,
+          "fallsOver60": 388,
+          "jumpsCurrentGrass": 286,
+          "jumpsBothFullGrass": 5,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 133.6942
+        },
+        "ambiguous": {
+          "eligibleUnion": 11692,
+          "eligibleCurrent": 10369,
+          "jumpsAbsOver60": 878,
+          "risesOver60": 496,
+          "fallsOver60": 382,
+          "jumpsCurrentGrass": 617,
+          "jumpsBothFullGrass": 39,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 115.3136
+        }
+      }
+    },
+    {
+      "frame": 14,
+      "events": 121923,
+      "ambiguousMaskPixels": 10497,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2306198,
+          "eligibleCurrent": 1938751,
+          "jumpsAbsOver60": 109989,
+          "risesOver60": 58921,
+          "fallsOver60": 51068,
+          "jumpsCurrentGrass": 80897,
+          "jumpsBothFullGrass": 14455,
+          "brightEndpoint180": 61,
+          "maxAbsJump": 154.0918
+        },
+        "20-60": {
+          "eligibleUnion": 81655,
+          "eligibleCurrent": 62933,
+          "jumpsAbsOver60": 10343,
+          "risesOver60": 5368,
+          "fallsOver60": 4975,
+          "jumpsCurrentGrass": 6645,
+          "jumpsBothFullGrass": 257,
+          "brightEndpoint180": 6,
+          "maxAbsJump": 152.105
+        },
+        "60-120": {
+          "eligibleUnion": 5572,
+          "eligibleCurrent": 3604,
+          "jumpsAbsOver60": 674,
+          "risesOver60": 306,
+          "fallsOver60": 368,
+          "jumpsCurrentGrass": 333,
+          "jumpsBothFullGrass": 1,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 116.4988
+        },
+        "ambiguous": {
+          "eligibleUnion": 11869,
+          "eligibleCurrent": 10497,
+          "jumpsAbsOver60": 917,
+          "risesOver60": 512,
+          "fallsOver60": 405,
+          "jumpsCurrentGrass": 653,
+          "jumpsBothFullGrass": 42,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 116.012
+        }
+      }
+    },
+    {
+      "frame": 15,
+      "events": 126872,
+      "ambiguousMaskPixels": 10708,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2313049,
+          "eligibleCurrent": 1945362,
+          "jumpsAbsOver60": 114829,
+          "risesOver60": 61998,
+          "fallsOver60": 52831,
+          "jumpsCurrentGrass": 84562,
+          "jumpsBothFullGrass": 15496,
+          "brightEndpoint180": 54,
+          "maxAbsJump": 140.0866
+        },
+        "20-60": {
+          "eligibleUnion": 82570,
+          "eligibleCurrent": 64087,
+          "jumpsAbsOver60": 10410,
+          "risesOver60": 5467,
+          "fallsOver60": 4943,
+          "jumpsCurrentGrass": 6754,
+          "jumpsBothFullGrass": 280,
+          "brightEndpoint180": 5,
+          "maxAbsJump": 154.748
+        },
+        "60-120": {
+          "eligibleUnion": 5643,
+          "eligibleCurrent": 3679,
+          "jumpsAbsOver60": 721,
+          "risesOver60": 331,
+          "fallsOver60": 390,
+          "jumpsCurrentGrass": 353,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 111.9384
+        },
+        "ambiguous": {
+          "eligibleUnion": 12182,
+          "eligibleCurrent": 10708,
+          "jumpsAbsOver60": 912,
+          "risesOver60": 505,
+          "fallsOver60": 407,
+          "jumpsCurrentGrass": 609,
+          "jumpsBothFullGrass": 37,
+          "brightEndpoint180": 4,
+          "maxAbsJump": 128.5538
+        }
+      }
+    },
+    {
+      "frame": 16,
+      "events": 131532,
+      "ambiguousMaskPixels": 10862,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2321805,
+          "eligibleCurrent": 1953046,
+          "jumpsAbsOver60": 119106,
+          "risesOver60": 62892,
+          "fallsOver60": 56214,
+          "jumpsCurrentGrass": 86582,
+          "jumpsBothFullGrass": 16036,
+          "brightEndpoint180": 51,
+          "maxAbsJump": 140.5342
+        },
+        "20-60": {
+          "eligibleUnion": 83478,
+          "eligibleCurrent": 64521,
+          "jumpsAbsOver60": 10676,
+          "risesOver60": 5567,
+          "fallsOver60": 5109,
+          "jumpsCurrentGrass": 6819,
+          "jumpsBothFullGrass": 252,
+          "brightEndpoint180": 6,
+          "maxAbsJump": 162.8804
+        },
+        "60-120": {
+          "eligibleUnion": 5935,
+          "eligibleCurrent": 3945,
+          "jumpsAbsOver60": 779,
+          "risesOver60": 426,
+          "fallsOver60": 353,
+          "jumpsCurrentGrass": 448,
+          "jumpsBothFullGrass": 2,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 115.8836
+        },
+        "ambiguous": {
+          "eligibleUnion": 12338,
+          "eligibleCurrent": 10862,
+          "jumpsAbsOver60": 971,
+          "risesOver60": 504,
+          "fallsOver60": 467,
+          "jumpsCurrentGrass": 643,
+          "jumpsBothFullGrass": 50,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 128.5158
+        }
+      }
+    },
+    {
+      "frame": 17,
+      "events": 133618,
+      "ambiguousMaskPixels": 11029,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2331194,
+          "eligibleCurrent": 1959727,
+          "jumpsAbsOver60": 121276,
+          "risesOver60": 63895,
+          "fallsOver60": 57381,
+          "jumpsCurrentGrass": 87338,
+          "jumpsBothFullGrass": 15848,
+          "brightEndpoint180": 37,
+          "maxAbsJump": 150.9606
+        },
+        "20-60": {
+          "eligibleUnion": 84471,
+          "eligibleCurrent": 65505,
+          "jumpsAbsOver60": 10543,
+          "risesOver60": 5378,
+          "fallsOver60": 5165,
+          "jumpsCurrentGrass": 6714,
+          "jumpsBothFullGrass": 284,
+          "brightEndpoint180": 5,
+          "maxAbsJump": 155.5852
+        },
+        "60-120": {
+          "eligibleUnion": 6462,
+          "eligibleCurrent": 4346,
+          "jumpsAbsOver60": 868,
+          "risesOver60": 496,
+          "fallsOver60": 372,
+          "jumpsCurrentGrass": 525,
+          "jumpsBothFullGrass": 1,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 118.3914
+        },
+        "ambiguous": {
+          "eligibleUnion": 12476,
+          "eligibleCurrent": 11029,
+          "jumpsAbsOver60": 931,
+          "risesOver60": 486,
+          "fallsOver60": 445,
+          "jumpsCurrentGrass": 641,
+          "jumpsBothFullGrass": 57,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 113.9582
+        }
+      }
+    },
+    {
+      "frame": 18,
+      "events": 135257,
+      "ambiguousMaskPixels": 10927,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2338658,
+          "eligibleCurrent": 1963376,
+          "jumpsAbsOver60": 122800,
+          "risesOver60": 64901,
+          "fallsOver60": 57899,
+          "jumpsCurrentGrass": 88381,
+          "jumpsBothFullGrass": 15442,
+          "brightEndpoint180": 45,
+          "maxAbsJump": 153.7388
+        },
+        "20-60": {
+          "eligibleUnion": 86011,
+          "eligibleCurrent": 67088,
+          "jumpsAbsOver60": 10578,
+          "risesOver60": 5496,
+          "fallsOver60": 5082,
+          "jumpsCurrentGrass": 6805,
+          "jumpsBothFullGrass": 259,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 153.0998
+        },
+        "60-120": {
+          "eligibleUnion": 6971,
+          "eligibleCurrent": 4747,
+          "jumpsAbsOver60": 875,
+          "risesOver60": 499,
+          "fallsOver60": 376,
+          "jumpsCurrentGrass": 520,
+          "jumpsBothFullGrass": 1,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 119.3244
+        },
+        "ambiguous": {
+          "eligibleUnion": 12346,
+          "eligibleCurrent": 10927,
+          "jumpsAbsOver60": 1004,
+          "risesOver60": 543,
+          "fallsOver60": 461,
+          "jumpsCurrentGrass": 678,
+          "jumpsBothFullGrass": 63,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 118.3188
+        }
+      }
+    },
+    {
+      "frame": 19,
+      "events": 138967,
+      "ambiguousMaskPixels": 11389,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2344486,
+          "eligibleCurrent": 1962817,
+          "jumpsAbsOver60": 126564,
+          "risesOver60": 65976,
+          "fallsOver60": 60588,
+          "jumpsCurrentGrass": 90440,
+          "jumpsBothFullGrass": 15921,
+          "brightEndpoint180": 36,
+          "maxAbsJump": 154.6666
+        },
+        "20-60": {
+          "eligibleUnion": 87531,
+          "eligibleCurrent": 68297,
+          "jumpsAbsOver60": 10611,
+          "risesOver60": 5552,
+          "fallsOver60": 5059,
+          "jumpsCurrentGrass": 6825,
+          "jumpsBothFullGrass": 287,
+          "brightEndpoint180": 4,
+          "maxAbsJump": 145.0236
+        },
+        "60-120": {
+          "eligibleUnion": 7599,
+          "eligibleCurrent": 5254,
+          "jumpsAbsOver60": 894,
+          "risesOver60": 514,
+          "fallsOver60": 380,
+          "jumpsCurrentGrass": 542,
+          "jumpsBothFullGrass": 0,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 120.1892
+        },
+        "ambiguous": {
+          "eligibleUnion": 12779,
+          "eligibleCurrent": 11389,
+          "jumpsAbsOver60": 898,
+          "risesOver60": 493,
+          "fallsOver60": 405,
+          "jumpsCurrentGrass": 600,
+          "jumpsBothFullGrass": 44,
+          "brightEndpoint180": 2,
+          "maxAbsJump": 117.9396
+        }
+      }
+    },
+    {
+      "frame": 20,
+      "events": 143800,
+      "ambiguousMaskPixels": 11598,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2344696,
+          "eligibleCurrent": 1959208,
+          "jumpsAbsOver60": 131438,
+          "risesOver60": 67508,
+          "fallsOver60": 63930,
+          "jumpsCurrentGrass": 93232,
+          "jumpsBothFullGrass": 16696,
+          "brightEndpoint180": 26,
+          "maxAbsJump": 149.8832
+        },
+        "20-60": {
+          "eligibleUnion": 89729,
+          "eligibleCurrent": 70042,
+          "jumpsAbsOver60": 10574,
+          "risesOver60": 5518,
+          "fallsOver60": 5056,
+          "jumpsCurrentGrass": 6728,
+          "jumpsBothFullGrass": 269,
+          "brightEndpoint180": 7,
+          "maxAbsJump": 153.3766
+        },
+        "60-120": {
+          "eligibleUnion": 8292,
+          "eligibleCurrent": 5735,
+          "jumpsAbsOver60": 895,
+          "risesOver60": 522,
+          "fallsOver60": 373,
+          "jumpsCurrentGrass": 552,
+          "jumpsBothFullGrass": 6,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 118.009
+        },
+        "ambiguous": {
+          "eligibleUnion": 13033,
+          "eligibleCurrent": 11598,
+          "jumpsAbsOver60": 893,
+          "risesOver60": 451,
+          "fallsOver60": 442,
+          "jumpsCurrentGrass": 558,
+          "jumpsBothFullGrass": 50,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 116.6128
+        }
+      }
+    },
+    {
+      "frame": 21,
+      "events": 146113,
+      "ambiguousMaskPixels": 11798,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2347797,
+          "eligibleCurrent": 1967044,
+          "jumpsAbsOver60": 133271,
+          "risesOver60": 69254,
+          "fallsOver60": 64017,
+          "jumpsCurrentGrass": 94971,
+          "jumpsBothFullGrass": 16698,
+          "brightEndpoint180": 25,
+          "maxAbsJump": 149.0918
+        },
+        "20-60": {
+          "eligibleUnion": 92040,
+          "eligibleCurrent": 72066,
+          "jumpsAbsOver60": 10973,
+          "risesOver60": 5835,
+          "fallsOver60": 5138,
+          "jumpsCurrentGrass": 7148,
+          "jumpsBothFullGrass": 278,
+          "brightEndpoint180": 22,
+          "maxAbsJump": 147.8976
+        },
+        "60-120": {
+          "eligibleUnion": 8817,
+          "eligibleCurrent": 6020,
+          "jumpsAbsOver60": 955,
+          "risesOver60": 505,
+          "fallsOver60": 450,
+          "jumpsCurrentGrass": 544,
+          "jumpsBothFullGrass": 3,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 122.299
+        },
+        "ambiguous": {
+          "eligibleUnion": 13154,
+          "eligibleCurrent": 11798,
+          "jumpsAbsOver60": 914,
+          "risesOver60": 479,
+          "fallsOver60": 435,
+          "jumpsCurrentGrass": 593,
+          "jumpsBothFullGrass": 34,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 130.2008
+        }
+      }
+    },
+    {
+      "frame": 22,
+      "events": 146895,
+      "ambiguousMaskPixels": 12371,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2358402,
+          "eligibleCurrent": 1976399,
+          "jumpsAbsOver60": 133516,
+          "risesOver60": 71250,
+          "fallsOver60": 62266,
+          "jumpsCurrentGrass": 96843,
+          "jumpsBothFullGrass": 16935,
+          "brightEndpoint180": 35,
+          "maxAbsJump": 151.2362
+        },
+        "20-60": {
+          "eligibleUnion": 92935,
+          "eligibleCurrent": 72630,
+          "jumpsAbsOver60": 11483,
+          "risesOver60": 5992,
+          "fallsOver60": 5491,
+          "jumpsCurrentGrass": 7328,
+          "jumpsBothFullGrass": 260,
+          "brightEndpoint180": 42,
+          "maxAbsJump": 149.5222
+        },
+        "60-120": {
+          "eligibleUnion": 9314,
+          "eligibleCurrent": 6471,
+          "jumpsAbsOver60": 962,
+          "risesOver60": 535,
+          "fallsOver60": 427,
+          "jumpsCurrentGrass": 566,
+          "jumpsBothFullGrass": 2,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 125.9328
+        },
+        "ambiguous": {
+          "eligibleUnion": 13770,
+          "eligibleCurrent": 12371,
+          "jumpsAbsOver60": 934,
+          "risesOver60": 551,
+          "fallsOver60": 383,
+          "jumpsCurrentGrass": 654,
+          "jumpsBothFullGrass": 44,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 124.4214
+        }
+      }
+    },
+    {
+      "frame": 23,
+      "events": 150496,
+      "ambiguousMaskPixels": 12588,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2365908,
+          "eligibleCurrent": 1983523,
+          "jumpsAbsOver60": 136982,
+          "risesOver60": 71157,
+          "fallsOver60": 65825,
+          "jumpsCurrentGrass": 98027,
+          "jumpsBothFullGrass": 17788,
+          "brightEndpoint180": 41,
+          "maxAbsJump": 149.4488
+        },
+        "20-60": {
+          "eligibleUnion": 95702,
+          "eligibleCurrent": 75433,
+          "jumpsAbsOver60": 11641,
+          "risesOver60": 6219,
+          "fallsOver60": 5422,
+          "jumpsCurrentGrass": 7545,
+          "jumpsBothFullGrass": 249,
+          "brightEndpoint180": 38,
+          "maxAbsJump": 149.5944
+        },
+        "60-120": {
+          "eligibleUnion": 9637,
+          "eligibleCurrent": 6540,
+          "jumpsAbsOver60": 974,
+          "risesOver60": 545,
+          "fallsOver60": 429,
+          "jumpsCurrentGrass": 572,
+          "jumpsBothFullGrass": 5,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 123.9368
+        },
+        "ambiguous": {
+          "eligibleUnion": 14180,
+          "eligibleCurrent": 12588,
+          "jumpsAbsOver60": 899,
+          "risesOver60": 477,
+          "fallsOver60": 422,
+          "jumpsCurrentGrass": 590,
+          "jumpsBothFullGrass": 39,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 120.4988
+        }
+      }
+    },
+    {
+      "frame": 24,
+      "events": 151551,
+      "ambiguousMaskPixels": 12802,
+      "buckets": {
+        "0-20": {
+          "eligibleUnion": 2375104,
+          "eligibleCurrent": 1993383,
+          "jumpsAbsOver60": 137994,
+          "risesOver60": 71884,
+          "fallsOver60": 66110,
+          "jumpsCurrentGrass": 98838,
+          "jumpsBothFullGrass": 17845,
+          "brightEndpoint180": 57,
+          "maxAbsJump": 147.3084
+        },
+        "20-60": {
+          "eligibleUnion": 98173,
+          "eligibleCurrent": 77869,
+          "jumpsAbsOver60": 11648,
+          "risesOver60": 6155,
+          "fallsOver60": 5493,
+          "jumpsCurrentGrass": 7517,
+          "jumpsBothFullGrass": 238,
+          "brightEndpoint180": 38,
+          "maxAbsJump": 149.7348
+        },
+        "60-120": {
+          "eligibleUnion": 9904,
+          "eligibleCurrent": 6769,
+          "jumpsAbsOver60": 1017,
+          "risesOver60": 534,
+          "fallsOver60": 483,
+          "jumpsCurrentGrass": 574,
+          "jumpsBothFullGrass": 6,
+          "brightEndpoint180": 0,
+          "maxAbsJump": 123.9368
+        },
+        "ambiguous": {
+          "eligibleUnion": 14375,
+          "eligibleCurrent": 12802,
+          "jumpsAbsOver60": 892,
+          "risesOver60": 459,
+          "fallsOver60": 433,
+          "jumpsCurrentGrass": 570,
+          "jumpsBothFullGrass": 43,
+          "brightEndpoint180": 1,
+          "maxAbsJump": 126.567
+        }
+      }
+    }
+  ],
+  "eventFormat": {
+    "file": "events.bin.gz",
+    "recordBytes": 18,
+    "littleEndian": true,
+    "fields": {
+      "pixelIndex": "uint32 @0 (y*2940+x)",
+      "frame": "uint8 @4",
+      "currentBucket": "uint8 @5; 0/1/2 bins,3 ambiguous,255 absent",
+      "previousBucket": "uint8 @6",
+      "flags": "uint8 @7: current grass bit0, previous grass bit1, both-full bit2, either endpoint >=180 bit3",
+      "beforeLuminance": "uint32 @8 /10000",
+      "afterLuminance": "uint32 @12 /10000",
+      "previousCoverage": "uint8 @16 /255",
+      "currentCoverage": "uint8 @17 /255"
+    }
+  }
+}
