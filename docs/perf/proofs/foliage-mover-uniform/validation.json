@@ -1,0 +1,14 @@
+{
+  "sourceSha256": "f37a46bcf1e8d500a47b65cec6530ced9751c22434f0fd4245d6d52df525dbb9",
+  "focusedTests": {
+    "passed": 48,
+    "files": 5
+  },
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "compiledFixtureCases": 8,
+  "nativePixelPoses": 5,
+  "nativeExactRgb": true,
+  "restoredControlsExact": true,
+  "hardwareFrameTimeMeasured": false
+}

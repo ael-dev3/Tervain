@@ -1,0 +1,1264 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.23",
+      "revision": "f515599"
+    },
+    "nativeBuildLine": "v0.0.23 · f515599 · pre-alpha",
+    "size": [
+      640,
+      360
+    ],
+    "samples": 4,
+    "quality": "high",
+    "treeDetailByDistance": false,
+    "strikeRoot": {
+      "label": "tree:wild:28:30",
+      "x": -196.17760752409728,
+      "z": 21.489233074542117
+    },
+    "materials": 321,
+    "bindings": 330
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "before": {
+        "draws": 376,
+        "triangles": 6413125,
+        "textures": 274,
+        "moverCalls": 96,
+        "moverBytes": 9216,
+        "allUniformCalls": 298
+      },
+      "after": {
+        "draws": 376,
+        "triangles": 6413125,
+        "textures": 274,
+        "moverCalls": 0,
+        "moverBytes": 0,
+        "allUniformCalls": 205
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "2278fbfa6b54c0fb3eadb851dd759651507994b938b4c0d384f9d7a36ed9b109"
+    },
+    {
+      "frame": 1,
+      "before": {
+        "draws": 379,
+        "triangles": 6447213,
+        "textures": 274,
+        "moverCalls": 96,
+        "moverBytes": 9216,
+        "allUniformCalls": 298
+      },
+      "after": {
+        "draws": 379,
+        "triangles": 6447213,
+        "textures": 274,
+        "moverCalls": 0,
+        "moverBytes": 0,
+        "allUniformCalls": 205
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "69aa5aaec199edbe4828784a64d0e01aa43c25e4627ab5126e1052f2339b62e9"
+    },
+    {
+      "frame": 2,
+      "before": {
+        "draws": 380,
+        "triangles": 6491322,
+        "textures": 274,
+        "moverCalls": 96,
+        "moverBytes": 9216,
+        "allUniformCalls": 298
+      },
+      "after": {
+        "draws": 380,
+        "triangles": 6491322,
+        "textures": 274,
+        "moverCalls": 0,
+        "moverBytes": 0,
+        "allUniformCalls": 205
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "641000ab234b6b50b787c7f6a2a25dac7ce5ba1b96e6b15484240ad6a5cd4be5"
+    },
+    {
+      "frame": 3,
+      "before": {
+        "draws": 381,
+        "triangles": 6506078,
+        "textures": 274,
+        "moverCalls": 96,
+        "moverBytes": 9216,
+        "allUniformCalls": 298
+      },
+      "after": {
+        "draws": 381,
+        "triangles": 6506078,
+        "textures": 274,
+        "moverCalls": 0,
+        "moverBytes": 0,
+        "allUniformCalls": 205
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "539a4a3634d9cf70e18a1ce608623463b81eedfb2bd5cf75f00798a0bcc8f5f7"
+    },
+    {
+      "frame": 4,
+      "before": {
+        "draws": 380,
+        "triangles": 6505694,
+        "textures": 274,
+        "moverCalls": 96,
+        "moverBytes": 9216,
+        "allUniformCalls": 298
+      },
+      "after": {
+        "draws": 380,
+        "triangles": 6505694,
+        "textures": 274,
+        "moverCalls": 0,
+        "moverBytes": 0,
+        "allUniformCalls": 205
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "bca0cb804517ffe7b7c840d3584e1707932807b775f8e3942012b4f2fd28ed3f"
+    }
+  ],
+  "uniforms": [
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "before",
+      "name": "uFoliageMovers[0]",
+      "size": 6,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[0].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[1].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[2].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[3].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[4].item",
+      "size": 1,
+      "type": 35666
+    },
+    {
+      "mode": "after",
+      "name": "uFoliageMovers[5].item",
+      "size": 1,
+      "type": 35666
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "f37a46bcf1e8d500a47b65cec6530ced9751c22434f0fd4245d6d52df525dbb9",
+  "sortSourceSha256": "3139dfcd01675333266c02d853a768913318f353e694de39545aa50747d2011a",
+  "pass": true,
+  "scope": "Published native High post/MSAA4 forest, five nearby moving forest poses and fixed wind phases; shadow maps update normally during all five pixel comparisons and during CPU replay. Actual production helper applied to cloned foliage materials; original opaque sort order retained and checked pixel-exact against native. Restored/before/after RGB exact. Uniform command payload is API input, not measured GPU bus traffic or Mac FPS. An active strike uses the same four native field slots in both modes; no geometry or style change."
+}
