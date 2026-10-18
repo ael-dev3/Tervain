@@ -3,7 +3,8 @@ import path from 'node:path';
 import {liveProofPage} from './live-proof-page.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));
 const out=args.out??'oak-wind-cost';fs.mkdirSync(out,{recursive:true});
-const controls=args.controls?JSON.parse(fs.readFileSync(args.controls,'utf8')):null;
+const input=args.controls?JSON.parse(fs.readFileSync(args.controls,'utf8')):null,controls=input?.controls??input;
+if(controls&&(!Number.isFinite(controls.cloud)||!Number.isFinite(controls.grade)||!['direction','scroll'].every(k=>Array.isArray(controls.wind?.[k])&&controls.wind[k].length===4&&controls.wind[k].every(Number.isFinite))))throw Error('Invalid matched wind controls');
 const p=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'high',hour:15,w:1440,h:900,dpr:2});
 try{
  const setup=await p.eval(`const T=window.tervain;T.frame=()=>{};T.present=()=>{};T.perf?.end(0);T.perf=null;T.settings.reducedMotion=true;T.lastFrameDt=0;T.cam.mode='proof';

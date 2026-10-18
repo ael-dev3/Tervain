@@ -27,7 +27,7 @@ Mean wall-clock submission ms: oak **5.69 → 4.78**, forest **3.95 → 4.98**. 
 
 Static shader cost is nonzero: the active fallback requires one gust fetch per wood vertex and two per leaf vertex; hierarchy requires three. The restored field adds two vertex attributes (seven floats per vertex) where absent. It adds no draws, triangles or texture images, and no application-frame loop. Do not infer zero shader cost from equal geometry budgets or noisy whole-frame means.
 
-Stock draw/triangle budget gate: **pending**, no PASS claimed in this report yet.
+**Stock software draw/triangle budget gate: PASS**, exact compiled source cf0df55f6. Live and study maxima are both **285 draws / 3,061,929 triangles**, zero console errors, no triangle allowance. Four samples per probe; live takes the maximum of two probes. [Receipt](proofs/oak-authored-wind/budget.txt); preview address omitted. The stock gate does not time GPU work; the query table above is a separate adjacent check. Stock gate source SHA-256: `08fcfec34d3427779a9ce40153467e23c912d41d4759cd2d06d3f653840c61d2`.
 
 ## Motion evidence
 
@@ -38,6 +38,6 @@ Stock draw/triangle budget gate: **pending**, no PASS claimed in this report yet
 
 [Before queries](proofs/oak-authored-wind/before.json), [study queries and field metadata](proofs/oak-authored-wind/after.json), [phase differences](proofs/oak-authored-wind/motion-differences.json). The pixel differences demonstrate the comparison, not visual improvement or unchanged pixels during wind.
 
-Reproduce using `tools/measure-oak-wind-cost.mjs` against the published build and a preview built from cf0df55f6. Supply the recorded controls with `--controls`; require `--require-wind true` on the reader control. The helper records compiled revision and rejects missing wood/leaf wind attributes. Build/typecheck and 15 related tests pass; the two copy-regression cases fail against the original copying behavior.
+Reproduce using `tools/measure-oak-wind-cost.mjs` against the published build and a preview built from cf0df55f6. Supply `docs/perf/proofs/oak-authored-wind/controls.json` with `--controls`; require `--require-wind true` on the reader control. The helper records compiled revision and rejects missing wood/leaf wind attributes. Build/typecheck and 15 related tests pass; the two copy-regression cases fail against the original copying behavior.
 
 A production change would need an indexed authored-field reader, load-cost measurement, stronger paired timing and motion review. The prototype is intentionally left for that decision; it is not a budget-neutral fix claim.
