@@ -368,6 +368,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         material.alphaToCoverage = false;
         casterMaterials.push(material);
         const c = new THREE.InstancedMesh(geometry, material, b.trees.length);
+        // Like the colour batches, local pose is fixed; placements live in instanceMatrix and wind in the shader.
+        c.matrixAutoUpdate = false;
         c.count = 0;
         c.visible = false;
         // Repaired foliage may have moved since the source sphere was cached.

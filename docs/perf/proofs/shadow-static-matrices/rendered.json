@@ -1,0 +1,199 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.24",
+      "revision": "06ef770"
+    },
+    "printed": "v0.0.24 · 06ef770 · pre-alpha",
+    "quality": "high",
+    "samples": 4,
+    "rasterSuppressed": false,
+    "casters": 120,
+    "counts": {
+      "before": 120,
+      "after": 0,
+      "restored": 120
+    }
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        0.09966865249116204,
+        1.25,
+        12
+      ],
+      "before": {
+        "draws": 414,
+        "triangles": 5966462,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 414,
+        "triangles": 5966462,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "b6d9ead731b9c2c77150cb3cc8288132894a6bc910fe3679cfbd1bbc42c010d6"
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        0.09966865249116204,
+        1.45,
+        12
+      ],
+      "before": {
+        "draws": 416,
+        "triangles": 5968390,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 416,
+        "triangles": 5968390,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "0e77e6b338bc5b0c1f2737e1db9742b819427a446685123fe70cef881e203f66"
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        0.09966865249116204,
+        1.65,
+        12
+      ],
+      "before": {
+        "draws": 418,
+        "triangles": 6031935,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6031935,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "60e67d9b5228787c859d3ae099f6301c4f228924e00129ec0f6a4d80c5d75db2"
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        0.09966865249116204,
+        1.85,
+        12
+      ],
+      "before": {
+        "draws": 419,
+        "triangles": 6051744,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 419,
+        "triangles": 6051744,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "dca0123e2bd30a287f7771b5891d4b35a4f3961d2e7e17bd62665ee225fafdc1"
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        0.09966865249116204,
+        2.05,
+        12
+      ],
+      "before": {
+        "draws": 421,
+        "triangles": 6052764,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 421,
+        "triangles": 6052764,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "f4097e3f17b1a867f4ff8b6d1c088da0ef006404cecb7cbb12115c9d58eed6ce"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0,
+        2.5,
+        12
+      ],
+      "before": {
+        "draws": 231,
+        "triangles": 3702915,
+        "uploadBytes": 13440,
+        "textures": 274
+      },
+      "after": {
+        "draws": 231,
+        "triangles": 3702915,
+        "uploadBytes": 13440,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "fa3216ced75bbc2aae2c633d4ace9017a9e31913d94efec29a7fdb14e795d371"
+    },
+    {
+      "pose": [
+        -173,
+        7,
+        0,
+        0,
+        2.5,
+        19
+      ],
+      "before": {
+        "draws": 283,
+        "triangles": 3288803,
+        "uploadBytes": 24960,
+        "textures": 274
+      },
+      "after": {
+        "draws": 283,
+        "triangles": 3288803,
+        "uploadBytes": 24960,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "565b40eadfe4e787c6e26add70e4004557100302324ec2ca6685910d05a57926"
+    }
+  ],
+  "scope": "Seven native published High post/MSAA4 renders, shadow maps refreshed. Same production field change applied to published native shadow meshes; identity local poses asserted. Baseline/candidate/restored RGB, draws, triangles, uploads and texture counts compared. Native raster enabled. Software correctness and command-count proof, not hardware timing or visual-quality PASS.",
+  "consoleErrors": [],
+  "sourceSha256": "546f75170c463b8cf5c0660fe4410d99e903b1545096863f941bed3a4afc0f3b",
+  "pass": true
+}
