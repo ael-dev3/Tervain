@@ -48,4 +48,15 @@ The driver imports the original and candidate floor modules against the current 
 
 ## Exact-head budget
 
-The native High Retina budget run is in progress for the immutable compiled candidate f508dc257ec2060bb8413dd37039f37ab3604698. Producer tooling includes #673's shot-start correction and #678's distinct-completed-frame recorder. It keeps two live probes, four completed samples per probe, no allowances and zero-error/revision requirements. No PASS receipt is claimed yet.
+The full native High Retina run completed with exit 0 for immutable compiled head `f508dc257ec2060bb8413dd37039f37ab3604698`. Producer: #673 shot-start correction plus #678 distinct-completed-frame recorder. Two live probes, four completed frames per probe; no allowances, no raster suppression and unchanged rejection limits.
+
+| Budget | Live d244d39 | Candidate f508dc2 |
+| --- | ---: | ---: |
+| Maximum draws | 285 | 285 |
+| Maximum triangles | 3,061,335 | 3,061,335 |
+| Console errors | 0 | 0 |
+| Candidate revision matches tested head | — | yes |
+
+This is a software-WebGL budget receipt using the stated corrected producer, not an unmodified-main-tool run or a hardware frame-pacing claim.
+
+`play-gate: PASS f508dc2`
