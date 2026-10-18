@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><script type="module">
+window.addEventListener('error',e=>window.fixtureError=e.message);
+window.addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));
+const before=await import('/@baseline-grass'),after=await import('/src/presentation/grass/grassMaterial.ts');
+const gl=document.createElement('canvas').getContext('webgl2');if(!gl)throw Error('WebGL2 required');
+const slice=(s,a,b)=>{const i=s.indexOf(a),j=s.indexOf(b,i);if(i<0||j<0)throw Error('Production shader marker missing');return s.slice(i,j+b.length);};
+const parts=s=>({arc:slice(s,'float gSa =','gP2 *= gLen;'),tangent:s.match(/vec3 gTangent = [^;]+;/)[0],rounding:s.match(/gN = normalize\(gN \+ gAcross[^;]+;/)[0],coverage:slice(s,s.includes('float gSafeDist =')?'float gSafeDist =':'float gPxPerM =','float gBladeCov = smoothstep(0.8, 2.5, gBladePx);')});
+const cases=[];for(const angle of [0,.2,.6,1,1.5])for(const azimuth of [0,.5,1.5,3])for(const nominal of [1,3,40])for(const distance of [2,8,16])for(const facing of [0,.1,.5,1,1.2])for(const t of [0,.88,1])for(const edge of [-1,0,1])cases.push({angle,azimuth,nominal,distance,facing,t,edge});
+const data=Float32Array.from(cases.flatMap(c=>[c.angle,Math.cos(c.azimuth),Math.sin(c.azimuth),.8,c.nominal,c.distance,c.facing,1,c.t,c.edge,0,0]));
+function run(source){
+ const p=parts(source),vertex=['#version 300 es','precision highp float;','layout(location=0) in vec4 aArc;layout(location=1) in vec4 aCoverage;layout(location=2) in vec4 aVertex;','out vec4 arc1;out vec4 arc2;out vec4 coverage;out vec4 tangent;out vec4 roundedNormal;','void main(){','float gAngle=aArc.x;vec2 gTiltDir=normalize(aArc.yz);float gH=aArc.w;',p.arc,'float gT=aVertex.x;float gU=1.0-gT;float gEdge=aVertex.y;',p.tangent,'vec3 gAcross=vec3(cos(aArc.x),0.0,sin(aArc.x));vec3 gN=normalize(cross(gAcross,gTangent));',p.rounding,'tangent=vec4(gTangent,0.0);roundedNormal=vec4(gN,0.0);','float gDist=aCoverage.y;float gR3=.5;float gSizeComp=1.0;','float gFaceDot=aCoverage.z*gDist;float uGrassPx=2.0*gDist;mat4 projectionMatrix=mat4(1.0);','vec4 uClump=vec4(0.0,aCoverage.x/(.6+.75*gR3),0.0,0.0);float gStem=aCoverage.w;float gFlower=0.0;',p.coverage,'arc1=vec4(gP1,gLen);arc2=vec4(gP2,gArc);coverage=vec4(gBladePx,gBladeCov,gHeadPx,gHeadCov);gl_Position=vec4(0.0);','}'].join('\n');
+ const compile=(type,text)=>{const s=gl.createShader(type);gl.shaderSource(s,text);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};
+ const program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,'#version 300 es\nprecision highp float;out vec4 color;void main(){color=vec4(1.0);}'));
+ gl.transformFeedbackVaryings(program,['arc1','arc2','coverage','tangent','roundedNormal'],gl.INTERLEAVED_ATTRIBS);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+ const input=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,input);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);for(let i=0;i<3;i++){gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,4,gl.FLOAT,false,48,i*16);}
+ const output=gl.createBuffer();gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,output);gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER,cases.length*20*4,gl.STREAM_READ);gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,output);
+ gl.enable(gl.RASTERIZER_DISCARD);gl.beginTransformFeedback(gl.POINTS);gl.drawArrays(gl.POINTS,0,cases.length);gl.endTransformFeedback();gl.disable(gl.RASTERIZER_DISCARD);
+ const values=new Float32Array(cases.length*20);gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,values);gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,null);if(gl.getError()||gl.isContextLost())throw Error('Invalid transform-feedback probe');
+ gl.deleteBuffer(input);gl.deleteBuffer(output);gl.deleteProgram(program);return{parts:p,values:Array.from(values)};
+}
+window.facingProbe={fragmentEqual:before.GRASS_FRAGMENT_DECL===after.GRASS_FRAGMENT_DECL&&before.GRASS_LIGHT_GLSL===after.GRASS_LIGHT_GLSL,cases,before:run(before.GRASS_BLADE_GLSL),after:run(after.GRASS_BLADE_GLSL)};window.fixtureReady=true;
+</script>
