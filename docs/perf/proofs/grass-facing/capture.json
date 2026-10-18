@@ -1,0 +1,553 @@
+{
+  "published": {
+    "version": "0.0.22",
+    "revision": "d40777b"
+  },
+  "setup": {
+    "build": {
+      "version": "0.0.22",
+      "revision": "4ebcbcf4b"
+    },
+    "post": true,
+    "samples": 4,
+    "size": [
+      2160,
+      1350
+    ],
+    "deviceRatio": 2,
+    "renderRatio": 1.5,
+    "wantDist": 6,
+    "pitch": 0.25
+  },
+  "roi": {
+    "left": 216,
+    "top": 472,
+    "width": 1728,
+    "height": 810
+  },
+  "results": [
+    {
+      "case": {
+        "name": "fence-noon",
+        "x": -2,
+        "z": 35,
+        "hour": 12,
+        "yaw": 0
+      },
+      "phase": {
+        "hour": 12,
+        "cloudTime": 0,
+        "wind": {
+          "time": 0.016666666666666666,
+          "direction": [
+            0.9060848207495054,
+            0.4230960855495319,
+            0.055999999999999994,
+            0
+          ],
+          "scroll": [
+            0.06342593745246537,
+            0.02961672598846723,
+            0.1014814999239446,
+            0.04738676158154757
+          ]
+        },
+        "sway": 0.06666666666666667,
+        "gradeTime": 0.03333333333333333
+      },
+      "pose": {
+        "player": {
+          "x": -2,
+          "y": 1.175548791885376,
+          "z": 35
+        },
+        "camera": [
+          -2,
+          3.1020963379300843,
+          33.863730885452064
+        ],
+        "yaw": 0,
+        "pitch": 0.32,
+        "wantDist": 6.2,
+        "captureStart": {
+          "player": {
+            "x": -2,
+            "y": 1.1869613603155618,
+            "z": 35.2146176379174
+          },
+          "camera": [
+            -2,
+            3.1171915048817413,
+            34.05103327369297
+          ]
+        }
+      },
+      "frames": 5,
+      "substeps": 1,
+      "leadSteps": 12,
+      "sampleHz": 60,
+      "searchRadius": 21,
+      "metres": 0.13168498654749622,
+      "rows": [
+        {
+          "frame": 0,
+          "player": {
+            "x": -2,
+            "y": 1.1883319632077651,
+            "z": 35.24039234034717
+          },
+          "camera": [
+            -2,
+            3.1200843047789264,
+            34.07120101215173
+          ],
+          "yaw": 0,
+          "boom": 6.2,
+          "pivot": 1.55,
+          "sunAnchor": [
+            -2.0246893066108105,
+            1.2044522297096893,
+            35.280595187424275
+          ],
+          "cost": {
+            "normal": {
+              "draws": 138,
+              "triangles": 2085011,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "candidate": {
+              "draws": 138,
+              "triangles": 2085011,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "opt-only": {
+              "draws": 138,
+              "triangles": 2085011,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "black": {
+              "draws": 138,
+              "triangles": 2085011,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "restored": {
+              "draws": 138,
+              "triangles": 2085011,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            }
+          },
+          "strictWhite": 39,
+          "candidateStrictWhite": 39,
+          "grassAffectedWhite": 0,
+          "candidateGrassAffectedWhite": 0,
+          "grassAffectedPixels": 514550,
+          "hashes": {
+            "normal": "c7b2e4657518e7fac2669fddec688acea1cb665aaa096d746200c07320dc0262",
+            "restored": "c7b2e4657518e7fac2669fddec688acea1cb665aaa096d746200c07320dc0262"
+          }
+        },
+        {
+          "frame": 1,
+          "player": {
+            "x": -1.9999829921653145,
+            "y": 1.1897207371517557,
+            "z": 35.26651001162827
+          },
+          "camera": [
+            -2.0070349820036704,
+            3.123210542435807,
+            34.09119247591581
+          ],
+          "yaw": 0.005999999999999999,
+          "boom": 6.2,
+          "pivot": 1.55,
+          "sunAnchor": [
+            -2.025443714554522,
+            1.198039075086177,
+            35.28270339514535
+          ],
+          "cost": {
+            "normal": {
+              "draws": 137,
+              "triangles": 2082451,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "candidate": {
+              "draws": 137,
+              "triangles": 2082451,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "opt-only": {
+              "draws": 137,
+              "triangles": 2082451,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "black": {
+              "draws": 137,
+              "triangles": 2082451,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "restored": {
+              "draws": 137,
+              "triangles": 2082451,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            }
+          },
+          "strictWhite": 37,
+          "candidateStrictWhite": 37,
+          "grassAffectedWhite": 0,
+          "candidateGrassAffectedWhite": 0,
+          "grassAffectedPixels": 511541,
+          "hashes": {
+            "normal": "9f23c7c6f7c5fd04731e7adaca40bd83e9acca65127107ed5b16faf83f5001b9",
+            "restored": "9f23c7c6f7c5fd04731e7adaca40bd83e9acca65127107ed5b16faf83f5001b9"
+          }
+        },
+        {
+          "frame": 2,
+          "player": {
+            "x": -1.999919553854852,
+            "y": 1.1911239299947076,
+            "z": 35.2929022628814
+          },
+          "camera": [
+            -2.0141034637736612,
+            3.1265622333462066,
+            34.110966505831634
+          ],
+          "yaw": 0.012000000000000002,
+          "boom": 6.2,
+          "pivot": 1.55,
+          "sunAnchor": [
+            -2.0262055022841556,
+            1.1915631855609394,
+            35.2848322258222
+          ],
+          "cost": {
+            "normal": {
+              "draws": 138,
+              "triangles": 2232559,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "candidate": {
+              "draws": 138,
+              "triangles": 2232559,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "opt-only": {
+              "draws": 138,
+              "triangles": 2232559,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "black": {
+              "draws": 138,
+              "triangles": 2232559,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "restored": {
+              "draws": 138,
+              "triangles": 2232559,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            }
+          },
+          "strictWhite": 49,
+          "candidateStrictWhite": 49,
+          "grassAffectedWhite": 0,
+          "candidateGrassAffectedWhite": 0,
+          "grassAffectedPixels": 507937,
+          "hashes": {
+            "normal": "c335b3a0464d817461eafe936b88ef57b20ab2e380c5d8bfe864049407212eba",
+            "restored": "c335b3a0464d817461eafe936b88ef57b20ab2e380c5d8bfe864049407212eba"
+          }
+        },
+        {
+          "frame": 3,
+          "player": {
+            "x": -1.999786113956361,
+            "y": 1.1925385251067913,
+            "z": 35.31951410509646
+          },
+          "camera": [
+            -2.0211911164155776,
+            3.1301314656570853,
+            34.13047573459559
+          ],
+          "yaw": 0.018000000000000002,
+          "boom": 6.2,
+          "pivot": 1.55,
+          "sunAnchor": [
+            -2.0269727999853044,
+            1.185040456259438,
+            35.28697645422198
+          ],
+          "cost": {
+            "normal": {
+              "draws": 135,
+              "triangles": 2203491,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "candidate": {
+              "draws": 135,
+              "triangles": 2203491,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "opt-only": {
+              "draws": 135,
+              "triangles": 2203491,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "black": {
+              "draws": 135,
+              "triangles": 2203491,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "restored": {
+              "draws": 135,
+              "triangles": 2203491,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            }
+          },
+          "strictWhite": 43,
+          "candidateStrictWhite": 43,
+          "grassAffectedWhite": 0,
+          "candidateGrassAffectedWhite": 0,
+          "grassAffectedPixels": 505831,
+          "hashes": {
+            "normal": "804f3dd21bcf3fe447985a2535310ceb4b69e91f0cc834402782e8cc698349f9",
+            "restored": "804f3dd21bcf3fe447985a2535310ceb4b69e91f0cc834402782e8cc698349f9"
+          }
+        },
+        {
+          "frame": 4,
+          "player": {
+            "x": -1.9995637906977208,
+            "y": 1.1939620951800618,
+            "z": 35.34630128555
+          },
+          "camera": [
+            -2.0282881076562704,
+            3.1339105219319343,
+            34.14968454897069
+          ],
+          "yaw": 0.024,
+          "boom": 6.2,
+          "pivot": 1.55,
+          "sunAnchor": [
+            -2.027744103953884,
+            1.178483670035936,
+            35.28913187821428
+          ],
+          "cost": {
+            "normal": {
+              "draws": 136,
+              "triangles": 2190557,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "candidate": {
+              "draws": 136,
+              "triangles": 2190557,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "opt-only": {
+              "draws": 136,
+              "triangles": 2190557,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "black": {
+              "draws": 136,
+              "triangles": 2190557,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            },
+            "restored": {
+              "draws": 136,
+              "triangles": 2190557,
+              "textures": 274,
+              "uploadBytes": 0,
+              "links": 0
+            }
+          },
+          "strictWhite": 28,
+          "candidateStrictWhite": 28,
+          "grassAffectedWhite": 0,
+          "candidateGrassAffectedWhite": 0,
+          "grassAffectedPixels": 504570,
+          "hashes": {
+            "normal": "f1549efd06530d78ffa5902459be7b95bc1e5c3b76f84928046385340c78abb6",
+            "restored": "f1549efd06530d78ffa5902459be7b95bc1e5c3b76f84928046385340c78abb6"
+          }
+        }
+      ],
+      "brightness": {
+        "before": {
+          "160": null,
+          "180": null,
+          "200": null,
+          "220": null,
+          "240": null
+        },
+        "after": {
+          "160": null,
+          "180": null,
+          "200": null,
+          "220": null,
+          "240": null
+        }
+      },
+      "all": null,
+      "grassAffected": null,
+      "candidateGrassAffected": {
+        "summary": {
+          "frames": 3,
+          "usableFrames": 3,
+          "shimmerMean": 7.8190632929745,
+          "shimmerFrameP95": 7.984763702136001,
+          "sparkleShare": 0.023930288891921267,
+          "alignmentShare": 0.9914936122929537,
+          "peaks": [
+            {
+              "validPixels": 1377340,
+              "validShare": 0.9912172626415572,
+              "sparklePixels": 34401,
+              "sparkleShare": 0.02497640379281804,
+              "shimmerMean": 7.984763702136001,
+              "shimmerP95": 34,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 1
+            },
+            {
+              "validPixels": 1378024,
+              "validShare": 0.9917095104581071,
+              "sparklePixels": 32911,
+              "sparkleShare": 0.023882748050832205,
+              "shimmerMean": 7.853662926044829,
+              "shimmerP95": 33,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 2
+            },
+            {
+              "validPixels": 1377808,
+              "validShare": 0.9915540637791966,
+              "sparklePixels": 31596,
+              "sparkleShare": 0.022932077618942552,
+              "shimmerMean": 7.618814109984846,
+              "shimmerP95": 32,
+              "exposurePrevious": 0,
+              "exposureNext": 0,
+              "maskedSparklePixels": 0,
+              "maskedSparkleShare": 0,
+              "frame": 3
+            }
+          ]
+        },
+        "whitePixelsFlickered": 0,
+        "whiteFlickerShare": 0,
+        "whiteThreshold": {
+          "minimumChannel": 180,
+          "minimumLuma": 200,
+          "maximumChannelSpread": 40
+        },
+        "samples": [
+          {
+            "validPixels": 1377340,
+            "validShare": 0.9912172626415572,
+            "sparklePixels": 34401,
+            "sparkleShare": 0.02497640379281804,
+            "shimmerMean": 7.984763702136001,
+            "shimmerP95": 34,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 1
+          },
+          {
+            "validPixels": 1378024,
+            "validShare": 0.9917095104581071,
+            "sparklePixels": 32911,
+            "sparkleShare": 0.023882748050832205,
+            "shimmerMean": 7.853662926044829,
+            "shimmerP95": 33,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 2
+          },
+          {
+            "validPixels": 1377808,
+            "validShare": 0.9915540637791966,
+            "sparklePixels": 31596,
+            "sparkleShare": 0.022932077618942552,
+            "shimmerMean": 7.618814109984846,
+            "shimmerP95": 32,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 3
+          }
+        ]
+      }
+    }
+  ],
+  "toolSha256": "365cb5f1eba4fe8103c1bdce3ed4e30b72df5b1f9fa178d74a302610a9f4c173",
+  "phaseHelperSha256": "0a8fb5f45d62519e116de7af07954f5704b50f60669640924352a27b350704ff",
+  "patchSha256": "abfec08ca1b219cfd171201b1bd156f80fa371889861f5edbd48b8a91fc1d46c",
+  "nativeFacingCandidate": true,
+  "pass": true,
+  "scope": "Published scene, real fixed-step keyboard movement and ordinary 6.2m/.32-rad follow camera with terrain/collider clearance. Fixed cloud/wind/grade phases isolate camera motion. Full native post/MSAA, exact inactive/restored controls. Black-grass intervention measures contribution, not exclusive ownership or a product fix. Before restores the published grass shader in the same compiled candidate scene; opt-only is pixel-identical to before at every captured view. Costs use warmed renders with cached shadows; shader source arithmetic budget is checked separately. Synthetic samples are not frame pacing."
+}

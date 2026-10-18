@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from 'vitest';
-import { cdpRequests } from '../../tools/cdp.mjs';
+import { cdpRequests, openPage } from '../../tools/cdp.mjs';
 afterEach(() => vi.useRealTimers());
 it('resolves responses without confusing screencast acknowledgements and queries', async () => {
   vi.useFakeTimers();
@@ -38,4 +38,8 @@ it('clears a request when writing to a dead socket throws', async () => {
   const requests = cdpRequests(() => { throw new Error('socket closed'); });
   await expect(requests.send('Runtime.evaluate')).rejects.toThrow('socket closed');
   expect(vi.getTimerCount()).toBe(0);
+});
+
+it('rejects invalid density before launching a browser',async()=>{
+  for(const dpr of [0,-1,NaN,Infinity,5])await expect(openPage('data:text/html,density',{dpr})).rejects.toThrow('Invalid device pixel ratio');
 });

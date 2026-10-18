@@ -17,3 +17,12 @@ it('does not join pixel components across a row boundary',()=>{
  const a=new Uint8Array(4*4*3),b=a.slice();b.fill(100,3*3,5*3);
  expect(changeComponents(a,b,4,4,{minPixels:1}).events).toHaveLength(2);
 });
+
+it('registers larger pixel translations when the capture density increases',()=>{
+ const w=96,h=64,base=Uint8Array.from({length:w*h*3},(_,i)=>60+(Math.imul(Math.floor(i/3)+7,1103515245)>>>16)%100);
+ const translated=(dx:number)=>Uint8Array.from(base,(_,i)=>base[(Math.floor(i/(w*3))*w+Math.max(0,Math.min(w-1,Math.floor(i/3)%w-dx)))*3+i%3]!);
+ const frames=[rgbFrame(translated(-10),w,h),rgbFrame(base,w,h),rgbFrame(translated(10),w,h)];
+ const limited=walkingFlicker(frames,w,h),registered=walkingFlicker(frames,w,h,{searchRadius:12});
+ expect(registered.summary.shimmerMean).toBeLessThan(1);expect(registered.summary.alignmentShare).toBeGreaterThan(.5);
+ expect(limited.summary.shimmerMean).toBeGreaterThan(registered.summary.shimmerMean!+2);
+});

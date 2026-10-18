@@ -5,3 +5,15 @@ export function cdpRequests(write: (message: { id: number; method: string; param
   reply(message: { id?: number; error?: { message: string }; [key: string]: unknown }): boolean;
   close(): void;
 };
+export function openPage(url?:string,options?:{w?:number;h?:number;dpr?:number;init?:string|null;flags?:string[];headed?:boolean;requestTimeoutMs?:number}):Promise<{
+  eval(js:string):Promise<any>;
+  shot(file:string):Promise<string>;
+  image(format?:'png'|'jpeg',quality?:number):Promise<Buffer>;
+  transparent():Promise<any>;
+  key(type:string,code:string,key?:string):Promise<any>;
+  click(x:number,y:number):Promise<any>;
+  wait(ms:number):Promise<void>;
+  cdp(method:string,params?:object):Promise<any>;
+  console():unknown[];
+  close():void;
+}>;
