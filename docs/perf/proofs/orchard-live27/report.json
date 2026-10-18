@@ -1,0 +1,128 @@
+{
+  "build": {
+    "version": "0.0.27",
+    "revision": "163ee68"
+  },
+  "orchard": {
+    "label": "tree:orchard:0:2",
+    "position": [
+      -49.971630191779695,
+      0.11509189244286738,
+      30.661973488004875
+    ],
+    "audit": {
+      "schema": 1,
+      "lod": 0,
+      "gap": 0.75,
+      "operations": 842574,
+      "complete": true,
+      "alpha": false,
+      "bySpecies": {
+        "orchard": {
+          "trees": 1,
+          "leafless": 0,
+          "candidates": 0
+        }
+      },
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 5674,
+        "chunks": 1,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 298,
+        "detachedClumps": 1,
+        "treesWithDetached": 1
+      },
+      "trees": [
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 0,
+          "missingWood": false,
+          "leafless": false,
+          "components": 5674,
+          "chunks": 1,
+          "detachedCards": 298,
+          "detachedClumps": 1,
+          "maxWoodGap": null,
+          "candidates": []
+        }
+      ],
+      "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+    },
+    "windReferenceCards": 5674,
+    "missingWoodWindReferences": 0,
+    "triangleWindOrPivotMismatches": 0
+  },
+  "oakSamples": [
+    {
+      "label": "tree:wild:45:12",
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "leafAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ],
+      "woodAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ],
+      "snappedClumps": 5
+    },
+    {
+      "label": "tree:wild:29:25",
+      "position": [
+        -193.6753457611849,
+        0.4464636105243139,
+        -9.661248989021423
+      ],
+      "leafAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ],
+      "woodAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ],
+      "snappedClumps": 5
+    },
+    {
+      "label": "tree:wild:23:27",
+      "position": [
+        -228.27536925175252,
+        1.1590809566105287,
+        5.010601036548598
+      ],
+      "leafAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ],
+      "woodAttributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ],
+      "snappedClumps": 5
+    }
+  ]
+}
