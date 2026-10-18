@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "reference": null,
+  "effects": {
+    "mask": {
+      "changedChannels": 21853689,
+      "maxChannelDelta": 253
+    }
+  },
+  "build": {
+    "version": "0.0.27",
+    "revision": "e0f5161"
+  },
+  "profile": {
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      2160,
+      1350
+    ]
+  },
+  "setup": {
+    "cloudTime": 0.016666666666666666,
+    "materials": 467,
+    "grassMaterials": 2
+  },
+  "controls": {
+    "hour": 17.5,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333,
+    "skyTime": null,
+    "cloudTime": 0.016666666666666666
+  },
+  "roi": {
+    "left": 288,
+    "top": 630,
+    "width": 2304,
+    "height": 1080
+  },
+  "route": {
+    "x": 6,
+    "z": 26,
+    "frames": 3,
+    "startFrame": 0,
+    "metres": 0.08666666666666667,
+    "stationary": false,
+    "syntheticCadence": 60
+  },
+  "instrumentationChangedChannels": 0,
+  "reports": {
+    "baseline": {
+      "summary": {
+        "frames": 1,
+        "usableFrames": 1,
+        "shimmerMean": 4.617766721890748,
+        "shimmerFrameP95": 4.617766721890748,
+        "sparkleShare": 0.0020073268847468242,
+        "alignmentShare": 0.9986447389688056,
+        "peaks": [
+          {
+            "validPixels": 2471446,
+            "validShare": 0.9986447389688056,
+            "sparklePixels": 4961,
+            "sparkleShare": 0.0020073268847468242,
+            "shimmerMean": 4.617766721890748,
+            "shimmerP95": 18,
+            "exposurePrevious": 0,
+            "exposureNext": 0,
+            "maskedSparklePixels": 0,
+            "maskedSparkleShare": 0,
+            "frame": 1
+          }
+        ]
+      },
+      "whitePixelsFlickered": 0,
+      "whiteFlickerShare": 0,
+      "whiteThreshold": {
+        "minimumChannel": 180,
+        "minimumLuma": 200,
+        "maximumChannelSpread": 40
+      },
+      "samples": [
+        {
+          "validPixels": 2471446,
+          "validShare": 0.9986447389688056,
+          "sparklePixels": 4961,
+          "sparkleShare": 0.0020073268847468242,
+          "shimmerMean": 4.617766721890748,
+          "shimmerP95": 18,
+          "exposurePrevious": 0,
+          "exposureNext": 0,
+          "maskedSparklePixels": 0,
+          "maskedSparkleShare": 0,
+          "frame": 1
+        }
+      ]
+    }
+  },
+  "scope": "Diagnostic-only shader ablations, native whole-scene post/MSAA. Mask identifies grass contribution, not unique pixel ownership. Fixed clock/wind; synthetic captures are not frame-time evidence. No product appearance changes or quality-pass claim."
+}

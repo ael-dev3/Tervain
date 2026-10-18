@@ -1,0 +1,37 @@
+{
+  "build": {
+    "version": "0.0.27",
+    "revision": "e0f5161"
+  },
+  "criteria": "Grass-contribution mask >=64; near-white min RGB >=180, luminance >=200, channel spread <=40; decoded 8-bit RGB luma .2126/.7152/.0722.",
+  "summary": {
+    "frames": 3,
+    "grassPixelObservations": 4338127,
+    "nearWhiteObservations": 0,
+    "luminanceAtLeast180": 57,
+    "maxLuminance": 195.392
+  },
+  "samples": [
+    {
+      "frame": 0,
+      "grass": 1447903,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 14,
+      "maxLuminance": 183.9594
+    },
+    {
+      "frame": 1,
+      "grass": 1447634,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 17,
+      "maxLuminance": 186.8854
+    },
+    {
+      "frame": 2,
+      "grass": 1442590,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 26,
+      "maxLuminance": 195.392
+    }
+  ]
+}
