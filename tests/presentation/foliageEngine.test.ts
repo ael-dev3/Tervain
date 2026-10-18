@@ -475,7 +475,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const casters = forest.shadowCasters.children as THREE.InstancedMesh[];
     expect(casters.length).toBeGreaterThan(0);
     expect(colour.every((m) => !m.castShadow)).toBe(true);
-    expect(casters.every((m) => !m.frustumCulled && m.castShadow && m.name.endsWith(':shadow') && m.customDepthMaterial)).toBe(true);
+    expect(casters.every((m) => !m.frustumCulled && m.boundingSphere && m.castShadow && m.name.endsWith(':shadow') && m.customDepthMaterial)).toBe(true);
     expect(forest.shadowCasters.visible).toBe(false);
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
@@ -511,6 +511,18 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       }
     };
     assertCaptureBounds();
+    // Shadow meshes own independent packed bounds; every submitted vertex keeps the wind guard.
+    const shadowVertex = new THREE.Vector3(), shadowInstance = new THREE.Matrix4();
+    for (const mesh of casters.filter(m => m.count > 0)) {
+      const positions = mesh.geometry.getAttribute('position');
+      for (const slot of new Set([0, mesh.count - 1])) {
+        mesh.getMatrixAt(slot, shadowInstance);
+        for (let v = 0; v < positions.count; v++) {
+          shadowVertex.fromBufferAttribute(positions, v).applyMatrix4(shadowInstance);
+          expect(shadowVertex.distanceTo(mesh.boundingSphere!.center) + 1.999).toBeLessThanOrEqual(mesh.boundingSphere!.radius);
+        }
+      }
+    }
     const stats = forest.stats!();
     expect(stats.shadowTrees).toBeGreaterThan(0);
     expect(stats.shadowTris).toBeGreaterThan(0);
@@ -521,7 +533,8 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(viewOnly.shadowTrees).toBeGreaterThan(0);
     forest.update(0.1, frame);
     expect(forest.stats!().shadowTrees).toBe(stats.shadowTrees);
-    for (const m of [...colour, ...casters]) expect(m.visible).toBe(m.count > 0);
+    for (const m of colour) expect(m.visible).toBe(m.count > 0);
+    for (const m of casters) if (m.visible) expect(m.count).toBeGreaterThan(0);
     // The nearest tree casts from its full model; trees across the volume from lighter ones.
     const near = casters.filter((m) => m.name.startsWith('solitary-pine:0:') && m.count > 0);
     expect(near.length).toBeGreaterThan(0);
@@ -547,7 +560,7 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       unchanged++;
       savedBytes += m.count * (64 + (m.instanceColor ? 12 : 0));
       expect(m.instanceMatrix.version).toBe(old.version);
-      if (m.geometry.hasAttribute('aDistanceCoverage')) expect(rebuiltBounds.has(m.boundingSphere!)).toBe(false);
+      if (m.geometry.hasAttribute('aDistanceCoverage') || casters.includes(m)) expect(rebuiltBounds.has(m.boundingSphere!)).toBe(false);
       if (m.instanceColor) expect(m.instanceColor.version).toBe(old.colourVersion);
     });
     let unchangedCoverage = 0, coverageBytes = 0;
@@ -694,6 +707,32 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
         }
       }
       expect(checked).toBeGreaterThan(0);
+    } finally { forest.dispose!(); f.wind.dispose(); vi.unstubAllGlobals(); }
+  });
+
+  it('keeps cached shadow rejections safe across accumulated small sun-volume moves', () => {
+    vi.stubGlobal('location', { search: '' });
+    const f = field(), quality = 'high';
+    const forest = buildFlora({ terrain, excl, colliders: new Colliders(), quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } }, foliage: f }, templates);
+    try {
+      const camera = new THREE.PerspectiveCamera(58, 1, .1, 1400);
+      const sun = new THREE.OrthographicCamera(-35, 35, 35, -35, .1, 400);
+      sun.position.set(-160, 150, 0); sun.lookAt(-160, 0, 0); sun.updateMatrixWorld(true);
+      const reference = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(sun.projectionMatrix, sun.matrixWorldInverse));
+      const casters = forest.shadowCasters.children as THREE.InstancedMesh[];
+      const view = worldView(createInitialState());
+      let checked = 0, missing = 0;
+      for (let i = 0; i < 400; i++) {
+        const shift = i * .75, shadow = reference.clone();
+        for (let p = 0; p < 6; p++) shadow.planes[p]!.constant -= reference.planes[p]!.normal.x * shift;
+        camera.position.set(-160 + shift, 4, 12); camera.lookAt(camera.position.x, 4, -20); camera.updateMatrixWorld(true);
+        forest.update(1 / 60, { camera, quality, time: i / 60, focus: camera.position, nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), shadowFrustum: shadow, reducedMotion: true, hour: 11, view });
+        for (const mesh of casters) if (mesh.count > 0 && shadow.intersectsSphere(mesh.boundingSphere!)) {
+          checked++; if (!mesh.visible) missing++;
+        }
+      }
+      console.info(`shadow drift: ${missing} missing / ${checked} intersecting packed batches`);
+      expect(checked).toBeGreaterThan(0); expect(missing).toBe(0);
     } finally { forest.dispose!(); f.wind.dispose(); vi.unstubAllGlobals(); }
   });
 

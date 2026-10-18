@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.24",
+      "revision": "77d489b"
+    },
+    "printed": "v0.0.24 \u00b7 77d489b \u00b7 pre-alpha",
+    "quality": "high",
+    "samples": 4,
+    "rasterSuppressed": false,
+    "bindings": 120,
+    "cpuCacheBytes": 86592
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204,
+        1.25,
+        12
+      ],
+      "before": {
+        "draws": 455,
+        "triangles": 6129258,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 455,
+        "triangles": 6129258,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "b99b17f4a6f7a22256c04e9eab3455917e536d7a1d8084fe65fbf8558b3852f2"
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        -0.09966865249116204,
+        1.45,
+        12
+      ],
+      "before": {
+        "draws": 416,
+        "triangles": 6028475,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 416,
+        "triangles": 6028475,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "68a9bba6c1957cff04613e896104c162ca64774aa64a89b3e086b0d825284b08"
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        -0.09966865249116204,
+        1.65,
+        12
+      ],
+      "before": {
+        "draws": 417,
+        "triangles": 6072584,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 417,
+        "triangles": 6072584,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "e1cf501449e65c5b0bcb56715f7844b4db6e4c8d850fdb1efaf1091a293fd880"
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        -0.09966865249116204,
+        1.85,
+        12
+      ],
+      "before": {
+        "draws": 418,
+        "triangles": 6087340,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6087340,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "9359d8f508963aa883be02b4fc6c40dd5cf9aa77e14d7f10d07c4752c5f4836c"
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        -0.09966865249116204,
+        2.05,
+        12
+      ],
+      "before": {
+        "draws": 417,
+        "triangles": 6086956,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "after": {
+        "draws": 417,
+        "triangles": 6086956,
+        "uploadBytes": 26880,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "7101fda29810a47df55740c37cc957a2dfc935953548c2247760babf1a0f24a8"
+    },
+    {
+      "pose": [
+        -173,
+        7,
+        0,
+        0,
+        2.5,
+        9
+      ],
+      "before": {
+        "draws": 304,
+        "triangles": 3249515,
+        "uploadBytes": 19200,
+        "textures": 274
+      },
+      "after": {
+        "draws": 295,
+        "triangles": 3202130,
+        "uploadBytes": 19200,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "b3b1fdb3ce5f8207f9daa1dc0107362de11b7d2f8d60a72c5fb70f8d29efc08c"
+    },
+    {
+      "pose": [
+        -173,
+        7,
+        0,
+        0,
+        2.5,
+        19
+      ],
+      "before": {
+        "draws": 284,
+        "triangles": 3300803,
+        "uploadBytes": 24960,
+        "textures": 274
+      },
+      "after": {
+        "draws": 283,
+        "triangles": 3288803,
+        "uploadBytes": 24960,
+        "textures": 274
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "9d4348dfc9a12da9894986657a40816e2d66edc7c55de67c484c792d5d3d347b"
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "d5b29e18b823684f01a9f3aa6cf144a233b2a705bbb1eb3d2d17bb5161f2d51e",
+  "pass": true,
+  "scope": "Published native High post/MSAA4, same production helper and native source geometry, placements and active packed transforms; main and shadow materials unchanged. Shadow maps refreshed during all images. Native raster draws enabled. Software correctness and command-count evidence, not hardware timing."
+}

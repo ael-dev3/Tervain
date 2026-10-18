@@ -23,6 +23,7 @@ import { createWindTestTree, windTestRequested } from './foliage/windTestTree';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
 import { leafBoundsShrink, copyLeafBatchBounds } from './foliage/leafBounds';
+import { casterPlacementBounds, updateCasterBounds, shadowBoundsNeedRefresh, shadowCasterVisible } from './foliage/shadowBounds';
 import { cloneTreeProfileMaterial } from './treeProfileMaterial';
 import { leafCutoutSampler } from './leafSurfaceSites';
 import { anchorLeafIslands } from './leafIslands';
@@ -294,6 +295,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   group.add(shadowCasters);
   const casterMaterials: THREE.Material[] = [];
   const casterCoverage = new Map<THREE.InstancedMesh, THREE.InstancedBufferAttribute>();
+  const casterBounds = new Map<THREE.InstancedMesh, Float64Array>();
+  const casterBoundScratch = new THREE.Sphere();
+  const casterFrustum = new THREE.Frustum();
+  let casterFrustumValid = false;
+  const casterVisible = new Map<THREE.InstancedMesh, boolean>();
   const casterGeometries: THREE.BufferGeometry[] = [];
   const profileMaterials = new Set<THREE.Material>();
   // The largest instance scale of each leaf template: the island pass works in template space, the audit in metres.
@@ -364,7 +370,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const c = new THREE.InstancedMesh(geometry, material, b.trees.length);
         c.count = 0;
         c.visible = false;
-        c.frustumCulled = false;
+        // Repaired foliage may have moved since the source sphere was cached.
+        geometry.computeBoundingSphere();
+        c.boundingSphere = new THREE.Sphere().makeEmpty();
+        casterVisible.set(c, false);
+        c.frustumCulled = false; // Visibility is cached against a guarded sun volume during refresh.
         c.castShadow = true;
         c.receiveShadow = false;
         c.name = `${mesh.name}:shadow`;
@@ -428,6 +438,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const box = localBox.clone().applyMatrix4(matrix).expandByScalar(2);
       return { matrix, bounds, box };
     });
+    for (const caster of b.casters) for (const mesh of [caster.wood, caster.leaf]) {
+      if (mesh) casterBounds.set(mesh, casterPlacementBounds(mesh.geometry.boundingSphere!, b.placements));
+    }
   }
   const col = new THREE.Color();
   const shadowPlaneNormalDelta = new THREE.Vector3();
@@ -509,7 +522,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   // Reuse the fixed part order across every visible tree and LOD refresh.
   const colourParts = ['wood', 'leaf'] as const;
 
-  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean) => {
+  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean, casterGuardExceeded = false) => {
+    const casterViewChanged = !!shadowFrustum && (!casterFrustumValid || casterGuardExceeded);
+    if (casterViewChanged) { casterFrustum.copy(shadowFrustum!); casterFrustumValid = true; }
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
@@ -630,8 +645,17 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           for (const mesh of [c.wood, c.leaf]) {
             if (!mesh) continue;
             const previousCasterCount = mesh.count;
+            // Reuse the packed bound while its instance list is unchanged, including clock-only updates.
+            const packingChanged = previousCasterCount !== shadowCounts[l]! || staticChanged.has(mesh);
+            if (packingChanged) {
+              updateCasterBounds(mesh.boundingSphere!, casterBounds.get(mesh)!,
+                packedTrees.get(mesh), shadowCounts[l]!, casterBoundScratch);
+            }
+            if (packingChanged || casterViewChanged) {
+              casterVisible.set(mesh, shadowCasterVisible(casterFrustum, mesh.boundingSphere!));
+            }
             mesh.count = shadowCounts[l]!;
-            mesh.visible = shadowCounts[l]! > 0;
+            mesh.visible = shadowCounts[l]! > 0 && casterVisible.get(mesh)!;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadStatic(mesh, mesh.instanceMatrix);
@@ -697,6 +721,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const cameraChanged = moved >= 0.005 || Math.abs(cam.quaternion.dot(lastRotation)) <= 0.9999999 || !cam.projectionMatrix.equals(lastProjection);
       const shadowPresent = !!f.shadowFrustum;
       const shadowChanged = shadowPresent !== lastShadowPresent || (shadowPresent && !f.shadowFrustum!.planes.every((plane, i) => plane.equals(lastShadowFrustum.planes[i]!)));
+      const casterGuardExceeded = shadowPresent && (!casterFrustumValid || shadowBoundsNeedRefresh(f.shadowFrustum!, casterFrustum));
       const shadowGuardExceeded = shadowPresent && lastShadowPresent && f.shadowFrustum!.planes.some((plane, i) => {
         const previous = lastShadowFrustum.planes[i]!;
         // Bound a plane's movement anywhere in the authored realm. Hour/focus jumps that exceed
@@ -705,7 +730,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       });
       // The two-metre bounds guard safely preloads moving shadow edges. Track the sun even
       // when the camera is idle, while limiting those shadow-only uploads to five per second.
-      if (!lodChanged && !cameraChanged && !!f.shadowsForViewOnly === lastViewOnly && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      if (!casterGuardExceeded && !lodChanged && !cameraChanged && !!f.shadowsForViewOnly === lastViewOnly && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
       sinceRefresh = 0;
       lastCam.copy(cam.position);
       lastRotation.copy(cam.quaternion);
@@ -714,7 +739,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       cam.updateMatrixWorld();
       lastViewOnly = !!f.shadowsForViewOnly;
-      refresh(cam, f.shadowFrustum, lastViewOnly);
+      refresh(cam, f.shadowFrustum, lastViewOnly, casterGuardExceeded);
     },
     initializeFloor,
     shadowCasters,
