@@ -128,3 +128,11 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Budget gate against live 0.0.27: draws 237 (flat); triangles 2,863,509 (within the 0.0.27 baseline +2,000 allowance, recorded in the PR); console errors 0.
 - Same-pose orchard clip, 40 frames, fixed camera: crown mean luminance 0.0.24 62.51, 0.0.27 62.50, 0.0.28 64.49 (about 3% brighter, which can mean slightly more light through the crown). Visually the crowns look alike; this is not yet confirmed as non-sparse.
 - Not yet done: the per-card source trace (crown shell, branch index, generator pass) for the 298 cards.
+
+## 0.0.29: orchard culling matches the audit's world reach, 2026-10-18
+
+- Change: the orchard cull converts the audit's 1.5 m world reach with the orchard maximum scale (PR #672, A154). Oak is untouched.
+- Target tree:orchard:0:2: detached cards 143 → 0 (audit: lod 0, alpha false, gap 0.75, woodReach 1.5). All nine orchard trees 239 → 0 (per #672).
+- Budget gate against live 0.0.28 (30d1f0d) on the release head: draws 232, triangles 2,745,696, console errors 0. The #672 head run measured draws 225 and triangles 2,421,092.
+- Same-pose live clip (40 frames, orchard pose): crown mean luminance 0.0.24 62.51, 0.0.29 64.49. Visually the crowns match: dense, no holes or thinning.
+- Not yet done: covered-pixel counting against 0.0.24, and the refill along the boughs (a 0.0.30 follow-up if needed).
