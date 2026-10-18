@@ -561,7 +561,11 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
     mid.set(0, 0, 0);
     for (const v of vertices) mid.add(p.fromBufferAttribute(position, v));
     mid.multiplyScalar(1 / vertices.length);
-    anchor(mid, hit);
+    // Only a clump more than its own radius from every branch moves; a clump nearer than that keeps its place.
+    let radius = 0;
+    for (const v of vertices) radius = Math.max(radius, p.fromBufferAttribute(position, v).distanceTo(mid));
+    const gapToWood = anchor(mid, hit);
+    if (!(gapToWood > radius)) continue;
     delta.copy(hit).sub(mid).multiplyScalar(pull);
     for (const v of vertices) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
     moved++;
