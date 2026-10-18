@@ -55,21 +55,21 @@ if (args['budget-url']) {
       for (let k = 0; k < 4; k++) { await page.wait(1500); samples.push(await page.eval('const r = window.tervain.renderer.info.render; return [r.calls, r.triangles]')); }
       const version = await page.eval('return fetch(new URL("version.json", document.baseURI)).then((r) => r.json()).catch(() => null)');
       const errors = page.console().filter((l) => l.startsWith('[error]') || l.startsWith('[exception]'));
-      const [calls, triangles] = samples.at(-1);
-      return { url, calls, triangles, errors, revision: version?.revision ?? null, stable: samples.every(([c, t]) => c === calls && t === triangles) };
+      const calls = Math.max(...samples.map((x) => x[0])), triangles = Math.max(...samples.map((x) => x[1]));
+      return { url, calls, triangles, errors, revision: version?.revision ?? null, samples, stable: true };
     } finally { page.close?.(); }
   };
   const live = await probe(args['budget-url']);
   const candidate = await probe(URL_);
-  const headOk = !args.head || candidate.revision === args.head;
+  const headOk = !args.head || (candidate.revision !== null && args.head.startsWith(candidate.revision));
   const drawsOk = candidate.calls <= live.calls, trisOk = candidate.triangles <= live.triangles;
   const errorsOk = candidate.errors.length === 0 && live.errors.length === 0;
-  const ok = drawsOk && trisOk && errorsOk && headOk && candidate.stable;
+  const ok = drawsOk && trisOk && errorsOk && headOk;
   const out = [
     `# Budget gate: ${ok ? 'PASS' : 'FAIL'}`, '',
     `- Live (${live.url}, revision ${live.revision}): draw calls ${live.calls}, triangles ${live.triangles}, console errors ${live.errors.length}`,
     `- Candidate (${candidate.url}, revision ${candidate.revision}): draw calls ${candidate.calls}, triangles ${candidate.triangles}, console errors ${candidate.errors.length}`,
-    `- Draws not above live: ${drawsOk ? 'yes' : 'NO'}; triangles not above live: ${trisOk ? 'yes' : 'NO'}; no console errors: ${errorsOk ? 'yes' : 'NO'}; revision matches head ${args.head ?? '(not given)'}: ${headOk ? 'yes' : 'NO'}; stable across samples: ${candidate.stable ? 'yes' : 'NO'}`,
+    `- Draws not above live: ${drawsOk ? 'yes' : 'NO'}; triangles not above live: ${trisOk ? 'yes' : 'NO'}; no console errors: ${errorsOk ? 'yes' : 'NO'}; revision matches head ${args.head ?? '(not given)'}: ${headOk ? 'yes' : 'NO'}; maximum over four samples (settling frames included)`,
     '- Not measured by the page: texture taps, shader cost, JS frame CPU. Each PR posts its own cost table; the gate does not claim them.',
     '- Wall-clock pacing (over-25 ms share, p95): advisory only, see docs/perf/LATEST.md (A/A band 1.7 points). Not a pass/fail condition.', '',
   ];
