@@ -17,3 +17,19 @@ describe('clump snapping vertex data',()=>{
   leaf.dispose();wood.dispose();r.geometry.dispose();
  });
 });
+
+import {authoredBranchField, deriveBranchLeaf, deriveBranchWood} from '../../src/presentation/foliage/branchWind';
+it('reads authored wood without deriving over it, and carries that field into the rebuilt canopy',()=>{
+ const wood=new THREE.BoxGeometry(1,1,1),leaf=new THREE.PlaneGeometry(.2,.2).rotateX(-Math.PI/2),n=wood.getAttribute('position').count;
+ wood.setAttribute('_wind',new THREE.Float32BufferAttribute(Array.from({length:n*4},(_,i)=>[.6,.7,.8,0][i%4]!),4));
+ wood.setAttribute('_pivot',new THREE.Float32BufferAttribute(new Float32Array(n*3),3));
+ const original=Array.from(wood.getAttribute('_wind').array);
+ expect(deriveBranchWood(wood)).toBeNull();
+ const field=authoredBranchField(wood)!;
+ expect(field.nearest(100,100,100,1)).toBe(-1);
+ expect(deriveBranchLeaf(leaf,field)?.anchored).toBe(1);
+ const result=snapDetachedClumps(leaf,wood,1.5);
+ expect(result.geometry.getAttribute('_wind').array).toEqual(leaf.getAttribute('_wind').array);
+ expect(Array.from(wood.getAttribute('_wind').array)).toEqual(original);
+ wood.dispose();leaf.dispose();result.geometry.dispose();
+});

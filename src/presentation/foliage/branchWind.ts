@@ -248,9 +248,30 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
     pivot[i * 3] = card.p.x; pivot[i * 3 + 1] = card.p.y; pivot[i * 3 + 2] = card.p.z;
   }
   const anchored = cards ? found / cards : 0;
-  // Experimental cost study: expose the rejected share and force the field for measurement only.
   leaf.userData.windDerivation = { cards, found, anchored, productionThreshold: 0.5 };
+  if (anchored < 0.5) return null;
   leaf.setAttribute('_wind', new THREE.BufferAttribute(wind, 4));
   leaf.setAttribute('_pivot', new THREE.BufferAttribute(pivot, 3));
   return { anchored };
+}
+
+/** Experimental reader for measuring the existing authored field; linear load-time search, not a shipping index. */
+export function authoredBranchField(wood: THREE.BufferGeometry): BranchField | null {
+  const p = wood.getAttribute('position'), w = wood.getAttribute('_wind'), v = wood.getAttribute('_pivot');
+  if (!p || !w || !v || w.count !== p.count || v.count !== p.count) return null;
+  let top = 0;
+  for (let i = 0; i < p.count; i++) top = Math.max(top, p.getY(i));
+  return {
+    axis: [0, 0], height: top, limbs: 0,
+    nearest(x, y, z, max = Infinity) {
+      let best = -1, distance = max * max;
+      for (let i = 0; i < p.count; i++) {
+        const d = (p.getX(i) - x) ** 2 + (p.getY(i) - y) ** 2 + (p.getZ(i) - z) ** 2;
+        if (d < distance || d === distance && best < 0) { distance = d; best = i; }
+      }
+      return best;
+    },
+    position(i, out) { out.set(p.getX(i), p.getY(i), p.getZ(i)); },
+    read(i, wind, pivot) { wind.set(w.getX(i), w.getY(i), w.getZ(i), w.getW(i)); pivot.set(v.getX(i), v.getY(i), v.getZ(i)); },
+  };
 }
