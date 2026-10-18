@@ -1,0 +1,23 @@
+{
+  "sources": 120,
+  "existingClonedDiagnostics": 180,
+  "noiseElementsEach": [
+    262144
+  ],
+  "rows": {
+    "before": {
+      "noiseArrays": 120,
+      "noiseElements": 31457280,
+      "serializedBytes": 141861
+    },
+    "after": {
+      "noiseArrays": 0,
+      "noiseElements": 0,
+      "serializedBytes": 999
+    }
+  },
+  "schema": 1,
+  "appBundleRevision": "0a8eeb2caa82b549221c887d96e518c513fdc12b",
+  "appBundleSha256": "d1527f436e2f4c62ad53a1688d97cf21dea9ba381f4eb068573bde7c3b57652d",
+  "scope": "Read-only inventory and paired replay on the published 0.0.23 app bundle. A version endpoint advanced during the earlier load; the cached app bundle embeds 0a8eeb2 and its SHA-256 identifies the actually running code. One Material.clone per original material, not all original world-construction calls. Existing cloned diagnostics are an inventory; replay counts are separately measured by intercepting Array.from only for the native shared noise image. No heap-byte or frame-timing claim."
+}

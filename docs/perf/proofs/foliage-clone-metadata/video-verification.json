@@ -1,0 +1,11 @@
+{
+  "frames": 5,
+  "size": [
+    1280,
+    360
+  ],
+  "sourceRgbSha256": "dc44b83c7cf74aec09e29d99720703ef1901558b388f5be51a1db5ed49481589",
+  "decodedRgbSha256": "dc44b83c7cf74aec09e29d99720703ef1901558b388f5be51a1db5ed49481589",
+  "exact": true,
+  "scope": "5 native walk/turn poses at a synthetic 60 Hz source cadence; 6 fps slow playback. Left before, right after; only the RGB-lossless clip is metric evidence."
+}

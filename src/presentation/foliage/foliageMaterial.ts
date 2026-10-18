@@ -562,7 +562,10 @@ reflectedLight.indirectDiffuse *= 1.0 + uWoodCrownFill * (1.0 - smoothstep(0.75,
   const result: InstalledFoliage = { uniforms: own, ok: () => !failed };
   installed.set(material, result);
   // Reachable from the material for review tooling (tools/cdp.mjs) that tunes the look in the running game.
-  material.userData.tvFoliage = own;
+  // Three deep-copies enumerable userData when making the shadow/depth twins.
+  // These live shader resources are diagnostics, not serializable material data:
+  // serializing them expands the shared 3D noise image into a throwaway array.
+  Object.defineProperty(material.userData, 'tvFoliage', { value: own, enumerable: false, configurable: true, writable: true });
   return result;
 }
 

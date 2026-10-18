@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "baseline": "ef4222d8b",
+  "runtimeFiles": [
+    "src/presentation/foliage/foliageMaterial.ts"
+  ],
+  "onlyDiagnosticInstallationChanged": true,
+  "sourceSha256": {
+    "before": "56068a76f2e70fee4ef32fa165fe68f4df3a5d0684946c93b1fb038457d56030",
+    "after": "c98a5f0adbe5bd4f8b4a5713ae8aab8f5584a2594f861b2d4f66d62879bc917d"
+  },
+  "rows": {
+    "before": {
+      "sourceMaterials": 120,
+      "clones": 180,
+      "noiseArrays": 180,
+      "noiseElements": 47185920,
+      "serializedBytes": 190950,
+      "liveDiagnosticReferences": 120,
+      "sharedDepthPrograms": 60,
+      "clonedDiagnostics": 180
+    },
+    "after": {
+      "sourceMaterials": 120,
+      "clones": 180,
+      "noiseArrays": 0,
+      "noiseElements": 0,
+      "serializedBytes": 3930,
+      "liveDiagnosticReferences": 120,
+      "sharedDepthPrograms": 60,
+      "clonedDiagnostics": 0
+    }
+  },
+  "programs": {
+    "before": {
+      "wood": {
+        "vertex": "e836c26ade4f7eccd920100ef9eba556799c8f9b6c5ea3358296bb092cdac847",
+        "fragment": "83f70430c01de9920a57612c44095ba861517d6ace758dedf8964e7025889f53",
+        "key": "81a90523049c83434a9fee393f02937a924d22cf16efc9173ef6c3f4651e4272"
+      },
+      "leaf": {
+        "vertex": "4b07c58f1b00136f5f8f9fb90dd1e92aefda8bbceb9dc9dc30e34930f871311b",
+        "fragment": "a23a570c12b433b06838da23afbc85021dbfdb81ef8d6cab1a14d6553c37d328",
+        "key": "2deef9253ec7f324db239aedb284dfb5219fa5ae9682c08efecd8e3b7a5af672"
+      }
+    },
+    "after": {
+      "wood": {
+        "vertex": "e836c26ade4f7eccd920100ef9eba556799c8f9b6c5ea3358296bb092cdac847",
+        "fragment": "83f70430c01de9920a57612c44095ba861517d6ace758dedf8964e7025889f53",
+        "key": "81a90523049c83434a9fee393f02937a924d22cf16efc9173ef6c3f4651e4272"
+      },
+      "leaf": {
+        "vertex": "4b07c58f1b00136f5f8f9fb90dd1e92aefda8bbceb9dc9dc30e34930f871311b",
+        "fragment": "a23a570c12b433b06838da23afbc85021dbfdb81ef8d6cab1a14d6553c37d328",
+        "key": "2deef9253ec7f324db239aedb284dfb5219fa5ae9682c08efecd8e3b7a5af672"
+      }
+    }
+  },
+  "pass": true,
+  "scope": "Actual production material installation, Material.clone and splitLeafPrepass on 60 controlled wood/leaf profiles. Counts exact Array.from calls/elements for the shared 64-cubed noise image, not heap bytes or measured GC time. TextureSource.toJSON allocates the image array then Texture.toJSON retains only its UUID. Shader text/cache keys identical, live depth uniforms shared; native scene proof is separate."
+}
