@@ -11,6 +11,11 @@ const ref=args.baseline??'447320109',out=args.out??'foliage-clone-proof',file='s
 fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
 const sources={before:execFileSync('git',['show',`${ref}:${file}`],{encoding:'utf8'}),after:fs.readFileSync(file,'utf8')};
 const hash=b=>createHash('sha256').update(b).digest('hex');
+const runtimeFiles=execFileSync('git',['diff','--name-only',ref,'HEAD','--','src'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
+assert.deepEqual(runtimeFiles,[file],'Unrelated runtime source differs from the selected baseline');
+const restored=sources.after.replace(/  \/\/ Three deep-copies enumerable userData[\s\S]*?  Object\.defineProperty\(material\.userData, 'tvFoliage', [^\n]*\n/,
+ '  material.userData.tvFoliage = own;\n');
+assert.equal(restored,sources.before,'Changes outside diagnostic metadata installation');
 const server=await createServer({configFile:false,logLevel:'error',server:{hmr:false,ws:false},plugins:[{
  name:'foliage-clone-baseline',resolveId(id){if(id==='/@clone-baseline')return '/src/presentation/foliage/__clone_baseline.ts';},
  load(id){if(id==='/src/presentation/foliage/__clone_baseline.ts')return sources.before.replaceAll("from './", "from '/src/presentation/foliage/");}
@@ -56,7 +61,7 @@ try{
  assert.equal(rows.after.liveDiagnosticReferences,120);assert.equal(rows.after.sharedDepthPrograms,60);
  assert.equal(rows.before.clonedDiagnostics,180);assert.equal(rows.after.clonedDiagnostics,0);
  assert.equal(fs.readFileSync(file,'utf8'),sources.after,'Source changed during proof');
- const report={schema:1,baseline:ref,sourceSha256:Object.fromEntries(Object.entries(sources).map(([k,s])=>[k,hash(s)])),rows,programs,pass:true,
+ const report={schema:1,baseline:ref,runtimeFiles,onlyDiagnosticInstallationChanged:true,sourceSha256:Object.fromEntries(Object.entries(sources).map(([k,s])=>[k,hash(s)])),rows,programs,pass:true,
  scope:'Actual production material installation, Material.clone and splitLeafPrepass on 60 controlled wood/leaf profiles. Counts exact Array.from calls/elements for the shared 64-cubed noise image, not heap bytes or measured GC time. TextureSource.toJSON allocates the image array then Texture.toJSON retains only its UUID. Shader text/cache keys identical, live depth uniforms shared; native scene proof is separate.'};
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }finally{await server.close();}

@@ -1,0 +1,354 @@
+{
+  "schema": 1,
+  "setup": {
+    "version": {
+      "version": "0.0.23",
+      "revision": "e47011683"
+    },
+    "sourceMaterials": 120,
+    "existingClonedDiagnostics": 0,
+    "enumerableSources": 0,
+    "post": true,
+    "samples": 4,
+    "size": [
+      640,
+      360
+    ]
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "player": [
+        -210,
+        3.9307849407196045,
+        0
+      ],
+      "camera": [
+        -210,
+        5.9307849407196045,
+        0
+      ],
+      "captures": {
+        "before": {
+          "hash": "a94aeb6eb710783001a2645912cd12584a5fe44d6e50af47cd471793a98c20e1",
+          "cost": {
+            "draws": 280,
+            "triangles": 5213895,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 180,
+            "noiseElements": 47185920,
+            "serializedBytes": 207771,
+            "cloneCpuMs": 552.7000000029802
+          }
+        },
+        "after": {
+          "hash": "a94aeb6eb710783001a2645912cd12584a5fe44d6e50af47cd471793a98c20e1",
+          "cost": {
+            "draws": 280,
+            "triangles": 5213895,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 4
+          }
+        },
+        "restored": {
+          "hash": "a94aeb6eb710783001a2645912cd12584a5fe44d6e50af47cd471793a98c20e1",
+          "cost": {
+            "draws": 280,
+            "triangles": 5213895,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 4.200000002980232
+          }
+        }
+      }
+    },
+    {
+      "frame": 1,
+      "player": [
+        -209.96891456939434,
+        3.9094076940553992,
+        0.0301906240717105
+      ],
+      "camera": [
+        -209.96891456939434,
+        5.9094076940554,
+        0.0301906240717105
+      ],
+      "captures": {
+        "before": {
+          "hash": "f9e8e7d3693323f32e7ce938731c0851b9c2cd54301436a1032ff91524e663a3",
+          "cost": {
+            "draws": 283,
+            "triangles": 5247479,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 180,
+            "noiseElements": 47185920,
+            "serializedBytes": 213531,
+            "cloneCpuMs": 661.3000000119209
+          }
+        },
+        "after": {
+          "hash": "f9e8e7d3693323f32e7ce938731c0851b9c2cd54301436a1032ff91524e663a3",
+          "cost": {
+            "draws": 283,
+            "triangles": 5247479,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 5.200000002980232
+          }
+        },
+        "restored": {
+          "hash": "f9e8e7d3693323f32e7ce938731c0851b9c2cd54301436a1032ff91524e663a3",
+          "cost": {
+            "draws": 283,
+            "triangles": 5247479,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 2.800000011920929
+          }
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "player": [
+        -209.93782913878871,
+        3.8880304473912006,
+        0.060381248143421
+      ],
+      "camera": [
+        -209.93782913878871,
+        5.8880304473912,
+        0.060381248143421
+      ],
+      "captures": {
+        "before": {
+          "hash": "a1cf0c74fa9fb125b9fd59f04eee45801a75337ac0f6701a67f2354448627ad1",
+          "cost": {
+            "draws": 284,
+            "triangles": 5291084,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 180,
+            "noiseElements": 47185920,
+            "serializedBytes": 213531,
+            "cloneCpuMs": 1035
+          }
+        },
+        "after": {
+          "hash": "a1cf0c74fa9fb125b9fd59f04eee45801a75337ac0f6701a67f2354448627ad1",
+          "cost": {
+            "draws": 284,
+            "triangles": 5291084,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 12.900000005960464
+          }
+        },
+        "restored": {
+          "hash": "a1cf0c74fa9fb125b9fd59f04eee45801a75337ac0f6701a67f2354448627ad1",
+          "cost": {
+            "draws": 284,
+            "triangles": 5291084,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 1.6000000089406967
+          }
+        }
+      }
+    },
+    {
+      "frame": 3,
+      "player": [
+        -209.90674370818306,
+        3.866653200726995,
+        0.09057187221513151
+      ],
+      "camera": [
+        -209.90674370818306,
+        5.866653200726995,
+        0.09057187221513151
+      ],
+      "captures": {
+        "before": {
+          "hash": "e3cc7a19e17a38b6df6e6e6f4545c29f83014b54108e7ab5ff2bd587eeb0ee1b",
+          "cost": {
+            "draws": 285,
+            "triangles": 5305840,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 180,
+            "noiseElements": 47185920,
+            "serializedBytes": 213711,
+            "cloneCpuMs": 888.9000000059605
+          }
+        },
+        "after": {
+          "hash": "e3cc7a19e17a38b6df6e6e6f4545c29f83014b54108e7ab5ff2bd587eeb0ee1b",
+          "cost": {
+            "draws": 285,
+            "triangles": 5305840,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 6.0999999940395355
+          }
+        },
+        "restored": {
+          "hash": "e3cc7a19e17a38b6df6e6e6f4545c29f83014b54108e7ab5ff2bd587eeb0ee1b",
+          "cost": {
+            "draws": 285,
+            "triangles": 5305840,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 6.699999988079071
+          }
+        }
+      }
+    },
+    {
+      "frame": 4,
+      "player": [
+        -209.87565827757743,
+        3.845275954062796,
+        0.120762496286842
+      ],
+      "camera": [
+        -209.87565827757743,
+        5.845275954062796,
+        0.120762496286842
+      ],
+      "captures": {
+        "before": {
+          "hash": "3b5ac491d7a247af0776ab812ff682c965a96c48c5f7568c918c1a7035ebfe60",
+          "cost": {
+            "draws": 284,
+            "triangles": 5305456,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 180,
+            "noiseElements": 47185920,
+            "serializedBytes": 213351,
+            "cloneCpuMs": 698.5999999940395
+          }
+        },
+        "after": {
+          "hash": "3b5ac491d7a247af0776ab812ff682c965a96c48c5f7568c918c1a7035ebfe60",
+          "cost": {
+            "draws": 284,
+            "triangles": 5305456,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 2.0999999940395355
+          }
+        },
+        "restored": {
+          "hash": "3b5ac491d7a247af0776ab812ff682c965a96c48c5f7568c918c1a7035ebfe60",
+          "cost": {
+            "draws": 284,
+            "triangles": 5305456,
+            "textures": 274,
+            "programs": 260,
+            "uploadBytes": 32256
+          },
+          "clones": {
+            "count": 180,
+            "noiseArrays": 0,
+            "noiseElements": 0,
+            "serializedBytes": 1878,
+            "cloneCpuMs": 5.299999997019768
+          }
+        }
+      }
+    }
+  ],
+  "candidate": true,
+  "controllerSha256": "ba02bfd5c1785cdae465a33eeefa15c39b3412852977917350397317f882255e",
+  "pass": true,
+  "scope": "Native full forest scene through post-processing and four-sample MSAA. Before restores only enumerable diagnostic metadata, after makes it non-enumerable. Existing geometry/material shaders/uniforms are untouched. Actual native material clones are replayed per source (one wood, two leaf); counts are temporary number-array elements, not heap bytes or GC timing. Per-pose native/before/after/restored pixels and render costs must match. Existing cloned-diagnostic count records the actual world build; replay counts are separate. Software clone CPU timings are advisory."
+}

@@ -13,8 +13,9 @@ const [width, height] = report.setup.size, frames = [];
 const pairs = path.join(root, 'pairs'); fs.mkdirSync(pairs, { recursive: true });
 for (let i = 0; i < report.rows.length; i++) {
   const buffers = await Promise.all(['before','after'].map(async mode => {
-    const rgb = await sharp(path.join(root, mode, `${i}.png`)).removeAlpha().raw().toBuffer();
-    assert.equal(createHash('sha256').update(rgb).digest('hex'), report.rows[i].hashes[mode]);
+    const name = fs.existsSync(path.join(root, mode, `${i}.png`)) ? `${i}.png` : `${String(i).padStart(4,'0')}.png`;
+    const rgb = await sharp(path.join(root, mode, name)).removeAlpha().raw().toBuffer();
+    assert.equal(createHash('sha256').update(rgb).digest('hex'), report.rows[i].hashes?.[mode] ?? report.rows[i].captures?.[mode]?.hash);
     return rgb;
   }));
   assert.ok(buffers[0].equals(buffers[1]));
@@ -29,4 +30,4 @@ execFileSync('ffmpeg', ['-v','error','-y','-i',path.join(root,'motion-lossless.m
 const decoded = execFileSync('ffmpeg',['-v','error','-i',path.join(root,'motion-lossless.mp4'),'-f','rawvideo','-pix_fmt','rgb24','pipe:1'],{maxBuffer:128*1024*1024});
 assert.ok(decoded.equals(Buffer.concat(frames)), 'Lossless video differs from native PNG RGB');
 const sha = b => createHash('sha256').update(b).digest('hex');
-fs.writeFileSync(output, JSON.stringify({frames:frames.length,size:[width*2,height],sourceRgbSha256:sha(Buffer.concat(frames)),decodedRgbSha256:sha(decoded),exact:true,scope:'Five native walk/turn poses at a synthetic 60 Hz source cadence; 6 fps slow playback. Left before, right after; only the RGB-lossless clip is metric evidence.'},null,2)+'\n');
+fs.writeFileSync(output, JSON.stringify({frames:frames.length,size:[width*2,height],sourceRgbSha256:sha(Buffer.concat(frames)),decodedRgbSha256:sha(decoded),exact:true,scope:`${frames.length} native walk/turn poses at a synthetic 60 Hz source cadence; 6 fps slow playback. Left before, right after; only the RGB-lossless clip is metric evidence.`},null,2)+'\n');
