@@ -1,0 +1,1283 @@
+{
+  "build": {
+    "version": "0.0.26",
+    "revision": "03d82c3"
+  },
+  "criteria": "Grass-contribution mask >=64; near-white min RGB >=180, luminance >=200, channel spread <=40; decoded 8-bit RGB luma .2126/.7152/.0722.",
+  "summary": {
+    "frames": 181,
+    "grassPixelObservations": 11424830,
+    "nearWhiteObservations": 0,
+    "luminanceAtLeast180": 0,
+    "maxLuminance": 172.66219999999998
+  },
+  "samples": [
+    {
+      "frame": 0,
+      "grass": 71052,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.1884
+    },
+    {
+      "frame": 1,
+      "grass": 71091,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 163.82739999999998
+    },
+    {
+      "frame": 2,
+      "grass": 70853,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 164.51579999999998
+    },
+    {
+      "frame": 3,
+      "grass": 70767,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 164.3714
+    },
+    {
+      "frame": 4,
+      "grass": 70645,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.04000000000002
+    },
+    {
+      "frame": 5,
+      "grass": 70757,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.2526
+    },
+    {
+      "frame": 6,
+      "grass": 70935,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.17639999999997
+    },
+    {
+      "frame": 7,
+      "grass": 70931,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 163.1122
+    },
+    {
+      "frame": 8,
+      "grass": 70952,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.2526
+    },
+    {
+      "frame": 9,
+      "grass": 70919,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.04
+    },
+    {
+      "frame": 10,
+      "grass": 71104,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.32080000000002
+    },
+    {
+      "frame": 11,
+      "grass": 71170,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.04000000000002
+    },
+    {
+      "frame": 12,
+      "grass": 71214,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.3248
+    },
+    {
+      "frame": 13,
+      "grass": 71395,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.24859999999998
+    },
+    {
+      "frame": 14,
+      "grass": 71189,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.24859999999998
+    },
+    {
+      "frame": 15,
+      "grass": 71233,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.10819999999998
+    },
+    {
+      "frame": 16,
+      "grass": 71184,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.32080000000002
+    },
+    {
+      "frame": 17,
+      "grass": 71183,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.5334
+    },
+    {
+      "frame": 18,
+      "grass": 71310,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.1804
+    },
+    {
+      "frame": 19,
+      "grass": 71345,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.4652
+    },
+    {
+      "frame": 20,
+      "grass": 71564,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.31719999999999
+    },
+    {
+      "frame": 21,
+      "grass": 71354,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.3894
+    },
+    {
+      "frame": 22,
+      "grass": 71366,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.3894
+    },
+    {
+      "frame": 23,
+      "grass": 71398,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.17680000000001
+    },
+    {
+      "frame": 24,
+      "grass": 71430,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.0284
+    },
+    {
+      "frame": 25,
+      "grass": 71452,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.0284
+    },
+    {
+      "frame": 26,
+      "grass": 71641,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.3894
+    },
+    {
+      "frame": 27,
+      "grass": 71686,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.241
+    },
+    {
+      "frame": 28,
+      "grass": 71758,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.1688
+    },
+    {
+      "frame": 29,
+      "grass": 71809,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.31719999999999
+    },
+    {
+      "frame": 30,
+      "grass": 72036,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 164.02839999999998
+    },
+    {
+      "frame": 31,
+      "grass": 72099,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.9562
+    },
+    {
+      "frame": 32,
+      "grass": 72054,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.17680000000001
+    },
+    {
+      "frame": 33,
+      "grass": 72070,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.24099999999999
+    },
+    {
+      "frame": 34,
+      "grass": 72120,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.3894
+    },
+    {
+      "frame": 35,
+      "grass": 72095,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.1688
+    },
+    {
+      "frame": 36,
+      "grass": 72185,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.1688
+    },
+    {
+      "frame": 37,
+      "grass": 72176,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.16879999999998
+    },
+    {
+      "frame": 38,
+      "grass": 72156,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.3814
+    },
+    {
+      "frame": 39,
+      "grass": 72169,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.8632
+    },
+    {
+      "frame": 40,
+      "grass": 72180,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.1688
+    },
+    {
+      "frame": 41,
+      "grass": 72190,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.1688
+    },
+    {
+      "frame": 42,
+      "grass": 72226,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.9562
+    },
+    {
+      "frame": 43,
+      "grass": 72524,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.0966
+    },
+    {
+      "frame": 44,
+      "grass": 72305,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.0966
+    },
+    {
+      "frame": 45,
+      "grass": 72314,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.54139999999998
+    },
+    {
+      "frame": 46,
+      "grass": 72335,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.16879999999998
+    },
+    {
+      "frame": 47,
+      "grass": 72208,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.1688
+    },
+    {
+      "frame": 48,
+      "grass": 72123,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.24099999999999
+    },
+    {
+      "frame": 49,
+      "grass": 71980,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.52179999999998
+    },
+    {
+      "frame": 50,
+      "grass": 71972,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.0914
+    },
+    {
+      "frame": 51,
+      "grass": 71697,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.3762
+    },
+    {
+      "frame": 52,
+      "grass": 71439,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.1688
+    },
+    {
+      "frame": 53,
+      "grass": 71259,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.5218
+    },
+    {
+      "frame": 54,
+      "grass": 71112,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.30399999999997
+    },
+    {
+      "frame": 55,
+      "grass": 70936,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.241
+    },
+    {
+      "frame": 56,
+      "grass": 70836,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.45360000000002
+    },
+    {
+      "frame": 57,
+      "grass": 70807,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.7344
+    },
+    {
+      "frame": 58,
+      "grass": 70690,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.7344
+    },
+    {
+      "frame": 59,
+      "grass": 70481,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.51659999999998
+    },
+    {
+      "frame": 60,
+      "grass": 70308,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 172.66219999999998
+    },
+    {
+      "frame": 61,
+      "grass": 70018,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.4496
+    },
+    {
+      "frame": 62,
+      "grass": 70066,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.3814
+    },
+    {
+      "frame": 63,
+      "grass": 69798,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.6622
+    },
+    {
+      "frame": 64,
+      "grass": 69710,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.7344
+    },
+    {
+      "frame": 65,
+      "grass": 69621,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.66219999999998
+    },
+    {
+      "frame": 66,
+      "grass": 69575,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.66219999999998
+    },
+    {
+      "frame": 67,
+      "grass": 69386,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.4496
+    },
+    {
+      "frame": 68,
+      "grass": 69162,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.6622
+    },
+    {
+      "frame": 69,
+      "grass": 68801,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.4496
+    },
+    {
+      "frame": 70,
+      "grass": 68488,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.66219999999998
+    },
+    {
+      "frame": 71,
+      "grass": 68298,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.7344
+    },
+    {
+      "frame": 72,
+      "grass": 68041,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 169.66219999999998
+    },
+    {
+      "frame": 73,
+      "grass": 67919,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 171.6622
+    },
+    {
+      "frame": 74,
+      "grass": 67800,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.7344
+    },
+    {
+      "frame": 75,
+      "grass": 67658,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.7344
+    },
+    {
+      "frame": 76,
+      "grass": 67511,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 170.66219999999998
+    },
+    {
+      "frame": 77,
+      "grass": 67261,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 168.52179999999998
+    },
+    {
+      "frame": 78,
+      "grass": 67317,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 167.59399999999997
+    },
+    {
+      "frame": 79,
+      "grass": 66923,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 166.3814
+    },
+    {
+      "frame": 80,
+      "grass": 66934,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.795
+    },
+    {
+      "frame": 81,
+      "grass": 66655,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.2294
+    },
+    {
+      "frame": 82,
+      "grass": 66609,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.1532
+    },
+    {
+      "frame": 83,
+      "grass": 66250,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.438
+    },
+    {
+      "frame": 84,
+      "grass": 65979,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.0862
+    },
+    {
+      "frame": 85,
+      "grass": 65762,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 162.081
+    },
+    {
+      "frame": 86,
+      "grass": 65743,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.8816
+    },
+    {
+      "frame": 87,
+      "grass": 65619,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.9446
+    },
+    {
+      "frame": 88,
+      "grass": 65415,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.1532
+    },
+    {
+      "frame": 89,
+      "grass": 65254,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 161.6506
+    },
+    {
+      "frame": 90,
+      "grass": 65088,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.732
+    },
+    {
+      "frame": 91,
+      "grass": 65015,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.791
+    },
+    {
+      "frame": 92,
+      "grass": 64753,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.6506
+    },
+    {
+      "frame": 93,
+      "grass": 64884,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.4616
+    },
+    {
+      "frame": 94,
+      "grass": 64707,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 157.0128
+    },
+    {
+      "frame": 95,
+      "grass": 64551,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 163.86319999999998
+    },
+    {
+      "frame": 96,
+      "grass": 64347,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.6638
+    },
+    {
+      "frame": 97,
+      "grass": 64291,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.0128
+    },
+    {
+      "frame": 98,
+      "grass": 64054,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 162.8632
+    },
+    {
+      "frame": 99,
+      "grass": 63708,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 161.8632
+    },
+    {
+      "frame": 100,
+      "grass": 63705,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.081
+    },
+    {
+      "frame": 101,
+      "grass": 63644,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.1532
+    },
+    {
+      "frame": 102,
+      "grass": 63215,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 163.86319999999998
+    },
+    {
+      "frame": 103,
+      "grass": 63137,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.07819999999998
+    },
+    {
+      "frame": 104,
+      "grass": 62906,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 149.4524
+    },
+    {
+      "frame": 105,
+      "grass": 62628,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.9354
+    },
+    {
+      "frame": 106,
+      "grass": 62347,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.9354
+    },
+    {
+      "frame": 107,
+      "grass": 62237,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.2908
+    },
+    {
+      "frame": 108,
+      "grass": 61785,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.4512
+    },
+    {
+      "frame": 109,
+      "grass": 61422,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 165.791
+    },
+    {
+      "frame": 110,
+      "grass": 61332,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.23860000000002
+    },
+    {
+      "frame": 111,
+      "grass": 60879,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.2976
+    },
+    {
+      "frame": 112,
+      "grass": 60639,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 149.7424
+    },
+    {
+      "frame": 113,
+      "grass": 60355,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.02319999999997
+    },
+    {
+      "frame": 114,
+      "grass": 59968,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.93540000000002
+    },
+    {
+      "frame": 115,
+      "grass": 59699,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 163.791
+    },
+    {
+      "frame": 116,
+      "grass": 59595,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.58239999999998
+    },
+    {
+      "frame": 117,
+      "grass": 59455,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.95260000000002
+    },
+    {
+      "frame": 118,
+      "grass": 59240,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 157.1504
+    },
+    {
+      "frame": 119,
+      "grass": 59126,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.9354
+    },
+    {
+      "frame": 120,
+      "grass": 59011,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.9354
+    },
+    {
+      "frame": 121,
+      "grass": 58748,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.9354
+    },
+    {
+      "frame": 122,
+      "grass": 58525,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 157.9354
+    },
+    {
+      "frame": 123,
+      "grass": 58353,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.58239999999998
+    },
+    {
+      "frame": 124,
+      "grass": 58136,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.9354
+    },
+    {
+      "frame": 125,
+      "grass": 57843,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.2908
+    },
+    {
+      "frame": 126,
+      "grass": 57473,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.73999999999998
+    },
+    {
+      "frame": 127,
+      "grass": 57248,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.3108
+    },
+    {
+      "frame": 128,
+      "grass": 56992,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.79899999999998
+    },
+    {
+      "frame": 129,
+      "grass": 56458,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.363
+    },
+    {
+      "frame": 130,
+      "grass": 56122,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.2426
+    },
+    {
+      "frame": 131,
+      "grass": 55964,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.6638
+    },
+    {
+      "frame": 132,
+      "grass": 55608,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.51940000000002
+    },
+    {
+      "frame": 133,
+      "grass": 55291,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.0942
+    },
+    {
+      "frame": 134,
+      "grass": 54850,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.1504
+    },
+    {
+      "frame": 135,
+      "grass": 54274,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.30280000000002
+    },
+    {
+      "frame": 136,
+      "grass": 53949,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.379
+    },
+    {
+      "frame": 137,
+      "grass": 53662,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.72799999999998
+    },
+    {
+      "frame": 138,
+      "grass": 53218,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.5956
+    },
+    {
+      "frame": 139,
+      "grass": 52730,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.2334
+    },
+    {
+      "frame": 140,
+      "grass": 52307,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 160.9486
+    },
+    {
+      "frame": 141,
+      "grass": 51890,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 157.8082
+    },
+    {
+      "frame": 142,
+      "grass": 51603,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.81739999999996
+    },
+    {
+      "frame": 143,
+      "grass": 51196,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 158.8082
+    },
+    {
+      "frame": 144,
+      "grass": 51053,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.02720000000002
+    },
+    {
+      "frame": 145,
+      "grass": 50729,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.0862
+    },
+    {
+      "frame": 146,
+      "grass": 50584,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 156.0208
+    },
+    {
+      "frame": 147,
+      "grass": 50336,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 148.81619999999998
+    },
+    {
+      "frame": 148,
+      "grass": 50232,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.2334
+    },
+    {
+      "frame": 149,
+      "grass": 50114,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 161.8042
+    },
+    {
+      "frame": 150,
+      "grass": 50010,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.4576
+    },
+    {
+      "frame": 151,
+      "grass": 49930,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 162.23340000000002
+    },
+    {
+      "frame": 152,
+      "grass": 50030,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.7372
+    },
+    {
+      "frame": 153,
+      "grass": 49956,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 159.2334
+    },
+    {
+      "frame": 154,
+      "grass": 50144,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.30679999999998
+    },
+    {
+      "frame": 155,
+      "grass": 50327,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.0982
+    },
+    {
+      "frame": 156,
+      "grass": 50300,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.8776
+    },
+    {
+      "frame": 157,
+      "grass": 50416,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.17159999999998
+    },
+    {
+      "frame": 158,
+      "grass": 50428,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 148.59679999999997
+    },
+    {
+      "frame": 159,
+      "grass": 50532,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.375
+    },
+    {
+      "frame": 160,
+      "grass": 50444,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.9406
+    },
+    {
+      "frame": 161,
+      "grass": 50805,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.5916
+    },
+    {
+      "frame": 162,
+      "grass": 50848,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.888
+    },
+    {
+      "frame": 163,
+      "grass": 50952,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.0942
+    },
+    {
+      "frame": 164,
+      "grass": 50964,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 147.3894
+    },
+    {
+      "frame": 165,
+      "grass": 51275,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.5888
+    },
+    {
+      "frame": 166,
+      "grass": 51309,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 151.3212
+    },
+    {
+      "frame": 167,
+      "grass": 51341,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.602
+    },
+    {
+      "frame": 168,
+      "grass": 51550,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 148.2398
+    },
+    {
+      "frame": 169,
+      "grass": 51530,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.0232
+    },
+    {
+      "frame": 170,
+      "grass": 51726,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.7836
+    },
+    {
+      "frame": 171,
+      "grass": 52104,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.1006
+    },
+    {
+      "frame": 172,
+      "grass": 52165,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 152.8868
+    },
+    {
+      "frame": 173,
+      "grass": 52347,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 149.4524
+    },
+    {
+      "frame": 174,
+      "grass": 52545,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.1532
+    },
+    {
+      "frame": 175,
+      "grass": 52772,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 161.01399999999998
+    },
+    {
+      "frame": 176,
+      "grass": 52931,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.46439999999998
+    },
+    {
+      "frame": 177,
+      "grass": 53075,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 153.74239999999998
+    },
+    {
+      "frame": 178,
+      "grass": 53034,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 150.665
+    },
+    {
+      "frame": 179,
+      "grass": 53143,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 155.3762
+    },
+    {
+      "frame": 180,
+      "grass": 53344,
+      "nearWhite": 0,
+      "luminanceAtLeast180": 0,
+      "maxLuminance": 154.8828
+    }
+  ]
+}
