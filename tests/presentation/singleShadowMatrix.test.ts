@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { WebGLUniforms } from 'three/src/renderers/webgl/WebGLUniforms.js';
+import { installFoliage } from '../../src/presentation/foliage/foliageMaterial';
+import { splitLeafPrepass } from '../../src/presentation/foliage/leafPrepass';
+import { createFoliageField, FOLIAGE_RESPONSE } from '../../src/presentation/foliage/foliageWind';
+import { GrassWind } from '../../src/presentation/grass/wind';
+import { REALM_WIND } from '../../src/presentation/realmWind';
 import { cacheSingleDirectionalShadowMatrix } from '../../src/presentation/foliage/singleShadowMatrix';
 
 function setter(arraySize: number | null) {
@@ -60,6 +65,27 @@ describe('single directional shadow matrix uploads', () => {
     expect(s.vertexShader).toContain('#if NUM_DIR_LIGHT_SHADOWS == 1');
     expect(s.vertexShader).toContain('directionalShadowMatrix[ i ] * shadowWorldPosition');
     expect(cacheSingleDirectionalShadowMatrix(s, THREE.ShaderChunk)).toBe(false);
+  });
+
+  it('reaches actual standard/physical foliage and the leaf-depth twin through their production hooks', () => {
+    const field = createFoliageField(new GrassWind(REALM_WIND));
+    for (const colour of [new THREE.MeshStandardMaterial({ alphaTest: .5 }), new THREE.MeshPhysicalMaterial({ alphaTest: .5 })]) {
+      const installed = installFoliage(colour, { field, leaf: true, response: FOLIAGE_RESPONSE.conifer });
+      const geometry = new THREE.PlaneGeometry(), mesh = new THREE.InstancedMesh(geometry, colour, 1), depth = splitLeafPrepass(mesh)!;
+      for (const material of [colour, depth.material as THREE.Material]) {
+        const lib = ('isMeshPhysicalMaterial' in colour && colour.isMeshPhysicalMaterial) ? THREE.ShaderLib.physical : THREE.ShaderLib.standard;
+        const shader = { vertexShader: lib.vertexShader, fragmentShader: lib.fragmentShader, uniforms: THREE.UniformsUtils.clone(lib.uniforms) } as Parameters<THREE.Material['onBeforeCompile']>[0];
+        material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+        const matrix = new THREE.Matrix4().makeTranslation(1, 2, 3);
+        shader.uniforms.directionalShadowMatrix!.value = [matrix];
+        expect(shader.uniforms.directionalShadowMatrix!.value).toBe(matrix);
+        expect(shader.vertexShader).toContain('uniform mat4 directionalShadowMatrix;');
+        expect(shader.vertexShader).toContain('tvFoliageOffset(');
+        expect(installed.ok()).toBe(true);
+      }
+      colour.dispose(); (depth.material as THREE.Material).dispose(); geometry.dispose();
+    }
+    field.wind.dispose();
   });
 
   it('leaves unsupported hooks untouched rather than partially changing the uniform shape', () => {

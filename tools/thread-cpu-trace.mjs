@@ -1,0 +1,11 @@
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';
+/** Own-target trace connection; callers publish relative thread-CPU deltas, never raw trace records. */
+export async function threadCpuTrace(page){
+ const target=(await page.cdp('Target.getTargetInfo')).result.targetInfo.targetId;let ws;
+ for(const n of fs.readdirSync(os.tmpdir()).filter(n=>n.startsWith('tervain-cdp-'))){try{const port=fs.readFileSync(path.join(os.tmpdir(),n,'DevToolsActivePort'),'utf8').split('\n')[0],list=await fetch(`http://127.0.0.1:${port}/json/list`,{signal:AbortSignal.timeout(1000)}).then(r=>r.json()),t=list.find(t=>t.id===target);if(t){ws=new WebSocket(t.webSocketDebuggerUrl);break;}}catch{}}
+ assert.ok(ws,'Own target endpoint missing');await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j;});let id=0,events=[],complete,pending=new Map();
+ ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){const p=pending.get(m.id);if(p){clearTimeout(p.timer);pending.delete(m.id);m.error?p.reject(Error(m.error.message)):p.resolve(m.result);}}else if(m.method==='Tracing.dataCollected')events.push(...m.params.value);else if(m.method==='Tracing.tracingComplete')complete?.();};
+ const send=(method,params={})=>new Promise((resolve,reject)=>{const i=++id,timer=setTimeout(()=>{pending.delete(i);reject(Error('Trace request timed out'));},60000);pending.set(i,{resolve,reject,timer});ws.send(JSON.stringify({id:i,method,params}));});
+ return{start:()=>send('Tracing.start',{categories:'devtools.timeline,blink.user_timing',transferMode:'ReportEvents'}),async end(){const p=new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Trace completion timed out')),60000);complete=()=>{clearTimeout(timer);resolve();};});await send('Tracing.end');await p;return events;},close:()=>ws.close()};
+}
+export function threadCpuInterval(events,label){const stamps=events.filter(e=>e.name==='TimeStamp'),a=stamps.find(e=>e.args?.data?.message===label+'-start'),b=stamps.find(e=>e.args?.data?.message===label+'-end');assert.ok(a&&b&&a.pid===b.pid&&a.tid===b.tid&&Number.isFinite(a.tts)&&Number.isFinite(b.tts)&&b.tts>=a.tts,'Missing thread CPU clock');return{cpuMs:(b.tts-a.tts)/1000,wallMs:(b.ts-a.ts)/1000};}
