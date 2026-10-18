@@ -1,0 +1,15 @@
+{
+  "frames": 31,
+  "width": 1024,
+  "height": 216,
+  "playbackFps": 12,
+  "sourceCadence": 60,
+  "layout": "Before left, after right; whole-scene ROI",
+  "benefit": {
+    "fewerBrightFlashes": true,
+    "nearWhiteNotWorse": true,
+    "sparkleNotWorse": true
+  },
+  "decodedRgbIdentical": true,
+  "decodedSha256": "08ed9634e417b44f3222023374b264f5c80a575785ae86df53094475cf95a990"
+}

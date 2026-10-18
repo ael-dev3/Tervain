@@ -103,8 +103,8 @@ uniform vec4 uBand;
 uniform vec4 uLook;
 uniform float uFarBlades;
 uniform float uGrassPx;
-varying vec3 vGCol;
-varying vec4 vGInfo;
+centroid varying vec4 vGCol;
+varying vec2 vGInfo;
 float gHash(float n) { return fract(sin(n) * 43758.5453123); }
 `;
 
@@ -262,27 +262,29 @@ vec3 gPetal = gR1 < 0.42 ? vec3(0.5, 0.49, 0.42) : gR1 < 0.74 ? vec3(0.58, 0.44,
 gPetal = mix(gPetal, vec3(0.5, 0.22, 0.46) * (0.85 + 0.3 * gR2), gHeather);
 gBase = mix(gBase, gPetal * 0.62, gFlower * gBloom * gHeadCov * 0.85);
 float gRootShade = mix(uLook.x, 1.0, smoothstep(0.0, 0.7, gT));
-vGCol = gBase * gRootShade;
+vGCol = vec4(gBase * gRootShade, gEdge);
 // Light passes through the thin upper blade (the base is buried in the tuft) and sets seed heads and petals glowing;
 // shaded ground (under crowns) passes less sun.
 // Seed heads and petals pass a little more light than the leaf, not a sparkle (A68).
 float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + (gStem * gHead * 0.45 + gFlower * gBloom * 0.3) * gHeadCov;
 float gThin = mix(0.4, 1.0, gBladeCov);
-vGInfo = vec4(gT, gEdge, uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gThin);
+vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gThin);
 `;
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
-varying vec3 vGCol;
-varying vec4 vGInfo;
+centroid varying vec4 vGCol;
+varying vec2 vGInfo;
 uniform vec3 uTransTint;
+// Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities retain baseline interpolation.
+// A clamp alone cannot reject extrapolated values that are bright but still inside 0..1.
 // With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
 // blade lies outside the triangle: the varyings are extrapolated there, far past any value a vertex wrote. The colour
 // went negative or several times too bright, and the tone curve turned those samples into single white (or black)
 // pixels flickering through the grass at dusk (playtest 8). Hold every varying to the range its vertices can write.
-#define G_COL clamp(vGCol, 0.0, 1.0)
-#define G_EDGE clamp(vGInfo.y, -1.0, 1.0)
-#define G_THROUGH clamp(vGInfo.z, 0.0, 2.0)
-#define G_SHEEN clamp(vGInfo.w, 0.0, 2.0)
+#define G_COL clamp(vGCol.rgb, 0.0, 1.0)
+#define G_EDGE clamp(vGCol.a, -1.0, 1.0)
+#define G_THROUGH clamp(vGInfo.x, 0.0, 2.0)
+#define G_SHEEN clamp(vGInfo.y, 0.0, 2.0)
 `;
 
 /** Lambert for thin leaves: wrapped diffuse, soft light through the blade, and a faint matte sheen. Every light (and its shadow) uses it. */
@@ -360,7 +362,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v14-facing-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v15-colour-edge-centroid-facing-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },

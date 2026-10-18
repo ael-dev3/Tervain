@@ -189,8 +189,14 @@ describe('grass material', () => {
     // Blades are lit from the side facing the viewer; the double-sided flip would darken every back face.
     expect(shader.fragmentShader).not.toContain('normal *= faceDirection;');
     expect(shader.fragmentShader).toContain('diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );');
+    // Both stages keep colour inside coverage; the steep edge ramp shares that vector; two light components retain baseline interpolation.
+    for (const stage of [shader.vertexShader, shader.fragmentShader]) {
+      expect(stage).toContain('centroid varying vec4 vGCol;');
+      expect(stage).toContain('varying vec2 vGInfo;');
+      expect(stage).not.toContain('centroid varying vec2 vGInfo;');
+    }
     // Varyings extrapolated outside a sliver under multisampling stay in their vertex range (playtest 8 white pixels).
-    expect(shader.fragmentShader).toContain('#define G_COL clamp(vGCol, 0.0, 1.0)');
+    expect(shader.fragmentShader).toContain('#define G_COL clamp(vGCol.rgb, 0.0, 1.0)');
     expect(shader.vertexShader).not.toMatch(/\b(?:NaN|Infinity|undefined)\b/);
     // Shared uniforms are the live objects, so wind and trample updates reach every compiled program.
     expect(shader.uniforms.uGrassTime).toBe(wind.uniforms.uGrassTime);
