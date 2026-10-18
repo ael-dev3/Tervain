@@ -241,8 +241,10 @@ vec3 objectNormal = normalize(mix(gN, vec3(0.0, 1.0, 0.0), 0.4));
 // projected surface coverage, so a nearly edge-on blade cannot retain a face-on brightness budget.
 float gSafeDist = max(gDist, 0.5);
 float gPxPerM = uGrassPx * projectionMatrix[1][1] * 0.5 / (gSafeDist * gSafeDist);
-float gBladePx = uClump.y * (0.6 + 0.75 * gR3) * gSizeComp * gPxPerM * min(abs(gFaceDot), gSafeDist);
-float gHeadPx = gBladePx * 0.28 * max(gStem * 2.52, gFlower * 3.56);
+// Match the width used by gBladePos, including the taper and disappearing LOD blades.
+// Nominal clump width overestimates narrow tips and stems even when they cover less than one pixel.
+float gBladePx = gW * gNear * gProfile * gPxPerM * min(abs(gFaceDot), gSafeDist);
+float gHeadPx = gBladePx;
 // Playtest 8: at dusk a pale petal was eight times brighter than its blade and, a pixel or two wide, flickered white as
 // the view moved. Heads need a few pixels to show and fade out with distance; petals tint their blade, never glare.
 float gHeadCov = smoothstep(2.0, 5.0, gHeadPx) * (1.0 - smoothstep(10.0, 18.0, gDist));
@@ -362,7 +364,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v15-colour-edge-centroid-facing-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v16-rendered-width-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
