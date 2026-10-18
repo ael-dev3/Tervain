@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { cacheFoliageShakeUniform, SHAKE_COLUMNS } from './foliageShakeUniform';
 import { GUST_SPAN, SHADER_CLOCK_WRAP, TURBULENCE_SPAN, type GrassWind } from '../grass/wind';
 import type { GrassTrampleUniforms } from '../grass/trample';
 
@@ -20,7 +21,7 @@ import type { GrassTrampleUniforms } from '../grass/trample';
  */
 
 export const FOLIAGE_MAX_MOVERS = 6;
-export const FOLIAGE_MAX_SHAKES = 4;
+export const FOLIAGE_MAX_SHAKES = SHAKE_COLUMNS;
 
 /** How a kind of tree answers the wind. All values are multipliers around 1. */
 export interface FoliageResponse {
@@ -121,6 +122,7 @@ export function patchFloorPlantVertex(shader: { uniforms: Record<string, THREE.I
     transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;
   }
 }`);
+  cacheFoliageShakeUniform(shader);
   return true;
 }
 
@@ -317,5 +319,6 @@ export function patchFoliageVertex(shader: { uniforms: Record<string, THREE.IUni
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', `#include <common>\n${hierarchical ? '#define TV_HIERARCHICAL_WIND\n' : ''}${FOLIAGE_WIND_DECL}${weight ? `\nattribute float ${weight};` : ''}`)
     .replace('#include <begin_vertex>', weight ? patch.replace('transformed += (transpose(mat3(tvW)) * tvOff) / tvS2;', `transformed += (transpose(mat3(tvW)) * tvOff) / tvS2 * ${weight};`) : patch);
+  cacheFoliageShakeUniform(shader);
   return true;
 }
