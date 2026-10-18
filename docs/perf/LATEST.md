@@ -99,4 +99,6 @@ Texture taps, shader cost and JS frame CPU are not visible to the page. Each PR 
 
 Wall-clock pacing (over-25 ms share, p95) is advisory and never decides the result. The A/A band on this machine is 1.7 points (see above), so pacing is shown next to that band, and only a difference over twice the band would count, once the gate measures it in the same run.
 
+Clip mode (the default run without `--budget-url`) follows the same split. Hero jumps, p95 frame time and the share of frames over 25 ms print as advisory lines (`◦`) next to the A/A band (1.7 points, `WALL_BAND` in the gate). Pacing fails only when the over-25 ms share exceeds 3% by more than twice the band (above 6.4%), or when a frame runs over 100 ms. Hidden heroes, broken poses, visibility flicker, long tasks and console errors still fail.
+
 Result of the first run of the new gate: see the PR that introduces it.
