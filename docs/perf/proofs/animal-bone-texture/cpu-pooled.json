@@ -1,0 +1,78 @@
+{
+  "runs": [
+    {
+      "before": {
+        "averageMs": 3.8458416666666677,
+        "p95Ms": 5.147,
+        "averageUploads": 14,
+        "averageBytes": 32256,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      },
+      "after": {
+        "averageMs": 3.8563333333333327,
+        "p95Ms": 4.899,
+        "averageUploads": 14,
+        "averageBytes": 26880,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      }
+    },
+    {
+      "before": {
+        "averageMs": 3.522083333333333,
+        "p95Ms": 5.374,
+        "averageUploads": 14,
+        "averageBytes": 32256,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      },
+      "after": {
+        "averageMs": 3.560024999999999,
+        "p95Ms": 6.365,
+        "averageUploads": 14,
+        "averageBytes": 26880,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      }
+    },
+    {
+      "before": {
+        "averageMs": 4.008633333333332,
+        "p95Ms": 5.782,
+        "averageUploads": 14,
+        "averageBytes": 32256,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      },
+      "after": {
+        "averageMs": 4.08335,
+        "p95Ms": 5.5,
+        "averageUploads": 14,
+        "averageBytes": 26880,
+        "maxDraws": 406,
+        "maxTriangles": 3317406
+      }
+    }
+  ],
+  "summary": {
+    "before": {
+      "samples": 360,
+      "averageMs": 3.792186111111111,
+      "p95Ms": 5.586,
+      "averageUploads": 14.0,
+      "averageBytes": 32256.0,
+      "maxDraws": 406,
+      "maxTriangles": 3317406
+    },
+    "after": {
+      "samples": 360,
+      "averageMs": 3.833236111111111,
+      "p95Ms": 5.601,
+      "averageUploads": 14.0,
+      "averageBytes": 26880.0,
+      "maxDraws": 406,
+      "maxTriangles": 3317406
+    }
+  }
+}

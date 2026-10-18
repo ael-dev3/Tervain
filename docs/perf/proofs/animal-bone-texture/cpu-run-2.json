@@ -1,0 +1,2905 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.23",
+      "revision": "670b96d"
+    },
+    "animals": [
+      {
+        "animal": "tiger / 1005232739",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "lion / 1005232726",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "bear / 1005170943",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "bear / 1005232657",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232644",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232637",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "wolf / 1005232631",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232619",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232608",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "cat / 1005232556",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "dog / 1005232529",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "dog / 1005232511",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005232450",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005232442",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "boar / 1005174818",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232424",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232412",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232351",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      },
+      {
+        "animal": "deer / 1005232341",
+        "bones": 29,
+        "before": [
+          12,
+          12
+        ],
+        "after": [
+          12,
+          10
+        ]
+      }
+    ],
+    "rasterSuppressed": true,
+    "samples": 4
+  },
+  "sourceSha256": "c1184431e3204c9951a8ff6842b1f2c2351ed34299be6703c8dbd3f4030cebdb",
+  "rows": [
+    {
+      "frame": 0,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 8.415,
+      "wallMs": 8.438
+    },
+    {
+      "frame": 0,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 6.365,
+      "wallMs": 6.367
+    },
+    {
+      "frame": 1,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.855,
+      "wallMs": 3.855
+    },
+    {
+      "frame": 1,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.738,
+      "wallMs": 3.738
+    },
+    {
+      "frame": 2,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.88,
+      "wallMs": 2.881
+    },
+    {
+      "frame": 2,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.585,
+      "wallMs": 2.585
+    },
+    {
+      "frame": 3,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.575,
+      "wallMs": 2.575
+    },
+    {
+      "frame": 3,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.529,
+      "wallMs": 2.529
+    },
+    {
+      "frame": 4,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.547,
+      "wallMs": 2.548
+    },
+    {
+      "frame": 4,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.722,
+      "wallMs": 2.722
+    },
+    {
+      "frame": 5,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.763,
+      "wallMs": 2.763
+    },
+    {
+      "frame": 5,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.522,
+      "wallMs": 2.522
+    },
+    {
+      "frame": 6,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.622,
+      "wallMs": 3.622
+    },
+    {
+      "frame": 6,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.31,
+      "wallMs": 3.311
+    },
+    {
+      "frame": 7,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.503,
+      "wallMs": 4.503
+    },
+    {
+      "frame": 7,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.458,
+      "wallMs": 3.459
+    },
+    {
+      "frame": 8,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.704,
+      "wallMs": 3.704
+    },
+    {
+      "frame": 8,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.464,
+      "wallMs": 3.464
+    },
+    {
+      "frame": 9,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.781,
+      "wallMs": 3.781
+    },
+    {
+      "frame": 9,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.1,
+      "wallMs": 5.208
+    },
+    {
+      "frame": 10,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.975,
+      "wallMs": 3.976
+    },
+    {
+      "frame": 10,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.632,
+      "wallMs": 3.632
+    },
+    {
+      "frame": 11,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.478,
+      "wallMs": 3.478
+    },
+    {
+      "frame": 11,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.138,
+      "wallMs": 3.191
+    },
+    {
+      "frame": 12,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.009,
+      "wallMs": 3.009
+    },
+    {
+      "frame": 12,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.323,
+      "wallMs": 3.323
+    },
+    {
+      "frame": 13,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.841,
+      "wallMs": 4.841
+    },
+    {
+      "frame": 13,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.641,
+      "wallMs": 3.642
+    },
+    {
+      "frame": 14,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 5.374,
+      "wallMs": 5.375
+    },
+    {
+      "frame": 14,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.659,
+      "wallMs": 4.659
+    },
+    {
+      "frame": 15,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.164,
+      "wallMs": 4.163
+    },
+    {
+      "frame": 15,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.134,
+      "wallMs": 3.134
+    },
+    {
+      "frame": 16,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 4.096,
+      "wallMs": 4.096
+    },
+    {
+      "frame": 16,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 8.314,
+      "wallMs": 8.315
+    },
+    {
+      "frame": 17,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 6.695,
+      "wallMs": 6.934
+    },
+    {
+      "frame": 17,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.244,
+      "wallMs": 4.364
+    },
+    {
+      "frame": 18,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.762,
+      "wallMs": 3.85
+    },
+    {
+      "frame": 18,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.356,
+      "wallMs": 3.437
+    },
+    {
+      "frame": 19,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.927,
+      "wallMs": 3.012
+    },
+    {
+      "frame": 19,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.524,
+      "wallMs": 2.823
+    },
+    {
+      "frame": 20,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.552,
+      "wallMs": 2.621
+    },
+    {
+      "frame": 20,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.78,
+      "wallMs": 2.848
+    },
+    {
+      "frame": 21,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.85,
+      "wallMs": 2.921
+    },
+    {
+      "frame": 21,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.635,
+      "wallMs": 2.635
+    },
+    {
+      "frame": 22,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.607,
+      "wallMs": 2.684
+    },
+    {
+      "frame": 22,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.046,
+      "wallMs": 3.181
+    },
+    {
+      "frame": 23,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.65,
+      "wallMs": 2.738
+    },
+    {
+      "frame": 23,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.408,
+      "wallMs": 2.477
+    },
+    {
+      "frame": 24,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.613,
+      "wallMs": 2.687
+    },
+    {
+      "frame": 24,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.681,
+      "wallMs": 2.681
+    },
+    {
+      "frame": 25,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.172,
+      "wallMs": 3.173
+    },
+    {
+      "frame": 25,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.781,
+      "wallMs": 2.781
+    },
+    {
+      "frame": 26,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.599,
+      "wallMs": 3.6
+    },
+    {
+      "frame": 26,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.107,
+      "wallMs": 3.107
+    },
+    {
+      "frame": 27,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.516,
+      "wallMs": 3.517
+    },
+    {
+      "frame": 27,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.517,
+      "wallMs": 3.517
+    },
+    {
+      "frame": 28,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.499,
+      "wallMs": 3.5
+    },
+    {
+      "frame": 28,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.57,
+      "wallMs": 3.57
+    },
+    {
+      "frame": 29,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.363,
+      "wallMs": 3.364
+    },
+    {
+      "frame": 29,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.307,
+      "wallMs": 3.307
+    },
+    {
+      "frame": 30,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.131,
+      "wallMs": 3.131
+    },
+    {
+      "frame": 30,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.559,
+      "wallMs": 3.559
+    },
+    {
+      "frame": 31,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.518,
+      "wallMs": 3.518
+    },
+    {
+      "frame": 31,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 5.167,
+      "wallMs": 5.167
+    },
+    {
+      "frame": 32,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.01,
+      "wallMs": 4.01
+    },
+    {
+      "frame": 32,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.635,
+      "wallMs": 3.635
+    },
+    {
+      "frame": 33,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.274,
+      "wallMs": 4.274
+    },
+    {
+      "frame": 33,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.087,
+      "wallMs": 4.087
+    },
+    {
+      "frame": 34,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.951,
+      "wallMs": 4.951
+    },
+    {
+      "frame": 34,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 5.079,
+      "wallMs": 4.951
+    },
+    {
+      "frame": 35,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.5,
+      "wallMs": 4.499
+    },
+    {
+      "frame": 35,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.09,
+      "wallMs": 4.09
+    },
+    {
+      "frame": 36,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.868,
+      "wallMs": 3.873
+    },
+    {
+      "frame": 36,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.808,
+      "wallMs": 3.808
+    },
+    {
+      "frame": 37,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.571,
+      "wallMs": 3.59
+    },
+    {
+      "frame": 37,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.254,
+      "wallMs": 3.266
+    },
+    {
+      "frame": 38,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.363,
+      "wallMs": 3.376
+    },
+    {
+      "frame": 38,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.27,
+      "wallMs": 3.288
+    },
+    {
+      "frame": 39,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.2,
+      "wallMs": 3.231
+    },
+    {
+      "frame": 39,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.198,
+      "wallMs": 3.224
+    },
+    {
+      "frame": 40,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.925,
+      "wallMs": 2.939
+    },
+    {
+      "frame": 40,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.356,
+      "wallMs": 3.374
+    },
+    {
+      "frame": 41,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 5.695,
+      "wallMs": 5.731
+    },
+    {
+      "frame": 41,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.844,
+      "wallMs": 3.858
+    },
+    {
+      "frame": 42,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.32,
+      "wallMs": 3.32
+    },
+    {
+      "frame": 42,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.859,
+      "wallMs": 2.858
+    },
+    {
+      "frame": 43,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.782,
+      "wallMs": 2.801
+    },
+    {
+      "frame": 43,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.87,
+      "wallMs": 2.87
+    },
+    {
+      "frame": 44,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.858,
+      "wallMs": 2.858
+    },
+    {
+      "frame": 44,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.045,
+      "wallMs": 3.045
+    },
+    {
+      "frame": 45,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.795,
+      "wallMs": 2.795
+    },
+    {
+      "frame": 45,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.162,
+      "wallMs": 3.163
+    },
+    {
+      "frame": 46,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.948,
+      "wallMs": 2.948
+    },
+    {
+      "frame": 46,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.816,
+      "wallMs": 2.816
+    },
+    {
+      "frame": 47,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.642,
+      "wallMs": 3.643
+    },
+    {
+      "frame": 47,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.983,
+      "wallMs": 2.983
+    },
+    {
+      "frame": 48,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.207,
+      "wallMs": 3.207
+    },
+    {
+      "frame": 48,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.734,
+      "wallMs": 4.734
+    },
+    {
+      "frame": 49,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.262,
+      "wallMs": 4.263
+    },
+    {
+      "frame": 49,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.144,
+      "wallMs": 4.143
+    },
+    {
+      "frame": 50,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.76,
+      "wallMs": 3.744
+    },
+    {
+      "frame": 50,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.62,
+      "wallMs": 3.62
+    },
+    {
+      "frame": 51,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.423,
+      "wallMs": 3.423
+    },
+    {
+      "frame": 51,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.222,
+      "wallMs": 3.223
+    },
+    {
+      "frame": 52,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 7.381,
+      "wallMs": 7.693
+    },
+    {
+      "frame": 52,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.308,
+      "wallMs": 3.434
+    },
+    {
+      "frame": 53,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.244,
+      "wallMs": 3.338
+    },
+    {
+      "frame": 53,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.114,
+      "wallMs": 3.114
+    },
+    {
+      "frame": 54,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.165,
+      "wallMs": 3.165
+    },
+    {
+      "frame": 54,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.015,
+      "wallMs": 3.015
+    },
+    {
+      "frame": 55,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.456,
+      "wallMs": 3.456
+    },
+    {
+      "frame": 55,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.122,
+      "wallMs": 3.122
+    },
+    {
+      "frame": 56,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.187,
+      "wallMs": 3.188
+    },
+    {
+      "frame": 56,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.757,
+      "wallMs": 2.757
+    },
+    {
+      "frame": 57,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.841,
+      "wallMs": 2.841
+    },
+    {
+      "frame": 57,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.067,
+      "wallMs": 3.067
+    },
+    {
+      "frame": 58,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.895,
+      "wallMs": 2.895
+    },
+    {
+      "frame": 58,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.671,
+      "wallMs": 2.671
+    },
+    {
+      "frame": 59,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.746,
+      "wallMs": 2.746
+    },
+    {
+      "frame": 59,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.58,
+      "wallMs": 2.58
+    },
+    {
+      "frame": 60,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.541,
+      "wallMs": 2.541
+    },
+    {
+      "frame": 60,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.691,
+      "wallMs": 3.692
+    },
+    {
+      "frame": 61,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 4.138,
+      "wallMs": 4.138
+    },
+    {
+      "frame": 61,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.215,
+      "wallMs": 3.216
+    },
+    {
+      "frame": 62,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.207,
+      "wallMs": 3.208
+    },
+    {
+      "frame": 62,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.973,
+      "wallMs": 2.973
+    },
+    {
+      "frame": 63,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.602,
+      "wallMs": 2.602
+    },
+    {
+      "frame": 63,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.012,
+      "wallMs": 3.012
+    },
+    {
+      "frame": 64,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.241,
+      "wallMs": 3.242
+    },
+    {
+      "frame": 64,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.001,
+      "wallMs": 3.099
+    },
+    {
+      "frame": 65,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.312,
+      "wallMs": 3.435
+    },
+    {
+      "frame": 65,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 5.313,
+      "wallMs": 5.447
+    },
+    {
+      "frame": 66,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 5.021,
+      "wallMs": 5.159
+    },
+    {
+      "frame": 66,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.546,
+      "wallMs": 3.545
+    },
+    {
+      "frame": 67,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.1,
+      "wallMs": 3.203
+    },
+    {
+      "frame": 67,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.676,
+      "wallMs": 2.752
+    },
+    {
+      "frame": 68,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.795,
+      "wallMs": 2.874
+    },
+    {
+      "frame": 68,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.628,
+      "wallMs": 2.707
+    },
+    {
+      "frame": 69,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.993,
+      "wallMs": 2.885
+    },
+    {
+      "frame": 69,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.998,
+      "wallMs": 3.112
+    },
+    {
+      "frame": 70,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.277,
+      "wallMs": 3.377
+    },
+    {
+      "frame": 70,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.646,
+      "wallMs": 2.723
+    },
+    {
+      "frame": 71,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.904,
+      "wallMs": 3.044
+    },
+    {
+      "frame": 71,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.163,
+      "wallMs": 3.273
+    },
+    {
+      "frame": 72,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.364,
+      "wallMs": 3.365
+    },
+    {
+      "frame": 72,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.074,
+      "wallMs": 3.075
+    },
+    {
+      "frame": 73,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.425,
+      "wallMs": 3.425
+    },
+    {
+      "frame": 73,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.714,
+      "wallMs": 4.714
+    },
+    {
+      "frame": 74,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.096,
+      "wallMs": 4.097
+    },
+    {
+      "frame": 74,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.959,
+      "wallMs": 4.959
+    },
+    {
+      "frame": 75,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 5.203,
+      "wallMs": 5.234
+    },
+    {
+      "frame": 75,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.348,
+      "wallMs": 4.348
+    },
+    {
+      "frame": 76,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 5.231,
+      "wallMs": 5.246
+    },
+    {
+      "frame": 76,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 5.907,
+      "wallMs": 5.925
+    },
+    {
+      "frame": 77,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.621,
+      "wallMs": 4.622
+    },
+    {
+      "frame": 77,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.363,
+      "wallMs": 4.363
+    },
+    {
+      "frame": 78,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.166,
+      "wallMs": 4.166
+    },
+    {
+      "frame": 78,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 7.338,
+      "wallMs": 7.506
+    },
+    {
+      "frame": 79,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 6.751,
+      "wallMs": 7.411
+    },
+    {
+      "frame": 79,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 6.793,
+      "wallMs": 6.943
+    },
+    {
+      "frame": 80,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 6.419,
+      "wallMs": 6.945
+    },
+    {
+      "frame": 80,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 6.499,
+      "wallMs": 6.525
+    },
+    {
+      "frame": 81,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 6.42,
+      "wallMs": 6.458
+    },
+    {
+      "frame": 81,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 6.168,
+      "wallMs": 6.222
+    },
+    {
+      "frame": 82,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.733,
+      "wallMs": 4.772
+    },
+    {
+      "frame": 82,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.849,
+      "wallMs": 3.899
+    },
+    {
+      "frame": 83,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.502,
+      "wallMs": 3.529
+    },
+    {
+      "frame": 83,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.008,
+      "wallMs": 3.008
+    },
+    {
+      "frame": 84,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.05,
+      "wallMs": 3.064
+    },
+    {
+      "frame": 84,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.298,
+      "wallMs": 3.311
+    },
+    {
+      "frame": 85,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.314,
+      "wallMs": 4.351
+    },
+    {
+      "frame": 85,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.8,
+      "wallMs": 2.814
+    },
+    {
+      "frame": 86,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.954,
+      "wallMs": 2.967
+    },
+    {
+      "frame": 86,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.926,
+      "wallMs": 2.94
+    },
+    {
+      "frame": 87,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.253,
+      "wallMs": 3.315
+    },
+    {
+      "frame": 87,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.735,
+      "wallMs": 2.747
+    },
+    {
+      "frame": 88,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.837,
+      "wallMs": 2.85
+    },
+    {
+      "frame": 88,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.397,
+      "wallMs": 3.397
+    },
+    {
+      "frame": 89,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.841,
+      "wallMs": 3.841
+    },
+    {
+      "frame": 89,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.787,
+      "wallMs": 3.786
+    },
+    {
+      "frame": 90,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 4.118,
+      "wallMs": 4.117
+    },
+    {
+      "frame": 90,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.354,
+      "wallMs": 4.058
+    },
+    {
+      "frame": 91,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.301,
+      "wallMs": 3.301
+    },
+    {
+      "frame": 91,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.309,
+      "wallMs": 3.308
+    },
+    {
+      "frame": 92,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.624,
+      "wallMs": 4.361
+    },
+    {
+      "frame": 92,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.056,
+      "wallMs": 3.056
+    },
+    {
+      "frame": 93,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.369,
+      "wallMs": 3.37
+    },
+    {
+      "frame": 93,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.568,
+      "wallMs": 3.569
+    },
+    {
+      "frame": 94,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.319,
+      "wallMs": 3.32
+    },
+    {
+      "frame": 94,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.824,
+      "wallMs": 2.824
+    },
+    {
+      "frame": 95,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.615,
+      "wallMs": 2.615
+    },
+    {
+      "frame": 95,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.086,
+      "wallMs": 3.086
+    },
+    {
+      "frame": 96,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 4.667,
+      "wallMs": 4.668
+    },
+    {
+      "frame": 96,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 4.196,
+      "wallMs": 4.196
+    },
+    {
+      "frame": 97,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.542,
+      "wallMs": 4.542
+    },
+    {
+      "frame": 97,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 4.067,
+      "wallMs": 4.068
+    },
+    {
+      "frame": 98,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.773,
+      "wallMs": 3.774
+    },
+    {
+      "frame": 98,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 3.408,
+      "wallMs": 3.415
+    },
+    {
+      "frame": 99,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.42,
+      "wallMs": 3.438
+    },
+    {
+      "frame": 99,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.267,
+      "wallMs": 4.36
+    },
+    {
+      "frame": 100,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 3.395,
+      "wallMs": 3.419
+    },
+    {
+      "frame": 100,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.756,
+      "wallMs": 2.769
+    },
+    {
+      "frame": 101,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.924,
+      "wallMs": 2.938
+    },
+    {
+      "frame": 101,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.638,
+      "wallMs": 2.638
+    },
+    {
+      "frame": 102,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 3.253,
+      "wallMs": 3.267
+    },
+    {
+      "frame": 102,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.839,
+      "wallMs": 6.254
+    },
+    {
+      "frame": 103,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 4.63,
+      "wallMs": 5.626
+    },
+    {
+      "frame": 103,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 5.727,
+      "wallMs": 5.914
+    },
+    {
+      "frame": 104,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 4.47,
+      "wallMs": 4.624
+    },
+    {
+      "frame": 104,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 3.688,
+      "wallMs": 3.783
+    },
+    {
+      "frame": 105,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.972,
+      "wallMs": 2.994
+    },
+    {
+      "frame": 105,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.686,
+      "wallMs": 2.706
+    },
+    {
+      "frame": 106,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.61,
+      "wallMs": 2.634
+    },
+    {
+      "frame": 106,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.798,
+      "wallMs": 3.504
+    },
+    {
+      "frame": 107,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.597,
+      "wallMs": 2.767
+    },
+    {
+      "frame": 107,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.504,
+      "wallMs": 2.505
+    },
+    {
+      "frame": 108,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.438,
+      "wallMs": 2.438
+    },
+    {
+      "frame": 108,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.546,
+      "wallMs": 2.546
+    },
+    {
+      "frame": 109,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.517,
+      "wallMs": 2.517
+    },
+    {
+      "frame": 109,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.531,
+      "wallMs": 2.532
+    },
+    {
+      "frame": 110,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.525,
+      "wallMs": 2.525
+    },
+    {
+      "frame": 110,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.582,
+      "wallMs": 3.121
+    },
+    {
+      "frame": 111,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.531,
+      "wallMs": 2.532
+    },
+    {
+      "frame": 111,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.478,
+      "wallMs": 2.481
+    },
+    {
+      "frame": 112,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.52,
+      "wallMs": 2.524
+    },
+    {
+      "frame": 112,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.415,
+      "wallMs": 2.415
+    },
+    {
+      "frame": 113,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.499,
+      "wallMs": 2.499
+    },
+    {
+      "frame": 113,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.397,
+      "wallMs": 2.397
+    },
+    {
+      "frame": 114,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.535,
+      "wallMs": 2.534
+    },
+    {
+      "frame": 114,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.545,
+      "wallMs": 2.545
+    },
+    {
+      "frame": 115,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.376,
+      "wallMs": 2.375
+    },
+    {
+      "frame": 115,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 386,
+      "triangles": 3295972,
+      "textures": 288,
+      "cpuMs": 2.444,
+      "wallMs": 2.444
+    },
+    {
+      "frame": 116,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 3.266,
+      "wallMs": 3.267
+    },
+    {
+      "frame": 116,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 396,
+      "triangles": 3297220,
+      "textures": 288,
+      "cpuMs": 2.722,
+      "wallMs": 2.727
+    },
+    {
+      "frame": 117,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.659,
+      "wallMs": 2.66
+    },
+    {
+      "frame": 117,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 399,
+      "triangles": 3297450,
+      "textures": 288,
+      "cpuMs": 2.512,
+      "wallMs": 2.512
+    },
+    {
+      "frame": 118,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.554,
+      "wallMs": 2.554
+    },
+    {
+      "frame": 118,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 404,
+      "triangles": 3308702,
+      "textures": 288,
+      "cpuMs": 2.446,
+      "wallMs": 2.446
+    },
+    {
+      "frame": 119,
+      "mode": "after",
+      "uploads": 14,
+      "bytes": 26880,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.437,
+      "wallMs": 2.437
+    },
+    {
+      "frame": 119,
+      "mode": "before",
+      "uploads": 14,
+      "bytes": 32256,
+      "draws": 406,
+      "triangles": 3317406,
+      "textures": 288,
+      "cpuMs": 2.541,
+      "wallMs": 2.54
+    }
+  ],
+  "summary": {
+    "before": {
+      "averageMs": 3.522083333333333,
+      "p95Ms": 5.374,
+      "averageUploads": 14,
+      "averageBytes": 32256,
+      "maxDraws": 406,
+      "maxTriangles": 3317406
+    },
+    "after": {
+      "averageMs": 3.560024999999999,
+      "p95Ms": 6.365,
+      "averageUploads": 14,
+      "averageBytes": 26880,
+      "maxDraws": 406,
+      "maxTriangles": 3317406
+    }
+  },
+  "motion": "moving",
+  "scope": "120 warm / 120 measured balanced pairs. Native High forest renderer, controlled moving head bones on native wildlife rigs; raster entrypoints suppressed only for CPU measurement. Thread CPU excludes GPU waits and native raster draw-driver CPU. No whole-game or hardware FPS claim.",
+  "consoleErrors": [],
+  "pass": true
+}

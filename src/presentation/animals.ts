@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { compactAnimalBoneTexture } from './animals/boneTexture';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createGltfLoader } from './assets/gltfLoader';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
@@ -296,6 +297,7 @@ function cloneAnimal(template: GLTF, definition: AnimalDefinition, validated = v
     mesh.receiveShadow = true;
     const skinned = mesh as THREE.SkinnedMesh;
     if (!skinned.isSkinnedMesh) return;
+    if (!skeletons.has(skinned.skeleton)) compactAnimalBoneTexture(skinned.skeleton);
     skeletons.add(skinned.skeleton);
     // Animation can raise heads and swing tails outside the rest sphere.
     geometry.computeBoundingSphere();
