@@ -52,7 +52,7 @@ try {
     let changed = 0, squared = 0;
     for (let i = 0; i < a.length; i += 4) {
       let d = 0;
-      for (let c = 0; c < 3; c++) { const e = a[i + c] - b[i + c]; d = Math.max(d, Math.abs(e)); squared += e * e; }
+      for (let c = 0; c < 4; c++) { const e = a[i + c] - b[i + c]; d = Math.max(d, Math.abs(e)); squared += e * e; }
       changed += d > 0;
     }
     return { changed, squared };
@@ -61,11 +61,12 @@ try {
     images.before[kind].map((pixels, i) => difference(pixels, images.after[kind][i]))]));
   assert.equal(fs.readFileSync('src/presentation/foliage/foliageMaterial.ts', 'utf8'), current, 'Shader changed during fixture acquisition');
   const assertions = {
+    nonemptyImages: Object.values(images).every(cases => Object.values(cases).every(frames => frames.every(pixels => pixels.some((v, i) => i % 4 < 3 && v !== pixels[i % 4])))),
     allPixelsIdentical: Object.values(comparisons).every(rows => rows.every(r => r.changed === 0)),
     sameWork: costs.every(r => r.draws === 2 && r.triangles === 4 && r.samples === (r.kind === 'single-sample' ? 0 : 4)),
   };
   const report = { baseline: ref, sourceSha256: { before: sha(baseline), after: sha(current) }, sourceCalls: { before: sourceCalls(baseline), after: sourceCalls(current) }, comparisons, costs, assertions, pass: Object.values(assertions).every(Boolean),
-    scope: 'Actual production foliage and depth-prepass shaders. Seven cases, nine subpixel translations each, both variants. Constant UVs, mip-zero seam, magnification, minification, coverage mips, single-sample and unmapped controls must all match exactly. Source work reduction is not hardware timing.' };
+    scope: 'Actual production foliage and depth-prepass shaders. Seven cases, nine subpixel translations each, both variants. Constant UVs, mip-zero seam, magnification, minification, coverage mips, single-sample and unmapped controls must all match exactly in RGBA; every image must contain visible geometry. Source work reduction is not hardware timing.' };
   fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report));
   if (!report.pass) process.exitCode = 1;

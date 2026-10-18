@@ -10,6 +10,8 @@ import { textureUploadBytes } from './webgl-upload-bytes.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).flatMap((v, i, a) => v.startsWith('--') ? [[v.slice(2), a[i + 1]]] : []));
 const out = args.out ?? 'foliage-footprint-proof', ref = args.baseline ?? 'bcb881c';
+const frames = Number(args.frames ?? 5); assert.ok(Number.isInteger(frames) && frames >= 1 && frames <= 9);
+const controller = fs.readFileSync(new URL(import.meta.url));
 const file = 'src/presentation/foliage/foliageMaterial.ts';
 const before = execFileSync('git', ['show', `${ref}:${file}`], { encoding: 'utf8' });
 const after = fs.readFileSync(file, 'utf8');
@@ -46,6 +48,9 @@ try {
     MIP.pose(0);const G=W.modules.find(m=>m.name==='groundcover').module;
     for(let i=0;i<100;i++){G.prepare?.(T.renderer,0);G.update(0,{camera:T.cam.camera,focus:T.player.rig.root.position,reducedMotion:true});}
     const native=MIP.render();
+    const sources=T.renderer.info.programs.map(p=>gl.getShaderSource(p.fragmentShader)).filter(s=>s?.includes('float tvLod ='));
+    const nativePrograms={leaf:sources.length,shared:sources.filter(s=>s.includes('tvMip = max( 0.0, tvLod );')).length,
+      duplicate:sources.filter(s=>s.includes('vec2 tvTexels =')).length};
     for(const m of MIP.materials){const hook=m.onBeforeCompile,key=m.customProgramCacheKey;
       m.onBeforeCompile=function(sh,r){hook.call(this,sh,r);
         const original=sh.fragmentShader.includes(MIP.blocks.before)?MIP.blocks.before:sh.fragmentShader.includes(MIP.blocks.after)?MIP.blocks.after:null;
@@ -54,11 +59,13 @@ try {
       m.customProgramCacheKey=function(){return key.call(this)+'|mip-proof-'+MIP.mode;};m.needsUpdate=true;
     }
     return{build:await fetch(new URL('version.json',document.baseURI)).then(r=>r.json()),size:[T.renderer.domElement.width,T.renderer.domElement.height],
-      post:T.grade.enabled,samples:T.grade.target.samples,materials:materials.size,native:native.png};`);
+      post:T.grade.enabled,samples:T.grade.target.samples,materials:materials.size,nativePrograms,native:native.png};`);
   assert.equal(setup.post, true); assert.equal(setup.samples, 4);
   const nativeSource = execFileSync('git', ['show', `${setup.build.revision}:${file}`], { encoding: 'utf8' });
   assert.ok(nativeSource === before || nativeSource === after, 'Served foliage source is neither tested variant');
-  for (let i = 0; i < 5; i++) {
+  assert.ok(setup.nativePrograms.leaf > 0, 'No linked native leaf programs');
+  assert.equal(setup.nativePrograms[nativeSource === after ? 'shared' : 'duplicate'], setup.nativePrograms.leaf, 'Compiled native shader mismatch');
+  for (let i = 0; i < frames; i++) {
     await page.eval(`MIP.pose(${i});window.tervain.renderer.shadowMap.autoUpdate=true;MIP.use('before');MIP.render();
       window.tervain.renderer.shadowMap.autoUpdate=false;for(const mode of ['before','after']){MIP.use(mode);MIP.render();}return null;`);
     const pair = {};
@@ -72,7 +79,7 @@ try {
     assert.ok(pair.before.pixels.equals(pair.after.pixels), 'Candidate changed forest pixels');
     assert.ok(pair.before.pixels.equals(pair.restored.pixels), 'Restored forest drifted');
     assert.deepEqual(pair.after.cost, pair.before.cost); assert.deepEqual(pair.restored.cost, pair.before.cost);
-    if (i === 0 && nativeSource === before) assert.ok((await decode(setup.native)).equals(pair.before.pixels), 'Native baseline control differs');
+    if (i === 0) assert.ok((await decode(setup.native)).equals(pair[nativeSource === before ? 'before' : 'after'].pixels), 'Unmodified native control differs');
     rows.push({ frame: i, pixelsIdentical: true, restored: true,
       hashes: Object.fromEntries(Object.entries(pair).map(([k,v]) => [k,hash(v.pixels)])),
       costs: Object.fromEntries(Object.entries(pair).map(([k,v]) => [k,v.cost])) });
@@ -80,10 +87,12 @@ try {
   }
   delete setup.native;
   assert.equal(fs.readFileSync(file, 'utf8'), after, 'Source changed during acquisition');
+  assert.ok(controller.equals(fs.readFileSync(new URL(import.meta.url))), 'Controller changed during acquisition');
   assert.ok(await page.eval('return MIP.patches>0;'));
   const errors = page.console().filter(l => l.startsWith('[error]') || l.startsWith('[exception]'));
   assert.deepEqual(errors, [], 'Console errors');
-  const report = { setup, baseline: ref, sourceSha256: { before: hash(before), after: hash(after) }, rows, pass: true,
-    scope: 'Native post/MSAA whole-scene forest, frozen wind/cloud/film phases. Five synthetic 60 Hz walk/turn poses over 0.173 m. Each variant warms before measurement; shadows are cached within each pair. Exact restored and native controls, full RGB equality and paired draw/upload budgets. Not hardware timing or a shimmer fix.' };
+  const report = { setup, baseline: ref, controllerSha256: hash(controller), sourceSha256: { before: hash(before), after: hash(after) }, rows, pass: true,
+    frames, metres: (frames-1)*2.6/60,
+    scope: 'Native post/MSAA whole-scene forest, frozen wind/cloud/film phases. Synthetic 60 Hz walk/turn poses. Each variant warms before measurement; shadows are cached within each pair. Exact restored and native controls, full RGB equality and paired draw/upload budgets. Not hardware timing or a shimmer fix.' };
   fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report,null,2)+'\n');
 } finally { page.close(); }
