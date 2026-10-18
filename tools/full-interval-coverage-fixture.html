@@ -1,0 +1,57 @@
+<!doctype html><meta charset="utf-8"><title>Tree coverage fast-path fixture</title>
+<script type="module">
+import * as THREE from 'three';
+import {attachInstanceDistanceVisibility} from '/src/presentation/distanceVisibility.ts';
+try {
+ const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});
+ renderer.setSize(64,64);renderer.setClearColor(0x000000,1);document.body.append(renderer.domElement);
+ const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-1,1,1,-1,.1,20);camera.position.z=4;
+ scene.add(new THREE.AmbientLight(0xffffff,2));
+ const material=new THREE.MeshStandardMaterial({color:0x65a34f,roughness:1,side:THREE.DoubleSide});
+ const mesh=new THREE.InstancedMesh(new THREE.PlaneGeometry(2,2),material,1);
+ mesh.setMatrixAt(0,new THREE.Matrix4());scene.add(mesh);
+ let observedSamples=-1;mesh.onBeforeRender=()=>{observedSamples=renderer.getContext().getParameter(renderer.getContext().SAMPLES);};
+ const visibility=attachInstanceDistanceVisibility(mesh);
+ const pointLight=new THREE.PointLight();pointLight.position.z=4;pointLight.updateMatrixWorld();
+ renderer.properties.get(mesh.customDistanceMaterial).light=pointLight;
+ const baseline='float tvCoverageSample = WORLD;\n#ifndef TV_LEAF_SHADE_ONLY\nif (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;\n#endif';
+ const selected={value:0},counting={value:false};let programs=0;
+ for (const m of [material,mesh.customDepthMaterial,mesh.customDistanceMaterial]) {
+   const compile=m.onBeforeCompile,key=m.customProgramCacheKey;
+   m.onBeforeCompile=function(sh,r){compile.call(this,sh,r);
+     const start=sh.fragmentShader.indexOf('#ifndef TV_LEAF_SHADE_ONLY'),end=sh.fragmentShader.indexOf('#endif',start)+6;
+     const candidate=sh.fragmentShader.slice(start,end),world=candidate.match(/float tvCoverageSample = (.*);/)[1];
+     if(!candidate.includes('vDistanceCoverage.x > 0.0'))throw Error('Missing production guard');
+     const old=baseline.replace('WORLD',world);
+     sh.uniforms.uCoverageProof=selected;sh.uniforms.uCountProof=counting;
+     sh.fragmentShader='uniform float uCoverageProof;\nuniform bool uCountProof;\nfloat tvProofCalls=0.0;\n'+sh.fragmentShader.slice(0,start)+
+       'if(uCoverageProof < 0.5){\n'+old+'\n}else{\n'+candidate+'\n}\n'+sh.fragmentShader.slice(end);
+     sh.fragmentShader=sh.fragmentShader.replace('float tvCellHash(vec3 cell, float seed) {','float tvCellHash(vec3 cell, float seed) {\ntvProofCalls += 1.0;');
+     const close=sh.fragmentShader.lastIndexOf('}');
+     sh.fragmentShader=sh.fragmentShader.slice(0,close)+'if(uCountProof) gl_FragColor=vec4(tvProofCalls/4.0,0.0,0.0,1.0);\n'+sh.fragmentShader.slice(close);
+     programs++;
+   };m.customProgramCacheKey=function(){return key.call(this)+'|coverage-proof';};m.needsUpdate=true;
+ }
+ const targets=[0,4].map(samples=>new THREE.WebGLRenderTarget(64,64,{samples}));
+ targets.forEach(t=>{t.texture.colorSpace=THREE.NoColorSpace;});
+ const render=(m,mode,counts,samples)=>{const target=targets[samples===4?1:0];scene.overrideMaterial=m===material?null:m;
+   selected.value=mode;counting.value=counts;renderer.setRenderTarget(target);renderer.render(scene,camera);
+   const gl=renderer.getContext();if(gl.getError()||gl.isContextLost())throw Error('Invalid WebGL render');
+   if(observedSamples!==samples)throw Error('Wrong framebuffer samples: '+observedSamples+' expected '+samples);
+   const p=new Uint8Array(64*64*4);renderer.readRenderTargetPixels(target,0,0,64,64,p);renderer.setRenderTarget(null);return Array.from(p);
+ };
+ window.coverageFixture={run(){const rows=[];for(const [name,m]of [['colour',material],['depth',mesh.customDepthMaterial],['distance',mesh.customDistanceMaterial]])
+   for(const samples of [0,4])for(const interval of [[0,1],[-.5,1.5],[0,.25],[.25,.75],[.75,1],[0,0],[1,1]]){
+     visibility.coverage.setXY(0,...interval);visibility.coverage.needsUpdate=true;
+     const before=render(m,0,false,samples),after=render(m,1,false,samples);
+     const countBefore=render(m,0,true,samples),countAfter=render(m,1,true,samples);
+     let changed=0,nonempty=0,hashBefore=0,hashAfter=0;
+     for(let i=0;i<before.length;i+=4){changed+=Number([0,1,2,3].some(k=>before[i+k]!==after[i+k]));
+       nonempty+=Number(before[i]!==0||before[i+1]!==0||before[i+2]!==0);
+       // The two executed hashes encode 0.5 in the red output; discard keeps the clear colour.
+       hashBefore+=Number(countBefore[i]===128||countBefore[i]===64);hashAfter+=Number(countAfter[i]===128||countAfter[i]===64);}
+     rows.push({name,samples,interval,changed,nonempty,hashBefore,hashAfter});
+   }return{rows,programs,renderer:renderer.getContext().getParameter(renderer.getContext().RENDERER)};}};
+ window.fixtureReady=true;
+}catch(error){window.fixtureError=String(error.stack??error);}
+</script>

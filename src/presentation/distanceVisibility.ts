@@ -57,12 +57,16 @@ function installDistanceDither(material: THREE.Material): void {
       varying vec2 vDistanceCoverage;
       ${DISTANCE_DITHER_GLSL}`)
       .replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
-      float tvCoverageSample = ${world};
       #ifndef TV_LEAF_SHADE_ONLY
-      if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      // The noise is in [0, 1): complete intervals cannot reject a fragment.
+      // High trees normally have full coverage; only fades need the cell hashes.
+      if (vDistanceCoverage.x > 0.0 || vDistanceCoverage.y < 1.0) {
+        float tvCoverageSample = ${world};
+        if (tvCoverageSample < vDistanceCoverage.x || tvCoverageSample >= vDistanceCoverage.y) discard;
+      }
       #endif`);
   };
-  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v2-world`; };
+  material.customProgramCacheKey = function() { return `${programKey.call(this)}|tervain-distance-dither-v3-full`; };
   material.needsUpdate = true;
 }
 

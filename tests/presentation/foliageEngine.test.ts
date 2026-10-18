@@ -147,7 +147,7 @@ describe('foliage look', () => {
       expect(installed.ok()).toBe(true);
       // The distance dither still applies, then the foliage.
       expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v2-world\|tervain-foliage-v6-leaf-focus-world1-gap1-mip1\|foliage-options:\[null,null\]$/);
+      expect(material.customProgramCacheKey()).toMatch(/\|tervain-distance-dither-v3-full\|tervain-foliage-v6-leaf-focus-world1-gap1-mip1\|foliage-options:\[null,null\]$/);
       const frag = shader.fragmentShader;
       // Cubic alpha and the coverage lift share one UV footprint/logarithm.
       expect(frag.match(/float tvLod = .*log2/g)).toHaveLength(1);
