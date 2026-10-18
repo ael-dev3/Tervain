@@ -248,7 +248,8 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
     pivot[i * 3] = card.p.x; pivot[i * 3 + 1] = card.p.y; pivot[i * 3 + 2] = card.p.z;
   }
   const anchored = cards ? found / cards : 0;
-  if (anchored < 0.5) return null;
+  // Experimental cost study: expose the rejected share and force the field for measurement only.
+  leaf.userData.windDerivation = { cards, found, anchored, productionThreshold: 0.5 };
   leaf.setAttribute('_wind', new THREE.BufferAttribute(wind, 4));
   leaf.setAttribute('_pivot', new THREE.BufferAttribute(pivot, 3));
   return { anchored };
