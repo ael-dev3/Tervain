@@ -572,7 +572,8 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(out, 3));
-  for (const name of ["normal", "uv"]) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
+  // Preserve the branch field derived before snapping; its pivot remains the supporting wood.
+  for (const [name, attr] of Object.entries(canopy.attributes)) if (name !== "position") geometry.setAttribute(name, attr.clone());
   geometry.setIndex(canopy.index.clone());
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, snappedClumps: moved };
