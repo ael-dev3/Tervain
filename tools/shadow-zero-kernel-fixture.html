@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><title>Zero-intensity production shadow kernel</title>
+<script type="module">
+import * as THREE from 'three';
+import {installSoftSunShadows} from '/src/presentation/softShadows.ts';
+import {shadowZeroIntensityFixture} from '/tools/shadow-zero-intensity-fixture.mjs';
+try {
+ if(!installSoftSunShadows())throw Error('Production shadow installation failed');
+ const guard={before:'bool frustumTest = inFrustum && shadowCoord.z <= 1.0;',after:'bool frustumTest = inFrustum && shadowCoord.z <= 1.0 && shadowIntensity != 0.0;'},source=THREE.ShaderChunk.shadowmap_pars_fragment;
+ if(source.split(guard.after).length!==2)throw Error('Expected exactly one production guard');
+ window.fixtureReport=shadowZeroIntensityFixture(source.replace(guard.after,guard.before),guard);
+ window.fixtureReady=true;
+}catch(error){window.fixtureError=String(error.stack??error);}
+</script>

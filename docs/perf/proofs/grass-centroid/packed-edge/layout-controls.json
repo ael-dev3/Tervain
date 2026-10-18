@@ -1,0 +1,7 @@
+{
+  "identicalBaselinePairs": 5,
+  "beforeRevision": "d40777b",
+  "colourOnlyCompiled": "c4061a5c1",
+  "packedCompiled": "a77e64efb",
+  "scope": "Every RGB channel of the before captures matches across the colour-only and packed-edge experiments. Shared clock/wind/camera controls; source-level qualifier counts are not hardware instructions."
+}

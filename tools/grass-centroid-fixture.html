@@ -1,0 +1,21 @@
+<!doctype html><html><body style="margin:0"><script>addEventListener('error',e=>window.fixtureError=e.message);addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));</script><script type="module">
+import * as THREE from 'three';
+import {GRASS_VERTEX_DECL,GRASS_FRAGMENT_DECL} from '/src/presentation/grass/grassMaterial.ts';
+const v=GRASS_VERTEX_DECL.match(/(?:centroid )?varying vec[34] vGCol;/)?.[0],f=GRASS_FRAGMENT_DECL.match(/(?:centroid )?varying vec[34] vGCol;/)?.[0];if(!v||!f)throw Error('Missing production declarations');
+const packed=v.includes('vec4');
+const R=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});R.setSize(128,64);document.body.append(R.domElement);R.autoClear=true;
+const gl=R.getContext(),scene=new THREE.Scene(),camera=new THREE.Camera(),positions=[],colours=[];
+for(let i=0;i<64;i++){
+ const x=2*i+.01+(i%32)/32,y=8,width=.1;
+ for(const [px,py,c]of [[x,y,0],[x+width,y,.1],[x+width,56,.1]]){positions.push(px/64-1,py/32-1,0);colours.push(c,c,c);}
+}
+// A resolved colour ramp is an unchanged control alongside the subpixel triangles.
+for(const [px,py,c]of [[8,0,0],[120,0,.1],[120,4,.1],[8,0,0],[120,4,.1],[8,4,0]]){positions.push(px/64-1,py/32-1,0);colours.push(c,c,c);}
+const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('colour',new THREE.Float32BufferAttribute(colours,3));
+const mesh=new THREE.Mesh(geometry);mesh.frustumCulled=false;scene.add(mesh);
+window.centroidFixture={declarations:{vertex:v,fragment:f},run(mode,samples){
+ const vd=mode==='before'?v.replace('centroid ',''):v,fd=mode==='before'?f.replace('centroid ',''):f;
+ const m=new THREE.RawShaderMaterial({glslVersion:THREE.GLSL3,vertexShader:'precision highp float;in vec3 position;in vec3 colour;'+vd.replace('varying','out')+'void main(){vGCol='+ (packed?'vec4(colour,0.)':'colour') +';gl_Position=vec4(position,1.);}',fragmentShader:'precision highp float;'+fd.replace('varying','in')+'out vec4 result;void main(){result=vec4(clamp(vGCol.rgb,0.,1.),1.);}',side:THREE.DoubleSide});
+ const target=new THREE.WebGLRenderTarget(128,64,{samples,depthBuffer:false});mesh.material=m;R.setRenderTarget(target);R.setClearColor(0);R.render(scene,camera);R.setRenderTarget(null);const pixels=new Uint8Array(128*64*4);R.readRenderTargetPixels(target,0,0,128,64,pixels);let overRangePixels=0,max=0,covered=0;for(let i=0;i<pixels.length;i+=4){max=Math.max(max,pixels[i]);covered+=Number(pixels[i]>0);overRangePixels+=Number(pixels[i]>26);}m.fragmentShader=m.fragmentShader.replace('clamp(vGCol.rgb,0.,1.)','vec3(1.)');m.needsUpdate=true;R.setRenderTarget(target);R.render(scene,camera);R.setRenderTarget(null);const coverage=new Uint8Array(pixels.length);R.readRenderTargetPixels(target,0,0,128,64,coverage);overRangePixels=0;for(let i=0;i<pixels.length;i+=4)overRangePixels+=Number(pixels[i]>Math.ceil(coverage[i]*.1)+1);const error=gl.getError();if(error||gl.isContextLost())throw Error('Invalid fixture '+error);R.setRenderTarget(null);target.dispose();m.dispose();return{draws:R.info.render.calls,overRangePixels,max,covered,pixels:Array.from(pixels),coverage:Array.from(coverage),samples};}};
+window.fixtureReady=true;
+</script></body></html>

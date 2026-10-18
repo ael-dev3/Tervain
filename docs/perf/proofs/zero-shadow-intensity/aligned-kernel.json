@@ -1,0 +1,875 @@
+{
+  "revision": "749d1ef88c49906631b1b04c5931d0bc05976f2a",
+  "sourceSha256": "a2f7ec664b2443110ee2d185de5e26339dc2a14acf312ff83d26bbab86608d2d",
+  "fixture": {
+    "rows": [
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 191,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 204,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 153,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 191,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 204,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 153,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      }
+    ],
+    "pass": true
+  },
+  "pass": true,
+  "scope": "Current production installation into Three shadow chunk, actual comparison-tap kernel, 1-pixel software WebGL. Correctness and comparison-call counts only; not whole-scene hardware cadence."
+}
