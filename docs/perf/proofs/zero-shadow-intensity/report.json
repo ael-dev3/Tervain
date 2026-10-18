@@ -1,0 +1,1921 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "rendering": "software WebGL (SwiftShader)",
+  "patches": 37,
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before",
+    "after",
+    "before",
+    "before",
+    "after"
+  ],
+  "fixture": {
+    "rows": [
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 191,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 204,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 153,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "before",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "lit",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 0,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 6
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "dark",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 191,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 204,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 0.5,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 128,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 153,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": 1,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 24
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": -1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 0,
+        "shadowByte": 255,
+        "taps": 5
+      },
+      {
+        "mode": "after",
+        "pattern": "edge",
+        "intensity": -0.2,
+        "radius": 1,
+        "outside": 1,
+        "shadowByte": 255,
+        "taps": 0
+      }
+    ],
+    "pass": true
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.5,
+        21.5
+      ],
+      "sunShadowIntensity": 0,
+      "shadowAutoUpdate": false,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 8173.849958,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7480.77769,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7392.055062,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7501.254729,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 7491.0162095
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 7196.099731,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7163.989791,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7284.693393,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7179.557919,
+              "drawCalls": 194,
+              "triangles": 3461239,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 140,
+                  "triangles": 1567422
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 7187.8288250000005
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0,
+        21.5
+      ],
+      "sunShadowIntensity": 0,
+      "shadowAutoUpdate": false,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 3043.445698,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3046.778569,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3060.70773,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3008.149175,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 3045.1121335
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 2932.780099,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 2887.871358,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3136.599835,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 2917.572507,
+              "drawCalls": 101,
+              "triangles": 1587857,
+              "uploadBytes": 0,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 64,
+                  "triangles": 583285
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 2925.176303
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.5,
+        11
+      ],
+      "sunShadowIntensity": 1,
+      "shadowAutoUpdate": true,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 8236.270902,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8348.212599,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8174.890149,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8125.334633,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 8205.5805255
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 8100.080351,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8317.093578,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8205.180475,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 8027.997581,
+              "drawCalls": 320,
+              "triangles": 4387930,
+              "uploadBytes": 27648,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 128,
+                  "triangles": 920723
+                },
+                "leaf-depth": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "other": {
+                  "calls": 138,
+                  "triangles": 1573390
+                },
+                "leaf-colour": {
+                  "calls": 15,
+                  "triangles": 719576
+                },
+                "grass": {
+                  "calls": 24,
+                  "triangles": 454665
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 8152.630412999999
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0,
+        20.1
+      ],
+      "sunShadowIntensity": 0.48285714285712705,
+      "shadowAutoUpdate": true,
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 7230.017784,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7141.928239,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7317.089705,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7141.666589,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 7185.9730115
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 7158.97221,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7164.416229,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7106.8009,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 7197.508246,
+              "drawCalls": 294,
+              "triangles": 3557576,
+              "uploadBytes": 20736,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1858839
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 67,
+                  "triangles": 694165
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 7161.6942195
+        }
+      },
+      "identicalPixels": true,
+      "captureValid": true
+    }
+  ],
+  "sourceSha256": "6d200ee926c4f8fe0dd33ccd515d6fae64be7b11b7b9b7af7008756ad47a5fa3",
+  "guard": "if ( shadowIntensity == 0.0 ) return 1.0;",
+  "scope": "Native published High scene and Grade/post/MSAA. Candidate production guard inserted verbatim into newly compiled native shadow kernels; original uniforms/material logic retained. Cold night map initialization remains enabled. Both variants warmed before balanced before/after/after/before samples; frozen simulation/wind. GPU queries describe this renderer only, not target hardware frame cadence. Texture storage is observed uncompressed texels/mips, not total driver VRAM. Independent WebGL fixture counts comparison taps in the actual native kernel for lit/dark/edge maps and zero/fractional/full/negative intensities.",
+  "pass": true
+}
