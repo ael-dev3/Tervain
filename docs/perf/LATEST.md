@@ -112,3 +112,11 @@ Clip: the default play-gate walk on live (revision 1743c94), woods and meadow ro
 - **Hero interior and props (not scored here):** the tavern interior is readable; props are not part of this review.
 
 Not measured in this review: texture taps, shader cost, JS frame CPU (see each PR's cost table).
+
+## 0.0.27: radius-gated oak clumps and a triangle exception, 2026-10-18
+
+- Change: an oak clump moves onto its nearest branch only when its centre is farther from wood than the clump's own radius. Nearer clumps keep their place (A152).
+- Triangle exception: the owner approved up to +5,000 triangles over live for this change. Draws must not rise and console errors must stay 0.
+- New triangle baseline: 2,863,131 (live 0.0.26 was 2,858,566, +4,565). Draws 237, console errors 0.
+- Canopy audit, oak: detached clumps 530 (0.0.26: 508; 0.0.24: 542). Total detached clumps 700.
+- Same-pose clip, live 0.0.27 against the 0.0.24 baseline (40 frames, fixed camera at the woods pose): the upper crown has the same coverage as 0.0.24 in the crop at frame 10. The live meadow mean luminance is 71.22, PR #666's is 71.04 (about 0.25% apart).
