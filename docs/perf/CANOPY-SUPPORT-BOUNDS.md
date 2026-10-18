@@ -46,4 +46,15 @@ A preliminary [geometry/material screen](proofs/canopy-support-bounds/geometry-s
 
 ## Exact-head budget status
 
-The immutable compiled candidate is running the full native High Retina budget against two live probes, using #673 startup plus #678 completed-frame sampling. No allowances or raster suppression. No PASS is claimed until completion.
+The full native High Retina run completed with exit 0 for immutable head `7ebd69567f22649c0e04dab52f52bfe9cb835283`. Producer: #673 startup correction plus #678 completed-frame sampling. Two live probes and four completed frames/probe, with no allowances or raster suppression.
+
+| Budget | Live 2a13d6c | Candidate 7ebd695 |
+| --- | ---: | ---: |
+| Maximum draws | 285 | 285 |
+| Maximum triangles | 3,061,335 | 3,061,335 |
+| Console errors | 0 | 0 |
+| Candidate revision matches tested head | — | yes |
+
+This is a software-WebGL cost receipt, not hardware GPU/pacing evidence. It uses the stated corrected producer, not an unmodified-main-tool run.
+
+`play-gate: PASS 7ebd695`
