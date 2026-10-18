@@ -1,0 +1,306 @@
+{
+  "quality": "high",
+  "buffer": [
+    492,
+    320
+  ],
+  "revision": "2a13d6c",
+  "version": "0.0.29",
+  "worst": [
+    {
+      "label": "tree:wild:32:27",
+      "species": "oak",
+      "detachedCards": 977,
+      "detachedClumps": 14,
+      "position": [
+        -173.93433525357898,
+        0.6824121717854235,
+        7.321394598288445
+      ]
+    },
+    {
+      "label": "tree:wild:79:22",
+      "species": "oak",
+      "detachedCards": 949,
+      "detachedClumps": 5,
+      "position": [
+        119.95635049169846,
+        1.516842585341648,
+        -23.714840934816763
+      ]
+    },
+    {
+      "label": "tree:wild:42:45",
+      "species": "oak",
+      "detachedCards": 733,
+      "detachedClumps": 16,
+      "position": [
+        -112.96382317621304,
+        0.08060169808350409,
+        117.01269175272436
+      ]
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "detachedCards": 515,
+      "detachedClumps": 11,
+      "position": [
+        51.16108888764826,
+        5.722305877159534,
+        -79.83743565557528
+      ]
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "detachedCards": 493,
+      "detachedClumps": 9,
+      "position": [
+        -147.7846183909992,
+        0.3465435689000565,
+        -19.510794443343784
+      ]
+    },
+    {
+      "label": "tree:wild:49:39",
+      "species": "oak",
+      "detachedCards": 379,
+      "detachedClumps": 29,
+      "position": [
+        -70.2081679318151,
+        0.19627503911610056,
+        78.3659755239822
+      ]
+    },
+    {
+      "label": "tree:wild:69:26",
+      "species": "oak",
+      "detachedCards": 321,
+      "detachedClumps": 23,
+      "position": [
+        57.729056133040764,
+        0.2637658209779193,
+        -0.008090007407607458
+      ]
+    },
+    {
+      "label": "tree:wild:27:22",
+      "species": "oak",
+      "detachedCards": 228,
+      "detachedClumps": 32,
+      "position": [
+        -206.39413798894765,
+        1.4287319189762995,
+        -23.891220904495583
+      ]
+    },
+    {
+      "label": "tree:wild:73:37",
+      "species": "oak",
+      "detachedCards": 218,
+      "detachedClumps": 30,
+      "position": [
+        79.7417339882856,
+        0.5830237397988118,
+        69.39290092776994
+      ]
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "detachedCards": 186,
+      "detachedClumps": 26,
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ]
+    }
+  ],
+  "cpu": [
+    {
+      "mode": "before",
+      "ms": 1399.6999999955297
+    },
+    {
+      "mode": "before",
+      "ms": 1442.1000000014901
+    },
+    {
+      "mode": "after",
+      "ms": 1370.5999999940395
+    },
+    {
+      "mode": "after",
+      "ms": 1329.8000000044703
+    },
+    {
+      "mode": "after",
+      "ms": 1327.1000000014901
+    },
+    {
+      "mode": "before",
+      "ms": 1418.1000000014901
+    },
+    {
+      "mode": "after",
+      "ms": 1406.1999999955297
+    },
+    {
+      "mode": "before",
+      "ms": 1396.7999999970198
+    },
+    {
+      "mode": "before",
+      "ms": 1428.5999999940395
+    },
+    {
+      "mode": "after",
+      "ms": 1319.1000000014901
+    },
+    {
+      "mode": "before",
+      "ms": 1426.6000000014901
+    },
+    {
+      "mode": "after",
+      "ms": 1374.6000000014901
+    },
+    {
+      "mode": "after",
+      "ms": 1317.8999999985099
+    },
+    {
+      "mode": "before",
+      "ms": 1396
+    },
+    {
+      "mode": "after",
+      "ms": 1337.7000000029802
+    },
+    {
+      "mode": "before",
+      "ms": 1409.5999999940395
+    }
+  ],
+  "cpuSummary": {
+    "before": {
+      "runs": 8,
+      "average": 1414.6874999981374,
+      "p95": 1442.1000000014901,
+      "min": 1396,
+      "max": 1442.1000000014901
+    },
+    "after": {
+      "runs": 8,
+      "average": 1347.875,
+      "p95": 1406.1999999955297,
+      "min": 1317.8999999985099,
+      "max": 1406.1999999955297
+    }
+  },
+  "visual": [
+    {
+      "cost": {
+        "frame": 197,
+        "calls": 364,
+        "triangles": 5848988,
+        "points": 1642,
+        "lines": 0
+      }
+    },
+    {
+      "cost": {
+        "frame": 211,
+        "calls": 364,
+        "triangles": 5848988,
+        "points": 1642,
+        "lines": 0
+      }
+    }
+  ],
+  "identicalPixels": true,
+  "errors": [],
+  "sourceSha256": {
+    "before": "cb31cfe9fae8f9d5a0f3f49ed0647cd4f795f122744541373765610907751f1c",
+    "after": "51d5fd75fc9c23c3a1f6eb8b2fe5ee4b3da7fd59227b1134e625d8a69f5580ee"
+  },
+  "pass": true,
+  "scope": "Native all-tree targets, original/candidate audit implementations. Complete reports, including operation-budget accounting, must be deeply equal at all LODs. CPU timings measure warmed on-demand LOD0 audits, not regular game frames or GPU performance. Native frozen full-scene images after each implementation must match. No tree geometry or generator change.",
+  "imageSha256": {
+    "before": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d",
+    "after": "fb600ddef35518ab18c45a15d525091de60634644a7b0ed2787dcf26aaf0723d"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "queries": {
+        "native": 12658279,
+        "before": 12658279,
+        "after": 6615645
+      },
+      "operations": 12541370,
+      "summary": {
+        "trees": 451,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 717630,
+        "chunks": 459,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 8928,
+        "detachedClumps": 693,
+        "treesWithDetached": 120
+      },
+      "reportSha256": "a33ea93f9f8e03378882b8c108780260701f79c53feaf89abd1d4d0433d3682a",
+      "pass": true
+    },
+    {
+      "lod": 1,
+      "queries": {
+        "native": 6463602,
+        "before": 6463602,
+        "after": 3356386
+      },
+      "operations": 6750912,
+      "summary": {
+        "trees": 451,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 436344,
+        "chunks": 459,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 24477,
+        "detachedClumps": 396,
+        "treesWithDetached": 189
+      },
+      "reportSha256": "595bff4ba13abd63c1f7d321fbd83a0c9fbc0f4bd1ea5c6f9e786fb611c6e393",
+      "pass": true
+    },
+    {
+      "lod": 2,
+      "queries": {
+        "native": 483506,
+        "before": 483506,
+        "after": 265700
+      },
+      "operations": 1080362,
+      "summary": {
+        "trees": 451,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 129622,
+        "chunks": 462,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 14972,
+        "detachedClumps": 522,
+        "treesWithDetached": 261
+      },
+      "reportSha256": "15e8fbb6a6dca3b1b54e9ccc9d0686f32889e8ff21ff012f7dfac5fb5b0f205b",
+      "pass": true
+    }
+  ]
+}
