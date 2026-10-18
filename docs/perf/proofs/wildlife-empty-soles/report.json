@@ -1,0 +1,3923 @@
+{
+  "setup": {
+    "version": "0.0.28",
+    "revision": "30d1f0d",
+    "roots": 19,
+    "skins": 19,
+    "baseline": {
+      "worlds": 38,
+      "skins": 19,
+      "skippedWorlds": 0,
+      "skippedSkins": 0,
+      "soleSamples": 0,
+      "composes": 1235,
+      "matrixMultiplies": 1767
+    },
+    "candidate": {
+      "worlds": 19,
+      "skins": 19,
+      "skippedWorlds": 19,
+      "skippedSkins": 0,
+      "soleSamples": 0,
+      "composes": 627,
+      "matrixMultiplies": 1159
+    },
+    "viewport": [
+      640,
+      360,
+      1
+    ],
+    "buffer": [
+      640,
+      360
+    ],
+    "samples": 4
+  },
+  "rows": [
+    {
+      "pose": 0,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 199,
+          "calls": 399,
+          "triangles": 6780812,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "41bbcf7f9124836f23c2e2ef61b5294ef74ccdf510a0b6768244e59197c91ca0",
+        "beforePacking": "41bbcf7f9124836f23c2e2ef61b5294ef74ccdf510a0b6768244e59197c91ca0"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 213,
+          "calls": 399,
+          "triangles": 6780812,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "41bbcf7f9124836f23c2e2ef61b5294ef74ccdf510a0b6768244e59197c91ca0",
+        "beforePacking": "41bbcf7f9124836f23c2e2ef61b5294ef74ccdf510a0b6768244e59197c91ca0"
+      },
+      "changedChannels": 0
+    },
+    {
+      "pose": 1,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 227,
+          "calls": 402,
+          "triangles": 6813892,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "91ffb74d8cc2330f59e67ba5d513ae104f8513f9b8aa4546e49bae19f43fac19",
+        "beforePacking": "91ffb74d8cc2330f59e67ba5d513ae104f8513f9b8aa4546e49bae19f43fac19"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 241,
+          "calls": 402,
+          "triangles": 6813892,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "91ffb74d8cc2330f59e67ba5d513ae104f8513f9b8aa4546e49bae19f43fac19",
+        "beforePacking": "91ffb74d8cc2330f59e67ba5d513ae104f8513f9b8aa4546e49bae19f43fac19"
+      },
+      "changedChannels": 0
+    },
+    {
+      "pose": 2,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 255,
+          "calls": 403,
+          "triangles": 6858001,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "32e9f0adeac64bdec8a067b5d04b3bb69f57129c3de5621c4682839b8bb6a3b7",
+        "beforePacking": "32e9f0adeac64bdec8a067b5d04b3bb69f57129c3de5621c4682839b8bb6a3b7"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 269,
+          "calls": 403,
+          "triangles": 6858001,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "32e9f0adeac64bdec8a067b5d04b3bb69f57129c3de5621c4682839b8bb6a3b7",
+        "beforePacking": "32e9f0adeac64bdec8a067b5d04b3bb69f57129c3de5621c4682839b8bb6a3b7"
+      },
+      "changedChannels": 0
+    },
+    {
+      "pose": 3,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 283,
+          "calls": 404,
+          "triangles": 6872757,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "09e0f5f16dc92d36317e8bba6d8d9bf98953a4d863d7b23cd6ea6288df516b0f",
+        "beforePacking": "09e0f5f16dc92d36317e8bba6d8d9bf98953a4d863d7b23cd6ea6288df516b0f"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 297,
+          "calls": 404,
+          "triangles": 6872757,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "09e0f5f16dc92d36317e8bba6d8d9bf98953a4d863d7b23cd6ea6288df516b0f",
+        "beforePacking": "09e0f5f16dc92d36317e8bba6d8d9bf98953a4d863d7b23cd6ea6288df516b0f"
+      },
+      "changedChannels": 0
+    },
+    {
+      "pose": 4,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 311,
+          "calls": 403,
+          "triangles": 6872373,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "349978e53fd3a904cdac39b867a01c7ffe9745f0bde7c8aaae3eb2d86646720e",
+        "beforePacking": "349978e53fd3a904cdac39b867a01c7ffe9745f0bde7c8aaae3eb2d86646720e"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 325,
+          "calls": 403,
+          "triangles": 6872373,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "349978e53fd3a904cdac39b867a01c7ffe9745f0bde7c8aaae3eb2d86646720e",
+        "beforePacking": "349978e53fd3a904cdac39b867a01c7ffe9745f0bde7c8aaae3eb2d86646720e"
+      },
+      "changedChannels": 0
+    },
+    {
+      "pose": 5,
+      "before": {
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 1235,
+          "matrixMultiplies": 1767
+        },
+        "cost": {
+          "frame": 340,
+          "calls": 243,
+          "triangles": 2696991,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "689d02c233c8dca37a132274726333f1dc387a1f54913f988bb690212e5258e8",
+        "beforePacking": "689d02c233c8dca37a132274726333f1dc387a1f54913f988bb690212e5258e8"
+      },
+      "after": {
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 627,
+          "matrixMultiplies": 1159
+        },
+        "cost": {
+          "frame": 354,
+          "calls": 243,
+          "triangles": 2696991,
+          "points": 1786,
+          "lines": 0
+        },
+        "hash": "689d02c233c8dca37a132274726333f1dc387a1f54913f988bb690212e5258e8",
+        "beforePacking": "689d02c233c8dca37a132274726333f1dc387a1f54913f988bb690212e5258e8"
+      },
+      "changedChannels": 0
+    }
+  ],
+  "cpu": {
+    "summary": {
+      "before": {
+        "n": 120,
+        "avg": 0.20560833333333337,
+        "p95": 0.26,
+        "max": 0.382
+      },
+      "after": {
+        "n": 120,
+        "avg": 0.1536749999999999,
+        "p95": 0.189,
+        "max": 0.235
+      }
+    },
+    "samples": [
+      {
+        "mode": "before",
+        "frame": 0,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.382,
+        "wallMs": 0.403
+      },
+      {
+        "mode": "after",
+        "frame": 0,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "after",
+        "frame": 1,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.167,
+        "wallMs": 0.168
+      },
+      {
+        "mode": "before",
+        "frame": 1,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.206,
+        "wallMs": 0.206
+      },
+      {
+        "mode": "before",
+        "frame": 2,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.201,
+        "wallMs": 0.202
+      },
+      {
+        "mode": "after",
+        "frame": 2,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.178,
+        "wallMs": 0.178
+      },
+      {
+        "mode": "after",
+        "frame": 3,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.177,
+        "wallMs": 0.178
+      },
+      {
+        "mode": "before",
+        "frame": 3,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.198,
+        "wallMs": 0.199
+      },
+      {
+        "mode": "before",
+        "frame": 4,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.198,
+        "wallMs": 0.199
+      },
+      {
+        "mode": "after",
+        "frame": 4,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.173,
+        "wallMs": 0.174
+      },
+      {
+        "mode": "after",
+        "frame": 5,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.149,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "before",
+        "frame": 5,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.197,
+        "wallMs": 0.198
+      },
+      {
+        "mode": "before",
+        "frame": 6,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.275,
+        "wallMs": 0.276
+      },
+      {
+        "mode": "after",
+        "frame": 6,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.172,
+        "wallMs": 0.173
+      },
+      {
+        "mode": "after",
+        "frame": 7,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.169,
+        "wallMs": 0.169
+      },
+      {
+        "mode": "before",
+        "frame": 7,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.26,
+        "wallMs": 0.261
+      },
+      {
+        "mode": "before",
+        "frame": 8,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.198,
+        "wallMs": 0.199
+      },
+      {
+        "mode": "after",
+        "frame": 8,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.169,
+        "wallMs": 0.17
+      },
+      {
+        "mode": "after",
+        "frame": 9,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.152,
+        "wallMs": 0.153
+      },
+      {
+        "mode": "before",
+        "frame": 9,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.205,
+        "wallMs": 0.206
+      },
+      {
+        "mode": "before",
+        "frame": 10,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.222,
+        "wallMs": 0.222
+      },
+      {
+        "mode": "after",
+        "frame": 10,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.149,
+        "wallMs": 0.151
+      },
+      {
+        "mode": "after",
+        "frame": 11,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 11,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.2,
+        "wallMs": 0.201
+      },
+      {
+        "mode": "before",
+        "frame": 12,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.196
+      },
+      {
+        "mode": "after",
+        "frame": 12,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "after",
+        "frame": 13,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.169,
+        "wallMs": 0.17
+      },
+      {
+        "mode": "before",
+        "frame": 13,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.249,
+        "wallMs": 0.25
+      },
+      {
+        "mode": "before",
+        "frame": 14,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.222,
+        "wallMs": 0.223
+      },
+      {
+        "mode": "after",
+        "frame": 14,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.159,
+        "wallMs": 0.16
+      },
+      {
+        "mode": "after",
+        "frame": 15,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.149,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "before",
+        "frame": 15,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.197,
+        "wallMs": 0.198
+      },
+      {
+        "mode": "before",
+        "frame": 16,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.264,
+        "wallMs": 0.264
+      },
+      {
+        "mode": "after",
+        "frame": 16,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.151,
+        "wallMs": 0.152
+      },
+      {
+        "mode": "after",
+        "frame": 17,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.168,
+        "wallMs": 0.169
+      },
+      {
+        "mode": "before",
+        "frame": 17,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "before",
+        "frame": 18,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.189
+      },
+      {
+        "mode": "after",
+        "frame": 18,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.141,
+        "wallMs": 0.142
+      },
+      {
+        "mode": "after",
+        "frame": 19,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.147,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 19,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.322,
+        "wallMs": 0.322
+      },
+      {
+        "mode": "before",
+        "frame": 20,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.226,
+        "wallMs": 0.227
+      },
+      {
+        "mode": "after",
+        "frame": 20,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.143,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "after",
+        "frame": 21,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "before",
+        "frame": 21,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.188,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "before",
+        "frame": 22,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "after",
+        "frame": 22,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.153,
+        "wallMs": 0.154
+      },
+      {
+        "mode": "after",
+        "frame": 23,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.235,
+        "wallMs": 0.236
+      },
+      {
+        "mode": "before",
+        "frame": 23,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.22,
+        "wallMs": 0.221
+      },
+      {
+        "mode": "before",
+        "frame": 24,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.22,
+        "wallMs": 0.221
+      },
+      {
+        "mode": "after",
+        "frame": 24,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "after",
+        "frame": 25,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.155,
+        "wallMs": 0.156
+      },
+      {
+        "mode": "before",
+        "frame": 25,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.212,
+        "wallMs": 0.212
+      },
+      {
+        "mode": "before",
+        "frame": 26,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.209,
+        "wallMs": 0.21
+      },
+      {
+        "mode": "after",
+        "frame": 26,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.183,
+        "wallMs": 0.185
+      },
+      {
+        "mode": "after",
+        "frame": 27,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 27,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.188,
+        "wallMs": 0.189
+      },
+      {
+        "mode": "before",
+        "frame": 28,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "after",
+        "frame": 28,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.147,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "after",
+        "frame": 29,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 29,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "before",
+        "frame": 30,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.224,
+        "wallMs": 0.225
+      },
+      {
+        "mode": "after",
+        "frame": 30,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.15,
+        "wallMs": 0.152
+      },
+      {
+        "mode": "after",
+        "frame": 31,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.142,
+        "wallMs": 0.143
+      },
+      {
+        "mode": "before",
+        "frame": 31,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.232,
+        "wallMs": 0.233
+      },
+      {
+        "mode": "before",
+        "frame": 32,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.222,
+        "wallMs": 0.223
+      },
+      {
+        "mode": "after",
+        "frame": 32,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.151,
+        "wallMs": 0.152
+      },
+      {
+        "mode": "after",
+        "frame": 33,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 33,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.196
+      },
+      {
+        "mode": "before",
+        "frame": 34,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 34,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "after",
+        "frame": 35,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.138,
+        "wallMs": 0.139
+      },
+      {
+        "mode": "before",
+        "frame": 35,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.219,
+        "wallMs": 0.219
+      },
+      {
+        "mode": "before",
+        "frame": 36,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.212,
+        "wallMs": 0.254
+      },
+      {
+        "mode": "after",
+        "frame": 36,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.153,
+        "wallMs": 0.155
+      },
+      {
+        "mode": "after",
+        "frame": 37,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 37,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "before",
+        "frame": 38,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "after",
+        "frame": 38,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.149,
+        "wallMs": 0.15
+      },
+      {
+        "mode": "after",
+        "frame": 39,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 39,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "before",
+        "frame": 40,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.248,
+        "wallMs": 0.249
+      },
+      {
+        "mode": "after",
+        "frame": 40,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 41,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.17,
+        "wallMs": 0.171
+      },
+      {
+        "mode": "before",
+        "frame": 41,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.182,
+        "wallMs": 0.182
+      },
+      {
+        "mode": "before",
+        "frame": 42,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.199,
+        "wallMs": 0.199
+      },
+      {
+        "mode": "after",
+        "frame": 42,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.169,
+        "wallMs": 0.17
+      },
+      {
+        "mode": "after",
+        "frame": 43,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.135,
+        "wallMs": 0.137
+      },
+      {
+        "mode": "before",
+        "frame": 43,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "before",
+        "frame": 44,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "after",
+        "frame": 44,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "after",
+        "frame": 45,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.158,
+        "wallMs": 0.158
+      },
+      {
+        "mode": "before",
+        "frame": 45,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "before",
+        "frame": 46,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "after",
+        "frame": 46,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.197,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "after",
+        "frame": 47,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.168,
+        "wallMs": 0.168
+      },
+      {
+        "mode": "before",
+        "frame": 47,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "before",
+        "frame": 48,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "after",
+        "frame": 48,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "after",
+        "frame": 49,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 49,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.216,
+        "wallMs": 0.217
+      },
+      {
+        "mode": "before",
+        "frame": 50,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.196
+      },
+      {
+        "mode": "after",
+        "frame": 50,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 51,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.182,
+        "wallMs": 0.184
+      },
+      {
+        "mode": "before",
+        "frame": 51,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.188,
+        "wallMs": 0.189
+      },
+      {
+        "mode": "before",
+        "frame": 52,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.222,
+        "wallMs": 0.222
+      },
+      {
+        "mode": "after",
+        "frame": 52,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 53,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.142,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "before",
+        "frame": 53,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "before",
+        "frame": 54,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "after",
+        "frame": 54,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 55,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 55,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.183,
+        "wallMs": 0.184
+      },
+      {
+        "mode": "before",
+        "frame": 56,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.197
+      },
+      {
+        "mode": "after",
+        "frame": 56,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 57,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.152,
+        "wallMs": 0.153
+      },
+      {
+        "mode": "before",
+        "frame": 57,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.213,
+        "wallMs": 0.214
+      },
+      {
+        "mode": "before",
+        "frame": 58,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "after",
+        "frame": 58,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.141,
+        "wallMs": 0.142
+      },
+      {
+        "mode": "after",
+        "frame": 59,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.147,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "before",
+        "frame": 59,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.196
+      },
+      {
+        "mode": "before",
+        "frame": 60,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "after",
+        "frame": 60,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "after",
+        "frame": 61,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "before",
+        "frame": 61,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.216,
+        "wallMs": 0.221
+      },
+      {
+        "mode": "before",
+        "frame": 62,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.219,
+        "wallMs": 0.219
+      },
+      {
+        "mode": "after",
+        "frame": 62,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.136,
+        "wallMs": 0.137
+      },
+      {
+        "mode": "after",
+        "frame": 63,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.15,
+        "wallMs": 0.151
+      },
+      {
+        "mode": "before",
+        "frame": 63,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.2,
+        "wallMs": 0.2
+      },
+      {
+        "mode": "before",
+        "frame": 64,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 64,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.15,
+        "wallMs": 0.151
+      },
+      {
+        "mode": "after",
+        "frame": 65,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 65,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.223,
+        "wallMs": 0.224
+      },
+      {
+        "mode": "before",
+        "frame": 66,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.206,
+        "wallMs": 0.207
+      },
+      {
+        "mode": "after",
+        "frame": 66,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.152,
+        "wallMs": 0.153
+      },
+      {
+        "mode": "after",
+        "frame": 67,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "before",
+        "frame": 67,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "before",
+        "frame": 68,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.274,
+        "wallMs": 0.275
+      },
+      {
+        "mode": "after",
+        "frame": 68,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.172,
+        "wallMs": 0.173
+      },
+      {
+        "mode": "after",
+        "frame": 69,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.167,
+        "wallMs": 0.167
+      },
+      {
+        "mode": "before",
+        "frame": 69,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "before",
+        "frame": 70,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.212,
+        "wallMs": 0.213
+      },
+      {
+        "mode": "after",
+        "frame": 70,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 71,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "before",
+        "frame": 71,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "before",
+        "frame": 72,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "after",
+        "frame": 72,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "after",
+        "frame": 73,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.143,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "before",
+        "frame": 73,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.204,
+        "wallMs": 0.205
+      },
+      {
+        "mode": "before",
+        "frame": 74,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "after",
+        "frame": 74,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.162,
+        "wallMs": 0.163
+      },
+      {
+        "mode": "after",
+        "frame": 75,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "before",
+        "frame": 75,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.188,
+        "wallMs": 0.189
+      },
+      {
+        "mode": "before",
+        "frame": 76,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.196,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 76,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.143,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "after",
+        "frame": 77,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "before",
+        "frame": 77,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "before",
+        "frame": 78,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 78,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.142,
+        "wallMs": 0.143
+      },
+      {
+        "mode": "after",
+        "frame": 79,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "before",
+        "frame": 79,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.216,
+        "wallMs": 0.217
+      },
+      {
+        "mode": "before",
+        "frame": 80,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 80,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 81,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.151,
+        "wallMs": 0.152
+      },
+      {
+        "mode": "before",
+        "frame": 81,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "before",
+        "frame": 82,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.216,
+        "wallMs": 0.217
+      },
+      {
+        "mode": "after",
+        "frame": 82,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "after",
+        "frame": 83,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.14,
+        "wallMs": 0.141
+      },
+      {
+        "mode": "before",
+        "frame": 83,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "before",
+        "frame": 84,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "after",
+        "frame": 84,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.149,
+        "wallMs": 0.15
+      },
+      {
+        "mode": "after",
+        "frame": 85,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 85,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.196
+      },
+      {
+        "mode": "before",
+        "frame": 86,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.193
+      },
+      {
+        "mode": "after",
+        "frame": 86,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.164,
+        "wallMs": 0.165
+      },
+      {
+        "mode": "after",
+        "frame": 87,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.153,
+        "wallMs": 0.154
+      },
+      {
+        "mode": "before",
+        "frame": 87,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.21,
+        "wallMs": 0.211
+      },
+      {
+        "mode": "before",
+        "frame": 88,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "after",
+        "frame": 88,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.151,
+        "wallMs": 0.153
+      },
+      {
+        "mode": "after",
+        "frame": 89,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.143,
+        "wallMs": 0.144
+      },
+      {
+        "mode": "before",
+        "frame": 89,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "before",
+        "frame": 90,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.293,
+        "wallMs": 0.293
+      },
+      {
+        "mode": "after",
+        "frame": 90,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "after",
+        "frame": 91,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "before",
+        "frame": 91,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "before",
+        "frame": 92,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.187,
+        "wallMs": 0.188
+      },
+      {
+        "mode": "after",
+        "frame": 92,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.158,
+        "wallMs": 0.159
+      },
+      {
+        "mode": "after",
+        "frame": 93,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.142,
+        "wallMs": 0.143
+      },
+      {
+        "mode": "before",
+        "frame": 93,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "before",
+        "frame": 94,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.187,
+        "wallMs": 0.188
+      },
+      {
+        "mode": "after",
+        "frame": 94,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.137,
+        "wallMs": 0.138
+      },
+      {
+        "mode": "after",
+        "frame": 95,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.16,
+        "wallMs": 0.16
+      },
+      {
+        "mode": "before",
+        "frame": 95,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "before",
+        "frame": 96,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "after",
+        "frame": 96,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.143,
+        "wallMs": 0.143
+      },
+      {
+        "mode": "after",
+        "frame": 97,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "before",
+        "frame": 97,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.194,
+        "wallMs": 0.195
+      },
+      {
+        "mode": "before",
+        "frame": 98,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "after",
+        "frame": 98,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "after",
+        "frame": 99,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 99,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.223,
+        "wallMs": 0.225
+      },
+      {
+        "mode": "before",
+        "frame": 100,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.206,
+        "wallMs": 0.247
+      },
+      {
+        "mode": "after",
+        "frame": 100,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 101,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "before",
+        "frame": 101,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.193,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "before",
+        "frame": 102,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.212,
+        "wallMs": 0.213
+      },
+      {
+        "mode": "after",
+        "frame": 102,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "after",
+        "frame": 103,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.156,
+        "wallMs": 0.156
+      },
+      {
+        "mode": "before",
+        "frame": 103,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.19
+      },
+      {
+        "mode": "before",
+        "frame": 104,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.187,
+        "wallMs": 0.187
+      },
+      {
+        "mode": "after",
+        "frame": 104,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "after",
+        "frame": 105,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.14,
+        "wallMs": 0.141
+      },
+      {
+        "mode": "before",
+        "frame": 105,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "before",
+        "frame": 106,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.187,
+        "wallMs": 0.188
+      },
+      {
+        "mode": "after",
+        "frame": 106,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "after",
+        "frame": 107,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.144,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "before",
+        "frame": 107,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.194
+      },
+      {
+        "mode": "before",
+        "frame": 108,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.187,
+        "wallMs": 0.188
+      },
+      {
+        "mode": "after",
+        "frame": 108,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "after",
+        "frame": 109,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.157,
+        "wallMs": 0.158
+      },
+      {
+        "mode": "before",
+        "frame": 109,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.211,
+        "wallMs": 0.212
+      },
+      {
+        "mode": "before",
+        "frame": 110,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.192,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 110,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.16,
+        "wallMs": 0.161
+      },
+      {
+        "mode": "after",
+        "frame": 111,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 111,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.211,
+        "wallMs": 0.211
+      },
+      {
+        "mode": "before",
+        "frame": 112,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.189,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "after",
+        "frame": 112,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.158,
+        "wallMs": 0.159
+      },
+      {
+        "mode": "after",
+        "frame": 113,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "before",
+        "frame": 113,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.215,
+        "wallMs": 0.215
+      },
+      {
+        "mode": "before",
+        "frame": 114,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 114,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.147
+      },
+      {
+        "mode": "after",
+        "frame": 115,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.145,
+        "wallMs": 0.145
+      },
+      {
+        "mode": "before",
+        "frame": 115,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.209,
+        "wallMs": 0.209
+      },
+      {
+        "mode": "before",
+        "frame": 116,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.191,
+        "wallMs": 0.192
+      },
+      {
+        "mode": "after",
+        "frame": 116,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.148
+      },
+      {
+        "mode": "after",
+        "frame": 117,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.15,
+        "wallMs": 0.151
+      },
+      {
+        "mode": "before",
+        "frame": 117,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.186,
+        "wallMs": 0.187
+      },
+      {
+        "mode": "before",
+        "frame": 118,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.19,
+        "wallMs": 0.191
+      },
+      {
+        "mode": "after",
+        "frame": 118,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.148,
+        "wallMs": 0.149
+      },
+      {
+        "mode": "after",
+        "frame": 119,
+        "counts": {
+          "worlds": 19,
+          "skins": 19,
+          "skippedWorlds": 19,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.146,
+        "wallMs": 0.146
+      },
+      {
+        "mode": "before",
+        "frame": 119,
+        "counts": {
+          "worlds": 38,
+          "skins": 19,
+          "skippedWorlds": 0,
+          "skippedSkins": 0,
+          "soleSamples": 0,
+          "composes": 0,
+          "matrixMultiplies": 0
+        },
+        "cpuMs": 0.195,
+        "wallMs": 0.196
+      }
+    ]
+  },
+  "errors": [],
+  "pass": true,
+  "scope": "Native live 0.0.28 explicit empty-sole adapter skips only the second hierarchy walk; all 19 palette updates are preserved. Six full post/MSAA4 renders without raster suppression. Matrix hashes use Float32 GPU precision, valid bone prefixes and normalized signed zero; beforePacking equals the post-capture palette refresh hash. CPU is paired posed wildlife update(0) Chrome thread time, arithmetic counters disabled; not whole-game or hardware timing."
+}

@@ -1,0 +1,73 @@
+{
+  "schema": 2,
+  "preset": "high",
+  "width": 640,
+  "height": 360,
+  "assertions": {
+    "gameReady": true,
+    "webgl2": true,
+    "swiftShader": true,
+    "renderCostMeasured": true,
+    "captureDimensions": true,
+    "nonBlankCapture": true,
+    "disconnectSettlesRequest": true
+  },
+  "performanceGate": false,
+  "build": {
+    "version": "0.0.28",
+    "revision": "d6157fd"
+  },
+  "renderCost": {
+    "frames": [
+      {
+        "drawCalls": 321,
+        "triangles": 3507164,
+        "lines": 0,
+        "points": 1642,
+        "uploadBytes": 5760,
+        "shadowDrawCalls": 148,
+        "shadowInvocations": 7,
+        "heapUsedBytes": 1050660134
+      },
+      {
+        "drawCalls": 321,
+        "triangles": 3507164,
+        "lines": 0,
+        "points": 1642,
+        "uploadBytes": 5760,
+        "shadowDrawCalls": 148,
+        "shadowInvocations": 7,
+        "heapUsedBytes": 1050660134
+      },
+      {
+        "drawCalls": 321,
+        "triangles": 3507164,
+        "lines": 0,
+        "points": 1642,
+        "uploadBytes": 5760,
+        "shadowDrawCalls": 148,
+        "shadowInvocations": 7,
+        "heapUsedBytes": 1050660134
+      }
+    ],
+    "textureCount": 280,
+    "estimatedTextureStorageBytes": 1346622252,
+    "unknownTextureFormats": 0,
+    "grass": {
+      "grassInstances": 19624,
+      "grassTris": 1121661,
+      "grassDraws": 42,
+      "grassTiles": 93,
+      "grassMovers": 0
+    },
+    "pixelRatio": 1,
+    "drawingBuffer": [
+      640,
+      360
+    ],
+    "scope": "Three complete stationary native renders after asset arrival; all render passes. Texture storage is nominal uncompressed texel storage including observed mip levels, not driver memory; renderbuffers and compressed storage are excluded. Heap usage is occupancy, not allocation count. No hardware frame-time claim.",
+    "sampledAllocationBytes": 1642648,
+    "allocationScope": "Sampling estimate across warmup plus three renders, including diagnostic overhead; not deterministic allocation counts."
+  },
+  "pass": true
+}
