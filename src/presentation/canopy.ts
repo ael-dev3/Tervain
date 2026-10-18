@@ -541,6 +541,47 @@ export const MAX_TREE_SCALE = 1.46;
 export function woodReachLocal(metres: number, scale: number): number { return metres / scale; }
 
 /**
+ * Re-seat (0.0.29): each foliage card farther than `reach` from wood is moved, as a whole, toward its nearest wood point
+ * until its centre is `seat` from the wood. A card that has no wood point within `max` is culled. Orientation and size
+ * are unchanged.
+ */
+export function reseatFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number, reach: number, seat = 1.2, max = 4): { geometry: THREE.BufferGeometry; moved: number; culled: number } {
+  const position = canopy.getAttribute("position"), index = canopy.index;
+  if (!position || !index) return { geometry: canopy, moved: 0, culled: 0 };
+  const cards = index.count / 6, out = new Float32Array(position.count * 3);
+  for (let v = 0; v < position.count; v++) out.set([position.getX(v), position.getY(v), position.getZ(v)], v * 3);
+  const centre = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3(), p = new THREE.Vector3();
+  const kept: number[] = [];
+  let moved = 0, culled = 0;
+  for (let c = 0; c < cards; c++) {
+    const first = index.getX(c * 6);
+    centre.set(0, 0, 0);
+    for (let k = 0; k < 4; k++) centre.add(p.fromBufferAttribute(position, first + k));
+    centre.multiplyScalar(0.25);
+    const d = anchor(centre, hit, max);
+    if (d <= reach) { kept.push(c); continue; }
+    if (!Number.isFinite(d)) { culled++; continue; }
+    // Move the card so its centre sits `seat` from the nearest wood point, along the line from that point.
+    const toCentre = delta.copy(centre).sub(hit);
+    const len = toCentre.length() || 1;
+    const target = hit.clone().addScaledVector(toCentre, seat / len);
+    const shift = target.sub(centre);
+    for (let k = 0; k < 4; k++) { const v = first + k; out[v * 3] = out[v * 3]! + shift.x; out[v * 3 + 1] = out[v * 3 + 1]! + shift.y; out[v * 3 + 2] = out[v * 3 + 2]! + shift.z; }
+    kept.push(c);
+    moved++;
+  }
+  const idx: number[] = [];
+  for (const c of kept) for (let j = 0; j < 6; j++) idx.push(index.getX(c * 6 + j));
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(out, 3));
+  for (const name of ["normal", "uv"]) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
+  geometry.setIndex(idx);
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, reseatedCards: moved, culledCards: culled };
+  return { geometry, moved, culled };
+}
+
+/**
  * Cull (0.0.28): drop every card whose centre is farther than `reach` from the wood. Used for orchards only, where the
  * far cards hang beyond the audit reach; no card is moved.
  */

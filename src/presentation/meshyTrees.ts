@@ -13,7 +13,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, cullFarCards, growTwigs, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { buildCanopy, canopyAtlasTexture, growTwigs, reseatFarCards, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -598,7 +598,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
           // 0.0.28: orchard cards beyond the audit reach are culled (no card moves).
-          if (species === 'orchard' && wood && lod === 0) { const culled = cullFarCards(canopy, woodAnchor(wood), 1.5).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(culled); canopy = culled; }
+          if (species === 'orchard' && wood && lod === 0) { const culled = reseatFarCards(canopy, woodAnchor(wood), 1.5).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(culled); canopy = culled; }
           if (species === 'oak' && wood) { const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped; }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
