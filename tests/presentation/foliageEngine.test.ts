@@ -477,6 +477,22 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     expect(colour.every((m) => !m.castShadow)).toBe(true);
     expect(casters.every((m) => !m.frustumCulled && m.boundingSphere && m.castShadow && m.name.endsWith(':shadow') && m.customDepthMaterial)).toBe(true);
     expect(forest.shadowCasters.visible).toBe(false);
+    // Static local matrices must still inherit a moved/rotated forest parent without composing every caster.
+    const compositions = casters.map(mesh => vi.spyOn(mesh, 'updateMatrix'));
+    try {
+      forest.group.position.set(2, 1, -3); forest.group.rotation.y = 0.4;
+      forest.group.updateMatrixWorld(true);
+      for (const [i, mesh] of casters.entries()) {
+        expect(mesh.matrixAutoUpdate).toBe(false);
+        expect(compositions[i]).not.toHaveBeenCalled();
+        expect(mesh.matrix.elements).toEqual(new THREE.Matrix4().elements);
+        expect(mesh.matrixWorld.elements).toEqual(forest.shadowCasters.matrixWorld.elements);
+      }
+    } finally {
+      compositions.forEach(spy => spy.mockRestore());
+      forest.group.position.set(0, 0, 0); forest.group.rotation.y = 0;
+      forest.group.updateMatrixWorld(true);
+    }
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
       expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1-mip1\|foliage-options:\[null,null\]\|single-shadow-matrix1\|shake-matrix1\|mover-members1(\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]\|single-shadow-matrix1\|shake-matrix1\|mover-members1$/);
