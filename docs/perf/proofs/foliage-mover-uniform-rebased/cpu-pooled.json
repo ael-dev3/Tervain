@@ -1,0 +1,91 @@
+{
+  "method": "Three predefined independent 120-pair runs; pool every sample with no discarded run. Nearest-rank p95. Raster-suppressed renderer-thread CPU only, not hardware FPS or GPU timing.",
+  "runs": [
+    {
+      "before": {
+        "averageMs": 3.2831666666666672,
+        "p95Ms": 5.042,
+        "samples": 120,
+        "averageMoverCalls": 97.36666666666666,
+        "averageMoverBytes": 9347.2,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      },
+      "after": {
+        "averageMs": 3.2436000000000003,
+        "p95Ms": 5.233,
+        "samples": 120,
+        "averageMoverCalls": 23.766666666666666,
+        "averageMoverBytes": 380.26666666666665,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      }
+    },
+    {
+      "before": {
+        "averageMs": 3.524491666666667,
+        "p95Ms": 5.307,
+        "samples": 120,
+        "averageMoverCalls": 97.36666666666666,
+        "averageMoverBytes": 9347.2,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      },
+      "after": {
+        "averageMs": 3.612908333333333,
+        "p95Ms": 5.083,
+        "samples": 120,
+        "averageMoverCalls": 23.766666666666666,
+        "averageMoverBytes": 380.26666666666665,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      }
+    },
+    {
+      "before": {
+        "averageMs": 4.191750000000001,
+        "p95Ms": 6.593,
+        "samples": 120,
+        "averageMoverCalls": 97.36666666666666,
+        "averageMoverBytes": 9347.2,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      },
+      "after": {
+        "averageMs": 3.8569999999999998,
+        "p95Ms": 5.466,
+        "samples": 120,
+        "averageMoverCalls": 23.766666666666666,
+        "averageMoverBytes": 380.26666666666665,
+        "maxDraws": 423,
+        "maxTriangles": 8005237
+      }
+    }
+  ],
+  "pooled": {
+    "before": {
+      "samples": 360,
+      "averageMs": 3.6664694444444446,
+      "p95Ms": 5.73,
+      "medianRunP95Ms": 5.307,
+      "averageMoverCalls": 97.36666666666666,
+      "averageMoverBytes": 9347.2,
+      "maxDraws": 423,
+      "maxTriangles": 8005237
+    },
+    "after": {
+      "samples": 360,
+      "averageMs": 3.5711694444444446,
+      "p95Ms": 5.272,
+      "medianRunP95Ms": 5.233,
+      "averageMoverCalls": 23.766666666666666,
+      "averageMoverBytes": 380.26666666666665,
+      "maxDraws": 423,
+      "maxTriangles": 8005237
+    }
+  },
+  "sourceSha256": "f37a46bcf1e8d500a47b65cec6530ced9751c22434f0fd4245d6d52df525dbb9",
+  "p95NotWorse": true,
+  "meanNotWorse": true,
+  "pairedBudgetsEqual": true
+}
