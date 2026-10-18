@@ -102,3 +102,13 @@ Wall-clock pacing (over-25 ms share, p95) is advisory and never decides the resu
 Clip mode (the default run without `--budget-url`) follows the same split. Hero jumps, p95 frame time and the share of frames over 25 ms print as advisory lines (`◦`) next to the A/A band (1.7 points, `WALL_BAND` in the gate). Pacing fails only when the over-25 ms share exceeds 3% by more than twice the band (above 6.4%), or when a frame runs over 100 ms. Hidden heroes, broken poses, visibility flicker, long tasks and console errors still fail.
 
 Result of the first run of the new gate: see the PR that introduces it.
+
+## Live 0.0.23 self-review, 2026-10-18
+
+Clip: the default play-gate walk on live (revision 1743c94), woods and meadow route. Stills at 4-second intervals were reviewed by eye. No Gothic 3 reference frames are in the repository, so these scores are self-scores against the aims in docs/art, not a side-by-side comparison.
+
+- **Grass in motion (score 8):** dense blades with warm tips and dark bases read as a meadow at mid distance. Wind and trample are visible. Clumping and an even tint across the field remain; the far field goes flat.
+- **Trees (score 8):** pines and broadleaves read as trees at walking distance. Crowns are lit flat in the late-morning light; the broadleaf canopy shows the thinnest read of depth. No floating clumps were seen in the sampled frames.
+- **Hero interior and props (not scored here):** the tavern interior is readable; props are not part of this review.
+
+Not measured in this review: texture taps, shader cost, JS frame CPU (see each PR's cost table).
