@@ -120,3 +120,11 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - New triangle baseline: 2,863,131 (live 0.0.26 was 2,858,566, +4,565). Draws 237, console errors 0.
 - Canopy audit, oak: detached clumps 530 (0.0.26: 508; 0.0.24: 542). Total detached clumps 700.
 - Same-pose clip, live 0.0.27 against the 0.0.24 baseline (40 frames, fixed camera at the woods pose): the upper crown has the same coverage as 0.0.24 in the crop at frame 10. The live meadow mean luminance is 71.22, PR #666's is 71.04 (about 0.25% apart).
+
+## 0.0.28: orchard cards beyond the audit reach culled, 2026-10-18
+
+- Change: on orchard trees (near LOD only), foliage cards whose centre is farther than 1.5 m from wood are culled after the twigs are grown. No card moves (A153).
+- Target tree tree:orchard:0:2 (audit lod 0, alpha false, gap 0.75, woodReach 1.5): detached cards 298 → 143; one clump remains. Orchard totals 949 → 239 detached cards; oak unchanged at 530 clumps.
+- Budget gate against live 0.0.27: draws 237 (flat); triangles 2,863,509 (within the 0.0.27 baseline +2,000 allowance, recorded in the PR); console errors 0.
+- Same-pose orchard clip, 40 frames, fixed camera: crown mean luminance 0.0.24 62.51, 0.0.27 62.50, 0.0.28 64.49 (about 3% brighter, which can mean slightly more light through the crown). Visually the crowns look alike; this is not yet confirmed as non-sparse.
+- Not yet done: the per-card source trace (crown shell, branch index, generator pass) for the 298 cards.
