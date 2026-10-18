@@ -9,6 +9,7 @@ it('records browser launch failure for every profile and exits without a PASS re
   try {
     writeFileSync(join(fixture, 'play-gate.mjs'), readFileSync('tools/play-gate.mjs'));
     // The gate's own helper modules travel with it; only the browser is replaced.
+    writeFileSync(join(fixture, 'budget-frame-samples.mjs'), readFileSync('tools/budget-frame-samples.mjs'));
     writeFileSync(join(fixture, 'webgl-upload-bytes.mjs'), readFileSync('tools/webgl-upload-bytes.mjs'));
     writeFileSync(join(fixture, 'cdp.mjs'), 'export async function openPage() { throw new Error("browser did not start"); }');
     const out = join(fixture, 'reports');

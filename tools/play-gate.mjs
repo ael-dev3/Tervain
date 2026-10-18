@@ -26,6 +26,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { openPage } from './cdp.mjs';
 import { textureUploadBytes } from './webgl-upload-bytes.mjs';
+import { recordBudgetFrames } from './budget-frame-samples.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? 'true' : all[i + 1]]] : acc), []));
 const URL_ = args.url ?? 'https://ael-dev3.github.io/Tervain/';
@@ -49,10 +50,13 @@ if (args['budget-url']) {
       for (const type of ['mousePressed', 'mouseReleased']) await page.cdp('Input.dispatchMouseEvent', { type, x: rect[0], y: rect[1], button: 'left', buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
       for (let i = 0; i < 2400 && !(await page.eval('const T = window.tervain; return T.mode === "play" && !!T.world && T.loadingEl.classList.contains("off")').catch(() => false)); i++) await page.wait(250);
       await page.wait(15000);
-      await page.eval(`const T = window.tervain; T.hud.show(false); T.debugTime?.(11); T.player.setPosition(-33.4, 55, 0, T.world.terrain); T.cam.yaw = 0; T.cam.manual = null; return 1`);
+      await page.eval(`window.__budgetFrames = (${recordBudgetFrames.toString()})(window.tervain); const T = window.tervain; T.hud.show(false); T.debugTime?.(11); T.player.setPosition(-33.4, 55, 0, T.world.terrain); T.cam.yaw = 0; T.cam.manual = null; return 1`);
       await page.wait(6000);
-      const samples = [];
-      for (let k = 0; k < 4; k++) { await page.wait(1500); samples.push(await page.eval('const r = window.tervain.renderer.info.render; return [r.calls, r.triangles]')); }
+      // The first four completed frames after placement include refreshed auxiliary passes.
+      // On software renderers a single frame can exceed all four former 1.5 s waits.
+      for (let k = 0; k < 2400 && !(await page.eval('return window.__budgetFrames.samples.length === 4')); k++) await page.wait(250);
+      const samples = await page.eval('const r = window.__budgetFrames; r.stop(); return r.samples');
+      if (samples.length !== 4) throw new Error('Budget gate did not receive four completed frames');
       const version = await page.eval('return fetch(new URL("version.json", document.baseURI)).then((r) => r.json()).catch(() => null)');
       const errors = page.console().filter((l) => l.startsWith('[error]') || l.startsWith('[exception]'));
       const calls = Math.max(...samples.map((x) => x[0])), triangles = Math.max(...samples.map((x) => x[1]));
