@@ -44,11 +44,9 @@ if (args['budget-url']) {
     const page = await openPage(url + '?shot=1&quality=high&settle=1&hud=0', { w: 1440, h: 900, headed: true });
     try {
       await page.cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 2, mobile: false });
-      for (let i = 0; i < 1200 && !(await page.eval('return window.tervain?.mode === "title"').catch(() => false)); i++) await page.wait(250);
-      await page.wait(2500);
-      const rect = await page.eval(`const b = [...document.querySelectorAll('.menu-choices button')].find((x) => /new/i.test(x.textContent)); const r = b.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]`);
-      for (const type of ['mousePressed', 'mouseReleased']) await page.cdp('Input.dispatchMouseEvent', { type, x: rect[0], y: rect[1], button: 'left', buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
+      // The shot query starts gameplay automatically; there is no title screen to wait for or click.
       for (let i = 0; i < 2400 && !(await page.eval('const T = window.tervain; return T.mode === "play" && !!T.world && T.loadingEl.classList.contains("off")').catch(() => false)); i++) await page.wait(250);
+      if (!(await page.eval('const T = window.tervain; return T?.mode === "play" && !!T.world && T.loadingEl.classList.contains("off")').catch(() => false))) throw new Error('Budget scene did not become ready');
       await page.wait(15000);
       await page.eval(`window.__budgetFrames = (${recordBudgetFrames.toString()})(window.tervain); const T = window.tervain; T.hud.show(false); T.debugTime?.(11); T.player.setPosition(-33.4, 55, 0, T.world.terrain); T.cam.yaw = 0; T.cam.manual = null; return 1`);
       await page.wait(6000);

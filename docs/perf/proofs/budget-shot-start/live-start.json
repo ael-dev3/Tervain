@@ -1,0 +1,10 @@
+{
+  "url": "https://ael-dev3.github.io/Tervain/?shot=1&quality=high&settle=1&hud=0",
+  "state": {
+    "mode": "play",
+    "ready": true,
+    "titlePredicate": false,
+    "newGameButton": true
+  },
+  "scope": "CPU-only startup-state repro with raster suppressed. No GPU/cost assertion."
+}
