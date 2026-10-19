@@ -606,7 +606,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             const checked = cullDetachedCards(canopy, wood, woodReachLocal(1.5, ORCHARD_MAX_SCALE)).geometry;
             if (checked !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(checked); canopy = checked; }
           }
-          if (species === 'oak' && wood) { const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), woodReachLocal(0.75, MAX_TREE_SCALE)).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped; }
+          if (species === 'oak' && wood) {
+            const reach = woodReachLocal(1.5, MAX_TREE_SCALE);
+            // Near clumps can have a sphere enclosing wood despite detached leaf surfaces.
+            // Keep the existing shape guard on mid crowns; their repair needs separate validation.
+            const snapped = snapDetachedClumps(canopy, wood, reach, woodReachLocal(0.75, MAX_TREE_SCALE), 0.9, lod === 0 ? reach : Infinity).geometry;
+            geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
+          }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
