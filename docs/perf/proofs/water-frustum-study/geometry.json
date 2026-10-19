@@ -1,0 +1,360 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "name": "meadow-0",
+      "position": [
+        6,
+        2.6770528316497804,
+        23
+      ],
+      "look": [
+        -5.133848076805235,
+        1.4770528316497802,
+        102.22144549932563
+      ],
+      "meshes": [
+        {
+          "name": "sea",
+          "triangles": 94080,
+          "coarse": true,
+          "triangleHits": null,
+          "chunkHits": null,
+          "alreadyPartitioned": true,
+          "triangleCheckValid": false,
+          "reason": "Projected sea grid: raw CPU positions do not represent rendered world vertices"
+        },
+        {
+          "name": "water-main",
+          "triangles": 6216,
+          "coarse": true,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-village",
+          "triangles": 3048,
+          "coarse": true,
+          "triangleHits": 348,
+          "chunkHits": 14,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-quarry",
+          "triangles": 1272,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-rill",
+          "triangles": 144,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-spring-pool",
+          "triangles": 1944,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        }
+      ]
+    },
+    {
+      "name": "meadow-1",
+      "position": [
+        6.65,
+        2.6841452062129973,
+        23
+      ],
+      "look": [
+        6.65,
+        1.4841452062129972,
+        103
+      ],
+      "meshes": [
+        {
+          "name": "sea",
+          "triangles": 94080,
+          "coarse": true,
+          "triangleHits": null,
+          "chunkHits": null,
+          "alreadyPartitioned": true,
+          "triangleCheckValid": false,
+          "reason": "Projected sea grid: raw CPU positions do not represent rendered world vertices"
+        },
+        {
+          "name": "water-main",
+          "triangles": 6216,
+          "coarse": true,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-village",
+          "triangles": 3048,
+          "coarse": true,
+          "triangleHits": 90,
+          "chunkHits": 6,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-quarry",
+          "triangles": 1272,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-rill",
+          "triangles": 144,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-spring-pool",
+          "triangles": 1944,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        }
+      ]
+    },
+    {
+      "name": "walk-fence",
+      "position": [
+        -2,
+        4.8,
+        43
+      ],
+      "look": [
+        -2,
+        2.5057869076728823,
+        37
+      ],
+      "meshes": [
+        {
+          "name": "sea",
+          "triangles": 94080,
+          "coarse": true,
+          "triangleHits": null,
+          "chunkHits": null,
+          "alreadyPartitioned": true,
+          "triangleCheckValid": false,
+          "reason": "Projected sea grid: raw CPU positions do not represent rendered world vertices"
+        },
+        {
+          "name": "water-main",
+          "triangles": 6216,
+          "coarse": true,
+          "triangleHits": 2606,
+          "chunkHits": 85,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-village",
+          "triangles": 3048,
+          "coarse": true,
+          "triangleHits": 2198,
+          "chunkHits": 71,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-quarry",
+          "triangles": 1272,
+          "coarse": true,
+          "triangleHits": 916,
+          "chunkHits": 31,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-rill",
+          "triangles": 144,
+          "coarse": true,
+          "triangleHits": 144,
+          "chunkHits": 5,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-spring-pool",
+          "triangles": 1944,
+          "coarse": true,
+          "triangleHits": 1944,
+          "chunkHits": 61,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        }
+      ]
+    },
+    {
+      "name": "village-west",
+      "position": [
+        9,
+        2.47705283164978,
+        27.1
+      ],
+      "look": [
+        -23,
+        1.3770528316497803,
+        15.3
+      ],
+      "meshes": [
+        {
+          "name": "sea",
+          "triangles": 94080,
+          "coarse": true,
+          "triangleHits": null,
+          "chunkHits": null,
+          "alreadyPartitioned": true,
+          "triangleCheckValid": false,
+          "reason": "Projected sea grid: raw CPU positions do not represent rendered world vertices"
+        },
+        {
+          "name": "water-main",
+          "triangles": 6216,
+          "coarse": true,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-village",
+          "triangles": 3048,
+          "coarse": true,
+          "triangleHits": 1521,
+          "chunkHits": 52,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-quarry",
+          "triangles": 1272,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-rill",
+          "triangles": 144,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-spring-pool",
+          "triangles": 1944,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        }
+      ]
+    },
+    {
+      "name": "southward-control",
+      "position": [
+        0,
+        5,
+        -10
+      ],
+      "look": [
+        0,
+        0,
+        -100
+      ],
+      "meshes": [
+        {
+          "name": "sea",
+          "triangles": 94080,
+          "coarse": true,
+          "triangleHits": null,
+          "chunkHits": null,
+          "alreadyPartitioned": true,
+          "triangleCheckValid": false,
+          "reason": "Projected sea grid: raw CPU positions do not represent rendered world vertices"
+        },
+        {
+          "name": "water-main",
+          "triangles": 6216,
+          "coarse": true,
+          "triangleHits": 1704,
+          "chunkHits": 57,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-village",
+          "triangles": 3048,
+          "coarse": true,
+          "triangleHits": 975,
+          "chunkHits": 33,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-quarry",
+          "triangles": 1272,
+          "coarse": false,
+          "triangleHits": 0,
+          "chunkHits": 0,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-rill",
+          "triangles": 144,
+          "coarse": true,
+          "triangleHits": 144,
+          "chunkHits": 5,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        },
+        {
+          "name": "water-spring-pool",
+          "triangles": 1944,
+          "coarse": true,
+          "triangleHits": 1944,
+          "chunkHits": 61,
+          "alreadyPartitioned": false,
+          "triangleCheckValid": true
+        }
+      ]
+    }
+  ],
+  "scope": "Read-only geometry/frustum broad-phase study. Per-triangle and 32-triangle boxes preserve the global height envelope plus the existing one-metre margin; no occlusion/visibility or GPU-time claim.",
+  "methodCorrection": "Initial raw sea CPU-triangle results were invalid and excluded; the corrected tool skips projected sea grids. Inland-channel results are unchanged."
+}
