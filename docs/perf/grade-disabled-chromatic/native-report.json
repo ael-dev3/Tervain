@@ -1,0 +1,126 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "size": [
+      640,
+      360
+    ],
+    "msaa": 4,
+    "look": {
+      "saturation": 0.88,
+      "contrast": 1.13,
+      "vignette": 0.18,
+      "grain": 0.012,
+      "earth": 1,
+      "chromatic": 0
+    }
+  },
+  "rows": [
+    {
+      "pose": [
+        -173,
+        7,
+        0
+      ],
+      "before": {
+        "ms": 8697.59999999404,
+        "draws": 135,
+        "triangles": 2191613
+      },
+      "after": {
+        "ms": 9596.5,
+        "draws": 135,
+        "triangles": 2191613
+      },
+      "exactRgb": true,
+      "restoreExact": true,
+      "rgbSha256": "34fb72299dbdf959a5728838e58e8bafa3c18db8271aee57ac4a72c1d97ab9ba"
+    },
+    {
+      "pose": [
+        -190,
+        20,
+        0.2
+      ],
+      "before": {
+        "ms": 11655.800000011921,
+        "draws": 121,
+        "triangles": 2028976
+      },
+      "after": {
+        "ms": 7417.100000008941,
+        "draws": 121,
+        "triangles": 2028976
+      },
+      "exactRgb": true,
+      "restoreExact": true,
+      "rgbSha256": "911ab2048c86fe91fb97f173a0c44e9b8d404efaa7dd5b049e7ea0bea028d76c"
+    },
+    {
+      "pose": [
+        -55,
+        70,
+        -1.3
+      ],
+      "before": {
+        "ms": 31627.89999999106,
+        "draws": 215,
+        "triangles": 3911773
+      },
+      "after": {
+        "ms": 20976.79999999702,
+        "draws": 215,
+        "triangles": 3911773
+      },
+      "exactRgb": true,
+      "restoreExact": true,
+      "rgbSha256": "0d6bbee587753771cf37bc1e9bbfa6304e73dd3d5cda6c1b37b5c5feda0ebf47"
+    },
+    {
+      "pose": [
+        6,
+        23,
+        1
+      ],
+      "before": {
+        "ms": 7912.699999988079,
+        "draws": 144,
+        "triangles": 2532062
+      },
+      "after": {
+        "ms": 9800.60000000894,
+        "draws": 144,
+        "triangles": 2532062
+      },
+      "exactRgb": true,
+      "restoreExact": true,
+      "rgbSha256": "656e5a68c8f1622e2176aa93dd547043e36ffaf930f99926689c830ca3334283"
+    },
+    {
+      "pose": [
+        -4,
+        46,
+        -0.3
+      ],
+      "before": {
+        "ms": 9797.5,
+        "draws": 110,
+        "triangles": 1876350
+      },
+      "after": {
+        "ms": 9276.90000000596,
+        "draws": 110,
+        "triangles": 1876350
+      },
+      "exactRgb": true,
+      "restoreExact": true,
+      "rgbSha256": "ff10d4a58589e1d2ce7c691d15e8f0daf9ae80271493b192b1ddd9b65f22df02"
+    }
+  ],
+  "errors": [],
+  "scope": "Published High native post/MSAA4, five forest/meadow/fence poses. Actual candidate fragment source cloned into the native final material, shared uniforms; baseline restore RGB-exact at every pose. Synchronized wall times are software whole-render samples, not Mac GPU/FPS. Frozen time/wind/prepared shadows, world update per pose, no geometry or look settings changes."
+}
