@@ -9,7 +9,7 @@ The restored helper retains those positive barycentric witnesses in the existing
 From the candidate source, run:
 
 ```sh
-node tools/repro-live-canopy-fine-alpha.mjs --baseline 2def3b0e0 --url https://ael-dev3.github.io/Tervain/ --out fine-alpha-proof
+node tools/repro-live-canopy-fine-alpha.mjs --baseline b31773468 --url https://ael-dev3.github.io/Tervain/ --out fine-alpha-proof
 ```
 
 The baseline revision must match the published build. This runs both diagnostic versions on the same registered far-LOD forest and native cutouts. Options are `lod:2, alpha:true, gap:0.75, woodReach:1.5, maxOperations:300000000`. Native raster must be restored before retained captures; the driver rejects blank images, zero counters, revision changes, changed pixels and console errors.
@@ -45,3 +45,13 @@ The compiled `63e6f0a46` application independently returns the same complete rep
 ```sh
 node tools/check-canopy-fine-alpha-build.mjs --url CANDIDATE_BUILD --expected fine-alpha-proof/after-audit.json --head 63e6f0a46 --out compiled.json
 ```
+
+## Current 0.0.33 repeat
+
+Pages deployed the grass-cap revert while the first budget was running. The stock gate correctly rejected mixed live revisions `2def3b0 -> b317734`; no candidate budget verdict came from that run. The feature was rebased onto `b31773468` as `511b220200290cd30ba61e307a19e237bd73f909`.
+
+Repeated the full native experiment on **0.0.33 · b317734**: original audit aborts; candidate completes all **451** targets, zero missing wood, **15,841,338 operations**, with the same diagnostic summary. Native controls again have **zero changed channels**, **403 draws / 5,257,159 triangles** both sides, and zero errors. [Receipt](proofs/fine-alpha-release/live033/report.json.gz), [before failure](proofs/fine-alpha-release/live033/before-audit.json), [complete after](proofs/fine-alpha-release/live033/after-audit.json), [before image](proofs/fine-alpha-release/live033/before.png), [after image](proofs/fine-alpha-release/live033/after.png).
+
+Earlier 0.0.32 results above are retained with their original revision; they are not relabelled as 0.0.33 evidence.
+
+The compiled rebased `511b22020` application independently matches every target field and operation count, complete species coverage, 451 expected trees and zero errors: [0.0.33 compiled receipt](proofs/fine-alpha-release/live033/compiled.json).
