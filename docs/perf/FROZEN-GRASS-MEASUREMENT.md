@@ -26,3 +26,16 @@ Frozen captures measure capture noise and static instability. Zero variance does
 ## Validation
 
 The metric tests include a known 100→220→100 transient (variance 3,200 at that coordinate), identical bright controls, dark-only transients, threshold boundaries, independent bright-mask disagreement and malformed inputs. A read-only tool adds zero production draws, triangles, shader work or per-frame JS; native capture counts are reported separately.
+
+
+## Self-verification on 0.0.33
+
+Native live `b317734`, High, 1470×956 CSS / requested DPR 2 / actual 2205×1434, four frames per launch after four warm-ups, two independent launches. All **1,517,040** ROI pixels match exactly between launches. Each sequence has the same **521 bright coordinates**, zero population variance (mean/p95/max), and zero >60 luminance jumps. Bright-mask Jaccard overlap is **1**. Actual capture draws/triangles are **296 / 5,949,281** per retained frame, errors zero.
+
+This is a **mixed-region repeatability control**, not 521 grass glints or proof that walking sparkle is fixed. The retained PNGs include background in the ROI; the near foreground grass is darker. Inspect the images before any blade-attribution claim.
+
+[Complete live report](proofs/grass-frozen/live/report.json), [first launch](proofs/grass-frozen/live/run-0/0000.png), [independent launch](proofs/grass-frozen/live/run-1/0000.png). All N frames are retained for independent recomputation; producer/helper source hashes are in the report.
+
+The stock software budget on head `d5b2ce053` passes: live **b317734** / candidate **d5b2ce053**, **285 / 285 draws**, **3,048,306 / 3,048,306 triangles**, **0 / 0 errors**. Two same-revision live probes, four completed frames per probe, allowance 0, actual exit 0. Producer and sampler unchanged. [Budget receipt](proofs/grass-frozen/budget.json). This is a different camera from the measurement fixture.
+
+`play-gate: PASS d5b2ce053`

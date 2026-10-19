@@ -1,0 +1,24 @@
+{
+  "featureHead": "d5b2ce053d5232e0832b573dd612cff0e6837182",
+  "live": {
+    "revision": "b317734",
+    "draws": 285,
+    "triangles": 3048306,
+    "errors": 0
+  },
+  "candidate": {
+    "revision": "d5b2ce053",
+    "draws": 285,
+    "triangles": 3048306,
+    "errors": 0
+  },
+  "liveProbes": 2,
+  "completedSamplesPerProbe": 4,
+  "triangleAllowance": 0,
+  "exitCode": 0,
+  "pass": true,
+  "marker": "play-gate: PASS d5b2ce053",
+  "producerSha256": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+  "samplerSha256": "4de6e8c867a0909668d404f66c5751e70e6f59377c8c3ff44d12e5b01314adc6",
+  "scope": "Stock software-WebGL budget. No hardware timings, heat or per-frame CPU measurement."
+}
