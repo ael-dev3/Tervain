@@ -1,0 +1,428 @@
+{
+  "complete": true,
+  "setup": {
+    "edge": {
+      "c": {
+        "x": -25.22254451986978,
+        "y": 25.8298389871142,
+        "z": -123.59332480211467,
+        "h": 8.795854501303072,
+        "v": 9.090418896668938,
+        "floor": 18.85578615905683
+      },
+      "x": -18.025653643892472,
+      "z": -125.59332480211467
+    },
+    "totalCrowns": 451,
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "size": [
+      640,
+      360
+    ],
+    "msaa": 4,
+    "aspect": 1.7777777777777777
+  },
+  "rows": [
+    {
+      "name": "fence",
+      "results": {
+        "native": {
+          "coreTests": null,
+          "stateSha256": "c223c9da9f388850674dbfe231ef9401caaede7bc128b3a9d8994f6926829d5e"
+        },
+        "before": {
+          "coreTests": 0,
+          "stateSha256": "c223c9da9f388850674dbfe231ef9401caaede7bc128b3a9d8994f6926829d5e"
+        },
+        "after": {
+          "coreTests": 0,
+          "stateSha256": "c223c9da9f388850674dbfe231ef9401caaede7bc128b3a9d8994f6926829d5e"
+        }
+      },
+      "beforeCost": {
+        "draws": 121,
+        "triangles": 2374666
+      },
+      "afterCost": {
+        "draws": 121,
+        "triangles": 2374666
+      },
+      "exactRgb": true,
+      "restoreExact": true
+    },
+    {
+      "name": "forest",
+      "results": {
+        "native": {
+          "coreTests": null,
+          "stateSha256": "31c53d5159c1afdf4b4039089d74365da28ba656e2c28e33124734e251aa33ec"
+        },
+        "before": {
+          "coreTests": 0,
+          "stateSha256": "31c53d5159c1afdf4b4039089d74365da28ba656e2c28e33124734e251aa33ec"
+        },
+        "after": {
+          "coreTests": 0,
+          "stateSha256": "31c53d5159c1afdf4b4039089d74365da28ba656e2c28e33124734e251aa33ec"
+        }
+      },
+      "beforeCost": {
+        "draws": 83,
+        "triangles": 751507
+      },
+      "afterCost": {
+        "draws": 83,
+        "triangles": 751507
+      },
+      "exactRgb": true,
+      "restoreExact": true
+    },
+    {
+      "name": "grove",
+      "results": {
+        "native": {
+          "coreTests": null,
+          "stateSha256": "d6e83e958b6ea82891d1fddf417da5e3ed33bfceee33a17700b08bf07aeb2776"
+        },
+        "before": {
+          "coreTests": 11492,
+          "stateSha256": "d6e83e958b6ea82891d1fddf417da5e3ed33bfceee33a17700b08bf07aeb2776"
+        },
+        "after": {
+          "coreTests": 4644,
+          "stateSha256": "d6e83e958b6ea82891d1fddf417da5e3ed33bfceee33a17700b08bf07aeb2776"
+        }
+      },
+      "beforeCost": {
+        "draws": 140,
+        "triangles": 1923431
+      },
+      "afterCost": {
+        "draws": 140,
+        "triangles": 1923431
+      },
+      "exactRgb": true,
+      "restoreExact": true
+    },
+    {
+      "name": "native-edge-away",
+      "results": {
+        "native": {
+          "coreTests": null,
+          "stateSha256": "959fb235890f536a2ab747f533c430ecd5d1aa8f04859f15bea763c5452a1d3b"
+        },
+        "before": {
+          "coreTests": 17770,
+          "stateSha256": "959fb235890f536a2ab747f533c430ecd5d1aa8f04859f15bea763c5452a1d3b"
+        },
+        "after": {
+          "coreTests": 6817,
+          "stateSha256": "959fb235890f536a2ab747f533c430ecd5d1aa8f04859f15bea763c5452a1d3b"
+        }
+      },
+      "beforeCost": {
+        "draws": 145,
+        "triangles": 1845054
+      },
+      "afterCost": {
+        "draws": 145,
+        "triangles": 1845054
+      },
+      "exactRgb": true,
+      "restoreExact": true
+    },
+    {
+      "name": "native-edge-toward",
+      "results": {
+        "native": {
+          "coreTests": null,
+          "stateSha256": "156f5540b28471c09f76584b953efc65b078cbf04177305cd73245098f53b994"
+        },
+        "before": {
+          "coreTests": 12399,
+          "stateSha256": "156f5540b28471c09f76584b953efc65b078cbf04177305cd73245098f53b994"
+        },
+        "after": {
+          "coreTests": 5052,
+          "stateSha256": "156f5540b28471c09f76584b953efc65b078cbf04177305cd73245098f53b994"
+        }
+      },
+      "beforeCost": {
+        "draws": 115,
+        "triangles": 1645480
+      },
+      "afterCost": {
+        "draws": 115,
+        "triangles": 1645480
+      },
+      "exactRgb": true,
+      "restoreExact": true
+    }
+  ],
+  "timings": {
+    "queries": 600,
+    "samples": [
+      {
+        "run": 0,
+        "mode": "before",
+        "ms": 9.400000005960464,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 0,
+        "mode": "after",
+        "ms": 8,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 1,
+        "mode": "after",
+        "ms": 3.2999999970197678,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 1,
+        "mode": "before",
+        "ms": 8.900000005960464,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 2,
+        "mode": "before",
+        "ms": 28,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 2,
+        "mode": "after",
+        "ms": 7,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 3,
+        "mode": "after",
+        "ms": 7.399999991059303,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 3,
+        "mode": "before",
+        "ms": 10.5,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 4,
+        "mode": "before",
+        "ms": 9.600000008940697,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 4,
+        "mode": "after",
+        "ms": 2.5999999940395355,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 5,
+        "mode": "after",
+        "ms": 8.299999997019768,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 5,
+        "mode": "before",
+        "ms": 8.900000005960464,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 6,
+        "mode": "before",
+        "ms": 9,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 6,
+        "mode": "after",
+        "ms": 6.5,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 7,
+        "mode": "after",
+        "ms": 2.3999999910593033,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 7,
+        "mode": "before",
+        "ms": 29.600000008940697,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 8,
+        "mode": "before",
+        "ms": 8.899999991059303,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 8,
+        "mode": "after",
+        "ms": 6.600000008940697,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 9,
+        "mode": "after",
+        "ms": 2.5999999940395355,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 9,
+        "mode": "before",
+        "ms": 8.900000005960464,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 10,
+        "mode": "before",
+        "ms": 13,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 10,
+        "mode": "after",
+        "ms": 2.5,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 11,
+        "mode": "after",
+        "ms": 6.700000002980232,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 11,
+        "mode": "before",
+        "ms": 8.899999991059303,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 12,
+        "mode": "before",
+        "ms": 8.900000005960464,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 12,
+        "mode": "after",
+        "ms": 6.5999999940395355,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 13,
+        "mode": "after",
+        "ms": 22.600000008940697,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 13,
+        "mode": "before",
+        "ms": 8.899999991059303,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 14,
+        "mode": "before",
+        "ms": 9,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 14,
+        "mode": "after",
+        "ms": 6.700000002980232,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 15,
+        "mode": "after",
+        "ms": 2.5,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 15,
+        "mode": "before",
+        "ms": 7.0999999940395355,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 16,
+        "mode": "before",
+        "ms": 12.800000011920929,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 16,
+        "mode": "after",
+        "ms": 6.699999988079071,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 17,
+        "mode": "after",
+        "ms": 6.700000002980232,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 17,
+        "mode": "before",
+        "ms": 8.5,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 18,
+        "mode": "before",
+        "ms": 9,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 18,
+        "mode": "after",
+        "ms": 22.600000008940697,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 19,
+        "mode": "after",
+        "ms": 2.5999999940395355,
+        "check": 162085.00000000367
+      },
+      {
+        "run": 19,
+        "mode": "before",
+        "ms": 12.900000005960464,
+        "check": 162085.00000000367
+      }
+    ]
+  },
+  "summary": {
+    "before": {
+      "meanBatchMs": 11.535000001639128,
+      "p95BatchMs": 28,
+      "coreTests": 41661
+    },
+    "after": {
+      "meanBatchMs": 7.044999998807907,
+      "p95BatchMs": 22.600000008940697,
+      "coreTests": 16513
+    }
+  },
+  "errors": [],
+  "sourceSha256": {
+    "before": "043406db43e134cab646f6a010e2fe1156ea65166ea2edf664c1000a3dea954f",
+    "after": "0cc51d19bb97f8fdfc8f24681a59841d8ddfe53dc3dc3dff40dfbcf4d2f48755"
+  },
+  "scope": "Actual published crowns/terrain/colliders, unchanged CameraRig source linked to baseline/candidate crown helper. 600 fixed-step walk/turn/look-up updates must match published constructor exactly; five native High post/MSAA endpoint pairs and restores RGB-exact. Timing uses uninstrumented production helpers on recorded queries, 20 balanced batches of 50 repeats, not per-frame CPU or hardware FPS. Core-test counters are separate instrumented runs."
+}

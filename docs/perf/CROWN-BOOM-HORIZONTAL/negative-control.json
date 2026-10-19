@@ -1,0 +1,48 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "mode": "before",
+      "x": 4,
+      "z": 3,
+      "yReads": 34,
+      "boom": 6.2
+    },
+    {
+      "mode": "before",
+      "x": -4,
+      "z": 3,
+      "yReads": 34,
+      "boom": 6.2
+    },
+    {
+      "mode": "before",
+      "x": 0,
+      "z": -4,
+      "yReads": 34,
+      "boom": 6.2
+    },
+    {
+      "mode": "after",
+      "x": 4,
+      "z": 3,
+      "yReads": 2,
+      "boom": 6.2
+    },
+    {
+      "mode": "after",
+      "x": -4,
+      "z": 3,
+      "yReads": 2,
+      "boom": 6.2
+    },
+    {
+      "mode": "after",
+      "x": 0,
+      "z": -4,
+      "yReads": 2,
+      "boom": 6.2
+    }
+  ],
+  "scope": "Actual baseline/candidate helper code, synthetic disjoint-crown controls. The new no-sampling assertion fails baseline while boom output is unchanged. Native replay is a separate proof."
+}
