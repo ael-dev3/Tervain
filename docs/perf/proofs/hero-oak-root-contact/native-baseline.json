@@ -1,0 +1,27 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "patchActive": true,
+  "rows": [
+    {
+      "kind": "oak/hero-oak",
+      "woodSha256": null,
+      "leafSha256": "e05b92278c103137f27c6e08015ad309c2a498021b2d4482e3818287215e1d2c",
+      "woodTriangles": 5068
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "woodSha256": null,
+      "leafSha256": "b55f7ff6fd81b9eb8ec65d22db5fb14a291764342759a0b5fb5b107f23143ffa",
+      "woodTriangles": 4850
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "woodSha256": null,
+      "leafSha256": "a3f33438da22ad273e2a991e8de8198b53399772b2b4dfd66239af1b10dab45d",
+      "woodTriangles": 4758
+    }
+  ]
+}

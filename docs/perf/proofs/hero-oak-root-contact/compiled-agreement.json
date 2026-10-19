@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "candidate": {
+    "version": "0.0.33",
+    "revision": "f20bb6952"
+  },
+  "allNearLeafHashesEqual": true,
+  "candidateWoodMatchesSource": [
+    {
+      "kind": "oak/hero-oak",
+      "equal": true
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "equal": true
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "equal": true
+    }
+  ],
+  "budgetExitCode": 0
+}
