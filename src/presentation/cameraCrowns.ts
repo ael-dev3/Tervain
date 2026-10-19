@@ -84,12 +84,23 @@ function inCore(c: CameraCrown, x: number, y: number, z: number): boolean {
 export function crownBoom(pivot: { x: number; y: number; z: number }, dir: { x: number; y: number; z: number }, boom: number,
   crowns: readonly CameraCrown[]): number {
   let allowed = boom;
+  let horizontalReady = false, minX = 0, maxX = 0, minZ = 0, maxZ = 0;
   const endY = pivot.y + dir.y * boom;
   const minY = Math.min(pivot.y, endY) - 1e-6, maxY = Math.max(pivot.y, endY) + 1e-6;
   for (const c of crowns) {
     // Keep tangent/rounding cases on the original sampled path; only a disjoint height range is skipped.
     const halfHeight = Math.abs(c.v * CROWN_CORE);
     if (maxY < c.floor || maxY < c.y - halfHeight || minY > c.y + halfHeight) continue;
+    // A horizontally disjoint core cannot contain any sample along this segment.
+    // Keep tangent/rounding cases on the original path, just as for the height check.
+    if (!horizontalReady) {
+      const endX = pivot.x + dir.x * boom, endZ = pivot.z + dir.z * boom;
+      minX = Math.min(pivot.x, endX) - 1e-6; maxX = Math.max(pivot.x, endX) + 1e-6;
+      minZ = Math.min(pivot.z, endZ) - 1e-6; maxZ = Math.max(pivot.z, endZ) + 1e-6;
+      horizontalReady = true;
+    }
+    const halfWidth = Math.abs(c.h * CROWN_CORE);
+    if (maxX < c.x - halfWidth || minX > c.x + halfWidth || maxZ < c.z - halfWidth || minZ > c.z + halfWidth) continue;
     if (inCore(c, pivot.x, pivot.y, pivot.z)) continue;
     for (let d = 0.2; d - 0.2 < allowed; d += 0.2) {
       // Zoom and floating-point step accumulation can leave a final interval untested.
