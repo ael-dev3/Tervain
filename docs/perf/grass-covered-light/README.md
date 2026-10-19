@@ -10,6 +10,6 @@ Reproduce from this proof branch:
 node tools/repro-grass-light-interpolation.mjs output d3f93f90e 8b1f9958f
 ```
 
-The paired native walking capture and exact-head render-budget run are separate checks. Their receipts will be added after they complete; this document does not assert their success.
+The paired native walking capture and exact-head render-budget run are separate checks. The compiled motion capture serves runtime commit `968143ca8`; final head `8b1f9958f` only corrects a test comment, with identical runtime source, public assets and build configuration. Its grass material SHA-256 is `47cd43f162c2310153f3fd7b1be577103f85d2af77aba4506f94553dd5111631`. The budget run targets the final head directly. Their receipts will be added after they complete; this document does not assert their success.
 
 The preceding normal-distance pop-in probes are in [walk-popin](../walk-popin/README.md). They found no central abrupt events on the sampled short meadow and woods paths, so they do not justify changing fades, draw distance or density. They do not close the general pop-in report.
