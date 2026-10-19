@@ -88,7 +88,8 @@ function rootSamples(geometry: THREE.BufferGeometry): THREE.Vector3[] {
   return [...sectors.values()];
 }
 
-const omitted = /water|terrain|sky|grass|foliage|leaves|floor shadows|cloud|dust|shadow$|sun|moon/i;
+// Ornamental fern fronds are foliage, not load-bearing props or vertical supports.
+const omitted = /^forest_floor_fern:|water|terrain|sky|grass|foliage|leaves|floor shadows|cloud|dust|shadow$|sun|moon/i;
 const treeWood = (mesh: THREE.Mesh) => mesh.parent?.name === 'flora' && mesh.name.endsWith(':wood');
 const skeletal = (object: THREE.Object3D) => {
   for (let p: THREE.Object3D | null = object; p; p = p.parent) if ((p as THREE.Bone).isBone || (p as THREE.SkinnedMesh).isSkinnedMesh) return true;

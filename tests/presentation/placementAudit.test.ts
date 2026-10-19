@@ -214,3 +214,19 @@ it('reports selected root LOD and rejects unsupported levels', () => {
   for (const lod of [0, 1, 2]) expect(auditPlacements(new THREE.Scene(), () => 0, [], { kind: 'root', lod }).lod).toBe(lod);
   for (const lod of [-1, .5, 3, NaN]) expect(() => auditPlacements(new THREE.Scene(), () => 0, [], { lod })).toThrow('Invalid placement LOD');
 });
+
+it('does not accept ornamental fern fronds as rigid support or count them as props', () => {
+  const scene = new THREE.Scene(), material = new THREE.MeshBasicMaterial({side:THREE.DoubleSide});
+  const frond = new THREE.Mesh(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2).translate(0,.5,0),material);
+  frond.name='forest_floor_fern:0';scene.add(frond);
+  const cargo=box(0,1.02);cargo.name='cargo';scene.add(cargo);
+  try {
+    const report=auditPlacements(scene,()=>0);
+    expect(report.checks.find(c=>c.label==='cargo')?.candidate).toBe(true);
+    expect(report.checks.find(c=>c.label==='cargo')?.minGap).toBeCloseTo(.52);
+    expect(report.checks.some(c=>c.label.startsWith('forest_floor_fern:'))).toBe(false);
+    // Timber on the same forest floor remains a legitimate support.
+    frond.name='forest_floor_log:0';
+    expect(auditPlacements(scene,()=>0).checks.find(c=>c.label==='cargo')?.candidate).toBe(false);
+  } finally {frond.geometry.dispose();material.dispose();cargo.geometry.dispose();(cargo.material as THREE.Material).dispose();}
+});
