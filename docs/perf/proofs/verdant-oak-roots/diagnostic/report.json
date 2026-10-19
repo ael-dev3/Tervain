@@ -1,0 +1,35 @@
+{
+  "rows": [
+    {
+      "pose": 0,
+      "twig": 95,
+      "mode": "before",
+      "draws": 1,
+      "triangles": 8912
+    },
+    {
+      "pose": 0,
+      "twig": 95,
+      "mode": "after",
+      "draws": 1,
+      "triangles": 8912
+    },
+    {
+      "pose": 0,
+      "twig": 95,
+      "mode": "restore",
+      "draws": 1,
+      "triangles": 8912
+    }
+  ],
+  "controls": [
+    {
+      "pose": 0,
+      "twig": 95,
+      "changedChannels": 6432,
+      "restoredExact": true
+    }
+  ],
+  "errors": [],
+  "scope": "Explicit isolated-wood diagnostic, source rest geometry with neutral material and custom lighting. No leaves, actors, wind or postprocessing; not game appearance, visibility or FPS proof. Full-scene inspection images are separate."
+}
