@@ -613,8 +613,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
           }
           // Reconnect orphaned grafts only after leaf seating: early repair moves seated cards.
-          if ((hero || species === 'oak' && id === 'tree-1505') && wood && twigs.length && !(hero && heroNoTwigs())) {
-            const repaired = reconnectGrownTwigRoots(wood, twigs);
+          if ((hero || species === 'oak' && (id === 'tree-1505' || id === 'verdant-sentinel')) && wood && twigs.length && !(hero && heroNoTwigs())) {
+            // The verdant oak has a short thin graft that remains separated at the broad-bough tolerance.
+            const repaired = reconnectGrownTwigRoots(wood, twigs, !hero && id === 'verdant-sentinel' ? 0.04 : 0.12);
             geometries.delete(wood); wood.dispose(); geometries.add(repaired); wood = repaired;
           }
           const tris = triangles(wood) + triangles(canopy);

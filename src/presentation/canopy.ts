@@ -263,7 +263,7 @@ export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
  * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
  * wind weights) copy the nearest bough vertex.
  */
-export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], reconnectRoots = false): THREE.BufferGeometry {
+export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], reconnectRoots = false, rootTolerance = 0.12): THREE.BufferGeometry {
   if (!twigs.length) return wood;
   const source = wood;
   const p = source.getAttribute('position'), names = Object.keys(source.attributes);
@@ -331,7 +331,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
         if (d < distance) { distance = d; rootHit.copy(probeHit); }
       }
       // Existing grafts overlap within the small ring/embedding allowance. Leave them bit-for-bit unchanged.
-      if (Number.isFinite(distance) && distance > 0.12 && rootHit.distanceTo(t.to) > 1e-3) root.copy(rootHit);
+      if (Number.isFinite(distance) && distance > rootTolerance && rootHit.distanceTo(t.to) > 1e-3) root.copy(rootHit);
     }
     axis.subVectors(t.to, root); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
@@ -390,8 +390,9 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   return geometry;
 }
 
-/** Rebuild only appended twig wood after leaf seating, keeping the original plans and collision prefix. */
-export function reconnectGrownTwigRoots(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+/** Rebuild only appended twig wood after leaf seating, keeping the original plans and collision prefix.
+ * rootTolerance is in template-local units; thin source grafts need a smaller allowance than broad boughs. */
+export function reconnectGrownTwigRoots(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], rootTolerance = 0.12): THREE.BufferGeometry {
   if (!twigs.length) return wood;
   const ringVertices = wood.hasAttribute('uv') || wood.hasAttribute('tangent') ? TWIG_SIDES + 1 : TWIG_SIDES;
   let addedVertices = 0, addedIndices = 0;
@@ -412,7 +413,7 @@ export function reconnectGrownTwigRoots(wood: THREE.BufferGeometry, twigs: reado
     }
     source.setIndex(Array.from(wood.index.array.slice(0, indices)));
     source.userData = { ...wood.userData };
-    const repaired = growTwigs(source, twigs, true);
+    const repaired = growTwigs(source, twigs, true, rootTolerance);
     repaired.userData = { ...wood.userData };
     return repaired;
   } finally { source.dispose(); }
