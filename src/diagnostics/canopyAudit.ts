@@ -32,10 +32,12 @@ export function auditCanopies(targets: readonly CanopyAuditTarget[], options: Ca
     for(const entry of leafGroups.values()){
       entry.contacts=entry.components.map(c=>{let distance=entry.maxGap,found=false;
         for(const sample of c.samples){
-          const visit=(node:LeafNode)=>{charge();if(node.box.distanceToPoint(sample)>distance)return;
+          const visit=(node:LeafNode,bound?:number)=>{charge();if((bound??node.box.distanceToPoint(sample))>distance)return;
             if(node.ids){for(const i of node.ids){charge();triangles[i]!.closestPointToPoint(sample,nearest);const d=nearest.distanceTo(sample);if(d<=distance){distance=d;found=true;}if(found&&distance<=entry.minGap)return;}return;}
-            const left=node.left!,right=node.right!,first=left.box.distanceToPoint(sample)<=right.box.distanceToPoint(sample)?left:right,second=first===left?right:left;
-            visit(first);if(!found||distance>entry.minGap)visit(second);
+            const left=node.left!,right=node.right!,leftBound=left.box.distanceToPoint(sample),rightBound=right.box.distanceToPoint(sample);
+            const first=leftBound<=rightBound?left:right,second=first===left?right:left;
+            // These bounds depend only on the fixed sample, not the nearest distance refined by the first child.
+            visit(first,first===left?leftBound:rightBound);if(!found||distance>entry.minGap)visit(second,second===left?leftBound:rightBound);
           };visit(support);if(found&&distance<=entry.minGap)break;
         }return found?distance:Infinity;});
       entry.edges = spanningLeafEdges(entry.components, entry.maxGap, charge);

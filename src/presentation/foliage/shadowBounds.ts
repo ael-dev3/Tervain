@@ -39,3 +39,13 @@ export function shadowCasterVisible(reference: Frustum, bound: Sphere): boolean 
   for (let i = 0; i < reference.planes.length; i++) if (reference.planes[i]!.distanceToPoint(bound.center) < -bound.radius - 1) return false;
   return true;
 }
+
+/** Test one cached part envelope, retaining the same wind and reference-volume drift guards as the batch bound. */
+export function shadowPlacementVisible(reference: Frustum, placements: Float64Array, index: number): boolean {
+  const offset = index * 4, x = placements[offset]!, y = placements[offset + 1]!, z = placements[offset + 2]!;
+  const radius = placements[offset + 3]! + 1;
+  for (const plane of reference.planes) {
+    if (plane.normal.x * x + plane.normal.y * y + plane.normal.z * z + plane.constant < -radius) return false;
+  }
+  return true;
+}
