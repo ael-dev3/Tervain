@@ -290,6 +290,19 @@ uniform vec3 uTransTint;
 `;
 
 /** Lambert for thin leaves: wrapped diffuse, soft light through the blade, and a faint matte sheen. Every light (and its shadow) uses it. */
+// 0.0.30: a soft luminance cap on warm lit tips (Sol #306): pixels above ~158 luminance compress toward ~166 and keep their hue (uniform RGB scale).
+export const GRASS_TIP_CAP_GLSL = /* glsl */ `
+{
+  float tipY = dot( gl_FragColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
+  const float tipCap = 0.62;
+  const float tipKnee = 0.04;
+  if ( tipY > tipCap ) {
+    float tipOut = tipCap + tipKnee * ( 1.0 - exp( - ( tipY - tipCap ) / tipKnee ) );
+    gl_FragColor.rgb *= tipOut / tipY;
+  }
+}
+`;
+
 export const GRASS_LIGHT_GLSL = /* glsl */ `
 void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, const in LambertMaterial material, inout ReflectedLight reflectedLight ) {
   float ndl = dot( geometryNormal, directLight.direction );
@@ -361,7 +374,9 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       // a flat strip.
       .replace('#include <color_fragment>', 'diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );')
       .replace('#include <normal_fragment_begin>', NORMAL_BEGIN)
-      .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
+      .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`)
+      .replace('#include <dithering_fragment>', `${GRASS_TIP_CAP_GLSL}
+#include <dithering_fragment>`);
     opts.patch?.(shader);
   };
   material.customProgramCacheKey = () => `tervain-grass-blades-v16-rendered-width-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
