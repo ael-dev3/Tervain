@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "exitCode": 0,
+  "featureCommit": "cb7603817eac3d77a6445dc25232b76f87eba134",
+  "requestedHead": "cb7603817",
+  "candidateRevision": "cb7603817",
+  "baselineRevision": "bf9261f",
+  "baseline": {
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "candidate": {
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "delta": {
+    "draws": 0,
+    "triangles": 0
+  },
+  "headMatches": true,
+  "triangleAllowance": 0,
+  "samplesPerProbe": 4,
+  "liveProbes": 2,
+  "producerRevision": "bf9261fae",
+  "producerFiles": {
+    "tools/play-gate.mjs": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+    "tools/cdp.mjs": "5cc6b4327cfc3fce8114be84c736fb05150b29e1f71383ba1d2df004a95050e2",
+    "tools/webgl-upload-bytes.mjs": "74869a2e8f849694eac8b2a8b764b1da7ce37fa9f3bfa9b45c896bb9e4a102e6",
+    "tools/budget-frame-samples.mjs": "4de6e8c867a0909668d404f66c5751e70e6f59377c8c3ff44d12e5b01314adc6"
+  },
+  "scope": "Native SwiftShader submissions from unmodified current-main producer and sampler; maximum over four completed samples and two same-revision live probes. Not hardware timing or an Apple performance result."
+}
