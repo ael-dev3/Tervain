@@ -24,6 +24,24 @@ function fixture() {
 }
 
 describe('generator flagged set equals the audit detached set', () => {
+  it.each([.75, 2])('does not let a %s connectivity gap hide closer wood', gap => {
+    const { wood, leaves } = fixture();
+    // The first triangle is within the clump gap, but outside the 0.2 m wood
+    // reach. A second triangle actually intersects the first card.
+    wood.setAttribute('position', new THREE.Float32BufferAttribute([
+      0, 0, 0, 0, 2, 0, 0, 1, .5,
+      .5, 0, 0, .5, 2, 0, .5, 1, .5,
+    ], 3));
+    for (const indices of [[0, 1, 2, 3, 4, 5], [3, 4, 5, 0, 1, 2]]) {
+      wood.setIndex(indices);
+      const audit = auditCanopies([{ label: 'fixture', wood, leaves, matrix: new THREE.Matrix4() }], { gap, woodReach: .2 });
+      const shared = detachedClumpSet(leaves, wood, .2, gap);
+      expect(shared.far).toEqual([false, true]);
+      expect(shared.far.filter(Boolean)).toHaveLength(audit.trees[0]!.detachedCards);
+      expect(shared.detachedClumps).toBe(audit.trees[0]!.detachedClumps);
+    }
+  });
+
   it('flags the same clumps as the canopy audit', () => {
     const { wood, leaves } = fixture();
     const audit = auditCanopies([{ label: 'fixture', species: 'oak', wood, leaves, matrix: new THREE.Matrix4() } as never], { woodReach: 1.5 });

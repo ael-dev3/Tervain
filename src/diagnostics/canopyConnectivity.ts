@@ -147,6 +147,8 @@ export function farClumps(parts: readonly Component[], contacts: readonly number
 export function detachedClumpSet(leaves: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, gap: number, charge: () => void = () => {}) {
   const parts = components(leaves, charge);
   const maxGap = Math.max(gap, reach);
-  const contacts = contactDistances(parts, wood, maxGap, charge);
+  // Contact search may stop at its first witness. Use the wood threshold,
+  // not the connectivity gap: a farther witness must not hide nearer wood.
+  const contacts = contactDistances(parts, wood, reach, charge);
   return { parts, components: parts.length, contacts, ...farClumps(parts, contacts, reach, gap, maxGap, charge) };
 }
