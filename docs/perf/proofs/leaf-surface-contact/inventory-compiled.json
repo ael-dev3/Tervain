@@ -1,0 +1,1174 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "258098128"
+  },
+  "rows": [
+    {
+      "label": "tree:0:0",
+      "kind": "shrub/tree-1521",
+      "lod": 0,
+      "vertices": 5834,
+      "triangles": 6412,
+      "index": "3fbe26fc0f7170963eeb4b06718d93ead0dbb71139b77fb18e2e5016d2539dfe",
+      "attributes": {
+        "position": "5c33bd8040f4bcbc41c5ecb3f21c1157cf0a8d956b9ae9c4c1b03a4bb446d96f",
+        "normal": "d5ce8ee7a4720e48958132845de748831ed0fe1fe56049d4aeef1a8b1d70d67f",
+        "uv": "4cd3bf461d959fc87aa48c0a254554086e1cd8fbe91957c2fb4b3d9240390b56"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:54:3",
+      "kind": "pine/procedural",
+      "lod": 0,
+      "vertices": 5058,
+      "triangles": 4496,
+      "index": "c136ace47f863180b29640ea1cc386479d1d5e42be56a01792095593e313abd5",
+      "attributes": {
+        "position": "89b2b5805b491eb2be98a67cdd946cfd3ebad5b8f8bf8f203da57a472998eb2f",
+        "normal": "aa6535de5dfc5b12cab86abe79a23d64f03a56b36bc0d3f87efe0a1d2c76560d",
+        "uv": "20e55ce265beedff689b01ef3c1d477113949dd60cae28607eb130cdf059f7cb",
+        "color": "1091b407052ec5103569700c4ff7ac7b76397e486a7d138d139439b6a848679f",
+        "_wind": "9f7f23eb8f84e82807365ef1be8056d4c4b4cce309592833e6ed837c7120496e",
+        "_pivot": "99d69e33fba38c354dae3e2efbe6f6c043f2cfba96cf7ac45c4d8acf32f41608",
+        "tvAo": "39803d3cccd87fdd1b21a5ca1f228c93dea0eb62eb5e1b482881fc1a89f12f89"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:55:3",
+      "kind": "fir/fir-spire",
+      "lod": 0,
+      "vertices": 5255,
+      "triangles": 5936,
+      "index": "bee2d9e0ec621438f39919755fd7bad5e402a0d2351170602a87b18170df1d73",
+      "attributes": {
+        "position": "1aa3c9e814c0aa95d0c94a81e78a13c967165f37930dbed00f80dc85e635ed51",
+        "normal": "24475ebf445a83fae005d1030bf33d7d5996089cb9ee57a038b513a2c6cfd3a3",
+        "uv": "30af249f116bfbb8ed57f4a2e20e1fcac7f8c422263cc37f9f07325dd1a5f973",
+        "_wind": "a6c9aae830d343111a0a3ff6d773107f57543e8bbeb34186bb69b89286c41e8b",
+        "_pivot": "d412d3f06898fa8048395dfd1984e5c35d6bf65d52433cdafdee5e44b84d3f4d"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:66:3",
+      "kind": "pine/procedural",
+      "lod": 0,
+      "vertices": 4689,
+      "triangles": 4168,
+      "index": "98b4d0af0d5f3c370bb7f9abfbe016e9930c57adc36d522217b43794dc645697",
+      "attributes": {
+        "position": "6afb8c83013ace58018d0306520c04d15b3167c164ab15da5a18c6b3af1a07d7",
+        "normal": "de6b19d3aa956a624cdfe33b120a36062b69f4f6d186f66eda9b1b21b60ae5ee",
+        "uv": "9e6a5ce5be8215eb6c683365342f99919a878a8977430054ef74d8693a5dea65",
+        "color": "cbc5af883a6fc4da7a267923ffe0badb6da3ab37bb61fd96477f11cd89d08d29",
+        "_wind": "d5ff1164f1ec1d4e09a75dd71d2f0902c13680ee82cfada8a8f614553faabc97",
+        "_pivot": "5d0ea975de0061808846a2817ec3048d733b8fc871531921f4ee43d2d6259461",
+        "tvAo": "d7501575e974a59c955ec283cb3fdf8ce9f7380f13f0e7cfefe252c68932664f"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:70:3",
+      "kind": "pine/procedural",
+      "lod": 0,
+      "vertices": 4968,
+      "triangles": 4416,
+      "index": "f6591a13a92b98ea7234763d8162c10209594b19fdf36d1fbba56902abb3a820",
+      "attributes": {
+        "position": "c95a18a9b433450883aafd1811135eb43d34d2b737617690a57ed82d8871963b",
+        "normal": "38ece8e9f8c85162dad389a887ef7030f252f48263d1655665286214da25ca56",
+        "uv": "0a316f470d5b00f2651d83e941c089c47f1d43233eb20099dd5f12aa7a30b700",
+        "color": "f2b463f67e4ee4d4c697b030b30069ae29deb8953bada131680144b0c4d94d6f",
+        "_wind": "fad5242404ac13c0c97b63349d71aac83b0633c2e8b4313de6bbc6089c88f58e",
+        "_pivot": "98095106e08693a686f947f2efe912a488f94a22dae6495d4f617d33053f0774",
+        "tvAo": "13a967f228de57d839d568d0bbe285dc6afd00f72f1d5a018ee286ab10775f3b"
+      },
+      "repair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:5:0",
+      "kind": "shrub/tree-4949",
+      "lod": 0,
+      "vertices": 4563,
+      "triangles": 5544,
+      "index": "c387e3e917405a02e939e392da8790dbb5e59f0363c93864403e86d941a1d788",
+      "attributes": {
+        "position": "e3fde5b6e55e8dd7930a3e819f758f65ccfa80506a168c5150c5773572c47254",
+        "normal": "0e0d592eab88007ae4aea4a50cdd8f80b53750343fe6941ce39248c9e0bb0c82",
+        "uv": "74b8796f39eb6465a5e083814671ab4862c0d5ce45d574c3c2361b8cb9406827"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:10",
+      "kind": "birch/verdant-sentinel",
+      "lod": 0,
+      "vertices": 22276,
+      "triangles": 11138,
+      "index": "1eb235239c6cb0e320af5a3c88e15d803849aafc495d04943dc4bf2549f106ef",
+      "attributes": {
+        "position": "6065e3c58db16a6af6998c44716dad3aee80dfd3743241b359c40c57be0cebb2",
+        "normal": "cb4ac3789eadd336844b7c02d34896dc79075b2d22482cad25c10a3958a9991c",
+        "uv": "ccb69ddafe044e4df667b78c88e2cbf5fb7e1ae05baba44ccd60181f422790ca",
+        "_wind": "722f2f9e1f333db7a4972d6cf9fe858fa692b743daafc94a1b82af8807934590",
+        "_pivot": "2f565bef3b6f45da717c8b1c6cbe90f4c0c8548a9c0e067e5174f3721c1ef702"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "kind": "birch/tree-1527",
+      "lod": 0,
+      "vertices": 24000,
+      "triangles": 12000,
+      "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+      "attributes": {
+        "position": "7e31e1a5c9aa7732a666bfe77ceabe5768b9cdbb7df0b48ea0e33c9ba81e785d",
+        "normal": "60e6cb1ab613ebeaff26ace053f5ba865671c46305ced83b474a19c5c6b44915",
+        "uv": "23bca2921edacbfe079798e0e6016813b21b94fbcce31e23e3a9666e0426681c",
+        "_wind": "6d12db7e781d5ba6370135b20b269db9fa9c7d6bc84453ab5e4e594adb947b00",
+        "_pivot": "1ea94da9e0fe6dfa6ccc9ce4f8fec8f056502aaacaf5b0e3444b30f8d920bc83"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "kind": "oak/hero-oak",
+      "lod": 0,
+      "vertices": 24000,
+      "triangles": 12000,
+      "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+      "attributes": {
+        "position": "9a799db8a5037ca3a05ff583ce18cb04b82a03c3dd09182f1d359912d7a861b8",
+        "normal": "c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0",
+        "uv": "1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7"
+      },
+      "repair": {
+        "islands": 2,
+        "moved": 2,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:12",
+      "kind": "birch/tree-4815",
+      "lod": 0,
+      "vertices": 21624,
+      "triangles": 10812,
+      "index": "ed05140974eba7d78048dc122e2ed416f79843d551b6c53f097f9c763fe31eda",
+      "attributes": {
+        "position": "b13f99d5b3c14ca4ed8102fa6c95cb253e50caa0c14ef1a5a696d51f8f92ca5f",
+        "normal": "8d6b8a25ef0a529fb92adf2b83358a4ad460ef4a0f2ce3ba955deaad877507e7",
+        "uv": "f644feed9c056df44df7d08da2838986ce55754e62ffd1c11c3b6596a5892012",
+        "_wind": "bdda12e7c8d7dab27b4e6e3b128aad4a51bd073e96d2af376288dbdf60dc01b5",
+        "_pivot": "bc52eef495205d93406c8fe9ecadbecb22f0ecc5e55bd2fc31a3fe587e0cdf8d"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "kind": "oak/hero-oak-c",
+      "lod": 0,
+      "vertices": 24000,
+      "triangles": 12000,
+      "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+      "attributes": {
+        "position": "3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66",
+        "normal": "1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35",
+        "uv": "d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "kind": "oak/hero-oak-b",
+      "lod": 0,
+      "vertices": 24000,
+      "triangles": 12000,
+      "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f",
+      "attributes": {
+        "position": "5b023888de5c11b70809976611727c1a4a88cf4ba675a3ba0a4cfc2e5719d78d",
+        "normal": "89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12",
+        "uv": "617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4"
+      },
+      "repair": {
+        "islands": 2,
+        "moved": 2,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "lod": 0,
+      "vertices": 21544,
+      "triangles": 10772,
+      "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282",
+      "attributes": {
+        "position": "9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3",
+        "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+        "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "kind": "oak/tree-1505",
+      "lod": 0,
+      "vertices": 21068,
+      "triangles": 10534,
+      "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c",
+      "attributes": {
+        "position": "e04415734e6cc80ed94a38dd8fb1ce120c0a862a53b7103ec65f1af8454c3023",
+        "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+        "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:16:6",
+      "kind": "palm/palm-fan",
+      "lod": 0,
+      "vertices": 4528,
+      "triangles": 5488,
+      "index": "b3d8255959708464a3598dff23d228ef1061c68725061080ea64a8e30287e229",
+      "attributes": {
+        "position": "e700f5d2b119f1b0b332fb901c77a921c2e143f5616784067a674b67eb28f01d",
+        "normal": "4b3200ab4357f57145a7e3aa441e38e8ab518bcbf35e65b545f460a0873028c1",
+        "uv": "18d5839ab2074f9b22db3121b33a7295a79d3afffdac9c6bba591c37f5919307"
+      },
+      "repair": {
+        "islands": 10,
+        "moved": 10,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:15:8",
+      "kind": "palm/palm-lean",
+      "lod": 0,
+      "vertices": 4481,
+      "triangles": 5488,
+      "index": "327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50",
+      "attributes": {
+        "position": "0bd86cccddb368484c106d3dc22d106e63791cd1cb07a4930347be886d01f44d",
+        "normal": "f9b57db5ec64704a286de9679850e52272e01637ab48a4ed7f5051c2ca484523",
+        "uv": "3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:17:9",
+      "kind": "palm/palm-date",
+      "lod": 0,
+      "vertices": 18785,
+      "triangles": 7982,
+      "index": "c7ba9200fc534a2952fd1624fe8e9624ae3cd9cc638d3a60978784c913813018",
+      "attributes": {
+        "position": "ec5e56f6de7978c34e0bde285e89da0c1f5e50582005f39869e83be5ace67a8c",
+        "normal": "ee972c3828f0db4d4df2912b27b91a07fe188421ee313c0c9ad9800b2a8b6033",
+        "uv": "9cb019cf0bfcf41d8403645166536c020609deacfcda79b87d20740c64efb0d2",
+        "tangent": "9813bb243084fa1232edb82dae0e9a714c4d3e74e86efd18278713a21599b0d9"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:edge:1:2",
+      "kind": "shorepine/fir-spire",
+      "lod": 0,
+      "vertices": 5137,
+      "triangles": 5936,
+      "index": "5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2",
+      "attributes": {
+        "position": "9d9327c5623f688f457935e2068f3d8f00aaa79943b6ea39e54bdd78c3aab977",
+        "normal": "65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace",
+        "uv": "5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d",
+        "_wind": "f41b93aeeaaecb31d3e3ff363f1e45c4d5ad3c115c18dc2f7cc376cc3d343166",
+        "_pivot": "4f90acea102274f70faea7d282bf4c86de5583617b15edb5993a85569aa50bb7"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "kind": "orchard/tree-4949",
+      "lod": 0,
+      "vertices": 22648,
+      "triangles": 10972,
+      "index": "43c9400778ea6cb608c9e1d2332e113a15411803137808f25d6bef95a2c7dcd3",
+      "attributes": {
+        "position": "e6680a10aed6dbc344390217001d3ae9d102845a24ca9df98fc89902d38cd560",
+        "normal": "2f3f8952d2bba17fb0ff2f2c4a1631eb63da65643cac19d45d8b8f8be5704511",
+        "uv": "de336d4466fb33e0f221eae4d415ed7cd4df6052839031a9e09d0630d0c151b7"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "kind": "orchard/tree-4815",
+      "lod": 0,
+      "vertices": 21932,
+      "triangles": 10568,
+      "index": "fd6b087e1fd57bab8dca97722fd33a35310c62eeb33f7db1a3dc9c5e6a49048e",
+      "attributes": {
+        "position": "781af0154e7ce12f0dabcea7ac74a3705f0559fa7030d86bf597cb09a38d1f46",
+        "normal": "581ad6e4118d2c0a042d2c99f54e9ebd36c2f7039e3ed6696ae37671ea2d5189",
+        "uv": "511778ea22161623a0e117f649427904faf17446ba3fa321c76df840635a5b93"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:0:0",
+      "kind": "shrub/tree-1521",
+      "lod": 1,
+      "vertices": 3786,
+      "triangles": 3624,
+      "index": "09b79d1e3b3331a7c94c03984673e7bf8fd32ff700c01780953b6b74bdef4ffc",
+      "attributes": {
+        "position": "a89a541d3acd5bcd0ddee57b2b0cddd421aea8f67e65cc1f6e354a1d36aec09f",
+        "normal": "af4137c80ce57745872cb06b283b89a2c0d026cb89332013222017aacc2ee230",
+        "uv": "86c15d4c0e2154544e60520526fcb826dc36eed9a1325b3088b0f5df9deae55e"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:54:3",
+      "kind": "pine/procedural",
+      "lod": 1,
+      "vertices": 2511,
+      "triangles": 2232,
+      "index": "def38a934aacd5c82d4cd94c611fc94715aeaf06d417ee828bbf40a2e8c2e3f9",
+      "attributes": {
+        "position": "9a0a2cef06a8c0e75de30c1a13c42c0fcfb5baf43f060adc20ccbc133f4314f4",
+        "normal": "a97615b11a371f00819bdd6fd3d4fbf553d53923554efac7ff7e3b6ddd86fa6d",
+        "uv": "ef23f9f5cdbf83cdb0b35dec438c8afc15b35553baffe678ecbb2e67efb47059",
+        "color": "c61bd24ee992bb4589e399032690f75e4a9dd2a1b5d8048e5ac09db07137f9e9",
+        "_wind": "387096e889a8be3b309a87f78e79cff504a5dac9d7f3193d13ceeee223103b2c",
+        "_pivot": "8cf74932fd069b75afd313598de7eb409d23317cbe1cbc3b49b6c700f4bd0bf6",
+        "tvAo": "5c67edb3da6f16e2da4081ab56fcb3cf8492a464fcd54d5068517dd86fc58ea3"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:55:3",
+      "kind": "fir/fir-spire",
+      "lod": 1,
+      "vertices": 3328,
+      "triangles": 3216,
+      "index": "5fb77df7e63af05f10d6faf77e931c96c3f324e0903e83b74abe4fcd30ecbbfe",
+      "attributes": {
+        "position": "3993ef77df8f995ef4c8463afcc3d9bb464048cd78992bdb86402826fcf60fda",
+        "normal": "c5d5b399db21b29920ebd7f4ff232ef0e3db4f1b1e45f4580ec1518f386d1032",
+        "uv": "2b8d362fffd1b4c71463495e03139d8b5b2b71323f37e35d942c601c6d113c30",
+        "_wind": "bc2c49e150339e5f6ec4021270cf7f83bfbe6eb10b6c7089e8b01ab67fbd0b0f",
+        "_pivot": "341d77e9a4522f7bf20e7f71452b818a4ac7e70842894be6b86e8d9b8c1c51b7"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:66:3",
+      "kind": "pine/procedural",
+      "lod": 1,
+      "vertices": 2335,
+      "triangles": 2072,
+      "index": "29cac30b823e5cb3d4b259932dc2c2a0558be0a7baa824f0689e127ba9e2250c",
+      "attributes": {
+        "position": "ae59ecf3fba48532f3f15ae36546f666dbe0888a598b069fcd37c6ab24b54e92",
+        "normal": "ace952dec17f980206b7285af9906556389973a12b290a9742b45a866ffebfb5",
+        "uv": "1cc4c0e76b4d33b5dcb02e288eed66d46b24bdaf6bc0d4899c8f114b482ab18c",
+        "color": "e06c275eb2f224ac97401a046342501c676299b51c3d827e0f2ba6bbef59dc97",
+        "_wind": "f902144fc943358312517e47a399b3d326234c24f60195e466e9aa439f478390",
+        "_pivot": "b2085e030e2c327a439d754f54ddd0ed4bbe219ac2ff780215fcf33dcf78693a",
+        "tvAo": "3eae4e8164e75c7892643c3e654711fc913e1b92cd92498d6036559258850422"
+      },
+      "repair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:70:3",
+      "kind": "pine/procedural",
+      "lod": 1,
+      "vertices": 2484,
+      "triangles": 2208,
+      "index": "8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6",
+      "attributes": {
+        "position": "55bef7db843d39a2be0f15f5975cbbbca50b0b1b017d4b52f00658173a1a1f5f",
+        "normal": "457de101d2974907840be70d48829d516491e9b95a55c0f85ecfa13121f558be",
+        "uv": "33d49eed11782925668f7da13548000ad797f1993b3f54a2b2fa203b654e30cb",
+        "color": "7020f8ecc27b05ce46f9e69ffe7cb8d9ba9d75166dc9176e9318176333c8e57e",
+        "_wind": "a28b8c7cd2cd7d330583c8b1590b2d7df41e6f75d3b139297922125df2f7c1a8",
+        "_pivot": "422491b7b2f825799ee46c0f296a552c9120b472fd4c81efe27ba2c52c4f3e7e",
+        "tvAo": "cbac0c5d2e7ac0abb32b5055718bcf27a208bc321a77d1e6552318a6726ebbc8"
+      },
+      "repair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:5:0",
+      "kind": "shrub/tree-4949",
+      "lod": 1,
+      "vertices": 2763,
+      "triangles": 2880,
+      "index": "18a654c9cc23055bb0b75d45ad97d619ec5cda5686962865adb962c81d60bec7",
+      "attributes": {
+        "position": "6bc7210c99bebe3a729ead754f3f84a8d32ad0e8c73922e41f85a42d51a9625a",
+        "normal": "df91ece0496748d8bc64792ff96d10dea58b8d20d90063f56e1757387624061b",
+        "uv": "3eb8526157af8c4f18cf2a19ac3cfa284135a834a9899a31810a0c6638ad9fac"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:10",
+      "kind": "birch/verdant-sentinel",
+      "lod": 1,
+      "vertices": 8696,
+      "triangles": 4348,
+      "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+      "attributes": {
+        "position": "74de644e4525993e29fcc0f70b4f5cc7c920d8cce45b1b14df862605cf40d030",
+        "normal": "dd1a478aacb54ea29d6cd0a428017d6d79e349a15b9fd2de93d987ce3667e062",
+        "uv": "c217ea71ab320a7c86e76046b9edeb12dcab21d6e851d2e00d9e4e3e443f4922",
+        "_wind": "3795073135c33d97a59aeae40865350c48268add160113ccba33c0b6ad6df11d",
+        "_pivot": "430da9020302c8db7a2e75dd4635bb0bf499d94150c360acc1565b62451d7478"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "kind": "birch/tree-1527",
+      "lod": 1,
+      "vertices": 16788,
+      "triangles": 8394,
+      "index": "ce7c77740336f9fa1be53d363f9eef68f276b7bcba2a56862f01cab644be2d8e",
+      "attributes": {
+        "position": "060e6736cebe3775cd3ea8e9551d930726459eeb0cacd50cf047415f120725fd",
+        "normal": "caf2a129434e3f54091ef2b0dd540e0fab79164f70d857c01b6cb7f25bfaa801",
+        "uv": "6eee2a93896c16996aee22802c5123dd9b8fac81819e7632408fb278cfa70073",
+        "_wind": "a2a7eaeaf1a843a2d129e040a7c998bc6a4a9fddd3e35a5189f7d824d62c4e1b",
+        "_pivot": "0a8f5b6c0829479f7af218daef991de76bdceda35bc2f02539b160b4cd4a0797"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "kind": "oak/hero-oak",
+      "lod": 1,
+      "vertices": 17520,
+      "triangles": 8760,
+      "index": "7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de",
+      "attributes": {
+        "position": "60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05",
+        "normal": "530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1",
+        "uv": "efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19"
+      },
+      "repair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:12",
+      "kind": "birch/tree-4815",
+      "lod": 1,
+      "vertices": 6796,
+      "triangles": 3398,
+      "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+      "attributes": {
+        "position": "35de7a70b669f6ebd491d92d7f9570c0568890323bd5502bb7adbcba8f6ee1a5",
+        "normal": "aeb25f6efd63b7cd53648e5918f4dcf8b14a3f983e0f2e32ab11df7cc6f65d94",
+        "uv": "38b7015789854cb9434734e62638d66fe9e8dc8eb44b250b10296b4f4261cd1a",
+        "_wind": "c7c88c256978127eaec161744a39b72ffe2deab1054a19fd0b7463adf78003f6",
+        "_pivot": "ca98c834d31b931ebe314c3ea4dd862741acca3442b644fa5901fda9b400fa08"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "kind": "oak/hero-oak-c",
+      "lod": 1,
+      "vertices": 15428,
+      "triangles": 7714,
+      "index": "22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796",
+      "attributes": {
+        "position": "294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac",
+        "normal": "b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4",
+        "uv": "2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "kind": "oak/hero-oak-b",
+      "lod": 1,
+      "vertices": 17200,
+      "triangles": 8600,
+      "index": "80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572",
+      "attributes": {
+        "position": "77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d",
+        "normal": "b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476",
+        "uv": "8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "lod": 1,
+      "vertices": 8696,
+      "triangles": 4348,
+      "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3",
+      "attributes": {
+        "position": "e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5",
+        "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+        "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40"
+      },
+      "repair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "kind": "oak/tree-1505",
+      "lod": 1,
+      "vertices": 6796,
+      "triangles": 3398,
+      "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+      "attributes": {
+        "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+        "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+        "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:16:6",
+      "kind": "palm/palm-fan",
+      "lod": 1,
+      "vertices": 2735,
+      "triangles": 2832,
+      "index": "5a537879a94537a83b2ed2bffd547a92014a05428e45aa586f752402817fad20",
+      "attributes": {
+        "position": "2683169406b65abc82afc177de74a3337d6517d7cc686e7d0d15de7c1c2f90b9",
+        "normal": "95309e453e7bc3656c3f0ac5893ebfbe8705823e9abdc3e02757ffdb3abec54b",
+        "uv": "f110387261d7fb2c887299e790712e4e40bf8d50282db2be8bc30072c4741877"
+      },
+      "repair": {
+        "islands": 11,
+        "moved": 11,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:15:8",
+      "kind": "palm/palm-lean",
+      "lod": 1,
+      "vertices": 2697,
+      "triangles": 2832,
+      "index": "4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c",
+      "attributes": {
+        "position": "8baaaabef0673cbe2236574a894adba45863c59c8139d5e6cbbc764ee7ddf62a",
+        "normal": "fa74b6a93791d93c7b408d67540d8065958e9d0ebe73372eaa836b06f37e3fc9",
+        "uv": "25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:17:9",
+      "kind": "palm/palm-date",
+      "lod": 1,
+      "vertices": 16734,
+      "triangles": 7059,
+      "index": "1d8b424badd8caa8863258bcec109cc0088d6849979625283714d174cb3a9757",
+      "attributes": {
+        "position": "63dfe438baea71d8aec80775371b76fe9cb326cb66149474c44a7d9f4df14fba",
+        "normal": "e2531b96059abf8ef4b23c525f738a2bc54c1756752d2b98d6d3cb19d48c8dda",
+        "uv": "101e15b44b4707a1ae3c789de18914ad0ff011d73a93a900d1032b4c81498a04",
+        "tangent": "903053373998030351f7c519a6c1320a9967383db9c1a3c392dade4dd806c46b"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:edge:1:2",
+      "kind": "shorepine/fir-spire",
+      "lod": 1,
+      "vertices": 3225,
+      "triangles": 3216,
+      "index": "04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c",
+      "attributes": {
+        "position": "28c9531805759048b308912ea81f811bc7269b59800bbb9bc5363c57bc7bbb02",
+        "normal": "54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350",
+        "uv": "d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc",
+        "_wind": "5db65f43a20f0fb8209c29cc491169bcdb009b031b68104205e5999c1d66b583",
+        "_pivot": "0ddf2f0e1b720b83e6e922d881ab3eaf0813596175bca017de3080a344f220db"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "kind": "orchard/tree-4949",
+      "lod": 1,
+      "vertices": 6912,
+      "triangles": 3456,
+      "index": "7d52be915934913a26a77236523fa61e034a48a33b3fe9b9707a463f3f8bde11",
+      "attributes": {
+        "position": "98f74f8595ed963aba41f9d81b2158c19b21246183420c8bba96d370a5e32470",
+        "normal": "7f8d717896d12cda222c0bd471dfd61b37bfdf41dc6c74c3564ac8661fb17fb3",
+        "uv": "f6951047bc439f7c02078054c0223869da60d64a19ae7e79b6819533b4b5059f",
+        "_wind": "1c4255f06693d27a5acb6cd77e8792bab8b46ff09a806d4127379a10612f4bb3",
+        "_pivot": "1ece6014e7b694d69fe68d5f6223895558a44dc53ce983dc65893cf9c1ade8bf"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "kind": "orchard/tree-4815",
+      "lod": 1,
+      "vertices": 6796,
+      "triangles": 3398,
+      "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc",
+      "attributes": {
+        "position": "2c9a4c50e4c356a39d2d61c56f26e40f578375b84e03c48c8598eb09abfaf1da",
+        "normal": "5af1a543d8e06344b6fa94f5cd43afe0faba3398acf0e7ca7ab28403d0495e69",
+        "uv": "410cac356120d3ccb2c1ce5429393e5a3402ea5e03091e711b927c6108bafa87",
+        "_wind": "da9d03c6c0e8b0333b7621bd1ca72db1dce00e94ccb92885bc7e1d8b1350d23f",
+        "_pivot": "2d8d835b8f134ef2baa7437d4950d83ec8a858dce2363d420457a209721a4e99"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:0:0",
+      "kind": "shrub/tree-1521",
+      "lod": 2,
+      "vertices": 2041,
+      "triangles": 1442,
+      "index": "a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321",
+      "attributes": {
+        "position": "783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78",
+        "normal": "d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae",
+        "uv": "569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:54:3",
+      "kind": "pine/procedural",
+      "lod": 2,
+      "vertices": 546,
+      "triangles": 224,
+      "index": "9a4598936bfc955f20d37b91df2d48f8178250ab2e5bd86474a65a589c1f5a0f",
+      "attributes": {
+        "position": "0581e4abc678a386c6113c014360664b3b34a6330b3ec37a69168e3ac02ea8de",
+        "normal": "c7a1e28b610cfc267865dadf5dd00b1e1a9fdd8d5f0b2183b49b2de554f88b72",
+        "uv": "41c10ac3b1758b7e68787b615f6624e0da8cb2d39576c772748d5d1d108d8dd8",
+        "color": "d97b09311c62b791ecdf277d28ed77b9e79e3b34ad7f2438e5ff32aa2ab7bc6b",
+        "_wind": "fa9bbb1b73920d9b9d5a02a1964171a07f4a30b0f4518cb6c3a341a537588112",
+        "_pivot": "c3011cb24a074a8fe40dc1a21c2fa378b82d17f0cbf0c482ef76b7258e3d3f99",
+        "tvAo": "387be14828c576226b3b745ee5d7f379058cc6535f22555fd4bd0b50715b0d0d"
+      },
+      "repair": {
+        "islands": 63,
+        "moved": 63,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:55:3",
+      "kind": "fir/fir-spire",
+      "lod": 2,
+      "vertices": 1681,
+      "triangles": 1204,
+      "index": "06a718a78bd7bccb281d655eacb09485ca33eb994a424246e5dac5d7cca7f44e",
+      "attributes": {
+        "position": "68000a00cd1f2fba64af8dd84f8a1445f79af5a017aed99d499b4051bf5b6778",
+        "normal": "85dd7f09e09c0fbc2b1479f510133ea759f7865fad67c2708dc1dcb991c922b6",
+        "uv": "77d10a2f72cc68d6824205223210f5c98e391e92064df34d7e2858e679101b3a",
+        "_wind": "85dc550f824d3543ae5aefe1d9ec4169b6bd536c5b88f77fe338d8c1fd93f5a9",
+        "_pivot": "6e376fad28a967204e4815fafd071a615911f1272d37e3a636255ce5461fb100"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:66:3",
+      "kind": "pine/procedural",
+      "lod": 2,
+      "vertices": 520,
+      "triangles": 210,
+      "index": "54505aca76e6277c14694461da2a49b78369a2b584e1b29ba45be81da3e664d8",
+      "attributes": {
+        "position": "d802e4323fc7c347ad777e9221627d37f88d4936a76d41fa16aada656edb4930",
+        "normal": "65d35c8c955fc2dd6a829f33ad9ad56a38948579ce6f23922ab1724d213dfb58",
+        "uv": "8f55b4efb1a2b132d9650fb29a3fbc87476d8cf0765e19426e9e2ba4cd4ace0e",
+        "color": "0fe83841985650773dd926c6392855ce4e7d7d3defad191dc5037d07767e9c89",
+        "_wind": "111d658b4b44c3ad4631373fafde7beb42e4228cfbbcf13e9840f72255c6111c",
+        "_pivot": "a2de851d7f389c29a9cf9c206abbd3059b8619f0a8c41e3bfee6b9cc452a316b",
+        "tvAo": "650abcb458e8f4e3f760d88acbd125cbbf2a5fc15ae984992d11c78411f7531f"
+      },
+      "repair": {
+        "islands": 60,
+        "moved": 60,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:70:3",
+      "kind": "pine/procedural",
+      "lod": 2,
+      "vertices": 568,
+      "triangles": 230,
+      "index": "ba925bf2369aa9972e2082e2ba02865283110e0d6688d1fe8ec2603c0bfd2af3",
+      "attributes": {
+        "position": "18ca1f80facb7e4d2ce09cea0b8ef362634e2a0a6672088aee9964d6bccdba8b",
+        "normal": "3e192559f6b62e9f47d52d6350167fb92c10919ba93594b1116d6021b75ae38b",
+        "uv": "2efd28418dab79346eb1e6255d9a489e99f7423841bfe6ccd1277ed5fbd9efcb",
+        "color": "da684a1e963aca4148e6338bb7eceef58e3f20f07c8918b23fbb027827faaaa6",
+        "_wind": "cd6d033f2a675fd837dd1288b57ad04851dfa349ad5c6941db310e61dfbd0a95",
+        "_pivot": "795a353285754342c4c0648433c3058ff6624dd5c76e4fe981c091df731023da",
+        "tvAo": "1e4b4d43d248df9bb9a1777b951868367281340ed70c6eab4e1af0587bcbb13f"
+      },
+      "repair": {
+        "islands": 65,
+        "moved": 65,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:5:0",
+      "kind": "shrub/tree-4949",
+      "lod": 2,
+      "vertices": 1359,
+      "triangles": 1008,
+      "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+      "attributes": {
+        "position": "d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d",
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:10",
+      "kind": "birch/verdant-sentinel",
+      "lod": 2,
+      "vertices": 2061,
+      "triangles": 1442,
+      "index": "71f364e56d0ebdeba277bbc549b683a2d2392dc03be217a0b1c9b0f29d8e04c3",
+      "attributes": {
+        "position": "34e1dff26754aa3eb06e5a2a4ddf0eb44cd24043fbaffa8134ad80f3ee237115",
+        "normal": "d783b33ca5fe43e65f7fd358a4ba9cc99ec9373b6b1c0d3c8dfa75f691439aca",
+        "uv": "efbb4ca4d575be1a7b27c9449c207aea750f59729f8dc1468fd27f943eff6a5f",
+        "_wind": "ea666022c302c3fa000f9efde828be860e51ffc82ce2d993d71850dc6328ec41",
+        "_pivot": "16f9f8a403fb46f738bfd0f1c80d9c260771eef1446a803389702144b15ec7b5"
+      },
+      "repair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:62:10",
+      "kind": "birch/tree-1527",
+      "lod": 2,
+      "vertices": 4490,
+      "triangles": 2103,
+      "index": "bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7",
+      "attributes": {
+        "position": "1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca",
+        "normal": "ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d",
+        "uv": "e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92",
+        "_wind": "8ff60fd791de5edcbe90a6525c2045f43b589b0f0b66e81325cb3caff9102d6e",
+        "_pivot": "0cd4cd5869f139d7282496d779396394ae494102d0d508b3250117a7fee742b0"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "kind": "oak/hero-oak",
+      "lod": 2,
+      "vertices": 1926,
+      "triangles": 878,
+      "index": "ba5b8660fdd6c848205723537f763985181235a3b14e71835e72dc2d92838bb8",
+      "attributes": {
+        "position": "0244455d5f3d674994e5c1905d6f5bc9e77b71fd40d121eae988cd235cee8e68",
+        "normal": "b3e2155af15de6d6b828b0d4478069cf43f50e0bfc4f6b1af945dc89d727f719",
+        "uv": "35ad7b92ecdd7dab522b4062f7f42452ef83a3fc5b64179e172d1c7cf55357ac",
+        "color": "185ea8e2f7ff7462afdd0f85a2339b08e0ce3e69ca2f5c7b6ef05df986b85bf0",
+        "_wind": "5c8d37a3aef7e2b66c5741d1d3cc81aea3320c62bbcbb9d2245ac8bcedd22c0b",
+        "_pivot": "6a0b0cd2edf1a11400a8c627388a657e5121b6db761f9a7cc8e2f97d9dab4000"
+      },
+      "repair": {
+        "islands": 71,
+        "moved": 71,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:61:12",
+      "kind": "birch/tree-4815",
+      "lod": 2,
+      "vertices": 1324,
+      "triangles": 980,
+      "index": "ebd70e39939d2782a9e69e3870c336cb12d6b66efdb5650ffe12935b5b891c8b",
+      "attributes": {
+        "position": "9fcbe9087bdb87a5850ccd97fbb71792640d7db243c78325eb97f072b2f08276",
+        "normal": "7095733a36295c5315be8c8d558096511f0e6303e49b91864b13eeb39e35253b",
+        "uv": "8ceea8222917a3e25d32d3d5719b05b77334dca4532b24f0af10c7878682ab70"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "kind": "oak/hero-oak-c",
+      "lod": 2,
+      "vertices": 1686,
+      "triangles": 802,
+      "index": "669eb49df8e8643f32ca6900c56d4dc1fa29ac7fd749795cf739194c2814c707",
+      "attributes": {
+        "position": "a7a8520cf0258a786bc11debd445c1860398a6be41b26328ff799fa37dd7ae21",
+        "normal": "5366fb51949cb12b252eb62454856c98ce92dc31c743d9faa5c62b0bf3905a58",
+        "uv": "f29811231270930daa79e4ac5dbf8e2bf5dc7aedb389274390942db87ff78a4f",
+        "color": "f806e8044472ad5d804d14a82f98a6a8b9c84d47942436d549d5ec7bed8e0667",
+        "_wind": "520cf32e62f68c99b02a9a0038e0f3fd2ca1ae509d814a3a7923a06952a3bed5",
+        "_pivot": "1cf7863111cd8a30a92fcd096ceedc1f3e4a36f8ab83c2d3331d4fa3e89c675e"
+      },
+      "repair": {
+        "islands": 44,
+        "moved": 44,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "kind": "oak/hero-oak-b",
+      "lod": 2,
+      "vertices": 1836,
+      "triangles": 868,
+      "index": "a21d3efb8fd1aaa8eb6e7349ccf9e62bcff586b6b1e662e8a9a332a8c4750714",
+      "attributes": {
+        "position": "c0234cd8f2214db3092faa5991cf00090bcb749c1de86b59cbd78b5c999c7f47",
+        "normal": "771d8e904f555de206eadd50973342f8abca6357eb04fbd044e45e5789ff49f8",
+        "uv": "d23a9e85376276a72ce97b7b8960cbd85882bc1941974320e96200517339e002",
+        "color": "bc4c30c3e3aa2348e1bf0387e416f2cd998022306533ae8a099851a024973305",
+        "_wind": "8400a983af1e1fa21060bf95b5fca3e33d3594c828d6ab929217b045435ebd9f",
+        "_pivot": "884aeb205aa5bb63f0d1999410fc1cfadc6a1a3633d62df6260ddc7191d1b57e"
+      },
+      "repair": {
+        "islands": 76,
+        "moved": 76,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "lod": 2,
+      "vertices": 2076,
+      "triangles": 1442,
+      "index": "5fb6e30de7af0609fd06d60677c934c57c62e0f6f5b365ff660be5df5db5130b",
+      "attributes": {
+        "position": "08bec5ea8da8246cba500ddab17151e15c0bd8748fb4189fcec3694dcbccb112",
+        "normal": "24d326ef1389b9f29a238da36dac3f6145903b2a62ab680497931e912b4a6c1f",
+        "uv": "1c892b0218e88bf4bf7dcf3335ae6f69d2f1a3ae5057fc8127652ecd48d9030d",
+        "_wind": "cea172e2bb4ffe43d0f0ef4c10865611e8c12d128a5d27de204350ab12ed178d",
+        "_pivot": "141437c764c67c7384da6499ec6480bbd96b4f02b1aed0ec109747e125e2f543"
+      },
+      "repair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "kind": "oak/tree-1505",
+      "lod": 2,
+      "vertices": 1364,
+      "triangles": 980,
+      "index": "eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf",
+      "attributes": {
+        "position": "0cfbc906b598c4c1b6a17e434b2084b23175a63cb0055805867118c29f77e4ab",
+        "normal": "cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f",
+        "uv": "c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42",
+        "_wind": "ed0d639af0ba9691c6e3abca5423241834b39bd4c742e92fa3224f085f28bfeb",
+        "_pivot": "9c768b256efbe2de521d8ed664c9b9b307e7a3e55d22e9984469539857332a00"
+      },
+      "repair": {
+        "islands": 17,
+        "moved": 17,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:16:6",
+      "kind": "palm/palm-fan",
+      "lod": 2,
+      "vertices": 1325,
+      "triangles": 980,
+      "index": "d25a7bab8edba2bcf9eb20cfe809cc6017b62818a93575b88d8212921409017f",
+      "attributes": {
+        "position": "1b5fc013663dad7e816529b1e5b7d109f5064087626002e5a017e0aaff43cfaa",
+        "normal": "63ae9516039779c905ab6258492cf28ce361eeeea265dc9696a22a85a51e30eb",
+        "uv": "42265ef7266007e4882cd97c63050867c0160a98099ffe4d7a6ddf8b8e6a733b"
+      },
+      "repair": {
+        "islands": 5,
+        "moved": 5,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:15:8",
+      "kind": "palm/palm-lean",
+      "lod": 2,
+      "vertices": 1315,
+      "triangles": 980,
+      "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+      "attributes": {
+        "position": "4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1",
+        "normal": "559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:palm:17:9",
+      "kind": "palm/palm-date",
+      "lod": 2,
+      "vertices": 5343,
+      "triangles": 2439,
+      "index": "21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08",
+      "attributes": {
+        "position": "ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4",
+        "normal": "f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa",
+        "uv": "4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50",
+        "tangent": "a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:edge:1:2",
+      "kind": "shorepine/fir-spire",
+      "lod": 2,
+      "vertices": 1667,
+      "triangles": 1204,
+      "index": "3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674",
+      "attributes": {
+        "position": "786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a",
+        "normal": "24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e",
+        "uv": "610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572",
+        "_wind": "7354afde805f5877e305c90d51a37592ef83e04c66c5a3764dec540faf3db62f",
+        "_pivot": "330adf6d65b49601490cab66a7f2426706fac84d55a5408ae241603888efce47"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "kind": "orchard/tree-4949",
+      "lod": 2,
+      "vertices": 1359,
+      "triangles": 1008,
+      "index": "a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506",
+      "attributes": {
+        "position": "38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405",
+        "normal": "27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b",
+        "uv": "6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b",
+        "_wind": "adc42d4585b5891f5b21f07c9efe3ae880c932b44a68001d439e6d753903962b",
+        "_pivot": "e451c5d177babd7c5dd81bc1a3e244581eccbc0ad53047036cf3caae66b958e3"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "kind": "orchard/tree-4815",
+      "lod": 2,
+      "vertices": 1315,
+      "triangles": 980,
+      "index": "091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a",
+      "attributes": {
+        "position": "4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0",
+        "normal": "bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda",
+        "uv": "ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70"
+      },
+      "repair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    }
+  ]
+}

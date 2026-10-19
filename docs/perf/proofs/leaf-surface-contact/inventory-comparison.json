@@ -1,0 +1,279 @@
+{
+  "live": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "candidate": {
+    "version": "0.0.33",
+    "revision": "258098128"
+  },
+  "templates": 60,
+  "topologyChanges": [
+    {
+      "kind": [
+        "oak/hero-oak",
+        2,
+        "tree:wild:45:12"
+      ],
+      "before": [
+        1910,
+        878
+      ],
+      "after": [
+        1926,
+        878
+      ]
+    }
+  ],
+  "attributeChanges": [
+    {
+      "kind": [
+        "fir/fir-spire",
+        0,
+        "tree:wild:55:3"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "palm/palm-fan",
+        0,
+        "tree:palm:16:6"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 10,
+        "moved": 10,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 10,
+        "moved": 10,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "pine/procedural",
+        1,
+        "tree:wild:70:3"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "palm/palm-fan",
+        1,
+        "tree:palm:16:6"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 11,
+        "moved": 11,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 11,
+        "moved": 11,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "pine/procedural",
+        2,
+        "tree:wild:70:3"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 65,
+        "moved": 65,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 65,
+        "moved": 65,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "birch/verdant-sentinel",
+        2,
+        "tree:wild:61:10"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "oak/hero-oak",
+        2,
+        "tree:wild:45:12"
+      ],
+      "attributes": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot"
+      ],
+      "beforeRepair": {
+        "islands": 69,
+        "moved": 69,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 71,
+        "moved": 71,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "birch/tree-4815",
+        2,
+        "tree:wild:61:12"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "oak/hero-oak-c",
+        2,
+        "tree:wild:68:13"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 44,
+        "moved": 44,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 44,
+        "moved": 44,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "oak/hero-oak-b",
+        2,
+        "tree:wild:57:20"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 75,
+        "moved": 75,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 76,
+        "moved": 76,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "oak/verdant-sentinel",
+        2,
+        "tree:wild:36:23"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      }
+    },
+    {
+      "kind": [
+        "oak/tree-1505",
+        2,
+        "tree:wild:52:26"
+      ],
+      "attributes": [
+        "position"
+      ],
+      "beforeRepair": {
+        "islands": 17,
+        "moved": 17,
+        "dropped": 0
+      },
+      "afterRepair": {
+        "islands": 17,
+        "moved": 17,
+        "dropped": 0
+      }
+    }
+  ],
+  "dropped": [],
+  "triangleCountsIdentical": true,
+  "addedVertices": 16,
+  "scope": "Full retained High-preset forest template inventory at each of three LODs. Index identity is not required: repairing independently moving parts can split shared vertices. All 60 triangle counts match and no repair drops a part; one far hero-oak template adds 16 vertices. Not a rendered quality or runtime-cost clearance."
+}
