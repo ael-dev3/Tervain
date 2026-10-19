@@ -55,3 +55,12 @@ Repeated the full native experiment on **0.0.33 · b317734**: original audit abo
 Earlier 0.0.32 results above are retained with their original revision; they are not relabelled as 0.0.33 evidence.
 
 The compiled rebased `511b22020` application independently matches every target field and operation count, complete species coverage, 451 expected trees and zero errors: [0.0.33 compiled receipt](proofs/fine-alpha-release/live033/compiled.json).
+
+
+## Current-head stock software budget: PASS
+
+For `511b220200290cd30ba61e307a19e237bd73f909`, two same-revision **b317734** live probes and four completed frames per probe: **285 / 285 draws**, **3,048,306 / 3,048,306 triangles**, **0 / 0 errors** (live/candidate). Triangle allowance **0**, actual exit **0**, producer/sampler unchanged. [Scrubbed structured receipt](proofs/fine-alpha-release/live033/budget.json).
+
+`play-gate: PASS 511b22020`
+
+This gate measures rendered counts, not hardware timing, heat, texture taps or JS frame CPU. The source patch changes only explicit diagnostic alpha sampling; no per-frame code or shader changes.
