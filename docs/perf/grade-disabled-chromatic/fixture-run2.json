@@ -1,0 +1,727 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 0,
+        "uNight": 0,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 0,
+        "uNight": 0,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 0,
+        "uNight": 0.65,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 0,
+        "uNight": 0.65,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 1,
+        "uNight": 0,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 1,
+        "uNight": 0,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 1,
+        "uNight": 0.65,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0,
+        "uSharpen": 1,
+        "uNight": 0.65,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 0,
+        "uNight": 0,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 0,
+        "uNight": 0,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 0,
+        "uNight": 0.65,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 0,
+        "uNight": 0.65,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 1,
+        "uNight": 0,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 1,
+        "uNight": 0,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 1,
+        "uNight": 0.65,
+        "uUnder": 0
+      },
+      "pixelExact": true
+    },
+    {
+      "settings": {
+        "uChromatic": 0.0012,
+        "uSharpen": 1,
+        "uNight": 0.65,
+        "uUnder": 1
+      },
+      "pixelExact": true
+    }
+  ],
+  "summary": {
+    "before": {
+      "meanMs": 282.8174999989569,
+      "p95Ms": 469.09999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    "after": {
+      "meanMs": 276.3050000015646,
+      "p95Ms": 411.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    }
+  },
+  "samples": [
+    {
+      "frame": 0,
+      "mode": "before",
+      "ms": 277.70000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 0,
+      "mode": "after",
+      "ms": 217.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 1,
+      "mode": "after",
+      "ms": 341.40000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 1,
+      "mode": "before",
+      "ms": 239.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 2,
+      "mode": "before",
+      "ms": 241.70000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 2,
+      "mode": "after",
+      "ms": 332.6000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 3,
+      "mode": "after",
+      "ms": 301.80000001192093,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 3,
+      "mode": "before",
+      "ms": 308.09999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 4,
+      "mode": "before",
+      "ms": 206.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 4,
+      "mode": "after",
+      "ms": 234.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 5,
+      "mode": "after",
+      "ms": 251.79999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 5,
+      "mode": "before",
+      "ms": 295.19999998807907,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 6,
+      "mode": "before",
+      "ms": 242.79999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 6,
+      "mode": "after",
+      "ms": 214.80000001192093,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 7,
+      "mode": "after",
+      "ms": 225,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 7,
+      "mode": "before",
+      "ms": 259.1000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 8,
+      "mode": "before",
+      "ms": 276.40000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 8,
+      "mode": "after",
+      "ms": 229.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 9,
+      "mode": "after",
+      "ms": 327.40000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 9,
+      "mode": "before",
+      "ms": 297.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 10,
+      "mode": "before",
+      "ms": 254.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 10,
+      "mode": "after",
+      "ms": 256.20000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 11,
+      "mode": "after",
+      "ms": 240.29999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 11,
+      "mode": "before",
+      "ms": 235.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 12,
+      "mode": "before",
+      "ms": 252.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 12,
+      "mode": "after",
+      "ms": 240.29999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 13,
+      "mode": "after",
+      "ms": 252.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 13,
+      "mode": "before",
+      "ms": 242.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 14,
+      "mode": "before",
+      "ms": 249.20000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 14,
+      "mode": "after",
+      "ms": 196.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 15,
+      "mode": "after",
+      "ms": 215,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 15,
+      "mode": "before",
+      "ms": 218.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 16,
+      "mode": "before",
+      "ms": 247.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 16,
+      "mode": "after",
+      "ms": 239.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 17,
+      "mode": "after",
+      "ms": 243.1000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 17,
+      "mode": "before",
+      "ms": 298.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 18,
+      "mode": "before",
+      "ms": 223.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 18,
+      "mode": "after",
+      "ms": 237.40000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 19,
+      "mode": "after",
+      "ms": 266.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 19,
+      "mode": "before",
+      "ms": 247,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 20,
+      "mode": "before",
+      "ms": 271,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 20,
+      "mode": "after",
+      "ms": 411.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 21,
+      "mode": "after",
+      "ms": 407.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 21,
+      "mode": "before",
+      "ms": 361.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 22,
+      "mode": "before",
+      "ms": 280.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 22,
+      "mode": "after",
+      "ms": 310.20000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 23,
+      "mode": "after",
+      "ms": 329.3999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 23,
+      "mode": "before",
+      "ms": 394.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 24,
+      "mode": "before",
+      "ms": 254.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 24,
+      "mode": "after",
+      "ms": 288.6000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 25,
+      "mode": "after",
+      "ms": 255.1000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 25,
+      "mode": "before",
+      "ms": 271.70000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 26,
+      "mode": "before",
+      "ms": 247.79999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 26,
+      "mode": "after",
+      "ms": 275,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 27,
+      "mode": "after",
+      "ms": 274.29999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 27,
+      "mode": "before",
+      "ms": 315.70000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 28,
+      "mode": "before",
+      "ms": 297.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 28,
+      "mode": "after",
+      "ms": 250.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 29,
+      "mode": "after",
+      "ms": 240.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 29,
+      "mode": "before",
+      "ms": 345.09999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 30,
+      "mode": "before",
+      "ms": 471.3999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 30,
+      "mode": "after",
+      "ms": 423.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 31,
+      "mode": "after",
+      "ms": 395.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 31,
+      "mode": "before",
+      "ms": 505.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 32,
+      "mode": "before",
+      "ms": 469.09999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 32,
+      "mode": "after",
+      "ms": 366.6000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 33,
+      "mode": "after",
+      "ms": 413.20000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 33,
+      "mode": "before",
+      "ms": 286.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 34,
+      "mode": "before",
+      "ms": 218.5,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 34,
+      "mode": "after",
+      "ms": 237.1000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 35,
+      "mode": "after",
+      "ms": 233.29999999701977,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 35,
+      "mode": "before",
+      "ms": 236,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 36,
+      "mode": "before",
+      "ms": 260.70000000298023,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 36,
+      "mode": "after",
+      "ms": 228,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 37,
+      "mode": "after",
+      "ms": 219.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 37,
+      "mode": "before",
+      "ms": 238.09999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 38,
+      "mode": "before",
+      "ms": 237.59999999403954,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 38,
+      "mode": "after",
+      "ms": 219.90000000596046,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 39,
+      "mode": "after",
+      "ms": 205.1000000089407,
+      "draws": 1,
+      "triangles": 2
+    },
+    {
+      "frame": 39,
+      "mode": "before",
+      "ms": 231.8999999910593,
+      "draws": 1,
+      "triangles": 2
+    }
+  ],
+  "errors": [],
+  "scope": "Actual Grade fragment shaders, common deterministic HDR half-float texture, native 2205x1434 final-pass raster. Balanced warmed readPixels-synchronized wall times include software raster and submission; not hardware GPU time, whole-game frame time or Mac heat. 16 pixel-exact controls include zero/nonzero chromatic, sharpening, dusk and underwater."
+}
