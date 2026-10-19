@@ -1,0 +1,18 @@
+{
+  "head": "71aaa616b9846eb656bd75e9edf4d29ee45b9df1",
+  "liveRevision": "bf9261f",
+  "live": {
+    "calls": 285,
+    "triangles": 3048306,
+    "errors": 0
+  },
+  "candidate": {
+    "calls": 285,
+    "triangles": 3048543,
+    "errors": 0
+  },
+  "triangleDelta": 237,
+  "exit": 1,
+  "headMatched": true,
+  "scope": "Native SwiftShader budget, distinct completed frames; no hardware timing claim; FAIL, no allowance."
+}

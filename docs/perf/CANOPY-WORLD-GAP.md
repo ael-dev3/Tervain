@@ -27,7 +27,7 @@ Five near templates move 160 vertices in total. Every template retains 100% heig
 
 ## Native forest captures
 
-These use the original live scene, substituting only the exact candidate position buffers into every derived colour/depth/shadow geometry. Initial loading raster suppression is restored before every recorded render. This is a controlled geometry adapter, independently checked against compiled output, not a two-binary forest image comparison. Nearby pines obstruct parts of these ordinary forest views; additional isolated compiled tree-lab images are pending.
+These use the original live scene, substituting only the exact candidate position buffers into every derived colour/depth/shadow geometry. Initial loading raster suppression is restored before every recorded render. This is a controlled geometry adapter, independently checked against compiled output, not a two-binary forest image comparison. Nearby pines obstruct parts of these ordinary forest views; clear isolated compiled tree-lab images are provided below.
 
 | View | Draws, both | Triangles, both | Changed pixels |
 | --- | ---: | ---: | ---: |
@@ -51,4 +51,28 @@ Repro tools, retained on this proof branch:
 - `tools/check-canopy-world-gap-build.mjs`: independently verify actual compiled output against the factory hashes.
 - `tools/repro-canopy-gap-lab.mjs`: existing compiled tree-lab stills with wind disabled; exact source revision guard and scrubbed metadata.
 
-Exact compiled feature `71aaa616b9846eb656bd75e9edf4d29ee45b9df1` is running the native software budget with the #673 startup correction and merged #678/#681 sampler/identity checks. No PASS receipt claimed yet. Hardware walking/video verification and visual review remain outstanding; this is not a live fix or a 9/10 score.
+## Isolated compiled tree-lab supplement
+
+The existing tree-lab route captures `hero-oak` at scale 1.4164879838, with identical spot, dimensions and seven camera poses. Wind is disabled, and the app loop is frozen before awaiting late assets; no arrival-readiness assertion is skipped. These are actual compiled apps: baseline 0.0.29 · bf9261f and candidate 71aaa61. bf9261f differs from 8f3c9bd only in gate tooling/tests/docs, not application code or assets.
+
+- [30 m before](proofs/canopy-world-gap/lab/before/d030.jpg) / [after](proofs/canopy-world-gap/lab/after/d030.jpg)
+- [10 m before](proofs/canopy-world-gap/lab/before/d010.jpg) / [after](proofs/canopy-world-gap/lab/after/d010.jpg)
+- [Under canopy before](proofs/canopy-world-gap/lab/before/canopy.jpg) / [after](proofs/canopy-world-gap/lab/after/canopy.jpg)
+- [Baseline metadata](proofs/canopy-world-gap/lab/before/metrics.json) / [candidate metadata](proofs/canopy-world-gap/lab/after/metrics.json)
+
+This isolates the asset for crown review; its one-tree placement population differs from the full forest and it is not a normal-play/root-contact video or performance measurement. No visual-quality score is claimed.
+
+## Exact-head budget: FAIL
+
+Compiled `71aaa616b9846eb656bd75e9edf4d29ee45b9df1`, completed-frame sampler and baseline identity guard, with the #673 startup correction. Two live probes agree on bf9261f; full candidate head matches.
+
+| Build | Max draws | Max triangles | Console errors |
+| --- | ---: | ---: | ---: |
+| Live bf9261f | 285 | 3,048,306 | 0 |
+| Candidate 71aaa61 | 285 | 3,048,543 | 0 |
+
+Exit 1, **237 triangles above live**, no allowance. [Machine-readable failing receipt](proofs/canopy-world-gap/native-budget.json). The fixed-pose forest pairs and tree indices retain equal triangle counts, but the stock gate does not clear; the whole-frame difference remains under investigation. This PR remains draft. No PASS marker or hardware frame-pacing claim.
+
+CI also exposed the inherited shot-start fixture's incompatibility with the completed-frame helper: missing copied dependency, legacy sampler stub and outdated wait expectation. This is being handled separately, without changing the seating patch or rejection thresholds.
+
+Hardware walking/video verification and visual review remain outstanding; this is not a live fix or a 9/10 score.
