@@ -1,0 +1,24 @@
+{
+  "head": "5d5a64fc3ade961289e12809bee922855411078b",
+  "liveRevision": "bf9261f",
+  "candidateRevision": "5d5a64fc3",
+  "liveProbes": 2,
+  "completedSamplesPerProbe": 4,
+  "live": {
+    "maxDraws": 285,
+    "maxTriangles": 3048306,
+    "consoleErrors": 0
+  },
+  "candidate": {
+    "maxDraws": 285,
+    "maxTriangles": 3048306,
+    "consoleErrors": 0
+  },
+  "triangleAllowance": 0,
+  "revisionMatches": true,
+  "pass": true,
+  "exitCode": 0,
+  "producerSha256": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+  "receipt": "play-gate: PASS 5d5a64fc3",
+  "scope": "Stock native SwiftShader budget, two agreeing published probes and exact-head compiled candidate. Not hardware GPU, heat or frame-time proof."
+}

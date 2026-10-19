@@ -37,7 +37,13 @@ The actual compiled `5d5a64fc3` application independently produces exactly the s
 
 Initial harness captures with a cleared framebuffer or reset counters were rejected and are not retained as proof. No hardware GPU, heat or 60 fps claim.
 
-The exact-head stock budget is still running; no stock-budget PASS is claimed yet.
+## Exact-head stock budget: PASS
+
+Two published bf9261f probes and the compiled `5d5a64fc3ade961289e12809bee922855411078b` candidate, four distinct completed frames per probe: **285 draws / 3,048,306 triangles / zero console errors** on both sides. Revisions agree, candidate head matches, triangle allowance zero, exit 0. [Structured receipt](proofs/canopy-fine-alpha/native-budget.json). This is a different camera route from the native image-control pose above.
+
+`play-gate: PASS 5d5a64fc3`
+
+The page does not measure texture taps or JS CPU; the no-change table is based on the unchanged rendering/frame-update code. No hardware performance claim.
 
 ## CI dependency
 
