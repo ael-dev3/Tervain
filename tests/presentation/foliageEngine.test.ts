@@ -616,8 +616,20 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     }
     camera.position.copy(packedPosition); camera.updateMatrixWorld(); forest.update(1 / 60, frame);
     assertCaptureBounds();
-    const full = colour.filter((m) => /:0:(wood|foliage)$/.test(m.name) && m.count > 0);
+    const full = colour.filter((m) => /:0:(wood|foliage)(:depth)?$/.test(m.name) && m.count > 0);
     expect(full.length).toBeGreaterThan(0);
+    // A retained near whole-crown profile can borrow a middle model with authored branch wind.
+    const leafMiddle = colour.find(m => m.name === full.find(m => m.name.endsWith(':foliage'))!.name.replace(':0:', ':1:'))!;
+    const middleGeometry = leafMiddle.geometry;
+    const hierarchicalMiddle = middleGeometry.clone();
+    for (const [name, size] of [['_wind', 4], ['_pivot', 3]] as const) hierarchicalMiddle.setAttribute(name,
+      new THREE.BufferAttribute(new Float32Array(hierarchicalMiddle.getAttribute('position').count * size), size));
+    leafMiddle.geometry = hierarchicalMiddle;
+    const depthMiddle = colour.find(m => m.name === leafMiddle.name + ':depth')!;
+    depthMiddle.geometry = hierarchicalMiddle;
+    const middleMaterial = leafMiddle.material as THREE.Material, middleDepthMaterial = depthMiddle.material as THREE.Material;
+    const hierarchicalMaterial = middleMaterial.clone(), hierarchicalDepthMaterial = middleDepthMaterial.clone();
+    leafMiddle.material = hierarchicalMaterial; depthMiddle.material = hierarchicalDepthMaterial;
     const before = full.map((m) => m.geometry);
     const beforeMaterials = full.map((m) => m.material);
     const restore = forest.lighterForReflection();
@@ -626,8 +638,9 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       expect(m.geometry).not.toBe(before[i]);
       expect(middles.some((o) => o.geometry.index === m.geometry.index && o.geometry.getAttribute('position') === m.geometry.getAttribute('position'))).toBe(true);
       expect(m.geometry.getAttribute('aDistanceCoverage')).toBe(before[i]!.getAttribute('aDistanceCoverage'));
-      if (m.name.endsWith(':wood')) expect(middles.some(o => o.material === m.material)).toBe(true);
-      else expect(m.material).toBe(beforeMaterials[i]);
+      const middle = middles.find(o => o.geometry.index === m.geometry.index)!;
+      const changedWind = !!before[i]!.getAttribute('_wind') !== !!middle.geometry.getAttribute('_wind');
+      expect(m.material).toBe(m.name.endsWith(':wood') || changedWind ? middle.material : beforeMaterials[i]);
     }
     assertCaptureBounds();
     const proxies = full.map((m) => m.geometry);
@@ -652,6 +665,9 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     const next = forest.lighterForReflection();
     outer(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(proxies[i]));
     next(); next(); full.forEach((mesh, i) => expect(mesh.geometry).toBe(before[i]));
+    leafMiddle.geometry = middleGeometry; depthMiddle.geometry = middleGeometry; hierarchicalMiddle.dispose();
+    leafMiddle.material = middleMaterial; depthMiddle.material = middleDepthMaterial;
+    hierarchicalMaterial.dispose(); hierarchicalDepthMaterial.dispose();
     // An arrow in the trunk shakes it and knocks leaves loose; one in open air hits nothing.
     const ground = terrain.heightAt(tree.x, tree.z);
     expect(forest.strike(tree.x + 0.1, ground + 1.5, tree.z, 1, tree.collisionId!)).toBe(true);
