@@ -1,0 +1,36 @@
+{
+  "before": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "after": {
+    "version": "0.0.33",
+    "revision": "f0c33cda6"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "leafBuffersEqual": true,
+      "candidateMatchesBrowserRepair": true,
+      "idempotent": true,
+      "trianglesEqual": true,
+      "woodUnchanged": false
+    },
+    {
+      "lod": 1,
+      "leafBuffersEqual": true,
+      "candidateMatchesBrowserRepair": true,
+      "idempotent": true,
+      "trianglesEqual": true,
+      "woodUnchanged": true
+    },
+    {
+      "lod": 2,
+      "leafBuffersEqual": true,
+      "candidateMatchesBrowserRepair": true,
+      "idempotent": true,
+      "trianglesEqual": true,
+      "woodUnchanged": true
+    }
+  ]
+}

@@ -43,4 +43,4 @@ node tools/repro-verdant-oak-wood-diagnostic.mjs verdant-diagnostic docs/perf/pr
 node tools/inspect-verdant-oak-geometry.mjs verdant-live.json
 ```
 
-Twenty focused tests and production build/type-check pass. The same regression with the narrower tolerance removed fails the segment-contact requirement. This does not close all leaf-island reports or establish animated-wind contact, hardware frame pacing, or heat improvement. Exact compiled geometry and stock budget receipts are pending separately; no PASS is claimed until completion.
+Twenty focused tests and production build/type-check pass. The same regression with the narrower tolerance removed fails the segment-contact requirement. This does not close all leaf-island reports or establish animated-wind contact, hardware frame pacing, or heat improvement. [Compiled native geometry comparison](proofs/verdant-oak-roots/compiled-comparison.json) confirms all three LOD leaf buffers match live exactly, compiled wood equals the browser-session repair, and middle/far wood stays byte-identical. Reapplying the repair is byte-idempotent. The exact-head stock budget is still pending; no PASS is claimed until completion.
