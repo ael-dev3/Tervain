@@ -612,8 +612,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
               lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
           }
-          // Reconnect orphaned hero grafts only after leaf seating: early repair moves seated cards.
-          if (hero && wood && twigs.length && !heroNoTwigs()) {
+          // Reconnect orphaned grafts only after leaf seating: early repair moves seated cards.
+          if ((hero || species === 'oak' && id === 'tree-1505') && wood && twigs.length && !(hero && heroNoTwigs())) {
             const repaired = reconnectGrownTwigRoots(wood, twigs);
             geometries.delete(wood); wood.dispose(); geometries.add(repaired); wood = repaired;
           }
