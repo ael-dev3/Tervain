@@ -11,7 +11,7 @@ it('CLI uses completed-frame maxima and still rejects budget, console and revisi
     writeFileSync(join(dir, 'cdp.mjs'), `export async function openPage(url) {
       const candidate = url.includes('candidate'), failure = process.env.BUDGET_TEST_FAILURE;
       let frame = 0;
-      const T = { mode:'title', world:{terrain:{}}, loadingEl:{classList:{contains:()=>true}},
+      const T = { mode:'play', world:{terrain:{}}, loadingEl:{classList:{contains:()=>true}},
         hud:{show(){}}, player:{setPosition(){}}, cam:{},
         renderer:{info:{render:{calls:226,triangles:2414180}}},
         perf:{end(){ frame++; return {calls:285 + +(candidate && failure==='draw'),triangles:3061335 + +(candidate && failure==='tri')};}} };
