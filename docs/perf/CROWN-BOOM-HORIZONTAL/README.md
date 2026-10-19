@@ -39,4 +39,10 @@ These are isolated JS batch timings in Chrome, **not frame CPU, GPU time, Mac FP
 
 76 focused camera tests and type-check/build pass. The 2,000-case sampled-reference test retains turns, inside pivots, floors and short booms. The baseline-failure control reads crown Y 34 times before vs 2 after, with identical boom output; the new no-sampling assertion therefore fails original code as intended. An initial build failed while duplicating public assets due to storage exhaustion; the successful build uses the same assets through links, with no repository configuration change.
 
-The exact-head stock budget run is still completing. Its receipt will be attached; no PASS is claimed here yet. Floating foliage, the held long oak grafts, grass sparkle and general tree quality remain open.
+[Exact-head stock budget](budget.txt): actual exit 0, zero triangle allowance, **285/285 draws, 3,048,306/3,048,306 triangles, zero console errors**, candidate `457972de5d1cb84737ed742a9f48f243379aafd1` against live `b317734`. Two same-revision live probes and four completed samples per probe; no raster-suppression preload in the budget run.
+
+```text
+play-gate: PASS 457972de5
+```
+
+CI remains pending at publication; it is not counted as passed. Floating foliage, the held long oak grafts, grass sparkle and general tree quality remain open.
