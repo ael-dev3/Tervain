@@ -1,0 +1,132 @@
+{
+  "live": {
+    "build": {
+      "version": "0.0.30",
+      "revision": "4dd0dae"
+    },
+    "buildLine": "v0.0.30 · 4dd0dae · pre-alpha",
+    "rows": [
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 0,
+        "wood": "3aae5610f28b6d3e3d5f83adc637ad1f6efe5786b4a53c86233cdc1709012318",
+        "leaf": "6da8ca127db77442935119092c4063eeea73ccd5cc590d0c1a4f3433a3ca20ae"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 0,
+        "wood": "0268e62bb824d94985ee5cfc46abfda27dbc6f6b39d88d70411ceb57b92a8c39",
+        "leaf": "c97ea54c59f74e09ed9b07c767bf6c5fa1e14afb596317239ca561c13eb62a2b"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 0,
+        "wood": "0058e152386eab38fb3394933b7b6080650e62f93fb1781cc4595a4c05128f79",
+        "leaf": "019ca06ee512c8238f7a104a25f162dad5c681854fc633e20f43a18853a5e714"
+      },
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 1,
+        "wood": "58d95764d457a14ecf0295d2164d7ae93b56a39158e8bfeea967c6e87201b62a",
+        "leaf": "d1c005d7c453000b13ed49c32236d85018bccece45292c18b94528a3de07bc0e"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 1,
+        "wood": "b1b48f95d5a5080b306ed4f6a79de7ef009356f2e1ed99c4d0417f269b9ccbe7",
+        "leaf": "f41bc26284fe2b9c3b1b2e105b63c8afe6b2af0b2d81310de20abc661cc5ea17"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 1,
+        "wood": "5a344c8c262d31b45ca328d6ee8aa3bedc89aedd6203e3c137584ddb1bb95d85",
+        "leaf": "4d28867ac153b72dd99e7adfca5f81dea07b2c8fd18bab73b4ecdac2a61bf3f0"
+      },
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 2,
+        "wood": "58d95764d457a14ecf0295d2164d7ae93b56a39158e8bfeea967c6e87201b62a",
+        "leaf": "08c22230979f6674f934143dbec559eaf9d683e5a5852213b6629a8f751bffee"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 2,
+        "wood": "fd015a93009a6f0290103edfd742512953e40c09649e9439c1562616df45d3b8",
+        "leaf": "9d90e2187848aba1dd88eae0d2bef8a55c4fcd49e97cb931cc577f2d5111bdd0"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 2,
+        "wood": "71ad5dba32a395e31110f12670df362c741f90171db5682986767c51dbbe7dca",
+        "leaf": "0b1d13d669a55181848a57b93a199b13c29b8cd1f8d0ec3d64437f1323044c51"
+      }
+    ]
+  },
+  "candidate": {
+    "build": {
+      "version": "0.0.30",
+      "revision": "18db8960e"
+    },
+    "buildLine": "v0.0.30 · 18db8960e · pre-alpha",
+    "rows": [
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 0,
+        "wood": "03e83020d9e753577dc46f3dee7d8223c3cc285e8317ca042acd67b84d199a16",
+        "leaf": "6da8ca127db77442935119092c4063eeea73ccd5cc590d0c1a4f3433a3ca20ae"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 0,
+        "wood": "0268e62bb824d94985ee5cfc46abfda27dbc6f6b39d88d70411ceb57b92a8c39",
+        "leaf": "c97ea54c59f74e09ed9b07c767bf6c5fa1e14afb596317239ca561c13eb62a2b"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 0,
+        "wood": "0058e152386eab38fb3394933b7b6080650e62f93fb1781cc4595a4c05128f79",
+        "leaf": "019ca06ee512c8238f7a104a25f162dad5c681854fc633e20f43a18853a5e714"
+      },
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 1,
+        "wood": "58d95764d457a14ecf0295d2164d7ae93b56a39158e8bfeea967c6e87201b62a",
+        "leaf": "d1c005d7c453000b13ed49c32236d85018bccece45292c18b94528a3de07bc0e"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 1,
+        "wood": "b1b48f95d5a5080b306ed4f6a79de7ef009356f2e1ed99c4d0417f269b9ccbe7",
+        "leaf": "f41bc26284fe2b9c3b1b2e105b63c8afe6b2af0b2d81310de20abc661cc5ea17"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 1,
+        "wood": "5a344c8c262d31b45ca328d6ee8aa3bedc89aedd6203e3c137584ddb1bb95d85",
+        "leaf": "4d28867ac153b72dd99e7adfca5f81dea07b2c8fd18bab73b4ecdac2a61bf3f0"
+      },
+      {
+        "kind": "birch/verdant-sentinel",
+        "lod": 2,
+        "wood": "58d95764d457a14ecf0295d2164d7ae93b56a39158e8bfeea967c6e87201b62a",
+        "leaf": "08c22230979f6674f934143dbec559eaf9d683e5a5852213b6629a8f751bffee"
+      },
+      {
+        "kind": "birch/tree-1527",
+        "lod": 2,
+        "wood": "fd015a93009a6f0290103edfd742512953e40c09649e9439c1562616df45d3b8",
+        "leaf": "9d90e2187848aba1dd88eae0d2bef8a55c4fcd49e97cb931cc577f2d5111bdd0"
+      },
+      {
+        "kind": "birch/tree-4815",
+        "lod": 2,
+        "wood": "71ad5dba32a395e31110f12670df362c741f90171db5682986767c51dbbe7dca",
+        "leaf": "0b1d13d669a55181848a57b93a199b13c29b8cd1f8d0ec3d64437f1323044c51"
+      }
+    ]
+  },
+  "pass": true,
+  "compiledWoodMatchesNativeReplay": true,
+  "compiledLeafBuffersIdentical": true,
+  "scope": "Independent read-only hashes from both actual stock budget pages; nine wood and nine leaf buffers per served revision. No geometry adapter or shader override is used in this inspection."
+}

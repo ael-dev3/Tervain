@@ -1,0 +1,15 @@
+{
+  "rows": [
+    {
+      "pose": 0,
+      "restoredIdentical": true,
+      "beforeAfterDifferent": true
+    },
+    {
+      "pose": 1,
+      "restoredIdentical": true,
+      "beforeAfterDifferent": true
+    }
+  ],
+  "scope": "Native buffers shown in separate unlit wood-only renderer; not native appearance."
+}

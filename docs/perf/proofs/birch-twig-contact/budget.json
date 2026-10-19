@@ -1,0 +1,31 @@
+{
+  "verdict": "PASS",
+  "marker": "play-gate: PASS 18db8960e",
+  "head": "18db8960edb2a077ed2de4f29ae49a4ee64e2409",
+  "live": {
+    "url": "https://ael-dev3.github.io/Tervain/",
+    "revision": "4dd0dae",
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "candidate": {
+    "revision": "18db8960e",
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "allowance": 0,
+  "completedSamplesPerProbe": 4,
+  "liveProbes": 2,
+  "aggregation": "larger same-revision live maxima",
+  "exitCode": 0,
+  "producerAndSamplerUnmodified": true,
+  "producerSha256": {
+    "tools/play-gate.mjs": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+    "tools/budget-frame-samples.mjs": "4de6e8c867a0909668d404f66c5751e70e6f59377c8c3ff44d12e5b01314adc6",
+    "tools/cdp.mjs": "5cc6b4327cfc3fce8114be84c736fb05150b29e1f71383ba1d2df004a95050e2",
+    "tools/webgl-upload-bytes.mjs": "74869a2e8f849694eac8b2a8b764b1da7ce37fa9f3bfa9b45c896bb9e4a102e6"
+  },
+  "scope": "Actual compiled-build software WebGL budget. Pacing advisory; no hardware FPS/GPU-ms result. Candidate URL omitted from public receipt."
+}

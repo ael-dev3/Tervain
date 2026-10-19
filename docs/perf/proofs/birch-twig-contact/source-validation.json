@@ -1,0 +1,19 @@
+{
+  "sourceRefs": {
+    "before": "4dd0daeaa40d2bc803806d6ff04038022e2868a0",
+    "after": "18db8960edb2a077ed2de4f29ae49a4ee64e2409"
+  },
+  "canopySourceHashesMatch": true,
+  "nativeBeforeBuffersMatch": true,
+  "independentNativeStemProbe": {
+    "beforeCrossingStems": 0,
+    "afterCrossingStems": 4
+  },
+  "deletedParentPlans": {
+    "removed": 12,
+    "missingLogicalRootsLieExactlyOnDeletedPlans": 4,
+    "retainedPlanCount": 58,
+    "retainedModelVsNativeRootCentreMaxErrorM": 3.659205219098453e-07
+  },
+  "publicStemHelperMatchesAllEightNativeRows": true
+}

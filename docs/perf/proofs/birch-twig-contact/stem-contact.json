@@ -1,0 +1,53 @@
+{
+  "rows": [
+    {
+      "mode": "before",
+      "twig": 22,
+      "firstCentrelineSegmentCrossesPriorWood": false,
+      "intersections": 0
+    },
+    {
+      "mode": "before",
+      "twig": 37,
+      "firstCentrelineSegmentCrossesPriorWood": false,
+      "intersections": 0
+    },
+    {
+      "mode": "before",
+      "twig": 43,
+      "firstCentrelineSegmentCrossesPriorWood": false,
+      "intersections": 0
+    },
+    {
+      "mode": "before",
+      "twig": 50,
+      "firstCentrelineSegmentCrossesPriorWood": false,
+      "intersections": 0
+    },
+    {
+      "mode": "after",
+      "twig": 22,
+      "firstCentrelineSegmentCrossesPriorWood": true,
+      "intersections": 1
+    },
+    {
+      "mode": "after",
+      "twig": 37,
+      "firstCentrelineSegmentCrossesPriorWood": true,
+      "intersections": 1
+    },
+    {
+      "mode": "after",
+      "twig": 43,
+      "firstCentrelineSegmentCrossesPriorWood": true,
+      "intersections": 1
+    },
+    {
+      "mode": "after",
+      "twig": 50,
+      "firstCentrelineSegmentCrossesPriorWood": true,
+      "intersections": 2
+    }
+  ],
+  "scope": "Read-only native replay geometry. Ray from the rendered root-ring centre to the next ring centre, tested against preceding rendered wood triangles only. No own or later twig can establish support."
+}
