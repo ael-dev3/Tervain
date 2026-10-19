@@ -22,4 +22,4 @@ HERO_ROOT_STUDY_OUT=hero-root-study.json npx vitest run tests/presentation/heroT
 
 The test measures the real GLBs and production factory without altering them. It checks geometry-range accounting and finite distances; it does not require defects to remain present in future models.
 
-A preliminary reuse of the birch re-anchor removes these root-centre flags with unchanged triangle counts, but later seating moves 24 leaf-position scalars. That variant is held: it is not a wood-only fix. Next checks are a repair after leaf placement, whole-stem contact and native wind/image/budget evidence. No production tree or generator change is included.
+[Preliminary source experiment](proofs/hero-twig-root-study/early-direction.json): reuse of the birch re-anchor removes these root-centre flags with unchanged triangle counts, but later seating moves 24 leaf-position scalars. That variant is held: it is not a wood-only fix. Next checks are a repair after leaf placement, whole-stem contact and native wind/image/budget evidence. No production tree or generator change is included.

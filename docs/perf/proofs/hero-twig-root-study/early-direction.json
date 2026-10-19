@@ -1,0 +1,65 @@
+{
+  "scope": "Source-only early re-anchor experiment, not a production fix or native image proof. It removes contact flags but also alters downstream leaf placement.",
+  "base": "b31773468",
+  "repairHelper": "18db8960edb2a077ed2de4f29ae49a4ee64e2409:src/presentation/canopy.ts growTwigs(wood,twigs,true)",
+  "rows": [
+    {
+      "id": "hero-oak",
+      "lod": 0,
+      "beforeRoots": 2,
+      "afterRoots": 0,
+      "maxBefore": 2.5262149789091466,
+      "maxAfter": 0.07366390419138664,
+      "tris": [
+        17068,
+        17068
+      ],
+      "changedLeafAttributes": {
+        "position": 8
+      }
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 0,
+      "beforeRoots": 3,
+      "afterRoots": 0,
+      "maxBefore": 0.5065313796554327,
+      "maxAfter": 0.05914970863829482,
+      "tris": [
+        16758,
+        16758
+      ],
+      "changedLeafAttributes": {
+        "position": 12
+      }
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 0,
+      "beforeRoots": 5,
+      "afterRoots": 0,
+      "maxBefore": 2.135181915875892,
+      "maxAfter": 0.05712842059907764,
+      "tris": [
+        16850,
+        16850
+      ],
+      "changedLeafAttributes": {
+        "position": 4
+      }
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 1,
+      "beforeRoots": 0,
+      "afterRoots": 0,
+      "maxBefore": 0.006348160302740468,
+      "maxAfter": 0.006348160302740468,
+      "tris": [
+        10082,
+        10082
+      ],
+      "changedLeafAttributes": {}
+    }
+  ]
+}
