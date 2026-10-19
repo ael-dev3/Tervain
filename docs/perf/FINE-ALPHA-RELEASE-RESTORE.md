@@ -18,7 +18,7 @@ The script compares diagnostic execution on one published renderer, rather than 
 
 ## Regression checks
 
-Six tests fail on the release source. After the restoration, 31 focused alpha/audit/flagged-set tests and the production build pass. Controls cover support, transparency, fine witnesses, cache reuse, collapsed-first patterns and operation-budget exhaustion.
+Six tests fail on the release source. After the restoration, 31 focused alpha/audit/flagged-set tests, the full 67-test canopy suite and the production build pass. Controls cover support, transparency, fine witnesses, cache reuse, collapsed-first patterns and operation-budget exhaustion.
 
 ## Scope and cost
 
@@ -37,3 +37,11 @@ On revision `2def3b0`, the old diagnostic throws. The candidate completes all **
 [Before failure](proofs/fine-alpha-release/before-audit.json), [after complete report](proofs/fine-alpha-release/after-audit.json), [source fingerprints and full receipt](proofs/fine-alpha-release/report.json.gz).
 
 [Native before](proofs/fine-alpha-release/before.png) / [native after](proofs/fine-alpha-release/after.png): **zero changed pixel channels**, **403 draws / 5,257,159 triangles** on both sides, **zero console errors**. Time and camera were fixed; actual post/MSAA rendering brackets the diagnostic call. No rendering source was edited.
+
+## Independent compiled application
+
+The compiled `63e6f0a46` application independently returns the same complete report: all target fields and **15,841,338** operations exactly match the source-adapter run. The native wrapper confirms 451 expected targets, complete species coverage and zero console errors. [Compiled receipt](proofs/fine-alpha-release/compiled.json).
+
+```sh
+node tools/check-canopy-fine-alpha-build.mjs --url CANDIDATE_BUILD --expected fine-alpha-proof/after-audit.json --head 63e6f0a46 --out compiled.json
+```
