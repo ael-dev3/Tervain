@@ -29,7 +29,7 @@ A separate regression uses a full-size 1 m cargo box with its bottom 0.52 m abov
 
 Three unchanged-scene renders taken after the paired audits (control/control/restore) have **identical RGB**, **294 draws / 3,287,634 triangles**, High post/MSAA4 and zero console errors. They are scene-stability controls, not visualizations of diagnostic flags or candidate-build motion clips. [Control](before.png) · [comparison](after.png). PNG hashes, including the restore, are in the report.
 
-Application geometry, materials, shader code and texture taps are unchanged. This on-demand diagnostic is outside the normal frame loop; no gameplay FPS, hardware GPU time or laptop-heat improvement is claimed. An exact-head stock budget receipt is being collected separately.
+Application geometry, materials, shader code and texture taps are unchanged. This on-demand diagnostic is outside the normal frame loop; no gameplay FPS, hardware GPU time or laptop-heat improvement is claimed. [Exact-head stock budget: PASS](budget.md). Live and candidate both reached **285 draws / 3,048,306 triangles**, with **zero console errors**. The gate used two live probes and four distinct completed frames per probe, and verified the served candidate revision `2c1dc21ea`.
 
 ## Reproduce
 
