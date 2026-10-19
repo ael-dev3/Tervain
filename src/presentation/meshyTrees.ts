@@ -607,10 +607,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             if (checked !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(checked); canopy = checked; }
           }
           if (species === 'oak' && wood) {
-            const reach = woodReachLocal(1.5, MAX_TREE_SCALE);
-            // Near clumps can have a sphere enclosing wood despite detached leaf surfaces.
-            // Keep the existing shape guard on mid crowns; their repair needs separate validation.
-            const snapped = snapDetachedClumps(canopy, wood, reach, woodReachLocal(0.75, MAX_TREE_SCALE), 0.9, lod === 0 ? reach : Infinity).geometry;
+            // Preserve the authored horizontal layout; near residual clumps can seat vertically without changing shade.
+            const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75, 0.9,
+              lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
           }
           const tris = triangles(wood) + triangles(canopy);
