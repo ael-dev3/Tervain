@@ -1,0 +1,20 @@
+{
+  "head": "a6b704082b65ff8b20f313294039fb63ee326dfa",
+  "baseline": "bf9261f",
+  "mode": "Stock deterministic budget gate, software renderer, zero triangle allowance",
+  "samplesPerProbe": 4,
+  "liveProbes": 2,
+  "liveMaximum": {
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "candidateMaximum": {
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "revisionMatched": true,
+  "exitStatus": 0,
+  "receipt": "play-gate: PASS a6b704082"
+}
