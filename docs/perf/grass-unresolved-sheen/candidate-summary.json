@@ -1,0 +1,1780 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "d3f93f90e"
+  },
+  "nativeMode": "candidate",
+  "route": {
+    "frames": 31,
+    "stepMetres": 0.043333333333333335,
+    "metres": 1.3,
+    "cadence": 60,
+    "yawDegrees": [
+      -8,
+      8
+    ],
+    "x": 6,
+    "z": 23
+  },
+  "buffer": [
+    2205,
+    1434
+  ],
+  "thresholds": {
+    "warmBright": 140,
+    "nearWhite": 180,
+    "strictWhiteMinimumRgb": 245,
+    "temporalJump": 60
+  },
+  "warmBrightObservations": [
+    26521,
+    22228
+  ],
+  "nearWhiteObservations": [
+    0,
+    0
+  ],
+  "strictWhiteObservations": [
+    0,
+    0
+  ],
+  "temporalJumps": [
+    2075410,
+    1819084
+  ],
+  "warmBrightTemporalJumps": [
+    40909,
+    35561
+  ],
+  "meanImageDisplayLuma": [
+    61.04179705681851,
+    60.83740272560001
+  ],
+  "meanImageLumaChangePercent": -0.3348432403263768,
+  "allPoseRestores": true,
+  "mainRosterExact": true,
+  "grassCropMetrics": {
+    "roi": {
+      "left": 462,
+      "top": 645,
+      "width": 1280,
+      "height": 720
+    },
+    "bright140": [
+      17845,
+      15055
+    ],
+    "bright180": [
+      0,
+      0
+    ],
+    "strictWhite": [
+      0,
+      0
+    ],
+    "jumps60": [
+      1159551,
+      1015087
+    ],
+    "brightJumps140": [
+      28249,
+      24502
+    ]
+  },
+  "components": {
+    "roi": {
+      "left": 462,
+      "top": 645,
+      "width": 1280,
+      "height": 720
+    },
+    "threshold": 140,
+    "connectivity": 8,
+    "buckets": [
+      "1 pixel",
+      "2–4 pixels",
+      "5–16 pixels",
+      "over 16 pixels"
+    ],
+    "totals": [
+      {
+        "componentCounts": [
+          722,
+          743,
+          525,
+          259
+        ],
+        "pixelCounts": [
+          722,
+          1947,
+          5023,
+          13772
+        ]
+      },
+      {
+        "componentCounts": [
+          494,
+          513,
+          466,
+          248
+        ],
+        "pixelCounts": [
+          494,
+          1352,
+          4463,
+          12314
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "frame": 0,
+        "metrics": {
+          "bright140": [
+            426,
+            363
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            0,
+            0
+          ],
+          "brightJumps140": [
+            0,
+            0
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            14,
+            19,
+            11,
+            7
+          ],
+          "pixelCounts": [
+            14,
+            49,
+            95,
+            356
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            8,
+            12,
+            12,
+            5
+          ],
+          "pixelCounts": [
+            8,
+            31,
+            115,
+            297
+          ]
+        }
+      },
+      {
+        "frame": 1,
+        "metrics": {
+          "bright140": [
+            425,
+            365
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            31498,
+            27451
+          ],
+          "brightJumps140": [
+            779,
+            688
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            17,
+            11,
+            13,
+            6
+          ],
+          "pixelCounts": [
+            17,
+            29,
+            127,
+            332
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            11,
+            7,
+            14,
+            4
+          ],
+          "pixelCounts": [
+            11,
+            18,
+            140,
+            273
+          ]
+        }
+      },
+      {
+        "frame": 2,
+        "metrics": {
+          "bright140": [
+            400,
+            340
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            31798,
+            27855
+          ],
+          "brightJumps140": [
+            766,
+            678
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            16,
+            15,
+            11,
+            6
+          ],
+          "pixelCounts": [
+            16,
+            43,
+            106,
+            325
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            9,
+            13,
+            11,
+            4
+          ],
+          "pixelCounts": [
+            9,
+            34,
+            117,
+            269
+          ]
+        }
+      },
+      {
+        "frame": 3,
+        "metrics": {
+          "bright140": [
+            433,
+            363
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            32649,
+            28469
+          ],
+          "brightJumps140": [
+            775,
+            680
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            16,
+            19,
+            10,
+            5
+          ],
+          "pixelCounts": [
+            16,
+            54,
+            123,
+            346
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            13,
+            9,
+            10,
+            5
+          ],
+          "pixelCounts": [
+            13,
+            24,
+            110,
+            320
+          ]
+        }
+      },
+      {
+        "frame": 4,
+        "metrics": {
+          "bright140": [
+            443,
+            376
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            32889,
+            28725
+          ],
+          "brightJumps140": [
+            738,
+            644
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            12,
+            19,
+            11,
+            7
+          ],
+          "pixelCounts": [
+            12,
+            51,
+            117,
+            369
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            9,
+            13,
+            11,
+            5
+          ],
+          "pixelCounts": [
+            9,
+            34,
+            125,
+            310
+          ]
+        }
+      },
+      {
+        "frame": 5,
+        "metrics": {
+          "bright140": [
+            448,
+            382
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            33240,
+            29251
+          ],
+          "brightJumps140": [
+            780,
+            681
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            18,
+            17,
+            13,
+            5
+          ],
+          "pixelCounts": [
+            18,
+            46,
+            144,
+            345
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            11,
+            13,
+            11,
+            5
+          ],
+          "pixelCounts": [
+            11,
+            38,
+            123,
+            315
+          ]
+        }
+      },
+      {
+        "frame": 6,
+        "metrics": {
+          "bright140": [
+            485,
+            410
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            33707,
+            29518
+          ],
+          "brightJumps140": [
+            829,
+            726
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            15,
+            22,
+            12,
+            6
+          ],
+          "pixelCounts": [
+            15,
+            58,
+            123,
+            386
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            9,
+            13,
+            11,
+            6
+          ],
+          "pixelCounts": [
+            9,
+            33,
+            110,
+            352
+          ]
+        }
+      },
+      {
+        "frame": 7,
+        "metrics": {
+          "bright140": [
+            480,
+            418
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            34587,
+            30457
+          ],
+          "brightJumps140": [
+            875,
+            770
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            22,
+            17,
+            13,
+            5
+          ],
+          "pixelCounts": [
+            22,
+            44,
+            137,
+            364
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            16,
+            11,
+            12,
+            5
+          ],
+          "pixelCounts": [
+            16,
+            29,
+            125,
+            335
+          ]
+        }
+      },
+      {
+        "frame": 8,
+        "metrics": {
+          "bright140": [
+            516,
+            447
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            34986,
+            30484
+          ],
+          "brightJumps140": [
+            866,
+            786
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            15,
+            21,
+            13,
+            7
+          ],
+          "pixelCounts": [
+            15,
+            56,
+            137,
+            401
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            10,
+            17,
+            11,
+            7
+          ],
+          "pixelCounts": [
+            10,
+            44,
+            115,
+            371
+          ]
+        }
+      },
+      {
+        "frame": 9,
+        "metrics": {
+          "bright140": [
+            561,
+            481
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            34874,
+            30355
+          ],
+          "brightJumps140": [
+            879,
+            769
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            26,
+            23,
+            11,
+            8
+          ],
+          "pixelCounts": [
+            26,
+            60,
+            124,
+            458
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            14,
+            14,
+            10,
+            8
+          ],
+          "pixelCounts": [
+            14,
+            38,
+            112,
+            424
+          ]
+        }
+      },
+      {
+        "frame": 10,
+        "metrics": {
+          "bright140": [
+            665,
+            565
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            35350,
+            30783
+          ],
+          "brightJumps140": [
+            1008,
+            895
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            19,
+            24,
+            16,
+            7
+          ],
+          "pixelCounts": [
+            19,
+            60,
+            160,
+            559
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            11,
+            15,
+            14,
+            7
+          ],
+          "pixelCounts": [
+            11,
+            42,
+            135,
+            508
+          ]
+        }
+      },
+      {
+        "frame": 11,
+        "metrics": {
+          "bright140": [
+            639,
+            545
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            35392,
+            30942
+          ],
+          "brightJumps140": [
+            1098,
+            959
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            22,
+            24,
+            13,
+            7
+          ],
+          "pixelCounts": [
+            22,
+            66,
+            140,
+            545
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            16,
+            16,
+            12,
+            7
+          ],
+          "pixelCounts": [
+            16,
+            46,
+            126,
+            491
+          ]
+        }
+      },
+      {
+        "frame": 12,
+        "metrics": {
+          "bright140": [
+            660,
+            559
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            36301,
+            31651
+          ],
+          "brightJumps140": [
+            1131,
+            983
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            25,
+            23,
+            16,
+            8
+          ],
+          "pixelCounts": [
+            25,
+            61,
+            147,
+            552
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            18,
+            16,
+            12,
+            8
+          ],
+          "pixelCounts": [
+            18,
+            42,
+            121,
+            503
+          ]
+        }
+      },
+      {
+        "frame": 13,
+        "metrics": {
+          "bright140": [
+            614,
+            524
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            37285,
+            32718
+          ],
+          "brightJumps140": [
+            1159,
+            1007
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            13,
+            23,
+            15,
+            7
+          ],
+          "pixelCounts": [
+            13,
+            63,
+            148,
+            522
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            8,
+            16,
+            13,
+            7
+          ],
+          "pixelCounts": [
+            8,
+            41,
+            127,
+            480
+          ]
+        }
+      },
+      {
+        "frame": 14,
+        "metrics": {
+          "bright140": [
+            638,
+            540
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            37571,
+            33066
+          ],
+          "brightJumps140": [
+            1135,
+            989
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            27,
+            23,
+            16,
+            8
+          ],
+          "pixelCounts": [
+            27,
+            60,
+            145,
+            528
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            12,
+            16,
+            13,
+            8
+          ],
+          "pixelCounts": [
+            12,
+            44,
+            121,
+            484
+          ]
+        }
+      },
+      {
+        "frame": 15,
+        "metrics": {
+          "bright140": [
+            632,
+            523
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            38452,
+            33790
+          ],
+          "brightJumps140": [
+            1083,
+            936
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            31,
+            20,
+            15,
+            10
+          ],
+          "pixelCounts": [
+            31,
+            49,
+            124,
+            549
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            21,
+            13,
+            11,
+            10
+          ],
+          "pixelCounts": [
+            21,
+            33,
+            91,
+            498
+          ]
+        }
+      },
+      {
+        "frame": 16,
+        "metrics": {
+          "bright140": [
+            571,
+            467
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            39005,
+            34148
+          ],
+          "brightJumps140": [
+            1071,
+            923
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            14,
+            29,
+            17,
+            9
+          ],
+          "pixelCounts": [
+            14,
+            75,
+            146,
+            451
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            16,
+            18,
+            12,
+            9
+          ],
+          "pixelCounts": [
+            16,
+            47,
+            111,
+            402
+          ]
+        }
+      },
+      {
+        "frame": 17,
+        "metrics": {
+          "bright140": [
+            553,
+            454
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            40073,
+            34914
+          ],
+          "brightJumps140": [
+            935,
+            790
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            25,
+            27,
+            15,
+            8
+          ],
+          "pixelCounts": [
+            25,
+            74,
+            142,
+            412
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            15,
+            17,
+            14,
+            7
+          ],
+          "pixelCounts": [
+            15,
+            51,
+            131,
+            357
+          ]
+        }
+      },
+      {
+        "frame": 18,
+        "metrics": {
+          "bright140": [
+            543,
+            460
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            40019,
+            34878
+          ],
+          "brightJumps140": [
+            908,
+            765
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            21,
+            26,
+            19,
+            7
+          ],
+          "pixelCounts": [
+            21,
+            73,
+            168,
+            384
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            18,
+            17,
+            16,
+            7
+          ],
+          "pixelCounts": [
+            18,
+            48,
+            146,
+            351
+          ]
+        }
+      },
+      {
+        "frame": 19,
+        "metrics": {
+          "bright140": [
+            585,
+            476
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            40837,
+            35759
+          ],
+          "brightJumps140": [
+            853,
+            725
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            26,
+            29,
+            17,
+            10
+          ],
+          "pixelCounts": [
+            26,
+            75,
+            153,
+            435
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            18,
+            15,
+            15,
+            9
+          ],
+          "pixelCounts": [
+            18,
+            39,
+            138,
+            376
+          ]
+        }
+      },
+      {
+        "frame": 20,
+        "metrics": {
+          "bright140": [
+            621,
+            531
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            41901,
+            36693
+          ],
+          "brightJumps140": [
+            915,
+            783
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            26,
+            26,
+            22,
+            8
+          ],
+          "pixelCounts": [
+            26,
+            66,
+            194,
+            457
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            17,
+            18,
+            20,
+            8
+          ],
+          "pixelCounts": [
+            17,
+            46,
+            173,
+            417
+          ]
+        }
+      },
+      {
+        "frame": 21,
+        "metrics": {
+          "bright140": [
+            620,
+            524
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            42515,
+            37047
+          ],
+          "brightJumps140": [
+            942,
+            800
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            21,
+            26,
+            21,
+            10
+          ],
+          "pixelCounts": [
+            21,
+            66,
+            183,
+            480
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            14,
+            16,
+            19,
+            10
+          ],
+          "pixelCounts": [
+            14,
+            44,
+            153,
+            441
+          ]
+        }
+      },
+      {
+        "frame": 22,
+        "metrics": {
+          "bright140": [
+            677,
+            571
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            42422,
+            37035
+          ],
+          "brightJumps140": [
+            997,
+            864
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            27,
+            25,
+            22,
+            10
+          ],
+          "pixelCounts": [
+            27,
+            64,
+            192,
+            518
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            18,
+            20,
+            18,
+            10
+          ],
+          "pixelCounts": [
+            18,
+            50,
+            158,
+            467
+          ]
+        }
+      },
+      {
+        "frame": 23,
+        "metrics": {
+          "bright140": [
+            660,
+            552
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            42856,
+            37461
+          ],
+          "brightJumps140": [
+            967,
+            831
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            26,
+            30,
+            20,
+            11
+          ],
+          "pixelCounts": [
+            26,
+            77,
+            185,
+            507
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            21,
+            21,
+            16,
+            10
+          ],
+          "pixelCounts": [
+            21,
+            57,
+            160,
+            445
+          ]
+        }
+      },
+      {
+        "frame": 24,
+        "metrics": {
+          "bright140": [
+            661,
+            552
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            43110,
+            37779
+          ],
+          "brightJumps140": [
+            1016,
+            868
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            30,
+            23,
+            21,
+            11
+          ],
+          "pixelCounts": [
+            30,
+            61,
+            219,
+            511
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            22,
+            18,
+            19,
+            11
+          ],
+          "pixelCounts": [
+            22,
+            45,
+            195,
+            448
+          ]
+        }
+      },
+      {
+        "frame": 25,
+        "metrics": {
+          "bright140": [
+            650,
+            542
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            43033,
+            37700
+          ],
+          "brightJumps140": [
+            1033,
+            887
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            28,
+            36,
+            22,
+            10
+          ],
+          "pixelCounts": [
+            28,
+            96,
+            213,
+            455
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            21,
+            30,
+            20,
+            10
+          ],
+          "pixelCounts": [
+            21,
+            75,
+            185,
+            403
+          ]
+        }
+      },
+      {
+        "frame": 26,
+        "metrics": {
+          "bright140": [
+            649,
+            540
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            42969,
+            37756
+          ],
+          "brightJumps140": [
+            965,
+            834
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            32,
+            24,
+            27,
+            11
+          ],
+          "pixelCounts": [
+            32,
+            61,
+            260,
+            435
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            20,
+            21,
+            24,
+            10
+          ],
+          "pixelCounts": [
+            20,
+            59,
+            229,
+            370
+          ]
+        }
+      },
+      {
+        "frame": 27,
+        "metrics": {
+          "bright140": [
+            626,
+            525
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            43640,
+            38241
+          ],
+          "brightJumps140": [
+            915,
+            794
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            30,
+            31,
+            25,
+            11
+          ],
+          "pixelCounts": [
+            30,
+            75,
+            224,
+            425
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            25,
+            22,
+            22,
+            11
+          ],
+          "pixelCounts": [
+            25,
+            53,
+            197,
+            377
+          ]
+        }
+      },
+      {
+        "frame": 28,
+        "metrics": {
+          "bright140": [
+            642,
+            540
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            44598,
+            39222
+          ],
+          "brightJumps140": [
+            865,
+            757
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            34,
+            29,
+            25,
+            11
+          ],
+          "pixelCounts": [
+            34,
+            73,
+            229,
+            433
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            23,
+            17,
+            23,
+            11
+          ],
+          "pixelCounts": [
+            23,
+            47,
+            205,
+            388
+          ]
+        }
+      },
+      {
+        "frame": 29,
+        "metrics": {
+          "bright140": [
+            644,
+            542
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            45058,
+            39589
+          ],
+          "brightJumps140": [
+            924,
+            802
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            40,
+            27,
+            23,
+            11
+          ],
+          "pixelCounts": [
+            40,
+            70,
+            214,
+            448
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            24,
+            22,
+            21,
+            12
+          ],
+          "pixelCounts": [
+            24,
+            51,
+            192,
+            400
+          ]
+        }
+      },
+      {
+        "frame": 30,
+        "metrics": {
+          "bright140": [
+            678,
+            578
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            46936,
+            41350
+          ],
+          "brightJumps140": [
+            1042,
+            888
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            34,
+            35,
+            20,
+            12
+          ],
+          "pixelCounts": [
+            34,
+            92,
+            204,
+            484
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            26,
+            27,
+            19,
+            12
+          ],
+          "pixelCounts": [
+            26,
+            69,
+            177,
+            442
+          ]
+        }
+      }
+    ],
+    "scope": "Full bright-component connectivity inside the grass crop; count only components touching the same-pose shader-effect mask. Observations across frames, not unique blades or tracked particles."
+  },
+  "scope": "Matched native High post/MSAA walking-speed camera path, frozen recorded wind/cloud/actors/shadows; native water reflection refreshed equally for every mode; every pose has an exact restored RGB control. Session-only sheen-footprint probe; changed-pixel union includes post neighbours and disocclusion, not a semantic grass mask or pure shimmer score. Synthetic cadence, not hardware timing.",
+  "reductionPass": true,
+  "verificationPass": true
+}
