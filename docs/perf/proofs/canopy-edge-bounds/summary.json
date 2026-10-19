@@ -1,0 +1,137 @@
+{
+  "revision": "2a13d6c",
+  "version": "0.0.29",
+  "cpuSummary": {
+    "before": {
+      "runs": 8,
+      "average": 1424.9249999988824,
+      "p95": 1498.2999999970198,
+      "min": 1378.5,
+      "max": 1498.2999999970198
+    },
+    "after": {
+      "runs": 8,
+      "average": 1377.2125000003725,
+      "p95": 1451.7999999970198,
+      "min": 1315.2000000029802,
+      "max": 1451.7999999970198
+    }
+  },
+  "preparationCpu": [
+    {
+      "mode": "before",
+      "ms": 69.89999999850988
+    },
+    {
+      "mode": "after",
+      "ms": 74.39999999850988
+    },
+    {
+      "mode": "after",
+      "ms": 71.39999999850988
+    },
+    {
+      "mode": "before",
+      "ms": 72.5
+    },
+    {
+      "mode": "after",
+      "ms": 59.80000000447035
+    },
+    {
+      "mode": "before",
+      "ms": 57
+    },
+    {
+      "mode": "before",
+      "ms": 54.79999999701977
+    },
+    {
+      "mode": "after",
+      "ms": 57.79999999701977
+    },
+    {
+      "mode": "before",
+      "ms": 50.70000000298023
+    },
+    {
+      "mode": "after",
+      "ms": 52.30000000447035
+    },
+    {
+      "mode": "after",
+      "ms": 50.80000000447035
+    },
+    {
+      "mode": "before",
+      "ms": 56.79999999701977
+    },
+    {
+      "mode": "before",
+      "ms": 58
+    },
+    {
+      "mode": "after",
+      "ms": 105.29999999701977
+    },
+    {
+      "mode": "after",
+      "ms": 57
+    },
+    {
+      "mode": "before",
+      "ms": 68.10000000149012
+    }
+  ],
+  "visual": [
+    {
+      "cost": {
+        "frame": 197,
+        "calls": 364,
+        "triangles": 5848988,
+        "points": 1642,
+        "lines": 0
+      }
+    },
+    {
+      "cost": {
+        "frame": 211,
+        "calls": 364,
+        "triangles": 5848988,
+        "points": 1642,
+        "lines": 0
+      }
+    }
+  ],
+  "identicalPixels": true,
+  "errors": [],
+  "sourceSha256": {
+    "before": "024b4bbddabd9068ebb44bb2a70db65a3ee74e00a7d8f7048a3eb4e52cbc0ead",
+    "after": "e3386a0e58198b9cb5bff1ed738dc864e65af59c8c4110da4dc22c5dc0d8c69b"
+  },
+  "pass": true,
+  "scope": "Native all-tree targets, original/candidate audit implementations. Complete reports, including operation-budget accounting, must be deeply equal at all LODs. CPU timings measure warmed on-demand LOD0 audits, not regular game frames or GPU performance. Counts are shared connectivity boxGap/hypot calls, not wood support bounds. Native frozen full-scene images after each implementation must match. No tree geometry or generator change.",
+  "queries": [
+    {
+      "lod": 0,
+      "before": 4461919,
+      "after": 3014071,
+      "operations": 12541370,
+      "reportSha256": "a33ea93f9f8e03378882b8c108780260701f79c53feaf89abd1d4d0433d3682a"
+    },
+    {
+      "lod": 1,
+      "before": 2521879,
+      "after": 1762697,
+      "operations": 6750912,
+      "reportSha256": "595bff4ba13abd63c1f7d321fbd83a0c9fbc0f4bd1ea5c6f9e786fb611c6e393"
+    },
+    {
+      "lod": 2,
+      "before": 779697,
+      "after": 550601,
+      "operations": 1080362,
+      "reportSha256": "15e8fbb6a6dca3b1b54e9ccc9d0686f32889e8ff21ff012f7dfac5fb5b0f205b"
+    }
+  ]
+}

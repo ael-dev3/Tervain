@@ -1,0 +1,2372 @@
+{
+  "version": {
+    "version": "0.0.29",
+    "revision": "2a13d6c"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:0:0",
+      "count": 23991,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:0:0",
+      "count": 19236,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:54:3",
+      "count": 13446,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:54:3",
+      "count": 13488,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:55:3",
+      "count": 20865,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:55:3",
+      "count": 17808,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:66:3",
+      "count": 12747,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:66:3",
+      "count": 12504,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:70:3",
+      "count": 14136,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:70:3",
+      "count": 13248,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:5:0",
+      "count": 23994,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:5:0",
+      "count": 16632,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:61:10",
+      "count": 25764,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:61:10",
+      "count": 33414,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:62:10",
+      "count": 11760,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:62:10",
+      "count": 36000,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:45:12",
+      "count": 15204,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:45:12",
+      "count": 36000,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:61:12",
+      "count": 26688,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:61:12",
+      "count": 32436,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:68:13",
+      "count": 14550,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:68:13",
+      "count": 36000,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:57:20",
+      "count": 14274,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:57:20",
+      "count": 36000,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:36:23",
+      "count": 26736,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:36:23",
+      "count": 32316,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:wild:52:26",
+      "count": 27555,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:wild:52:26",
+      "count": 31602,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:palm:16:6",
+      "count": 25224,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:palm:16:6",
+      "count": 16464,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:palm:15:8",
+      "count": 36252,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:palm:15:8",
+      "count": 16464,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:palm:17:9",
+      "count": 4866,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:palm:17:9",
+      "count": 23946,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:edge:1:2",
+      "count": 20865,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:edge:1:2",
+      "count": 17808,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:orchard:0:0",
+      "count": 23994,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:orchard:0:0",
+      "count": 32916,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "wood",
+      "label": "tree:orchard:0:2",
+      "count": 25356,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 0,
+      "part": "leaves",
+      "label": "tree:orchard:0:2",
+      "count": 31704,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:0:0",
+      "count": 14652,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:0:0",
+      "count": 10872,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:54:3",
+      "count": 5598,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:54:3",
+      "count": 6696,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:55:3",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:55:3",
+      "count": 9648,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:66:3",
+      "count": 5373,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:66:3",
+      "count": 6216,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:70:3",
+      "count": 5940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:70:3",
+      "count": 6624,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:5:0",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:5:0",
+      "count": 8640,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:61:10",
+      "count": 24612,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:61:10",
+      "count": 13044,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:62:10",
+      "count": 3684,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:62:10",
+      "count": 25182,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:45:12",
+      "count": 7908,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:45:12",
+      "count": 26280,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:61:12",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:61:12",
+      "count": 10194,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:68:13",
+      "count": 7104,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:68:13",
+      "count": 23142,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:57:20",
+      "count": 7068,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:57:20",
+      "count": 25800,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:36:23",
+      "count": 24666,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:36:23",
+      "count": 13044,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:wild:52:26",
+      "count": 14742,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:wild:52:26",
+      "count": 10194,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:palm:16:6",
+      "count": 14652,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:palm:16:6",
+      "count": 8496,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:palm:15:8",
+      "count": 16650,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:palm:15:8",
+      "count": 8496,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:palm:17:9",
+      "count": 4344,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:palm:17:9",
+      "count": 21177,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:edge:1:2",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:edge:1:2",
+      "count": 9648,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:orchard:0:0",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:orchard:0:0",
+      "count": 10368,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "wood",
+      "label": "tree:orchard:0:2",
+      "count": 14649,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 1,
+      "part": "leaves",
+      "label": "tree:orchard:0:2",
+      "count": 10194,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:0:0",
+      "count": 4185,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:0:0",
+      "count": 4326,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:54:3",
+      "count": 270,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:54:3",
+      "count": 672,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:55:3",
+      "count": 4185,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:55:3",
+      "count": 3612,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:66:3",
+      "count": 234,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:66:3",
+      "count": 630,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:70:3",
+      "count": 234,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:70:3",
+      "count": 690,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "tvAo",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:5:0",
+      "count": 4188,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:5:0",
+      "count": 3024,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:61:10",
+      "count": 24612,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:61:10",
+      "count": 4326,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:62:10",
+      "count": 405,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:62:10",
+      "count": 6309,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:45:12",
+      "count": 786,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:45:12",
+      "count": 2634,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:61:12",
+      "count": 7260,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:61:12",
+      "count": 2940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:68:13",
+      "count": 786,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:68:13",
+      "count": 2406,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:57:20",
+      "count": 822,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:57:20",
+      "count": 2604,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.42,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "color",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:36:23",
+      "count": 24612,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:36:23",
+      "count": 4326,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:wild:52:26",
+      "count": 7908,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:wild:52:26",
+      "count": 2940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:palm:16:6",
+      "count": 7524,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:palm:16:6",
+      "count": 2940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:palm:15:8",
+      "count": 16650,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:palm:15:8",
+      "count": 2940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:palm:17:9",
+      "count": 1536,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:palm:17:9",
+      "count": 7317,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:edge:1:2",
+      "count": 4185,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:edge:1:2",
+      "count": 3612,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:orchard:0:0",
+      "count": 4188,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:orchard:0:0",
+      "count": 3024,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "_wind",
+        "_pivot",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "wood",
+      "label": "tree:orchard:0:2",
+      "count": 7260,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "tangent",
+        "aDistanceCoverage"
+      ]
+    },
+    {
+      "lod": 2,
+      "part": "leaves",
+      "label": "tree:orchard:0:2",
+      "count": 2940,
+      "range": {
+        "start": 0,
+        "count": null
+      },
+      "groups": [],
+      "cutoff": 0.35,
+      "attrs": [
+        "position",
+        "normal",
+        "uv",
+        "aDistanceCoverage"
+      ]
+    }
+  ],
+  "target": {
+    "label": "tree:wild:32:27",
+    "species": "oak",
+    "lod": 0,
+    "kind": "oak/hero-oak",
+    "missingWood": false,
+    "leafless": false,
+    "components": 6000,
+    "chunks": 1,
+    "detachedCards": 977,
+    "detachedClumps": 14,
+    "maxWoodGap": 2.5548771689774847,
+    "candidates": []
+  }
+}
