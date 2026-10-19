@@ -50,3 +50,17 @@ The image tool accepts another build URL as its second positional argument. The 
 | Initialization | Surface-contact queries replace the box-centre acceptance; load-time cost not benchmarked |
 
 22 focused tests pass, including two regressions that fail on the baseline. Type check and production build pass. No claim of improved hardware FPS or heat.
+
+## Exact-head compiled budget
+
+Stock producer/sampler, no raster-suppression preload, head **5c312082e**, allowance 0, actual exit 0. Two same-revision live probes, maximum over four completed samples per probe:
+
+| Metric | Live b317734 | Candidate 5c312082e |
+| --- | ---: | ---: |
+| Maximum draws | 285 | 285 |
+| Maximum triangles | 3,048,306 | 3,048,138 |
+| Console errors | 0 | 0 |
+
+`play-gate: PASS 5c312082e`
+
+[Scrubbed exact-head receipt](proofs/leaf-surface-contact/budget.md). The 168-triangle difference is not an attributed geometry/performance saving; the repaired target retains its triangle count. Pacing is advisory and no hardware timing claim is made.
