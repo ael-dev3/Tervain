@@ -1,0 +1,17 @@
+{
+  "baselineRevision": "b317734",
+  "baselineRegression": {
+    "exitCode": 1,
+    "failedTests": 1,
+    "firstAnchorComponentActual": 0.21855038404464722,
+    "expectedScaledComponent": 0.344171246154145,
+    "tolerance": 5e-05
+  },
+  "candidate": {
+    "revision": "57afcf693",
+    "focusedTests": 11,
+    "passed": 11,
+    "build": true
+  },
+  "scope": "Delivered geometry and custom attributes; images and rendering are covered separately."
+}

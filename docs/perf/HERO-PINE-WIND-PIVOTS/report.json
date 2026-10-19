@@ -1,0 +1,299 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "printed": "v0.0.33 · b317734 · pre-alpha",
+    "label": "tree:wild:28:30",
+    "position": [
+      -196.17760752409728,
+      0.7584794009736,
+      21.489233074542117
+    ],
+    "rows": [
+      {
+        "lod": 0,
+        "part": "wood",
+        "variant": 2,
+        "scale": 1.1304737142741417,
+        "woodScaleError": 0.0000012607711461498639,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 2.873374584579126,
+        "vertices": 2968
+      },
+      {
+        "lod": 0,
+        "part": "leaf",
+        "variant": 2,
+        "scale": 1.1304737142741417,
+        "woodScaleError": 0.0000012607711461498639,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 2.8871086966102757,
+        "vertices": 5058
+      },
+      {
+        "lod": 0,
+        "part": "wood",
+        "variant": 0,
+        "scale": 1.5747913396592501,
+        "woodScaleError": 0.000001344735249375617,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 8.666993871315569,
+        "vertices": 2814
+      },
+      {
+        "lod": 0,
+        "part": "leaf",
+        "variant": 0,
+        "scale": 1.5747913396592501,
+        "woodScaleError": 0.000001344735249375617,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 8.703195565587684,
+        "vertices": 4689
+      },
+      {
+        "lod": 0,
+        "part": "wood",
+        "variant": 1,
+        "scale": 1.2914714451105376,
+        "woodScaleError": 0.0000017513540981894948,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 5.396843906036786,
+        "vertices": 3119
+      },
+      {
+        "lod": 0,
+        "part": "leaf",
+        "variant": 1,
+        "scale": 1.2914714451105376,
+        "woodScaleError": 0.0000017513540981894948,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 5.415038384634682,
+        "vertices": 4968
+      },
+      {
+        "lod": 1,
+        "part": "wood",
+        "variant": 2,
+        "scale": 1.1304736755037896,
+        "woodScaleError": 0.0000014782059984952411,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 2.873374582064648,
+        "vertices": 1465
+      },
+      {
+        "lod": 1,
+        "part": "leaf",
+        "variant": 2,
+        "scale": 1.1304736755037896,
+        "woodScaleError": 0.0000014782059984952411,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 2.8870589204088986,
+        "vertices": 2511
+      },
+      {
+        "lod": 1,
+        "part": "wood",
+        "variant": 0,
+        "scale": 1.5747912894696612,
+        "woodScaleError": 0.0000012953737069665294,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 8.6669938693087,
+        "vertices": 1402
+      },
+      {
+        "lod": 1,
+        "part": "leaf",
+        "variant": 0,
+        "scale": 1.5747912894696612,
+        "woodScaleError": 0.0000012953737069665294,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 8.703053377609386,
+        "vertices": 2335
+      },
+      {
+        "lod": 1,
+        "part": "wood",
+        "variant": 1,
+        "scale": 1.291471491274198,
+        "woodScaleError": 9.82031895802038e-7,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 5.396843906461563,
+        "vertices": 1550
+      },
+      {
+        "lod": 1,
+        "part": "leaf",
+        "variant": 1,
+        "scale": 1.291471491274198,
+        "woodScaleError": 9.82031895802038e-7,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 5.414982502634058,
+        "vertices": 2484
+      },
+      {
+        "lod": 2,
+        "part": "wood",
+        "variant": 2,
+        "scale": 1.1304737297764218,
+        "woodScaleError": 0.000001418748787784807,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 0,
+        "vertices": 57
+      },
+      {
+        "lod": 2,
+        "part": "leaf",
+        "variant": 2,
+        "scale": 1.1304737297764218,
+        "woodScaleError": 0.000001418748787784807,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 2.887060828866909,
+        "vertices": 546
+      },
+      {
+        "lod": 2,
+        "part": "wood",
+        "variant": 0,
+        "scale": 1.5747912430667546,
+        "woodScaleError": 0.0000015391306931178406,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 0,
+        "vertices": 50
+      },
+      {
+        "lod": 2,
+        "part": "leaf",
+        "variant": 0,
+        "scale": 1.5747912430667546,
+        "woodScaleError": 0.0000015391306931178406,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 8.703053375816609,
+        "vertices": 520
+      },
+      {
+        "lod": 2,
+        "part": "wood",
+        "variant": 1,
+        "scale": 1.2914714853359226,
+        "woodScaleError": 8.954904515690032e-7,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 0,
+        "vertices": 50
+      },
+      {
+        "lod": 2,
+        "part": "leaf",
+        "variant": 1,
+        "scale": 1.2914714853359226,
+        "woodScaleError": 8.954904515690032e-7,
+        "unscaledPivotError": 0,
+        "maxAnchorError": 5.414982502634058,
+        "vertices": 568
+      }
+    ],
+    "samples": 4,
+    "rasterSuppressed": false
+  },
+  "rows": [
+    {
+      "distance": 20,
+      "time": 0,
+      "strength": 1,
+      "before": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "after": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "restore": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "changedPixels": 206384,
+      "restored": true
+    },
+    {
+      "distance": 20,
+      "time": 1,
+      "strength": 1,
+      "before": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "after": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "restore": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "changedPixels": 206665,
+      "restored": true
+    },
+    {
+      "distance": 20,
+      "time": 2,
+      "strength": 1,
+      "before": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "after": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "restore": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "changedPixels": 207018,
+      "restored": true
+    },
+    {
+      "distance": 42,
+      "time": 1,
+      "strength": 1,
+      "before": {
+        "draws": 271,
+        "triangles": 2996852
+      },
+      "after": {
+        "draws": 271,
+        "triangles": 2996852
+      },
+      "restore": {
+        "draws": 271,
+        "triangles": 2996852
+      },
+      "changedPixels": 201554,
+      "restored": true
+    },
+    {
+      "distance": 20,
+      "time": 1,
+      "strength": 0,
+      "before": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "after": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "restore": {
+        "draws": 258,
+        "triangles": 2504822
+      },
+      "changedPixels": 0,
+      "restored": true
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "scope": "Published native High MSAA4 post path. Only authored hero-pine pivot buffers are multiplied by the exact vertex scale, matching the loader correction; rest geometry, wind weights/phases, materials, draw packing and shaders stay unchanged. Frozen wind poses and a wind-disabled pixel control; software rendering, not a hardware pacing claim."
+}
