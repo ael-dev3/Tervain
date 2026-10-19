@@ -1,8 +1,9 @@
 import { webcrypto } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { deduplicateTreeTextures } from '../../src/presentation/treeTexturePool';
+import { deduplicateTreeTextures, treeCutoutIsRedundant } from '../../src/presentation/treeTexturePool';
 
 vi.stubGlobal('crypto', webcrypto);
 afterEach(() => vi.restoreAllMocks());
@@ -28,6 +29,40 @@ const texture = (image = { width: 2, height: 2, close: vi.fn() }) => new THREE.T
 const closeOf = (value: THREE.Texture) => (value.image as unknown as { close: ReturnType<typeof vi.fn> }).close;
 
 describe('embedded tree LOD texture residency', () => {
+  it('recognizes actual opaque bark while retaining other alpha inputs and unknown images', async () => {
+    for (const id of ['hero-oak', 'hero-oak-b', 'hero-oak-c']) {
+      const bytes = readFileSync(new URL(`../../public/models/flora/hero/${id}-near.glb`, import.meta.url));
+      const json = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString());
+      const wood = json.materials.find((m: { name: string }) => m.name.toLowerCase().includes('wood'));
+      expect(wood.alphaMode).toBe('MASK');
+      const entry = model([texture()]);
+      entry.material.alphaTest = wood.alphaCutoff;
+      entry.gltf.parser.associations.set(entry.material.map!, { textures: wood.pbrMetallicRoughness.baseColorTexture.index });
+      await deduplicateTreeTextures(entry.gltf, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+      expect(treeCutoutIsRedundant(entry.material)).toBe(true);
+      entry.material.alphaMap = texture(); expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      entry.material.alphaMap = null; entry.material.vertexColors = true; expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      const geometry = new THREE.BufferGeometry().setAttribute('color', new THREE.Uint8BufferAttribute([100, 120, 80, 255], 4, true));
+      expect(treeCutoutIsRedundant(entry.material, geometry)).toBe(true);
+      geometry.getAttribute('color').setW(0, .5); expect(treeCutoutIsRedundant(entry.material, geometry)).toBe(false);
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute([.2, .3, .1], 3));
+      expect(treeCutoutIsRedundant(entry.material, geometry)).toBe(true); geometry.dispose();
+      entry.material.vertexColors = false; entry.material.opacity = entry.material.alphaTest / 2; expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      entry.material.opacity = .5; expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      entry.material.opacity = entry.material.alphaTest; expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      entry.material.opacity = NaN; expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      entry.material.opacity = 1; entry.material.map = texture(); expect(treeCutoutIsRedundant(entry.material)).toBe(false);
+      const leaf = json.materials.find((m: { name: string }) => m.name.toLowerCase().includes('foliage'));
+      const masked = model([texture()]); masked.material.alphaTest = leaf.alphaCutoff;
+      masked.gltf.parser.associations.set(masked.material.map!, { textures: leaf.pbrMetallicRoughness.baseColorTexture.index });
+      await deduplicateTreeTextures(masked.gltf, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+      expect(treeCutoutIsRedundant(masked.material)).toBe(false);
+    }
+    const unknown = model([texture()]); unknown.material.alphaTest = .18;
+    await deduplicateTreeTextures(unknown.gltf, file([99, 88, 77]));
+    expect(treeCutoutIsRedundant(unknown.material)).toBe(false);
+  });
+
   it('shares identical content across independent GLBs, closes retired bitmaps once, and leaves canonical source GPU resources intact', async () => {
     const first = texture(), duplicate = texture(), third = texture(), source = model([first]), second = model([duplicate]), last = model([third]);
     const disposeFirst = vi.spyOn(first, 'dispose'), disposeDuplicate = vi.spyOn(duplicate, 'dispose');

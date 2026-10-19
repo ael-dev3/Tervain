@@ -5,7 +5,7 @@ import { createGltfLoader } from './assets/gltfLoader';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Species, TreeVariant } from './treeGen';
 import { assertNaturalModelBudget } from './naturalModelBudget';
-import { deduplicateTreeTextures } from './treeTexturePool';
+import { deduplicateTreeTextures, treeCutoutIsRedundant } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
@@ -455,7 +455,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const conifers = new Map<string, THREE.Texture>();
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
-  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species) => {
+  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species, geometry?: THREE.BufferGeometry) => {
     const material = source.clone(), fields = material as unknown as Record<string, unknown>;
     for (const [key, value] of Object.entries(fields)) if ((value as THREE.Texture | null)?.isTexture) {
       const original = value as THREE.Texture;
@@ -466,6 +466,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.metalness = 0; material.roughness = Math.max(wood ? 0.88 : 0.82, material.roughness);
     material.emissive.set(0); material.envMapIntensity = 0.35;
     material.alphaToCoverage = material.alphaTest > 0;
+    // RGB-only bark and opaque vertex alpha cannot fail this cutout. Keep the existing sample-alpha state
+    // to avoid adding coverage enable/disable transitions between wood and leaf draws.
+    if (wood && treeCutoutIsRedundant(source, geometry)) material.alphaTest = 0;
     material.transparent = false;
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
     // Playtest 7: the fir sheet's needles average a linear albedo of about 0.035 (broadleaf sheets 0.10-0.15), so firs
@@ -545,7 +548,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
       // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
       // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
       // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
