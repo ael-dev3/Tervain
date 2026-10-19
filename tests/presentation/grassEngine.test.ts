@@ -189,7 +189,7 @@ describe('grass material', () => {
     // Blades are lit from the side facing the viewer; the double-sided flip would darken every back face.
     expect(shader.fragmentShader).not.toContain('normal *= faceDirection;');
     expect(shader.fragmentShader).toContain('diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );');
-    // Both stages keep colour inside coverage; the steep edge ramp shares that vector; two light components retain baseline interpolation.
+    // Both stages sample colour, edge and light intensities inside the same covered primitive.
     for (const stage of [shader.vertexShader, shader.fragmentShader]) {
       expect(stage).toContain('centroid varying vec4 vGCol;');
       expect(stage).toContain('varying vec2 vGInfo;');
