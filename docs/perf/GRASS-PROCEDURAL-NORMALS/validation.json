@@ -1,0 +1,68 @@
+{
+  "head": "928241370413ca14839152d4dca3e9d581a926bd",
+  "tests": {
+    "passed": 15,
+    "files": 2,
+    "scope": "grass/wind regression checks"
+  },
+  "originalGeometryRegression": {
+    "pass": false,
+    "expectedFailure": "normal attribute is undefined; expected defined",
+    "case": "encodes each blade as rows of edge pairs narrowing to one tip, indexed into triangles"
+  },
+  "productionBuild": "pass",
+  "ciBuild": "pass",
+  "ciSoftwareWebgl": "pass",
+  "stockBudget": {
+    "pass": true,
+    "baselineRevision": "b317734",
+    "candidateRevision": "928241370",
+    "draws": [
+      285,
+      285
+    ],
+    "triangles": [
+      3048306,
+      3048306
+    ],
+    "consoleErrors": [
+      0,
+      0
+    ],
+    "allowances": 0
+  },
+  "candidateControls": {
+    "frames": 5,
+    "buffer": [
+      640,
+      360
+    ],
+    "inactiveExact": true,
+    "wireframeExact": true,
+    "allRestoresExact": true,
+    "normalUploadsFirstAndFinal": {
+      "calls": 2,
+      "bytes": 2016
+    },
+    "normalAttributeLocation": -1,
+    "textureObjectsAfter": 274,
+    "averageAllSceneMat3UniformBytes": [
+      2102.4,
+      2044.8
+    ],
+    "averageAllSceneMat3UniformCalls": [
+      58.4,
+      56.8
+    ],
+    "allSceneBufferBytesEveryCapturedPose": [
+      0,
+      0
+    ]
+  },
+  "limitations": [
+    "Software WebGL has no hardware GPU performance evidence.",
+    "All-scene mat3 counts are renderer measurements, not isolated grass uniform counts.",
+    "Texture object count was inspected only after activation; no before memory delta is claimed.",
+    "The lighting path changes rendered luminance; it is not pixel-identical."
+  ]
+}

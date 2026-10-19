@@ -1,0 +1,537 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "928241370"
+    },
+    "buffer": [
+      640,
+      360
+    ],
+    "dpr": 1,
+    "phase": {
+      "hour": 17.5,
+      "cloudTime": 0,
+      "wind": {
+        "time": 3,
+        "direction": [
+          0.8,
+          0.6,
+          0.24,
+          0.42
+        ],
+        "scroll": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "sway": 3,
+      "gradeTime": 0
+    },
+    "grass": {
+      "grassInstances": 20930,
+      "grassTris": 1254711,
+      "grassDraws": 41,
+      "grassTiles": 174,
+      "grassMovers": 0
+    }
+  },
+  "route": {
+    "frames": 5,
+    "stepMetres": 0.043333333333333335,
+    "metres": 0.17333333333333334,
+    "cadence": 60,
+    "yawDegrees": [
+      -8,
+      8
+    ],
+    "x": 6,
+    "z": 23
+  },
+  "instrumentation": {
+    "materials": 2,
+    "geometries": 174,
+    "normalBuffers": 2,
+    "normalBytes": 2016
+  },
+  "nativeMode": "candidate",
+  "inactiveControlExact": true,
+  "unshadowedWireframeControlExact": true,
+  "records": [
+    {
+      "frame": 0,
+      "camera": [
+        -0.9902680687415701,
+        0,
+        -0.13917310096006544,
+        0,
+        -0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235698994,
+        0,
+        0.13915744662782645,
+        0.014998312784712241,
+        -0.9901566823799328,
+        0,
+        6,
+        2.6768941640853883,
+        23,
+        1
+      ],
+      "before": {
+        "draws": 200,
+        "triangles": 3021931,
+        "mainPasses": [
+          {
+            "draws": 110,
+            "triangles": 2136869
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2088,
+          "mat3Calls": 58
+        }
+      },
+      "after": {
+        "draws": 200,
+        "triangles": 3021931,
+        "mainPasses": [
+          {
+            "draws": 110,
+            "triangles": 2136869
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2016,
+          "mat3Calls": 56
+        }
+      },
+      "restoredExact": true,
+      "beforeRgbSha256": "0116cc5e98b12fb612101399a530e4299d1ddf3b0561f1c57a2a4a65ff0a608f",
+      "afterRgbSha256": "949e0c1b63207817d31e2d708283cb4ef544b374a99bd09385fba1b2dfed76d6",
+      "changedPixels": 83670,
+      "affectedBright140": [
+        0,
+        1
+      ],
+      "affectedBright180": [
+        0,
+        0
+      ],
+      "affectedBright220": [
+        0,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        0,
+        0
+      ],
+      "affectedBrightJumps140": [
+        0,
+        0
+      ],
+      "wholeImageLuma": [
+        54.16541860505495,
+        56.88795953472952
+      ],
+      "maxAffectedLuma": [
+        131.24259999999998,
+        140.391
+      ]
+    },
+    {
+      "frame": 1,
+      "camera": [
+        -0.9975640502598244,
+        1.0842021724855044e-19,
+        -0.0697564737441253,
+        0,
+        -0.001046229411972958,
+        0.9998875189808162,
+        0.014961777648581245,
+        0,
+        0.06974862746486388,
+        0.014998312784712241,
+        -0.99745184323875,
+        0,
+        6.043333333333333,
+        2.677221454779307,
+        23,
+        1
+      ],
+      "before": {
+        "draws": 203,
+        "triangles": 3024208,
+        "mainPasses": [
+          {
+            "draws": 112,
+            "triangles": 2138606
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2124,
+          "mat3Calls": 59
+        }
+      },
+      "after": {
+        "draws": 203,
+        "triangles": 3024208,
+        "mainPasses": [
+          {
+            "draws": 112,
+            "triangles": 2138606
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2052,
+          "mat3Calls": 57
+        }
+      },
+      "restoredExact": true,
+      "beforeRgbSha256": "9edaaba8ed3fdfbd91970bf9cb9b549fe8e798bc9d55489a6c339660d6cda6f4",
+      "afterRgbSha256": "efdeac39b18c194a00f1ee35bfbae960ea3e5d5832705e15483925595c0db51f",
+      "changedPixels": 86588,
+      "affectedBright140": [
+        2,
+        0
+      ],
+      "affectedBright180": [
+        2,
+        0
+      ],
+      "affectedBright220": [
+        2,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        2561,
+        2463
+      ],
+      "affectedBrightJumps140": [
+        2,
+        1
+      ],
+      "wholeImageLuma": [
+        57.10043744967509,
+        59.79166639931493
+      ],
+      "maxAffectedLuma": [
+        238.0614,
+        128.046
+      ]
+    },
+    {
+      "frame": 2,
+      "camera": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0.9998875189808162,
+        0.014998312784712246,
+        0,
+        0,
+        0.014998312784712246,
+        -0.9998875189808163,
+        0,
+        6.086666666666667,
+        2.677548745473226,
+        23,
+        1
+      ],
+      "before": {
+        "draws": 193,
+        "triangles": 2979028,
+        "mainPasses": [
+          {
+            "draws": 107,
+            "triangles": 2116016
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2124,
+          "mat3Calls": 59
+        }
+      },
+      "after": {
+        "draws": 193,
+        "triangles": 2979028,
+        "mainPasses": [
+          {
+            "draws": 107,
+            "triangles": 2116016
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2052,
+          "mat3Calls": 57
+        }
+      },
+      "restoredExact": true,
+      "beforeRgbSha256": "b5424965b34297e6aa517f702839fa76450a22892d4af9a5fa4705f5c4a8cff1",
+      "afterRgbSha256": "0aa8be31b1eadc3cb550a4c037e077ce455bc7113587256a9e226fdc414e60f6",
+      "changedPixels": 88436,
+      "affectedBright140": [
+        0,
+        0
+      ],
+      "affectedBright180": [
+        0,
+        0
+      ],
+      "affectedBright220": [
+        0,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        2812,
+        2699
+      ],
+      "affectedBrightJumps140": [
+        2,
+        0
+      ],
+      "wholeImageLuma": [
+        59.17983643926042,
+        61.79375776650472
+      ],
+      "maxAffectedLuma": [
+        131.8832,
+        131.6822
+      ]
+    },
+    {
+      "frame": 3,
+      "camera": [
+        -0.9975640502598244,
+        -1.0842021724855044e-19,
+        0.06975647374412532,
+        0,
+        0.0010462294119729589,
+        0.9998875189808162,
+        0.014961777648581252,
+        0,
+        -0.06974862746486389,
+        0.014998312784712248,
+        -0.99745184323875,
+        0,
+        6.13,
+        2.6778760361671448,
+        23,
+        1
+      ],
+      "before": {
+        "draws": 190,
+        "triangles": 2956253,
+        "mainPasses": [
+          {
+            "draws": 105,
+            "triangles": 2086205
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2088,
+          "mat3Calls": 58
+        }
+      },
+      "after": {
+        "draws": 190,
+        "triangles": 2956253,
+        "mainPasses": [
+          {
+            "draws": 105,
+            "triangles": 2086205
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2052,
+          "mat3Calls": 57
+        }
+      },
+      "restoredExact": true,
+      "beforeRgbSha256": "a30e50756e955adea64bb9a1d2b1e304648e1c1ccda9e298d7ab11dfd1069d78",
+      "afterRgbSha256": "06eccf4dc56d400d1d61e000beb20a050b809d941406557ec0ff80a222d5e3f5",
+      "changedPixels": 90966,
+      "affectedBright140": [
+        0,
+        0
+      ],
+      "affectedBright180": [
+        0,
+        0
+      ],
+      "affectedBright220": [
+        0,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        2858,
+        2809
+      ],
+      "affectedBrightJumps140": [
+        0,
+        0
+      ],
+      "wholeImageLuma": [
+        60.83551238804648,
+        63.36237014758473
+      ],
+      "maxAffectedLuma": [
+        131.5916,
+        129.3308
+      ]
+    },
+    {
+      "frame": 4,
+      "camera": [
+        -0.9902680687415701,
+        0,
+        0.13917310096006544,
+        0,
+        0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235698994,
+        0,
+        -0.13915744662782645,
+        0.014998312784712241,
+        -0.9901566823799328,
+        0,
+        6.173333333333334,
+        2.678203326861064,
+        23,
+        1
+      ],
+      "before": {
+        "draws": 188,
+        "triangles": 2953093,
+        "mainPasses": [
+          {
+            "draws": 104,
+            "triangles": 2084625
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2088,
+          "mat3Calls": 58
+        }
+      },
+      "after": {
+        "draws": 188,
+        "triangles": 2953093,
+        "mainPasses": [
+          {
+            "draws": 104,
+            "triangles": 2084625
+          }
+        ],
+        "work": {
+          "bufferBytes": 0,
+          "bufferCalls": 0,
+          "mat3Bytes": 2052,
+          "mat3Calls": 57
+        }
+      },
+      "restoredExact": true,
+      "beforeRgbSha256": "42b2a8a7aaf5735ad9f7b98ed8957d79e6f58252dd8aa8755bbd08a2e64cb24f",
+      "afterRgbSha256": "2004c96730a6025009032450d0f4e3a43ff8af86bdea5abf7047ea656364eae6",
+      "changedPixels": 93260,
+      "affectedBright140": [
+        0,
+        0
+      ],
+      "affectedBright180": [
+        0,
+        0
+      ],
+      "affectedBright220": [
+        0,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        2944,
+        2900
+      ],
+      "affectedBrightJumps140": [
+        0,
+        0
+      ],
+      "wholeImageLuma": [
+        63.428527099859664,
+        65.83985840714033
+      ],
+      "maxAffectedLuma": [
+        135.73479999999998,
+        135.4672
+      ]
+    }
+  ],
+  "scope": "Matched native High post/MSAA walking-speed camera path, frozen recorded wind/cloud/actors/shadows; native water reflection refreshed equally for every mode; every pose has an exact restored RGB control. Session-only production-factory normal attribute swap; shader hooks, colours, geometry positions and indices remain native; changed-pixel union includes post neighbours and disocclusion, not a semantic grass mask or pure shimmer score. Synthetic cadence, not hardware timing.",
+  "candidateProgramState": [
+    {
+      "flatShaded": false,
+      "normalInput": -1,
+      "normalShadowBias": true,
+      "runnable": true,
+      "textures": 274
+    },
+    {
+      "flatShaded": false,
+      "normalInput": -1,
+      "normalShadowBias": true,
+      "runnable": true,
+      "textures": 274
+    }
+  ],
+  "firstNormalUploads": {
+    "calls": 2,
+    "bytes": 2016
+  },
+  "normalUploads": {
+    "calls": 2,
+    "bytes": 2016
+  },
+  "factorySha256": "640a7738faadddaa297c0a7482939fb9e8a1322bcd55165427aa5030711c3377",
+  "errors": []
+}

@@ -1,0 +1,77 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "fullSceneBuffer": [
+    2205,
+    1434
+  ],
+  "losslessCrop": {
+    "left": 462,
+    "top": 645,
+    "width": 1280,
+    "height": 720
+  },
+  "videos": [
+    {
+      "file": "before-crop-lossless.mkv",
+      "bytes": 19773360,
+      "frames": 13,
+      "rgbExact": true,
+      "sha256": "ba3c9a46c2eccfacdfec3aa8c801bfa82962fcb78c461976f39b5c3590528312",
+      "decodedRgbSha256": [
+        "b44a1c0c355abbe2d68c362166529d89181c1994673e69b7b3adb86d56806aed",
+        "42188956c1f221e17503529721ac0b8df546e255d7ac01611655ffa20ccf8b76",
+        "c5c70cc57453576372054f39fdd273df8d5e1084cf0819fba6a2d85ecd7c29a6",
+        "ff34bd58a0a951c40b1ad14cd1ead709e21f2fd2c053f3586b16a4a4ba411615",
+        "6a67f94e406721cab38057e2cc1bf8bee12391f6ba0334cb5fd2fcdc7c78668f",
+        "a14acf1c6c2a8f374ec88912c6f1b30b94b941a0200261327267d573aaab4014",
+        "cce24b152007e595686638cf566d9734a2454e270d4ccb5ac68e50adc65e30bd",
+        "6ebf122be60acf7e206805876704b8eefcb1b45b1d4ec7165acf7e79a157fd87",
+        "0bfd7066f1520aba364adb341c674ab274a2f01a9f6c090967ad268d61c40d20",
+        "67dda8d4d5bdf41496f188eea4d702c14f0337197af042346986e3c6a2fd8c0b",
+        "90eeb5f89ae7c5dbde93c015be1eb5b67916c349ced21cab9fea7e1c1913b711",
+        "bd2429a5c6bbbc50762b6d06d694a4e3d81e5553db60b59dcaa095eaf28ee29a",
+        "4ebd6f182c320cab33360d4118dee0a919079dee811e8f9a69916be5e41449bc"
+      ]
+    },
+    {
+      "file": "after-crop-lossless.mkv",
+      "bytes": 20403717,
+      "frames": 13,
+      "rgbExact": true,
+      "sha256": "c5f599a5a9268093dcac0ed6952a63a12c1be18b6b4a3ff843fea210edebb32f",
+      "decodedRgbSha256": [
+        "88bd9f908518412dd97e5d43aa05ae198f6391d6b95ebc96abeb008de79f0aee",
+        "241b5bb3d3e7f9a974fcd51436be3eef7f26bab01d6af1d28a5da681aecad3ce",
+        "fc2f1ffc211eb4a882eb8682969945006e7564454ecd2003895704f4b5c8c841",
+        "fad40f99b9cbd70a5987bac8e98553086f37bf9a38ade7d37bfa552e9c7cda5d",
+        "9e48f18b3fb8730506db6b073f8deb016e12095a74d96e51772d410891b9e2f0",
+        "068c8ec7190c2555dd248fc3f4a89078abfe8430d804530769651421b844e7ea",
+        "ce459ebe521bd73ec049d290fd8fa744cf2b80ea4e4ada4eb0e47edb9037c462",
+        "3e56484ce69ff566c7d15aa65111e7d14f298cbe8ffcbd79da2c3af746322333",
+        "e0e5a7a6388acb54469e5f38e36c5bd671315f16e62fca19d2afe814b075016f",
+        "ac040663bfd98cd82479c6c4ac448731151dbfa3e9bbe7e831d2fcd6193f79f9",
+        "00cf0d7d6c4e468475c745dfadf9b1a7075149e1baaa981d99cee9d36687a08e",
+        "d986d9c01da6775195242ff1f59d65874a7955536f07a47c610b5172a0f739e5",
+        "2fd0136eda0d6ffa26a586ce3618471f30e687f53f64cceab46df8622c64cf0a"
+      ]
+    }
+  ],
+  "preview": {
+    "file": "comparison-quarter-speed.mp4",
+    "sourceCadence": 60,
+    "playbackCadence": 15,
+    "loops": 3,
+    "crop": {
+      "left": 462,
+      "top": 645,
+      "width": 1280,
+      "height": 720
+    },
+    "lossy": true
+  },
+  "scope": "Every decoded native-pixel lossless grass crop is checked against the original PNG crop; these are not full-scene clips. The cropped H.264 comparison is an illustrative quarter-speed preview, not the measurement source or hardware timing."
+}

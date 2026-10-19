@@ -1,0 +1,86 @@
+{
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/README.md": {
+    "bytes": 8771,
+    "sha256": "d89255137a6692e5278144dbd66d3a10899de842aaa99a968d533ea880bd48a0"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/after-000.png": {
+    "bytes": 7038653,
+    "sha256": "a6b2dfaa5bcf05c5d393203323f47323db7b1ed28f18e6215c94ccfb5b418439"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/after-006.png": {
+    "bytes": 7135036,
+    "sha256": "8da00eebcc5747b7c5dbb9be3c11884197e7804ac83f29d36ebe36d0503a0b65"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/after-012.png": {
+    "bytes": 7310103,
+    "sha256": "f6ba70d5c7b43381398be0a6a915e957857d890812783c9701f89405a2337130"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/after-crop-lossless.mkv": {
+    "bytes": 20403717,
+    "sha256": "c5f599a5a9268093dcac0ed6952a63a12c1be18b6b4a3ff843fea210edebb32f"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/before-000.png": {
+    "bytes": 6973571,
+    "sha256": "1a990aa01cd24dc8164d6e294e060b34717b087f2145f54cf22dcde17dec6ef0"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/before-006.png": {
+    "bytes": 7080311,
+    "sha256": "7dab5d7d3b509446f149e17e352b17e223ab6dfa5b76c042c4baeb823575bbc1"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/before-012.png": {
+    "bytes": 7262402,
+    "sha256": "1e5342db5ed91864a467634b9dc517e330355560588cd872eddbdfe9b1745f77"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/before-crop-lossless.mkv": {
+    "bytes": 19773360,
+    "sha256": "ba3c9a46c2eccfacdfec3aa8c801bfa82962fcb78c461976f39b5c3590528312"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/budget-gate.md": {
+    "bytes": 758,
+    "sha256": "054cfdc8869cf426b8e6d224e9fde3aa944158a923bc0ae1eb2a09feb314e2ad"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/candidate-controls.json": {
+    "bytes": 11341,
+    "sha256": "13c55889f2193a0dcd52796c9d28d56c52453bf18f94f1581ad22c0aea3f36a5"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/comparison-quarter-speed.mp4": {
+    "bytes": 12713766,
+    "sha256": "a2dfb310520d3099d9675828605de504c0b3deb7695f1543e978b6f1f8c2d000"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/interrupted-31-pose-progress.json": {
+    "bytes": 40122,
+    "sha256": "2536e26767ff36a0bfb8af9cb24fc46c512a4f07cb423d3c95ddcf130c360fcf"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/retina-report.json": {
+    "bytes": 26451,
+    "sha256": "58ac589b3a7339bc32b415478ce016ba54bc0f3f251fdf4992900391cfcb18f0"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/summary.json": {
+    "bytes": 14629,
+    "sha256": "9287d5ba813b8434cd377df72c6868f59bf7ece92144e3bb1c0fc5a8492e4ebc"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/validation.json": {
+    "bytes": 1640,
+    "sha256": "799f4cc156609594fb9081f4e5638774ae01232f7717d2b112215596df12c085"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/video-verification.json": {
+    "bytes": 3214,
+    "sha256": "449ced18f9ac90f1e25be8d799c5f6c1ed9ce74966294c24302176b96376dff6"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/wireframe-after-candidate.png": {
+    "bytes": 565408,
+    "sha256": "9e733a6f3e5e0970ef8ab7452885b57866aebb15247fc226ff3910fee21720f1"
+  },
+  "docs/perf/GRASS-PROCEDURAL-NORMALS/wireframe-before-candidate.png": {
+    "bytes": 565408,
+    "sha256": "9e733a6f3e5e0970ef8ab7452885b57866aebb15247fc226ff3910fee21720f1"
+  },
+  "tools/measure-grass-normal-motion.mjs": {
+    "bytes": 4964,
+    "sha256": "356718cd26b5057ab4b90f11e71f6959318a19e0c8d98bee51750a8ed0d32167"
+  },
+  "tools/encode-grass-normal-proof.mjs": {
+    "bytes": 4092,
+    "sha256": "c50a8b8076985578e791185154e290c35b339408b2ec45d7ed48829b0d498ca9"
+  }
+}
