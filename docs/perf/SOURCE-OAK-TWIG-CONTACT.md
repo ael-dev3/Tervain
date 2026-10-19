@@ -45,7 +45,7 @@ Near total stays **19,719 triangles**. All source twig tips, original wood/colli
 ![Isolated wood before — diagnostic](proofs/source-oak-roots/diagnostic/before-0.png)
 ![Isolated wood after — diagnostic](proofs/source-oak-roots/diagnostic/after-0.png)
 
-**Native full scene:** three High-preset road-player fixtures, cameras three metres behind the player and above terrain, fixed wind state, hour 15. Player and camera collider checks pass. These keep the game's materials, lighting, post/MSAA pipeline and other geometry. Every restored baseline matches exactly. Foreground pine foliage occludes the target joins: these views do **not** establish that all three root caps are visible or that crown quality is finished. They are inspection poses, not recorded input-driven walks or animated-wind verification.
+**Native full scene:** three High-preset road-player fixtures, cameras three metres behind the player and above terrain, fixed wind state, hour 15. Player and camera collider checks pass. These keep the game's materials, lighting, post/MSAA pipeline and other geometry. Every restored baseline matches exactly. Whole-frame changed pixels are 6 / 54 / 24; changed pixels in the 101×101 region around each aimed-at root are **0 / 0 / 0**. Those numbers are not a direct-root visibility pass. Foreground pine foliage occludes the target joins: these views do **not** establish that all three root caps are visible or that crown quality is finished. They are inspection poses, not recorded input-driven walks or animated-wind verification.
 
 [Full native before/after/restored images and measured counters](proofs/source-oak-roots/native/report.json), [camera/player controls and opaque material check](proofs/source-oak-roots/camera-controls.json), [road fixtures](proofs/source-oak-roots/road-views.json). Initial first-person fixture images were rejected because the camera entered the hero; they are not retained as proof.
 
@@ -60,7 +60,7 @@ Near total stays **19,719 triangles**. All source twig tips, original wood/colli
 | Per-frame JS / dynamic upload code | unchanged |
 | Initialization | one additional source-template wood rebuild; not benchmarked |
 
-No hardware FPS, GPU timing or heat improvement is claimed. The stock exact-head budget is pending; no PASS is claimed for it here. The production PR is stacked on #696 for the shared repair helper.
+No hardware FPS, GPU timing or heat improvement is claimed. The stock exact-head budget passed, with allowance 0 and actual exit 0; its producer/sampler were unchanged. Two same-revision live probes and four completed samples per probe give **285 / 285 maximum draws, 3,048,306 / 3,048,306 maximum triangles, and zero console errors**, live b317734 / candidate fe4cc3ed5. `play-gate: PASS fe4cc3ed5`. [Scrubbed receipt](proofs/source-oak-roots/budget.md). The production PR is stacked on #696 for the shared repair helper.
 
 ## Reproduce
 
