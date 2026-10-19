@@ -1,0 +1,735 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "rasterSuppressed": false,
+    "samples": 4
+  },
+  "rows": [
+    {
+      "x": -7,
+      "z": 45,
+      "yaw": 0,
+      "cases": 42,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 1,
+            "accepted": 4800
+          },
+          "after": {
+            "ms": 0.8999999910593033,
+            "accepted": 4800
+          }
+        },
+        {
+          "after": {
+            "ms": 0.8999999910593033,
+            "accepted": 4800
+          },
+          "before": {
+            "ms": 1,
+            "accepted": 4800
+          }
+        },
+        {
+          "before": {
+            "ms": 0.9000000059604645,
+            "accepted": 4800
+          },
+          "after": {
+            "ms": 2,
+            "accepted": 4800
+          }
+        },
+        {
+          "after": {
+            "ms": 0.8999999910593033,
+            "accepted": 4800
+          },
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 4800
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 4800
+          },
+          "after": {
+            "ms": 0.8999999910593033,
+            "accepted": 4800
+          }
+        },
+        {
+          "after": {
+            "ms": 0.800000011920929,
+            "accepted": 4800
+          },
+          "before": {
+            "ms": 0.699999988079071,
+            "accepted": 4800
+          }
+        },
+        {
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 4800
+          },
+          "after": {
+            "ms": 0.699999988079071,
+            "accepted": 4800
+          }
+        },
+        {
+          "after": {
+            "ms": 0.800000011920929,
+            "accepted": 4800
+          },
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 4800
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4800
+          },
+          "after": {
+            "ms": 0.7999999970197678,
+            "accepted": 4800
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 227,
+          "triangles": 2328434
+        },
+        "after": {
+          "draws": 227,
+          "triangles": 2328434
+        },
+        "restore": {
+          "draws": 227,
+          "triangles": 2328434
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "c1bfc13c975e5eb9908d338608155bd42f3ce48acc4ac7267475a9a60a2752f1",
+        "after": "c1bfc13c975e5eb9908d338608155bd42f3ce48acc4ac7267475a9a60a2752f1",
+        "restore": "c1bfc13c975e5eb9908d338608155bd42f3ce48acc4ac7267475a9a60a2752f1"
+      }
+    },
+    {
+      "x": -7,
+      "z": 57,
+      "yaw": 0.5,
+      "cases": 38,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          },
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 4200
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 4200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 4200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 4200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          },
+          "after": {
+            "ms": 0.6000000089406967,
+            "accepted": 4200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          },
+          "before": {
+            "ms": 0.6000000089406967,
+            "accepted": 4200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 4200
+          },
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 4200
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 207,
+          "triangles": 1755760
+        },
+        "after": {
+          "draws": 207,
+          "triangles": 1755760
+        },
+        "restore": {
+          "draws": 207,
+          "triangles": 1755760
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "e4474f891644be5ee6b162a0dc8a712f044134e69d5bdec6c902a50de4b562b8",
+        "after": "e4474f891644be5ee6b162a0dc8a712f044134e69d5bdec6c902a50de4b562b8",
+        "restore": "e4474f891644be5ee6b162a0dc8a712f044134e69d5bdec6c902a50de4b562b8"
+      }
+    },
+    {
+      "x": 18,
+      "z": 20,
+      "yaw": 1,
+      "cases": 46,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 1,
+            "accepted": 6000
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6000
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7999999970197678,
+            "accepted": 6000
+          },
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 6000
+          }
+        },
+        {
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 6000
+          },
+          "after": {
+            "ms": 0.7999999970197678,
+            "accepted": 6000
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6000
+          },
+          "before": {
+            "ms": 0.699999988079071,
+            "accepted": 6000
+          }
+        },
+        {
+          "before": {
+            "ms": 0.9000000059604645,
+            "accepted": 6000
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 6000
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6000
+          },
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 6000
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 6000
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6000
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 6000
+          },
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 6000
+          }
+        },
+        {
+          "before": {
+            "ms": 0.699999988079071,
+            "accepted": 6000
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6000
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 279,
+          "triangles": 3331372
+        },
+        "after": {
+          "draws": 279,
+          "triangles": 3331372
+        },
+        "restore": {
+          "draws": 279,
+          "triangles": 3331372
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "45e95a56e1cb8d3ef56c6b64dabd1067cad2f004d7bc334122a1e6c0d5c9ebbf",
+        "after": "45e95a56e1cb8d3ef56c6b64dabd1067cad2f004d7bc334122a1e6c0d5c9ebbf",
+        "restore": "45e95a56e1cb8d3ef56c6b64dabd1067cad2f004d7bc334122a1e6c0d5c9ebbf"
+      }
+    },
+    {
+      "x": 46,
+      "z": 68,
+      "yaw": 2,
+      "cases": 36,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 5400
+          },
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 5400
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 5400
+          },
+          "before": {
+            "ms": 0.6000000089406967,
+            "accepted": 5400
+          }
+        },
+        {
+          "before": {
+            "ms": 0.5999999940395355,
+            "accepted": 5400
+          },
+          "after": {
+            "ms": 0.6000000089406967,
+            "accepted": 5400
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 5400
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 5400
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 5400
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 5400
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5,
+            "accepted": 5400
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 5400
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 5400
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 5400
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5,
+            "accepted": 5400
+          },
+          "before": {
+            "ms": 0.5999999940395355,
+            "accepted": 5400
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 5400
+          },
+          "after": {
+            "ms": 0.5,
+            "accepted": 5400
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 270,
+          "triangles": 3147687
+        },
+        "after": {
+          "draws": 270,
+          "triangles": 3147687
+        },
+        "restore": {
+          "draws": 270,
+          "triangles": 3147687
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "b7aaa9e6f01492c50e670c28d5db8e5ed84d54cd879444d6e9e554185f0620ac",
+        "after": "b7aaa9e6f01492c50e670c28d5db8e5ed84d54cd879444d6e9e554185f0620ac",
+        "restore": "b7aaa9e6f01492c50e670c28d5db8e5ed84d54cd879444d6e9e554185f0620ac"
+      }
+    },
+    {
+      "x": -210,
+      "z": 0,
+      "yaw": 0.8,
+      "cases": 44,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          },
+          "after": {
+            "ms": 0.699999988079071,
+            "accepted": 7200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          },
+          "before": {
+            "ms": 0.9000000059604645,
+            "accepted": 7200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 7200
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          },
+          "before": {
+            "ms": 0.699999988079071,
+            "accepted": 7200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 7200
+          },
+          "after": {
+            "ms": 0.699999988079071,
+            "accepted": 7200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          },
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 7200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 7200
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          },
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 7200
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 7200
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 7200
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 417,
+          "triangles": 6058753
+        },
+        "after": {
+          "draws": 417,
+          "triangles": 6058753
+        },
+        "restore": {
+          "draws": 417,
+          "triangles": 6058753
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "45b4984efc0c8d8c6dce6ddafc46cf52add5b88ec9b9bc6762d7474af1e96df0",
+        "after": "45b4984efc0c8d8c6dce6ddafc46cf52add5b88ec9b9bc6762d7474af1e96df0",
+        "restore": "45b4984efc0c8d8c6dce6ddafc46cf52add5b88ec9b9bc6762d7474af1e96df0"
+      }
+    },
+    {
+      "x": -210,
+      "z": 0,
+      "yaw": 3,
+      "cases": 44,
+      "mismatches": 0,
+      "timings": [
+        {
+          "before": {
+            "ms": 1,
+            "accepted": 6600
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        },
+        {
+          "after": {
+            "ms": 1.0999999940395355,
+            "accepted": 6600
+          },
+          "before": {
+            "ms": 2.4000000059604645,
+            "accepted": 6600
+          }
+        },
+        {
+          "before": {
+            "ms": 1.0999999940395355,
+            "accepted": 6600
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        },
+        {
+          "after": {
+            "ms": 0.7999999970197678,
+            "accepted": 6600
+          },
+          "before": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        },
+        {
+          "before": {
+            "ms": 0.9000000059604645,
+            "accepted": 6600
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        },
+        {
+          "after": {
+            "ms": 0.699999988079071,
+            "accepted": 6600
+          },
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 6600
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 6600
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        },
+        {
+          "after": {
+            "ms": 0.5999999940395355,
+            "accepted": 6600
+          },
+          "before": {
+            "ms": 0.800000011920929,
+            "accepted": 6600
+          }
+        },
+        {
+          "before": {
+            "ms": 0.7999999970197678,
+            "accepted": 6600
+          },
+          "after": {
+            "ms": 0.7000000029802322,
+            "accepted": 6600
+          }
+        }
+      ],
+      "captures": {
+        "before": {
+          "draws": 228,
+          "triangles": 3682147
+        },
+        "after": {
+          "draws": 228,
+          "triangles": 3682147
+        },
+        "restore": {
+          "draws": 228,
+          "triangles": 3682147
+        }
+      },
+      "exactRgb": true,
+      "pngSha256": {
+        "before": "4fad1d6f91f8340a857b9c0c9d06bb8f90b6b991ea4584f1bbff06e739280588",
+        "after": "4fad1d6f91f8340a857b9c0c9d06bb8f90b6b991ea4584f1bbff06e739280588",
+        "restore": "4fad1d6f91f8340a857b9c0c9d06bb8f90b6b991ea4584f1bbff06e739280588"
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "Native High source geometry and tile transforms. Paired culling-kernel timing, not whole-frame CPU or hardware GPU timing. Additional identical control cull applied after native hooks; real post/MSAA raster. Fixed conservative 4 m horizontal extent in both compared kernels; existing native tile culling remains active.",
+  "candidate": "4a34eeb7d",
+  "kernelMsPerTileSet": {
+    "beforeMean": 0.00269753086714097,
+    "afterMean": 0.0023580246878626906,
+    "beforeP95": 0.0033333333333333335,
+    "afterP95": 0.0029999999701976776
+  }
+}
