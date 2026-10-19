@@ -1,6 +1,7 @@
 import fs from 'node:fs';import assert from 'node:assert/strict';import sharp from 'sharp';
 import {liveProofPage} from './live-proof-page.mjs';import {normalizeGrassPhaseControls,applyGrassPhaseControls} from './grass-phase-controls.mjs';import {changeComponents} from './foliage-motion-metric.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));const out=args.out??'walk-popin',frames=Number(args.frames??31),step=.13;
+assert(Number.isInteger(frames)&&frames>=3&&frames<=241,'Require 3–241 retained frames');assert(['meadow','woods'].includes(args.route??'meadow'),'Unknown route');
 fs.mkdirSync(out,{recursive:true});fs.rmSync(out+'/report.json',{force:true});
 const phase=normalizeGrassPhaseControls({hour:15,cloudTime:0,wind:{time:3,direction:[.8,.6,.24,.42],scroll:[0,0,0,0]},sway:3,gradeTime:0},{});
 const page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'high',hour:15,w:960,h:540});

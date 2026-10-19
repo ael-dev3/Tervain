@@ -1,6 +1,6 @@
 <!doctype html><meta charset="utf-8"><script type="module">
 addEventListener('error',e=>window.fixtureError=e.message);addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));
-const before=await import('/@baseline-grass'),after=await import('/src/presentation/grass/grassMaterial.ts');
+const before=await import('/@baseline-grass'),after=await import('/@candidate-grass');
 const gl=document.createElement('canvas').getContext('webgl2');if(!gl)throw Error('WebGL2 required');
 const cases=[];for(const cov of [0,.01,.2,.5,.99,1])for(const t of [0,.15,.5,.9,1])for(const sheen of [0,.3,2])for(const light of [0,.2,1])cases.push({cov,t,sheen,light});
 const input=Float32Array.from(cases.flatMap(c=>[c.cov,c.t,c.sheen,c.light]));

@@ -20,3 +20,16 @@ At each new camera pose, render the previous visibility roster, then run the nat
 Use `tools/repro-walk-popin.mjs --url BUILD_URL --route meadow --frames 31 --out OUTPUT`, then `tools/summarize-walk-popin.mjs OUTPUT` and `tools/encode-walk-popin.mjs OUTPUT`. The current tool deliberately hides/restores the forest and ground-cover groups before the retained walk and requires the metric to detect that positive control without restore drift. The woods route is also supported. Tools default to the public Pages URL and permit a preview URL. Startup helpers may suppress drawing during load only; retained rasters reject suppression and GL errors.
 
 No claim that player-reported pop-in is closed. A cheap streaming/culling fix was not reproduced on this short meadow route. GPU-only hand-over effects and the low-sun speck path remain separate investigations.
+
+## Completed woods result
+
+Thirteen samples span 1.56 m from (−55, terrain+1.7, 70) toward −X while rotating −105°→−75°. Same default High settings, buffer, synthetic 20 Hz sampling, normal view ranges and method as above.
+
+- **0 central appearance candidates, 0/m**; all repeated updated renders exact; zero console errors.
+- Deliberately hide the forest and grass, then restore them: the positive control detects **537 changed components / 257,503 changed pixels**, and the restored image is RGB-exact.
+- Raw whole-frame ≥20 differences contain **two ≥16-pixel components**: 18 pixels at x=2…10, and 23 pixels at x=0…9. These left-edge arrivals are outside the central crop and consistent with normal view entrance during a turn. Two other frames change one ≥20 pixel each. Retained stale/updated pairs at samples 4 and 7 expose the edge changes; they are not silently dropped from the source records.
+- Whole-frame differences of any size peak at 86 pixels; maximum channel delta 68. This result is not whole-frame identity.
+- Maximum retained frame: 470 draws / 7,966,595 triangles. These are observed live route costs, not a claim that the separate canonical budget-gate pose covers this view or that software timing predicts a Mac.
+- Full-size lossless woods video is decoded frame-for-frame and verified against source RGB.
+
+Neither short route reproduced a central CPU streaming/culling pop. These measurements do not justify a product fade/range/density change or close shader-only pop-in. The low-sun motion investigation remains separate.

@@ -1,0 +1,192 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "route": {
+    "kind": "woods",
+    "frames": 13,
+    "metres": 1.56,
+    "speed": 2.6,
+    "cadence": 20,
+    "yawDegrees": 30
+  },
+  "buffer": [
+    960,
+    540
+  ],
+  "msaa": 4,
+  "quality": "high",
+  "treeDetailByDistance": false,
+  "positiveControl": {
+    "events": 537,
+    "changedPixels": 257503,
+    "restoredExact": true
+  },
+  "method": {
+    "roi": {
+      "left": 96,
+      "top": 54,
+      "width": 768,
+      "height": 432
+    },
+    "channelThreshold": 20,
+    "minimumComponentPixels": 16,
+    "scope": "Same-camera before/after visibility-update candidates of either sign, not semantic objects. Excludes frame-to-frame camera motion by retaining the new camera pose in both captures. Stable render repeats must match. Does not exclude shader-only fade/raster changes or unseen routes."
+  },
+  "candidateEvents": 0,
+  "eventsPerMetre": 0,
+  "allRepeatsExact": true,
+  "allSamePoseExact": false,
+  "maximumChangedPixelsPerSample": 86,
+  "maximumWholeFrameChannelDelta": 68,
+  "maxDraws": 470,
+  "maxTriangles": 7966595,
+  "consoleErrors": [],
+  "rows": [
+    {
+      "frame": 0,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "fcd02aaa0f45cd2bde27a166afcaa637b013eeebfd962e5c83684bc811de51c7"
+    },
+    {
+      "frame": 1,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 7,
+      "maxChannelDelta": 11,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "9a094f7e04f8d41dd4c2f5bae8bfbe22f025f4ab3fb6fd04bd7dfaf2b341db64"
+    },
+    {
+      "frame": 2,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 12,
+      "maxChannelDelta": 9,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "a49caaa5d0db97fa4cada651f57111682fe965cba04465f47dde383acc30b458"
+    },
+    {
+      "frame": 3,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 10,
+      "maxChannelDelta": 9,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "c0e585bb3eeebb64633586327aca6eae76bfbd68e785692dce1fd500e1280a94"
+    },
+    {
+      "frame": 4,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 69,
+      "maxChannelDelta": 68,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "b2d69b6911bbbe07e2778ab29f106de0ea87579d29e61ec809835163ecc32c0c"
+    },
+    {
+      "frame": 5,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 13,
+      "maxChannelDelta": 9,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "34d47e93210ccfbd3000746d2c7fb742143b0a83496d3eda7f64af20472a8594"
+    },
+    {
+      "frame": 6,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 1,
+      "changedPixels": 16,
+      "maxChannelDelta": 35,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "46efacbbf454c9dea7b31ce0359a1dc6a4952e67bb02f60001d1d2c9a317f6e2"
+    },
+    {
+      "frame": 7,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 86,
+      "maxChannelDelta": 60,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "dfa66844fc25f8ee40e03765983ccade5d60b4c5fdcf1813458e81c38261f583"
+    },
+    {
+      "frame": 8,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 8,
+      "maxChannelDelta": 8,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "2fa89b98d3773b2f3f749f0a62a5e3c306d7d0c4429a0bebab9d88e8b52a8b8a"
+    },
+    {
+      "frame": 9,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 1,
+      "changedPixels": 14,
+      "maxChannelDelta": 29,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "63001beea656b9d514839035d092da0edbfcd0bd6474385b3ecc5c6a03fc2428"
+    },
+    {
+      "frame": 10,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 12,
+      "maxChannelDelta": 19,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "8b146734b3c3d30895de3e51ee0177f36a6e0d3c70af6ec5bf6940a798fdaca4"
+    },
+    {
+      "frame": 11,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 5,
+      "maxChannelDelta": 14,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "41ed45efabc680e62462fd34e4e656c3e2aa1d17fff31a01118615ef697ba4b6"
+    },
+    {
+      "frame": 12,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 15,
+      "maxChannelDelta": 16,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "642e3fd94936a6f8cd6884080a3b660e7e964c264a16c49e73bb22a386a18f66"
+    }
+  ]
+}
