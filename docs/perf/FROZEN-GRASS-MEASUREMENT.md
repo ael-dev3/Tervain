@@ -39,3 +39,11 @@ This is a **mixed-region repeatability control**, not 521 grass glints or proof 
 The stock software budget on head `d5b2ce053` passes: live **b317734** / candidate **d5b2ce053**, **285 / 285 draws**, **3,048,306 / 3,048,306 triangles**, **0 / 0 errors**. Two same-revision live probes, four completed frames per probe, allowance 0, actual exit 0. Producer and sampler unchanged. [Budget receipt](proofs/grass-frozen/budget.json). This is a different camera from the measurement fixture.
 
 `play-gate: PASS d5b2ce053`
+
+## Preview URL and reference comparison
+
+Ran the same four-frame/two-launch profile against the compiled `d5b2ce053` preview using `--url`, `--head` and `--reference` pointing to the completed live capture. Both preview sequences have the same 521 bright coordinates, zero mean/p95/max variance and zero >60 jumps. Its two cold launches match all 1,517,040 ROI pixels exactly. The preview/live reference comparison likewise has **zero changed pixels**, zero bright-membership changes and Jaccard **1**. Native draws/triangles remain **296 / 5,949,281** in every retained preview frame, zero errors.
+
+[Complete preview/reference report](proofs/grass-frozen/preview/report.json), [preview first launch](proofs/grass-frozen/preview/run-0/0000.png), [preview independent launch](proofs/grass-frozen/preview/run-1/0000.png). All captured frames and source fingerprints are retained. This verifies the generic build-URL/reference path; it is an A/A production-rendering control because this PR changes no application code.
+
+The zero noise floor is measured on this software renderer. Hardware users should establish their own A/A baseline on the same browser/GPU/profile before comparing a candidate. No cross-renderer pixel-identity or hardware timing claim.
