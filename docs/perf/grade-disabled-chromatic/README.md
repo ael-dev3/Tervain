@@ -4,7 +4,7 @@ The High gameplay look has chromatic separation set to zero. The final colour pa
 
 Actual production fragment shaders are compared on a deterministic HDR half-float texture. Sixteen nonempty pixel comparisons cover zero/nonzero chromatic separation, sharpening off/on, day/dusk and underwater off/on. Every comparison is pixel-identical. Both fixture screenshots are included.
 
-Run 1, 40 warmed balanced pairs at 2205×1434: synchronized final-pass wall mean **143.7775→119.505 ms**, p95 **164.5→130.2 ms**. These SwiftShader numbers include actual raster completion, forced by a one-pixel readback; they are not hardware GPU time, Mac FPS, whole-game timing or a heat measurement. The earlier submission-only calibration did not synchronize raster completion and is deliberately excluded. Repeat runs and native scene/budget receipts will be attached after completion.
+Run 1, 40 warmed balanced pairs at 2205×1434: synchronized final-pass wall mean **143.7775→119.505 ms**, p95 **164.5→130.2 ms**. These SwiftShader numbers include actual raster completion, forced by a one-pixel readback; they are not hardware GPU time, Mac FPS, whole-game timing or a heat measurement. The earlier submission-only calibration did not synchronize raster completion and is deliberately excluded. The completed repeat, native scene and budget receipts below retain every measured result.
 
 ```sh
 node tools/repro-grade-disabled-chromatic-fixture.mjs output
@@ -36,3 +36,20 @@ The report retains each synchronized whole-scene software timing, including two 
 
 
 Run 3 (all 40 balanced pairs retained): mean **212.1325→179.345 ms**, p95 **251.6→252.3 ms**. Its p95 is slightly worse (+0.7 ms); the three software runs do **not** establish a consistent tail-latency improvement. All three means are lower, all repeated pixel controls remain exact, and source-level texture operations are reduced. No further timing reruns are selected to replace this result.
+
+
+## Exact-head budget and frame timings
+
+[Gate output](budget.txt) · [all timing samples](budget-timings.json). **PASS** on head `6b1b05ccc1e414790464ca94d7d56bcd46153780` against published `b317734`, zero triangle allowance. Both sides have **285 draws / 3,048,306 triangles / zero console errors**. The standard scene differs from the five pixel-proof poses; those counts should not be combined.
+
+The read-only observer adds the actual PerfMeter interval and CPU fields to the existing four completed samples per probe. Its stock gate disclaimer is retained verbatim and describes the normal uninstrumented output; the observer supplies these additional CPU/interval fields, not hardware GPU timing. Thresholds and PASS calculation are unchanged.
+
+| Probe (four completed frames each) | Mean frame interval ms | Max interval ms | Mean frame CPU ms |
+| --- | ---: | ---: | ---: |
+| liveA | 19736.73 | 32515.30 | 83.53 |
+| liveB | 11824.52 | 19265.80 | 48.50 |
+| candidate | 14982.75 | 18266.00 | 69.80 |
+
+These software-renderer intervals are dominated by raster/scheduler waits, and the two live probes differ substantially. The candidate lies between them. **No whole-frame, tail-latency, 60-FPS or Mac heat improvement is inferred.** The repeatable source-level saving is two scene texture operations in the disabled separation block; the balanced final-pass experiment measures that scope separately.
+
+CI build/test/software-WebGL jobs were queued when this receipt was posted. Local type-check/build, 98 focused tests, all 16 shader configurations on each of three runs, and all five native pixel pairs passed. Queued CI is not represented as passed.

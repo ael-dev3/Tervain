@@ -1,0 +1,103 @@
+{
+  "complete": true,
+  "head": "6b1b05ccc1e414790464ca94d7d56bcd46153780",
+  "runs": [
+    {
+      "label": "liveA",
+      "revision": "b317734",
+      "samples": [
+        {
+          "intervalMs": 13782.800000000017,
+          "cpuMs": 163.80000001192093
+        },
+        {
+          "intervalMs": 11932.899999999994,
+          "cpuMs": 55.29999999701977
+        },
+        {
+          "intervalMs": 32515.29999999999,
+          "cpuMs": 39.20000000298023
+        },
+        {
+          "intervalMs": 20715.900000000023,
+          "cpuMs": 75.80000001192093
+        }
+      ],
+      "intervalMs": {
+        "mean": 19736.725000000006,
+        "max": 32515.29999999999,
+        "samples": 4
+      },
+      "cpuMs": {
+        "mean": 83.52500000596046,
+        "max": 163.80000001192093,
+        "samples": 4
+      }
+    },
+    {
+      "label": "liveB",
+      "revision": "b317734",
+      "samples": [
+        {
+          "intervalMs": 9733,
+          "cpuMs": 87.80000001192093
+        },
+        {
+          "intervalMs": 19265.79999999999,
+          "cpuMs": 26.5
+        },
+        {
+          "intervalMs": 33.29999999998836,
+          "cpuMs": 12.900000005960464
+        },
+        {
+          "intervalMs": 18266,
+          "cpuMs": 66.80000001192093
+        }
+      ],
+      "intervalMs": {
+        "mean": 11824.524999999994,
+        "max": 19265.79999999999,
+        "samples": 4
+      },
+      "cpuMs": {
+        "mean": 48.50000000745058,
+        "max": 87.80000001192093,
+        "samples": 4
+      }
+    },
+    {
+      "label": "candidate",
+      "revision": "6b1b05ccc",
+      "samples": [
+        {
+          "intervalMs": 18266,
+          "cpuMs": 86.79999999701977
+        },
+        {
+          "intervalMs": 9499.599999999977,
+          "cpuMs": 50.1000000089407
+        },
+        {
+          "intervalMs": 16866,
+          "cpuMs": 85.20000000298023
+        },
+        {
+          "intervalMs": 15299.400000000023,
+          "cpuMs": 57.1000000089407
+        }
+      ],
+      "intervalMs": {
+        "mean": 14982.75,
+        "max": 18266,
+        "samples": 4
+      },
+      "cpuMs": {
+        "mean": 69.80000000447035,
+        "max": 86.79999999701977,
+        "samples": 4
+      }
+    }
+  ],
+  "scope": "Read-only observer adds the native PerfMeter completed-frame interval/CPU fields to the stock gate; pass/fail rules unchanged. Four frames per probe, software rendering. Not hardware GPU timing, steady-state FPS, or proof of a whole-frame improvement. The stock disclaimer in the verbatim gate output refers to its normal uninstrumented output."
+}
