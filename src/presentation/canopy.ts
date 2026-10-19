@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { components, contactDistances, detachedClumpSet } from '../diagnostics/canopyConnectivity';
+import { components, contactDistances, detachedClumpSet, farClumps } from '../diagnostics/canopyConnectivity';
 
 /**
  * Cluster canopies for broadleaf trees (A134).
@@ -600,36 +600,63 @@ export function cullDetachedCards(canopy: THREE.BufferGeometry, wood: THREE.Buff
 /**
  * Detached clumps (0.0.25): the clumps the canopy audit counts as detached (shared component-graph rule) are translated
  * `pull` of the way onto their nearest wood point. No card is removed; each clump keeps its size and orientation.
+ * Optional `verticalGap` checks untouched clumps again, with a converted world gap, and only accepts vertical
+ * translations that improve every member. The original projected layout is preserved for groundcover shade.
  */
-export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, gap = 0.75, pull = 0.9): { geometry: THREE.BufferGeometry; moved: number } {
-  const position = canopy.getAttribute("position");
+export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, gap = 0.75, pull = 0.9, verticalGap?: number): { geometry: THREE.BufferGeometry; moved: number } {
+  const position = canopy.getAttribute('position');
   if (!position || !canopy.index) return { geometry: canopy, moved: 0 };
-  const set = detachedClumpSet(canopy, wood, reach, gap);
-  const anchor = woodAnchor(wood);
-  const groups = new Map<number, number[]>();
-  set.far.forEach((far, i) => { if (!far) return; const root = set.clumpOf[i]!; const list = groups.get(root); if (list) list.push(i); else groups.set(root, [i]); });
+  const set = detachedClumpSet(canopy, wood, reach, gap), anchor = woodAnchor(wood);
+  const collect = (far: readonly boolean[], clumpOf: readonly number[]) => {
+    const groups = new Map<number, number[]>();
+    far.forEach((isFar, i) => { if (!isFar) return; const key = clumpOf[i]!, members = groups.get(key); if (members) members.push(i); else groups.set(key, [i]); });
+    return groups;
+  };
+  const movedParts = verticalGap === undefined ? null : new Set<number>();
   const out = new Float32Array(position.count * 3);
   for (let v = 0; v < position.count; v++) out.set([position.getX(v), position.getY(v), position.getZ(v)], v * 3);
-  const mid = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3(), p = new THREE.Vector3();
+  const mid = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3(), p = new THREE.Vector3(), supportHit = new THREE.Vector3();
   let moved = 0;
-  for (const members of groups.values()) {
+  const translate = (members: number[], vertical: boolean) => {
     const vertices = members.flatMap(i => set.parts[i]!.vertices ?? []);
-    if (!vertices.length) continue;
+    if (!vertices.length) return;
     mid.set(0, 0, 0);
     for (const v of vertices) mid.add(p.fromBufferAttribute(position, v));
     mid.multiplyScalar(1 / vertices.length);
-    // Only a clump more than its own radius from every branch moves; a clump nearer than that keeps its place.
     let radius = 0;
     for (const v of vertices) radius = Math.max(radius, p.fromBufferAttribute(position, v).distanceTo(mid));
-    const gapToWood = anchor(mid, hit);
-    if (!(gapToWood > radius)) continue;
+    const distance = anchor(mid, hit);
+    if (!(distance > (vertical ? Math.min(radius, reach) : radius))) return;
     delta.copy(hit).sub(mid).multiplyScalar(pull);
-    for (const v of vertices) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
+    if (vertical) {
+      delta.x = 0; delta.z = 0;
+      // Accept only a strict improvement for every member; do not trade one supported card for another.
+      for (const i of members) {
+        let before = Infinity, after = Infinity;
+        for (const sample of set.parts[i]!.samples) {
+          before = Math.min(before, anchor(sample, supportHit));
+          after = Math.min(after, anchor(p.copy(sample).add(delta), supportHit));
+        }
+        if (!(after < before - 1e-5)) return;
+      }
+      // Preserve the projected canopy and grass shade input bit-for-bit, including signed zeros.
+      for (const v of vertices) out[v * 3 + 1] = out[v * 3 + 1]! + delta.y;
+    } else {
+      for (const v of vertices) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
+      if (movedParts) for (const i of members) movedParts.add(i);
+    }
     moved++;
+  };
+  for (const members of collect(set.far, set.clumpOf).values()) translate(members, false);
+  if (verticalGap !== undefined) {
+    // Previously moved parts retain the existing layout. Reuse unchanged parts and their wood-contact results.
+    const contacts = set.contacts.map((distance, i) => movedParts!.has(i) ? 0 : distance);
+    const residual = farClumps(set.parts, contacts, reach, verticalGap, Math.max(reach, verticalGap));
+    for (const members of collect(residual.far, residual.clumpOf).values()) translate(members, true);
   }
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(out, 3));
-  for (const name of ["normal", "uv"]) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
+  for (const name of ['normal', 'uv']) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
   geometry.setIndex(canopy.index.clone());
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, snappedClumps: moved };
