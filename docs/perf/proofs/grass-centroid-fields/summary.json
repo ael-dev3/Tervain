@@ -1,0 +1,54 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "buffer": [
+    2205,
+    1434
+  ],
+  "effectiveDpr": 1.5,
+  "route": {
+    "kind": "strafe",
+    "x": 6,
+    "z": 26,
+    "frames": 3,
+    "stepMetres": 0.65,
+    "metres": 1.3,
+    "frozenWind": true,
+    "hour": 11.5
+  },
+  "summaries": {
+    "infoCentroid": {
+      "affectedPixelObservations": 26055,
+      "baselineWarm140": 2261,
+      "candidateWarm140": 2266,
+      "baselineBright180": 53,
+      "candidateBright180": 51,
+      "baselineBright220": 0,
+      "candidateBright220": 0,
+      "baselineJumps60": 5125,
+      "candidateJumps60": 5129,
+      "baselineBrightJumps60": 119,
+      "candidateBrightJumps60": 117,
+      "maxBaselineLuminance": 203.46439999999998,
+      "maxCandidateLuminance": 203.39219999999997
+    },
+    "normalCentroid": {
+      "affectedPixelObservations": 0,
+      "baselineWarm140": 0,
+      "candidateWarm140": 0,
+      "baselineBright180": 0,
+      "candidateBright180": 0,
+      "baselineBright220": 0,
+      "candidateBright220": 0,
+      "baselineJumps60": 0,
+      "candidateJumps60": 0,
+      "baselineBrightJumps60": 0,
+      "candidateBrightJumps60": 0,
+      "maxBaselineLuminance": null,
+      "maxCandidateLuminance": null
+    }
+  },
+  "scope": "Observations, not unique pixels. Temporal domain is the union of interpolation-affected pixels in consecutive poses; camera motion and occlusion remain included. All same-pose controls are exact. No visual-quality or hardware timing PASS."
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "file": "baseline-0.png",
+    "rgbSha256": "c3d33d6cab8f2efae3b28fdeb42a519de1e7e55959d0c5b324f258e7489da18e"
+  },
+  {
+    "file": "baseline-1.png",
+    "rgbSha256": "3f7a1e44b41392bd74c798418ec2e6a4434e591d81cca6001743197f4ed72c0e"
+  },
+  {
+    "file": "baseline-2.png",
+    "rgbSha256": "f6691a55639d1d2898a57270b223f0767e47de3b8b7a09050419101458e7fe09"
+  },
+  {
+    "file": "inactive-control.png",
+    "rgbSha256": "c3d33d6cab8f2efae3b28fdeb42a519de1e7e55959d0c5b324f258e7489da18e"
+  },
+  {
+    "file": "infoCentroid-0.png",
+    "rgbSha256": "17e05461dc3620aacf96b9c48c5bf09ff02ffd483a2ec7d0e5cf662a93879b44"
+  },
+  {
+    "file": "infoCentroid-1.png",
+    "rgbSha256": "d0ade1513636d343cf2a49c55aa9eae56f9e566954638e2bb4e343477932b4c3"
+  },
+  {
+    "file": "infoCentroid-2.png",
+    "rgbSha256": "bec0718172e95b4fed4fe5a8f21607862a72eea5aacbd39190c2022903141979"
+  },
+  {
+    "file": "normalCentroid-0.png",
+    "rgbSha256": "c3d33d6cab8f2efae3b28fdeb42a519de1e7e55959d0c5b324f258e7489da18e"
+  },
+  {
+    "file": "normalCentroid-1.png",
+    "rgbSha256": "3f7a1e44b41392bd74c798418ec2e6a4434e591d81cca6001743197f4ed72c0e"
+  },
+  {
+    "file": "normalCentroid-2.png",
+    "rgbSha256": "f6691a55639d1d2898a57270b223f0767e47de3b8b7a09050419101458e7fe09"
+  },
+  {
+    "file": "original.png",
+    "rgbSha256": "c3d33d6cab8f2efae3b28fdeb42a519de1e7e55959d0c5b324f258e7489da18e"
+  },
+  {
+    "file": "repeat-0.png",
+    "rgbSha256": "c3d33d6cab8f2efae3b28fdeb42a519de1e7e55959d0c5b324f258e7489da18e"
+  },
+  {
+    "file": "repeat-1.png",
+    "rgbSha256": "3f7a1e44b41392bd74c798418ec2e6a4434e591d81cca6001743197f4ed72c0e"
+  },
+  {
+    "file": "repeat-2.png",
+    "rgbSha256": "f6691a55639d1d2898a57270b223f0767e47de3b8b7a09050419101458e7fe09"
+  }
+]

@@ -1,0 +1,276 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "buffer": [
+      2205,
+      1434
+    ],
+    "dpr": 1.5,
+    "phase": {
+      "hour": 11.5,
+      "cloudTime": 0.016666666666666666,
+      "wind": {
+        "time": 0.016666666666666666,
+        "direction": [
+          0.9060848207495054,
+          0.4230960855495319,
+          0.055999999999999994,
+          0
+        ],
+        "scroll": [
+          0.06342593745246537,
+          0.02961672598846723,
+          0.1014814999239446,
+          0.04738676158154757
+        ]
+      },
+      "sway": 0.06666666666666667,
+      "gradeTime": 0.03333333333333333
+    },
+    "grass": {
+      "grassInstances": 20930,
+      "grassTris": 1254711,
+      "grassDraws": 41,
+      "grassTiles": 119,
+      "grassMovers": 0
+    }
+  },
+  "route": {
+    "kind": "strafe",
+    "x": 6,
+    "z": 26,
+    "frames": 3,
+    "stepMetres": 0.65,
+    "metres": 1.3,
+    "frozenWind": true,
+    "hour": 11.5
+  },
+  "inactiveChangedChannels": 0,
+  "records": [
+    {
+      "frame": 0,
+      "draws": 114,
+      "triangles": 2288883,
+      "camera": [
+        -0.9902680687415701,
+        0,
+        -0.13917310096006544,
+        0,
+        -0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235698994,
+        0,
+        0.13915744662782645,
+        0.014998312784712241,
+        -0.9901566823799328,
+        0,
+        6,
+        2.6770528316497804,
+        23,
+        1
+      ],
+      "modeCosts": {
+        "baseline": {
+          "mainPasses": 2,
+          "mainDraws": 114,
+          "mainTriangles": 2288883,
+          "wholeDraws": 119,
+          "wholeTriangles": 2288888
+        },
+        "infoCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 114,
+          "mainTriangles": 2288883,
+          "wholeDraws": 119,
+          "wholeTriangles": 2288888
+        },
+        "normalCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 114,
+          "mainTriangles": 2288883,
+          "wholeDraws": 119,
+          "wholeTriangles": 2288888
+        },
+        "repeat": {
+          "mainPasses": 2,
+          "mainDraws": 114,
+          "mainTriangles": 2288883,
+          "wholeDraws": 119,
+          "wholeTriangles": 2288888
+        }
+      },
+      "allImageBright180": 320489,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "infoCentroid": {
+          "changedPixels": 7956,
+          "baselineBright180": 17,
+          "candidateBright180": 16,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        },
+        "normalCentroid": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        }
+      }
+    },
+    {
+      "frame": 1,
+      "draws": 108,
+      "triangles": 2224226,
+      "camera": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0.9998875189808162,
+        0.014998312784712246,
+        0,
+        0,
+        0.014998312784712246,
+        -0.9998875189808163,
+        0,
+        6.65,
+        2.6841452062129973,
+        23,
+        1
+      ],
+      "modeCosts": {
+        "baseline": {
+          "mainPasses": 2,
+          "mainDraws": 108,
+          "mainTriangles": 2224226,
+          "wholeDraws": 189,
+          "wholeTriangles": 3119984
+        },
+        "infoCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 108,
+          "mainTriangles": 2224226,
+          "wholeDraws": 113,
+          "wholeTriangles": 2224231
+        },
+        "normalCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 108,
+          "mainTriangles": 2224226,
+          "wholeDraws": 113,
+          "wholeTriangles": 2224231
+        },
+        "repeat": {
+          "mainPasses": 2,
+          "mainDraws": 108,
+          "mainTriangles": 2224226,
+          "wholeDraws": 113,
+          "wholeTriangles": 2224231
+        }
+      },
+      "allImageBright180": 428987,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "infoCentroid": {
+          "changedPixels": 8789,
+          "baselineBright180": 17,
+          "candidateBright180": 17,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 1436
+        },
+        "normalCentroid": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "draws": 106,
+      "triangles": 2236515,
+      "camera": [
+        -0.9902680687415706,
+        0,
+        0.13917310096006544,
+        0,
+        0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235699,
+        0,
+        -0.13915744662782645,
+        0.014998312784712248,
+        -0.9901566823799333,
+        0,
+        7.3,
+        2.6912375807762148,
+        23,
+        1
+      ],
+      "modeCosts": {
+        "baseline": {
+          "mainPasses": 2,
+          "mainDraws": 106,
+          "mainTriangles": 2236515,
+          "wholeDraws": 186,
+          "wholeTriangles": 3151345
+        },
+        "infoCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 106,
+          "mainTriangles": 2236515,
+          "wholeDraws": 111,
+          "wholeTriangles": 2236520
+        },
+        "normalCentroid": {
+          "mainPasses": 2,
+          "mainDraws": 106,
+          "mainTriangles": 2236515,
+          "wholeDraws": 111,
+          "wholeTriangles": 2236520
+        },
+        "repeat": {
+          "mainPasses": 2,
+          "mainDraws": 106,
+          "mainTriangles": 2236515,
+          "wholeDraws": 111,
+          "wholeTriangles": 2236520
+        }
+      },
+      "allImageBright180": 485623,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "infoCentroid": {
+          "changedPixels": 9310,
+          "baselineBright180": 19,
+          "candidateBright180": 18,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 1467
+        },
+        "normalCentroid": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        }
+      }
+    }
+  ],
+  "scope": "Read-only intensity/normal centroid interpolation experiment. Costs marked main are all main-camera world-scene pass deltas; whole-world costs include variable auxiliary capture cadence and are not a budget PASS. Entire image counts include background; changed-by-grass-lighting pixels isolate contribution, not semantic ownership. Offline synthetic walk; no GPU/frame pacing claim.",
+  "errors": []
+}
