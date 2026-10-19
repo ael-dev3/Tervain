@@ -39,7 +39,9 @@ These diagnostic sample counts are not continuous distances or a global foliage 
 | --- | --- |
 | ![](proofs/verdant-oak-roots/native/before-0.png) | ![](proofs/verdant-oak-roots/native/after-0.png) |
 
-Exact-head stock budget on 52d4a5f4c is still running; no current-head PASS is claimed yet.
+[Exact-head stock budget](proofs/verdant-oak-roots/budget.md): **PASS 52d4a5f4c**, allowance 0, actual exit 0. Live b317734 / candidate 52d4a5f4c: **285 / 285 maximum draws, 3,048,306 / 3,048,306 maximum triangles, zero console errors**. Two same-revision live probes, four completed samples per probe, stock producer/sampler unchanged, no raster-suppression preload.
+
+play-gate: PASS 52d4a5f4c
 
 The completed [isolated-wood diagnostic](proofs/verdant-oak-roots/diagnostic/report.json) deliberately uses neutral material, custom lighting, no leaves/actors/wind/post. It establishes geometry change, not native game appearance or visibility. One draw / 8,912 triangles before and after, exact restored pixels, zero console errors.
 
