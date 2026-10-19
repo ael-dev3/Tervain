@@ -1,0 +1,36 @@
+{
+  "build": {
+    "version": "0.0.31",
+    "revision": "07570ab"
+  },
+  "buildLine": "v0.0.31 · 07570ab · pre-alpha",
+  "complete": true,
+  "speciesComplete": true,
+  "summary": {
+    "trees": 451,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 717630,
+    "chunks": 459,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 8895,
+    "detachedClumps": 671,
+    "treesWithDetached": 120
+  },
+  "tree32": {
+    "label": "tree:wild:32:27",
+    "species": "oak",
+    "lod": 0,
+    "kind": "oak/hero-oak",
+    "missingWood": false,
+    "leafless": false,
+    "components": 6000,
+    "chunks": 1,
+    "detachedCards": 973,
+    "detachedClumps": 10,
+    "maxWoodGap": 2.5548771689774847,
+    "candidates": []
+  },
+  "scope": "Native published 0.0.31 rest-geometry audit, gap 0.75 m / wood reach 1.5 m, all registered near trees. Tree32 is not modified by the birch-only geometry adapter. No visual-quality score or FPS claim."
+}

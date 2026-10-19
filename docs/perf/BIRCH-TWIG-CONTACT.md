@@ -83,4 +83,21 @@ npm run build
 
 The combined runner packages the executed native capture and separate read-only stem/wood-diagnostic probes. It rejects mismatched native rebuilds, changed index counts, regressed leaf-distance reports, failed stem crossings, blank images, GL/console errors, unequal paired submissions and changed restored controls. Evidence is kept separately from the four-file feature head.
 
-An additional outside-angle capture was rejected when Pages moved to 0.0.31 · 07570ab. Its revision guard worked; no mixed-baseline frames were published. A separate 0.0.31 receipt is in progress.
+## Separate live 0.0.31 outside-angle receipt
+
+Pages deployed **0.0.31 · 07570ab** during an extra capture. The first run rejected the revision change. A separate baseline-pinned run then completed on 0.0.31; its input `growTwigs` function is unchanged from 0.0.30, and all nine native/candidate wood hashes match the primary proof. Its frames are kept separately, not mixed into the old baseline.
+
+| Outside pose | Draws, both | Triangles, both | Changed native pixels |
+| --- | ---: | ---: | ---: |
+| 0 | 259 | 2,647,336 | 175 |
+| 1 | 265 | 2,529,090 | 107 |
+
+Zero errors; restored control pixel-identical. Same High post/MSAA capture at fixed time/wind, now looking inward from outside the crown. The native effect is still localized and partly obscured by leaves; no broad visual-quality improvement is claimed.
+
+[Before](proofs/birch-twig-contact/live031-side/before-000.png) · [candidate](proofs/birch-twig-contact/live031-side/after-000.png) · [raw report](proofs/birch-twig-contact/live031-side/report.json) · [source/buffer validation](proofs/birch-twig-contact/live031-side/validation.json)
+
+```sh
+node tools/repro-live-birch-root-contact.mjs --baseline-ref 07570ab0a --view side --out birch-root031
+```
+
+A separate native published-build audit also verifies the shipped Tree32 restoration: **973 cards / 10 groups**, complete 451-tree/species coverage, build line `v0.0.31 · 07570ab · pre-alpha`. [Tree32 live receipt](proofs/birch-twig-contact/tree32-live031.json). This is independent of the birch-only correction and does not close the remaining 8,895/671 global sampled flags.

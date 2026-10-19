@@ -1,0 +1,13 @@
+{
+  "nativeBuild": {
+    "version": "0.0.31",
+    "revision": "07570ab"
+  },
+  "nativeBuildLine": "v0.0.31 \u00b7 07570ab \u00b7 pre-alpha",
+  "beforeSourceHashMatches07570ab": true,
+  "candidateSourceHashMatches18db8960e": true,
+  "allNineNativeAndCandidateWoodHashesMatchPrimary030Proof": true,
+  "baselineGrowTwigsFunctionUnchangedBetween030and031": true,
+  "restoredControlIdentical": true,
+  "errors": []
+}
