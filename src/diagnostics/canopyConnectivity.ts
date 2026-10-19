@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 
 // Shared component-graph detection: the canopy audit and the generator both use these, so they agree on which clumps are detached.
-export type CutoutSampler = { uv: string; cutoff: number; alpha(u: number, v: number): number } | null | undefined;
+export type CutoutSampler = { uv: string; cutoff: number; alpha(u: number, v: number): number;
+  /** Conservative hint: false only when the whole UV triangle is transparent. */
+  mayHaveOpaque?(u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean } | null | undefined;
 export interface Component { box: THREE.Box3; samples: THREE.Vector3[]; vertices?: number[] }
 export const boxGap = (a: THREE.Box3, b: THREE.Box3) => Math.hypot(
   Math.max(0,a.min.x-b.max.x,b.min.x-a.max.x),Math.max(0,a.min.y-b.max.y,b.min.y-a.max.y),Math.max(0,a.min.z-b.max.z,b.min.z-a.max.z));
@@ -30,14 +32,21 @@ export function components(g: THREE.BufferGeometry, charge: () => void, cutout?:
         weights.push(w);
       }
       // A clear coarse grid does not prove a clear card: thin needles can lie between its samples.
-      // Positive witnesses make that omission explicit. Cache unwitnessed patterns too.
+      // Retain positive fine-grid witnesses rather than aborting the whole audit. Cache empty patterns too.
       if(!weights.length){
         // Do not seed the empty-pattern cache from a collapsed card: a real card can reuse its UVs later.
         if(edgeA.subVectors(corners[1]!,corners[0]!).cross(edgeB.subVectors(corners[2]!,corners[0]!)).lengthSq()===0)continue;
         for(let a=0;a<=48;a++)for(let b=0;a+b<=48;b++){
           charge();const w0=a/48,w1=b/48,w2=(48-a-b)/48;
           if(cutout.alpha(w0*u0+w1*u1+w2*u2,w0*t0+w1*t1+w2*t2)>=cutout.cutoff)
-            throw new Error('Canopy alpha sampling missed opaque foliage');
+            weights.push([w0,w1,w2]);
+        }
+        // A thin opaque edge can also evade the 48-grid. Refine only patterns with conservative positive hints.
+        if(!weights.length&&cutout.mayHaveOpaque){
+          charge();if(cutout.mayHaveOpaque(u0,t0,u1,t1,u2,t2))for(let a=0;a<=192;a++)for(let b=0;a+b<=192;b++){
+            charge();const w0=a/192,w1=b/192,w2=(192-a-b)/192;
+            if(cutout.alpha(w0*u0+w1*u1+w2*u2,w0*t0+w1*t1+w2*t2)>=cutout.cutoff)weights.push([w0,w1,w2]);
+          }
         }
       }
       patterns.set(patternKey,weights);}
