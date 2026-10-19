@@ -33,3 +33,6 @@ Run 2 (all 40 balanced pairs retained): mean **282.8175→276.305 ms**, p95 **46
 The report retains each synchronized whole-scene software timing, including two slower candidate samples. These few unbalanced-order scene snapshots are pixel checks, **not a whole-frame performance comparison**. The balanced isolated-pass measurements above are the cost experiment; no whole-frame speedup is claimed from the screenshots.
 
 98 focused water-render/application-transition tests pass, as do type-check/build. Source SHA-256 for the Grade module: baseline `28fdcc84272c8d55306aadde9585598ed1eb1545889fa703a3ff61a662c13a76`, candidate `4918c842f43aedf094ca2b5e299f3305b8cc770168d2caf849ed7dd6972f820c` (head `6b1b05ccc1e414790464ca94d7d56bcd46153780`).
+
+
+Run 3 (all 40 balanced pairs retained): mean **212.1325→179.345 ms**, p95 **251.6→252.3 ms**. Its p95 is slightly worse (+0.7 ms); the three software runs do **not** establish a consistent tail-latency improvement. All three means are lower, all repeated pixel controls remain exact, and source-level texture operations are reduced. No further timing reruns are selected to replace this result.
