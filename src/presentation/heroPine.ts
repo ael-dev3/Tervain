@@ -123,11 +123,14 @@ export function createHeroPineForest(templates: HeroPineTemplates): HeroPineFore
       if (tree) return tree;
       let crownRadius = 0;
       const native = (extras(n).height as number | undefined) ?? 18, scale = HERO_PINE_HEIGHT * seededSpread(seed) / native;
+      const windScale = new THREE.Matrix4().makeScale(scale, scale, scale);
       const lods = templates.map((gltf, l) => {
         const wood = find(gltf, `v${n}-wood`).geometry.clone(), leaf = find(gltf, `v${n}-leaf`).geometry.clone();
         const heightOf = (extras(n).height as number | undefined) ?? 18;
         bakeLook(wood, false, heightOf); bakeLook(leaf, true, heightOf);
         wood.scale(scale, scale, scale); leaf.scale(scale, scale, scale);
+        // Branch anchors are points in the same space as the scaled vertices.
+        for (const geometry of [wood, leaf]) geometry.getAttribute('_pivot').applyMatrix4(windScale);
         wood.computeBoundingBox(); wood.computeBoundingSphere(); leaf.computeBoundingBox(); leaf.computeBoundingSphere();
         if (l === 0) {
           const trunkIndex = (extras(n) as { trunkIndexCount?: number }).trunkIndexCount;
