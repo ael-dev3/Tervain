@@ -1,16 +1,16 @@
 import * as THREE from 'three';
 import { woodReachLocal } from '../presentation/canopy';
-import { components, boundsTree, spanningLeafEdges, union, farClumps, type Component, type LeafNode } from './canopyConnectivity';
+import { components, boundsTree, spanningLeafEdges, union, farClumps, type Component, type LeafNode, type CutoutSampler } from './canopyConnectivity';
 
 export interface CanopyAuditTarget { label: string; species?: string; /** Species/asset, for grouping. */ kind?: string; lod?: number; wood: THREE.BufferGeometry | null; leaves: THREE.BufferGeometry | null; matrix: THREE.Matrix4;
   /** Material requires alpha testing; an unavailable mask must not silently become opaque. */
   cutoutRequired?: boolean;
   /** The leaf material's alpha cutout; used only with `alpha: true`. */
-  cutout?: { uv: string; cutoff: number; alpha(u: number, v: number): number } | null }
+  cutout?: CutoutSampler }
 export interface CanopyAuditOptions { gap?: number; maxOperations?: number; /** Level of detail audited (0 near, 1 middle, 2 far). */ lod?: number;
   /** World distance (m) beyond which a leaf card counts as hanging clear of every branch (default 1.5). */ woodReach?: number;
-  /** Alpha-aware: bound each card by its opaque texels (alpha ≥ cutoff) instead of its quad, so cards whose quads
-   * touch but whose leaves do not stay apart, and fully clear cards drop out (default false). */
+  /** Sampled alpha-aware: bound each triangle by opaque probes (alpha ≥ cutoff) instead of its quad, so cards whose
+   * quads touch but whose leaves do not stay apart. Finite probes require visual review (default false). */
   alpha?: boolean }
 export function auditCanopies(targets: readonly CanopyAuditTarget[], options: CanopyAuditOptions = {}) {
   const lod=options.lod??0;if(!Number.isInteger(lod)||lod<0||lod>2)throw new Error('Invalid canopy LOD');
