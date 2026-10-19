@@ -32,7 +32,7 @@ The view contains nearby canopy occluders; it is a wind-coordinate regression vi
 
 11 focused tests and the build/type check pass. The new all-variant/all-LOD asset regression fails on the original loader. It verifies vertex/anchor scale agreement and unchanged indices/wind weights while using cloned buffers.
 
-Final native report and exact-head stock budget receipt are added after completion. No hardware FPS or heat claim.
+Native comparisons and the exact-head stock budget receipt are complete. No hardware FPS or heat claim.
 
 ## Completed native comparisons
 
@@ -47,3 +47,7 @@ Every camera is asserted to remain at least 2 m above its terrain sample.
 | 20 | 1 | 0 | 258 → 258 | 2,504,822 → 2,504,822 | 0 | exact RGB |
 
 Wind-disabled images are RGB-identical; zero native console errors. See [raw report](report.json). Counts are full-frame pixels at 640×360, including occlusion and shadows; they do not quantify detached clumps. Shadow/depth proxies share the original attribute buffers and receive the same replayed correction.
+
+## Exact-head stock budget
+
+[Receipt](budget.md): live 285 draws / 3,048,306 triangles; candidate 285 draws / 3,048,306 triangles. Zero console errors. No triangle allowance. Texture taps, shader execution time and frame CPU are not measured by this page gate. Production shader source and per-frame JS code are unchanged; only existing attribute values are scaled during loading.

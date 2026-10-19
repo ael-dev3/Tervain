@@ -1,0 +1,20 @@
+{
+  "head": "57afcf693fc0c36c0b26a6d29293132fc6b686b2",
+  "sourceSha256": {
+    "src/presentation/heroPine.ts": "61ae5053e3faf2a40bd25448a683180b9a2a05fbc3c4b6c80f201d400e27fa55",
+    "tests/presentation/heroPineWind.test.ts": "22d24edc670b79d562ea7039d42fc76160c892ed41010d6f6b046503f814fea0",
+    "tools/repro-live-pine-wind-pivots.mjs": "0fa17f1d6545468ccedf30366588fcccb8dc40ed8647edeee550447c2c437c7d"
+  },
+  "stockBudget": {
+    "live": {
+      "draws": 285,
+      "triangles": 3048306,
+      "errors": 0
+    },
+    "candidate": {
+      "draws": 285,
+      "triangles": 3048306,
+      "errors": 0
+    }
+  }
+}
