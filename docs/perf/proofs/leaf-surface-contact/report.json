@@ -1,0 +1,155 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "label": "tree:wild:70:3",
+    "kind": "pine/procedural",
+    "tree": [
+      61.33451997275425,
+      13.527242300931299,
+      -145.5769638286438
+    ],
+    "lod": 1,
+    "scale": 2.2160060537047683,
+    "result": {
+      "islands": 1,
+      "moved": 1,
+      "dropped": 0
+    },
+    "changedVertices": 9,
+    "hashes": {
+      "before": "3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d",
+      "after": "55bef7db843d39a2be0f15f5975cbbbca50b0b1b017d4b52f00658173a1a1f5f",
+      "index": "8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6"
+    },
+    "localBounds": {
+      "min": [
+        -0.31469056010246277,
+        2.910642623901367,
+        -3.4370131492614746
+      ],
+      "max": [
+        3.553015947341919,
+        5.669334888458252,
+        -0.2948705554008484
+      ]
+    },
+    "compiledRevision": "5c312082e",
+    "centre": [
+      59.35277744638219,
+      17.084695669480862,
+      -145.0576323079604
+    ],
+    "trianglesBefore": 2208,
+    "trianglesAfter": 2208,
+    "swaps": 1
+  },
+  "rows": [
+    {
+      "pose": 0,
+      "mode": "before",
+      "draws": 229,
+      "triangles": 1740179,
+      "camera": [
+        71.35277744638219,
+        16.47185576763733,
+        -145.0576323079604
+      ]
+    },
+    {
+      "pose": 0,
+      "mode": "after",
+      "draws": 229,
+      "triangles": 1740179,
+      "camera": [
+        71.35277744638219,
+        16.47185576763733,
+        -145.0576323079604
+      ],
+      "changedPixels": 1081
+    },
+    {
+      "pose": 0,
+      "mode": "restore",
+      "draws": 229,
+      "triangles": 1740179,
+      "camera": [
+        71.35277744638219,
+        16.47185576763733,
+        -145.0576323079604
+      ]
+    },
+    {
+      "pose": 1,
+      "mode": "before",
+      "draws": 29,
+      "triangles": 276471,
+      "camera": [
+        53.2946241911839,
+        15.138316671820812,
+        -134.6991199081739
+      ]
+    },
+    {
+      "pose": 1,
+      "mode": "after",
+      "draws": 29,
+      "triangles": 276471,
+      "camera": [
+        53.2946241911839,
+        15.138316671820812,
+        -134.6991199081739
+      ],
+      "changedPixels": 376
+    },
+    {
+      "pose": 1,
+      "mode": "restore",
+      "draws": 29,
+      "triangles": 276471,
+      "camera": [
+        53.2946241911839,
+        15.138316671820812,
+        -134.6991199081739
+      ]
+    },
+    {
+      "pose": 2,
+      "mode": "before",
+      "draws": 170,
+      "triangles": 1176932,
+      "camera": [
+        53.469647590293796,
+        18.852555866282117,
+        -155.51654157692346
+      ]
+    },
+    {
+      "pose": 2,
+      "mode": "after",
+      "draws": 170,
+      "triangles": 1176932,
+      "camera": [
+        53.469647590293796,
+        18.852555866282117,
+        -155.51654157692346
+      ],
+      "changedPixels": 0
+    },
+    {
+      "pose": 2,
+      "mode": "restore",
+      "draws": 170,
+      "triangles": 1176932,
+      "camera": [
+        53.469647590293796,
+        18.852555866282117,
+        -155.51654157692346
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Live Low preset native middle pine geometry, source candidate borrowed into the running scene. Fixed rest/wind, three eye-height inspection poses, restored controls. Not hardware timings or an input-driven walk; compiled budget is separate."
+}

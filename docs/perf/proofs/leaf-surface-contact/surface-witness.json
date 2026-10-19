@@ -1,0 +1,54 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "label": "tree:wild:70:3",
+  "scale": 2.2160060537047683,
+  "options": {
+    "reach": 0.2707573830842685,
+    "gap": 0.31588361359831324
+  },
+  "before": {
+    "islands": 0,
+    "moved": 0,
+    "dropped": 0
+  },
+  "after": {
+    "islands": 1,
+    "moved": 1,
+    "dropped": 0
+  },
+  "phantoms": [
+    {
+      "centre": [
+        1.6869431535402934,
+        4.857694427172342,
+        -1.564088394244512
+      ],
+      "centreGap": 0.21660598801515,
+      "samples": [
+        [
+          1.8888102372487388,
+          4.862655798594157,
+          -1.4607350627581281
+        ],
+        [
+          1.4850760698318481,
+          4.842810312906901,
+          -1.7928502559661867
+        ]
+      ],
+      "sampleGaps": [
+        0.3780988853178928,
+        0.34457241752315687
+      ]
+    }
+  ],
+  "hashes": {
+    "native": "3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d",
+    "baselineReplay": "3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d",
+    "candidate": "fcd256e4baf86be1814ec4fda5c5667527eb3d3e4f7b28d51dd5f39025316a67",
+    "index": "8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6"
+  }
+}

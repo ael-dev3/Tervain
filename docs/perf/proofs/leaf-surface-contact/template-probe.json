@@ -1,0 +1,29 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:70:3",
+      "kind": "pine/procedural",
+      "lod": 1,
+      "scale": 2.2160060537047683,
+      "before": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "after": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "world": [
+        61.33451997275425,
+        13.527242300931299,
+        -145.5769638286438
+      ]
+    }
+  ]
+}

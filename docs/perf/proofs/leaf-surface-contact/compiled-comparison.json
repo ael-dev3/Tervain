@@ -1,0 +1,34 @@
+{
+  "live": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "compiled": {
+    "version": "0.0.33",
+    "revision": "5c312082e"
+  },
+  "changedVertices": 9,
+  "positionVertices": 2484,
+  "nonPositionAttributesEqual": {
+    "normal": true,
+    "uv": true,
+    "color": true,
+    "_wind": true,
+    "_pivot": true,
+    "tvAo": true
+  },
+  "hashes": {
+    "live": {
+      "native": "3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d",
+      "baselineReplay": "3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d",
+      "candidate": "fcd256e4baf86be1814ec4fda5c5667527eb3d3e4f7b28d51dd5f39025316a67",
+      "index": "8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6"
+    },
+    "compiled": {
+      "native": "55bef7db843d39a2be0f15f5975cbbbca50b0b1b017d4b52f00658173a1a1f5f",
+      "baselineReplay": "55bef7db843d39a2be0f15f5975cbbbca50b0b1b017d4b52f00658173a1a1f5f",
+      "candidate": "55bef7db843d39a2be0f15f5975cbbbca50b0b1b017d4b52f00658173a1a1f5f",
+      "index": "8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6"
+    }
+  }
+}
