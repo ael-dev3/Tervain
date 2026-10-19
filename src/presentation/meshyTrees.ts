@@ -606,7 +606,12 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             const checked = cullDetachedCards(canopy, wood, woodReachLocal(1.5, ORCHARD_MAX_SCALE)).geometry;
             if (checked !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(checked); canopy = checked; }
           }
-          if (species === 'oak' && wood) { const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75).geometry; geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped; }
+          if (species === 'oak' && wood) {
+            // Preserve the authored horizontal layout; near residual clumps can seat vertically without changing shade.
+            const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75, 0.9,
+              lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
+            geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
+          }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
