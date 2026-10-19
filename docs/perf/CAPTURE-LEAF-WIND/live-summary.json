@@ -1,0 +1,161 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "nativeMode": "baseline",
+  "label": "tree:orchard:0:2",
+  "camera": [
+    0.7868393479242709,
+    -4.336808689942018e-19,
+    -0.6171578732853598,
+    0,
+    -0.006531392054508639,
+    0.999943998311098,
+    -0.008327133927417489,
+    0,
+    0.6171233114021366,
+    0.010583016659480698,
+    0.7867952835918927,
+    0,
+    -38.971630191779695,
+    5.115091892442868,
+    44.661973488004875,
+    1
+  ],
+  "buffer": [
+    640,
+    360
+  ],
+  "rows": [
+    {
+      "frame": 0,
+      "strength": 0,
+      "time": 3,
+      "before": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    },
+    {
+      "frame": 1,
+      "strength": 1,
+      "time": 3,
+      "before": {
+        "channels": 211001,
+        "pixels": 72510,
+        "absoluteChannelError": 2750879
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    },
+    {
+      "frame": 2,
+      "strength": 1,
+      "time": 3.05,
+      "before": {
+        "channels": 210427,
+        "pixels": 72371,
+        "absoluteChannelError": 2684987
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    },
+    {
+      "frame": 3,
+      "strength": 1,
+      "time": 3.1,
+      "before": {
+        "channels": 210440,
+        "pixels": 72352,
+        "absoluteChannelError": 2783351
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    },
+    {
+      "frame": 4,
+      "strength": 1,
+      "time": 3.15,
+      "before": {
+        "channels": 210028,
+        "pixels": 72220,
+        "absoluteChannelError": 2784297
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    },
+    {
+      "frame": 5,
+      "strength": 1,
+      "time": 3.2,
+      "before": {
+        "channels": 208610,
+        "pixels": 71866,
+        "absoluteChannelError": 2569677
+      },
+      "after": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      },
+      "restored": {
+        "channels": 0,
+        "pixels": 0,
+        "absoluteChannelError": 0
+      }
+    }
+  ],
+  "activeTotals": {
+    "frames": 5,
+    "beforeReferenceChangedChannels": 1050506,
+    "afterReferenceChangedChannels": 0,
+    "beforeReferenceChangedPixels": 361319,
+    "afterReferenceChangedPixels": 0
+  },
+  "scope": "Sum of observations across fixed-camera wind phases, not unique pixels, detached-card counts or a whole-playtest quality score. Full native capture-substitution framebuffer against the independent middle-mesh reference."
+}

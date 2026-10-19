@@ -1,0 +1,41 @@
+{
+  "head": "4953c476c88e1872dc56586f273f9fbd8564f76c",
+  "build": "pass",
+  "focusedFoliageTests": 22,
+  "ciBuildTestsSoftwareWebgl": "pass",
+  "stockGate": {
+    "pass": true,
+    "liveRevision": "b317734",
+    "candidateRevision": "4953c476c",
+    "draws": [
+      285,
+      285
+    ],
+    "triangles": [
+      3048306,
+      3048306
+    ],
+    "consoleErrors": [
+      0,
+      0
+    ],
+    "allowances": 0
+  },
+  "completedLiveFrames": 6,
+  "completedCandidateFrames": 3,
+  "allReferenceAndRestorationControlsExact": true,
+  "concurrentAttempts": "Interrupted after losing CDP response; not treated as completed passes. Final captures were run sequentially.",
+  "limitations": [
+    "A controlled capture-substitution camera, not a full water/window walkthrough.",
+    "The static crown/clump report remains open; geometry is unchanged.",
+    "Extra existing hierarchy vertex work is justified as a capture correctness fix, not a performance saving.",
+    "Software render/finish markers are not hardware GPU/CPU frame timing or a Mac FPS claim."
+  ],
+  "originalRegression": {
+    "expectedFailure": true,
+    "exitCode": 1,
+    "failed": 1,
+    "skipped": 21,
+    "scope": "Current regression against unchanged original flora implementation; colour/depth material forwarding expectation fails."
+  }
+}

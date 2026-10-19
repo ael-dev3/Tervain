@@ -1,0 +1,44 @@
+{
+  "complete": true,
+  "buffer": [
+    640,
+    360
+  ],
+  "sourceWindCadence": 20,
+  "controlFrameExcluded": 0,
+  "videos": [
+    {
+      "file": "before-lossless.mkv",
+      "frames": 5,
+      "bytes": 1473530,
+      "sha256": "a4c6c470316fe955119a78573d46e939f620407bfc4ea754d40dc07a70e53558",
+      "decodedRgbSha256": [
+        "6302d351b0cb9b0474e500b2d925ebe54c35427e656d3e6a839127943112f1fe",
+        "c2025ec15ec5384d6422e743da18e16f58fd4ec8680a43f31a8d3f346f180a5d",
+        "da0b568118da8df11efba3b71ec3d4458bcaf45fcb5bd8dbaa0ae85fdf7c54e8",
+        "9d5ca834f6bcba1ca9966de031f85a8c4b47add58f0d2f0699af3cba588a4575",
+        "7b7581534c13b292b4808b98a72f6990714b7db6a99a2baaa8db81df1ea4c483"
+      ]
+    },
+    {
+      "file": "after-lossless.mkv",
+      "frames": 5,
+      "bytes": 1640006,
+      "sha256": "0bec875ca45ce9ce2e41960e37896c636cac3f6875e2cc53a1c9f23b5c322ab9",
+      "decodedRgbSha256": [
+        "47032e21e44bd894d2c9816dc940dbd4a6823962780870e2137a4ba8491eb2fc",
+        "3964794affb93250fd21a4f323d4570aa83a92bbdbf41f330a0d050d021c7995",
+        "25b5e6e86a60a5090f41c0003ff7b674b75653d2767abc255fce592e6bd6dd42",
+        "ee5bac2191600f389dc39999e67cbe7191893f10d5804a03c8b7235a2a35ca04",
+        "94b958024fd7572de534f42860d7a5bd23c3dfb6b5d382b84d3276f1bed72af6"
+      ]
+    }
+  ],
+  "preview": {
+    "file": "comparison-quarter-speed.mp4",
+    "playbackCadence": 5,
+    "loops": 3,
+    "lossy": true
+  },
+  "scope": "Full native framebuffer lossless clips; decoded RGB hashes checked against the original PNGs. Wind phases at a fixed camera, not a hardware-FPS recording."
+}

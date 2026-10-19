@@ -1,0 +1,385 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "4953c476c"
+    },
+    "label": "tree:orchard:0:2",
+    "root": [
+      -49.971630191779695,
+      0.11509189244286738,
+      30.661973488004875
+    ],
+    "camera": [
+      0.7868393479242709,
+      -4.336808689942018e-19,
+      -0.6171578732853598,
+      0,
+      -0.006531392054508639,
+      0.999943998311098,
+      -0.008327133927417489,
+      0,
+      0.6171233114021366,
+      0.010583016659480698,
+      0.7867952835918927,
+      0,
+      -38.971630191779695,
+      5.115091892442868,
+      44.661973488004875,
+      1
+    ],
+    "buffer": [
+      640,
+      360
+    ],
+    "wind": {
+      "direction": [
+        0.8,
+        0.6,
+        0.24,
+        0.42
+      ],
+      "scroll": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "bindings": [
+      {
+        "kind": "tree-4949",
+        "part": "leaf",
+        "nearHierarchy": false,
+        "middleHierarchy": true
+      },
+      {
+        "kind": "tree-4949",
+        "part": "leafDepth",
+        "nearHierarchy": false,
+        "middleHierarchy": true
+      },
+      {
+        "kind": "tree-4815",
+        "part": "leaf",
+        "nearHierarchy": false,
+        "middleHierarchy": true
+      },
+      {
+        "kind": "tree-4815",
+        "part": "leafDepth",
+        "nearHierarchy": false,
+        "middleHierarchy": true
+      }
+    ]
+  },
+  "nativeMode": "candidate",
+  "rows": [
+    {
+      "frame": 0,
+      "strength": 0,
+      "time": 3,
+      "camera": [
+        0.7868393479242709,
+        -4.336808689942018e-19,
+        -0.6171578732853598,
+        0,
+        -0.006531392054508639,
+        0.999943998311098,
+        -0.008327133927417489,
+        0,
+        0.6171233114021366,
+        0.010583016659480698,
+        0.7867952835918927,
+        0,
+        -38.971630191779695,
+        5.115091892442868,
+        44.661973488004875,
+        1
+      ],
+      "beforeReferenceChangedChannels": 0,
+      "afterReferenceChangedChannels": 0,
+      "restoredExact": true,
+      "beforeState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        }
+      ],
+      "afterState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        }
+      ],
+      "cost": {
+        "before": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 37.70000001788139
+        },
+        "after": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 10.599999994039536
+        },
+        "reference": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 12.099999994039536
+        }
+      },
+      "rgbSha256": {
+        "before": "15aa91e00737cda5f7ad4b3fc6caf160a22978ab58756b1093e7e27409ff750b",
+        "after": "15aa91e00737cda5f7ad4b3fc6caf160a22978ab58756b1093e7e27409ff750b",
+        "reference": "15aa91e00737cda5f7ad4b3fc6caf160a22978ab58756b1093e7e27409ff750b",
+        "restored": "15aa91e00737cda5f7ad4b3fc6caf160a22978ab58756b1093e7e27409ff750b"
+      }
+    },
+    {
+      "frame": 1,
+      "strength": 1,
+      "time": 3,
+      "camera": [
+        0.7868393479242709,
+        -4.336808689942018e-19,
+        -0.6171578732853598,
+        0,
+        -0.006531392054508639,
+        0.999943998311098,
+        -0.008327133927417489,
+        0,
+        0.6171233114021366,
+        0.010583016659480698,
+        0.7867952835918927,
+        0,
+        -38.971630191779695,
+        5.115091892442868,
+        44.661973488004875,
+        1
+      ],
+      "beforeReferenceChangedChannels": 211001,
+      "afterReferenceChangedChannels": 0,
+      "restoredExact": true,
+      "beforeState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        }
+      ],
+      "afterState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        }
+      ],
+      "cost": {
+        "before": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 10.5
+        },
+        "after": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 13.599999994039536
+        },
+        "reference": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 13.599999994039536
+        }
+      },
+      "rgbSha256": {
+        "before": "6302d351b0cb9b0474e500b2d925ebe54c35427e656d3e6a839127943112f1fe",
+        "after": "47032e21e44bd894d2c9816dc940dbd4a6823962780870e2137a4ba8491eb2fc",
+        "reference": "47032e21e44bd894d2c9816dc940dbd4a6823962780870e2137a4ba8491eb2fc",
+        "restored": "6302d351b0cb9b0474e500b2d925ebe54c35427e656d3e6a839127943112f1fe"
+      }
+    },
+    {
+      "frame": 2,
+      "strength": 1,
+      "time": 3.05,
+      "camera": [
+        0.7868393479242709,
+        -4.336808689942018e-19,
+        -0.6171578732853598,
+        0,
+        -0.006531392054508639,
+        0.999943998311098,
+        -0.008327133927417489,
+        0,
+        0.6171233114021366,
+        0.010583016659480698,
+        0.7867952835918927,
+        0,
+        -38.971630191779695,
+        5.115091892442868,
+        44.661973488004875,
+        1
+      ],
+      "beforeReferenceChangedChannels": 210427,
+      "afterReferenceChangedChannels": 0,
+      "restoredExact": true,
+      "beforeState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": false
+        }
+      ],
+      "afterState": [
+        {
+          "kind": "tree-4949",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4949",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leaf",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        },
+        {
+          "kind": "tree-4815",
+          "part": "leafDepth",
+          "geometryHierarchical": true,
+          "programHierarchical": true
+        }
+      ],
+      "cost": {
+        "before": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 11.900000005960464
+        },
+        "after": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 10.5
+        },
+        "reference": {
+          "draws": 380,
+          "triangles": 5610309,
+          "softwareFinishMs": 17.700000017881393
+        }
+      },
+      "rgbSha256": {
+        "before": "c2025ec15ec5384d6422e743da18e16f58fd4ec8680a43f31a8d3f346f180a5d",
+        "after": "3964794affb93250fd21a4f323d4570aa83a92bbdbf41f330a0d050d021c7995",
+        "reference": "3964794affb93250fd21a4f323d4570aa83a92bbdbf41f330a0d050d021c7995",
+        "restored": "c2025ec15ec5384d6422e743da18e16f58fd4ec8680a43f31a8d3f346f180a5d"
+      }
+    }
+  ],
+  "scope": "Fixed native High/MSAA camera on orchard target. Actual capture substitution, session-only leaf/depth material selection, native middle-mesh reference borrowing identical packed instances/coverage. Not a normal main-camera LOD change, static clump repair, hardware timing or whole-playtest quality score.",
+  "errors": []
+}

@@ -1,0 +1,70 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "4953c476c"
+  },
+  "wind": {
+    "direction": [
+      0.8,
+      0.6,
+      0.24,
+      0.42
+    ],
+    "scroll": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "bindings": [
+    {
+      "kind": "tree-4949",
+      "part": "leaf",
+      "count": 3,
+      "middleVertices": 6912,
+      "middleIndexCount": 10368,
+      "nearBaked": false,
+      "middleBaked": false,
+      "sameMap": true,
+      "sameNormalMap": true,
+      "sameDefines": true
+    },
+    {
+      "kind": "tree-4949",
+      "part": "leafDepth",
+      "count": 3,
+      "middleVertices": 6912,
+      "middleIndexCount": 10368,
+      "nearBaked": false,
+      "middleBaked": false,
+      "sameMap": true,
+      "sameNormalMap": true,
+      "sameDefines": true
+    },
+    {
+      "kind": "tree-4815",
+      "part": "leaf",
+      "count": 4,
+      "middleVertices": 6796,
+      "middleIndexCount": 10194,
+      "nearBaked": false,
+      "middleBaked": false,
+      "sameMap": true,
+      "sameNormalMap": true,
+      "sameDefines": true
+    },
+    {
+      "kind": "tree-4815",
+      "part": "leafDepth",
+      "count": 4,
+      "middleVertices": 6796,
+      "middleIndexCount": 10194,
+      "nearBaked": false,
+      "middleBaked": false,
+      "sameMap": true,
+      "sameNormalMap": true,
+      "sameDefines": true
+    }
+  ]
+}

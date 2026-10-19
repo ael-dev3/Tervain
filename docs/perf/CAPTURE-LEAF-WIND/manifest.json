@@ -1,0 +1,162 @@
+{
+  "docs/perf/CAPTURE-LEAF-WIND/README.md": {
+    "bytes": 9068,
+    "sha256": "a9da83732b68642c00e8ba6c19771d13a44b11e3dcb3a878ce4a86ba16dd3fec"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-000.png": {
+    "bytes": 581314,
+    "sha256": "a8570c6af1fed19d578cd3088f34d821b10c10c777846a97bc9146c1335b7bfe"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-001.png": {
+    "bytes": 582902,
+    "sha256": "400fff4141784558475cb11caef0cdce9876e2f7b3cdc3d5338c72cad949c8ec"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-002.png": {
+    "bytes": 582001,
+    "sha256": "88c660eb463747abf085e9355d0bbc7b240cac466558f4265609bc6113e8428e"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-003.png": {
+    "bytes": 581483,
+    "sha256": "3d62e62cb162ab8152882ff3d81ae2aff81b839338ea43defc5ddb5ad9abf8c7"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-004.png": {
+    "bytes": 581587,
+    "sha256": "0072272a6e9a5a9419600645682ecd021fe6189644dc0c3f9f324153e8df3000"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-005.png": {
+    "bytes": 581811,
+    "sha256": "b0ae8f4e016e006dbdf1d88c9414d0b95575b948417974e855d7a815c8616963"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/after-lossless.mkv": {
+    "bytes": 1640006,
+    "sha256": "0bec875ca45ce9ce2e41960e37896c636cac3f6875e2cc53a1c9f23b5c322ab9"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-000.png": {
+    "bytes": 581314,
+    "sha256": "a8570c6af1fed19d578cd3088f34d821b10c10c777846a97bc9146c1335b7bfe"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-001.png": {
+    "bytes": 582197,
+    "sha256": "c66017c1d387e60540c1121cf67548882630a35a886ec099981853c3e58a3fad"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-002.png": {
+    "bytes": 581645,
+    "sha256": "36cda390a5246b40da82c3df2a44431560aeaedd6d57d9cc4d4a7040b1686761"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-003.png": {
+    "bytes": 580865,
+    "sha256": "261cfd38bbe24ad1b9ce710054e328e6a17858ff29049a3a7e501242b6a248fd"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-004.png": {
+    "bytes": 581332,
+    "sha256": "b136a64919bbd4567796162416dd301c674bb4f0e6ffe6ab222429c6cea826b4"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-005.png": {
+    "bytes": 581737,
+    "sha256": "1eaf126074d2183b409afe3faae94c48f2ab98503df4c3eebba7eb56fe5ea650"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/before-lossless.mkv": {
+    "bytes": 1473530,
+    "sha256": "a4c6c470316fe955119a78573d46e939f620407bfc4ea754d40dc07a70e53558"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/budget-gate.md": {
+    "bytes": 758,
+    "sha256": "6498f2a76c24bf33ae1c22c24ed9a04b9379800b734801f01deafdd642bccfe6"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/candidate-report.json": {
+    "bytes": 10016,
+    "sha256": "31a11e2f73c5900b137179fed9441c95ea20f141c14204a98c08cbda0a990672"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/candidate-summary.json": {
+    "bytes": 2179,
+    "sha256": "1119e066c447ee227f3ffdfaaf7e4b785302ff4ca9a67f311a92c806c044e73e"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/comparison-quarter-speed.mp4": {
+    "bytes": 1544158,
+    "sha256": "ec0d2c1a86cb128cecca2036c5a8d4c23481082fb5b331dcaaee6f6b2159cb71"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/cross-build-controls.json": {
+    "bytes": 2070,
+    "sha256": "8830014f0fe5c514a144b1cc001e121a27d02f68308fa60b65d19795a7cc53e9"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/live-report.json": {
+    "bytes": 18247,
+    "sha256": "7d0ac4f63f6973914e34365168c29d07603b9543bee8925cf61135b8881957c5"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/live-summary.json": {
+    "bytes": 3381,
+    "sha256": "6c57987ab71bf38a4b5dd69ae32ea8ad85b907857c9107a7222fcca79ba0a70d"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/profile-metadata.json": {
+    "bytes": 1348,
+    "sha256": "554f3c9defa392d57f331ca7d6ef9bc99869169d9f59bf954c9ffec02f92d961"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-000.png": {
+    "bytes": 581314,
+    "sha256": "a8570c6af1fed19d578cd3088f34d821b10c10c777846a97bc9146c1335b7bfe"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-001.png": {
+    "bytes": 582902,
+    "sha256": "400fff4141784558475cb11caef0cdce9876e2f7b3cdc3d5338c72cad949c8ec"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-002.png": {
+    "bytes": 582001,
+    "sha256": "88c660eb463747abf085e9355d0bbc7b240cac466558f4265609bc6113e8428e"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-003.png": {
+    "bytes": 581483,
+    "sha256": "3d62e62cb162ab8152882ff3d81ae2aff81b839338ea43defc5ddb5ad9abf8c7"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-004.png": {
+    "bytes": 581587,
+    "sha256": "0072272a6e9a5a9419600645682ecd021fe6189644dc0c3f9f324153e8df3000"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/reference-005.png": {
+    "bytes": 581811,
+    "sha256": "b0ae8f4e016e006dbdf1d88c9414d0b95575b948417974e855d7a815c8616963"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-000.png": {
+    "bytes": 581314,
+    "sha256": "a8570c6af1fed19d578cd3088f34d821b10c10c777846a97bc9146c1335b7bfe"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-001.png": {
+    "bytes": 582197,
+    "sha256": "c66017c1d387e60540c1121cf67548882630a35a886ec099981853c3e58a3fad"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-002.png": {
+    "bytes": 581645,
+    "sha256": "36cda390a5246b40da82c3df2a44431560aeaedd6d57d9cc4d4a7040b1686761"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-003.png": {
+    "bytes": 580865,
+    "sha256": "261cfd38bbe24ad1b9ce710054e328e6a17858ff29049a3a7e501242b6a248fd"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-004.png": {
+    "bytes": 581332,
+    "sha256": "b136a64919bbd4567796162416dd301c674bb4f0e6ffe6ab222429c6cea826b4"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/restored-005.png": {
+    "bytes": 581737,
+    "sha256": "1eaf126074d2183b409afe3faae94c48f2ab98503df4c3eebba7eb56fe5ea650"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/selected-tree-scans.json": {
+    "bytes": 3073,
+    "sha256": "1051a577c7080f0452bd8dda301d88a12c3b1b63aa53da2d6b41add34ff6904f"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/validation.json": {
+    "bytes": 1308,
+    "sha256": "6a1f55edb5f62949aa0024b144197766a8830d775f8db28dbd5fc9c500b00b13"
+  },
+  "docs/perf/CAPTURE-LEAF-WIND/video-verification.json": {
+    "bytes": 1608,
+    "sha256": "b852a86aa30372eb3823d897d2c6da8dd6a72a8b060e4842307ccd45b5761860"
+  },
+  "tools/measure-capture-leaf-wind.mjs": {
+    "bytes": 2103,
+    "sha256": "7c746396739f8b6dc44b821094d205473a9806558fa1faf2bd08226bd61b4394"
+  },
+  "tools/encode-capture-leaf-wind.mjs": {
+    "bytes": 3108,
+    "sha256": "0594614d5cfa532ac8247fe8da04ccf0e27a4f18303deb9345edc2ebbf92567c"
+  }
+}
