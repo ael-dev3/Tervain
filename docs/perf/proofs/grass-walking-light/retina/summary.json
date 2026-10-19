@@ -1,0 +1,54 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "buffer": [
+    2205,
+    1434
+  ],
+  "effectiveDpr": 1.5,
+  "route": {
+    "kind": "strafe",
+    "x": 6,
+    "z": 26,
+    "frames": 3,
+    "stepMetres": 0.65,
+    "metres": 1.3,
+    "frozenWind": true,
+    "hour": 17.5
+  },
+  "summaries": {
+    "noThrough": {
+      "affectedPixelObservations": 199496,
+      "baselineWarm140": 0,
+      "ablatedWarm140": 0,
+      "baselineBright180": 0,
+      "ablatedBright180": 0,
+      "baselineBright220": 0,
+      "ablatedBright220": 0,
+      "baselineJumps60": 6382,
+      "ablatedJumps60": 6027,
+      "baselineBrightJumps60": 0,
+      "ablatedBrightJumps60": 0,
+      "maxBaselineLuminance": 133.6786,
+      "maxAblatedLuminance": 132.96339999999998
+    },
+    "noSheen": {
+      "affectedPixelObservations": 1823555,
+      "baselineWarm140": 1780,
+      "ablatedWarm140": 1,
+      "baselineBright180": 0,
+      "ablatedBright180": 0,
+      "baselineBright220": 0,
+      "ablatedBright220": 0,
+      "baselineJumps60": 215597,
+      "ablatedJumps60": 99907,
+      "baselineBrightJumps60": 438,
+      "ablatedBrightJumps60": 446,
+      "maxBaselineLuminance": 169.3542,
+      "maxAblatedLuminance": 161.03719999999998
+    }
+  },
+  "scope": "Observations, not unique pixels. Temporal domain is the union of lighting-affected pixels in consecutive poses; camera motion and occlusion remain included. All same-pose controls are exact. No visual-quality or hardware timing PASS."
+}

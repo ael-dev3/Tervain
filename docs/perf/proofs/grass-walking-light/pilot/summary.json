@@ -18,6 +18,8 @@
   "summaries": {
     "noThrough": {
       "affectedPixelObservations": 193823,
+      "baselineWarm140": 0,
+      "ablatedWarm140": 0,
       "baselineBright180": 0,
       "ablatedBright180": 0,
       "baselineBright220": 0,
@@ -31,6 +33,8 @@
     },
     "noSheen": {
       "affectedPixelObservations": 10988,
+      "baselineWarm140": 0,
+      "ablatedWarm140": 0,
       "baselineBright180": 0,
       "ablatedBright180": 0,
       "baselineBright220": 0,
