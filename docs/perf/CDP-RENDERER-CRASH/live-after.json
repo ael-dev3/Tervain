@@ -1,0 +1,18 @@
+{
+  "scope": "Controlled renderer crash after the published High world becomes ready; not an organic game crash.",
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "requestTimeoutMs": 600000,
+  "observationMs": 98.1895979999972,
+  "result": {
+    "state": "rejected",
+    "error": "CDP renderer target crashed"
+  },
+  "expected": "rejected",
+  "console": [
+    "[warning] THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported."
+  ],
+  "pass": true
+}
