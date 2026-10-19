@@ -34,4 +34,8 @@ The new regression fails on the original source at both tested connectivity gaps
 | Current oak preparation contact-search radius | 0 |
 | Tight-reach offline diagnostic operations | +96,704 (+17.4%); correctness tradeoff |
 
-The stock exact-head draw/triangle budget result is recorded separately once complete. Software rendering cannot establish hardware frame pacing or laptop heat.
+The [stock exact-head budget](budget.txt) passed, actual exit 0: live b317734 and candidate 6bc50eff1 both **285 maximum draws / 3,048,306 maximum triangles / zero console errors**. Two same-revision live probes, four completed samples per probe, zero allowance, no raster-suppression preload.
+
+play-gate: PASS 6bc50eff1
+
+Software rendering cannot establish hardware frame pacing or laptop heat.
