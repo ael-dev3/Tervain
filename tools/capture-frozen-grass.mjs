@@ -25,7 +25,7 @@ for(let run=0;run<config.repeats;run++) {
   try {
     const setup=await page.eval(`const T=window.tervain,W=T.world,C=${JSON.stringify(config)},phase=${JSON.stringify(phase)};
       T.frame=()=>{};T.present=()=>{};T.render=()=>{};T.step=()=>{};T.perf=null;T.lastFrameDt=0;
-      T.hud.show(false);T.player.setPosition(C.x,C.z,0,W.terrain);T.cam.manual=true;
+      T.hud.show(false);T.player.setPosition(C.x+6,C.z+5,0,W.terrain);T.cam.manual=true;
       const c=T.cam.camera,h=W.terrain.heightAt(C.x,C.z),focus=T.player.group.position.clone().set(T.player.x,T.player.y,T.player.z);
       c.position.set(C.x+3,h+1.4,C.z+1.1);c.lookAt(C.x-29,h+.3,C.z-10.7);c.aspect=C.width/C.height;c.updateProjectionMatrix();c.updateMatrixWorld(true);
       // The diagnostic fixes physical pixel count rather than inheriting an adaptive-resolution history.
@@ -39,7 +39,7 @@ for(let run=0;run<config.repeats;run++) {
       window.__frozenGrass={snapshot:()=>({phase:(${readGrassPhaseControls.toString()})(T,phase.hour),waterTime:T.grade.waterTime,camera:c.matrixWorld.toArray(),projection:c.projectionMatrix.toArray(),grass:grass.stats(),buffer:[T.renderer.domElement.width,T.renderer.domElement.height]}),render:()=>{(${applyGrassPhaseControls.toString()})(T,phase);T.grade.waterTime=0;T.renderer.info.reset();T.renderWorld();const gl=T.renderer.getContext();if(gl.getError()||gl.isContextLost())throw Error('Invalid native draw');return {png:T.renderer.domElement.toDataURL('image/png'),draws:T.renderer.info.render.calls,triangles:T.renderer.info.render.triangles,state:__frozenGrass.snapshot()};}};
       const build=await fetch(new URL('version.json',document.baseURI)).then(r=>r.json()),printed=document.querySelector('.menu-build span')?.textContent;
       if(!printed?.includes(build.revision.slice(0,7)))throw Error('Loaded build and version.json differ');
-      return{build,printed,profile:{quality:T.settings.quality,postEnabled:T.grade.enabled,samples:T.grade.target.samples,requestedDpr:C.dpr,effectiveDpr:T.renderer.getPixelRatio(),buffer:[T.renderer.domElement.width,T.renderer.domElement.height]},state:__frozenGrass.snapshot()};`);
+      return{build,printed,player:[T.player.x,T.player.y,T.player.z],profile:{quality:T.settings.quality,postEnabled:T.grade.enabled,samples:T.grade.target.samples,requestedDpr:C.dpr,effectiveDpr:T.renderer.getPixelRatio(),buffer:[T.renderer.domElement.width,T.renderer.domElement.height]},state:__frozenGrass.snapshot()};`);
     if(args.head)assert(args.head.startsWith(setup.build.revision));
     assert.deepEqual(setup.profile.buffer,[Math.floor(config.width*config.dpr),Math.floor(config.height*config.dpr)]);
     if(runs.length)assert.deepEqual(setup.build,runs[0].setup.build,'Deployment changed across repeats');
