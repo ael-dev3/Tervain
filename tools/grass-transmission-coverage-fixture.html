@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><script type="module">
+addEventListener('error',e=>window.fixtureError=e.message);addEventListener('unhandledrejection',e=>window.fixtureError=String(e.reason));
+const before=await import('/@baseline-grass'),after=await import('/src/presentation/grass/grassMaterial.ts');
+const gl=document.createElement('canvas').getContext('webgl2');if(!gl)throw Error('WebGL2 required');
+const cases=[];for(const cov of [0,.01,.2,.5,.99,1])for(const t of [0,.15,.5,.9,1])for(const sheen of [0,.3,2])for(const light of [0,.2,1])cases.push({cov,t,sheen,light});
+const input=Float32Array.from(cases.flatMap(c=>[c.cov,c.t,c.sheen,c.light]));
+function run(source){
+ const thin=source.match(/float gThin = [^;]+;/)?.[0],info=source.match(/vGInfo = vec2\([^;]+;/)?.[0];if(!thin||!info)throw Error('Production grass-light marker missing');
+ const vertex='#version 300 es\nprecision highp float;layout(location=0) in vec4 data;out vec2 vGInfo;void main(){float gBladeCov=data.x;float gT=data.y;vec4 uLook=vec4(.9,.3,1.,data.z);vec4 aTint=vec4(1.,1.,1.,data.w);float gThrough=.75;float gLying=0.;'+thin+info+'gl_Position=vec4(0.);}';
+ const compile=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};
+ const p=gl.createProgram();gl.attachShader(p,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(p,compile(gl.FRAGMENT_SHADER,'#version 300 es\nprecision highp float;out vec4 color;void main(){color=vec4(1.);}'));gl.transformFeedbackVaryings(p,['vGInfo'],gl.INTERLEAVED_ATTRIBS);gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));gl.useProgram(p);
+ const src=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,src);gl.bufferData(gl.ARRAY_BUFFER,input,gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,4,gl.FLOAT,false,16,0);
+ const dst=gl.createBuffer();gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,dst);gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER,cases.length*8,gl.STREAM_READ);gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,dst);gl.enable(gl.RASTERIZER_DISCARD);gl.beginTransformFeedback(gl.POINTS);gl.drawArrays(gl.POINTS,0,cases.length);gl.endTransformFeedback();gl.disable(gl.RASTERIZER_DISCARD);const values=new Float32Array(cases.length*2);gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,values);gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,null);if(gl.getError()||gl.isContextLost())throw Error('Invalid transform-feedback result');gl.deleteBuffer(src);gl.deleteBuffer(dst);gl.deleteProgram(p);return Array.from(values);
+}
+const semantic=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/\/\/[^\n]*/g,'').replace(/\s+/g,' ').trim();
+const expected=before.GRASS_BLADE_GLSL.replace('float gThin = mix(0.4, 1.0, gBladeCov);','float gThin = gBladeCov;');
+window.sheenProbe={vertexOnlyFootprintRead:semantic(expected)===semantic(after.GRASS_BLADE_GLSL),cases,before:run(before.GRASS_BLADE_GLSL),after:run(after.GRASS_BLADE_GLSL),fragmentEqual:before.GRASS_FRAGMENT_DECL===after.GRASS_FRAGMENT_DECL&&before.GRASS_LIGHT_GLSL===after.GRASS_LIGHT_GLSL};window.fixtureReady=true;
+</script>
