@@ -1,0 +1,495 @@
+{
+  "complete": true,
+  "beforeRef": "d3f93f90e",
+  "afterRef": "8b1f9958f",
+  "sourceSha256": {
+    "before": "05147b0caaf2b2127e244f91b5d26bfe93eabc00e65463fd92159b0b808b4aa4",
+    "after": "47cd43f162c2310153f3fd7b1be577103f85d2af77aba4506f94553dd5111631"
+  },
+  "baselineViolations": 160,
+  "candidateViolations": 0,
+  "singleSampleExact": true,
+  "rows": [
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 0,
+      "before": {
+        "violations": 0,
+        "covered": 432,
+        "fullyCovered": 432,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c126ea7c97996fe4d232842e6c2539bbc02ae4da0235e4509daa00b6ca11d5a1"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 432,
+        "fullyCovered": 432,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c126ea7c97996fe4d232842e6c2539bbc02ae4da0235e4509daa00b6ca11d5a1"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 1,
+      "before": {
+        "violations": 0,
+        "covered": 110,
+        "fullyCovered": 110,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "ddac79eb01ebd961c0a49613b46a098b5647585f72b652d9f752b736615d075e"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 110,
+        "fullyCovered": 110,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "ddac79eb01ebd961c0a49613b46a098b5647585f72b652d9f752b736615d075e"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 2,
+      "before": {
+        "violations": 0,
+        "covered": 58,
+        "fullyCovered": 58,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "95e3b8b5f71af0eec9c2feb9fb35a283a08063e5aa3093b026f67ec3d577e6db"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 58,
+        "fullyCovered": 58,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "95e3b8b5f71af0eec9c2feb9fb35a283a08063e5aa3093b026f67ec3d577e6db"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 3,
+      "before": {
+        "violations": 0,
+        "covered": 36,
+        "fullyCovered": 36,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "6d2ec861e985b1b77f925f41ca84de861f44820cb339c3396f783d6a613264b5"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 36,
+        "fullyCovered": 36,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "6d2ec861e985b1b77f925f41ca84de861f44820cb339c3396f783d6a613264b5"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 4,
+      "before": {
+        "violations": 0,
+        "covered": 24,
+        "fullyCovered": 24,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "48fb3c2a716dc86079bc700a6ef3a69c844c61a6fb300fc7dbc93bd3c738b8b0"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 24,
+        "fullyCovered": 24,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "48fb3c2a716dc86079bc700a6ef3a69c844c61a6fb300fc7dbc93bd3c738b8b0"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 5,
+      "before": {
+        "violations": 0,
+        "covered": 24,
+        "fullyCovered": 24,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "9731db96390b2486841e773d325936a759c7cdd8186e12cdc3f173c61498c671"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 24,
+        "fullyCovered": 24,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "9731db96390b2486841e773d325936a759c7cdd8186e12cdc3f173c61498c671"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 6,
+      "before": {
+        "violations": 0,
+        "covered": 27,
+        "fullyCovered": 27,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c280e3e892127abfe85d9d73fb8be9ce2dc6b43546031cbbad4625e54fdfabac"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 27,
+        "fullyCovered": 27,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c280e3e892127abfe85d9d73fb8be9ce2dc6b43546031cbbad4625e54fdfabac"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 7,
+      "before": {
+        "violations": 0,
+        "covered": 42,
+        "fullyCovered": 42,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "acf700a1e1e1173e2e8a880e3673fd40935d526e3884a68dc632e965f3738006"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 42,
+        "fullyCovered": 42,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "acf700a1e1e1173e2e8a880e3673fd40935d526e3884a68dc632e965f3738006"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": false,
+      "frame": 8,
+      "before": {
+        "violations": 0,
+        "covered": 98,
+        "fullyCovered": 98,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "30bea54afbc1f993ae0340f23e5e5a224a51448368a59f5dc3fc6114734e66ea"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 98,
+        "fullyCovered": 98,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "30bea54afbc1f993ae0340f23e5e5a224a51448368a59f5dc3fc6114734e66ea"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 0,
+      "resolved": true,
+      "frame": 0,
+      "before": {
+        "violations": 0,
+        "covered": 4096,
+        "fullyCovered": 4096,
+        "draws": 1,
+        "triangles": 1,
+        "rgbSha256": "f3538725d9c9af6901de05793b70cf544f1ac94c85d794079891c1df52ee2c36"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 4096,
+        "fullyCovered": 4096,
+        "draws": 1,
+        "triangles": 1,
+        "rgbSha256": "f3538725d9c9af6901de05793b70cf544f1ac94c85d794079891c1df52ee2c36"
+      },
+      "coverageExact": true,
+      "identical": true,
+      "maxChannelDelta": 0
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 0,
+      "before": {
+        "violations": 10,
+        "covered": 88,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "32f812ca77570107eb462d26439b8848d6c22493bc449e81304c769f417c65d3"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 88,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "6a7a6a174d2554dbbf6556182409e082b7bccdb14007aad32485c3e7ad85ba70"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 9
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 1,
+      "before": {
+        "violations": 24,
+        "covered": 113,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "edfe857c25b68a364f1c665a3d397d00aeb1dffbf759474a1399fd4f53cafa61"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 113,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "d22656bad8e61194f38a8fde935cc43322990a5f736e1de67dde1d2b57231aa4"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 13
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 2,
+      "before": {
+        "violations": 16,
+        "covered": 139,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "60b39decd66f9a40068ba7509957c98331919a593ebf7a90e6821c17013e06fc"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 139,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "308a8d9a505478822b4429aa9129b0fe87b14e848e51403f1ebc736ba50a6703"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 17
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 3,
+      "before": {
+        "violations": 27,
+        "covered": 156,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "018c37b0bf60d60551f814095f76584af07ab49f35a4abfff90253e509084cef"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 156,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "644e28d346b4bf2461ce02921a609f8341595ed208d52917bd847619191e14c8"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 16
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 4,
+      "before": {
+        "violations": 19,
+        "covered": 169,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "ce5106e543b83cf44bd9dba282d08f9375fac2cf0ee0eb1e0dd20e44cf81edda"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 169,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "a65582e38c9417bd7391c9c097199c1dd353ea16905dd520c8808cb7d461bef5"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 30
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 5,
+      "before": {
+        "violations": 10,
+        "covered": 162,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "ed6f95796bb1426997630eb0522d5f657ee1a17ea85eff645e96a6483eea56eb"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 162,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "a7a5164626127ffbd256fda35d50346285196bcdb196d957cd07936c41f9c235"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 9
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 6,
+      "before": {
+        "violations": 22,
+        "covered": 176,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "2c180f942e6e49fa1968e563b546ecadada824c01e548b25e03cf28784a9e9b6"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 176,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c4113b151cb6cb6b4cf97d6ff6b614078f9c962b51090d65d6475dac27f5ee0b"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 15
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 7,
+      "before": {
+        "violations": 13,
+        "covered": 151,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "4c07aa2469e231ed0106e5a4a6e84c49bb983864ee05f8c368dc6452f9828d1f"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 151,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "c6ad1380a20381a9669055897c0a27ff2552ff21559e31967f0864d970f8d0c7"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 16
+    },
+    {
+      "samples": 4,
+      "resolved": false,
+      "frame": 8,
+      "before": {
+        "violations": 19,
+        "covered": 123,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "08c4fe445a4b61c04cddaba109ebcc5ed7d2e88e1e1744653c3de7876edfad22"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 123,
+        "fullyCovered": 0,
+        "draws": 1,
+        "triangles": 512,
+        "rgbSha256": "8c858307bdafcfcb8322d3e44ad8fe09a2dbc3c217c8b4d69beb7de9069700b7"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 15
+    },
+    {
+      "samples": 4,
+      "resolved": true,
+      "frame": 0,
+      "before": {
+        "violations": 0,
+        "covered": 4160,
+        "fullyCovered": 4032,
+        "draws": 1,
+        "triangles": 1,
+        "rgbSha256": "a421e5b4c5f11f9becbc61b1dbd9a2440ef002cc6d0bfd6ae13f76e3265b0793"
+      },
+      "after": {
+        "violations": 0,
+        "covered": 4160,
+        "fullyCovered": 4032,
+        "draws": 1,
+        "triangles": 1,
+        "rgbSha256": "b96467a6fdbef41395777a34d91656999dfd1e6cb7ce444c56505f7a62670459"
+      },
+      "coverageExact": true,
+      "identical": false,
+      "maxChannelDelta": 1
+    }
+  ],
+  "scope": "Actual production varying declarations and defensive lighting macros, valid authored light values on adversarial subpixel triangles. Resolved alpha gives sample coverage. Bounds allow two quantization levels. Isolates interpolation; native walking capture and render budget are separate checks."
+}
