@@ -1,0 +1,19 @@
+{
+  "baseline": "b317734",
+  "cases": 270,
+  "unresolvedBefore": 20,
+  "unresolvedAfter": 0,
+  "resolvedPairsExact": 45,
+  "transitionPairs": 80,
+  "transmissionPairsExact": 270,
+  "fragmentEqual": true,
+  "vertexOnlyFootprintRead": true,
+  "cost": {
+    "additionalTextureInstructions": 0,
+    "additionalVertexArithmetic": 0,
+    "additionalFragmentArithmetic": 0,
+    "runtimeJsIdenticalExceptProgramKey": true
+  },
+  "pass": true,
+  "scope": "WebGL2 transform feedback of exact production gThin and vGInfo expressions. Geometry, native whole-scene motion and render budget verified separately."
+}

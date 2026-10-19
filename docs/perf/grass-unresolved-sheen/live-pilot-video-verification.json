@@ -1,0 +1,65 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "fullSceneBuffer": [
+    2205,
+    1434
+  ],
+  "losslessCrop": {
+    "left": 462,
+    "top": 645,
+    "width": 1280,
+    "height": 720
+  },
+  "videos": [
+    {
+      "file": "before-crop-lossless.mkv",
+      "bytes": 10709335,
+      "frames": 7,
+      "rgbExact": true,
+      "sha256": "bdfa04dff64cffd7f8b14f514555cb27edff3f9d981ec3fea871ace7e1a97be5",
+      "decodedRgbSha256": [
+        "b44a1c0c355abbe2d68c362166529d89181c1994673e69b7b3adb86d56806aed",
+        "f8a466402279e14513f1153c32817174e12590d7b6809be75d9002dee7a047da",
+        "1f16b005b694ae0937274b5c62cb85e2d893e2091c80a93f4f90f8eadbbda5dd",
+        "2a50ac631043e274e1c18d1ed5baf8de8b8bbaac220c09f402994c3b2b9fed8f",
+        "e20f271e8939d2368ba36d5478b2a276822ab4b6b5688e2119f97073bd3159a5",
+        "681eedbfa0a6366e137bca8179f72e4585e0f01bbe036207fe07834e68d73003",
+        "86c7f91a77bf61513afda960c85b2673baebc7d31147594b218013d762c3eaa3"
+      ]
+    },
+    {
+      "file": "after-crop-lossless.mkv",
+      "bytes": 10654140,
+      "frames": 7,
+      "rgbExact": true,
+      "sha256": "f8c8a70b32ac64b167e4822dc5d24d3c251af84137a30b684160cd56d1f01954",
+      "decodedRgbSha256": [
+        "a2b3e3df7ef1ac4137b43828f8dcd15906baff10e114393f6b76d322160be879",
+        "9aeb5e159bb23dd39a4ef8d9a7b737cdd915ab27be55437f2fe1c5bfec7c9fec",
+        "a840abce9084b651df440c1a3ec02b6fbf9503149f1c83616c12240f35fc350f",
+        "dfaf156a12095d71338f4db9e6be8bba26154f5a7f6bb93b98cd7236ca735498",
+        "868d89616434d72e97a0954d5a7c6e324d8580a5dac29a13412707f7c3dd24d7",
+        "9ec19caf4b169fac592fd93ccd3b83b79e302b5a1cd7fbaaa4ba2665c0330342",
+        "4700b0469428e800aa4d81b55adc77e71d07663fd5ceea39bbf2ba5e4757ce75"
+      ]
+    }
+  ],
+  "preview": {
+    "file": "comparison-quarter-speed.mp4",
+    "sourceCadence": 60,
+    "playbackCadence": 15,
+    "loops": 3,
+    "crop": {
+      "left": 462,
+      "top": 645,
+      "width": 1280,
+      "height": 720
+    },
+    "lossy": true
+  },
+  "scope": "Every decoded native-pixel lossless grass crop is checked against the original PNG crop; these are not full-scene clips. The cropped H.264 comparison is an illustrative quarter-speed preview, not the measurement source or hardware timing."
+}
