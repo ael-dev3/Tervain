@@ -1,0 +1,357 @@
+{
+  "before": {
+    "version": "0.0.29",
+    "revision": "bf9261f"
+  },
+  "after": {
+    "version": "0.0.29",
+    "revision": "cb7603817"
+  },
+  "beforeSummary": {
+    "trees": 52,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 610292,
+    "chunks": 59,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 20527,
+    "detachedClumps": 1482,
+    "treesWithDetached": 29
+  },
+  "afterSummary": {
+    "trees": 52,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 610292,
+    "chunks": 59,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 20448,
+    "detachedClumps": 1466,
+    "treesWithDetached": 29
+  },
+  "targetsIdentical": true,
+  "rows": [
+    {
+      "label": "tree:wild:45:12",
+      "before": 677,
+      "after": 673,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:29:25",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:23:27",
+      "before": 640,
+      "after": 636,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:32:27",
+      "before": 3031,
+      "after": 3024,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:49:39",
+      "before": 1323,
+      "after": 1318,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:36:41:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:42:45",
+      "before": 2380,
+      "after": 2374,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:68:13",
+      "before": 1742,
+      "after": 1740,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:75:14",
+      "before": 155,
+      "after": 155,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:50:15",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:65:16",
+      "before": 110,
+      "after": 110,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:59:18",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:69:26",
+      "before": 1102,
+      "after": 1101,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:76:28",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:41:32:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:41:33:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:86:33",
+      "before": 111,
+      "after": 111,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:80:34",
+      "before": 4,
+      "after": 4,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:38:35",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:48:37",
+      "before": 277,
+      "after": 277,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:37:38:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:39:39",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:64:39",
+      "before": 265,
+      "after": 265,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:43:43",
+      "before": 49,
+      "after": 49,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:41:44",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:57:20",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:27:22",
+      "before": 845,
+      "after": 839,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:79:22",
+      "before": 2982,
+      "after": 2980,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:26:25",
+      "before": 612,
+      "after": 608,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:39:25",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:80:25",
+      "before": 336,
+      "after": 333,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:80:26",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:75:27",
+      "before": 16,
+      "after": 16,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:35:34",
+      "before": 257,
+      "after": 254,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:40:35",
+      "before": 48,
+      "after": 48,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:36:37",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:47:37",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:55:37",
+      "before": 83,
+      "after": 83,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:73:37",
+      "before": 803,
+      "after": 797,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:45:39",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:37:40",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:41:43",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:36:23",
+      "before": 1674,
+      "after": 1661,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:38:24",
+      "before": 267,
+      "after": 261,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:25:28:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:70:35",
+      "before": 699,
+      "after": 692,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:52:26",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:85:30",
+      "before": 7,
+      "after": 7,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:42:31",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:43:38:sapling",
+      "before": 0,
+      "after": 0,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:40:40",
+      "before": 23,
+      "after": 23,
+      "newFlags": []
+    },
+    {
+      "label": "tree:wild:40:42",
+      "before": 9,
+      "after": 9,
+      "newFlags": []
+    }
+  ],
+  "groupPartitionControl": {
+    "label": "tree:wild:68:13",
+    "beforeGroups": 41,
+    "afterGroups": 42,
+    "oldBoxesWithAfterFarMaskGroups": 42,
+    "partitionExactlyMatches": true,
+    "explanation": "Two newly supported components leave the far-only graph; the remaining old boxes reproduce the candidate partition exactly."
+  }
+}

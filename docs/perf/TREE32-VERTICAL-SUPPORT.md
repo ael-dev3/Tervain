@@ -6,7 +6,7 @@ Feature commit `cb7603817eac3d77a6445dc25232b76f87eba134`; published baseline **
 
 A clump's bounding sphere can intersect wood even when its leaf surfaces exceed wood reach. Near detail now checks untouched clumps again with the audit's converted 0.75 m gap. It accepts only vertical translations that strictly improve every member's sampled wood distance. Existing placements and the earlier layout pass stay in place. The residual pass reuses the existing components, contact results and wood-search index.
 
-No cards are removed, resized or rotated. The near shade-input X/Z coordinates remain bit-identical. Both shade fields are freshly rasterized from their own geometry: **9,409 samples per variant, five variants, all identical**. No shade mask is frozen, density compensated, or grass setting changed. Mid/far geometry and reports are unchanged. All 451 near targets have no detached-card/group regression.
+No cards are removed, resized or rotated. The near shade-input X/Z coordinates remain bit-identical. Both shade fields are freshly rasterized from their own geometry: **9,409 samples per variant, five variants, all identical**. No shade mask is frozen, density compensated, or grass setting changed. Mid/far geometry and reports are unchanged. All 451 near targets have no unmasked detached-card/group regression.
 
 | Tree32 rest-geometry audit | Live | Candidate |
 | --- | ---: | ---: |
@@ -58,3 +58,9 @@ Materials, shader source, texture sampling instructions per fragment and render 
 Eight alternating fresh-factory construction pairs, five complete oak variants per sample, after two warm-ups per mode, recorded wall times under concurrent budget activity: baseline mean 3,165.2 ms / p95 3,838.2 ms; candidate mean 3,002.6 ms / p95 3,871.0 ms. Raw samples are in `report.json`. These are noisy **construction timings**, not per-frame CPU, an Apple result or evidence of a speedup.
 
 30 focused tests and production build pass. Regressions cover the original sphere false exemption, preserved shape/index/UV/normal data, immutable input, exact X/Z and rebuilt shade agreement, near-only converted gap, unchanged default/mid path, and rejection of a move that worsens another member's wood gap. Hardware, animated-wind and whole-tree visual approval remain outstanding.
+
+## Native all-oak alpha cross-check
+
+Independent native audits of the published baseline and compiled candidate cover 52 oaks with identical target transforms and cutout samplers. Flagged opaque components fall **20,527 → 20,448**, groups **1,482 → 1,466**; 610,292 total components and 59 full-geometry chunks stay unchanged. Comparing component IDs finds **zero newly flagged components** on every tree. These are opaque triangle components, not card counts.
+
+One target, `tree:wild:68:13`, changes 1,742/41 components/groups → 1,740/42. Its two newly supported components disappear from the audit’s far-only graph. Re-running that graph with the original boxes and candidate far mask gives exactly the same 42 partitions: this count increase does not indicate newly detached components or changed spatial connections among the remaining components. See [scrubbed per-tree results](proofs/tree32-vertical/all-oak-alpha.json).
