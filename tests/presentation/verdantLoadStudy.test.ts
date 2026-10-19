@@ -7,7 +7,7 @@ import {meshyTreeTemplates} from './meshyTreeFixture';
 it('records construction-only repair cost',async()=>{
  const templates=await meshyTreeTemplates(['verdant-sentinel']),real=C.reconnectGrownTwigRoots,rows:{run:number,mode:string,totalMs:number,repairMs:number,calls:number}[]=[];
  let enabled=false,cost=0,calls=0;
- const spy=vi.spyOn(C,'reconnectGrownTwigRoots').mockImplementation((g,p,t)=>{if(!enabled)return g;const start=performance.now();const result=real(g,p,t);cost+=performance.now()-start;calls++;return result;});
+ const spy=vi.spyOn(C,'reconnectGrownTwigRoots').mockImplementation((g,p,t,max)=>{if(!enabled)return g;const start=performance.now();const result=real(g,p,t,max);cost+=performance.now()-start;calls++;return result;});
  try{for(let run=0;run<4;run++)for(const mode of run%2?['after','before']:['before','after']){
   enabled=mode==='after';cost=0;calls=0;const forest=createMeshyForest(templates),start=performance.now();forest.variant('oak',0,'verdant-sentinel');rows.push({run,mode,totalMs:performance.now()-start,repairMs:cost,calls});forest.dispose();
  }}finally{spy.mockRestore();}

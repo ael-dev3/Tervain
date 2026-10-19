@@ -1,0 +1,757 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "alpha": false,
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "options": {
+        "lod": 0,
+        "alpha": false,
+        "gap": 0.75,
+        "woodReach": 1.5,
+        "maxOperations": 300000000
+      },
+      "before": {
+        "schema": 1,
+        "lod": 0,
+        "gap": 0.75,
+        "operations": 1269101,
+        "complete": true,
+        "alpha": false,
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 21544,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 718,
+          "detachedClumps": 58,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 487,
+            "detachedClumps": 7,
+            "maxWoodGap": 2.313733111215629,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 64,
+            "detachedClumps": 22,
+            "maxWoodGap": 1.7984011494286565,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 167,
+            "detachedClumps": 29,
+            "maxWoodGap": 1.9776197529752266,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      },
+      "after": {
+        "schema": 1,
+        "lod": 0,
+        "gap": 0.75,
+        "operations": 1271215,
+        "complete": true,
+        "alpha": false,
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 21544,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 718,
+          "detachedClumps": 58,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 487,
+            "detachedClumps": 7,
+            "maxWoodGap": 2.313733111215629,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 64,
+            "detachedClumps": 22,
+            "maxWoodGap": 1.7984011494286565,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 5386,
+            "chunks": 1,
+            "detachedCards": 167,
+            "detachedClumps": 29,
+            "maxWoodGap": 1.9776197529752266,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      }
+    },
+    {
+      "lod": 0,
+      "alpha": true,
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "options": {
+        "lod": 0,
+        "alpha": true,
+        "gap": 0.75,
+        "woodReach": 1.5,
+        "maxOperations": 300000000
+      },
+      "before": {
+        "schema": 1,
+        "lod": 0,
+        "gap": 0.75,
+        "operations": 5019012,
+        "complete": true,
+        "alpha": {
+          "maskedTrees": 4
+        },
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 43088,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 2614,
+          "detachedClumps": 148,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 1661,
+            "detachedClumps": 42,
+            "maxWoodGap": 2.41814065712905,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 261,
+            "detachedClumps": 52,
+            "maxWoodGap": 1.8795542650017267,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 692,
+            "detachedClumps": 54,
+            "maxWoodGap": 2.066860134312712,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      },
+      "after": {
+        "schema": 1,
+        "lod": 0,
+        "gap": 0.75,
+        "operations": 5030840,
+        "complete": true,
+        "alpha": {
+          "maskedTrees": 4
+        },
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 43088,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 2614,
+          "detachedClumps": 148,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 1661,
+            "detachedClumps": 42,
+            "maxWoodGap": 2.41814065712905,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 261,
+            "detachedClumps": 52,
+            "maxWoodGap": 1.8795542650017267,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 0,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 10772,
+            "chunks": 1,
+            "detachedCards": 692,
+            "detachedClumps": 54,
+            "maxWoodGap": 2.066860134312712,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      }
+    },
+    {
+      "lod": 1,
+      "alpha": false,
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "options": {
+        "lod": 1,
+        "alpha": false,
+        "gap": 0.75,
+        "woodReach": 1.5,
+        "maxOperations": 300000000
+      },
+      "before": {
+        "schema": 1,
+        "lod": 1,
+        "gap": 0.75,
+        "operations": 455314,
+        "complete": true,
+        "alpha": false,
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 8696,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 1807,
+          "detachedClumps": 3,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 790,
+            "detachedClumps": 1,
+            "maxWoodGap": 3.1723854101972075,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 441,
+            "detachedClumps": 1,
+            "maxWoodGap": 2.4658079795261476,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 576,
+            "detachedClumps": 1,
+            "maxWoodGap": 2.7115366162349606,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      },
+      "after": {
+        "schema": 1,
+        "lod": 1,
+        "gap": 0.75,
+        "operations": 455314,
+        "complete": true,
+        "alpha": false,
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 8696,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 1807,
+          "detachedClumps": 3,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 790,
+            "detachedClumps": 1,
+            "maxWoodGap": 3.1723854101972075,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 441,
+            "detachedClumps": 1,
+            "maxWoodGap": 2.4658079795261476,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 2174,
+            "chunks": 1,
+            "detachedCards": 576,
+            "detachedClumps": 1,
+            "maxWoodGap": 2.7115366162349606,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      }
+    },
+    {
+      "lod": 1,
+      "alpha": true,
+      "label": "tree:wild:36:23",
+      "kind": "oak/verdant-sentinel",
+      "options": {
+        "lod": 1,
+        "alpha": true,
+        "gap": 0.75,
+        "woodReach": 1.5,
+        "maxOperations": 300000000
+      },
+      "before": {
+        "schema": 1,
+        "lod": 1,
+        "gap": 0.75,
+        "operations": 1704530,
+        "complete": true,
+        "alpha": {
+          "maskedTrees": 4
+        },
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 17392,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 4740,
+          "detachedClumps": 6,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 2012,
+            "detachedClumps": 1,
+            "maxWoodGap": 3.2102585861470208,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 1185,
+            "detachedClumps": 3,
+            "maxWoodGap": 2.4952457581664302,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 1543,
+            "detachedClumps": 2,
+            "maxWoodGap": 2.7439079993055455,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      },
+      "after": {
+        "schema": 1,
+        "lod": 1,
+        "gap": 0.75,
+        "operations": 1704530,
+        "complete": true,
+        "alpha": {
+          "maskedTrees": 4
+        },
+        "bySpecies": {
+          "oak": {
+            "trees": 4,
+            "leafless": 0,
+            "candidates": 0
+          }
+        },
+        "summary": {
+          "trees": 4,
+          "missingWood": 0,
+          "leafless": 0,
+          "components": 17392,
+          "chunks": 4,
+          "candidates": 0,
+          "woodReach": 1.5,
+          "detachedCards": 4740,
+          "detachedClumps": 6,
+          "treesWithDetached": 3
+        },
+        "trees": [
+          {
+            "label": "tree:wild:36:23",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 2012,
+            "detachedClumps": 1,
+            "maxWoodGap": 3.2102585861470208,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:38:24",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 1185,
+            "detachedClumps": 3,
+            "maxWoodGap": 2.4952457581664302,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:25:28:sapling",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "maxWoodGap": 0,
+            "candidates": []
+          },
+          {
+            "label": "tree:wild:70:35",
+            "species": "oak",
+            "lod": 1,
+            "kind": "oak/verdant-sentinel",
+            "missingWood": false,
+            "leafless": false,
+            "components": 4348,
+            "chunks": 1,
+            "detachedCards": 1543,
+            "detachedClumps": 2,
+            "maxWoodGap": 2.7439079993055455,
+            "candidates": []
+          }
+        ],
+        "scope": "Registered forest selected-LOD rest geometry. Leaf components link by bounding-box proximity, then leaf-surface samples test wood-triangle contacts. Alpha cutout is evaluated only in alpha mode (opaque-texel bounds); shader wind is not; candidates require visual review. Null sampled gap means no nearby triangle was found, not an exact distance."
+      }
+    }
+  ],
+  "scope": "All registered instances of the verdant oak template, selected near/mid rest geometry. Diagnostic surface samples; not continuous alpha-distance, motion or global clearance."
+}

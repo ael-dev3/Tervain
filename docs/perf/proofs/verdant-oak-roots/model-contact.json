@@ -1,0 +1,26 @@
+{
+  "rows": [
+    {
+      "lod": 0,
+      "moved": [
+        95
+      ],
+      "flagsBefore": 3,
+      "flagsAfter": 2,
+      "root95": {
+        "before": 0.31277791526343984,
+        "after": 0.011661581092885894,
+        "beforeCross": 0,
+        "afterCross": 1
+      }
+    },
+    {
+      "lod": 1,
+      "moved": [],
+      "flagsBefore": 0,
+      "flagsAfter": 0,
+      "root95": null
+    }
+  ],
+  "complete": true
+}

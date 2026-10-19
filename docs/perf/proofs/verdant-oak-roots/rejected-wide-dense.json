@@ -1,0 +1,192 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "label": "tree:wild:70:35",
+  "scale": 1.1812307621561922,
+  "worldReach": 1.5,
+  "rows": [
+    {
+      "triangle": 2024,
+      "coarseOldWorld": 1.3048427232696425,
+      "coarseNewWorld": 1.758417379298757,
+      "centre": [
+        66.55845401266212,
+        21.18852415956277,
+        53.428290906468185
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 132,
+          "oldWorldMin": 1.2862782012849194,
+          "newWorldMin": 1.7432062582178138
+        },
+        {
+          "divisions": 48,
+          "opaque": 501,
+          "oldWorldMin": 1.285759564188722,
+          "newWorldMin": 1.7431454779928068
+        },
+        {
+          "divisions": 96,
+          "opaque": 2004,
+          "oldWorldMin": 1.2856194078939975,
+          "newWorldMin": 1.743074107903248
+        }
+      ]
+    },
+    {
+      "triangle": 2025,
+      "coarseOldWorld": 1.3048427232696425,
+      "coarseNewWorld": 1.8050690489561163,
+      "centre": [
+        66.28710138477834,
+        21.226238756843294,
+        53.48887533376245
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 123,
+          "oldWorldMin": 1.2951572704062737,
+          "newWorldMin": 1.8021454252729259
+        },
+        {
+          "divisions": 48,
+          "opaque": 503,
+          "oldWorldMin": 1.2905881098022067,
+          "newWorldMin": 1.8010065358101317
+        },
+        {
+          "divisions": 96,
+          "opaque": 2031,
+          "oldWorldMin": 1.290336235725242,
+          "newWorldMin": 1.8005180130696368
+        }
+      ]
+    },
+    {
+      "triangle": 2636,
+      "coarseOldWorld": 1.438748478038424,
+      "coarseNewWorld": 1.7481586859762952,
+      "centre": [
+        67.47021873735848,
+        8.726172949379931,
+        52.92753414678326
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 126,
+          "oldWorldMin": 1.2069791271298966,
+          "newWorldMin": 1.4874634240035998
+        },
+        {
+          "divisions": 48,
+          "opaque": 464,
+          "oldWorldMin": 1.203958830485522,
+          "newWorldMin": 1.474430938320055
+        },
+        {
+          "divisions": 96,
+          "opaque": 1811,
+          "oldWorldMin": 1.203958830485522,
+          "newWorldMin": 1.474430938320055
+        }
+      ]
+    },
+    {
+      "triangle": 2637,
+      "coarseOldWorld": 1.438748478038424,
+      "coarseNewWorld": 1.7481586859762952,
+      "centre": [
+        67.56307979402108,
+        8.89130275802728,
+        53.08890400873396
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 120,
+          "oldWorldMin": 1.3808762240913037,
+          "newWorldMin": 1.5541167186583422
+        },
+        {
+          "divisions": 48,
+          "opaque": 483,
+          "oldWorldMin": 1.3448343915967,
+          "newWorldMin": 1.5541167186583422
+        },
+        {
+          "divisions": 96,
+          "opaque": 1956,
+          "oldWorldMin": 1.3448343915967,
+          "newWorldMin": 1.5541167186583422
+        }
+      ]
+    },
+    {
+      "triangle": 6149,
+      "coarseOldWorld": 1.197111931061367,
+      "coarseNewWorld": 1.5598096481674026,
+      "centre": [
+        67.0276074072865,
+        8.038495355841313,
+        52.201204061164134
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 117,
+          "oldWorldMin": 1.1330473194351716,
+          "newWorldMin": 1.4380728161062708
+        },
+        {
+          "divisions": 48,
+          "opaque": 441,
+          "oldWorldMin": 1.1330473194351716,
+          "newWorldMin": 1.4380728161062708
+        },
+        {
+          "divisions": 96,
+          "opaque": 1737,
+          "oldWorldMin": 1.1330473194351716,
+          "newWorldMin": 1.4380728161062708
+        }
+      ]
+    },
+    {
+      "triangle": 6161,
+      "coarseOldWorld": 1.343013063800091,
+      "coarseNewWorld": 1.65877406339323,
+      "centre": [
+        67.08626409578088,
+        7.870022536556114,
+        52.02231213314047
+      ],
+      "dense": [
+        {
+          "divisions": 24,
+          "opaque": 133,
+          "oldWorldMin": 1.232906756226752,
+          "newWorldMin": 1.489270993906137
+        },
+        {
+          "divisions": 48,
+          "opaque": 513,
+          "oldWorldMin": 1.232906756226752,
+          "newWorldMin": 1.489270993906137
+        },
+        {
+          "divisions": 96,
+          "opaque": 2051,
+          "oldWorldMin": 1.232906756226752,
+          "newWorldMin": 1.489270993906137
+        }
+      ]
+    }
+  ],
+  "scope": "Newly flagged coarse alpha components only, with denser positive-contact witnesses. Sampling cannot prove continuous absence of support."
+}

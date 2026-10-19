@@ -1,22 +1,22 @@
 {
   "build": {
     "version": "0.0.33",
-    "revision": "f0c33cda6"
+    "revision": "52d4a5f4c"
   },
   "rows": [
     {
       "kind": "oak/verdant-sentinel",
       "lod": 0,
       "wood": {
-        "normal": "cf717ae0a0eada024a90c9edf75a1ff0f8c07d40e3e9407201af06bc25922e8d",
-        "position": "c46f08209957f411aebfd5f3bf0f868ec09bfb70bc816562ce6089b4658b899a",
-        "uv": "76720da62d9972ebf974d8c031820ac44a790a5e6a29d4f26856af9ef327c3ec",
+        "normal": "976635a4e0c893c2a7df6b30b7a409cf2e32d90d40b8b7a2d6dd3c5d8608a486",
+        "position": "2b910a67912dd2d61174bc9d8d1cad13bb60386d45df0051dc674bffde9edba1",
+        "uv": "a6f0264d81122eccdf76a28aaa150effbd96af9e694b5db7febe3fca9c198cf4",
         "index": "d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76"
       },
       "repaired": {
-        "normal": "cf717ae0a0eada024a90c9edf75a1ff0f8c07d40e3e9407201af06bc25922e8d",
-        "position": "c46f08209957f411aebfd5f3bf0f868ec09bfb70bc816562ce6089b4658b899a",
-        "uv": "76720da62d9972ebf974d8c031820ac44a790a5e6a29d4f26856af9ef327c3ec",
+        "normal": "976635a4e0c893c2a7df6b30b7a409cf2e32d90d40b8b7a2d6dd3c5d8608a486",
+        "position": "2b910a67912dd2d61174bc9d8d1cad13bb60386d45df0051dc674bffde9edba1",
+        "uv": "a6f0264d81122eccdf76a28aaa150effbd96af9e694b5db7febe3fca9c198cf4",
         "index": "d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76"
       },
       "leaf": {

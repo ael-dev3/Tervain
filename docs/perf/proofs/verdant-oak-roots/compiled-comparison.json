@@ -5,14 +5,14 @@
   },
   "after": {
     "version": "0.0.33",
-    "revision": "f0c33cda6"
+    "revision": "52d4a5f4c"
   },
   "rows": [
     {
       "lod": 0,
       "leafBuffersEqual": true,
       "candidateMatchesBrowserRepair": true,
-      "idempotent": true,
+      "candidateIdempotent": true,
       "trianglesEqual": true,
       "woodUnchanged": false
     },
@@ -20,7 +20,7 @@
       "lod": 1,
       "leafBuffersEqual": true,
       "candidateMatchesBrowserRepair": true,
-      "idempotent": true,
+      "candidateIdempotent": true,
       "trianglesEqual": true,
       "woodUnchanged": true
     },
@@ -28,7 +28,7 @@
       "lod": 2,
       "leafBuffersEqual": true,
       "candidateMatchesBrowserRepair": true,
-      "idempotent": true,
+      "candidateIdempotent": true,
       "trianglesEqual": true,
       "woodUnchanged": true
     }

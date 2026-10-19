@@ -1,50 +1,56 @@
-# Verdant source-oak graft contact
+# Verdant source-oak short-graft contact
 
-Baseline: published 0.0.33 · b317734. Candidate: f0c33cda6, stacked on #698 (and its #696 helper).
+Baseline: published 0.0.33 · b317734. Current candidate: **52d4a5f4c**, stacked on #698 and its #696 helper. Earlier broad-repair captures and measurements are superseded.
 
-The near `oak/verdant-sentinel` template retains three twig origins outside preceding wood. Example instance `tree:wild:70:35`, foot (62.326, 0.668, 56.799), scale 1.18123. These are twig origins in the crown, not trunk-ground roots or three different trees. The wood material is opaque; this diagnosis does not depend on sparse leaf-alpha samples.
+## Reproduced defect and repair
 
-| Twig | Baseline root-centre distance to other wood (template units) | Candidate | First stem segment crosses preceding wood |
-| --- | ---: | ---: | --- |
-| 95 | 0.312778 | 0.033209 | no → yes |
-| 109 | 0.826048 | 0.039769 | no → yes |
-| 112 | 0.658740 | 0.008169 | no → yes |
+Near `oak/verdant-sentinel` twig 95 is disconnected from preceding wood. Example instance `tree:wild:70:35`, tree foot (62.326, 0.668, 56.799), scale 1.18123; the original twig origin is at (63.968, 9.715, 50.232). This is a crown twig origin, not a trunk-ground root. The wood material is opaque.
 
-Centre distances are not signed surface gaps. The independent intersection test uses actual indexed triangles, excluding the twig itself and later twigs. Twig 95 has only two rings: checking its whole stem also fails before the narrower repair; a shorter distance alone was not accepted as proof.
+| Model check | Before | Candidate |
+| --- | ---: | ---: |
+| Twig 95 root-ring centre distance to other wood, template units | 0.312778 | 0.011662 |
+| First stem centreline segment crosses a preceding actual wood triangle | false | true |
+| Twig origins changed | — | only 95 |
+| Origins over the existing 0.12 template-unit flag threshold | 3 | 2 |
+| Near wood / leaf triangles | 8,912 / 10,772 | unchanged |
 
-The existing helper's 0.12 template-unit allowance leaves twig 95 separated. This template opts into 0.04; other templates retain the default. Five origins move (92, 95, 97, 109, 112). The two adjacent grafts are explicitly included in the scope: 92 acquires a centreline crossing, while 97 already crossed and retains its crossing. No claim that all five were floating. Source wood/collision prefix, indices, tips, leaf buffers and non-position/normal/UV/tangent attributes are preserved. Middle/far buffers remain unchanged in the fixture.
+Centre distances are not signed surface gaps. The intersection check excludes self and later twigs. Every other twig, every tip, source/collision prefix, indices, leaf buffer and non-position/normal/UV/tangent attribute is unchanged. Middle/far wood remains byte-identical. [Model receipt](proofs/verdant-oak-roots/model-contact.json), [compiled native hashes](proofs/verdant-oak-roots/compiled-comparison.json): all three LOD leaf buffers match live, compiled wood matches the session repair, and repeating the repair is byte-idempotent.
+
+The thin graft requires a 0.04 template-unit tolerance. A 0.5-unit maximum move restricts the opt-in to that short defect; other templates keep their existing defaults. Long origins 109 and 112 remain unrepaired. The broader attempt moved those and two adjacent grafts: it improved root contact but raised near alpha-aware flags on the pictured instance from 692 to 698. Dense sampling recovered three positive contacts, while three triangles still sampled beyond 1.5 world metres. That result was held rather than overridden by a passing draw budget. [Rejected broad audit](proofs/verdant-oak-roots/rejected-wide-canopy.json), [dense follow-up](proofs/verdant-oak-roots/rejected-wide-dense.json). Sampling alone cannot prove continuous absence of support.
+
+## Canopy support regression check
+
+All **four registered instances** of this template, gap 0.75 m, wood reach 1.5 m, near/middle rest geometry. Each scan completes. [Raw paired audit](proofs/verdant-oak-roots/canopy-contacts.json).
+
+| Detail / audit mode | Detached cards before / after | Detached clumps before / after |
+| --- | ---: | ---: |
+| Near, unmasked | 718 / 718 | 58 / 58 |
+| Near, alpha-aware | 2,614 / 2,614 | 148 / 148 |
+| Middle, unmasked | 1,807 / 1,807 | 3 / 3 |
+| Middle, alpha-aware | 4,740 / 4,740 | 6 / 6 |
+
+These diagnostic sample counts are not continuous distances or a global foliage clearance. This one-graft repair does not reduce those leaf-card counts or close the remaining canopy issues.
 
 ## Rendered evidence
 
-[Native scene report](proofs/verdant-oak-roots/native/report.json), [road fixtures and world coordinates](proofs/verdant-oak-roots/road-views.json), [model contacts](proofs/verdant-oak-roots/model-contacts.jsonl).
+The refreshed native capture is pending its final identity check; its partial run is not a clean completion receipt. Exact-head stock budget on 52d4a5f4c is also running. No current-head PASS is claimed yet.
 
-| Aimed twig | Whole-image changed pixels | Changes within central 101×101 region | Draws before/after | Triangles before/after |
-| --- | ---: | ---: | ---: | ---: |
-| 95 | 164 | 103 | 190 / 190 | 2,079,402 / 2,079,402 |
-| 109 | 81 | 8 | 196 / 196 | 2,162,156 / 2,162,156 |
-| 112 | 91 | 10 | 171 / 171 | 1,892,219 / 1,892,219 |
+The completed [isolated-wood diagnostic](proofs/verdant-oak-roots/diagnostic/report.json) deliberately uses neutral material, custom lighting, no leaves/actors/wind/post. It establishes geometry change, not native game appearance or visibility. One draw / 8,912 triangles before and after, exact restored pixels, zero console errors.
 
-All three restored native RGB controls match exactly; zero console errors; player and camera collider checks pass. These are native High post/MSAA scenes with a session geometry swap, frozen rest wind, authored-road player positions and separate inspection cameras. Foliage obscures parts of the joins. Changes in a target rectangle do not prove the entire stem is visible or improve the whole crown's quality.
-
-| Twig | Native before | Native candidate | Isolated wood before | Isolated wood candidate |
-| --- | --- | --- | --- | --- |
-| 95 | ![](proofs/verdant-oak-roots/native/before-0.png) | ![](proofs/verdant-oak-roots/native/after-0.png) | ![](proofs/verdant-oak-roots/diagnostic/before-0.png) | ![](proofs/verdant-oak-roots/diagnostic/after-0.png) |
-| 109 | ![](proofs/verdant-oak-roots/native/before-1.png) | ![](proofs/verdant-oak-roots/native/after-1.png) | ![](proofs/verdant-oak-roots/diagnostic/before-1.png) | ![](proofs/verdant-oak-roots/diagnostic/after-1.png) |
-| 112 | ![](proofs/verdant-oak-roots/native/before-2.png) | ![](proofs/verdant-oak-roots/native/after-2.png) | ![](proofs/verdant-oak-roots/diagnostic/before-2.png) | ![](proofs/verdant-oak-roots/diagnostic/after-2.png) |
-
-The isolated views deliberately use neutral material, custom lighting, no leaves/actors/wind/post. They establish geometry changes, not game appearance or visibility. Each is one draw / 8,912 triangles, with exact restored controls and zero errors.
+| Diagnostic before | Diagnostic candidate |
+| --- | --- |
+| ![](proofs/verdant-oak-roots/diagnostic/before-0.png) | ![](proofs/verdant-oak-roots/diagnostic/after-0.png) |
 
 ## Reproduce
 
 ```sh
 npx vitest run tests/presentation/verdantOakRootContact.test.ts tests/presentation/sourceOakRootContact.test.ts tests/presentation/heroTwigRootContact.test.ts tests/presentation/twigRootContact.test.ts tests/presentation/canopyBaseline.test.ts tests/presentation/canopySnapReach.test.ts
-node tools/repro-source-oak-root-contact.mjs --kind oak/verdant-sentinel --root-tolerance 0.04 --paths docs/perf/proofs/verdant-oak-roots/road-views.json --out verdant-native
+node tools/repro-source-oak-root-contact.mjs --kind oak/verdant-sentinel --root-tolerance 0.04 --max-root-move 0.5 --paths docs/perf/proofs/verdant-oak-roots/road-views.json --out verdant-native
 node tools/repro-verdant-oak-wood-diagnostic.mjs verdant-diagnostic docs/perf/proofs/verdant-oak-roots/road-views.json
 node tools/inspect-verdant-oak-geometry.mjs verdant-live.json
+node tools/inspect-verdant-oak-canopy.mjs verdant-canopy.json
 ```
 
-Twenty focused tests and production build/type-check pass. The same regression with the narrower tolerance removed fails the segment-contact requirement. This does not close all leaf-island reports or establish animated-wind contact, hardware frame pacing, or heat improvement. [Compiled native geometry comparison](proofs/verdant-oak-roots/compiled-comparison.json) confirms all three LOD leaf buffers match live exactly, compiled wood equals the browser-session repair, and middle/far wood stays byte-identical. Reapplying the repair is byte-idempotent. The exact-head stock budget is still pending; no PASS is claimed until completion.
+Twenty focused tests and production build/type-check pass. No new update/shader code, topology or buffer lengths. No hardware frame-time, heat or animated-wind-contact claim. The original uncapped head's stock budget passed with 285 draws / 3,048,306 triangles, equal to live, but that does not authorize the broader geometry or count as a current-head receipt.
 
-## Construction cost
-
-[Alternating-order four-pair Node study](proofs/verdant-oak-roots/construction-cost.json), rerunnable with `npx vitest run tests/presentation/verdantLoadStudy.test.ts` on this proof branch. The first pair is cold. The two helper calls together cost 51.0 ms cold and 26.9–32.8 ms in the three subsequent runs. This is added template-construction work, not zero-cost loading. Whole-factory timings vary substantially; their difference is not presented as a measured browser loading regression or saving. No new code executes during frame updates.
+[Construction-only Node study](proofs/verdant-oak-roots/construction-cost.json), rerunnable via `tests/presentation/verdantLoadStudy.test.ts` on this proof branch. Two helper calls add 107.9 ms cold and 22.6–81.1 ms in the three subsequent runs while other checks run. These variable lab timings are not a browser load-time or hardware performance verdict. There is added construction work and no additional frame-update work.
