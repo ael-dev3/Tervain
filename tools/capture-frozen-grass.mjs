@@ -10,8 +10,8 @@ import {FrozenGrassMetric,compareFrozenFrames} from './grass-frozen-metric.mjs';
 const args={},allowed=new Set(['url','out','reference','head','width','height','dpr','frames','repeats','warmup','x','z','bright','jump','hour']);
 for(let i=2;i<process.argv.length;i+=2){const key=process.argv[i].slice(2),value=process.argv[i+1];if(!process.argv[i].startsWith('--')||!allowed.has(key)||!value||value.startsWith('--')||key in args)throw Error('Invalid option '+process.argv[i]);args[key]=value;}
 const number=(key,fallback,min,max,integer=false)=>{const x=Number(args[key]??fallback);if(!Number.isFinite(x)||x<min||x>max||integer&&!Number.isInteger(x))throw Error('Invalid --'+key);return x;};
-const config={width:number('width',1470,64,4096,true),height:number('height',956,64,2160,true),dpr:number('dpr',2,.5,3),frames:number('frames',8,2,120,true),repeats:number('repeats',2,1,6,true),warmup:number('warmup',4,2,30,true),x:number('x',-7,-2000,2000),z:number('z',45,-2000,2000),bright:number('bright',180,0,255),jump:number('jump',60,0,255)};
-const hour=number('hour',19.3,0,24),phase=normalizeGrassPhaseControls({hour,cloudTime:0,wind:{time:3,direction:[.8,.6,.24,.42],scroll:[0,0,0,0]},sway:3,gradeTime:0},{hour});
+const config={width:number('width',1470,64,4096,true),height:number('height',956,64,2160,true),dpr:number('dpr',2,.5,3),frames:number('frames',8,2,120,true),repeats:number('repeats',2,1,6,true),warmup:number('warmup',4,2,30,true),x:number('x',6,-2000,2000),z:number('z',26,-2000,2000),bright:number('bright',180,0,255),jump:number('jump',60,0,255)};
+const hour=number('hour',17.5,0,24),phase=normalizeGrassPhaseControls({hour,cloudTime:0,wind:{time:3,direction:[.8,.6,.24,.42],scroll:[0,0,0,0]},sway:3,gradeTime:0},{hour});
 const input=args.url??'https://ael-dev3.github.io/Tervain/';if(!['http:','https:'].includes(new URL(input).protocol))throw Error('Build URL must be HTTP(S)');
 const out=path.resolve(args.out??'frozen-grass-proof');if(args.reference)assert.notEqual(out,path.resolve(args.reference),'Reference and output must differ');
 const reference=args.reference?JSON.parse(fs.readFileSync(path.join(args.reference,'report.json'),'utf8')):null;
@@ -27,7 +27,7 @@ for(let run=0;run<config.repeats;run++) {
       T.frame=()=>{};T.present=()=>{};T.render=()=>{};T.step=()=>{};T.perf=null;T.lastFrameDt=0;
       T.hud.show(false);T.player.setPosition(C.x,C.z,0,W.terrain);T.cam.manual=true;
       const c=T.cam.camera,h=W.terrain.heightAt(C.x,C.z),focus=T.player.group.position.clone().set(T.player.x,T.player.y,T.player.z);
-      c.position.set(C.x,h+1.4,C.z-3);c.lookAt(C.x,h+.3,C.z+2);c.aspect=C.width/C.height;c.updateProjectionMatrix();c.updateMatrixWorld(true);
+      c.position.set(C.x+3,h+1.4,C.z+1.1);c.lookAt(C.x-29,h+.3,C.z-10.7);c.aspect=C.width/C.height;c.updateProjectionMatrix();c.updateMatrixWorld(true);
       // The diagnostic fixes physical pixel count rather than inheriting an adaptive-resolution history.
       T.renderer.setPixelRatio(C.dpr);T.renderer.setSize(C.width,C.height);T.grade.setSize(Math.floor(C.width*C.dpr),Math.floor(C.height*C.dpr));
       W.update(0,T.game.state,focus,T.settings,phase.hour,c,false);
@@ -43,7 +43,7 @@ for(let run=0;run<config.repeats;run++) {
     if(args.head)assert(args.head.startsWith(setup.build.revision));
     assert.deepEqual(setup.profile.buffer,[Math.floor(config.width*config.dpr),Math.floor(config.height*config.dpr)]);
     if(runs.length)assert.deepEqual(setup.build,runs[0].setup.build,'Deployment changed across repeats');
-    const [w,h]=setup.profile.buffer;roi={left:Math.floor(w*.1),top:Math.floor(h*.5),width:Math.floor(w*.8),height:Math.floor(h*.45)};
+    const [w,h]=setup.profile.buffer;roi={left:Math.floor(w*.1),top:Math.floor(h*.35),width:Math.floor(w*.8),height:Math.floor(h*.60)};
     const metric=new FrozenGrassMetric(roi.width,roi.height,config),records=[];
     // Warm all native passes, then hold shadows. Do not patch grass shaders, colours or visibility.
     for(let i=0;i<config.warmup;i++)await page.eval('return __frozenGrass.render().draws;');
