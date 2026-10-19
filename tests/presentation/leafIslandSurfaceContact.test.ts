@@ -19,3 +19,19 @@ it.each([false,true])('does not accept an empty box centre as wood contact (alph
     expect(leaf.index!.count).toBe(3);
   }finally{leaf.dispose();wood.dispose();}
 });
+
+
+it.each([false,true])('retains a real contact sample for an odd-grid-only cutout (supported=%s)',supported=>{
+  const leaf=new THREE.BufferGeometry();
+  leaf.setAttribute('position',new THREE.Float32BufferAttribute([4,3,0,5,3,0,4,3,1],3));
+  leaf.setAttribute('uv',new THREE.Float32BufferAttribute([0,0,1,0,0,1],2));
+  const point=new THREE.Vector3(4+1/6,3,5/6);
+  const wood=new THREE.SphereGeometry(.02,8,6).translate(supported?point.x:0,3,supported?point.z:0);
+  const positions=Array.from(leaf.getAttribute('position').array);
+  const cutout={uv:'uv',cutoff:.42,alpha:(u:number,v:number)=>Math.hypot(u-1/6,v-5/6)<.001?1:0};
+  try{
+    expect(anchorLeafIslands(leaf,wood,cutout,{reach:.04,gap:.01})).toEqual(supported?{islands:0,moved:0,dropped:0}:{islands:1,moved:1,dropped:0});
+    expect(leaf.index?.count??leaf.getAttribute('position').count).toBe(3);
+    if(supported)expect(Array.from(leaf.getAttribute('position').array)).toEqual(positions);
+  }finally{leaf.dispose();wood.dispose();}
+});

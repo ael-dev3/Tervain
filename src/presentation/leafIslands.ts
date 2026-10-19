@@ -66,6 +66,9 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
     const fine = finePatterns.has(key), divisions = fine ? 48 : N;
     for (let n = 0; n < points.length; n += 2) add(points[n]! / divisions, points[n + 1]! / divisions,
       1 - (points[n]! + points[n + 1]!) / divisions, fine || (points[n]! + points[n + 1]!) % 2 === 0, fine);
+    // Sparse masks can witness only odd coarse-grid points. Keep one real contact sample even then.
+    if (points.length && !opaque.get(t)?.samples.length) add(points[0]! / divisions, points[1]! / divisions,
+      1 - (points[0]! + points[1]!) / divisions, true, true);
   }
   const list = [...opaque.values()];
   if (!list.length) return result;
