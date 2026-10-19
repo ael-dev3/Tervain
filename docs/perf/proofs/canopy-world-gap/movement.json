@@ -1,0 +1,92 @@
+[
+  {
+    "id": "hero-oak",
+    "lod": 0,
+    "changedVertices": 40,
+    "maxDelta": 1.472619042731623,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 0.9975745847039463
+  },
+  {
+    "id": "hero-oak",
+    "lod": 1,
+    "changedVertices": 0,
+    "maxDelta": 0,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "hero-oak-c",
+    "lod": 0,
+    "changedVertices": 16,
+    "maxDelta": 1.2311195343432304,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "hero-oak-c",
+    "lod": 1,
+    "changedVertices": 0,
+    "maxDelta": 0,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "hero-oak-b",
+    "lod": 0,
+    "changedVertices": 32,
+    "maxDelta": 1.3283963673191628,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "hero-oak-b",
+    "lod": 1,
+    "changedVertices": 0,
+    "maxDelta": 0,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "verdant-sentinel",
+    "lod": 0,
+    "changedVertices": 12,
+    "maxDelta": 1.1274527036947841,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "verdant-sentinel",
+    "lod": 1,
+    "changedVertices": 0,
+    "maxDelta": 0,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  },
+  {
+    "id": "tree-1505",
+    "lod": 0,
+    "changedVertices": 60,
+    "maxDelta": 1.396156141875368,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 0.9907527567566976
+  },
+  {
+    "id": "tree-1505",
+    "lod": 1,
+    "changedVertices": 0,
+    "maxDelta": 0,
+    "retainedX": 1,
+    "retainedY": 1,
+    "retainedZ": 1
+  }
+]

@@ -1,0 +1,141 @@
+{
+  "version": {
+    "version": "0.0.29",
+    "revision": "8f3c9bd"
+  },
+  "maxScale": 1.46,
+  "rows": [
+    {
+      "label": "tree:wild:32:27",
+      "scale": 1.4164879838377238,
+      "rows": [
+        {
+          "gap": 0.75,
+          "worldGap": 1.0623659878782927,
+          "far": 1087,
+          "clumps": 1,
+          "moved": 0,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 977,
+            "detachedClumps": 14,
+            "treesWithDetached": 1
+          }
+        },
+        {
+          "gap": 0.5136986301369864,
+          "worldGap": 0.7276479369029404,
+          "far": 1087,
+          "clumps": 11,
+          "moved": 8,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 968,
+            "detachedClumps": 6,
+            "treesWithDetached": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:42:45",
+      "scale": 1.324303292967379,
+      "rows": [
+        {
+          "gap": 0.75,
+          "worldGap": 0.9932274697255343,
+          "far": 1087,
+          "clumps": 1,
+          "moved": 0,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 733,
+            "detachedClumps": 16,
+            "treesWithDetached": 1
+          }
+        },
+        {
+          "gap": 0.5136986301369864,
+          "worldGap": 0.6802927874832427,
+          "far": 1087,
+          "clumps": 11,
+          "moved": 8,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 729,
+            "detachedClumps": 12,
+            "treesWithDetached": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:79:22",
+      "scale": 1.4374499894864854,
+      "rows": [
+        {
+          "gap": 0.75,
+          "worldGap": 1.078087492114864,
+          "far": 983,
+          "clumps": 1,
+          "moved": 0,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 949,
+            "detachedClumps": 5,
+            "treesWithDetached": 1
+          }
+        },
+        {
+          "gap": 0.5136986301369864,
+          "worldGap": 0.738416090489633,
+          "far": 983,
+          "clumps": 5,
+          "moved": 4,
+          "after": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 942,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        }
+      ]
+    }
+  ]
+}
