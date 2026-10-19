@@ -1,0 +1,384 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "route": {
+    "kind": "meadow",
+    "frames": 31,
+    "metres": 3.9000000000000004,
+    "speed": 2.6,
+    "cadence": 20,
+    "yawDegrees": 30
+  },
+  "buffer": [
+    960,
+    540
+  ],
+  "msaa": 4,
+  "quality": "high",
+  "treeDetailByDistance": false,
+  "positiveControl": null,
+  "method": {
+    "roi": {
+      "left": 96,
+      "top": 54,
+      "width": 768,
+      "height": 432
+    },
+    "channelThreshold": 20,
+    "minimumComponentPixels": 16,
+    "scope": "Same-camera before/after visibility-update candidates of either sign, not semantic objects. Excludes frame-to-frame camera motion by retaining the new camera pose in both captures. Stable render repeats must match. Does not exclude shader-only fade/raster changes or unseen routes."
+  },
+  "candidateEvents": 0,
+  "eventsPerMetre": 0,
+  "allRepeatsExact": true,
+  "allSamePoseExact": false,
+  "maxDraws": 223,
+  "maxTriangles": 2979885,
+  "consoleErrors": [],
+  "rows": [
+    {
+      "frame": 0,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "7c72b8618a9e79c0fea8a082dc55a0e881d0a391fed1f0be5d9e4d6781dedea4"
+    },
+    {
+      "frame": 1,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "8c8bd97f81959c3d8795038fb79e2bd5ccce2ca8bae426a58a7b27d855737647"
+    },
+    {
+      "frame": 2,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "87a83d48c2cb94d51fcc09972485c4cc3c3f95e763364e8c87d324b43c042c6b"
+    },
+    {
+      "frame": 3,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "a56ff57e40f1548e3ab1ce89057eaeaa8f6e48c0b386a7b8dcd048bc3e352f61"
+    },
+    {
+      "frame": 4,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "0f9659e52cc9c872ef65d0e8c88cbd3634af177fba776417e6c3e150632037d1"
+    },
+    {
+      "frame": 5,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 3,
+      "maxChannelDelta": 3,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "7ec1044d4c35784f5f35ff888b8a38109db31430e1e6eaf945fdaab4fdce846b"
+    },
+    {
+      "frame": 6,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "cdd7b9720ed0fe9574c0fae15385da6eb1d8f9000a8cc7542b654946b1d1af7d"
+    },
+    {
+      "frame": 7,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 2,
+      "maxChannelDelta": 13,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "57784c6420894c6857cc67adfa5d5b9515b204dde30b37d362f580e2fe253871"
+    },
+    {
+      "frame": 8,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "f913d1ddf78266535e14632725f448ffc75530ebd23d0a507e8110fe417e3b4c"
+    },
+    {
+      "frame": 9,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "d8789d55b47e24ffae7b17d020dbe49588e80104a7d740b45d13babdc588ed08"
+    },
+    {
+      "frame": 10,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "a75a656de5f60ea0a4ffe09eeec18ac46bdce61638ba344e356fd696f79ff014"
+    },
+    {
+      "frame": 11,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 1,
+      "maxChannelDelta": 1,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "1ae21a4bbd46504ef8f8e0e75ff7bc6d45a85debcfd1004c7588d17ce54cbd35"
+    },
+    {
+      "frame": 12,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "b9244823b717c6c56190f567bb6ea9a97e67094301da2d73fcad237978776ec1"
+    },
+    {
+      "frame": 13,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "3960c183d1e4e36be6c1c6270406530f5ed8ee0b12c796c15156f867df419367"
+    },
+    {
+      "frame": 14,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 1,
+      "maxChannelDelta": 1,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "fbb4f97e21627de97a3e433faadcbc9c978bb571ed48c0319975bc9ffde0e219"
+    },
+    {
+      "frame": 15,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "850fe4656d2e9fa018f8e2f9288fbd5b504076bcdafa05de16e0733ba95227c5"
+    },
+    {
+      "frame": 16,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "e85b13c73e66446d0aff6db136bad2f4fbdf3c1c7eec44461f105fba9d33b582"
+    },
+    {
+      "frame": 17,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "080e4309e2e1d4ed48823221ffd6c04540dae994344fbfda12437d6848fb728b"
+    },
+    {
+      "frame": 18,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "b5415a33753b20f8788fc9cdaaa27be97458c5465e20a5373e87a555f3f3fe9d"
+    },
+    {
+      "frame": 19,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "19a9176c84bf51842829324012d58597e56b0a85d4b016ad33f54b09a1e168bc"
+    },
+    {
+      "frame": 20,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 1,
+      "maxChannelDelta": 1,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "c76dee240551e08111dbf86f4f1fa918d1e1afcd9a748f7eaa8c53febbcaa306"
+    },
+    {
+      "frame": 21,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 1,
+      "maxChannelDelta": 1,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "47831d960bb02fe1be95b9610268cd7688eb779f2673a36a6c1d0a08d7455631"
+    },
+    {
+      "frame": 22,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "8ff7ad9b7cb0c011542617d5194ce25d760a902efed174d330b4fc693fab972a"
+    },
+    {
+      "frame": 23,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "12ba4622ed25081c5f0596661e6ac2f6f7089ccde7f7896fc9021c7de61bc588"
+    },
+    {
+      "frame": 24,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "be64987a9d6ef86de317cfe313d49f92ddc962ebd97a000c56186634bdf5cee3"
+    },
+    {
+      "frame": 25,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "db33542d052f1313c3b63fda48ee3a75fa2e6ab4deb6b78dc9f8e419a85493c3"
+    },
+    {
+      "frame": 26,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "7652f9cb0838cd27e8b07fdc9720ee5488fec17275d636de9599f15f836ca381"
+    },
+    {
+      "frame": 27,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "94c2a0134aabb26d0b870687492890cbce7b29904bb5b197162ca5c434799df8"
+    },
+    {
+      "frame": 28,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 1,
+      "maxChannelDelta": 17,
+      "samePoseExact": false,
+      "repeatExact": true,
+      "walkRgbSha256": "28ef23a9d85e14ab4790fd8bcbaf537361899c29225ec594e06196e48dc16324"
+    },
+    {
+      "frame": 29,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "8c6cf34a57095ec67c3cbd9d9a6ac3c1316cd03d40c7bcd02c20b8a098d1c7e5"
+    },
+    {
+      "frame": 30,
+      "candidateEvents": 0,
+      "candidateComponents": [],
+      "thresholdPixels": 0,
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "samePoseExact": true,
+      "repeatExact": true,
+      "walkRgbSha256": "ed59c5a40abfcff4591bff1641a3ad373f42e922987088807e6ebb66658c76d4"
+    }
+  ]
+}
