@@ -1,0 +1,24 @@
+{
+  "version": {
+    "version": "0.0.29",
+    "revision": "5d5a64fc3"
+  },
+  "summary": {
+    "trees": 451,
+    "missingWood": 0,
+    "leafless": 0,
+    "components": 368486,
+    "chunks": 1007,
+    "candidates": 0,
+    "woodReach": 1.5,
+    "detachedCards": 79157,
+    "detachedClumps": 2356,
+    "treesWithDetached": 295
+  },
+  "operations": 14066702,
+  "expectedTrees": 451,
+  "speciesComplete": true,
+  "errors": [],
+  "pass": true,
+  "scope": "Actual compiled application audit equals the full candidate-source report on the published geometry, including all per-target fields and operation count. No render or hardware-timing claim."
+}
