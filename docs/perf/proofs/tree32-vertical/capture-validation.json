@@ -1,0 +1,58 @@
+{
+  "images": [
+    {
+      "file": "before-000.png",
+      "minStddev": 17.509628564710248
+    },
+    {
+      "file": "before-001.png",
+      "minStddev": 19.660662297092706
+    },
+    {
+      "file": "before-002.png",
+      "minStddev": 18.791705192956798
+    },
+    {
+      "file": "before-003.png",
+      "minStddev": 17.95411394546666
+    },
+    {
+      "file": "before-004.png",
+      "minStddev": 18.912113306172387
+    },
+    {
+      "file": "before-005.png",
+      "minStddev": 19.39866278010358
+    },
+    {
+      "file": "after-000.png",
+      "minStddev": 17.508310955691602
+    },
+    {
+      "file": "after-001.png",
+      "minStddev": 19.659844851908254
+    },
+    {
+      "file": "after-002.png",
+      "minStddev": 18.7936874444904
+    },
+    {
+      "file": "after-003.png",
+      "minStddev": 17.949170569744584
+    },
+    {
+      "file": "after-004.png",
+      "minStddev": 18.87956364471948
+    },
+    {
+      "file": "after-005.png",
+      "minStddev": 19.30719096167541
+    },
+    {
+      "file": "restore-000.png",
+      "minStddev": 17.509628564710248
+    }
+  ],
+  "changedRevisionRejected": true,
+  "blankControlRejected": true
+}
