@@ -1,0 +1,100 @@
+{
+  "build": {
+    "version": "0.0.29",
+    "revision": "8a5c775d3"
+  },
+  "rows": [
+    {
+      "name": "hero-oak:0:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak:1:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak:2:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-c:0:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-c:1:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-c:2:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-b:0:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-b:1:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak-b:2:wood:shadow",
+      "alphaTest": 0,
+      "alphaToCoverage": false
+    },
+    {
+      "name": "hero-oak:0:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak:1:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak:2:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-c:0:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-c:1:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-c:2:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-b:0:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-b:1:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    },
+    {
+      "name": "hero-oak-b:2:wood",
+      "alphaTest": 0,
+      "alphaToCoverage": true
+    }
+  ],
+  "pass": true,
+  "scope": "Read-only registered wood-material states from the exact compiled candidate during the stock budget run."
+}
