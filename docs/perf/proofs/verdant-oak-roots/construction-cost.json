@@ -1,0 +1,61 @@
+{
+  "rows": [
+    {
+      "run": 0,
+      "mode": "before",
+      "totalMs": 2737.706917,
+      "repairMs": 0,
+      "calls": 0
+    },
+    {
+      "run": 0,
+      "mode": "after",
+      "totalMs": 2056.5184630000003,
+      "repairMs": 50.96258299999954,
+      "calls": 2
+    },
+    {
+      "run": 1,
+      "mode": "after",
+      "totalMs": 1806.601713,
+      "repairMs": 32.83320400000048,
+      "calls": 2
+    },
+    {
+      "run": 1,
+      "mode": "before",
+      "totalMs": 1762.6667630000002,
+      "repairMs": 0,
+      "calls": 0
+    },
+    {
+      "run": 2,
+      "mode": "before",
+      "totalMs": 1702.184314,
+      "repairMs": 0,
+      "calls": 0
+    },
+    {
+      "run": 2,
+      "mode": "after",
+      "totalMs": 1863.5486899999996,
+      "repairMs": 26.86594100000002,
+      "calls": 2
+    },
+    {
+      "run": 3,
+      "mode": "after",
+      "totalMs": 1708.569039,
+      "repairMs": 27.01836899999944,
+      "calls": 2
+    },
+    {
+      "run": 3,
+      "mode": "before",
+      "totalMs": 1597.1178080000009,
+      "repairMs": 0,
+      "calls": 0
+    }
+  ],
+  "scope": "Node source-template factory construction only; not a browser frame-time or hardware GPU benchmark. Alternating order; first pair cold."
+}

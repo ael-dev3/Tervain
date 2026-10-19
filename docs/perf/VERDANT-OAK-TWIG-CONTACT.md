@@ -44,3 +44,7 @@ node tools/inspect-verdant-oak-geometry.mjs verdant-live.json
 ```
 
 Twenty focused tests and production build/type-check pass. The same regression with the narrower tolerance removed fails the segment-contact requirement. This does not close all leaf-island reports or establish animated-wind contact, hardware frame pacing, or heat improvement. [Compiled native geometry comparison](proofs/verdant-oak-roots/compiled-comparison.json) confirms all three LOD leaf buffers match live exactly, compiled wood equals the browser-session repair, and middle/far wood stays byte-identical. Reapplying the repair is byte-idempotent. The exact-head stock budget is still pending; no PASS is claimed until completion.
+
+## Construction cost
+
+[Alternating-order four-pair Node study](proofs/verdant-oak-roots/construction-cost.json), rerunnable with `npx vitest run tests/presentation/verdantLoadStudy.test.ts` on this proof branch. The first pair is cold. The two helper calls together cost 51.0 ms cold and 26.9–32.8 ms in the three subsequent runs. This is added template-construction work, not zero-cost loading. Whole-factory timings vary substantially; their difference is not presented as a measured browser loading regression or saving. No new code executes during frame updates.
