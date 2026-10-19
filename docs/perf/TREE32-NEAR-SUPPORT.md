@@ -40,7 +40,7 @@ Zero console errors. These are distant contextual views; small changed-pixel cou
 
 No material/shader, texture sampling, render-pass or per-frame JS changes. The additional guard runs during template construction. All native tree index counts are unchanged. Native paired view submissions above are equal, but the independent compiled-build budget is still required because canopy shading also influences generated grass. Hardware timing and close-up motion/video review remain outstanding.
 
-Validation: 24 focused tests pass, including the failing-before regression and completed-frame/startup fixtures; production build passes. Exact-head compiled geometry inspection and the current main budget gate are running separately; no gate PASS is claimed here yet.
+Validation: 24 focused tests pass, including the failing-before regression and completed-frame/startup fixtures; production build passes. Independent exact-head compiled geometry inspection passes for all 30 buffers. The full compiled-build budget fails as recorded below; no gate PASS is claimed.
 
 ## Alpha-aware cross-check
 
@@ -54,4 +54,16 @@ The same Tree32 near pair was also checked with the live cutout sampler. All 16 
 | Crown connectivity chunks | 5 | 5 |
 | Charged audit operations | 6,449,980 | 6,412,442 |
 
-These alpha-mode counts are **opaque triangle components, not leaf cards**. Many flags remain; no full visual closure is claimed. `alpha-audits.json` and `native-alpha-probes.json` preserve the measurements. Run `node tools/repro-tree32-alpha.mjs --out tree32-alpha-proof` to capture the same native probes and replay both audits; subsequent offline replay accepts `--snapshot tree32-alpha-proof/native-input.json`. The replay rejects a changed published revision, an unmatched geometry hash, an unrecorded probe, or a pattern requiring unrecorded fine sampling. Native capture and offline replay were exercised; the recorded pair produces the table above.
+These alpha-mode counts are **opaque triangle components, not leaf cards**. Many flags remain; no full visual closure is claimed. `alpha-audits.json` and `native-alpha-probes.json` preserve the measurements. Run `node tools/repro-tree32-alpha.mjs --out tree32-alpha-proof` to capture the same native probes and replay both audits; subsequent offline replay accepts `--snapshot tree32-alpha-proof/native-input.json`. The replay rejects a changed published revision, an unmatched geometry hash, an unrecorded probe, or a pattern requiring unrecorded fine sampling. Recorded native capture and `--snapshot` offline replay were exercised; the recorded pair produces the table above.
+
+## Full compiled-build budget: FAIL
+
+| Metric | Published bf9261f | Candidate 6ab2f9f5c | Delta |
+| --- | ---: | ---: | ---: |
+| Max submitted draws | 285 | 285 | 0 |
+| Max submitted triangles | 3,048,306 | 3,049,551 | +1,245 |
+| Console errors | 0 | 0 | 0 |
+
+The unmodified current-main budget producer ran two same-revision live probes and one exact-head candidate probe, four completed samples each. The candidate revision matches; allowance is zero; exit code is 1. `budget.json` preserves the scrubbed receipt and producer hashes. The PR stays draft.
+
+Equal tree indices and equal controlled-view submissions do not imply equal whole-build cost: the canopy geometry also feeds the grass shade field during generation. No grass-density adjustment, unrelated saving, threshold relaxation or PASS marker was added. The entire +1,245 has not been attributed with a per-submission trace, so this records the measured failure rather than claiming an exact cause. Hardware timing and close-up motion review remain outstanding.
