@@ -33,7 +33,13 @@ These diagnostic sample counts are not continuous distances or a global foliage 
 
 ## Rendered evidence
 
-The refreshed native capture is pending its final identity check; its partial run is not a clean completion receipt. Exact-head stock budget on 52d4a5f4c is also running. No current-head PASS is claimed yet.
+[Complete refreshed native capture](proofs/verdant-oak-roots/native/report.json): 51 changed pixels, all within the central 101×101 target rectangle; 190 draws / 2,079,402 triangles before, after and restored. Restored RGB matches exactly, zero console errors, final published identity still b317734, player/camera collider checks pass. This is the native High post/MSAA scene with a session geometry swap, frozen rest wind, a road player position and a separate terrain-height inspection camera; not automatic input/follow-camera play or an animated-wind verdict. Foliage obscures parts of the join. The earlier interrupted capture was not used as a clean receipt.
+
+| Native before | Native candidate |
+| --- | --- |
+| ![](proofs/verdant-oak-roots/native/before-0.png) | ![](proofs/verdant-oak-roots/native/after-0.png) |
+
+Exact-head stock budget on 52d4a5f4c is still running; no current-head PASS is claimed yet.
 
 The completed [isolated-wood diagnostic](proofs/verdant-oak-roots/diagnostic/report.json) deliberately uses neutral material, custom lighting, no leaves/actors/wind/post. It establishes geometry change, not native game appearance or visibility. One draw / 8,912 triangles before and after, exact restored pixels, zero console errors.
 

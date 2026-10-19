@@ -1,0 +1,154 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "variants": [
+      {
+        "kind": "oak/verdant-sentinel",
+        "triangles": 8912,
+        "attributes": [
+          "position",
+          "normal",
+          "uv"
+        ],
+        "plans": 116
+      }
+    ],
+    "swaps": 2
+  },
+  "paths": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "roots": [
+      {
+        "twig": 95,
+        "local": [
+          -5.645303726196289,
+          7.658792654673258,
+          0.9822676777839661
+        ],
+        "nearest": [
+          -5.661503791809082,
+          7.347707748413086,
+          0.954093873500824
+        ],
+        "gap": 0.31277791526343984,
+        "kind": "oak/verdant-sentinel",
+        "label": "tree:wild:70:35",
+        "tree": [
+          62.325785261732136,
+          0.668290496441164,
+          56.79873619470279
+        ],
+        "matrix": [
+          -0.4788201956659603,
+          0,
+          1.0798320858756283,
+          0,
+          0,
+          1.1812307621561922,
+          0,
+          0,
+          -1.0798320858756283,
+          0,
+          -0.4788201956659603,
+          0,
+          62.325785261732136,
+          0.668290496441164,
+          56.79873619470279,
+          1
+        ],
+        "world": [
+          63.968186541113546,
+          9.715091981117103,
+          50.23242649496993
+        ],
+        "road": null,
+        "path": [
+          67.33943462496183,
+          1.2242408860841072,
+          42.14143109373409
+        ],
+        "pathDistance": 5.765245018005495,
+        "worldGap": 0.36946289523225795,
+        "playerPath": [
+          66.18558847111566,
+          1.2242408860841072,
+          44.91066186296486
+        ],
+        "changedPixels": 51,
+        "rootRegionChangedPixels": 51
+      }
+    ]
+  },
+  "records": [
+    {
+      "pose": 0,
+      "mode": "before",
+      "file": "before-0.png",
+      "draws": 190,
+      "triangles": 2079402,
+      "camera": [
+        67.33943462496183,
+        2.368544474787874,
+        42.14143109373409
+      ],
+      "player": [
+        66.18558847111566,
+        -0.47575911391589276,
+        44.91066186296486
+      ],
+      "cameraBlocked": false,
+      "playerPathBlocked": false,
+      "pathBlocked": false
+    },
+    {
+      "pose": 0,
+      "mode": "after",
+      "file": "after-0.png",
+      "draws": 190,
+      "triangles": 2079402,
+      "camera": [
+        67.33943462496183,
+        2.368544474787874,
+        42.14143109373409
+      ],
+      "player": [
+        66.18558847111566,
+        -0.47575911391589276,
+        44.91066186296486
+      ],
+      "cameraBlocked": false,
+      "playerPathBlocked": false,
+      "pathBlocked": false
+    },
+    {
+      "pose": 0,
+      "mode": "restore",
+      "file": "restore-0.png",
+      "draws": 190,
+      "triangles": 2079402,
+      "camera": [
+        67.33943462496183,
+        2.368544474787874,
+        42.14143109373409
+      ],
+      "player": [
+        66.18558847111566,
+        -0.47575911391589276,
+        44.91066186296486
+      ],
+      "cameraBlocked": false,
+      "playerPathBlocked": false,
+      "pathBlocked": false
+    }
+  ],
+  "errors": [],
+  "restoredControlsExact": true,
+  "scope": "Native registered live source-template wood with a browser-session candidate geometry swap; leaves and material remain native. Player positions lie on authored roads; terrain-height inspection cameras sit behind the player and look toward each root. This is not automatic follow-camera/input-play proof. Centre-region changes are visibility evidence, not a whole-stem connectivity test. Software render costs are not hardware timings. Independent compiled gate required."
+}
