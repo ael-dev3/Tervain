@@ -76,3 +76,19 @@ Exit 1, **237 triangles above live**, no allowance. [Machine-readable failing re
 CI also exposed the inherited shot-start fixture's incompatibility with the completed-frame helper: missing copied dependency, legacy sampler stub and outdated wait expectation. This is being handled separately, without changing the seating patch or rejection thresholds.
 
 Hardware walking/video verification and visual review remain outstanding; this is not a live fix or a 9/10 score.
+
+## Shade-dependent groundcover diagnostic
+
+The fixed-camera submission diagnostic confirms a downstream geometry dependency: canopy leaf positions feed the projected shade mask used by grass generation. At hero (-33.4,55), High, hour 11, 1440×900 DPR2, after 500 zero-dt prepare/update cycles:
+
+| Metric | bf9261f | 71aaa61 |
+| --- | ---: | ---: |
+| Tree triangles | 1,758,213 | 1,758,213 |
+| Shadow tree triangles | 377,806 | 377,806 |
+| Grass instances | 16,413 | 16,417 |
+| Submitted near grass triangles | 436,968 | 437,220 |
+| Submitted far grass triangles | 203,610 | 203,682 |
+| Total submitted draws | 390 | 390 |
+| Total submitted triangles | 5,451,124 | 5,451,448 |
+
+[Before submissions](proofs/canopy-world-gap/submissions-before.json) / [after](proofs/canopy-world-gap/submissions-after.json). Reproduce with `node tools/diagnose-canopy-grass-submissions.mjs --url <build-url> --out <report.json>`. This script deliberately disables raster and freezes time to separate CPU submission counts. It is **not** native image proof, GPU timing, or a budget receipt. This view's +324 does not exactly attribute the stock gate's +237. The native failure remains authoritative. No art-density compensation or budget relaxation is proposed. The separate inherited CI fixture repair is #684.

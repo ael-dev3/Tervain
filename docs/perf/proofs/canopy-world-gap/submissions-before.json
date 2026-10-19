@@ -1,0 +1,1572 @@
+{
+  "version": {
+    "version": "0.0.29",
+    "revision": "bf9261f"
+  },
+  "stats": [
+    {
+      "name": "forest",
+      "value": {
+        "trees": 451,
+        "solitaryPines": 122,
+        "meshyTrees": 329,
+        "treeObstacles": 248,
+        "treesDrawn": 173,
+        "treeTris": 1758213,
+        "shadowTrees": 84,
+        "shadowTris": 377806,
+        "struckLeaves": 0,
+        "forestFloorPieces": 705,
+        "forestFloorDrawn": 147,
+        "fallingLeaves": 156,
+        "fallingLeavesVisible": 21,
+        "fallingLeafTris": 1560,
+        "fallingLeafDrawnTris": 1500
+      }
+    },
+    {
+      "name": "scatter",
+      "value": {
+        "rocks": 1208,
+        "scatterTris": 118300,
+        "driftwood": 4,
+        "shoreScrub": 8
+      }
+    },
+    {
+      "name": "source rock piles",
+      "value": {
+        "sourceRockPiles": 2,
+        "sourceRockModelTris": 5220,
+        "sourceRockTris": 10440
+      }
+    },
+    {
+      "name": "groundcover",
+      "value": {
+        "grassInstances": 16413,
+        "grassTris": 937215,
+        "grassDraws": 37,
+        "grassTiles": 172,
+        "grassMovers": 0
+      }
+    },
+    {
+      "name": "wildlife",
+      "value": {
+        "gulls": 16,
+        "chimneys": 11
+      }
+    },
+    {
+      "name": "ambient",
+      "value": {
+        "people": 3
+      }
+    },
+    {
+      "name": "woodland air",
+      "value": {
+        "woodlandMotes": 144
+      }
+    },
+    {
+      "name": "coastal promontory",
+      "value": {
+        "coastalPromontoryTris": 10556
+      }
+    },
+    {
+      "name": "woodland landmarks",
+      "value": {
+        "markers": 4,
+        "ruins": 1,
+        "signs": 1,
+        "triangles": 3030,
+        "meshes": 15
+      }
+    },
+    {
+      "name": "furniture",
+      "value": {
+        "furniture": 243,
+        "furnitureTris": 161204
+      }
+    },
+    {
+      "name": "hearth fires",
+      "value": {
+        "hearthFires": 12
+      }
+    },
+    {
+      "name": "caravan animal rest",
+      "value": {
+        "caravanMountProps": 6
+      }
+    },
+    {
+      "name": "land wildlife",
+      "value": {
+        "animals": 19,
+        "animalModels": 19,
+        "animalVisible": 19,
+        "animalCalls": 0,
+        "animalTriangles": 687852,
+        "animalDead": 0,
+        "animalSkinned": 0
+      }
+    },
+    {
+      "name": "physical supplies",
+      "value": {
+        "hz": 60,
+        "bodies": 9,
+        "awake": 9,
+        "held": 0,
+        "steps": 4
+      }
+    }
+  ],
+  "rows": {
+    "tree-1521:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4884
+    },
+    "tree-1521:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 3624
+    },
+    "tree-1521:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 6975
+    },
+    "tree-1521:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 7210
+    },
+    "hero-pine:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 3,
+      "triangles": 33708
+    },
+    "hero-pine:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 3,
+      "triangles": 54008
+    },
+    "fir-spire:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4883
+    },
+    "fir-spire:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 6432
+    },
+    "fir-spire:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4185
+    },
+    "fir-spire:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 9632
+    },
+    "tree-4949:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2792
+    },
+    "tree-4949:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2016
+    },
+    "verdant-sentinel:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 49224
+    },
+    "verdant-sentinel:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 2,
+      "triangles": 10094
+    },
+    "tree-1527:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1080
+    },
+    "tree-1527:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 16824
+    },
+    "tree-4815:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 12100
+    },
+    "tree-4815:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4900
+    },
+    "hero-oak-c:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2368
+    },
+    "hero-oak-c:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 7714
+    },
+    "hero-oak-c:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1572
+    },
+    "hero-oak-c:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4812
+    },
+    "hero-oak-b:0:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4758
+    },
+    "hero-oak-b:0:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 12000
+    },
+    "hero-oak-b:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 822
+    },
+    "hero-oak-b:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 3472
+    },
+    "tree-1505:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4914
+    },
+    "tree-1505:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 3398
+    },
+    "tree-1505:2:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2636
+    },
+    "tree-1505:2:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 980
+    },
+    "tree-4949:0:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 7998
+    },
+    "tree-4949:0:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 10972
+    },
+    "tree-4949:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 24415
+    },
+    "tree-4949:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 17280
+    },
+    "tree-4815:1:wood:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 19532
+    },
+    "tree-4815:1:foliage:shadow|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 13592
+    },
+    "forest_floor_fern:0|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 20664
+    },
+    "forest_floor_fern:2|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 14112
+    },
+    "forest_floor_fern:1|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 8064
+    },
+    "scatter:0:-2:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1660
+    },
+    "scatter:-1:-1:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2680
+    },
+    "scatter:-1:-1:leaf|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 44
+    },
+    "scatter:0:-1:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1500
+    },
+    "scatter:0:-1:leaf|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "scatter:0:-1:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 112
+    },
+    "scatter:1:-1:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2840
+    },
+    "scatter:0:0:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 600
+    },
+    "scatter:0:0:leaf|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 16
+    },
+    "scatter:-1:0:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1140
+    },
+    "scatter:-1:0:leaf|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "scatter:-1:0:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 56
+    },
+    "door-reeve_house:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-reeve_house:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-bakery:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-bakery:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-inn:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-inn:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-mill:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-mill:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_a:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_a:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_b:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_b:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_c:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_c:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_d:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_d:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_e:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_e:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-house_f:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_f:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-sluice_hut:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-sluice_hut:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-quarry_office:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-quarry_office:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-crew_bunks:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-crew_bunks:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-overlook_lodge:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-overlook_lodge:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "inn-sign-inn:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 992
+    },
+    "inn-sign-inn:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 84
+    },
+    "inn-sign-inn:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1348
+    },
+    "bell:bronze|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 684
+    },
+    "bell:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 48
+    },
+    "bell:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 12
+    },
+    "mill-wheel:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 992
+    },
+    "mill-wheel:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 288
+    },
+    "sluice-gate:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "sluice-gate:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 24
+    },
+    "sluice-cracks:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 36
+    },
+    "sluice-wheel:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 176
+    },
+    "shortcut-lever:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 24
+    },
+    "pickup-quarry_brace:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 48
+    },
+    "pickup-quarry_brace:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 12
+    },
+    "pickup-quarry_wrench:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 52
+    },
+    "loose-shore_apple|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1008
+    },
+    "loose-bread|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 900
+    },
+    "loose-healing_herb|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 7392
+    },
+    "loose-field_mushroom|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1656
+    },
+    "loose-iron_scrap|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 360
+    },
+    "village:stone|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 28078
+    },
+    "village:plaster|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 32124
+    },
+    "village:lime|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 31288
+    },
+    "village:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 42082
+    },
+    "village:tile|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 8548
+    },
+    "village:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 91469
+    },
+    "village:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 1456
+    },
+    "village:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 4696
+    },
+    "village:bark|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 8541
+    },
+    "village:thatch|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 3836
+    },
+    "village:cloth|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 994
+    },
+    "village:slate|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 886
+    },
+    "quarry:stone|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 2612
+    },
+    "quarry:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 21056
+    },
+    "quarry:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 5116
+    },
+    "quarry:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "quarry:rock|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 5400
+    },
+    "heath:stone|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 5928
+    },
+    "heath:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 25786
+    },
+    "heath:timber|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 12458
+    },
+    "heath:vc|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 620
+    },
+    "heath:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 3928
+    },
+    "heath:bark|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 13064
+    },
+    "cat-1005232556|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 45798
+    },
+    "dog-1005232529|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 46000
+    },
+    "dog-1005232511|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 16235
+    },
+    "animal impact effects|MeshDepthMaterial|shadow": {
+      "calls": 0,
+      "triangles": 0
+    },
+    "loose_barrel_0:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_0:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "loose_barrel_1:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_1:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "loose_barrel_3:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_3:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "loose_barrel_4:planks|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_4:metal|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "Mesh_0|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 149974
+    },
+    "ash-recorder|MeshDepthMaterial|shadow": {
+      "calls": 1,
+      "triangles": 34220
+    },
+    "tree-1521:1:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 7248
+    },
+    "tree-1521:2:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 38934
+    },
+    "hero-pine:0:foliage:depth|MeshStandardMaterial|colour": {
+      "calls": 3,
+      "triangles": 291760
+    },
+    "fir-spire:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 219632
+    },
+    "tree-4949:2:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 9072
+    },
+    "verdant-sentinel:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 33414
+    },
+    "tree-1527:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 84000
+    },
+    "hero-oak:0:foliage:depth|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 12000
+    },
+    "tree-4815:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 2,
+      "triangles": 85520
+    },
+    "hero-oak-c:0:foliage:depth|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60000
+    },
+    "hero-oak-b:0:foliage:depth|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 24000
+    },
+    "tree-1505:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 10534
+    },
+    "tree-4949:0:foliage:depth|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 54860
+    },
+    "Furniture / rug 0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2
+    },
+    "Furniture / rug 1|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 4
+    },
+    "Furniture / rug 2|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 4
+    },
+    "Furniture / rug 3|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 6
+    },
+    "Mesh_0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 149974
+    },
+    "tree-1521:1:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 9768
+    },
+    "tree-1521:1:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 7248
+    },
+    "tree-1521:2:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 37665
+    },
+    "tree-1521:2:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 38934
+    },
+    "hero-pine:0:wood|MeshStandardMaterial|colour": {
+      "calls": 3,
+      "triangles": 299302
+    },
+    "hero-pine:0:foliage|MeshStandardMaterial|colour": {
+      "calls": 3,
+      "triangles": 291760
+    },
+    "fir-spire:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 257335
+    },
+    "fir-spire:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 219632
+    },
+    "tree-4949:2:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 12564
+    },
+    "tree-4949:2:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 9072
+    },
+    "verdant-sentinel:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 25764
+    },
+    "verdant-sentinel:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 33414
+    },
+    "tree-1527:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 27440
+    },
+    "tree-1527:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 84000
+    },
+    "hero-oak:0:wood|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 5068
+    },
+    "hero-oak:0:foliage|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 12000
+    },
+    "tree-4815:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 2,
+      "triangles": 69392
+    },
+    "tree-4815:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 2,
+      "triangles": 85520
+    },
+    "hero-oak-c:0:wood|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 24250
+    },
+    "hero-oak-c:0:foliage|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60000
+    },
+    "hero-oak-b:0:wood|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 9516
+    },
+    "hero-oak-b:0:foliage|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 24000
+    },
+    "tree-1505:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 9185
+    },
+    "tree-1505:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 10534
+    },
+    "tree-4949:0:wood|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 39990
+    },
+    "tree-4949:0:foliage|MeshPhysicalMaterial|colour": {
+      "calls": 1,
+      "triangles": 54860
+    },
+    "forest_floor_litter:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 52
+    },
+    "forest_floor_litter:1|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 104
+    },
+    "forest_floor_shrub:1|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1520
+    },
+    "forest_floor_moss:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2000
+    },
+    "forest_floor_fern:2|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 14112
+    },
+    "forest_floor_fern:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 20664
+    },
+    "forest_floor_fungi:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 72
+    },
+    "forest_floor_litter:2|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2208
+    },
+    "forest_floor_fern:1|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8064
+    },
+    "forest_floor_shrub:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1520
+    },
+    "forest_floor_log:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 84
+    },
+    "scatter:-1:0:leaf|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "scatter:-1:-1:leaf|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 44
+    },
+    "scatter:0:-1:leaf|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "scatter:-1:0:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1140
+    },
+    "scatter:0:0:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 600
+    },
+    "scatter:-2:-1:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2920
+    },
+    "scatter:-1:-1:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2680
+    },
+    "scatter:0:-1:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1500
+    },
+    "scatter:-2:-2:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1320
+    },
+    "scatter:1:-2:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 860
+    },
+    "scatter:-1:-2:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1220
+    },
+    "scatter:0:-2:rock|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1660
+    },
+    "village:plaster|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 32124
+    },
+    "village:lime|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 31288
+    },
+    "heath:timber|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 12458
+    },
+    "village:timber|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 42082
+    },
+    "bell:timber|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 12
+    },
+    "mill-wheel:timber|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 992
+    },
+    "shrine:timber|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1674
+    },
+    "heath:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 25786
+    },
+    "door-house_d:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-house_a:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-mill:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-reeve_house:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "village:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 91469
+    },
+    "door-house_b:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "mill-wheel:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 288
+    },
+    "door-overlook_lodge:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "door-sluice_hut:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "sluice-gate:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "archive-door:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 108
+    },
+    "door-shrine_hall:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 108
+    },
+    "shrine:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 848
+    },
+    "archive-shutter:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 84
+    },
+    "heath:stone|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 5928
+    },
+    "village:stone|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 28078
+    },
+    "shrine:stone|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 7024
+    },
+    "village:tile|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8548
+    },
+    "village:thatch|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 3836
+    },
+    "village:slate|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 886
+    },
+    "shrine:slate|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8860
+    },
+    "village:cloth|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 994
+    },
+    "shrine:cloth|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 156
+    },
+    "heath:bark|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 13064
+    },
+    "village:bark|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8541
+    },
+    "bell:bronze|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 684
+    },
+    "village:vc|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1456
+    },
+    "sluice-cracks:vc|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 36
+    },
+    "shrine:vc|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 59
+    },
+    "loose-shore_apple|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1008
+    },
+    "loose-bread|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 900
+    },
+    "loose-healing_herb|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 7392
+    },
+    "loose-field_mushroom|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1656
+    },
+    "door-house_d:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "bell:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 48
+    },
+    "door-house_a:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-mill:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-reeve_house:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "village:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 4696
+    },
+    "door-house_b:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-overlook_lodge:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "door-sluice_hut:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "sluice-gate:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 24
+    },
+    "sluice-wheel:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 176
+    },
+    "archive-door:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 36
+    },
+    "door-shrine_hall:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 208
+    },
+    "shrine:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 16
+    },
+    "archive-shutter:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 12
+    },
+    "loose-iron_scrap|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 360
+    },
+    "shrine:pane|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 24
+    },
+    "village:glow|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 264
+    },
+    "shrine:glow|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "shrine:daylight|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 24
+    },
+    "settlement|MeshBasicMaterial|colour": {
+      "calls": 2,
+      "triangles": 4
+    },
+    "unnamed|MeshStandardMaterial|colour": {
+      "calls": 2,
+      "triangles": 172
+    },
+    "grass-near|MeshLambertMaterial|colour": {
+      "calls": 6,
+      "triangles": 436968
+    },
+    "grass-far|MeshLambertMaterial|colour": {
+      "calls": 13,
+      "triangles": 203610
+    },
+    "wildlife|ShaderMaterial|colour": {
+      "calls": 2,
+      "triangles": 256
+    },
+    "terrain:256:192|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:320:192|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:256:128|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:320:128|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:384:128|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:320:64|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:192:64|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:256:64|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:384:64|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:448:64|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:512:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:128:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:384:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:256:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:192:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:448:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "terrain:320:0|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8192
+    },
+    "loose_barrel_0:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_4:planks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 100
+    },
+    "loose_barrel_0:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "loose_barrel_4:metal|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "rite-water|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 120
+    },
+    "Furniture / antlers|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2566
+    },
+    "Furniture / barrel|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2832
+    },
+    "Furniture / bread|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 7572
+    },
+    "Furniture / bed|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 11049
+    },
+    "Furniture / bookshelf|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 4702
+    },
+    "Furniture / candle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 7536
+    },
+    "Furniture / cauldron|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 5574
+    },
+    "Furniture / chest|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 8064
+    },
+    "Furniture / chair|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 5721
+    },
+    "Furniture / crate|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1134
+    },
+    "Furniture / firewood|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2495
+    },
+    "Furniture / desk|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 3769
+    },
+    "Furniture / cupboard|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1819
+    },
+    "Furniture / herbs|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 19335
+    },
+    "Furniture / jug|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 7480
+    },
+    "Furniture / loom|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 3650
+    },
+    "Furniture / sacks|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 9156
+    },
+    "Furniture / stool|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 9300
+    },
+    "Furniture / table|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 9772
+    },
+    "Furniture / tools|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2540
+    },
+    "Furniture / workbench|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 4929
+    },
+    "Furniture / shelf boards|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 60
+    },
+    "Furniture / shelf brackets|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 240
+    },
+    "Furniture / hung basket|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 696
+    },
+    "Furniture / hung ladle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1152
+    },
+    "Furniture / hung onions|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1740
+    },
+    "Furniture / hung stool|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 256
+    },
+    "Furniture / hung rope|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1344
+    },
+    "Furniture / hung pan|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 540
+    },
+    "Furniture / peg rails|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1092
+    },
+    "Furniture / hung kettle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 736
+    },
+    "Furniture / hung saw|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 216
+    },
+    "Furniture / hung sickle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 272
+    },
+    "Furniture / hung axe|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 336
+    },
+    "Furniture / hung firewood|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 316
+    },
+    "Furniture / clutter candle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 924
+    },
+    "Furniture / clutter jar|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 3456
+    },
+    "Furniture / clutter bowl|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 2352
+    },
+    "Furniture / clutter cup|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1200
+    },
+    "Furniture / clutter pot|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 720
+    },
+    "Furniture / clutter sack|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 576
+    },
+    "Furniture / clutter bottle|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 140
+    },
+    "Furniture / clutter spool|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 1260
+    },
+    "Furniture / clutter basket|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 576
+    },
+    "cat-1005232556|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 45798
+    },
+    "dog-1005232511|MeshStandardMaterial|colour": {
+      "calls": 1,
+      "triangles": 16235
+    },
+    "unnamed|ShaderMaterial|colour": {
+      "calls": 2,
+      "triangles": 2208
+    },
+    "Furniture / floor shadows|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 68
+    },
+    "village:glass|MeshStandardMaterial|colour": {
+      "calls": 2,
+      "triangles": 1704
+    },
+    "village:nightGlow|MeshBasicMaterial|colour": {
+      "calls": 1,
+      "triangles": 142
+    },
+    "animal impact effects|MeshStandardMaterial|colour": {
+      "calls": 0,
+      "triangles": 0
+    },
+    "detached-leaves|MeshLambertMaterial|colour": {
+      "calls": 1,
+      "triangles": 1500
+    },
+    "Hearth fires / flames|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 120
+    },
+    "unnamed|ShaderMaterial|shadow": {
+      "calls": 5,
+      "triangles": 5
+    },
+    "water-spring-pool|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 1944
+    },
+    "water-rill|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 144
+    },
+    "water-quarry|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 1272
+    },
+    "water-main|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 6216
+    },
+    "sea|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 94080
+    },
+    "water-village|ShaderMaterial|colour": {
+      "calls": 1,
+      "triangles": 3048
+    }
+  },
+  "render": {
+    "frame": 197,
+    "calls": 390,
+    "triangles": 5451124,
+    "points": 1642,
+    "lines": 0
+  },
+  "camera": [
+    -33.4,
+    5.232298362255095,
+    60
+  ],
+  "projection": [
+    1.0825317547305484,
+    0,
+    0,
+    0,
+    0,
+    1.7320508075688774,
+    0,
+    0,
+    0,
+    0,
+    -1.0001428673476676,
+    -1,
+    0,
+    0,
+    -0.20001428673476676,
+    0
+  ],
+  "scope": "Raster-disabled CPU-submission diagnostic, fixed camera and fully settled grass requests. Not a native budget receipt, image proof, GPU timing or PASS."
+}
