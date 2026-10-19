@@ -1,0 +1,58 @@
+[
+  {
+    "file": "baseline-0.png",
+    "rgbSha256": "e9305dba538ce62f35f9af319dec7faf587907cde60873baab6a1cf38e1ddc3c"
+  },
+  {
+    "file": "baseline-1.png",
+    "rgbSha256": "4042fbf82d7badf32927b56a27bde8f864beda1d93da7b57a4476fe040c230a0"
+  },
+  {
+    "file": "baseline-2.png",
+    "rgbSha256": "ba857685e5544cdb19da31d77a05ac17ae42c47d1e293c8aa567a24a2f3daae6"
+  },
+  {
+    "file": "inactive-control.png",
+    "rgbSha256": "e9305dba538ce62f35f9af319dec7faf587907cde60873baab6a1cf38e1ddc3c"
+  },
+  {
+    "file": "noSheen-0.png",
+    "rgbSha256": "adcfbbb8b68d1d83b0ddc4a6630f6e31ce58106b0e82246de4e2c947430de309"
+  },
+  {
+    "file": "noSheen-1.png",
+    "rgbSha256": "41ca6d243405329c1f8347fb3f8aca1ccb3a86345b68c58bb02ccada7ddbee05"
+  },
+  {
+    "file": "noSheen-2.png",
+    "rgbSha256": "cabfe733cba69d7861c6a1275f2cb75f312a18804d326bf56d7a7f9039836e82"
+  },
+  {
+    "file": "noThrough-0.png",
+    "rgbSha256": "e9305dba538ce62f35f9af319dec7faf587907cde60873baab6a1cf38e1ddc3c"
+  },
+  {
+    "file": "noThrough-1.png",
+    "rgbSha256": "4042fbf82d7badf32927b56a27bde8f864beda1d93da7b57a4476fe040c230a0"
+  },
+  {
+    "file": "noThrough-2.png",
+    "rgbSha256": "ba857685e5544cdb19da31d77a05ac17ae42c47d1e293c8aa567a24a2f3daae6"
+  },
+  {
+    "file": "original.png",
+    "rgbSha256": "e9305dba538ce62f35f9af319dec7faf587907cde60873baab6a1cf38e1ddc3c"
+  },
+  {
+    "file": "repeat-0.png",
+    "rgbSha256": "e9305dba538ce62f35f9af319dec7faf587907cde60873baab6a1cf38e1ddc3c"
+  },
+  {
+    "file": "repeat-1.png",
+    "rgbSha256": "4042fbf82d7badf32927b56a27bde8f864beda1d93da7b57a4476fe040c230a0"
+  },
+  {
+    "file": "repeat-2.png",
+    "rgbSha256": "ba857685e5544cdb19da31d77a05ac17ae42c47d1e293c8aa567a24a2f3daae6"
+  }
+]

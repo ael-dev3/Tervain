@@ -1,0 +1,186 @@
+{
+  "complete": true,
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "buffer": [
+      2205,
+      1434
+    ],
+    "dpr": 1.5,
+    "phase": {
+      "hour": 11.5,
+      "cloudTime": 0.016666666666666666,
+      "wind": {
+        "time": 0.016666666666666666,
+        "direction": [
+          0.9060848207495054,
+          0.4230960855495319,
+          0.055999999999999994,
+          0
+        ],
+        "scroll": [
+          0.06342593745246537,
+          0.02961672598846723,
+          0.1014814999239446,
+          0.04738676158154757
+        ]
+      },
+      "sway": 0.06666666666666667,
+      "gradeTime": 0.03333333333333333
+    },
+    "grass": {
+      "grassInstances": 20930,
+      "grassTris": 1254711,
+      "grassDraws": 41,
+      "grassTiles": 116,
+      "grassMovers": 0
+    }
+  },
+  "route": {
+    "kind": "strafe",
+    "x": 6,
+    "z": 26,
+    "frames": 3,
+    "stepMetres": 0.65,
+    "metres": 1.3,
+    "frozenWind": true,
+    "hour": 11.5
+  },
+  "inactiveChangedChannels": 0,
+  "records": [
+    {
+      "frame": 0,
+      "draws": 119,
+      "triangles": 2288888,
+      "camera": [
+        -0.9902680687415701,
+        0,
+        -0.13917310096006544,
+        0,
+        -0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235698994,
+        0,
+        0.13915744662782645,
+        0.014998312784712241,
+        -0.9901566823799328,
+        0,
+        6,
+        2.6770528316497804,
+        23,
+        1
+      ],
+      "allImageBright180": 320355,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "noThrough": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        },
+        "noSheen": {
+          "changedPixels": 825291,
+          "baselineBright180": 424,
+          "candidateBright180": 2,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        }
+      }
+    },
+    {
+      "frame": 1,
+      "draws": 189,
+      "triangles": 3119984,
+      "camera": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0.9998875189808162,
+        0.014998312784712246,
+        0,
+        0,
+        0.014998312784712246,
+        -0.9998875189808163,
+        0,
+        6.65,
+        2.6841452062129973,
+        23,
+        1
+      ],
+      "allImageBright180": 428830,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "noThrough": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        },
+        "noSheen": {
+          "changedPixels": 861015,
+          "baselineBright180": 410,
+          "candidateBright180": 6,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 87693
+        }
+      }
+    },
+    {
+      "frame": 2,
+      "draws": 186,
+      "triangles": 3151345,
+      "camera": [
+        -0.9902680687415706,
+        0,
+        0.13917310096006544,
+        0,
+        0.002087361699417397,
+        0.9998875189808162,
+        0.014852350235699,
+        0,
+        -0.13915744662782645,
+        0.014998312784712248,
+        -0.9901566823799333,
+        0,
+        7.3,
+        2.6912375807762148,
+        23,
+        1
+      ],
+      "allImageBright180": 485423,
+      "allImageStrictWhite": 0,
+      "effects": {
+        "noThrough": {
+          "changedPixels": 0,
+          "baselineBright180": 0,
+          "candidateBright180": 0,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 0
+        },
+        "noSheen": {
+          "changedPixels": 894734,
+          "baselineBright180": 331,
+          "candidateBright180": 15,
+          "baselineNearWhite220": 0,
+          "candidateNearWhite220": 0,
+          "temporalJumps60": 81735
+        }
+      }
+    }
+  ],
+  "scope": "Read-only lighting attribution. Entire image counts include background; changed-by-grass-lighting pixels isolate contribution, not semantic ownership. Offline synthetic walk; no GPU/frame pacing claim.",
+  "errors": []
+}
