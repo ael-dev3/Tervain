@@ -1,0 +1,47 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "buffer": [
+    640,
+    360
+  ],
+  "effectiveDpr": 1,
+  "route": {
+    "frames": 3,
+    "stepMetres": 0.65,
+    "metres": 1.3,
+    "frozenWind": true,
+    "hour": 17.5
+  },
+  "summaries": {
+    "noThrough": {
+      "affectedPixelObservations": 193823,
+      "baselineBright180": 0,
+      "ablatedBright180": 0,
+      "baselineBright220": 0,
+      "ablatedBright220": 0,
+      "baselineJumps60": 248,
+      "ablatedJumps60": 223,
+      "baselineBrightJumps60": 0,
+      "ablatedBrightJumps60": 0,
+      "maxBaselineLuminance": 126.22399999999999,
+      "maxAblatedLuminance": 124.15579999999999
+    },
+    "noSheen": {
+      "affectedPixelObservations": 10988,
+      "baselineBright180": 0,
+      "ablatedBright180": 0,
+      "baselineBright220": 0,
+      "ablatedBright220": 0,
+      "baselineJumps60": 158,
+      "ablatedJumps60": 108,
+      "baselineBrightJumps60": 0,
+      "ablatedBrightJumps60": 0,
+      "maxBaselineLuminance": 120.1626,
+      "maxAblatedLuminance": 112.01979999999999
+    }
+  },
+  "scope": "Observations, not unique pixels. Temporal domain is the union of lighting-affected pixels in consecutive poses; camera motion and occlusion remain included. All same-pose controls are exact. No visual-quality or hardware timing PASS."
+}
