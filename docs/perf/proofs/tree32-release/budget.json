@@ -1,0 +1,31 @@
+{
+  "verdict": "PASS",
+  "marker": "play-gate: PASS f98d45dd0",
+  "candidateHead": "f98d45dd0c5c4904f560b85c871ca64ea7e981ef",
+  "live": {
+    "url": "https://ael-dev3.github.io/Tervain/",
+    "revision": "4dd0dae",
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "candidate": {
+    "revision": "f98d45dd0",
+    "draws": 285,
+    "triangles": 3048306,
+    "consoleErrors": 0
+  },
+  "allowance": 0,
+  "completedSamplesPerProbe": 4,
+  "liveProbes": 2,
+  "liveAggregation": "larger same-revision live probe",
+  "exitCode": 0,
+  "producerAndSamplerUnmodified": true,
+  "producerSha256": {
+    "tools/play-gate.mjs": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+    "tools/budget-frame-samples.mjs": "4de6e8c867a0909668d404f66c5751e70e6f59377c8c3ff44d12e5b01314adc6",
+    "tools/cdp.mjs": "5cc6b4327cfc3fce8114be84c736fb05150b29e1f71383ba1d2df004a95050e2",
+    "tools/webgl-upload-bytes.mjs": "74869a2e8f849694eac8b2a8b764b1da7ce37fa9f3bfa9b45c896bb9e4a102e6"
+  },
+  "scope": "Exact compiled build, native completed-frame counters. Software WebGL; not an Apple GPU timing result. Candidate URL omitted from this public receipt."
+}

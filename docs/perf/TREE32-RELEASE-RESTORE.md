@@ -66,4 +66,16 @@ The raw report’s scope text inherited the earlier runner’s obsolete bf9261f 
 
 [Remaining non-oak birch targets](proofs/tree32-release/birch-targets.json): the fresh near audit still flags 244 cards in 41 groups across 28 birches. A tested vertical-only prototype moved 12 template groups without reducing either count and was rejected. These remain measurement targets, not repaired trees.
 
-Exact-head compiled-build budget and independent compiled geometry inspection are still in progress; no new PASS is asserted in this document yet.
+## Exact compiled-build budget: PASS
+
+| Max over four completed samples | Live 4dd0dae | Candidate f98d45dd0 | Delta |
+| --- | ---: | ---: | ---: |
+| Draws | 285 | 285 | 0 |
+| Triangles | 3,048,306 | 3,048,306 | 0 |
+| Console errors | 0 | 0 | 0 |
+
+`play-gate: PASS f98d45dd0`
+
+Actual exit 0; allowance 0; two same-revision live probes, taking their larger maxima. The producer and sampler are unmodified from the release. [Scrubbed exact-head receipt and tool hashes](proofs/tree32-release/budget.json). Independent read-only inspection of the actual compiled candidate matches all **30** tested factory geometry hashes and its native build line `v0.0.30 · f98d45dd0 · pre-alpha`: [compiled inspection](proofs/tree32-release/compiled.json).
+
+The feature branch contains only the original four-file production/test restoration. These proof files live on a separate evidence branch and do not change the gated feature head. Hardware visual approval remains with the reviewer; no merge or main push was performed.
