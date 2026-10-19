@@ -1,0 +1,67 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "candidate": "d1f2792d014bbc96b6e8afd839914afe4413f643",
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204
+      ],
+      "time": 0,
+      "before": {
+        "draws": 456,
+        "triangles": 6242951,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 456,
+        "triangles": 6242951,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "08185a25ecc9c0e9ba602fd47c6a7c05f55f875bc06e75cb5d58b7ef31509502"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 1.3,
+      "before": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "3180c360420d632b646bab1f5be15846bcd74f5457962747b0e3280b49927405"
+    }
+  ],
+  "decision": "Do not propose this production change: no measured draw/triangle/upload reduction in the resumed edge views or preceding five controls. The savings assertion intentionally failed. No completed budget receipt is claimed.",
+  "scope": "Two resumed full-raster High endpoint pairs and exact baseline restores. Five previous saved control triples were also pixel-identical, with flat costs reported before pause; they are not reconstructed as a new full-path run."
+}
