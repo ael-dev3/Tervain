@@ -1,3 +1,11 @@
+# Withdrawn: coarse contact samples falsely classify supported pine foliage
+
+**Do not ship this candidate. #697 is closed unmerged.** Dense alpha sampling on live 0.0.33 finds actual opaque support only **0.062341 local m** from wood, inside the 0.270757 m reach. Alpha at that witness is 0.6795 against cutoff 0.42. The earlier sparse sample diagnosis below is disproven. Moving the pictured pine is not justified.
+
+[Dense counterexample](proofs/leaf-surface-contact/dense-alpha-counterexample.json): 24 subdivisions find support at 0.067419 m; 48/96 agree on 0.062341 m, with 200/776 opaque witnesses. `tools/inspect-pine-opaque-contact.mjs` reproduces it. The photographs and budgets document a rejected investigation, not an approved fix or visual improvement. Synthetic centre tests do not prove a live floating clump.
+
+---
+
 # Leaf-island contact must lie on foliage
 
 Reproduced on live **0.0.33 · b317734**. The load-time island repair accepts a triangle's opaque bounding-box centre as a contact point. That centre can lie outside the triangle plane, or in a transparent hole. The same phantom point can prevent the later nearest-contact stage from moving the island.
@@ -45,7 +53,7 @@ The image tool accepts another build URL as its second positional argument. The 
 | Cost | Delta |
 | --- | --- |
 | Rendered inspection draws / triangles | 0 / 0 at each of three poses |
-| Material / shader instructions / texture taps | Unchanged |
+| Material / shader source / per-invocation texture taps | Unchanged; total GPU cost unmeasured |
 | Per-frame JS / uploads | No runtime-loop changes |
 | Initialization | Surface-contact queries replace the box-centre acceptance; load-time cost not benchmarked |
 
