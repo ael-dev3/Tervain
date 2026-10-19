@@ -1,0 +1,14 @@
+{
+  "sourceRefs": {
+    "before": "4dd0daeaa40d2bc803806d6ff04038022e2868a0",
+    "after": "f98d45dd0c5c4904f560b85c871ca64ea7e981ef"
+  },
+  "allFourSourceHashesMatch": true,
+  "observedNativeBuildLine": "v0.0.30 \u00b7 4dd0dae \u00b7 pre-alpha",
+  "endpointBuild": {
+    "version": "0.0.30",
+    "revision": "4dd0dae"
+  },
+  "restoredControlIdentical": true,
+  "note": "The raw report scope string inherited the obsolete bf9261f label from the reused runner. Its setup.build and four source hashes verify the actual 0.0.30 / 4dd0dae baseline above. No metrics were relabelled or substituted."
+}

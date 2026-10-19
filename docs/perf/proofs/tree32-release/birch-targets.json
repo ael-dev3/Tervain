@@ -1,0 +1,114 @@
+{
+  "build": {
+    "version": "0.0.30",
+    "revision": "4dd0dae"
+  },
+  "nearAudit": {
+    "alpha": false,
+    "gap": 0.75,
+    "woodReach": 1.5
+  },
+  "trees": 28,
+  "detachedCards": 244,
+  "detachedGroups": 41,
+  "targets": [
+    {
+      "label": "tree:wild:71:20",
+      "kind": "birch/verdant-sentinel",
+      "cards": 76,
+      "groups": 11,
+      "position": [
+        70.89764271860437,
+        2.1659799361355874,
+        -39.02333443366458
+      ]
+    },
+    {
+      "label": "tree:wild:58:16",
+      "kind": "birch/tree-1527",
+      "cards": 55,
+      "groups": 7,
+      "position": [
+        -12.341355144880184,
+        4.212484367005984,
+        -62.427980571924735
+      ]
+    },
+    {
+      "label": "tree:wild:63:14",
+      "kind": "birch/tree-4815",
+      "cards": 46,
+      "groups": 8,
+      "position": [
+        17.432044094726038,
+        6.030911273266607,
+        -75.55757152879613
+      ]
+    },
+    {
+      "label": "tree:wild:70:28",
+      "kind": "birch/tree-1527",
+      "cards": 31,
+      "groups": 5,
+      "position": [
+        59.390338540165295,
+        1.2008897008417319,
+        10.770791899096205
+      ]
+    },
+    {
+      "label": "tree:wild:31:26",
+      "kind": "birch/tree-1527",
+      "cards": 29,
+      "groups": 4,
+      "position": [
+        -181.1605958576271,
+        0.5447082257258238,
+        0.006336455154215992
+      ]
+    },
+    {
+      "label": "tree:wild:75:37",
+      "kind": "birch/verdant-sentinel",
+      "cards": 4,
+      "groups": 3,
+      "position": [
+        91.92235075792725,
+        1.1500313486790827,
+        68.59452719584573
+      ]
+    },
+    {
+      "label": "tree:wild:61:12",
+      "kind": "birch/tree-4815",
+      "cards": 2,
+      "groups": 2,
+      "position": [
+        8.469502246402733,
+        8.02285472889906,
+        -88.94436590974223
+      ]
+    },
+    {
+      "label": "tree:wild:65:14",
+      "kind": "birch/tree-1527",
+      "cards": 1,
+      "groups": 1,
+      "position": [
+        29.535751601256955,
+        7.027976841173253,
+        -77.66947951550134
+      ]
+    }
+  ],
+  "rejectedPrototype": {
+    "basis": "0.0.29 \u00b7 52dd4e3, same native birch reports as the fresh 0.0.30 all-target audit",
+    "templateClumpsMoved": 12,
+    "beforeCards": 244,
+    "afterCards": 244,
+    "beforeGroups": 41,
+    "afterGroups": 41,
+    "accepted": false
+  },
+  "positionProvenance": "Native registered matrices recorded on 52dd4e3. The 0.0.30 release changes no population or production source; all 28 complete birch audit rows are deep-equal in the fresh 4dd0dae run."
+}
