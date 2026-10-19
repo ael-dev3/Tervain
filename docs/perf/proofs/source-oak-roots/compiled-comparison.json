@@ -1,0 +1,39 @@
+{
+  "live": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "candidate": {
+    "version": "0.0.33",
+    "revision": "fe4cc3ed5"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "leafExact": true,
+      "woodMatchesRepair": true,
+      "repairIdempotent": true,
+      "beforeWoodTriangles": 9185,
+      "candidateWoodTriangles": 9185,
+      "leafTriangles": 10534
+    },
+    {
+      "lod": 1,
+      "leafExact": true,
+      "woodMatchesRepair": true,
+      "repairIdempotent": true,
+      "beforeWoodTriangles": 4914,
+      "candidateWoodTriangles": 4914,
+      "leafTriangles": 3398
+    },
+    {
+      "lod": 2,
+      "leafExact": true,
+      "woodMatchesRepair": true,
+      "repairIdempotent": true,
+      "beforeWoodTriangles": 2636,
+      "candidateWoodTriangles": 2636,
+      "leafTriangles": 980
+    }
+  ]
+}

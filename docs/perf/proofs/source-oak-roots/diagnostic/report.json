@@ -1,0 +1,89 @@
+{
+  "rows": [
+    {
+      "pose": 0,
+      "twig": 83,
+      "mode": "before",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 0,
+      "twig": 83,
+      "mode": "after",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 0,
+      "twig": 83,
+      "mode": "restore",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 1,
+      "twig": 50,
+      "mode": "before",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 1,
+      "twig": 50,
+      "mode": "after",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 1,
+      "twig": 50,
+      "mode": "restore",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 2,
+      "twig": 48,
+      "mode": "before",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 2,
+      "twig": 48,
+      "mode": "after",
+      "draws": 1,
+      "triangles": 9185
+    },
+    {
+      "pose": 2,
+      "twig": 48,
+      "mode": "restore",
+      "draws": 1,
+      "triangles": 9185
+    }
+  ],
+  "controls": [
+    {
+      "pose": 0,
+      "twig": 83,
+      "changedChannels": 12096,
+      "restoredExact": true
+    },
+    {
+      "pose": 1,
+      "twig": 50,
+      "changedChannels": 1002,
+      "restoredExact": true
+    },
+    {
+      "pose": 2,
+      "twig": 48,
+      "changedChannels": 6552,
+      "restoredExact": true
+    }
+  ],
+  "errors": [],
+  "scope": "Explicit isolated-wood diagnostic, source rest geometry with neutral material and custom lighting. No leaves, actors, wind or postprocessing; not game appearance, visibility or FPS proof. Full-scene inspection images are separate."
+}

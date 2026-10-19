@@ -1,0 +1,89 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "kind": "oak/tree-1505",
+      "lod": 0,
+      "wood": {
+        "normal": "484adaca4c03d84bcba9613b37ecc25e454c4de9097198edc01653fa5e54bb31",
+        "position": "a4233272ace4fa724568d3c1f5a37ba68425e0de942b3306894f938291495560",
+        "uv": "c7e6b09fecfa0832b4b9ef2839ad61ac8568cb7e2145e87d4052c4a4f381d00a",
+        "index": "8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b"
+      },
+      "repaired": {
+        "normal": "b4ffa7a6cb978bd366da0aeaa7a8cb156a21117d343c041244a14a8062ba8b93",
+        "position": "b3bc68eadb40fc546f117a244cfd171bf4649256c78bb9a82201c883b0cd5421",
+        "uv": "64095cf3e9efafee92cd214c3bf1f43ff23b34bf2523994fe3da5cc9e9cb6fc8",
+        "index": "8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b"
+      },
+      "leaf": {
+        "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+        "position": "e04415734e6cc80ed94a38dd8fb1ce120c0a862a53b7103ec65f1af8454c3023",
+        "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+        "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c"
+      },
+      "woodTriangles": 9185,
+      "leafTriangles": 10534,
+      "plans": 89
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 1,
+      "wood": {
+        "normal": "75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a",
+        "position": "851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3",
+        "uv": "6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62",
+        "index": "b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d"
+      },
+      "repaired": {
+        "normal": "75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a",
+        "position": "851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3",
+        "uv": "6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62",
+        "index": "b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d"
+      },
+      "leaf": {
+        "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+        "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+        "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+        "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc"
+      },
+      "woodTriangles": 4914,
+      "leafTriangles": 3398,
+      "plans": 3
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 2,
+      "wood": {
+        "_pivot": "477e15a3f924e40e8b763caa6c853146519f4308a50c8e5a4795a3f5693186ec",
+        "_wind": "fbd14cc1958b059a5479fd8744ef7e6f639c61958aada4a4403ef738fd8431ae",
+        "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+        "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+        "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+        "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d"
+      },
+      "repaired": {
+        "_pivot": "477e15a3f924e40e8b763caa6c853146519f4308a50c8e5a4795a3f5693186ec",
+        "_wind": "fbd14cc1958b059a5479fd8744ef7e6f639c61958aada4a4403ef738fd8431ae",
+        "normal": "1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57",
+        "position": "061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1",
+        "uv": "f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90",
+        "index": "0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d"
+      },
+      "leaf": {
+        "_pivot": "9c768b256efbe2de521d8ed664c9b9b307e7a3e55d22e9984469539857332a00",
+        "_wind": "ed0d639af0ba9691c6e3abca5423241834b39bd4c742e92fa3224f085f28bfeb",
+        "normal": "cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f",
+        "position": "61c77ae9cd0b0bb6049638051eb34f9e97c7b9299019bc0dba5d50633fd8c420",
+        "uv": "c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42",
+        "index": "eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf"
+      },
+      "woodTriangles": 2636,
+      "leafTriangles": 980,
+      "plans": 0
+    }
+  ]
+}

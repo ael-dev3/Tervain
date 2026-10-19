@@ -1,0 +1,38 @@
+{
+  "source": "Passing real GLB source factory test; texture pixels omitted, geometry preserved. Ray intersections use preceding actual wood triangles. Native appearance is verified separately.",
+  "passed": true,
+  "rows": [
+    {
+      "asset": "tree-1505",
+      "lod": 0,
+      "ids": [
+        48,
+        50,
+        83
+      ],
+      "before": [
+        0.36761848239682726,
+        0.1886385577357422,
+        0.8741857897604438
+      ],
+      "after": [
+        0.03339919482978944,
+        0.03239347752153957,
+        0.04746646727429046
+      ],
+      "beforeCross": 0,
+      "afterCross": 3,
+      "woodTriangles": 9185
+    },
+    {
+      "asset": "tree-1505",
+      "lod": 1,
+      "ids": [],
+      "before": [],
+      "after": [],
+      "beforeCross": 0,
+      "afterCross": 0,
+      "woodTriangles": 4914
+    }
+  ]
+}

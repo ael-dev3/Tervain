@@ -1,0 +1,201 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "twig": 48,
+      "root": [
+        4.719916820526123,
+        12.023191769917805,
+        -3.038757801055908
+      ],
+      "probes": [
+        {
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            -1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        }
+      ]
+    },
+    {
+      "twig": 50,
+      "root": [
+        -5.6543947855631504,
+        6.880875905354817,
+        -0.7457944552103678
+      ],
+      "probes": [
+        {
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "firstHitDistance": 6.152214392622947,
+          "faceNormalDotRay": -0.0783337100308711
+        },
+        {
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            -1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        }
+      ]
+    },
+    {
+      "twig": 83,
+      "root": [
+        4.260040442148844,
+        10.589574495951334,
+        4.4290320078531895
+      ],
+      "probes": [
+        {
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            -1,
+            0
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        },
+        {
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "firstHitDistance": null,
+          "faceNormalDotRay": null
+        }
+      ]
+    }
+  ],
+  "scope": "Six rest-geometry rays from each root centre against preceding wood only. Open source meshes prevent a watertight-volume classification; this records first-hit distances and triangle winding without claiming a signed distance."
+}
