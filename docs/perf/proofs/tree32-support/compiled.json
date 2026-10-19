@@ -1,0 +1,190 @@
+{
+  "build": {
+    "version": "0.0.29",
+    "revision": "6ab2f9f5c"
+  },
+  "rows": [
+    {
+      "id": "hero-oak",
+      "lod": 0,
+      "part": "wood",
+      "hash": "c0d5b029c05ef294f694fab0d8be6c8bf0b96ea1728e1022faf5a0ac087b30ca"
+    },
+    {
+      "id": "hero-oak",
+      "lod": 0,
+      "part": "leaves",
+      "hash": "748d83379885884c4dda2a5af23033266f009bc52b7fb030a88006065a597cc6"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 0,
+      "part": "wood",
+      "hash": "313901dcef3865afaa2a80546c2d5d483783aa6e9c8e371f36928d8fc07b5253"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 0,
+      "part": "leaves",
+      "hash": "aaf7b5272147f3c24f1ea89e1b9e35d82896a40909d9a80194a88a5e30db8f11"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 0,
+      "part": "wood",
+      "hash": "ac8cd7f1b163afccda117dc22d2b21bb424207e17ad2666b00cf71fbbf49d347"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 0,
+      "part": "leaves",
+      "hash": "f8ea1a18f82884e38a5470ca64d6218dd6014094aae350f35840415401d09d16"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 0,
+      "part": "wood",
+      "hash": "9ace0647e837576f5b5f1dd1a9e64bc7dc76a7933b00b9cfc55a1eeedb749da7"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 0,
+      "part": "leaves",
+      "hash": "f32107ab9e13a7189604369f963685d4fc83996385fcd3aa51484e70670198c4"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 0,
+      "part": "wood",
+      "hash": "d565b69627736e754f62a5302020fb483a6d8b7a4f5dc1a47d2a756921d23b7f"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 0,
+      "part": "leaves",
+      "hash": "14864969ec65c1288d64d01c22fd0966bde0132641cbdc4f564756424f12a81a"
+    },
+    {
+      "id": "hero-oak",
+      "lod": 1,
+      "part": "wood",
+      "hash": "291dea7f3b2706a511d75c7a047d2c213367121679c351fbef2f7b798feef30f"
+    },
+    {
+      "id": "hero-oak",
+      "lod": 1,
+      "part": "leaves",
+      "hash": "4866f32263053eb18a603b3c6ca152e8ccdf8d8e2d29c8151a3147c160b6155e"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 1,
+      "part": "wood",
+      "hash": "a76ea81e89e6ce76a94dc26ea6a45d26ed46bd3a9d14300c9ef53d6d8d3f07ca"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 1,
+      "part": "leaves",
+      "hash": "a11f1a59ab69ee1a6127be874ca736433994d9b8e3afb4ee0b38bafb460934cb"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 1,
+      "part": "wood",
+      "hash": "061455bf3f00cdb17d8f02d49fe4b4b321aaef52f53ff5c25d8db85239bdf251"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 1,
+      "part": "leaves",
+      "hash": "b66c91aa1a51eefcbbd05850d7128f5ca66a6df2a7062407d3834f4c6fe56a10"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 1,
+      "part": "wood",
+      "hash": "71c182d028f9b0ab2d7df15cbbdafc4f4854e3bf660c69597549c48077a59d21"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 1,
+      "part": "leaves",
+      "hash": "3f5787f18b9ac42e0b90cf59c92df54e238f882792cbe0bcc7e5c96cf2347b54"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 1,
+      "part": "wood",
+      "hash": "c231837a7d8e2f7b245d099c961975d1a22f79edadb3ed092782482b5232a728"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 1,
+      "part": "leaves",
+      "hash": "327664c40da7cadd349fa5008ea0dc66c9201e273fabf88ec042c8c5af301a66"
+    },
+    {
+      "id": "hero-oak",
+      "lod": 2,
+      "part": "wood",
+      "hash": "ec19373a6800f3653147a6fb0a8cb6588ea1802d9c4f308f386ea7227a46dde6"
+    },
+    {
+      "id": "hero-oak",
+      "lod": 2,
+      "part": "leaves",
+      "hash": "0434a290fd47d7979afe9f3b561ed6ee8c331187ad8558ccc0b32158ba533ed2"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 2,
+      "part": "wood",
+      "hash": "cdbc30e480b3504467b07aa19c0865ea238ea6d831a3a200d2b9451c045cc485"
+    },
+    {
+      "id": "hero-oak-c",
+      "lod": 2,
+      "part": "leaves",
+      "hash": "7f7f90710c82a8605fd4db25baa882648a62f6d3e3012d339733699d64d68d46"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 2,
+      "part": "wood",
+      "hash": "5964db3a0d09bd5d469c9a45cf78f56738efc78296d6e98ddb15c9ef2c6f546e"
+    },
+    {
+      "id": "hero-oak-b",
+      "lod": 2,
+      "part": "leaves",
+      "hash": "6c8e6a62704dcbb3a918783442b76f3e9848d625a67d9f2cb9367b8e543d75e0"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 2,
+      "part": "wood",
+      "hash": "628e630d283d266de3c0d6ae7b834d1e51832d8ffb6c574b39494c1c0ef21364"
+    },
+    {
+      "id": "verdant-sentinel",
+      "lod": 2,
+      "part": "leaves",
+      "hash": "768644a4fdaf271aefabfd0cb90c2dfcafe5a46ce2bad7304c8ccd880c09b92f"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 2,
+      "part": "wood",
+      "hash": "a50a426e5f1d9e1d07660862a8634a2916ec401fdc9b01cf0fbb94a9dc7a1318"
+    },
+    {
+      "id": "tree-1505",
+      "lod": 2,
+      "part": "leaves",
+      "hash": "8929a0876c5c15bd4702ec737d9e53469c1d1614af981be73299715a0562522e"
+    }
+  ],
+  "pass": true,
+  "scope": "Read-only registered geometry hashes from the exact compiled candidate during the stock budget run."
+}

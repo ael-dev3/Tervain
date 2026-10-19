@@ -41,3 +41,17 @@ Zero console errors. These are distant contextual views; small changed-pixel cou
 No material/shader, texture sampling, render-pass or per-frame JS changes. The additional guard runs during template construction. All native tree index counts are unchanged. Native paired view submissions above are equal, but the independent compiled-build budget is still required because canopy shading also influences generated grass. Hardware timing and close-up motion/video review remain outstanding.
 
 Validation: 24 focused tests pass, including the failing-before regression and completed-frame/startup fixtures; production build passes. Exact-head compiled geometry inspection and the current main budget gate are running separately; no gate PASS is claimed here yet.
+
+## Alpha-aware cross-check
+
+The same Tree32 near pair was also checked with the live cutout sampler. All 16 distinct UV triangle patterns have positive coarse probes; 169 unique native UV/alpha values cover every probe needed by both geometries. No fine-grid or conservative-hint fallback is needed for this particular pair. The direct transform of the loaded native geometry matches the complete factory candidate's SHA-256, and an independent read-only inspection of the exact compiled candidate verifies all 30 oak wood/leaf/LOD hashes.
+
+| Alpha-mode metric | Before | After |
+| --- | ---: | ---: |
+| Sampled opaque triangle components beyond wood reach | 3,031 | 2,997 |
+| Wood-detached groups of these components | 41 | 40 |
+| All opaque triangle components | 12,000 | 12,000 |
+| Crown connectivity chunks | 5 | 5 |
+| Charged audit operations | 6,449,980 | 6,412,442 |
+
+These alpha-mode counts are **opaque triangle components, not leaf cards**. Many flags remain; no full visual closure is claimed. `alpha-audits.json` and `native-alpha-probes.json` preserve the measurements. Run `node tools/repro-tree32-alpha.mjs --out tree32-alpha-proof` to capture the same native probes and replay both audits; subsequent offline replay accepts `--snapshot tree32-alpha-proof/native-input.json`. The replay rejects a changed published revision, an unmatched geometry hash, an unrecorded probe, or a pattern requiring unrecorded fine sampling. Native capture and offline replay were exercised; the recorded pair produces the table above.
