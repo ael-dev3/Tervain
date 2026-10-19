@@ -1,0 +1,24 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "scope": "Previously recorded read-only native targets on the same published revision; fallback label identifies different placements across presets.",
+  "low": {
+    "label": "tree:3:38",
+    "world": [
+      137.0056026952807,
+      3.5256043874376326,
+      57.60848844377324
+    ]
+  },
+  "high": {
+    "label": "tree:3:38",
+    "species": "pine",
+    "position": [
+      154.3054524618201,
+      10.633794852372308,
+      -74.81677297339775
+    ]
+  }
+}
