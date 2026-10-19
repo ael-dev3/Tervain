@@ -1,0 +1,167 @@
+{
+  "complete": true,
+  "scope": "Final emitted files, excluding copied public assets. Same revision stamp, explicit hash-derived chunk-reference mapping. Exactly one helper argument token changes: contact search uses reach instead of max(gap,reach). Every other emitted byte matches after reference normalization. This is compiled-code proof, not a rendered pixel comparison. Current oak construction passes reach=1.5/1.46 > gap=.75, so the chosen argument has identical numeric value. No shader or per-frame code changes.",
+  "files": [
+    {
+      "baseline": "version.json",
+      "candidate": "version.json",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "084006646eb92ea4cc9d6d984253efd8a5b95469daee886db8cdcb46a58e2e37"
+    },
+    {
+      "baseline": "index.html",
+      "candidate": "index.html",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "0e27e25bfaa892cff69ce5e32b9bea912da327017ed4b2b1937478d71d4a0f5d"
+    },
+    {
+      "baseline": "gothic3/index.html",
+      "candidate": "gothic3/index.html",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "6e5d92c52886e1e2772d613287894045b5942871dbddbde99a7ec946b3cc4776"
+    },
+    {
+      "baseline": "gothic3-local/index.html",
+      "candidate": "gothic3-local/index.html",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "f328a12e63ed3e381666f3b275c0cfea99b8ceca7f60b75e479e5a9a8b545bc6"
+    },
+    {
+      "baseline": "assets/terrainTextureWorker-D1dbXuII.js",
+      "candidate": "assets/terrainTextureWorker-D1dbXuII.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "5a9d87e7a4713f5e744ed1506d39a1ac4e04de2c39433a31dd53c58c13832ab5"
+    },
+    {
+      "baseline": "assets/sheetWorker-C6E0C0Re.js",
+      "candidate": "assets/sheetWorker-C6E0C0Re.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "6aa585eae1f637c16d7c09239978fd27a7902554673c01cecd8da11970b20e05"
+    },
+    {
+      "baseline": "assets/gothic3Local-CjSrmsMl.css",
+      "candidate": "assets/gothic3Local-CjSrmsMl.css",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "2a83c5129f7ca880364ca5cd7f526df056d2ffb3f42e5411435792d3c8594481"
+    },
+    {
+      "baseline": "assets/gothic3-oEHuT4vL.css",
+      "candidate": "assets/gothic3-oEHuT4vL.css",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "a434eb956c40c803fb1993a86b44c083aa0c742067c38a56f7fe2a1918e45187"
+    },
+    {
+      "baseline": "assets/tervain-CFUVQKsU.css",
+      "candidate": "assets/tervain-CFUVQKsU.css",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "de710a6e71723139d872b8a61e904eb1a98042c31a495941169f8ef0dcfafc0e"
+    },
+    {
+      "baseline": "assets/canopyAudit-Bk40D0tq.js",
+      "candidate": "assets/canopyAudit-CyyLVX8I.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "fcbe624a479a4cd2d42fd75bf2bab15b11b78f1a5cd4571cff409b282f120b77"
+    },
+    {
+      "baseline": "assets/placementAudit-Di3-ffV4.js",
+      "candidate": "assets/placementAudit-Di3-ffV4.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "cd27ed4b03252f28bdf7f577df8297a59de33ad99ea1f930dd65f5d4db6253b1"
+    },
+    {
+      "baseline": "assets/browser-navigation-area-source-runtime-71iKsKjf.js",
+      "candidate": "assets/browser-navigation-area-source-runtime-71iKsKjf.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "f750f02d584a8ae4b3ada946149b49504552a784c349db808f53ea3c3b069869"
+    },
+    {
+      "baseline": "assets/browser-npc-navigation-owner-DsOZLbQ4.js",
+      "candidate": "assets/browser-npc-navigation-owner-DsOZLbQ4.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "8fdd075828d69a056fff2d930932da36aaf8849d0f5db8194c0f4f88c5274847"
+    },
+    {
+      "baseline": "assets/preload-helper-B93sBQrk.js",
+      "candidate": "assets/preload-helper-B93sBQrk.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "4830677b332a53b941eb549f0a5d72ccdc8f78fc90d1836a2fb03ff45753d759"
+    },
+    {
+      "baseline": "assets/runtime-rules-CX8U_MsO.js",
+      "candidate": "assets/runtime-rules-CX8U_MsO.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "eb6a26e505241b5f832d97fcd9bcbf4ff5c932b81be3a6f07c26af10f776dd5c"
+    },
+    {
+      "baseline": "assets/gothic3Local-tM2zo5Uw.js",
+      "candidate": "assets/gothic3Local-tM2zo5Uw.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "c34fabf180039f6b514433830bb0b83ca868f9ee3bcf1b7f3304d25700b9a447"
+    },
+    {
+      "baseline": "assets/browser-npc-entity-DF7gdWgu.js",
+      "candidate": "assets/browser-npc-entity-DF7gdWgu.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "87d4739c965d819d47f071045233ccf4c61aaba9b357a306738d5ed7774a7037"
+    },
+    {
+      "baseline": "assets/native-entity-heap-DhSDg-Ei.js",
+      "candidate": "assets/native-entity-heap-DhSDg-Ei.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "1f646b38bfda548075206b1d876b42a13da4a0da642f9643a924ce8c2cc27416"
+    },
+    {
+      "baseline": "assets/three.module-BPv0JJVX.js",
+      "candidate": "assets/three.module-BPv0JJVX.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "364d29d5697d76b01128731f4693f6045093a3c12597aee71b3f855ac384a85d"
+    },
+    {
+      "baseline": "assets/gothic3-CcMJ_kyT.js",
+      "candidate": "assets/gothic3-CcMJ_kyT.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "2e87fc6c8dcace99dd175e15bdd821f22a51038a7c732b909b633f8efdb946aa"
+    },
+    {
+      "baseline": "assets/tervain-joF087Bg.js",
+      "candidate": "assets/tervain-DCSnzfb-.js",
+      "expectedHelperArgumentChanges": 1,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "2564eb9a11299314857a805a70d6143a05a763253a8b3b3e039263845e4489e3"
+    },
+    {
+      "baseline": "assets/world-0mo0qkSe.js",
+      "candidate": "assets/world-CCIBNt9X.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "09d1325a08c5f51b6305ceda9c167d9d8ac15889b305a9499f86176dff8d5c0d"
+    },
+    {
+      "baseline": "assets/browser-npc-entity-services-BvAp2u72.js",
+      "candidate": "assets/browser-npc-entity-services-BvAp2u72.js",
+      "expectedHelperArgumentChanges": 0,
+      "otherwiseByteIdenticalAfterChunkReferenceNormalization": true,
+      "normalizedSha256": "4c79f437f269a934cda4a83b66a49dd1379b3c99fac24ededf91ea3e2986ad20"
+    }
+  ]
+}

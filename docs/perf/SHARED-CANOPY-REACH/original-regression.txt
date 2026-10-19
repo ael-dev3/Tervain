@@ -1,0 +1,44 @@
+
+ RUN  v5.0.2 /workspace/Tervain
+
+ ❯ tests/presentation/canopyFlaggedSet.test.ts (5 tests | 2 failed) 13ms
+   ❯ generator flagged set equals the audit detached set (3)
+     × does not let a 0.75 connectivity gap hide closer wood 8ms
+     × does not let a 2 connectivity gap hide closer wood 1ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  16:21:39
+   Duration  207ms (transform 56%, import 24%, tests 10%, setup 5%, worker 5%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/canopyFlaggedSet.test.ts > generator flagged set equals the audit detached set > does not let a 0.75 connectivity gap hide closer wood
+ FAIL  tests/presentation/canopyFlaggedSet.test.ts > generator flagged set equals the audit detached set > does not let a 2 connectivity gap hide closer wood
+AssertionError: expected [ true, true ] to deeply equal [ false, true ]
+
+- Expected
++ Received
+
+  [
+-   false,
++   true,
+    true,
+  ]
+
+ ❯ tests/presentation/canopyFlaggedSet.test.ts:39:26
+     37|       const audit = auditCanopies([{ label: 'fixture', wood, leaves, m…
+     38|       const shared = detachedClumpSet(leaves, wood, .2, gap);
+     39|       expect(shared.far).toEqual([false, true]);
+       |                          ^
+     40|       expect(shared.far.filter(Boolean)).toHaveLength(audit.trees[0]!.…
+     41|       expect(shared.detachedClumps).toBe(audit.trees[0]!.detachedClump…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
