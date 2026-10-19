@@ -1,8 +1,9 @@
-import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import sharp from 'sharp';
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import sharp from 'sharp';import {createHash} from 'node:crypto';
 const input=process.argv[2]??'grass-sheen-motion',destination=process.argv[3]??'grass-sheen-summary.json',r=JSON.parse(fs.readFileSync(path.join(input,'report.json'),'utf8'));assert(r.complete&&!r.errors.length);assert(r.records.length===r.route.frames&&r.records.length>=3);assert(r.route.metres>0.01);
 const sum=key=>r.records.reduce((a,row)=>a.map((v,i)=>v+row[key][i]),[0,0]),means=r.records.reduce((a,row)=>a.map((v,i)=>v+row.wholeImageLuma[i]/r.records.length),[0,0]);
 const [w,h]=r.setup.buffer,roi={left:0,top:Math.floor(h*.25),width:w,height:h-Math.floor(h*.25)},rows=[];let previous;
 for(let frame=0;frame<r.route.frames;frame++){
+ for(const mode of ['before','after']){const rgb=await sharp(path.join(input,mode+'-'+String(frame).padStart(3,'0')+'.png')).removeAlpha().raw().toBuffer();assert.equal(createHash('sha256').update(rgb).digest('hex'),r.records[frame][mode+'RgbSha256'],'Frame hash mismatch');}
  const read=async mode=>new Uint8Array(await sharp(path.join(input,mode+'-'+String(frame).padStart(3,'0')+'.png')).removeAlpha().extract(roi).raw().toBuffer()),b=await read('before'),a=await read('after'),affected=new Uint8Array(roi.width*roi.height);
  const allowed=i=>{const x=i%roi.width,y=Math.floor(i/roi.width)+roi.top;return !(x>=w*.4&&x<w*.6&&y>=h*.4);};
  for(let i=0;i<affected.length;i++)affected[i]=Number(allowed(i)&&(b[i*3]!==a[i*3]||b[i*3+1]!==a[i*3+1]||b[i*3+2]!==a[i*3+2]));
