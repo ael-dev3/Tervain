@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "printed": "v0.0.33 \u00b7 b317734 \u00b7 pre-alpha"
+  },
+  "base": "b317734688e9005eccd964441c63fcf06a1876f5",
+  "removedFernChecks": 1624,
+  "removedFernCandidates": 1013,
+  "beforeSummary": {
+    "checks": 24607,
+    "roots": 0,
+    "props": 24607,
+    "candidates": 3944,
+    "rootCoverage": null
+  },
+  "afterSummary": {
+    "checks": 22983,
+    "roots": 0,
+    "props": 22983,
+    "candidates": 2931,
+    "rootCoverage": null
+  },
+  "complete": {
+    "before": false,
+    "after": false
+  },
+  "skipped": [
+    "scatter:-3:0:rock",
+    "village:planks"
+  ],
+  "changedRetained": [],
+  "proxy": {
+    "fern": "forest_floor_fern:0",
+    "instance": 0,
+    "triangle": 2,
+    "position": [
+      17.612699706701893,
+      5.923410772466788,
+      -69.61111372149232
+    ],
+    "before": {
+      "label": "controlled cargo",
+      "kind": "prop",
+      "component": 0,
+      "position": [
+        17.612699706701893,
+        5.923410772466788,
+        -69.61111372149232
+      ],
+      "samples": 4,
+      "minGap": 0.019264720711353656,
+      "maxGap": 0.020735279735670575,
+      "unsupportedFraction": 0,
+      "candidate": false
+    },
+    "after": {
+      "label": "controlled cargo",
+      "kind": "prop",
+      "component": 0,
+      "position": [
+        17.612699706701893,
+        5.923410772466788,
+        -69.61111372149232
+      ],
+      "samples": 4,
+      "minGap": 0.25375428191126925,
+      "maxGap": 0.2539752892688725,
+      "unsupportedFraction": 1,
+      "candidate": true
+    }
+  },
+  "renders": [
+    {
+      "draws": 294,
+      "triangles": 3287634,
+      "samples": 4,
+      "suppressed": false
+    },
+    {
+      "draws": 294,
+      "triangles": 3287634,
+      "samples": 4,
+      "suppressed": false
+    },
+    {
+      "draws": 294,
+      "triangles": 3287634,
+      "samples": 4,
+      "suppressed": false
+    }
+  ],
+  "exactRgb": true,
+  "errors": [],
+  "scope": "Native frozen High scene, original/candidate diagnostics. Controlled cargo above actual native fern triangle is a diagnostic support repro, not an authored floating-crate claim. Existing skipped geometry remains explicit. Fern appearance/placement is unchanged and unassessed.",
+  "candidate": "2c1dc21ea",
+  "sourceSha256": {
+    "before": "2a159b5cc4033eaa01d359a5c7530c19b2832c261a577501793ed89d527f7da7",
+    "after": "b036ad8f61c854d56e5f0eed47b576a131b65d8ecb382c452a916f201fc7d0fb"
+  },
+  "pngSha256": {
+    "before": "81d697088e6d8c324112bedb331174acefb398d081f7ce7fbceb9be425fb1508",
+    "after": "81d697088e6d8c324112bedb331174acefb398d081f7ce7fbceb9be425fb1508",
+    "restore": "81d697088e6d8c324112bedb331174acefb398d081f7ce7fbceb9be425fb1508"
+  }
+}

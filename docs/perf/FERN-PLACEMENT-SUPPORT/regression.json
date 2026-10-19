@@ -1,0 +1,12 @@
+{
+  "originalRef": "b317734",
+  "test": "does not accept ornamental fern fronds as rigid support or count them as props",
+  "originalResult": "expected failure",
+  "exitCode": 1,
+  "expectedCargoCandidate": true,
+  "actualCargoCandidate": false,
+  "cargoBottomAboveTerrain": 0.52,
+  "fernSupportGap": 0.02,
+  "candidateTestsPassed": 36,
+  "candidateBuildPassed": true
+}
