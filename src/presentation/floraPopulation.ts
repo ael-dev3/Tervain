@@ -1,3 +1,4 @@
+import { ORCHARD_SCALE } from './treeScale';
 import { ARRIVAL_ROUTE, DEEPWOOD, ORCHARD, STRAND, WORLD } from '../world/layout';
 import { deepwoodCover, forestOpeningCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { forestStandAt, FOREST_CROWN_ENVELOPE, type ForestFamilyRole } from '../world/forestStands';
@@ -231,7 +232,7 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
   }
   for (let ix = 0, ox = ORCHARD.x; ox < ORCHARD.x + ORCHARD.w; ox += 5.4, ix++) for (let iz = 0, oz = ORCHARD.z; oz < ORCHARD.z + ORCHARD.d; oz += 5.4, iz++) {
     const key = `orchard:${ix}:${iz}`, rnd = randomFor(key, 37);
-    put(key, 'orchard', ox + (rnd() - 0.5) * 0.5, oz + (rnd() - 0.5) * 0.5, 0.9 + rnd() * 0.25);
+    put(key, 'orchard', ox + (rnd() - 0.5) * 0.5, oz + (rnd() - 0.5) * 0.5, ORCHARD_SCALE.min + rnd() * ORCHARD_SCALE.span);
   }
   for (const [index, point] of [{ x: 16.5, z: -63, s: 0.95 }, { x: -2, z: -78, s: 0.85 }, { x: 70, z: -37, s: 0.9 }].entries()) put(`flood:${index}`, 'dead', point.x, point.z, point.s);
   for (let iz = 0, gz = WORLD.minZ + 6; gz < WORLD.maxZ - 6; gz += 11, iz++) for (let ix = 0, gx = WORLD.minX + 6; gx < WORLD.maxX - 6; gx += 11, ix++) {

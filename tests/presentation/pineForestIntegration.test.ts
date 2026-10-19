@@ -344,6 +344,27 @@ describe('historical source-Pine component render substitution without the Meshy
     // A large hour/focus jump exceeds the guard and is reflected on this very frame.
     setShadow(300); forest.update(0.001, frame); expect(targetPresent()).toBe(false);
     setShadow(0); forest.update(0.001, frame); expect(targetPresent()).toBe(true);
+    // A broad crown can intersect the sun volume while the same instance's trunk is wholly outside.
+    // Every packed part must satisfy its own envelope, retaining two metres of wind and one of drift.
+    let independentParts = false;
+    const sphere = new THREE.Sphere();
+    for (const shift of [0, 15, 30, 45, 60]) {
+      setShadow(shift); forest.update(0.001, frame);
+      for (const object of forest.shadowCasters.children) {
+        const mesh = object as THREE.InstancedMesh;
+        if (!mesh.isInstancedMesh) continue;
+        for (let i = 0; i < mesh.count; i++) {
+          mesh.getMatrixAt(i, matrix);
+          sphere.copy(mesh.geometry.boundingSphere!).applyMatrix4(matrix); sphere.radius += 3;
+          expect(shadow.intersectsSphere(sphere), mesh.name).toBe(true);
+        }
+        if (mesh.name.endsWith(':wood:shadow')) {
+          const leaf = forest.shadowCasters.getObjectByName(mesh.name.replace(':wood:shadow', ':foliage:shadow')) as THREE.InstancedMesh | undefined;
+          if (leaf && leaf.count !== mesh.count) independentParts = true;
+        }
+      }
+    }
+    expect(independentParts).toBe(true);
     frame.shadowFrustum = null; forest.update(0.001, frame); expect(targetPresent()).toBe(false);
     forest.dispose!(); vi.unstubAllGlobals();
   });

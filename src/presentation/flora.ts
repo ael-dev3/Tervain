@@ -23,7 +23,7 @@ import { createWindTestTree, windTestRequested } from './foliage/windTestTree';
 import { createLeafBurst } from './foliage/leafBurst';
 import { splitLeafPrepass } from './foliage/leafPrepass';
 import { leafBoundsShrink, copyLeafBatchBounds } from './foliage/leafBounds';
-import { casterPlacementBounds, updateCasterBounds, shadowBoundsNeedRefresh, shadowCasterVisible } from './foliage/shadowBounds';
+import { casterPlacementBounds, updateCasterBounds, shadowBoundsNeedRefresh, shadowCasterVisible, shadowPlacementVisible } from './foliage/shadowBounds';
 import { cloneTreeProfileMaterial } from './treeProfileMaterial';
 import { leafCutoutSampler } from './leafSurfaceSites';
 import { anchorLeafIslands } from './leafIslands';
@@ -96,7 +96,8 @@ interface Batch {
   /** leafDepth: the leaves' depth-only pre-pass, drawn before every leaf is shaded once (see leafPrepass.ts). */
   meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null; leafDepth: THREE.InstancedMesh | null }[];
   /** Shadow-only copies per LOD (drawn only into the sun's shadow map), when this preset casts shadows. */
-  casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
+  casters: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null;
+    woodVisibility: Uint8Array; leafVisibility: Uint8Array; woodPrevious: number; leafPrevious: number }[];
   visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
   bounds: THREE.Sphere;
   /** Packed colour bounds, including every source LOD and the existing wind guard. */
@@ -389,7 +390,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         casterGeometries.push(geometry);
         return c;
       };
-      b.casters.push({ wood: caster(wood, 'wood'), leaf: caster(leaf, 'leaf') });
+      b.casters.push({ wood: caster(wood, 'wood'), leaf: caster(leaf, 'leaf'),
+        woodVisibility: new Uint8Array(b.trees.length), leafVisibility: new Uint8Array(b.trees.length), woodPrevious: 0, leafPrevious: 0 });
       // After the casters, which copy the colour material as it was.
       if (leaf && installed.leaf && leafPrepass) {
         entry.leafDepth = splitLeafPrepass(leaf);
@@ -441,7 +443,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       return { matrix, bounds, box };
     });
     for (const caster of b.casters) for (const mesh of [caster.wood, caster.leaf]) {
-      if (mesh) casterBounds.set(mesh, casterPlacementBounds(mesh.geometry.boundingSphere!, b.placements));
+      if (mesh) {
+        casterBounds.set(mesh, casterPlacementBounds(mesh.geometry.boundingSphere!, b.placements));
+      }
     }
   }
   const col = new THREE.Color();
@@ -526,7 +530,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
 
   const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined, viewOnly: boolean, casterGuardExceeded = false) => {
     const casterViewChanged = !!shadowFrustum && (!casterFrustumValid || casterGuardExceeded);
-    if (casterViewChanged) { casterFrustum.copy(shadowFrustum!); casterFrustumValid = true; }
+    if (casterViewChanged) {
+      casterFrustum.copy(shadowFrustum!); casterFrustumValid = true;
+      for (const batch of batches) for (const caster of batch.casters) { caster.woodVisibility.fill(0); caster.leafVisibility.fill(0); }
+    }
     if (shadowFrustum) toLight.copy(shadowFrustum.planes[5]!.normal).negate().normalize();
     const cullShadows = viewOnly && !!shadowFrustum && forceLod < 0;
     staticChanged.clear();
@@ -539,9 +546,14 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     drawTris = 0;
     shadowTrees = 0;
     shadowTris = 0;
-    const counts = [0, 0, 0], shadowCounts = [0, 0, 0];
+    const counts = [0, 0, 0];
     for (const b of batches) {
-      counts.fill(0); shadowCounts.fill(0);
+      counts.fill(0);
+      for (const caster of b.casters) {
+        caster.woodPrevious = caster.wood?.count ?? 0; caster.leafPrevious = caster.leaf?.count ?? 0;
+        if (caster.wood) caster.wood.count = 0;
+        if (caster.leaf) caster.leaf.count = 0;
+      }
       const v = b.variant;
       const pineShadows = usesPine(v.species);
       for (let treeIndex = 0; treeIndex < b.trees.length; treeIndex++) {
@@ -565,11 +577,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
             const to = from + sw[sl]!;
             const c = b.casters[sl];
             if (to > from + 1e-4 && c && (c.wood || c.leaf)) {
-              const i = shadowCounts[sl]!++;
-              packStatic(c.wood, i, treeIndex, mtx);
-              packStatic(c.leaf, i, treeIndex, mtx);
-              for (const mesh of [c.wood, c.leaf]) {
-                const cov = mesh && casterCoverage.get(mesh);
+              for (const part of colourParts) {
+                const mesh = c[part];
+                if (!mesh) continue;
+                const visibility = part === 'wood' ? c.woodVisibility : c.leafVisibility;
+                // The guarded sun volume is unchanged on ordinary camera turns; cache each immutable placement.
+                if (!visibility[treeIndex]) visibility[treeIndex] = shadowPlacementVisible(casterFrustum, casterBounds.get(mesh)!, treeIndex) ? 1 : 2;
+                if (visibility[treeIndex] === 2) continue;
+                // A crown reaching the sun volume must not keep its off-volume trunk in the instance prefix.
+                const i = mesh.count++;
+                packStatic(mesh, i, treeIndex, mtx);
+                cast = true;
+                const cov = casterCoverage.get(mesh);
                 if (!cov) continue;
                 // Match the stored precision: stable blends must not dirty a GPU buffer on every camera turn.
                 const start = Math.fround(from), end = Math.fround(to >= 0.9999 ? 1 : to);
@@ -578,7 +597,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
                   coverageChanged.add(cov);
                 }
               }
-              cast = true;
             }
             from = to;
           }
@@ -644,27 +662,29 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         if (m.leafDepth) { m.leafDepth.count = counts[l]!; m.leafDepth.visible = counts[l]! > 0; }
         const c = b.casters[l];
         if (c) {
-          for (const mesh of [c.wood, c.leaf]) {
+          for (const part of colourParts) {
+            const mesh = c[part];
             if (!mesh) continue;
-            const previousCasterCount = mesh.count;
+            const previousCasterCount = part === 'wood' ? c.woodPrevious : c.leafPrevious;
+            const count = mesh.count;
             // Reuse the packed bound while its instance list is unchanged, including clock-only updates.
-            const packingChanged = previousCasterCount !== shadowCounts[l]! || staticChanged.has(mesh);
+            const packingChanged = previousCasterCount !== count || staticChanged.has(mesh);
             if (packingChanged) {
               updateCasterBounds(mesh.boundingSphere!, casterBounds.get(mesh)!,
-                packedTrees.get(mesh), shadowCounts[l]!, casterBoundScratch);
+                packedTrees.get(mesh), count, casterBoundScratch);
             }
             if (packingChanged || casterViewChanged) {
               casterVisible.set(mesh, shadowCasterVisible(casterFrustum, mesh.boundingSphere!));
             }
-            mesh.count = shadowCounts[l]!;
-            mesh.visible = shadowCounts[l]! > 0 && casterVisible.get(mesh)!;
+            mesh.count = count;
+            mesh.visible = count > 0 && casterVisible.get(mesh)!;
             const packed = packedTrees.get(mesh);
             if (packed) packed.length = mesh.count;
             if (staticChanged.has(mesh)) uploadStatic(mesh, mesh.instanceMatrix);
             const cov = casterCoverage.get(mesh);
             if (cov && (coverageChanged.has(cov) || mesh.count > previousCasterCount)) uploadPrefix(cov, mesh.count);
+            shadowTris += (mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position').count) / 3 * count;
           }
-          shadowTris += v.lods[l]!.tris * shadowCounts[l]!;
         }
       }
     }

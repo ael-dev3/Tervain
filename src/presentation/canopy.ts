@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { detachedClumpSet } from '../diagnostics/canopyConnectivity';
+import { components, contactDistances, detachedClumpSet } from '../diagnostics/canopyConnectivity';
 
 /**
  * Cluster canopies for broadleaf trees (A134).
@@ -573,6 +573,27 @@ export function cullFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vec
   geometry.setIndex(kept);
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, culledCards: removed };
+  return { geometry, removed };
+}
+
+/** Remove only components the unmasked audit flags beyond local wood reach; keep surviving attributes unchanged. */
+export function cullDetachedCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number): { geometry: THREE.BufferGeometry; removed: number } {
+  const parts = components(canopy, () => {}), contacts = contactDistances(parts, wood, reach);
+  const removedVertices = new Set<number>();
+  let removed = 0;
+  for (let i = 0; i < parts.length; i++) if (!(contacts[i]! <= reach)) {
+    removed++; for (const vertex of parts[i]!.vertices!) removedVertices.add(vertex);
+  }
+  if (!removed) return { geometry: canopy, removed };
+  const index = canopy.index, kept: number[] = [], count = index?.count ?? canopy.getAttribute('position').count;
+  for (let i = 0; i < count; i += 3) {
+    const a = index?.getX(i) ?? i, b = index?.getX(i + 1) ?? i + 1, c = index?.getX(i + 2) ?? i + 2;
+    if (!removedVertices.has(a) && !removedVertices.has(b) && !removedVertices.has(c)) kept.push(a, b, c);
+  }
+  const geometry = new THREE.BufferGeometry();
+  for (const [name, attribute] of Object.entries(canopy.attributes)) geometry.setAttribute(name, attribute);
+  geometry.setIndex(kept); geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, detachedCardsCulled: removed };
   return { geometry, removed };
 }
 

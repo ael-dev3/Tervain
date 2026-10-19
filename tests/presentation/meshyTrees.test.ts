@@ -1,3 +1,5 @@
+import { auditCanopies } from '../../src/diagnostics/canopyAudit';
+import { ORCHARD_MAX_SCALE } from '../../src/presentation/treeScale';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -25,6 +27,19 @@ afterAll(() => {
 });
 
 describe('actual supplied Meshy tree catalog', () => {
+  it('keeps the built orchard crown within the audit reach at the largest supported instance scale', () => {
+    const forest = createMeshyForest(templates);
+    try {
+      const near = forest.variant('orchard', 0, 'tree-4949').lods[0];
+      const matrix = new THREE.Matrix4().makeScale(ORCHARD_MAX_SCALE, ORCHARD_MAX_SCALE, ORCHARD_MAX_SCALE);
+      const report = auditCanopies([{ label: 'orchard', species: 'orchard', wood: near.wood, leaves: near.leaf, matrix }],
+        { lod: 0, alpha: false, gap: .75, woodReach: 1.5, maxOperations: 300_000_000 });
+      expect(report.complete).toBe(true);
+      expect(report.trees[0]!.detachedCards).toBe(0);
+      expect(report.trees[0]!.detachedClumps).toBe(0);
+    } finally { forest.dispose(); }
+  });
+
   it('retains the exempt custom Pine exactly at its approved three runtime hashes', () => {
     const files = {
       'solitary-pine-under-10k.glb': '4d437c01193ba6b32dea4097ff4f6bdb45be8dc49f127cd51b9225886912794f',
