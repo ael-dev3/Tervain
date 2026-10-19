@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "printed": "v0.0.33 · b317734 · pre-alpha",
+    "before": {
+      "format": 1023,
+      "sourceBytes": 65536,
+      "storageBytes": 65536
+    },
+    "after": {
+      "format": 1030,
+      "sourceBytes": 32768,
+      "storageBytes": 32768,
+      "initialUploadBytes": 32768
+    },
+    "samples": 4
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        0
+      ],
+      "before": {
+        "draws": 451,
+        "triangles": 6081053
+      },
+      "after": {
+        "draws": 451,
+        "triangles": 6081053
+      },
+      "restore": {
+        "draws": 451,
+        "triangles": 6081053
+      },
+      "exactRgb": true,
+      "restored": true
+    },
+    {
+      "pose": [
+        -209.92826439091004,
+        0.06967067093471654,
+        0.803,
+        0.7
+      ],
+      "before": {
+        "draws": 410,
+        "triangles": 5946886
+      },
+      "after": {
+        "draws": 410,
+        "triangles": 5946886
+      },
+      "restore": {
+        "draws": 410,
+        "triangles": 5946886
+      },
+      "exactRgb": true,
+      "restored": true
+    },
+    {
+      "pose": [
+        -209.8565287818201,
+        0.1393413418694331,
+        0.806,
+        1.4
+      ],
+      "before": {
+        "draws": 412,
+        "triangles": 5996887
+      },
+      "after": {
+        "draws": 412,
+        "triangles": 5996887
+      },
+      "restore": {
+        "draws": 412,
+        "triangles": 5996887
+      },
+      "exactRgb": true,
+      "restored": true
+    },
+    {
+      "pose": [
+        -209.78479317273013,
+        0.20901201280414963,
+        0.809,
+        2.0999999999999996
+      ],
+      "before": {
+        "draws": 412,
+        "triangles": 6006072
+      },
+      "after": {
+        "draws": 412,
+        "triangles": 6006072
+      },
+      "restore": {
+        "draws": 412,
+        "triangles": 6006072
+      },
+      "exactRgb": true,
+      "restored": true
+    },
+    {
+      "pose": [
+        -209.71305756364018,
+        0.2786826837388662,
+        0.812,
+        2.8
+      ],
+      "before": {
+        "draws": 413,
+        "triangles": 6006242
+      },
+      "after": {
+        "draws": 413,
+        "triangles": 6006242
+      },
+      "restore": {
+        "draws": 413,
+        "triangles": 6006242
+      },
+      "exactRgb": true,
+      "restored": true
+    },
+    {
+      "pose": [
+        6,
+        23,
+        0,
+        2.1
+      ],
+      "before": {
+        "draws": 251,
+        "triangles": 3041905
+      },
+      "after": {
+        "draws": 251,
+        "triangles": 3041905
+      },
+      "restore": {
+        "draws": 251,
+        "triangles": 3041905
+      },
+      "exactRgb": true,
+      "restored": true
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "scope": "Actual candidate GrassWind texture factory swapped into published native field; High post/MSAA4, five forest poses and one meadow pose, frozen wind phase and restored RGB controls. RG8 storage and upload measured through instrumented WebGL; no shader or geometry changes, no hardware frame-time claim."
+}
