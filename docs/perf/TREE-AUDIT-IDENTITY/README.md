@@ -31,3 +31,7 @@ All **337 shared placements** have matching labels across Low and High, with zer
 These are diagnostic-call controls at the native village camera, not the stock gate's separate budget pose. All use candidate revision `5c78f2072`. Both PNG pairs were inspected and contain the rendered scene.
 
 [Low before](low-before.png) · [Low after](low-after.png) · [High before](high-before.png) · [High after](high-after.png) · [Full per-placement report](report.json) · [Original label collision](before.json)
+
+## Exact-head stock budget
+
+PASS on `5c78f2072a4ca21e2107cee42db9cda24ba43a18`: live and candidate both **285 draws / 3,048,306 triangles / zero console errors**. The unmodified stock gate ran without startup raster suppression at its default Retina dimensions, using two same-revision live probes and four distinct frame samples per probe. [Receipt](budget.md). No allowance or timing/FPS claim.
