@@ -1,0 +1,10 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "geometryHashesMatched": 3,
+  "completeTwigPlansMatched": 3,
+  "scope": "Exact registered near wood position/index bytes and planned twig metadata. Root-ring gaps are a contact diagnostic, not whole-stem connectivity, detached-card counts, wind validation or a visual score.",
+  "pass": true
+}
