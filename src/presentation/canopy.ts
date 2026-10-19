@@ -263,7 +263,7 @@ export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
  * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
  * wind weights) copy the nearest bough vertex.
  */
-export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], reconnectRoots = false): THREE.BufferGeometry {
   if (!twigs.length) return wood;
   const source = wood;
   const p = source.getAttribute('position'), names = Object.keys(source.attributes);
@@ -314,20 +314,40 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
   const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
+  // Linking can delete a parent plan after other twigs were anchored to it. Reconnect only visibly separated roots
+  // against the retained wood and already emitted centreline segments; leaf placement and planned topology stay fixed.
+  const support = reconnectRoots ? woodAnchor(wood) : null, segments: THREE.Line3[] = [];
+  const root = new THREE.Vector3(), rootHit = new THREE.Vector3(), probeHit = new THREE.Vector3(), previousCentre = new THREE.Vector3();
   // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.
   const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
   for (const t of twigs) {
-    axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
+    if (support && !(t.from.distanceTo(t.to) > 1e-3)) continue;
+    root.copy(t.from);
+    if (support) {
+      let distance = support(root, rootHit);
+      for (const segment of segments) {
+        segment.closestPointToPoint(root, true, probeHit);
+        const d = probeHit.distanceTo(root);
+        if (d < distance) { distance = d; rootHit.copy(probeHit); }
+      }
+      // Existing grafts overlap within the small ring/embedding allowance. Leave them bit-for-bit unchanged.
+      if (Number.isFinite(distance) && distance > 0.12 && rootHit.distanceTo(t.to) > 1e-3) root.copy(rootHit);
+    }
+    axis.subVectors(t.to, root); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
     // Bow: the middle sags (gravity), perpendicular to the twig.
     down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);
     const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
-    const start = t.from.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    const start = root.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
     const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
     const rings = twigRings(t);
     for (let ring = 0; ring < rings; ring++) {
       const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
       centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
+      if (support) {
+        if (ring) segments.push(new THREE.Line3(previousCentre.clone(), centre.clone()));
+        previousCentre.copy(centre);
+      }
       tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
       for (let k = 0; k < ringVertices; k++) {
         const angle = (k % TWIG_SIDES) / TWIG_SIDES * Math.PI * 2, cosine = Math.cos(angle), sine = Math.sin(angle);
@@ -368,6 +388,34 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   // The twigs follow the wood's own triangles; treeWoodCollisionRadius stops at `twigIndex` (twigs are not obstacles).
   geometry.userData = { ...wood.userData, twigs: twigs.length, twigIndex: source.index ? source.index.count : p.count };
   return geometry;
+}
+
+/** Rebuild only appended twig wood after leaf seating, keeping the original plans and collision prefix. */
+export function reconnectGrownTwigRoots(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+  if (!twigs.length) return wood;
+  const ringVertices = wood.hasAttribute('uv') || wood.hasAttribute('tangent') ? TWIG_SIDES + 1 : TWIG_SIDES;
+  let addedVertices = 0, addedIndices = 0;
+  for (const twig of twigs) if (twig.from.distanceTo(twig.to) > 1e-3) {
+    const triangles = twigTriangles([twig]);
+    addedVertices += (triangles / (TWIG_SIDES * 2) + 1) * ringVertices;
+    addedIndices += triangles * 3;
+  }
+  const vertices = wood.getAttribute('position').count - addedVertices;
+  const indices = (wood.index?.count ?? 0) - addedIndices;
+  if (!wood.index || vertices <= 0 || indices <= 0) throw new Error('Invalid grown twig ranges');
+  // Hero twigIndex marks trunk-only collision geometry, not the appended twig boundary.
+  const source = new THREE.BufferGeometry();
+  try {
+    for (const name of Object.keys(wood.attributes)) {
+      const attr = wood.getAttribute(name) as THREE.BufferAttribute;
+      source.setAttribute(name, new THREE.BufferAttribute(attr.array.slice(0, vertices * attr.itemSize), attr.itemSize, attr.normalized));
+    }
+    source.setIndex(Array.from(wood.index.array.slice(0, indices)));
+    source.userData = { ...wood.userData };
+    const repaired = growTwigs(source, twigs, true);
+    repaired.userData = { ...wood.userData };
+    return repaired;
+  } finally { source.dispose(); }
 }
 
 /**

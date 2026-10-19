@@ -14,7 +14,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, reconnectGrownTwigRoots, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -611,6 +611,11 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75, 0.9,
               lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
+          }
+          // Reconnect orphaned hero grafts only after leaf seating: early repair moves seated cards.
+          if (hero && wood && twigs.length && !heroNoTwigs()) {
+            const repaired = reconnectGrownTwigRoots(wood, twigs);
+            geometries.delete(wood); wood.dispose(); geometries.add(repaired); wood = repaired;
           }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
