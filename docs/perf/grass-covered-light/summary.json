@@ -1,0 +1,611 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "968143ca8"
+  },
+  "actualMovementMetres": 0.24734857755173104,
+  "nativeMode": 2,
+  "route": {
+    "frames": 9,
+    "cadence": 60,
+    "leadTicks": 30,
+    "input": "KeyW + 0.006 rad yaw per tick",
+    "metres": 0.24734857755173104
+  },
+  "buffer": [
+    2205,
+    1434
+  ],
+  "thresholds": {
+    "warmBright": 140,
+    "nearWhite": 180,
+    "strictWhiteMinimumRgb": 245,
+    "temporalJump": 60
+  },
+  "warmBrightObservations": [
+    41,
+    36
+  ],
+  "nearWhiteObservations": [
+    5,
+    5
+  ],
+  "strictWhiteObservations": [
+    0,
+    0
+  ],
+  "temporalJumps": [
+    5253,
+    4951
+  ],
+  "warmBrightTemporalJumps": [
+    289,
+    283
+  ],
+  "meanImageDisplayLuma": [
+    50.67358700495088,
+    50.672585334058226
+  ],
+  "meanImageLumaChangePercent": -0.0019767120345348665,
+  "allPoseRestores": true,
+  "fullFrameRenderWorkExact": true,
+  "grassCropMetrics": {
+    "roi": {
+      "left": 0,
+      "top": 358,
+      "width": 2205,
+      "height": 1076
+    },
+    "selection": "Full-width lower 75% excluding central hero rectangle (40–60% width, below 40% height), fixed from baseline before reading paired outcomes",
+    "bright140": [
+      40,
+      36
+    ],
+    "bright180": [
+      5,
+      5
+    ],
+    "strictWhite": [
+      0,
+      0
+    ],
+    "jumps60": [
+      4008,
+      3759
+    ],
+    "brightJumps140": [
+      285,
+      280
+    ]
+  },
+  "components": {
+    "roi": {
+      "left": 0,
+      "top": 358,
+      "width": 2205,
+      "height": 1076
+    },
+    "threshold": 140,
+    "connectivity": 8,
+    "buckets": [
+      "1 pixel",
+      "2–4 pixels",
+      "5–16 pixels",
+      "over 16 pixels"
+    ],
+    "totals": [
+      {
+        "componentCounts": [
+          12,
+          10,
+          6,
+          8
+        ],
+        "pixelCounts": [
+          12,
+          24,
+          57,
+          272
+        ]
+      },
+      {
+        "componentCounts": [
+          11,
+          8,
+          6,
+          8
+        ],
+        "pixelCounts": [
+          11,
+          20,
+          57,
+          272
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "frame": 0,
+        "metrics": {
+          "bright140": [
+            1,
+            1
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            0,
+            0
+          ],
+          "brightJumps140": [
+            0,
+            0
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            0,
+            0,
+            53
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            0,
+            0,
+            53
+          ]
+        }
+      },
+      {
+        "frame": 1,
+        "metrics": {
+          "bright140": [
+            7,
+            4
+          ],
+          "bright180": [
+            2,
+            2
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            543,
+            509
+          ],
+          "brightJumps140": [
+            37,
+            34
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            0,
+            2,
+            2,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            4,
+            14,
+            51
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            0,
+            0,
+            2,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            0,
+            14,
+            51
+          ]
+        }
+      },
+      {
+        "frame": 2,
+        "metrics": {
+          "bright140": [
+            2,
+            1
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            516,
+            487
+          ],
+          "brightJumps140": [
+            35,
+            33
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "pixelCounts": [
+            1,
+            2,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "pixelCounts": [
+            0,
+            2,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "frame": 3,
+        "metrics": {
+          "bright140": [
+            3,
+            3
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            511,
+            476
+          ],
+          "brightJumps140": [
+            31,
+            31
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            2,
+            0,
+            1,
+            0
+          ],
+          "pixelCounts": [
+            2,
+            0,
+            6,
+            0
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            2,
+            0,
+            1,
+            0
+          ],
+          "pixelCounts": [
+            2,
+            0,
+            6,
+            0
+          ]
+        }
+      },
+      {
+        "frame": 4,
+        "metrics": {
+          "bright140": [
+            7,
+            7
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            485,
+            459
+          ],
+          "brightJumps140": [
+            36,
+            36
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "pixelCounts": [
+            0,
+            8,
+            10,
+            56
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "pixelCounts": [
+            0,
+            8,
+            10,
+            56
+          ]
+        }
+      },
+      {
+        "frame": 5,
+        "metrics": {
+          "bright140": [
+            2,
+            2
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            491,
+            465
+          ],
+          "brightJumps140": [
+            35,
+            35
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            0,
+            13,
+            28
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "pixelCounts": [
+            0,
+            0,
+            13,
+            28
+          ]
+        }
+      },
+      {
+        "frame": 6,
+        "metrics": {
+          "bright140": [
+            7,
+            7
+          ],
+          "bright180": [
+            2,
+            2
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            481,
+            450
+          ],
+          "brightJumps140": [
+            39,
+            39
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            3,
+            2,
+            0,
+            1
+          ],
+          "pixelCounts": [
+            3,
+            5,
+            0,
+            32
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            3,
+            2,
+            0,
+            1
+          ],
+          "pixelCounts": [
+            3,
+            5,
+            0,
+            32
+          ]
+        }
+      },
+      {
+        "frame": 7,
+        "metrics": {
+          "bright140": [
+            8,
+            8
+          ],
+          "bright180": [
+            1,
+            1
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            471,
+            444
+          ],
+          "brightJumps140": [
+            33,
+            33
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            4,
+            1,
+            1,
+            2
+          ],
+          "pixelCounts": [
+            4,
+            3,
+            14,
+            52
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            4,
+            1,
+            1,
+            2
+          ],
+          "pixelCounts": [
+            4,
+            3,
+            14,
+            52
+          ]
+        }
+      },
+      {
+        "frame": 8,
+        "metrics": {
+          "bright140": [
+            3,
+            3
+          ],
+          "bright180": [
+            0,
+            0
+          ],
+          "strictWhite": [
+            0,
+            0
+          ],
+          "jumps60": [
+            510,
+            469
+          ],
+          "brightJumps140": [
+            39,
+            39
+          ]
+        },
+        "before": {
+          "componentCounts": [
+            2,
+            1,
+            0,
+            0
+          ],
+          "pixelCounts": [
+            2,
+            2,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "componentCounts": [
+            2,
+            1,
+            0,
+            0
+          ],
+          "pixelCounts": [
+            2,
+            2,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    "scope": "Full bright-component connectivity inside the grass crop; count only components touching the same-pose shader-effect mask. Observations across frames, not unique blades or tracked particles."
+  },
+  "scope": "Native fixed-step input walking and follow camera, recorded wind/time restored after every step, native post/MSAA. Before=#700 sheen coverage with ordinary lighting interpolation; after=same lighting formulas with centroid interpolation. Shadow map frozen after preparation, reflection refreshed equally for each mode. Same-pose changed-pixel union includes post neighbours and reflections, not a semantic grass mask or pure alias score. Not hardware timing.",
+  "reductionPass": true,
+  "verificationPass": true
+}

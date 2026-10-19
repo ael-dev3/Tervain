@@ -1,0 +1,28 @@
+{
+  "complete": true,
+  "build": {
+    "version": "0.0.33",
+    "revision": "968143ca8"
+  },
+  "buffer": [
+    2205,
+    1434
+  ],
+  "frames": 9,
+  "syntheticCadence": 60,
+  "fullNativeRgbExact": true,
+  "file": "before-lossless.mkv",
+  "sha256": "14120fbd9e576e78c44169b103c723102d83f490626e4a660e417e6c4a9f091a",
+  "frameRgbSha256": [
+    "34b8c0d16085fd98591e3ff29d8f20b669df24f10422bacad5acfab3ab21593a",
+    "edb8daa31fc72b28b4fe7724845271bc05d3455d63e1292624cd2e869250161d",
+    "1b015564e6637f936a192d96319e3f5b786cd2c1bdcc5f26e2915ea79bb7b201",
+    "07dd7376e08b6a35d64ba38cac9e74a31fb79a8c1dc5cfdf38cac938265af658",
+    "a530ef8160a7705ff0c1a0b9e5fbf20d9ae5cbd697a1c7afc849a0a9019090aa",
+    "26c96716c68d7f8f363f27f99a90bde233e06c61f545ea7823759f0d0cb71efb",
+    "bd2d7cb79d9cdecf3108442f92c8f002d839c14c8d7d5dda9f0d25de8b29a2d5",
+    "af193501955116b9ccdc6d9567e98b78b0ab4638a801f31859ff4c16b6dd6088",
+    "5777e5a0b1490c2a60138a552b381ff4702c3ba39043cb4d426d2baa5b25e6cf"
+  ],
+  "scope": "Controlled native post/MSAA camera replay; not a hardware FPS recording. Every decoded full-size video frame matches its source PNG RGB."
+}
