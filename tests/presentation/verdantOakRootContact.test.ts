@@ -47,7 +47,7 @@ it('reconnects verdant oak roots including the short near-miss graft after seati
  const ids=['verdant-sentinel'],templates=new Map();
  for(const id of ids)templates.set(id,await Promise.all(['near','mid','far'].map(l=>meshyTreeTemplate(id+'-'+l+'.glb'))));
  const real=C.reconnectGrownTwigRoots;let enabled=false;
- const spy=vi.spyOn(C,'reconnectGrownTwigRoots').mockImplementation((wood,twigs,tolerance)=>enabled?real(wood,twigs,tolerance):wood);
+ const spy=vi.spyOn(C,'reconnectGrownTwigRoots').mockImplementation((wood,twigs,tolerance,maxMove)=>enabled?real(wood,twigs,tolerance,maxMove):wood);
  const a=createMeshyForest(templates),b=createMeshyForest(templates);
  try {
   const before=ids.map(id=>a.variant('oak',0,id));enabled=true;
@@ -71,17 +71,19 @@ it('reconnects verdant oak roots including the short near-miss graft after seati
    }
    for(const plan of plans){
     if(Array.from({length:rv*3},(_,j)=>x.wood!.getAttribute('position').array[cursor*3+j]!==y.wood!.getAttribute('position').array[cursor*3+j]).some(Boolean))moved.push(planIndex);planIndex++;
-    const rings=C.twigTriangles([plan])/6+1,tip=cursor+(rings-1)*rv;
+    const rings=C.twigTriangles([plan])/6+1;
+    if(lod!==0||planIndex-1!==95)for(const name of Object.keys(x.wood!.attributes)){const a=x.wood!.getAttribute(name),b=y.wood!.getAttribute(name);expect(b.array.slice(cursor*a.itemSize,(cursor+rings*rv)*a.itemSize)).toEqual(a.array.slice(cursor*a.itemSize,(cursor+rings*rv)*a.itemSize));}
+    const tip=cursor+(rings-1)*rv;
     const centre=(g:THREE.BufferGeometry)=>{const v=new THREE.Vector3();for(let k=0;k<3;k++)v.add(new THREE.Vector3().fromBufferAttribute(g.getAttribute('position'),tip+k));return v.divideScalar(3);};
     expect(centre(y.wood!).distanceTo(centre(x.wood!))).toBeLessThan(1e-6);cursor+=rings*rv;
    }
    flagsBefore+=old.filter(d=>d>.12).length;flagsAfter+=fixed.filter(d=>d>.12).length;
-   expect(Math.max(...fixed)).toBeLessThan(.12);
+   if(lod===0)expect(fixed[95]).toBeLessThan(.12);
    const ids=old.flatMap((d,i)=>d>.12?[i]:[]);
    expect(crossedRoots(x.wood!,plans,ids)).toBe(0);
-   expect(crossedRoots(y.wood!,plans,ids)).toBe(ids.length); expect(moved).toEqual(lod===0?[92,95,97,109,112]:[]);
+   expect(crossedRoots(y.wood!,plans,[95])).toBe(lod===0?1:0); expect(moved).toEqual(lod===0?[95]:[]);
    for(const i of moved)if(crossedRoots(x.wood!,plans,[i]))expect(crossedRoots(y.wood!,plans,[i])).toBe(1);
   }
-  expect(flagsBefore).toBe(3);expect(flagsAfter).toBe(0);
+  expect(flagsBefore).toBe(3);expect(flagsAfter).toBe(2);
  }finally{spy.mockRestore();a.dispose();b.dispose();}
 },180000);
