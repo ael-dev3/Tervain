@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import sharp from 'sharp';
 import {createHash} from 'node:crypto';
 import {createServer} from 'vite';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {liveProofPage} from './live-proof-page.mjs';
 import {normalizeGrassPhaseControls,applyGrassPhaseControls} from './grass-phase-controls.mjs';
 const args=Object.fromEntries(process.argv.slice(2).flatMap((v,i,a)=>v.startsWith('--')?[[v.slice(2),a[i+1]]]:[]));
@@ -11,7 +13,8 @@ const out=args.out??'grass-procedural-normals',frames=Number(args.frames??31),st
 assert(Number.isInteger(frames)&&frames>=3&&frames<=121);fs.mkdirSync(out,{recursive:true});fs.rmSync(out+'/report.json',{force:true});
 const phase=normalizeGrassPhaseControls({hour:Number(args.hour??17.5),cloudTime:0,wind:{time:3,direction:[.8,.6,.24,.42],scroll:[0,0,0,0]},sway:3,gradeTime:0},{});
 const url=new URL(args.url??'https://ael-dev3.github.io/Tervain/');url.searchParams.set('renderscale','1');
-const server=await createServer({configFile:false,logLevel:'error',cacheDir:'/tmp/grass-procedural-normal-vite',server:{host:'127.0.0.1',port:0,cors:true,hmr:false,ws:false},optimizeDeps:{include:['three'],noDiscovery:true}});await server.listen();const origin='http://127.0.0.1:'+server.httpServer.address().port;
+const cache=fs.mkdtempSync(join(tmpdir(),'grass-procedural-normal-vite-'));
+const server=await createServer({configFile:false,logLevel:'error',cacheDir:cache,server:{host:'127.0.0.1',port:0,cors:true,hmr:false,ws:false},optimizeDeps:{include:['three'],noDiscovery:true}});await server.listen();const origin='http://127.0.0.1:'+server.httpServer.address().port;
 const page=await liveProofPage(url.href,{quality:'high',hour:phase.hour,w:Number(args.width??1470),h:Number(args.height??956),dpr:Number(args.dpr??2)});
 try {
  const setup=await page.eval(`const T=window.tervain,W=T.world,phase=${JSON.stringify(phase)};T.frame=()=>{};T.present=()=>{};T.render=()=>{};T.step=()=>{};T.perf=null;T.lastFrameDt=0;T.settings.dynamicResolution=false;T.onResize();T.hud.show(false);T.cam.manual=true;const c=T.cam.camera,g=W.modules.find(m=>m.name==='groundcover').module;window.H={T,W,g,c,phase,flag:{value:0},pose:i=>{const d=i*${step},x=6+d,z=23,h=W.terrain.heightAt(x,z),yaw=(-8+16*i/(${frames}-1))*Math.PI/180;T.player.setPosition(x,18,0,W.terrain);c.position.set(x,h+1.6,z);c.lookAt(x+80*Math.sin(yaw),h+.4,z+80*Math.cos(yaw));c.fov=55;c.updateProjectionMatrix();c.updateMatrixWorld(true);const focus=c.position.clone();for(let k=0;k<12;k++){g.prepare(T.renderer,0);g.update(0,{camera:c,focus,reducedMotion:true});}(${applyGrassPhaseControls.toString()})(T,phase);T.grade.waterTime=0;W.scene.updateMatrixWorld(true);},draw:()=>{(${applyGrassPhaseControls.toString()})(T,phase);T.grade.waterTime=0;T.grade.waterPass.reflectionValid=false;T.renderer.info.reset();H.mainPasses=[];T.renderWorld();const gl=T.renderer.getContext();if(gl.getError()||gl.isContextLost())throw Error('Invalid retained raster');return{png:T.renderer.domElement.toDataURL(),draws:T.renderer.info.render.calls,triangles:T.renderer.info.render.triangles,camera:c.matrixWorld.toArray(),mainPasses:H.mainPasses};}};for(let i=0;i<${frames};i++)H.pose(i);H.pose(0);const nativeRender=T.renderer.render;T.renderer.render=function(scene,camera){const main=scene===W.scene&&camera===c&&this.getRenderTarget()===T.grade.target,bc=this.info.render.calls,bt=this.info.render.triangles,auto=this.info.autoReset;const result=nativeRender.call(this,scene,camera);if(main)H.mainPasses.push({draws:this.info.render.calls-(auto?0:bc),triangles:this.info.render.triangles-(auto?0:bt)});return result;};globalThis.__restoreOrchardRaster?.();if(globalThis.__tervainCpuNoRaster)throw Error('Raster suppressed');if(!T.grade.enabled||T.grade.target.samples!==4)throw Error('Missing native post/MSAA');for(let k=0;k<3;k++)H.draw();T.renderer.shadowMap.autoUpdate=false;return{build:await fetch('version.json').then(r=>r.json()),buffer:[T.renderer.domElement.width,T.renderer.domElement.height],dpr:T.renderer.getPixelRatio(),phase,grass:g.stats()};`);
@@ -36,4 +39,4 @@ try {
  }
  report.normalUploads=await page.eval('return H.normalUploads;');assert.equal(fs.readFileSync('src/presentation/grass/bladeGeometry.ts','utf8'),factorySource,'Factory source changed during capture');report.factorySha256=createHash('sha256').update(factorySource).digest('hex');
  report.errors=page.console().filter(s=>s.startsWith('[error]')||s.startsWith('[exception]'));assert.deepEqual(report.errors,[]);assert.deepEqual(await page.eval("return fetch('version.json').then(r=>r.json());"),setup.build);report.complete=true;fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));
-}finally{page.close();await server.close();}
+}finally{page.close();await server.close();fs.rmSync(cache,{recursive:true,force:true});}
