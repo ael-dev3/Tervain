@@ -193,7 +193,7 @@ describe('grass material', () => {
     for (const stage of [shader.vertexShader, shader.fragmentShader]) {
       expect(stage).toContain('centroid varying vec4 vGCol;');
       expect(stage).toContain('varying vec2 vGInfo;');
-      expect(stage).not.toContain('centroid varying vec2 vGInfo;');
+      expect(stage).toContain('centroid varying vec2 vGInfo;');
     }
     // Varyings extrapolated outside a sliver under multisampling stay in their vertex range (playtest 8 white pixels).
     expect(shader.fragmentShader).toContain('#define G_COL clamp(vGCol.rgb, 0.0, 1.0)');

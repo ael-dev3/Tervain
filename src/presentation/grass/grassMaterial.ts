@@ -104,7 +104,7 @@ uniform vec4 uLook;
 uniform float uFarBlades;
 uniform float uGrassPx;
 centroid varying vec4 vGCol;
-varying vec2 vGInfo;
+centroid varying vec2 vGInfo;
 float gHash(float n) { return fract(sin(n) * 43758.5453123); }
 `;
 
@@ -276,9 +276,9 @@ vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLoo
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
 centroid varying vec4 vGCol;
-varying vec2 vGInfo;
+centroid varying vec2 vGInfo;
 uniform vec3 uTransTint;
-// Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities retain baseline interpolation.
+// Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities use the same covered sample; extrapolation can exceed the authored light range.
 // A clamp alone cannot reject extrapolated values that are bright but still inside 0..1.
 // With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
 // blade lies outside the triangle: the varyings are extrapolated there, far past any value a vertex wrote. The colour
@@ -365,7 +365,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v17-unresolved-sheen-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v18-covered-light-sampling${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
