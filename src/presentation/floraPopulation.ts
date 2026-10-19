@@ -28,6 +28,11 @@ export interface FloraTree {
   assetId?: string;
 }
 
+/** Audit identity must survive preset thinning and render-batch reordering. */
+export function floraAuditLabel(tree: Pick<FloraTree, 'collisionId' | 'sp' | 'v' | 'x' | 'z'>): string {
+  return tree.collisionId ?? `tree:placed:${tree.sp}:${tree.v}:${tree.x}:${tree.z}`;
+}
+
 export type FloraClaimOutcome = 'site' | 'wood-clearance' | 'clearing' | 'spacing' | 'accepted';
 /** Optional authoring evidence; one terminal result per proposed planting claim.
  * Density-rejected grid cells never propose a tree and are deliberately not counted. */

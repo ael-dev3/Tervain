@@ -66,6 +66,12 @@ describe('historical source-Pine component render substitution without the Meshy
       for (const lod of [0, 1, 2]) {
         const expected = forest.canopyAuditTargets!(lod).filter(t => t.wood).map(t => ({ label: t.label, geometry: t.wood!.uuid, matrix: t.matrix.elements }));
         expect(records(forest.placementAuditTargets!(lod))).toEqual(expected);
+        for (const target of forest.canopyAuditTargets!(lod)) {
+          const e = target.matrix.elements;
+          const tree = population.find(tree => tree.x === e[12] && tree.z === e[14]);
+          expect(tree).toBeDefined();
+          expect(target.label).toBe(tree!.collisionId ?? `tree:placed:${tree!.sp}:${tree!.v}:${tree!.x}:${tree!.z}`);
+        }
       }
       expect(forest.placementAuditTargets!(2).length).toBeLessThan(forest.placementAuditTargets!(0).length);
       for (const lod of [-1, .5, 3, NaN]) expect(() => forest.placementAuditTargets!(lod)).toThrow('Invalid placement LOD');
