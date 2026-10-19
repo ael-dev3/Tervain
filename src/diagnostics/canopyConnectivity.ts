@@ -30,14 +30,14 @@ export function components(g: THREE.BufferGeometry, charge: () => void, cutout?:
         weights.push(w);
       }
       // A clear coarse grid does not prove a clear card: thin needles can lie between its samples.
-      // Positive witnesses make that omission explicit. Cache unwitnessed patterns too.
+      // Retain positive fine-grid witnesses rather than aborting the whole audit. Cache empty patterns too.
       if(!weights.length){
         // Do not seed the empty-pattern cache from a collapsed card: a real card can reuse its UVs later.
         if(edgeA.subVectors(corners[1]!,corners[0]!).cross(edgeB.subVectors(corners[2]!,corners[0]!)).lengthSq()===0)continue;
         for(let a=0;a<=48;a++)for(let b=0;a+b<=48;b++){
           charge();const w0=a/48,w1=b/48,w2=(48-a-b)/48;
           if(cutout.alpha(w0*u0+w1*u1+w2*u2,w0*t0+w1*t1+w2*t2)>=cutout.cutoff)
-            throw new Error('Canopy alpha sampling missed opaque foliage');
+            weights.push([w0,w1,w2]);
         }
       }
       patterns.set(patternKey,weights);}
