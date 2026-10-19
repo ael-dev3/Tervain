@@ -270,7 +270,8 @@ vGCol = vec4(gBase * gRootShade, gEdge);
 // Seed heads and petals pass a little more light than the leaf, not a sparkle (A68).
 float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + (gStem * gHead * 0.45 + gFlower * gBloom * 0.3) * gHeadCov;
 float gThin = mix(0.4, 1.0, gBladeCov);
-vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gThin);
+// An unresolved blade cannot carry a stable highlight. Transmission keeps its floor; sheen follows the footprint to zero.
+vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gBladeCov);
 `;
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
@@ -364,7 +365,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v16-rendered-width-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v17-unresolved-sheen-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
