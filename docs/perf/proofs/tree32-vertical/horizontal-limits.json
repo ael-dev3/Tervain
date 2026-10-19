@@ -1,0 +1,105 @@
+{
+  "label": "tree:wild:32:27",
+  "baseline": {
+    "version": "0.0.29",
+    "revision": "bf9261f"
+  },
+  "candidate": "cb7603817",
+  "scale": 1.4164879838377238,
+  "reachWorldM": 1.5,
+  "detachedUnmasked": 973,
+  "verticalOnlyImpossibleAtReach": 29,
+  "method": "Minimum XZ axis-aligned bounding-box separation from each complete leaf component to any wood triangle, multiplied by uniform tree scale. Conservative lower bound; values above reach prove no vertical-only placement can establish sampled or actual surface contact within reach. Smaller values do not prove support is achievable.",
+  "worstTen": [
+    {
+      "component": 3550,
+      "horizontalLowerBoundM": 1.8969728938674255,
+      "worldCentre": [
+        -168.70745493448905,
+        12.254631444385389,
+        18.887596532246544
+      ]
+    },
+    {
+      "component": 1863,
+      "horizontalLowerBoundM": 1.8579010572046273,
+      "worldCentre": [
+        -186.5919787960657,
+        14.944449153539562,
+        7.296938124208312
+      ]
+    },
+    {
+      "component": 3975,
+      "horizontalLowerBoundM": 1.8533081052917013,
+      "worldCentre": [
+        -186.82968512804078,
+        14.532189842439955,
+        7.308681241088978
+      ]
+    },
+    {
+      "component": 3553,
+      "horizontalLowerBoundM": 1.851868755214283,
+      "worldCentre": [
+        -168.4685920496846,
+        12.631973851718133,
+        19.050978981078973
+      ]
+    },
+    {
+      "component": 3445,
+      "horizontalLowerBoundM": 1.850906261614883,
+      "worldCentre": [
+        -177.05737533252315,
+        12.75100864346792,
+        21.593079151298117
+      ]
+    },
+    {
+      "component": 1953,
+      "horizontalLowerBoundM": 1.8205237022895706,
+      "worldCentre": [
+        -167.08898522053843,
+        12.071603323806446,
+        18.418073167918916
+      ]
+    },
+    {
+      "component": 5124,
+      "horizontalLowerBoundM": 1.813903279615216,
+      "worldCentre": [
+        -186.79470049856133,
+        14.608908349804334,
+        6.849632494393904
+      ]
+    },
+    {
+      "component": 3446,
+      "horizontalLowerBoundM": 1.8069887925192378,
+      "worldCentre": [
+        -176.9647988048709,
+        12.83982687738644,
+        21.897515721594196
+      ]
+    },
+    {
+      "component": 1864,
+      "horizontalLowerBoundM": 1.7757493579008978,
+      "worldCentre": [
+        -186.5523957717301,
+        15.371953012385454,
+        7.4696648465052835
+      ]
+    },
+    {
+      "component": 2870,
+      "horizontalLowerBoundM": 1.7701155620324103,
+      "worldCentre": [
+        -185.33902501189652,
+        14.111128274086049,
+        12.61731039743282
+      ]
+    }
+  ]
+}
