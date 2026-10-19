@@ -731,5 +731,9 @@
     "afterMean": 0.0023580246878626906,
     "beforeP95": 0.0033333333333333335,
     "afterP95": 0.0029999999701976776
+  },
+  "sourceSha256": {
+    "control": "b673ccc2299e93fbf9c15828a31ad7a4386cc4c7dad96da2b4cc07dc0e784ddf",
+    "candidate": "20658762b316684f50ae9eee3233689e905d73832475edf8ea65befcf9e552eb"
   }
 }

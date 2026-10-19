@@ -26,4 +26,4 @@ npx vitest run tests/presentation/vegetationExtentCull.test.ts tests/presentatio
 
 The capture probe applies identical additional conservative horizontal culling after native hooks; original native culling stays active. Its paired kernels use a 4 m conservative shader reach, plus tile half-width and margin. The generic regression covers changing transforms and shape bounds. `report.json` includes raw paired timings and PNG hashes, including restore controls. An initial un-warmed draw-count pair and disk-full attempts are excluded.
 
-Validation: 22 focused tests passed; TypeScript/Vite build passed. Exact-head stock budget receipt follows separately.
+Validation: 22 focused tests passed; TypeScript/Vite build passed. [Exact-head stock budget: PASS](budget.md). Live and candidate both reached 285 draws / 3,048,306 triangles, with zero console errors; two live probes and four distinct completed frames per probe.
