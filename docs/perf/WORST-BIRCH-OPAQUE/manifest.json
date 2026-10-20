@@ -1,0 +1,22 @@
+{
+  "docs/perf/WORST-BIRCH-OPAQUE/README.md": {
+    "bytes": 3090,
+    "sha256": "f6cd99a616cea2496c6eab7e5bf4e4155a3fabecef1b22a532369fdfc85a6eef"
+  },
+  "docs/perf/WORST-BIRCH-OPAQUE/audit.json": {
+    "bytes": 14761,
+    "sha256": "3f8c7a1958ccfd284ffc697edd08f94cb5e739366f7887444c77b5d495cf7df2"
+  },
+  "docs/perf/WORST-BIRCH-OPAQUE/native.png": {
+    "bytes": 483176,
+    "sha256": "f1216482bf308db62d94380b174cad5035e060efde038793e3883c16b20b2607"
+  },
+  "docs/perf/WORST-BIRCH-OPAQUE/report.json": {
+    "bytes": 14970,
+    "sha256": "657ddcff9d0f28c52a457ed4a1e49f64631485e650ed0dc69bfc41b32faf1b78"
+  },
+  "docs/perf/WORST-BIRCH-OPAQUE/repro.mjs": {
+    "bytes": 3967,
+    "sha256": "e81211c8009860488dc141b8b3fda4397a756c607291ab94f112f4dc0c96683a"
+  }
+}
