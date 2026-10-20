@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "models": [
+    {
+      "file": "public/models/flora/solitary-pine-under-10k.glb",
+      "primitives": 2,
+      "opaquePrimitives": 1,
+      "masks": [
+        {
+          "materialIndex": 1,
+          "mimeType": "image/webp",
+          "cutoff": 0.42,
+          "opacity": 1,
+          "width": 1024,
+          "height": 1024,
+          "keptTexels": 272492,
+          "discardedTexels": 776084,
+          "discardedShare": 0.7401313781738281,
+          "magFilter": 9729,
+          "minFilter": 9987
+        }
+      ]
+    },
+    {
+      "file": "public/models/flora/solitary-pine-mid.glb",
+      "primitives": 2,
+      "opaquePrimitives": 1,
+      "masks": [
+        {
+          "materialIndex": 0,
+          "mimeType": "image/webp",
+          "cutoff": 0.42,
+          "opacity": 1,
+          "width": 1024,
+          "height": 1024,
+          "keptTexels": 272492,
+          "discardedTexels": 776084,
+          "discardedShare": 0.7401313781738281,
+          "magFilter": 9729,
+          "minFilter": 9987
+        }
+      ]
+    },
+    {
+      "file": "public/models/flora/solitary-pine-far.glb",
+      "primitives": 1,
+      "opaquePrimitives": 0,
+      "masks": [
+        {
+          "materialIndex": 0,
+          "mimeType": "image/webp",
+          "cutoff": 0.42,
+          "opacity": 1,
+          "width": 1024,
+          "height": 1024,
+          "keptTexels": 214664,
+          "discardedTexels": 833912,
+          "discardedShare": 0.7952804565429688,
+          "magFilter": 9729,
+          "minFilter": 9987
+        }
+      ]
+    }
+  ],
+  "pass": true,
+  "scope": "Embedded base-color alpha inventory, not UV occupancy, visible island connectivity or a whole-tree audit. Runtime filtering, alpha-to-coverage and mip selection are not reproduced."
+}
