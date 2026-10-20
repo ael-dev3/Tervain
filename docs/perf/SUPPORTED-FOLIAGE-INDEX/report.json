@@ -1,0 +1,514 @@
+{
+  "baseline": "a42f11f60aa5657c71c513517fc3fdfbe9d1d906",
+  "poses": [
+    {
+      "label": "tree:wild:55:3"
+    },
+    {
+      "label": "tree:wild:71:20"
+    },
+    {
+      "label": "tree:palm:13:13"
+    },
+    {
+      "forest": true
+    },
+    {
+      "sea": true
+    }
+  ],
+  "modes": {
+    "before": {
+      "rows": [
+        {
+          "draws": 206,
+          "triangles": 1818284,
+          "camera": [
+            -28.453830374796343,
+            19.834186598781567,
+            -125.68592114660893
+          ],
+          "quaternion": [
+            0.05726854869077575,
+            0,
+            0,
+            0.9983588099129753
+          ]
+        },
+        {
+          "draws": 440,
+          "triangles": 5648570,
+          "camera": [
+            70.89764271860437,
+            3.547884179862973,
+            -19.02333443366458
+          ],
+          "quaternion": [
+            0.20203047240045235,
+            0,
+            0,
+            0.9793792361601557
+          ]
+        },
+        {
+          "draws": 185,
+          "triangles": 1508668,
+          "camera": [
+            -291.9034710484,
+            2.830507548622304,
+            -63.6295505505102
+          ],
+          "quaternion": [
+            0.36612557229444914,
+            0,
+            0,
+            0.9305654546092188
+          ]
+        },
+        {
+          "draws": 607,
+          "triangles": 7408869,
+          "camera": [
+            -2,
+            4.9,
+            45
+          ],
+          "quaternion": [
+            -0.22321631566493544,
+            0,
+            0,
+            0.9747689348871209
+          ]
+        },
+        {
+          "draws": 139,
+          "triangles": 778897,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    },
+    "after": {
+      "rows": [
+        {
+          "draws": 206,
+          "triangles": 1818284,
+          "camera": [
+            -28.453830374796343,
+            19.834186598781567,
+            -125.68592114660893
+          ],
+          "quaternion": [
+            0.05726854869077575,
+            0,
+            0,
+            0.9983588099129753
+          ]
+        },
+        {
+          "draws": 440,
+          "triangles": 5648570,
+          "camera": [
+            70.89764271860437,
+            3.547884179862973,
+            -19.02333443366458
+          ],
+          "quaternion": [
+            0.20203047240045235,
+            0,
+            0,
+            0.9793792361601557
+          ]
+        },
+        {
+          "draws": 185,
+          "triangles": 1508668,
+          "camera": [
+            -291.9034710484,
+            2.830507548622304,
+            -63.6295505505102
+          ],
+          "quaternion": [
+            0.36612557229444914,
+            0,
+            0,
+            0.9305654546092188
+          ]
+        },
+        {
+          "draws": 607,
+          "triangles": 7408869,
+          "camera": [
+            -2,
+            4.9,
+            45
+          ],
+          "quaternion": [
+            -0.22321631566493544,
+            0,
+            0,
+            0.9747689348871209
+          ]
+        },
+        {
+          "draws": 139,
+          "triangles": 778897,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    }
+  },
+  "scope": "High native near trees, frozen time/wind, two independent worlds with original/candidate production source. Eye-height camera 20m south of tree, not certified walkable ground. Software rendering. No frame-time or heat claim.",
+  "replay": {
+    "rows": [
+      {
+        "input": 0,
+        "leader": true,
+        "inPlace": false,
+        "leafTriangles": 5936,
+        "before": {
+          "builds": 2,
+          "triangles": 14156,
+          "bytes": 1075856,
+          "twigs": 38,
+          "equalInput": false
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 6967,
+          "bytes": 529492,
+          "twigs": 38,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 1,
+        "leader": false,
+        "inPlace": false,
+        "leafTriangles": 5488,
+        "before": {
+          "builds": 2,
+          "triangles": 16984,
+          "bytes": 1290784,
+          "twigs": 27,
+          "equalInput": false
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 8408,
+          "bytes": 639008,
+          "twigs": 27,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 2,
+        "leader": false,
+        "inPlace": false,
+        "leafTriangles": 5488,
+        "before": {
+          "builds": 2,
+          "triangles": 24246,
+          "bytes": 1842696,
+          "twigs": 13,
+          "equalInput": false
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 12084,
+          "bytes": 918384,
+          "twigs": 13,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 3,
+        "leader": false,
+        "inPlace": false,
+        "leafTriangles": 7982,
+        "before": {
+          "builds": 2,
+          "triangles": 3250,
+          "bytes": 247000,
+          "twigs": 1,
+          "equalInput": false
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 1622,
+          "bytes": 123272,
+          "twigs": 1,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 4,
+        "leader": true,
+        "inPlace": false,
+        "leafTriangles": 5936,
+        "before": {
+          "builds": 2,
+          "triangles": 13982,
+          "bytes": 1062632,
+          "twigs": 9,
+          "equalInput": false
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 6967,
+          "bytes": 529492,
+          "twigs": 9,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 5,
+        "leader": false,
+        "inPlace": true,
+        "leafTriangles": 5936,
+        "before": {
+          "builds": 2,
+          "triangles": 14384,
+          "bytes": 1093184,
+          "twigs": 1,
+          "equalInput": true
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 7189,
+          "bytes": 546364,
+          "twigs": 1,
+          "equalInput": true
+        }
+      },
+      {
+        "input": 6,
+        "leader": false,
+        "inPlace": true,
+        "leafTriangles": 5488,
+        "before": {
+          "builds": 2,
+          "triangles": 17170,
+          "bytes": 1304920,
+          "twigs": 2,
+          "equalInput": true
+        },
+        "after": {
+          "builds": 1,
+          "triangles": 8576,
+          "bytes": 651776,
+          "twigs": 2,
+          "equalInput": true
+        }
+      },
+      {
+        "input": 7,
+        "leader": false,
+        "inPlace": true,
+        "leafTriangles": 5488,
+        "before": {
+          "builds": 1,
+          "triangles": 12162,
+          "bytes": 924312,
+          "twigs": 0,
+          "equalInput": true
+        },
+        "after": {
+          "builds": 0,
+          "triangles": 0,
+          "bytes": 0,
+          "twigs": 0,
+          "equalInput": true
+        }
+      },
+      {
+        "input": 8,
+        "leader": false,
+        "inPlace": true,
+        "leafTriangles": 7982,
+        "before": {
+          "builds": 1,
+          "triangles": 1628,
+          "bytes": 123728,
+          "twigs": 0,
+          "equalInput": true
+        },
+        "after": {
+          "builds": 0,
+          "triangles": 0,
+          "bytes": 0,
+          "twigs": 0,
+          "equalInput": true
+        }
+      },
+      {
+        "input": 9,
+        "leader": false,
+        "inPlace": true,
+        "leafTriangles": 5936,
+        "before": {
+          "builds": 1,
+          "triangles": 7015,
+          "bytes": 533140,
+          "twigs": 0,
+          "equalInput": true
+        },
+        "after": {
+          "builds": 0,
+          "triangles": 0,
+          "bytes": 0,
+          "twigs": 0,
+          "equalInput": true
+        }
+      }
+    ],
+    "batches": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 589.0999999940395
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 485.10000002384186
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 577.1999999880791
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 488.80000001192093
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 553.5
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 570.7999999821186
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 573.8000000119209
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 574.3000000119209
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 496.90000000596046
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 617.5999999940395
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 513.0999999940395
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 551.6999999880791
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 525.8000000119209
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 579.5
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 559.0999999940395
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 594
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 554.3000000119209
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 481.69999998807907
+      }
+    ],
+    "scope": "Actual production pre-anchor leaf/wood geometries retained at function entry, cloned woods per replay for in-place mutation isolation. All output attributes, indices, twig metadata, returned-reference behavior and twig counts match. Timings include wood clone/disposal equally; construction replay only, not per-frame CPU or GPU."
+  },
+  "comparisons": [
+    {
+      "pose": 0,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 1,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 2,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 3,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 4,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    }
+  ],
+  "complete": true,
+  "candidate": "e14c51d76bd3e1d61308842c06e1da70480e58e6"
+}
