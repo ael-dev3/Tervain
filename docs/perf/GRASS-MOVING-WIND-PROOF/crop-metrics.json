@@ -1,0 +1,634 @@
+{
+  "summary": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "route": {
+      "frames": 17,
+      "stepMetres": 0.26,
+      "metres": 4.16,
+      "cadence": 10,
+      "yawDegrees": [
+        -8,
+        8
+      ],
+      "x": 6,
+      "z": 23
+    },
+    "buffer": [
+      2205,
+      1434
+    ],
+    "crop": [
+      100,
+      850,
+      1060,
+      1410
+    ],
+    "frames": 17,
+    "cropTotals": {
+      "bright140": [
+        8019,
+        6752
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        532,
+        380
+      ],
+      "luminanceJumps60": [
+        1173776,
+        1122874
+      ],
+      "brightJumps140": [
+        9757,
+        8385
+      ]
+    },
+    "affectedFullSceneTotals": {
+      "affectedBright140": [
+        14552,
+        11900
+      ],
+      "affectedBright180": [
+        0,
+        0
+      ],
+      "affectedStrictWhite": [
+        0,
+        0
+      ],
+      "affectedJumps60": [
+        1286622,
+        1126611
+      ],
+      "affectedBrightJumps140": [
+        21408,
+        18298
+      ]
+    },
+    "wholeImageMeanLuminance": [
+      62.68758488378658,
+      62.45887067997767
+    ],
+    "totalPassCountsEqual": true,
+    "allRestoredExact": true,
+    "mainPassCountsEqual": true,
+    "errors": [],
+    "scope": "Fixed foreground crop, not a semantic grass-only mask or motion-compensated shimmer score; includes natural motion and disocclusion. Paired samples at 10 Hz, not a 60 Hz hardware recording."
+  },
+  "rows": [
+    {
+      "frame": 0,
+      "windTime": 3.0,
+      "cropRgbSha256": {
+        "before": "a44316379e9591f09cf91adf39d21d22ffb2c1431670366fd0b72c9906e2f086",
+        "after": "4676cd6d5d514570aa9d4dfb81c3c73196dce06c87bb9c6799b134572d5966b7"
+      },
+      "bright140": [
+        288,
+        253
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        13,
+        8
+      ],
+      "luminanceJumps60": [
+        0,
+        0
+      ],
+      "brightJumps140": [
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "windTime": 3.1,
+      "cropRgbSha256": {
+        "before": "d2b3e610a3e0397f56c481f5dd3d30085d044250ebc159539b674846efd576b0",
+        "after": "3e9390155fbf3a4590821f149af058c9abacc602762b68a4da945539e15dce5e"
+      },
+      "bright140": [
+        326,
+        297
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        14,
+        13
+      ],
+      "luminanceJumps60": [
+        52501,
+        50339
+      ],
+      "brightJumps140": [
+        447,
+        406
+      ]
+    },
+    {
+      "frame": 2,
+      "windTime": 3.2,
+      "cropRgbSha256": {
+        "before": "e66923d92e7f4341a77530a4b9d2b426d32a4493c0f4a6a11ae162376bd083c2",
+        "after": "6a0766db5207d6688d2925dbf6a2096cdb76426efa714e59978fe357244ee9b8"
+      },
+      "bright140": [
+        400,
+        360
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        20,
+        14
+      ],
+      "luminanceJumps60": [
+        54658,
+        52410
+      ],
+      "brightJumps140": [
+        406,
+        359
+      ]
+    },
+    {
+      "frame": 3,
+      "windTime": 3.3,
+      "cropRgbSha256": {
+        "before": "f3435f6fe48ae78b69695d64ee632b5175c5acb0295b88f8be178e2b3fdd58d0",
+        "after": "3205ac908fa9410e6ecac2ef25402cec3aaf803ab769abfdcfbd537913e2c98a"
+      },
+      "bright140": [
+        522,
+        464
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        13,
+        8
+      ],
+      "luminanceJumps60": [
+        57414,
+        54933
+      ],
+      "brightJumps140": [
+        649,
+        585
+      ]
+    },
+    {
+      "frame": 4,
+      "windTime": 3.4,
+      "cropRgbSha256": {
+        "before": "9bb0a95dc19f1eb27e223bb3a0dfd56235ce887aedeb9b1df7ed7982cf9d5b42",
+        "after": "999c6f25cc7fbe943a5169d867d57b0669d6f069596c403a805d81f6759af70f"
+      },
+      "bright140": [
+        509,
+        447
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        10,
+        10
+      ],
+      "luminanceJumps60": [
+        62820,
+        60261
+      ],
+      "brightJumps140": [
+        671,
+        611
+      ]
+    },
+    {
+      "frame": 5,
+      "windTime": 3.5,
+      "cropRgbSha256": {
+        "before": "83ff940cf4a822b4eea76f4ccdfb7210f6774f5a3a08fb2368a16bb517d29f0f",
+        "after": "abfcdc8813d3f02aa01bd632ede4b7f2bf21b05b21cbc7e8ec73abd77f7283d3"
+      },
+      "bright140": [
+        493,
+        434
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        12,
+        8
+      ],
+      "luminanceJumps60": [
+        67851,
+        65191
+      ],
+      "brightJumps140": [
+        742,
+        654
+      ]
+    },
+    {
+      "frame": 6,
+      "windTime": 3.6,
+      "cropRgbSha256": {
+        "before": "2d3470b88820465e79a0efa04ee48e9f3cc310e7f694ce4106681ed5083a37ae",
+        "after": "d3d9e92ac1549f969318d1ef2d2fcd5777cff99216472313f85c4807a6b0f43d"
+      },
+      "bright140": [
+        527,
+        461
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        14,
+        11
+      ],
+      "luminanceJumps60": [
+        70281,
+        67625
+      ],
+      "brightJumps140": [
+        698,
+        615
+      ]
+    },
+    {
+      "frame": 7,
+      "windTime": 3.7,
+      "cropRgbSha256": {
+        "before": "d6ae6eef5445226827eaa033ec2635839cc6f87b469faea258028ba64b113fd5",
+        "after": "60b8d72d872bb8f3c38864d6c3fb8fb73a058e5ed49a784a961a5f93b7db20e2"
+      },
+      "bright140": [
+        361,
+        320
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        32,
+        22
+      ],
+      "luminanceJumps60": [
+        72281,
+        69399
+      ],
+      "brightJumps140": [
+        628,
+        568
+      ]
+    },
+    {
+      "frame": 8,
+      "windTime": 3.8,
+      "cropRgbSha256": {
+        "before": "138af698e663e12f8cff852da37ae24ab428c46dc6504e3465a0aad72d4798b5",
+        "after": "d4e659af7ca0c64b676bffe5f1ecb225877de078012a69135a1cc0a6bbde9e1f"
+      },
+      "bright140": [
+        405,
+        342
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        25,
+        23
+      ],
+      "luminanceJumps60": [
+        75141,
+        71961
+      ],
+      "brightJumps140": [
+        495,
+        434
+      ]
+    },
+    {
+      "frame": 9,
+      "windTime": 3.9,
+      "cropRgbSha256": {
+        "before": "26b04cbb36db34868014514c502cc801d4b6c7ec8b271ebc3f8708997de01f48",
+        "after": "11b4a8cb31407dd9038e27f7281dc75e6ef229c1fbb6da9977949e36eab2a3ad"
+      },
+      "bright140": [
+        435,
+        362
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        30,
+        22
+      ],
+      "luminanceJumps60": [
+        73834,
+        70457
+      ],
+      "brightJumps140": [
+        481,
+        404
+      ]
+    },
+    {
+      "frame": 10,
+      "windTime": 4.0,
+      "cropRgbSha256": {
+        "before": "63d9d0dca5c87d664978fbc8b13eeee2856e4ca40321baf32de133165f0faf59",
+        "after": "7892b8bf57a3bea3c3af0d9fd1d5d29c335edaaeaa82f23e0956807b60601dc7"
+      },
+      "bright140": [
+        512,
+        412
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        42,
+        25
+      ],
+      "luminanceJumps60": [
+        75928,
+        72497
+      ],
+      "brightJumps140": [
+        645,
+        549
+      ]
+    },
+    {
+      "frame": 11,
+      "windTime": 4.1,
+      "cropRgbSha256": {
+        "before": "eab34a3d81b5c167a7e9fb76c35b4c63d2a1ca204a8cda9560a8a2e15b3d575d",
+        "after": "9fbdac51497725e8fc61dbda2c37d1c4bfc44d53abb3c72759970d0b7a9f7e32"
+      },
+      "bright140": [
+        398,
+        311
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        39,
+        27
+      ],
+      "luminanceJumps60": [
+        77207,
+        73349
+      ],
+      "brightJumps140": [
+        566,
+        467
+      ]
+    },
+    {
+      "frame": 12,
+      "windTime": 4.2,
+      "cropRgbSha256": {
+        "before": "0fe9022360f3b61cd67201bf2f8914ec28aeafb547730df7a882a9f258eb5f38",
+        "after": "a45151f95eb0493d5b333b38ad2e6fe304b7244a049a9becbecb7df432660bc3"
+      },
+      "bright140": [
+        450,
+        372
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        38,
+        28
+      ],
+      "luminanceJumps60": [
+        78266,
+        74524
+      ],
+      "brightJumps140": [
+        461,
+        374
+      ]
+    },
+    {
+      "frame": 13,
+      "windTime": 4.3,
+      "cropRgbSha256": {
+        "before": "5c81d41e248f4b5f4e44d00fb9ced53fc194d0d15bb4bd9f3cbba61573a18944",
+        "after": "aa23aeaa60cf2071b9a9bfad5e86d300816ed12288c839c6956b33dd38b7bbc9"
+      },
+      "bright140": [
+        517,
+        409
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        49,
+        30
+      ],
+      "luminanceJumps60": [
+        81010,
+        77042
+      ],
+      "brightJumps140": [
+        580,
+        462
+      ]
+    },
+    {
+      "frame": 14,
+      "windTime": 4.4,
+      "cropRgbSha256": {
+        "before": "e97c6fd87f8d585a0397cdb73f664858320b6f90b20c3aea07b6fbda340963f4",
+        "after": "9b8bed77ea497c56c2a54231cea843a376c0d230017e3494f278984a85009d2c"
+      },
+      "bright140": [
+        581,
+        469
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        46,
+        31
+      ],
+      "luminanceJumps60": [
+        87432,
+        83625
+      ],
+      "brightJumps140": [
+        701,
+        589
+      ]
+    },
+    {
+      "frame": 15,
+      "windTime": 4.5,
+      "cropRgbSha256": {
+        "before": "0a6cc9e41320ca3563090e23efed24904c7159881dbc33784c941b042486a9b9",
+        "after": "d313622077f60c9c6e5f1082edd6b41ee83358ee1e0c4ba76fee0ee5ac31da6c"
+      },
+      "bright140": [
+        622,
+        496
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        64,
+        50
+      ],
+      "luminanceJumps60": [
+        92155,
+        88125
+      ],
+      "brightJumps140": [
+        780,
+        640
+      ]
+    },
+    {
+      "frame": 16,
+      "windTime": 4.6,
+      "cropRgbSha256": {
+        "before": "2ed85accb805e3db10ff40ac9da933971a803ade4c6607fa9f38f898a38a6cca",
+        "after": "6dfa36578000881206d1ac0c5b0bed4d27cb66d93478ba64c63a39ae395d48ee"
+      },
+      "bright140": [
+        673,
+        543
+      ],
+      "nearWhite180": [
+        0,
+        0
+      ],
+      "strictWhite245": [
+        0,
+        0
+      ],
+      "isolatedBright140": [
+        71,
+        50
+      ],
+      "luminanceJumps60": [
+        94997,
+        91136
+      ],
+      "brightJumps140": [
+        807,
+        668
+      ]
+    }
+  ]
+}
