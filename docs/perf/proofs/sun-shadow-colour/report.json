@@ -1,0 +1,802 @@
+{
+  "build": {
+    "version": "0.0.21",
+    "revision": "570a859"
+  },
+  "rendering": "software WebGL (SwiftShader)",
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before",
+    "after",
+    "before",
+    "before",
+    "after"
+  ],
+  "rows": [
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.7853981633974483,
+        11
+      ],
+      "windStrength": 1,
+      "windClock": 0,
+      "kind": "timed",
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 12595.732166,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12674.961196,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12574.801189,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12683.172722,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 12635.346680999999
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 13251.722099,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12792.159355,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12727.148123,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 12697.628941,
+              "drawCalls": 436,
+              "triangles": 6453188,
+              "uploadBytes": 32256,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 130,
+                  "triangles": 1028623
+                },
+                "leaf-depth": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "other": {
+                  "calls": 245,
+                  "triangles": 2561814
+                },
+                "leaf-colour": {
+                  "calls": 18,
+                  "triangles": 1178984
+                },
+                "grass": {
+                  "calls": 25,
+                  "triangles": 504783
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 12759.653739000001
+        }
+      },
+      "changedPixels": 0,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0,
+        11
+      ],
+      "windStrength": 1,
+      "windClock": 2,
+      "kind": "timed",
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 3773.224427,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3918.856305,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 4008.41812,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3842.340689,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 3880.598497
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 3854.365725,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3793.522417,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3858.061872,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            },
+            {
+              "gpuQueryMs": 3776.521813,
+              "drawCalls": 238,
+              "triangles": 2487153,
+              "uploadBytes": 6912,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 136,
+                  "triangles": 877200
+                },
+                "leaf-depth": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "other": {
+                  "calls": 65,
+                  "triangles": 605381
+                },
+                "leaf-colour": {
+                  "calls": 9,
+                  "triangles": 154904
+                },
+                "grass": {
+                  "calls": 19,
+                  "triangles": 694764
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 3823.944071
+        }
+      },
+      "changedPixels": 0,
+      "captureValid": true
+    },
+    {
+      "pose": [
+        -180,
+        4.607493042945862,
+        12,
+        0.7853981633974483,
+        19.3
+      ],
+      "windStrength": 1,
+      "windClock": 4,
+      "kind": "control",
+      "modes": {
+        "before": {
+          "samples": [
+            {
+              "gpuQueryMs": 13273.998627,
+              "drawCalls": 468,
+              "triangles": 6241098,
+              "uploadBytes": 29952,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1310276620,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 67108864,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1023,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1875181
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "other": {
+                  "calls": 221,
+                  "triangles": 2267486
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 13273.998627
+        },
+        "after": {
+          "samples": [
+            {
+              "gpuQueryMs": 13314.382843,
+              "drawCalls": 468,
+              "triangles": 6241098,
+              "uploadBytes": 29952,
+              "textureCount": 274,
+              "estimatedTextureStorageBytes": 1259944972,
+              "unknownTextureFormats": 0,
+              "shadowColourBytes": 16777216,
+              "shadowDepthBytes": 67108864,
+              "shadowColourFormat": 1028,
+              "depthComparison": 515,
+              "shadowSize": [
+                4096,
+                4096
+              ],
+              "passes": {
+                "shadow": {
+                  "calls": 190,
+                  "triangles": 1875181
+                },
+                "leaf-depth": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "other": {
+                  "calls": 221,
+                  "triangles": 2267486
+                },
+                "leaf-colour": {
+                  "calls": 20,
+                  "triangles": 983256
+                },
+                "grass": {
+                  "calls": 17,
+                  "triangles": 131919
+                }
+              }
+            }
+          ],
+          "gpuQueryMedianMs": 13314.382843
+        }
+      },
+      "changedPixels": 0,
+      "captureValid": true
+    }
+  ],
+  "sourceSha256": "c699c7cedfb7b7dadf954e2fdf3cc37aacaca540fbf8d05e5177a56c14fac8e8",
+  "scope": "Native High 640x360 Grade/post/MSAA. A/B forces only RGBA8 versus R8 on the existing PCF sun colour attachment, after the native shadow-matrix hook and before allocation. Reallocation/warm draws precede timing queries. Frozen simulation, interaction field and film time; full wind inputs held at clocks 0/2/4. Four samples per variant in balanced order for timed views; dusk is a one-pair image/resource control. Queries measure software draw work, not hardware frame cadence. Storage is nominal observed texture texels/mips; driver padding, compression and renderbuffers are excluded.",
+  "pass": true
+}
