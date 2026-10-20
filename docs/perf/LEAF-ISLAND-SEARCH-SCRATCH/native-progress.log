@@ -1,0 +1,7 @@
+{"mode":"after","loaded":true}
+{"mode":"after","pose":0,"draws":159,"triangles":1454424,"camera":[111.33355214953997,3.437098972543418,-16.99439148867251],"quaternion":[-0.12287789395497116,-0.37928358063571144,-0.050897690191991994,0.9156715643561641]}
+{"mode":"after","pose":1,"draws":410,"triangles":3095656,"camera":[59.69435073807902,17.147487544768843,-75.51204836732258],"quaternion":[-0.08072209971422684,0.38121992433020974,0.0334361884848661,0.9203463115648369]}
+{"mode":"after","pose":2,"draws":401,"triangles":3428325,"camera":[-178.44106164940607,15.753216872606153,11.648744787544633],"quaternion":[-0.08072209971422682,0.3812199243302096,0.03343618848486608,0.9203463115648369]}
+{"mode":"after","pose":3,"draws":147,"triangles":713403,"camera":[-300,3,27],"quaternion":[0,0.7071067811865475,0,0.7071067811865476]}
+{"nativeReplayInputs":60,"counts":{"before":{"nearest":1756,"neighbours":254350,"searches":60},"after":{"nearest":1756,"neighbours":254350,"searches":60}}}
+{"complete":true,"comparisons":[{"pose":0,"changedRgbPixels":0,"drawDelta":0,"triangleDelta":0},{"pose":1,"changedRgbPixels":0,"drawDelta":0,"triangleDelta":0},{"pose":2,"changedRgbPixels":0,"drawDelta":0,"triangleDelta":0},{"pose":3,"changedRgbPixels":0,"drawDelta":0,"triangleDelta":0}]}

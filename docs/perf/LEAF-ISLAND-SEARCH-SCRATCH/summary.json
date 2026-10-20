@@ -1,0 +1,2740 @@
+{
+  "baseline": "7f679b9",
+  "source": {
+    "before": "import * as THREE from 'three';\nimport { woodAnchor } from './canopy';\n\n/**\n * Leaf islands (playtest 7): seen from below at dusk, a crown's leaf cards whose opaque leaves sit clear of every\n * branch read as masses floating in the sky. A card's quad can touch its neighbours while its opaque texels do not, so\n * cards are linked by their opaque coverage (alpha at or above the material's cut-off), not by their geometry.\n *\n * Run once on a tree template's leaf geometry at load: every chunk of linked cards with no opaque leaf within `reach`\n * of the wood is moved, whole, toward its nearest bough until it is (a chunk farther than `drop`, if given, is removed).\n */\nexport interface LeafCutout { uv: string; cutoff: number; alpha(u: number, v: number): number;\n  /** Conservative texture hint: false only when the whole UV triangle is transparent. */\n  mayHaveOpaque?(u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean }\nexport interface LeafIslandOptions { reach?: number; gap?: number; drop?: number }\n\nexport function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, cutout: LeafCutout | null,\n  options: LeafIslandOptions = {}): { islands: number; moved: number; dropped: number } {\n  const reach = options.reach ?? 0.5, gap = options.gap ?? 0.6, drop = options.drop ?? Infinity;\n  const p = leaf.getAttribute('position'), uv = cutout ? leaf.getAttribute(cutout.uv) : null;\n  const result = { islands: 0, moved: 0, dropped: 0 };\n  if (!wood || !p || p.count === 0 || (cutout && !uv)) return result;\n  const index = leaf.index, triangles = Math.floor((index?.count ?? p.count) / 3), at = (t: number, k: number) => index ? index.getX(t * 3 + k) : t * 3 + k;\n  // Each triangle's opaque coverage is its own part (a quad can touch its neighbour while its leaves do not).\n  const finePatterns = new Set<string>();\n  const edgeA = new THREE.Vector3(), edgeB = new THREE.Vector3();\n  const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();\n  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();\n  let triangle = 0;\n  let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;\n  // Bounds consume q immediately; retained samples clone it. Reuse one collector across all triangles.\n  const add = (w0: number, w1: number, w2: number, keep: boolean, all = false) => {\n    q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);\n    if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [triangle] }; opaque.set(triangle, part); }\n    part.box.expandByPoint(q);\n    if (keep && (all || part.samples.length < 6)) part.samples.push(q.clone());\n  };\n  for (let t = 0; t < triangles; t++) {\n    triangle = t; part = undefined;\n    const v0 = at(t, 0), v1 = at(t, 1), v2 = at(t, 2);\n    a.fromBufferAttribute(p, v0); b.fromBufferAttribute(p, v1); c.fromBufferAttribute(p, v2);\n    if (!cutout || !uv) { add(1, 0, 0, true); add(0, 1, 0, true); add(0, 0, 1, true); add(1 / 3, 1 / 3, 1 / 3, true); continue; }\n    const u0 = uv.getX(v0), u1 = uv.getX(v1), u2 = uv.getX(v2), t0 = uv.getY(v0), t1 = uv.getY(v1), t2 = uv.getY(v2);\n    // Cards reuse a few atlas cells: the opaque sample points of each distinct UV triangle are found once.\n    const key = `${u0},${t0},${u1},${t1},${u2},${t2}`;\n    let points = opaqueAt.get(key);\n    if (!points) {\n      points = [];\n      for (let i = 0; i <= N; i++) for (let j = 0; i + j <= N; j++) {\n        const w0 = i / N, w1 = j / N, w2 = 1 - w0 - w1;\n        if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);\n      }\n      // Thin opaque needles can fall between the coarse samples. Search only empty UV patterns more finely.\n      if (!points.length) {\n        // A collapsed triangle cannot witness foliage, or seed a miss for a later real card sharing its UVs.\n        if (edgeA.subVectors(b, a).cross(edgeB.subVectors(c, a)).lengthSq() === 0) continue;\n        if (cutout.mayHaveOpaque?.(u0, t0, u1, t1, u2, t2) === false) { opaqueAt.set(key, points); continue; }\n        for (let i = 0; i <= 48; i++) for (let j = 0; i + j <= 48; j++) {\n          const w0 = i / 48, w1 = j / 48, w2 = 1 - w0 - w1;\n          if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);\n        }\n        if (points.length) finePatterns.add(key);\n      }\n      opaqueAt.set(key, points);\n    }\n    const fine = finePatterns.has(key), divisions = fine ? 48 : N;\n    for (let n = 0; n < points.length; n += 2) add(points[n]! / divisions, points[n + 1]! / divisions,\n      1 - (points[n]! + points[n + 1]!) / divisions, fine || (points[n]! + points[n + 1]!) % 2 === 0, fine);\n  }\n  const list = [...opaque.values()];\n  if (!list.length) return result;\n  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), centre = new THREE.Vector3();\n  // A part touches the wood when an opaque sample is within `reach` (the box centre first rules most parts out).\n  const touches = (part: (typeof list)[number]) => {\n    part.box.getCenter(centre);\n    const radius = part.box.min.distanceTo(part.box.max) / 2;\n    const d = anchor(centre, hit, reach + radius);\n    if (d === Infinity) return false;\n    return d <= reach || part.samples.some(q => anchor(q, hit, reach) <= reach);\n  };\n  const nearest = (part: (typeof list)[number]) => {\n    let d = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();\n    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit, d); if (e < d) { d = e; from.copy(q); to.copy(hit); } }\n    return { d, from, to };\n  };\n  // Parts in a grid by their boxes grown by half the gap: parts within `gap` share a cell.\n  const sizes = list.map(part => Math.max(part.box.max.x - part.box.min.x, part.box.max.y - part.box.min.y, part.box.max.z - part.box.min.z)).sort((x, y) => x - y);\n  const cell = Math.max(gap, sizes[Math.floor(sizes.length / 2)]!), grid = new Map<number, Set<number>>(), half = gap / 2;\n  const cellsOf = list.map(part => {\n    const keys: number[] = [], lo = part.box.min, hi = part.box.max;\n    for (let x = Math.floor((lo.x - half) / cell); x <= Math.floor((hi.x + half) / cell); x++)\n      for (let y = Math.floor((lo.y - half) / cell); y <= Math.floor((hi.y + half) / cell); y++)\n        for (let z = Math.floor((lo.z - half) / cell); z <= Math.floor((hi.z + half) / cell); z++) keys.push(((x + 2048) * 4096 + (y + 2048)) * 4096 + (z + 2048));\n    return keys;\n  });\n  cellsOf.forEach((keys, i) => { for (const k of keys) { let set = grid.get(k); if (!set) { set = new Set(); grid.set(k, set); } set.add(i); } });\n  const flat = new Float32Array(list.length * 6);\n  list.forEach((part, i) => { part.box.min.toArray(flat, i * 6); part.box.max.toArray(flat, i * 6 + 3); });\n  const gap2 = gap * gap;\n  const visited = new Uint32Array(list.length);\n  let visitId = 0;\n  const neighbours = (i: number) => {\n    if (++visitId === 0x100000000) { visited.fill(0); visitId = 1; }\n    const found: number[] = [], o = i * 6;\n    const x0 = flat[o]!, y0 = flat[o + 1]!, z0 = flat[o + 2]!, x1 = flat[o + 3]!, y1 = flat[o + 4]!, z1 = flat[o + 5]!;\n    for (const k of cellsOf[i]!) for (const j of grid.get(k)!) {\n      // A pair can share several cells; retain only its first visit and original ordering.\n      if (visited[j] === visitId) continue;\n      visited[j] = visitId;\n      const q = j * 6;\n      const dx = Math.max(0, x0 - flat[q + 3]!, flat[q]! - x1), dy = Math.max(0, y0 - flat[q + 4]!, flat[q + 1]! - y1), dz = Math.max(0, z0 - flat[q + 5]!, flat[q + 2]! - z1);\n      if (dx * dx + dy * dy + dz * dz <= gap2) found.push(j);\n    }\n    return found;\n  };\n  const left = new Set(list.map((_, i) => i));\n  const take = (i: number) => { if (!left.delete(i)) return false; for (const k of cellsOf[i]!) grid.get(k)!.delete(i); return true; };\n  // Chunks of linked parts (through opaque coverage), then each chunk tested for a part touching the wood: nearest the\n  // trunk axis (the template's origin) first, so the crown's main chunk is settled in a few tests.\n  const chunks: number[][] = [];\n  for (const i of [...left]) {\n    if (!take(i)) continue;\n    const chunk = [i];\n    for (let n = 0; n < chunk.length; n++) for (const j of neighbours(chunk[n]!)) if (take(j)) chunk.push(j);\n    chunks.push(chunk);\n  }\n  const axis = list.map(part => { part.box.getCenter(centre); return Math.hypot(centre.x, centre.z); });\n  const islands = chunks.filter(chunk => !chunk.sort((x, y) => axis[x]! - axis[y]!).some(i => touches(list[i]!)));\n  const droppedTriangles = new Set<number>(), shifts = new Map<number, { shift: THREE.Vector3; chunk: number[] }>();\n  for (const members of islands) {\n    let near = { d: Infinity, from: new THREE.Vector3(), to: new THREE.Vector3() };\n    for (const i of members) { const n = nearest(list[i]!); if (n.d < near.d) near = n; }\n    if (near.d <= reach) continue;\n    result.islands++;\n    if (!Number.isFinite(near.d) || near.d > drop) {\n      result.dropped++;\n      for (const i of members) for (const t of list[i]!.triangles) droppedTriangles.add(t);\n      continue;\n    }\n    // Move the chunk until its nearest opaque leaf is 0.8 reach from the bough.\n    const shift = new THREE.Vector3().subVectors(near.to, near.from).multiplyScalar(1 - reach * 0.8 / near.d);\n    for (const i of members) for (const t of list[i]!.triangles) shifts.set(t, { shift, chunk: members });\n    result.moved++;\n  }\n  // Apply the moves. A vertex shared with a triangle that stays (or moves differently) is split off first.\n  if (shifts.size) {\n    const owner = new Map<number, THREE.Vector3 | null>();\n    for (let t = 0; t < triangles; t++) {\n      if (droppedTriangles.has(t)) continue;\n      const shift = shifts.get(t)?.shift ?? null;\n      for (let k = 0; k < 3; k++) { const v = at(t, k); const seen = owner.get(v); owner.set(v, seen === undefined || seen === shift ? shift : null); }\n    }\n    const names = Object.keys(leaf.attributes), clones: { from: number; shift: THREE.Vector3 }[] = [];\n    const indices = Array.from({ length: triangles * 3 }, (_, i) => at(Math.floor(i / 3), i % 3));\n    const cloneOf = new Map<string, number>();\n    for (const [t, { shift }] of shifts) for (let k = 0; k < 3; k++) {\n      const v = indices[t * 3 + k]!;\n      if (owner.get(v) === shift) continue;\n      const key = `${v}:${shift.x},${shift.y},${shift.z}`;\n      let copy = cloneOf.get(key);\n      if (copy === undefined) { copy = p.count + clones.length; clones.push({ from: v, shift }); cloneOf.set(key, copy); }\n      indices[t * 3 + k] = copy;\n    }\n    const total = p.count + clones.length;\n    for (const name of names) {\n      const attr = leaf.getAttribute(name), values = new Float32Array(total * attr.itemSize);\n      for (let i = 0; i < p.count; i++) for (let k = 0; k < attr.itemSize; k++) values[i * attr.itemSize + k] = attr.getComponent(i, k);\n      clones.forEach(({ from }, n) => { for (let k = 0; k < attr.itemSize; k++) values[(p.count + n) * attr.itemSize + k] = attr.getComponent(from, k); });\n      if (name === 'position') {\n        for (const [v, shift] of owner) if (shift) { values[v * 3]! += shift.x; values[v * 3 + 1]! += shift.y; values[v * 3 + 2]! += shift.z; }\n        clones.forEach(({ shift }, n) => { const o = (p.count + n) * 3; values[o]! += shift.x; values[o + 1]! += shift.y; values[o + 2]! += shift.z; });\n      }\n      leaf.setAttribute(name, new THREE.BufferAttribute(values, attr.itemSize));\n    }\n    leaf.setIndex(indices);\n  }\n  if (droppedTriangles.size) {\n    const keep: number[] = [];\n    const index2 = leaf.index;\n    for (let t = 0; t < triangles; t++) if (!droppedTriangles.has(t)) keep.push(...[0, 1, 2].map(k => index2 ? index2.getX(t * 3 + k) : t * 3 + k));\n    leaf.setIndex(keep);\n  }\n  if (result.moved || result.dropped) { leaf.computeBoundingBox(); leaf.computeBoundingSphere(); }\n  return result;\n}\n",
+    "after": "import * as THREE from 'three';\nimport { woodAnchor } from './canopy';\n\n/**\n * Leaf islands (playtest 7): seen from below at dusk, a crown's leaf cards whose opaque leaves sit clear of every\n * branch read as masses floating in the sky. A card's quad can touch its neighbours while its opaque texels do not, so\n * cards are linked by their opaque coverage (alpha at or above the material's cut-off), not by their geometry.\n *\n * Run once on a tree template's leaf geometry at load: every chunk of linked cards with no opaque leaf within `reach`\n * of the wood is moved, whole, toward its nearest bough until it is (a chunk farther than `drop`, if given, is removed).\n */\nexport interface LeafCutout { uv: string; cutoff: number; alpha(u: number, v: number): number;\n  /** Conservative texture hint: false only when the whole UV triangle is transparent. */\n  mayHaveOpaque?(u0: number, v0: number, u1: number, v1: number, u2: number, v2: number): boolean }\nexport interface LeafIslandOptions { reach?: number; gap?: number; drop?: number }\n\nexport function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, cutout: LeafCutout | null,\n  options: LeafIslandOptions = {}): { islands: number; moved: number; dropped: number } {\n  const reach = options.reach ?? 0.5, gap = options.gap ?? 0.6, drop = options.drop ?? Infinity;\n  const p = leaf.getAttribute('position'), uv = cutout ? leaf.getAttribute(cutout.uv) : null;\n  const result = { islands: 0, moved: 0, dropped: 0 };\n  if (!wood || !p || p.count === 0 || (cutout && !uv)) return result;\n  const index = leaf.index, triangles = Math.floor((index?.count ?? p.count) / 3), at = (t: number, k: number) => index ? index.getX(t * 3 + k) : t * 3 + k;\n  // Each triangle's opaque coverage is its own part (a quad can touch its neighbour while its leaves do not).\n  const finePatterns = new Set<string>();\n  const edgeA = new THREE.Vector3(), edgeB = new THREE.Vector3();\n  const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();\n  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();\n  let triangle = 0;\n  let part: { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] } | undefined;\n  // Bounds consume q immediately; retained samples clone it. Reuse one collector across all triangles.\n  const add = (w0: number, w1: number, w2: number, keep: boolean, all = false) => {\n    q.set(0, 0, 0).addScaledVector(a, w0).addScaledVector(b, w1).addScaledVector(c, w2);\n    if (!part) { part = { box: new THREE.Box3(), samples: [], triangles: [triangle] }; opaque.set(triangle, part); }\n    part.box.expandByPoint(q);\n    if (keep && (all || part.samples.length < 6)) part.samples.push(q.clone());\n  };\n  for (let t = 0; t < triangles; t++) {\n    triangle = t; part = undefined;\n    const v0 = at(t, 0), v1 = at(t, 1), v2 = at(t, 2);\n    a.fromBufferAttribute(p, v0); b.fromBufferAttribute(p, v1); c.fromBufferAttribute(p, v2);\n    if (!cutout || !uv) { add(1, 0, 0, true); add(0, 1, 0, true); add(0, 0, 1, true); add(1 / 3, 1 / 3, 1 / 3, true); continue; }\n    const u0 = uv.getX(v0), u1 = uv.getX(v1), u2 = uv.getX(v2), t0 = uv.getY(v0), t1 = uv.getY(v1), t2 = uv.getY(v2);\n    // Cards reuse a few atlas cells: the opaque sample points of each distinct UV triangle are found once.\n    const key = `${u0},${t0},${u1},${t1},${u2},${t2}`;\n    let points = opaqueAt.get(key);\n    if (!points) {\n      points = [];\n      for (let i = 0; i <= N; i++) for (let j = 0; i + j <= N; j++) {\n        const w0 = i / N, w1 = j / N, w2 = 1 - w0 - w1;\n        if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);\n      }\n      // Thin opaque needles can fall between the coarse samples. Search only empty UV patterns more finely.\n      if (!points.length) {\n        // A collapsed triangle cannot witness foliage, or seed a miss for a later real card sharing its UVs.\n        if (edgeA.subVectors(b, a).cross(edgeB.subVectors(c, a)).lengthSq() === 0) continue;\n        if (cutout.mayHaveOpaque?.(u0, t0, u1, t1, u2, t2) === false) { opaqueAt.set(key, points); continue; }\n        for (let i = 0; i <= 48; i++) for (let j = 0; i + j <= 48; j++) {\n          const w0 = i / 48, w1 = j / 48, w2 = 1 - w0 - w1;\n          if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);\n        }\n        if (points.length) finePatterns.add(key);\n      }\n      opaqueAt.set(key, points);\n    }\n    const fine = finePatterns.has(key), divisions = fine ? 48 : N;\n    for (let n = 0; n < points.length; n += 2) add(points[n]! / divisions, points[n + 1]! / divisions,\n      1 - (points[n]! + points[n + 1]!) / divisions, fine || (points[n]! + points[n + 1]!) % 2 === 0, fine);\n  }\n  const list = [...opaque.values()];\n  if (!list.length) return result;\n  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), centre = new THREE.Vector3();\n  // A part touches the wood when an opaque sample is within `reach` (the box centre first rules most parts out).\n  const touches = (part: (typeof list)[number]) => {\n    part.box.getCenter(centre);\n    const radius = part.box.min.distanceTo(part.box.max) / 2;\n    const d = anchor(centre, hit, reach + radius);\n    if (d === Infinity) return false;\n    return d <= reach || part.samples.some(q => anchor(q, hit, reach) <= reach);\n  };\n  const nearestFrom = new THREE.Vector3(), nearestTo = new THREE.Vector3();\n  const nearest = (part: (typeof list)[number]) => {\n    let d = Infinity;\n    // Preserve the centre-first search and tie ordering without allocating an array and three vectors per part.\n    for (let n = -1; n < part.samples.length; n++) {\n      const q = n < 0 ? part.box.getCenter(centre) : part.samples[n]!;\n      const e = anchor(q, hit, d);\n      if (e < d) { d = e; nearestFrom.copy(q); nearestTo.copy(hit); }\n    }\n    return d;\n  };\n  // Parts in a grid by their boxes grown by half the gap: parts within `gap` share a cell.\n  const sizes = list.map(part => Math.max(part.box.max.x - part.box.min.x, part.box.max.y - part.box.min.y, part.box.max.z - part.box.min.z)).sort((x, y) => x - y);\n  const cell = Math.max(gap, sizes[Math.floor(sizes.length / 2)]!), grid = new Map<number, Set<number>>(), half = gap / 2;\n  const cellsOf = list.map(part => {\n    const keys: number[] = [], lo = part.box.min, hi = part.box.max;\n    for (let x = Math.floor((lo.x - half) / cell); x <= Math.floor((hi.x + half) / cell); x++)\n      for (let y = Math.floor((lo.y - half) / cell); y <= Math.floor((hi.y + half) / cell); y++)\n        for (let z = Math.floor((lo.z - half) / cell); z <= Math.floor((hi.z + half) / cell); z++) keys.push(((x + 2048) * 4096 + (y + 2048)) * 4096 + (z + 2048));\n    return keys;\n  });\n  cellsOf.forEach((keys, i) => { for (const k of keys) { let set = grid.get(k); if (!set) { set = new Set(); grid.set(k, set); } set.add(i); } });\n  const flat = new Float32Array(list.length * 6);\n  list.forEach((part, i) => { part.box.min.toArray(flat, i * 6); part.box.max.toArray(flat, i * 6 + 3); });\n  const gap2 = gap * gap;\n  const visited = new Uint32Array(list.length);\n  let visitId = 0;\n  // The breadth-first caller consumes this list before asking for the next part's neighbours.\n  const found: number[] = [];\n  const neighbours = (i: number) => {\n    if (++visitId === 0x100000000) { visited.fill(0); visitId = 1; }\n    found.length = 0;\n    const o = i * 6;\n    const x0 = flat[o]!, y0 = flat[o + 1]!, z0 = flat[o + 2]!, x1 = flat[o + 3]!, y1 = flat[o + 4]!, z1 = flat[o + 5]!;\n    for (const k of cellsOf[i]!) for (const j of grid.get(k)!) {\n      // A pair can share several cells; retain only its first visit and original ordering.\n      if (visited[j] === visitId) continue;\n      visited[j] = visitId;\n      const q = j * 6;\n      const dx = Math.max(0, x0 - flat[q + 3]!, flat[q]! - x1), dy = Math.max(0, y0 - flat[q + 4]!, flat[q + 1]! - y1), dz = Math.max(0, z0 - flat[q + 5]!, flat[q + 2]! - z1);\n      if (dx * dx + dy * dy + dz * dz <= gap2) found.push(j);\n    }\n    return found;\n  };\n  const left = new Set(list.map((_, i) => i));\n  const take = (i: number) => { if (!left.delete(i)) return false; for (const k of cellsOf[i]!) grid.get(k)!.delete(i); return true; };\n  // Chunks of linked parts (through opaque coverage), then each chunk tested for a part touching the wood: nearest the\n  // trunk axis (the template's origin) first, so the crown's main chunk is settled in a few tests.\n  const chunks: number[][] = [];\n  for (const i of [...left]) {\n    if (!take(i)) continue;\n    const chunk = [i];\n    for (let n = 0; n < chunk.length; n++) for (const j of neighbours(chunk[n]!)) if (take(j)) chunk.push(j);\n    chunks.push(chunk);\n  }\n  const axis = list.map(part => { part.box.getCenter(centre); return Math.hypot(centre.x, centre.z); });\n  const islands = chunks.filter(chunk => !chunk.sort((x, y) => axis[x]! - axis[y]!).some(i => touches(list[i]!)));\n  const droppedTriangles = new Set<number>(), shifts = new Map<number, { shift: THREE.Vector3; chunk: number[] }>();\n  for (const members of islands) {\n    const near = { d: Infinity, from: new THREE.Vector3(), to: new THREE.Vector3() };\n    for (const i of members) {\n      const d = nearest(list[i]!);\n      // A later part reuses the search scratch; retain this island's winning contact in its own vectors.\n      if (d < near.d) { near.d = d; near.from.copy(nearestFrom); near.to.copy(nearestTo); }\n    }\n    if (near.d <= reach) continue;\n    result.islands++;\n    if (!Number.isFinite(near.d) || near.d > drop) {\n      result.dropped++;\n      for (const i of members) for (const t of list[i]!.triangles) droppedTriangles.add(t);\n      continue;\n    }\n    // Move the chunk until its nearest opaque leaf is 0.8 reach from the bough.\n    const shift = new THREE.Vector3().subVectors(near.to, near.from).multiplyScalar(1 - reach * 0.8 / near.d);\n    for (const i of members) for (const t of list[i]!.triangles) shifts.set(t, { shift, chunk: members });\n    result.moved++;\n  }\n  // Apply the moves. A vertex shared with a triangle that stays (or moves differently) is split off first.\n  if (shifts.size) {\n    const owner = new Map<number, THREE.Vector3 | null>();\n    for (let t = 0; t < triangles; t++) {\n      if (droppedTriangles.has(t)) continue;\n      const shift = shifts.get(t)?.shift ?? null;\n      for (let k = 0; k < 3; k++) { const v = at(t, k); const seen = owner.get(v); owner.set(v, seen === undefined || seen === shift ? shift : null); }\n    }\n    const names = Object.keys(leaf.attributes), clones: { from: number; shift: THREE.Vector3 }[] = [];\n    const indices = Array.from({ length: triangles * 3 }, (_, i) => at(Math.floor(i / 3), i % 3));\n    const cloneOf = new Map<string, number>();\n    for (const [t, { shift }] of shifts) for (let k = 0; k < 3; k++) {\n      const v = indices[t * 3 + k]!;\n      if (owner.get(v) === shift) continue;\n      const key = `${v}:${shift.x},${shift.y},${shift.z}`;\n      let copy = cloneOf.get(key);\n      if (copy === undefined) { copy = p.count + clones.length; clones.push({ from: v, shift }); cloneOf.set(key, copy); }\n      indices[t * 3 + k] = copy;\n    }\n    const total = p.count + clones.length;\n    for (const name of names) {\n      const attr = leaf.getAttribute(name), values = new Float32Array(total * attr.itemSize);\n      for (let i = 0; i < p.count; i++) for (let k = 0; k < attr.itemSize; k++) values[i * attr.itemSize + k] = attr.getComponent(i, k);\n      clones.forEach(({ from }, n) => { for (let k = 0; k < attr.itemSize; k++) values[(p.count + n) * attr.itemSize + k] = attr.getComponent(from, k); });\n      if (name === 'position') {\n        for (const [v, shift] of owner) if (shift) { values[v * 3]! += shift.x; values[v * 3 + 1]! += shift.y; values[v * 3 + 2]! += shift.z; }\n        clones.forEach(({ shift }, n) => { const o = (p.count + n) * 3; values[o]! += shift.x; values[o + 1]! += shift.y; values[o + 2]! += shift.z; });\n      }\n      leaf.setAttribute(name, new THREE.BufferAttribute(values, attr.itemSize));\n    }\n    leaf.setIndex(indices);\n  }\n  if (droppedTriangles.size) {\n    const keep: number[] = [];\n    const index2 = leaf.index;\n    for (let t = 0; t < triangles; t++) if (!droppedTriangles.has(t)) keep.push(...[0, 1, 2].map(k => index2 ? index2.getX(t * 3 + k) : t * 3 + k));\n    leaf.setIndex(keep);\n  }\n  if (result.moved || result.dropped) { leaf.computeBoundingBox(); leaf.computeBoundingSphere(); }\n  return result;\n}\n"
+  },
+  "scope": "Two separate native worlds with identical pinned source except scratch reuse in leaf-island search. High preset with existing lod=2 diagnostic, not normal High distance selection. Frozen wind/time. No manual geometry swaps. Software rendering, no hardware frame-time or heat claim.",
+  "poses": [
+    {
+      "label": "tree:wild:79:22",
+      "kind": "oak/hero-oak-b",
+      "local": [
+        2.099612543980281,
+        0.28467514614264167,
+        -3.084777971108754
+      ],
+      "offset": [
+        -4,
+        0,
+        4
+      ],
+      "eye": true
+    },
+    {
+      "label": "tree:wild:68:13",
+      "kind": "oak/hero-oak-c",
+      "local": [
+        -3.563400904337565,
+        8.362607876459757,
+        -0.7704146131873131
+      ],
+      "offset": [
+        4,
+        1,
+        4
+      ],
+      "eye": false
+    },
+    {
+      "label": "tree:wild:32:27",
+      "kind": "oak/hero-oak",
+      "local": [
+        0.6964085400104523,
+        9.933585643768309,
+        -5.969465533892313
+      ],
+      "offset": [
+        4,
+        1,
+        4
+      ],
+      "eye": false
+    },
+    {
+      "control": "sea"
+    }
+  ],
+  "comparisons": [
+    {
+      "pose": 0,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 1,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 2,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 3,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    }
+  ],
+  "replay": {
+    "rows": [
+      {
+        "input": 0,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3655
+      },
+      {
+        "input": 1,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 2442
+      },
+      {
+        "input": 2,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 1184
+      },
+      {
+        "input": 3,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 4415
+      },
+      {
+        "input": 4,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 2151
+      },
+      {
+        "input": 5,
+        "equalGeometry": true,
+        "result": {
+          "islands": 63,
+          "moved": 63,
+          "dropped": 0
+        },
+        "nearest": 175,
+        "neighbours": 224
+      },
+      {
+        "input": 6,
+        "equalGeometry": true,
+        "result": {
+          "islands": 34,
+          "moved": 34,
+          "dropped": 0
+        },
+        "nearest": 50,
+        "neighbours": 3709
+      },
+      {
+        "input": 7,
+        "equalGeometry": true,
+        "result": {
+          "islands": 32,
+          "moved": 32,
+          "dropped": 0
+        },
+        "nearest": 42,
+        "neighbours": 2122
+      },
+      {
+        "input": 8,
+        "equalGeometry": true,
+        "result": {
+          "islands": 7,
+          "moved": 7,
+          "dropped": 0
+        },
+        "nearest": 7,
+        "neighbours": 859
+      },
+      {
+        "input": 9,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 4091
+      },
+      {
+        "input": 10,
+        "equalGeometry": true,
+        "result": {
+          "islands": 1,
+          "moved": 1,
+          "dropped": 0
+        },
+        "nearest": 6,
+        "neighbours": 1995
+      },
+      {
+        "input": 11,
+        "equalGeometry": true,
+        "result": {
+          "islands": 60,
+          "moved": 60,
+          "dropped": 0
+        },
+        "nearest": 124,
+        "neighbours": 210
+      },
+      {
+        "input": 12,
+        "equalGeometry": true,
+        "result": {
+          "islands": 1,
+          "moved": 1,
+          "dropped": 0
+        },
+        "nearest": 8,
+        "neighbours": 4329
+      },
+      {
+        "input": 13,
+        "equalGeometry": true,
+        "result": {
+          "islands": 1,
+          "moved": 1,
+          "dropped": 0
+        },
+        "nearest": 8,
+        "neighbours": 2121
+      },
+      {
+        "input": 14,
+        "equalGeometry": true,
+        "result": {
+          "islands": 65,
+          "moved": 65,
+          "dropped": 0
+        },
+        "nearest": 150,
+        "neighbours": 230
+      },
+      {
+        "input": 15,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 2999
+      },
+      {
+        "input": 16,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 1888
+      },
+      {
+        "input": 17,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 855
+      },
+      {
+        "input": 18,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 11138
+      },
+      {
+        "input": 19,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 4348
+      },
+      {
+        "input": 20,
+        "equalGeometry": true,
+        "result": {
+          "islands": 8,
+          "moved": 8,
+          "dropped": 0
+        },
+        "nearest": 9,
+        "neighbours": 1193
+      },
+      {
+        "input": 21,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 12000
+      },
+      {
+        "input": 22,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 8394
+      },
+      {
+        "input": 23,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 1374
+      },
+      {
+        "input": 24,
+        "equalGeometry": true,
+        "result": {
+          "islands": 2,
+          "moved": 2,
+          "dropped": 0
+        },
+        "nearest": 4,
+        "neighbours": 12000
+      },
+      {
+        "input": 25,
+        "equalGeometry": true,
+        "result": {
+          "islands": 1,
+          "moved": 1,
+          "dropped": 0
+        },
+        "nearest": 2,
+        "neighbours": 8760
+      },
+      {
+        "input": 26,
+        "equalGeometry": true,
+        "result": {
+          "islands": 69,
+          "moved": 69,
+          "dropped": 0
+        },
+        "nearest": 477,
+        "neighbours": 878
+      },
+      {
+        "input": 27,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 10812
+      },
+      {
+        "input": 28,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3398
+      },
+      {
+        "input": 29,
+        "equalGeometry": true,
+        "result": {
+          "islands": 4,
+          "moved": 4,
+          "dropped": 0
+        },
+        "nearest": 4,
+        "neighbours": 848
+      },
+      {
+        "input": 30,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 12000
+      },
+      {
+        "input": 31,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 7714
+      },
+      {
+        "input": 32,
+        "equalGeometry": true,
+        "result": {
+          "islands": 44,
+          "moved": 44,
+          "dropped": 0
+        },
+        "nearest": 267,
+        "neighbours": 802
+      },
+      {
+        "input": 33,
+        "equalGeometry": true,
+        "result": {
+          "islands": 2,
+          "moved": 2,
+          "dropped": 0
+        },
+        "nearest": 4,
+        "neighbours": 12000
+      },
+      {
+        "input": 34,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 8600
+      },
+      {
+        "input": 35,
+        "equalGeometry": true,
+        "result": {
+          "islands": 75,
+          "moved": 75,
+          "dropped": 0
+        },
+        "nearest": 324,
+        "neighbours": 868
+      },
+      {
+        "input": 36,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 10772
+      },
+      {
+        "input": 37,
+        "equalGeometry": true,
+        "result": {
+          "islands": 1,
+          "moved": 1,
+          "dropped": 0
+        },
+        "nearest": 2,
+        "neighbours": 4348
+      },
+      {
+        "input": 38,
+        "equalGeometry": true,
+        "result": {
+          "islands": 14,
+          "moved": 14,
+          "dropped": 0
+        },
+        "nearest": 15,
+        "neighbours": 1193
+      },
+      {
+        "input": 39,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 10534
+      },
+      {
+        "input": 40,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3398
+      },
+      {
+        "input": 41,
+        "equalGeometry": true,
+        "result": {
+          "islands": 17,
+          "moved": 17,
+          "dropped": 0
+        },
+        "nearest": 22,
+        "neighbours": 816
+      },
+      {
+        "input": 42,
+        "equalGeometry": true,
+        "result": {
+          "islands": 10,
+          "moved": 10,
+          "dropped": 0
+        },
+        "nearest": 31,
+        "neighbours": 3485
+      },
+      {
+        "input": 43,
+        "equalGeometry": true,
+        "result": {
+          "islands": 11,
+          "moved": 11,
+          "dropped": 0
+        },
+        "nearest": 20,
+        "neighbours": 2016
+      },
+      {
+        "input": 44,
+        "equalGeometry": true,
+        "result": {
+          "islands": 5,
+          "moved": 5,
+          "dropped": 0
+        },
+        "nearest": 5,
+        "neighbours": 850
+      },
+      {
+        "input": 45,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3288
+      },
+      {
+        "input": 46,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 1961
+      },
+      {
+        "input": 47,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 852
+      },
+      {
+        "input": 48,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 7962
+      },
+      {
+        "input": 49,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 7045
+      },
+      {
+        "input": 50,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 2437
+      },
+      {
+        "input": 51,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3709
+      },
+      {
+        "input": 52,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 2122
+      },
+      {
+        "input": 53,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 859
+      },
+      {
+        "input": 54,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 10972
+      },
+      {
+        "input": 55,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3456
+      },
+      {
+        "input": 56,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 855
+      },
+      {
+        "input": 57,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 10568
+      },
+      {
+        "input": 58,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 3398
+      },
+      {
+        "input": 59,
+        "equalGeometry": true,
+        "result": {
+          "islands": 0,
+          "moved": 0,
+          "dropped": 0
+        },
+        "nearest": 0,
+        "neighbours": 848
+      }
+    ],
+    "counts": {
+      "before": {
+        "nearest": 1756,
+        "neighbours": 254350,
+        "searches": 60
+      },
+      "after": {
+        "nearest": 1756,
+        "neighbours": 254350,
+        "searches": 60
+      }
+    },
+    "indices": [
+      26,
+      35,
+      32
+    ],
+    "batches": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 19.5
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 20.599999994039536
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 21.30000001192093
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 21.30000001192093
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 21.5
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 20.30000001192093
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 19.69999998807907
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 21.400000005960464
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 21.099999994039536
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 19.600000023841858
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 21
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 21
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 19.30000001192093
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 20.900000005960464
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 22.19999998807907
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 19
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 20.200000017881393
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 21.900000005960464
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 19.599999994039536
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 21
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 20.600000023841858
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 19.400000005960464
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 20.299999982118607
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 19.099999994039536
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 20.30000001192093
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 19.900000005960464
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 20.299999982118607
+      }
+    ],
+    "scope": "Actual retained pre-repair native leaf geometries, woods, decoded alpha samplers and production options. Every geometry attribute and index plus repair result matches. Counts instrument algorithm entry points equally. Timing excludes outer input clones/disposal and covers three selected repair calls, not loading end-to-end or gameplay frame CPU/GPU/heat."
+  },
+  "complete": true,
+  "modes": {
+    "before": {
+      "setup": {
+        "rows": [
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 0,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ea7c05cb98ecf173c757cd4fe22af3679463ec1230a0f41aa9367741a6d38cbc",
+            "positionsLength": 17502,
+            "indexSha256": "a51ac513ab895f70c67860adf1fbafb22e084ea6e45efa726bd6b07e21899fd5",
+            "indexLength": 19236
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "bb896464beee5d2386272d2ab4865158222c5394a72e2f950942b37328d26eef",
+            "positionsLength": 15174,
+            "indexSha256": "79e031d06eefdebb2e259117849383668559406455ddaa352d9ac056971b5bcb",
+            "indexLength": 13488
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 0,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "9fc1f7550daeeedc8532800383b8f5df3b7698c299bd98b1716c644ec1052b8a",
+            "positionsLength": 15765,
+            "indexSha256": "3b0caa7d4ae69d4ba7163116e4ec94a80ab629149bcce934e43f8e746ac7bc04",
+            "indexLength": 17808
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1eb6ad9c0bab3782b66130bbe3c6f16f707d9e95b8157581f8418ad9872f6626",
+            "positionsLength": 14067,
+            "indexSha256": "acf57e44696a9f94582740b3282205ee273d0bccafd37567c93b9dac86db749a",
+            "indexLength": 12504
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "c3a850538dbc9df8144a8d0d84db4c660fe65e5f37dc6d7d743106924577804c",
+            "positionsLength": 14904,
+            "indexSha256": "1031afd771289af0c9f732e67a17414c40c26b6090fd9e6c560ab2f274795b07",
+            "indexLength": 13248
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 0,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "d217994daf8f5b1c9cb67619bf67b7f1dec39a8eec71d69feb1f133efcae7937",
+            "positionsLength": 13689,
+            "indexSha256": "5d4fc2f62720737fcca66bc7fef71cf3f38b760195bf01b343651128cb9e841f",
+            "indexLength": 16632
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 0,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "38cbc3379cb4b371f4c7677156d1fcbe20d40cce6c218795f0f2171418e10740",
+            "positionsLength": 66828,
+            "indexSha256": "2afddb72cfe1f91a7c6b10aad2fa84aa61db6732c64a07164ad5571f3eaf0de7",
+            "indexLength": 33414
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 0,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "33d7c691ce86e106c0f19ec9881d95ae3c769e129e4c064585c574ef541d1419",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 0,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 2,
+              "moved": 2,
+              "dropped": 0
+            },
+            "positionsSha256": "ac85c451a282d9c9e8867dde9a46456cc656a7cca1016d1cf880a4b27abac754",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 0,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "022e2222118c34d8967005ddc9a9f9d4eb0f566307333e138acf53e28ca2739e",
+            "positionsLength": 64872,
+            "indexSha256": "75fb33a3812bf7db30ca600209022f58829e320afb1e990a400a5a6990882c92",
+            "indexLength": 32436
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 0,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "3c72f978a161eac9c70346a16de2667ddad3f63ab5334d943681c77282f5d049",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 0,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 2,
+              "moved": 2,
+              "dropped": 0
+            },
+            "positionsSha256": "e70c8a3090ea46919091a8c01ffe827eeba98b9e2e47410e19770b55c4918fdb",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 0,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "f17b2ced8c140425f371a752569cd802fe45a5b0b1a10a473a3c7b88ab930b19",
+            "positionsLength": 64632,
+            "indexSha256": "a68198a9c7bb08f9cb6bab27cefd864b7ad1e4ec41378e4ab158284974840138",
+            "indexLength": 32316
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 0,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "adacad34a5366610227b973a7bbffe6bf46a4c36728989d8612a1d249b92d798",
+            "positionsLength": 63204,
+            "indexSha256": "efd1e91c3dfb15499365c3657d74d0962c10a432ee35dab20f4e1196fce509af",
+            "indexLength": 31602
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 0,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 10,
+              "moved": 10,
+              "dropped": 0
+            },
+            "positionsSha256": "1648b59d357f07dcf326884ed82f9e1133aa9ecdbf136f50d28e97bb893fee5a",
+            "positionsLength": 13584,
+            "indexSha256": "6235d00f81f58e81fc487fad6e5034e092499dce888d05f88176741ea0c90c8f",
+            "indexLength": 16464
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 0,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "f49ab781669e6d2e9c93aa591e42acaae6e79ef2325444476c3518f23717ed24",
+            "positionsLength": 13443,
+            "indexSha256": "248c83f2c2cea5b9efba396e5e61de7582d5e3e482c830534992aaa372a8c399",
+            "indexLength": 16464
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 0,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "8eb32588ea5947314460a77bd7b5a1a0f8f94611942471c904a42733115d948b",
+            "positionsLength": 56355,
+            "indexSha256": "fe2da3db87a2934cadc6027abfd106a003c388b70e5f7962f6d3ca835db84e1d",
+            "indexLength": 23946
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 0,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "0f84f54cd6966ec39370a891c2b83aeef07baa52e8bd69f3e0024b09d94445e1",
+            "positionsLength": 15411,
+            "indexSha256": "d18a9463f59715885a48e663b16d2b762d254520cb9e956ae918331039d1b6d4",
+            "indexLength": 17808
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 0,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "8b548811e81be5b17502c7f2fc370f408fb85db8f3f422ceb3e85fddd14fa977",
+            "positionsLength": 67944,
+            "indexSha256": "3c5c355eb2ef63e4c2f065d93ff1b40c8bc02e76a397f4941f94a8ee49dda797",
+            "indexLength": 32916
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 0,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "6f0add3588b57888eb1100f1f69f96b8da44b3eb631cd82214c4a6c41cd39bb9",
+            "positionsLength": 65796,
+            "indexSha256": "62fc2d57bd3660ab37a7ca4ff755cd936144e8bfe6f9038ad01c1a43a694a8b3",
+            "indexLength": 31704
+          },
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 1,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "4b9307e4b8a0f87fb8d4b6c4f4dad9188b7f275233fa6bbbe3ac09ca1530f6f1",
+            "positionsLength": 11358,
+            "indexSha256": "81910a6d968d62f1057a3ce39a896b9bb491e13b37ccd4932f5a313ad2614f6a",
+            "indexLength": 10872
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ebbbca920142f1179adfdfcbc2209087dca7b8c4fbcf70e1f58a5856e0431f9c",
+            "positionsLength": 7533,
+            "indexSha256": "211b32ee4e35f09aeac2502e1155a3c3b946efa52f3f04a98df7167798e63100",
+            "indexLength": 6696
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 1,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "a7908818cbaf1ae92a707e5b282a4361c93fe53d454c2571db7b818b5f1e0849",
+            "positionsLength": 9984,
+            "indexSha256": "eede92d9427d2723ecef9c5f4fd1dcd4e5adf7b79aeefe626cd7e30ba48511e6",
+            "indexLength": 9648
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "24b7dd6f27009cd7092ed3e4efd4780ac0df9699a8ca1c6bfd8ea5a739d4b29f",
+            "positionsLength": 7005,
+            "indexSha256": "d6b3ad5237c372ce636550d33457d64c4585a3510d102ae30dd9fd53e7401972",
+            "indexLength": 6216
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "9fc83c4929bb2645888fa387c2ed24662ced699c981cc87d4d61c8bbdfe3e9cf",
+            "positionsLength": 7452,
+            "indexSha256": "a9c4df8a9f9169df33d3af2aa33197648572e03e6343eddb67fb6baca4d588eb",
+            "indexLength": 6624
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 1,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1c29f30aa2d7f176a3b69b1bc31fb772894fc9a7694ee60d5be94a30d79e2338",
+            "positionsLength": 8289,
+            "indexSha256": "e1cd4afa0a95ab2acce51f0bbcca757455d0cd5969f047707f1ce12b70bafdb7",
+            "indexLength": 8640
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 1,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "2d9cefcf69504a0b7e7bebe14c2f9ebd4b0ae8a05ba210d92a810cb75aa24b24",
+            "positionsLength": 26088,
+            "indexSha256": "fad66b383ccbbc46a418800952075136b4287d78ea9d7a2104b20493fc32887a",
+            "indexLength": 13044
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 1,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "0408067e3d3625e61e6ed46244791210fab8c05999ddfd794b995f84ee8de8cb",
+            "positionsLength": 50364,
+            "indexSha256": "d2272a4b4b21ae66d5f566747370b96a8220e8bafbc06789b3640381370993fc",
+            "indexLength": 25182
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 1,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "d52442faf25aebbccf3d0331d8009e66b70ef541c2ca9231ff94956aaa5d0f8a",
+            "positionsLength": 52560,
+            "indexSha256": "5bd8311200171fea22f5bd65c9cbf209712f945c341443e086e40dc56df116db",
+            "indexLength": 26280
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 1,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7c7fc9a99b7ec1b85ccf09be6676d44a604e384e629a4c1566f89156629074bb",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 1,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7c565e1ca877ee564ed342b60ef73a52d602a7f4c0c1774cb65a4572d70f143a",
+            "positionsLength": 46284,
+            "indexSha256": "4b314be9306474d89ec4c92abc5119a56644f2f0c85700ee85733782b34a380d",
+            "indexLength": 23142
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 1,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "6a8643b3de258815c2a91dd4223ab1f97dcb6573e74cc04b9d48015a840fe2ef",
+            "positionsLength": 51600,
+            "indexSha256": "cacbb510bc5c11ef988877a87ed9951177589c25ddaa2581bb2e09827e1d65ec",
+            "indexLength": 25800
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 1,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "c9ae7728e157a4527e536213cf449aa97615d0212fdf0446ce676c1bf3d487be",
+            "positionsLength": 26088,
+            "indexSha256": "fad66b383ccbbc46a418800952075136b4287d78ea9d7a2104b20493fc32887a",
+            "indexLength": 13044
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 1,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "a18f9cddaa4646ae76abc8017748fd60dcf977fea0b09a3fefe0e86ac4e808c4",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 1,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 11,
+              "moved": 11,
+              "dropped": 0
+            },
+            "positionsSha256": "0cc4499a93abc0477913f4b5752e24b9b5edbeab4941c94b1abbd3262e90ac51",
+            "positionsLength": 8205,
+            "indexSha256": "799c67dad1490cebe56fed67ce5ce0b46fa339228f2f75649206409685f6417b",
+            "indexLength": 8496
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 1,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "3dc881ff6e0cf2d8a1c9d68d43fcda00824816d5ec14a4fb7fc30ea0b0ee09d1",
+            "positionsLength": 8091,
+            "indexSha256": "15b5412ee052181f6179fbbef876bc53af80ab1fdeec4b0329912159988a2bbe",
+            "indexLength": 8496
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 1,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1726f464a305d0faf20c034384b6261a8451b480d646049c339bb15f4df6a919",
+            "positionsLength": 50202,
+            "indexSha256": "1294db3c3d72cf8f0bed8177470f983cd02619facc3fa6666fa79dc7760625d0",
+            "indexLength": 21177
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 1,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7200f2e546784f2fbe0fedfab1ce0842a22dc0b837a1e545f64346128480d65a",
+            "positionsLength": 9675,
+            "indexSha256": "e817189348cadf1c41a1f1aa8d441aefc6dab5b4914c8e4105db88c22c1b632d",
+            "indexLength": 9648
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 1,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "2285853f70b9dbf057758c8437af73bb5eef859e8904891b3959edd715008097",
+            "positionsLength": 20736,
+            "indexSha256": "541c226d5e96ea690d379aaeb900306c6db99b8ed3eb924be33425a68327a4b8",
+            "indexLength": 10368
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 1,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "b4ea1fcdd5553f3d3291b527c6ad2d73db3b31014271db6a3ef65b24e48e78f7",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 2,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7cebaa27daf1bdec6f788b66f5ad7dca13c98421620328509f67aa3f3d7ebd7f",
+            "positionsLength": 6123,
+            "indexSha256": "309517e99727476c9f54f7bdeb44baa7060612a078f469a7fa0f6b2e70a47ad9",
+            "indexLength": 4326
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 63,
+              "moved": 63,
+              "dropped": 0
+            },
+            "positionsSha256": "42dc0eb42ba4e507743b9bea97d9e797a3b50f697a784472159ef5b5defd12af",
+            "positionsLength": 1638,
+            "indexSha256": "16c15327defc3aa1f5d1540b279631e820746888c3e318a2d0616985d3009973",
+            "indexLength": 672
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 2,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "5f311c3161937f50bf7d0e688bfe2dc881c41d567ff490107867daac9112e434",
+            "positionsLength": 5043,
+            "indexSha256": "f330dad9ab260353a189d7a672b67a7414858de87c64006e9216ccd00582255e",
+            "indexLength": 3612
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 60,
+              "moved": 60,
+              "dropped": 0
+            },
+            "positionsSha256": "1ed65f8eeb1c5276267597ba2502be17e082febbe45e1eaf5662f9c8bf292f71",
+            "positionsLength": 1560,
+            "indexSha256": "633d07c064a656d837fc4c48fa8f1ec298504ca958b6f3fb8f9a2a6685eb131a",
+            "indexLength": 630
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 65,
+              "moved": 65,
+              "dropped": 0
+            },
+            "positionsSha256": "534d138337bcfe01d6abbff0be4282f852ed9bfc0f565ca0c12c4d48be1bb640",
+            "positionsLength": 1704,
+            "indexSha256": "e3a264a9f27be6fdcdef38cb5a9ad0cd00f3423da78548a42fb0ee4ae21c99e2",
+            "indexLength": 690
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 2,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "58a73e22a6a34fa055f1cdddb13f63a9beb8e2409a3ae3ddd3a654305f506f97",
+            "positionsLength": 4077,
+            "indexSha256": "b20e2fede655766b83fe21d267c3b355b7b58ccedd511498ab04822a8a8fea96",
+            "indexLength": 3024
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 2,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 14,
+              "moved": 14,
+              "dropped": 0
+            },
+            "positionsSha256": "2554c9628a32fb35b8f491331b4a99853480277ad1b0279a034d7f5a828e3fb6",
+            "positionsLength": 6183,
+            "indexSha256": "4d83f4311eaf2ff889f741785746d646d3f0088838eb6a11fc6d15c39f2ecd90",
+            "indexLength": 4326
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 2,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ac5b307de952e2274098f675d8514ffc56d3160f6694fcb561e12120ba8b4446",
+            "positionsLength": 13470,
+            "indexSha256": "259d483a90f903094bba049c6c187b3c95ea9cfb1a67ef2cb5bb08a3612f1e02",
+            "indexLength": 6309
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 2,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 69,
+              "moved": 69,
+              "dropped": 0
+            },
+            "positionsSha256": "366874076ad7ff6e6fbb8f2a71736fbd54df5942b26af0b7dfba836fbf6236c1",
+            "positionsLength": 5730,
+            "indexSha256": "007e07e02994d645939028fdddc9d7b138a0ea80becd12a734dabf2d70030d80",
+            "indexLength": 2634
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 2,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "56263a58cc415451340ea8f7eb60ed2d15f2d9696b8928eba8b28d443c312f2a",
+            "positionsLength": 3972,
+            "indexSha256": "9314c53211844501a8680a07f23eeafc512c8b995f787390e3353bc7b69dfcf3",
+            "indexLength": 2940
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 2,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 44,
+              "moved": 44,
+              "dropped": 0
+            },
+            "positionsSha256": "9eaa39e4ca37266c2e483a298fe6c1d34e4bf508890a4d4d0048a43805c02a29",
+            "positionsLength": 5058,
+            "indexSha256": "a5f56c868a28097938f8bfc55a0b4ab47e8768b33b05def7f7c699809f896620",
+            "indexLength": 2406
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 2,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 75,
+              "moved": 75,
+              "dropped": 0
+            },
+            "positionsSha256": "dfaaa5aceb048a228f9b022c073b5f404ea7f111957ff627a2285b0704ed6748",
+            "positionsLength": 5508,
+            "indexSha256": "643bca25ae25b965011ee1b9e46348f452673e71c897cb79fb42429624abd2f2",
+            "indexLength": 2604
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 2,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 14,
+              "moved": 14,
+              "dropped": 0
+            },
+            "positionsSha256": "e2167eba5ad3b9e8023045e7ee0960b032bbf150a8caec2b515de0b4b5875141",
+            "positionsLength": 6228,
+            "indexSha256": "e6d83a630f46b95323455a686f84927aea67bcb3412defc9569ecabb84e55fc4",
+            "indexLength": 4326
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 2,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 17,
+              "moved": 17,
+              "dropped": 0
+            },
+            "positionsSha256": "76259f8ba70357c905aee5e82f0a2515e6807ccfa531698e76c14df2747eb7f0",
+            "positionsLength": 4092,
+            "indexSha256": "34be399a3398893228c78e912e6bad5185d102872c6e90c3999c746280f04cee",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 2,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 5,
+              "moved": 5,
+              "dropped": 0
+            },
+            "positionsSha256": "b28b08845bb9a2031a066b5f29ee7b0acc3bcd7353b13ed0bf9a4ca510c4c0ef",
+            "positionsLength": 3975,
+            "indexSha256": "02e75c2aa47d8680b3b002a342148656b34d7e6bbc613038d3d5f8a6a8eb2e6a",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 2,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "e8a786f2603d9fe468067547ce45304ea47c48852b3250a2dc0cfaf37e4a0bb9",
+            "positionsLength": 3945,
+            "indexSha256": "ed26ca37390f441960207c65f5d10af9a5f3f2eb832af3cf19b6399a10184b3f",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 2,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "15dccb404459ba7dc56edcab999294c2dd2d3dd997992338195c126fc90628be",
+            "positionsLength": 16029,
+            "indexSha256": "d2f7afbc793a2b86a04fbab0df63de53d5654e36aae908a7955c1ece185be274",
+            "indexLength": 7317
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 2,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "90d7a2701edab84622ea1a00ba7a1eee60432949ff4ea8506316db53a4ecb78e",
+            "positionsLength": 5001,
+            "indexSha256": "415c541260cb5584a695a3162cdc1545b734e500f40cca750267d0024ad727f8",
+            "indexLength": 3612
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 2,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "77b83d84aae63f99dc8224522bb708ebf7e5211d1d815131efaca11e6b34e601",
+            "positionsLength": 4077,
+            "indexSha256": "b20e2fede655766b83fe21d267c3b355b7b58ccedd511498ab04822a8a8fea96",
+            "indexLength": 3024
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 2,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "258923b79b693a9e30ae3575d2077c669772079a2ef267b4c02354e626e77f8b",
+            "positionsLength": 3945,
+            "indexSha256": "ed26ca37390f441960207c65f5d10af9a5f3f2eb832af3cf19b6399a10184b3f",
+            "indexLength": 2940
+          }
+        ]
+      },
+      "rows": [
+        {
+          "pose": 0,
+          "repeatExact": true,
+          "draws": 159,
+          "triangles": 1454424,
+          "camera": [
+            111.33355214953997,
+            3.437098972543418,
+            -16.99439148867251
+          ],
+          "quaternion": [
+            -0.12287789395497116,
+            -0.37928358063571144,
+            -0.050897690191991994,
+            0.9156715643561641
+          ]
+        },
+        {
+          "pose": 1,
+          "repeatExact": true,
+          "draws": 410,
+          "triangles": 3095656,
+          "camera": [
+            59.69435073807902,
+            17.147487544768843,
+            -75.51204836732258
+          ],
+          "quaternion": [
+            -0.08072209971422684,
+            0.38121992433020974,
+            0.0334361884848661,
+            0.9203463115648369
+          ]
+        },
+        {
+          "pose": 2,
+          "repeatExact": true,
+          "draws": 401,
+          "triangles": 3428325,
+          "camera": [
+            -178.44106164940607,
+            15.753216872606153,
+            11.648744787544633
+          ],
+          "quaternion": [
+            -0.08072209971422682,
+            0.3812199243302096,
+            0.03343618848486608,
+            0.9203463115648369
+          ]
+        },
+        {
+          "pose": 3,
+          "repeatExact": true,
+          "draws": 147,
+          "triangles": 713403,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    },
+    "after": {
+      "setup": {
+        "rows": [
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 0,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ea7c05cb98ecf173c757cd4fe22af3679463ec1230a0f41aa9367741a6d38cbc",
+            "positionsLength": 17502,
+            "indexSha256": "a51ac513ab895f70c67860adf1fbafb22e084ea6e45efa726bd6b07e21899fd5",
+            "indexLength": 19236
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "bb896464beee5d2386272d2ab4865158222c5394a72e2f950942b37328d26eef",
+            "positionsLength": 15174,
+            "indexSha256": "79e031d06eefdebb2e259117849383668559406455ddaa352d9ac056971b5bcb",
+            "indexLength": 13488
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 0,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "9fc1f7550daeeedc8532800383b8f5df3b7698c299bd98b1716c644ec1052b8a",
+            "positionsLength": 15765,
+            "indexSha256": "3b0caa7d4ae69d4ba7163116e4ec94a80ab629149bcce934e43f8e746ac7bc04",
+            "indexLength": 17808
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1eb6ad9c0bab3782b66130bbe3c6f16f707d9e95b8157581f8418ad9872f6626",
+            "positionsLength": 14067,
+            "indexSha256": "acf57e44696a9f94582740b3282205ee273d0bccafd37567c93b9dac86db749a",
+            "indexLength": 12504
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 0,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "c3a850538dbc9df8144a8d0d84db4c660fe65e5f37dc6d7d743106924577804c",
+            "positionsLength": 14904,
+            "indexSha256": "1031afd771289af0c9f732e67a17414c40c26b6090fd9e6c560ab2f274795b07",
+            "indexLength": 13248
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 0,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "d217994daf8f5b1c9cb67619bf67b7f1dec39a8eec71d69feb1f133efcae7937",
+            "positionsLength": 13689,
+            "indexSha256": "5d4fc2f62720737fcca66bc7fef71cf3f38b760195bf01b343651128cb9e841f",
+            "indexLength": 16632
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 0,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "38cbc3379cb4b371f4c7677156d1fcbe20d40cce6c218795f0f2171418e10740",
+            "positionsLength": 66828,
+            "indexSha256": "2afddb72cfe1f91a7c6b10aad2fa84aa61db6732c64a07164ad5571f3eaf0de7",
+            "indexLength": 33414
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 0,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "33d7c691ce86e106c0f19ec9881d95ae3c769e129e4c064585c574ef541d1419",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 0,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 2,
+              "moved": 2,
+              "dropped": 0
+            },
+            "positionsSha256": "ac85c451a282d9c9e8867dde9a46456cc656a7cca1016d1cf880a4b27abac754",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 0,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "022e2222118c34d8967005ddc9a9f9d4eb0f566307333e138acf53e28ca2739e",
+            "positionsLength": 64872,
+            "indexSha256": "75fb33a3812bf7db30ca600209022f58829e320afb1e990a400a5a6990882c92",
+            "indexLength": 32436
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 0,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "3c72f978a161eac9c70346a16de2667ddad3f63ab5334d943681c77282f5d049",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 0,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 2,
+              "moved": 2,
+              "dropped": 0
+            },
+            "positionsSha256": "e70c8a3090ea46919091a8c01ffe827eeba98b9e2e47410e19770b55c4918fdb",
+            "positionsLength": 72000,
+            "indexSha256": "911a255cc00730bd04ee33f722493290fe4786640aa47e4b720f68d405b71362",
+            "indexLength": 36000
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 0,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "f17b2ced8c140425f371a752569cd802fe45a5b0b1a10a473a3c7b88ab930b19",
+            "positionsLength": 64632,
+            "indexSha256": "a68198a9c7bb08f9cb6bab27cefd864b7ad1e4ec41378e4ab158284974840138",
+            "indexLength": 32316
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 0,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "adacad34a5366610227b973a7bbffe6bf46a4c36728989d8612a1d249b92d798",
+            "positionsLength": 63204,
+            "indexSha256": "efd1e91c3dfb15499365c3657d74d0962c10a432ee35dab20f4e1196fce509af",
+            "indexLength": 31602
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 0,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 10,
+              "moved": 10,
+              "dropped": 0
+            },
+            "positionsSha256": "1648b59d357f07dcf326884ed82f9e1133aa9ecdbf136f50d28e97bb893fee5a",
+            "positionsLength": 13584,
+            "indexSha256": "6235d00f81f58e81fc487fad6e5034e092499dce888d05f88176741ea0c90c8f",
+            "indexLength": 16464
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 0,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "f49ab781669e6d2e9c93aa591e42acaae6e79ef2325444476c3518f23717ed24",
+            "positionsLength": 13443,
+            "indexSha256": "248c83f2c2cea5b9efba396e5e61de7582d5e3e482c830534992aaa372a8c399",
+            "indexLength": 16464
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 0,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "8eb32588ea5947314460a77bd7b5a1a0f8f94611942471c904a42733115d948b",
+            "positionsLength": 56355,
+            "indexSha256": "fe2da3db87a2934cadc6027abfd106a003c388b70e5f7962f6d3ca835db84e1d",
+            "indexLength": 23946
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 0,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "0f84f54cd6966ec39370a891c2b83aeef07baa52e8bd69f3e0024b09d94445e1",
+            "positionsLength": 15411,
+            "indexSha256": "d18a9463f59715885a48e663b16d2b762d254520cb9e956ae918331039d1b6d4",
+            "indexLength": 17808
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 0,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "8b548811e81be5b17502c7f2fc370f408fb85db8f3f422ceb3e85fddd14fa977",
+            "positionsLength": 67944,
+            "indexSha256": "3c5c355eb2ef63e4c2f065d93ff1b40c8bc02e76a397f4941f94a8ee49dda797",
+            "indexLength": 32916
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 0,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "6f0add3588b57888eb1100f1f69f96b8da44b3eb631cd82214c4a6c41cd39bb9",
+            "positionsLength": 65796,
+            "indexSha256": "62fc2d57bd3660ab37a7ca4ff755cd936144e8bfe6f9038ad01c1a43a694a8b3",
+            "indexLength": 31704
+          },
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 1,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "4b9307e4b8a0f87fb8d4b6c4f4dad9188b7f275233fa6bbbe3ac09ca1530f6f1",
+            "positionsLength": 11358,
+            "indexSha256": "81910a6d968d62f1057a3ce39a896b9bb491e13b37ccd4932f5a313ad2614f6a",
+            "indexLength": 10872
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ebbbca920142f1179adfdfcbc2209087dca7b8c4fbcf70e1f58a5856e0431f9c",
+            "positionsLength": 7533,
+            "indexSha256": "211b32ee4e35f09aeac2502e1155a3c3b946efa52f3f04a98df7167798e63100",
+            "indexLength": 6696
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 1,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "a7908818cbaf1ae92a707e5b282a4361c93fe53d454c2571db7b818b5f1e0849",
+            "positionsLength": 9984,
+            "indexSha256": "eede92d9427d2723ecef9c5f4fd1dcd4e5adf7b79aeefe626cd7e30ba48511e6",
+            "indexLength": 9648
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "24b7dd6f27009cd7092ed3e4efd4780ac0df9699a8ca1c6bfd8ea5a739d4b29f",
+            "positionsLength": 7005,
+            "indexSha256": "d6b3ad5237c372ce636550d33457d64c4585a3510d102ae30dd9fd53e7401972",
+            "indexLength": 6216
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 1,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "9fc83c4929bb2645888fa387c2ed24662ced699c981cc87d4d61c8bbdfe3e9cf",
+            "positionsLength": 7452,
+            "indexSha256": "a9c4df8a9f9169df33d3af2aa33197648572e03e6343eddb67fb6baca4d588eb",
+            "indexLength": 6624
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 1,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1c29f30aa2d7f176a3b69b1bc31fb772894fc9a7694ee60d5be94a30d79e2338",
+            "positionsLength": 8289,
+            "indexSha256": "e1cd4afa0a95ab2acce51f0bbcca757455d0cd5969f047707f1ce12b70bafdb7",
+            "indexLength": 8640
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 1,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "2d9cefcf69504a0b7e7bebe14c2f9ebd4b0ae8a05ba210d92a810cb75aa24b24",
+            "positionsLength": 26088,
+            "indexSha256": "fad66b383ccbbc46a418800952075136b4287d78ea9d7a2104b20493fc32887a",
+            "indexLength": 13044
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 1,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "0408067e3d3625e61e6ed46244791210fab8c05999ddfd794b995f84ee8de8cb",
+            "positionsLength": 50364,
+            "indexSha256": "d2272a4b4b21ae66d5f566747370b96a8220e8bafbc06789b3640381370993fc",
+            "indexLength": 25182
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 1,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "d52442faf25aebbccf3d0331d8009e66b70ef541c2ca9231ff94956aaa5d0f8a",
+            "positionsLength": 52560,
+            "indexSha256": "5bd8311200171fea22f5bd65c9cbf209712f945c341443e086e40dc56df116db",
+            "indexLength": 26280
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 1,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7c7fc9a99b7ec1b85ccf09be6676d44a604e384e629a4c1566f89156629074bb",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 1,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7c565e1ca877ee564ed342b60ef73a52d602a7f4c0c1774cb65a4572d70f143a",
+            "positionsLength": 46284,
+            "indexSha256": "4b314be9306474d89ec4c92abc5119a56644f2f0c85700ee85733782b34a380d",
+            "indexLength": 23142
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 1,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "6a8643b3de258815c2a91dd4223ab1f97dcb6573e74cc04b9d48015a840fe2ef",
+            "positionsLength": 51600,
+            "indexSha256": "cacbb510bc5c11ef988877a87ed9951177589c25ddaa2581bb2e09827e1d65ec",
+            "indexLength": 25800
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 1,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 1,
+              "moved": 1,
+              "dropped": 0
+            },
+            "positionsSha256": "c9ae7728e157a4527e536213cf449aa97615d0212fdf0446ce676c1bf3d487be",
+            "positionsLength": 26088,
+            "indexSha256": "fad66b383ccbbc46a418800952075136b4287d78ea9d7a2104b20493fc32887a",
+            "indexLength": 13044
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 1,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "a18f9cddaa4646ae76abc8017748fd60dcf977fea0b09a3fefe0e86ac4e808c4",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 1,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 11,
+              "moved": 11,
+              "dropped": 0
+            },
+            "positionsSha256": "0cc4499a93abc0477913f4b5752e24b9b5edbeab4941c94b1abbd3262e90ac51",
+            "positionsLength": 8205,
+            "indexSha256": "799c67dad1490cebe56fed67ce5ce0b46fa339228f2f75649206409685f6417b",
+            "indexLength": 8496
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 1,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "3dc881ff6e0cf2d8a1c9d68d43fcda00824816d5ec14a4fb7fc30ea0b0ee09d1",
+            "positionsLength": 8091,
+            "indexSha256": "15b5412ee052181f6179fbbef876bc53af80ab1fdeec4b0329912159988a2bbe",
+            "indexLength": 8496
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 1,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "1726f464a305d0faf20c034384b6261a8451b480d646049c339bb15f4df6a919",
+            "positionsLength": 50202,
+            "indexSha256": "1294db3c3d72cf8f0bed8177470f983cd02619facc3fa6666fa79dc7760625d0",
+            "indexLength": 21177
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 1,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7200f2e546784f2fbe0fedfab1ce0842a22dc0b837a1e545f64346128480d65a",
+            "positionsLength": 9675,
+            "indexSha256": "e817189348cadf1c41a1f1aa8d441aefc6dab5b4914c8e4105db88c22c1b632d",
+            "indexLength": 9648
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 1,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "2285853f70b9dbf057758c8437af73bb5eef859e8904891b3959edd715008097",
+            "positionsLength": 20736,
+            "indexSha256": "541c226d5e96ea690d379aaeb900306c6db99b8ed3eb924be33425a68327a4b8",
+            "indexLength": 10368
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 1,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "b4ea1fcdd5553f3d3291b527c6ad2d73db3b31014271db6a3ef65b24e48e78f7",
+            "positionsLength": 20388,
+            "indexSha256": "6ea5ad46fe8176d0608030c8127bab652185855051493ece2aa59523908b2358",
+            "indexLength": 10194
+          },
+          {
+            "kind": "shrub/tree-1521",
+            "lod": 2,
+            "label": "tree:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "7cebaa27daf1bdec6f788b66f5ad7dca13c98421620328509f67aa3f3d7ebd7f",
+            "positionsLength": 6123,
+            "indexSha256": "309517e99727476c9f54f7bdeb44baa7060612a078f469a7fa0f6b2e70a47ad9",
+            "indexLength": 4326
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:54:3",
+            "result": {
+              "islands": 63,
+              "moved": 63,
+              "dropped": 0
+            },
+            "positionsSha256": "42dc0eb42ba4e507743b9bea97d9e797a3b50f697a784472159ef5b5defd12af",
+            "positionsLength": 1638,
+            "indexSha256": "16c15327defc3aa1f5d1540b279631e820746888c3e318a2d0616985d3009973",
+            "indexLength": 672
+          },
+          {
+            "kind": "fir/fir-spire",
+            "lod": 2,
+            "label": "tree:wild:55:3",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "5f311c3161937f50bf7d0e688bfe2dc881c41d567ff490107867daac9112e434",
+            "positionsLength": 5043,
+            "indexSha256": "f330dad9ab260353a189d7a672b67a7414858de87c64006e9216ccd00582255e",
+            "indexLength": 3612
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:66:3",
+            "result": {
+              "islands": 60,
+              "moved": 60,
+              "dropped": 0
+            },
+            "positionsSha256": "1ed65f8eeb1c5276267597ba2502be17e082febbe45e1eaf5662f9c8bf292f71",
+            "positionsLength": 1560,
+            "indexSha256": "633d07c064a656d837fc4c48fa8f1ec298504ca958b6f3fb8f9a2a6685eb131a",
+            "indexLength": 630
+          },
+          {
+            "kind": "pine/procedural",
+            "lod": 2,
+            "label": "tree:wild:70:3",
+            "result": {
+              "islands": 65,
+              "moved": 65,
+              "dropped": 0
+            },
+            "positionsSha256": "534d138337bcfe01d6abbff0be4282f852ed9bfc0f565ca0c12c4d48be1bb640",
+            "positionsLength": 1704,
+            "indexSha256": "e3a264a9f27be6fdcdef38cb5a9ad0cd00f3423da78548a42fb0ee4ae21c99e2",
+            "indexLength": 690
+          },
+          {
+            "kind": "shrub/tree-4949",
+            "lod": 2,
+            "label": "tree:5:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "58a73e22a6a34fa055f1cdddb13f63a9beb8e2409a3ae3ddd3a654305f506f97",
+            "positionsLength": 4077,
+            "indexSha256": "b20e2fede655766b83fe21d267c3b355b7b58ccedd511498ab04822a8a8fea96",
+            "indexLength": 3024
+          },
+          {
+            "kind": "birch/verdant-sentinel",
+            "lod": 2,
+            "label": "tree:wild:61:10",
+            "result": {
+              "islands": 14,
+              "moved": 14,
+              "dropped": 0
+            },
+            "positionsSha256": "2554c9628a32fb35b8f491331b4a99853480277ad1b0279a034d7f5a828e3fb6",
+            "positionsLength": 6183,
+            "indexSha256": "4d83f4311eaf2ff889f741785746d646d3f0088838eb6a11fc6d15c39f2ecd90",
+            "indexLength": 4326
+          },
+          {
+            "kind": "birch/tree-1527",
+            "lod": 2,
+            "label": "tree:wild:62:10",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "ac5b307de952e2274098f675d8514ffc56d3160f6694fcb561e12120ba8b4446",
+            "positionsLength": 13470,
+            "indexSha256": "259d483a90f903094bba049c6c187b3c95ea9cfb1a67ef2cb5bb08a3612f1e02",
+            "indexLength": 6309
+          },
+          {
+            "kind": "oak/hero-oak",
+            "lod": 2,
+            "label": "tree:wild:45:12",
+            "result": {
+              "islands": 69,
+              "moved": 69,
+              "dropped": 0
+            },
+            "positionsSha256": "366874076ad7ff6e6fbb8f2a71736fbd54df5942b26af0b7dfba836fbf6236c1",
+            "positionsLength": 5730,
+            "indexSha256": "007e07e02994d645939028fdddc9d7b138a0ea80becd12a734dabf2d70030d80",
+            "indexLength": 2634
+          },
+          {
+            "kind": "birch/tree-4815",
+            "lod": 2,
+            "label": "tree:wild:61:12",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "56263a58cc415451340ea8f7eb60ed2d15f2d9696b8928eba8b28d443c312f2a",
+            "positionsLength": 3972,
+            "indexSha256": "9314c53211844501a8680a07f23eeafc512c8b995f787390e3353bc7b69dfcf3",
+            "indexLength": 2940
+          },
+          {
+            "kind": "oak/hero-oak-c",
+            "lod": 2,
+            "label": "tree:wild:68:13",
+            "result": {
+              "islands": 44,
+              "moved": 44,
+              "dropped": 0
+            },
+            "positionsSha256": "9eaa39e4ca37266c2e483a298fe6c1d34e4bf508890a4d4d0048a43805c02a29",
+            "positionsLength": 5058,
+            "indexSha256": "a5f56c868a28097938f8bfc55a0b4ab47e8768b33b05def7f7c699809f896620",
+            "indexLength": 2406
+          },
+          {
+            "kind": "oak/hero-oak-b",
+            "lod": 2,
+            "label": "tree:wild:57:20",
+            "result": {
+              "islands": 75,
+              "moved": 75,
+              "dropped": 0
+            },
+            "positionsSha256": "dfaaa5aceb048a228f9b022c073b5f404ea7f111957ff627a2285b0704ed6748",
+            "positionsLength": 5508,
+            "indexSha256": "643bca25ae25b965011ee1b9e46348f452673e71c897cb79fb42429624abd2f2",
+            "indexLength": 2604
+          },
+          {
+            "kind": "oak/verdant-sentinel",
+            "lod": 2,
+            "label": "tree:wild:36:23",
+            "result": {
+              "islands": 14,
+              "moved": 14,
+              "dropped": 0
+            },
+            "positionsSha256": "e2167eba5ad3b9e8023045e7ee0960b032bbf150a8caec2b515de0b4b5875141",
+            "positionsLength": 6228,
+            "indexSha256": "e6d83a630f46b95323455a686f84927aea67bcb3412defc9569ecabb84e55fc4",
+            "indexLength": 4326
+          },
+          {
+            "kind": "oak/tree-1505",
+            "lod": 2,
+            "label": "tree:wild:52:26",
+            "result": {
+              "islands": 17,
+              "moved": 17,
+              "dropped": 0
+            },
+            "positionsSha256": "76259f8ba70357c905aee5e82f0a2515e6807ccfa531698e76c14df2747eb7f0",
+            "positionsLength": 4092,
+            "indexSha256": "34be399a3398893228c78e912e6bad5185d102872c6e90c3999c746280f04cee",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-fan",
+            "lod": 2,
+            "label": "tree:palm:16:6",
+            "result": {
+              "islands": 5,
+              "moved": 5,
+              "dropped": 0
+            },
+            "positionsSha256": "b28b08845bb9a2031a066b5f29ee7b0acc3bcd7353b13ed0bf9a4ca510c4c0ef",
+            "positionsLength": 3975,
+            "indexSha256": "02e75c2aa47d8680b3b002a342148656b34d7e6bbc613038d3d5f8a6a8eb2e6a",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-lean",
+            "lod": 2,
+            "label": "tree:palm:15:8",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "e8a786f2603d9fe468067547ce45304ea47c48852b3250a2dc0cfaf37e4a0bb9",
+            "positionsLength": 3945,
+            "indexSha256": "ed26ca37390f441960207c65f5d10af9a5f3f2eb832af3cf19b6399a10184b3f",
+            "indexLength": 2940
+          },
+          {
+            "kind": "palm/palm-date",
+            "lod": 2,
+            "label": "tree:palm:17:9",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "15dccb404459ba7dc56edcab999294c2dd2d3dd997992338195c126fc90628be",
+            "positionsLength": 16029,
+            "indexSha256": "d2f7afbc793a2b86a04fbab0df63de53d5654e36aae908a7955c1ece185be274",
+            "indexLength": 7317
+          },
+          {
+            "kind": "shorepine/fir-spire",
+            "lod": 2,
+            "label": "tree:edge:1:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "90d7a2701edab84622ea1a00ba7a1eee60432949ff4ea8506316db53a4ecb78e",
+            "positionsLength": 5001,
+            "indexSha256": "415c541260cb5584a695a3162cdc1545b734e500f40cca750267d0024ad727f8",
+            "indexLength": 3612
+          },
+          {
+            "kind": "orchard/tree-4949",
+            "lod": 2,
+            "label": "tree:orchard:0:0",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "77b83d84aae63f99dc8224522bb708ebf7e5211d1d815131efaca11e6b34e601",
+            "positionsLength": 4077,
+            "indexSha256": "b20e2fede655766b83fe21d267c3b355b7b58ccedd511498ab04822a8a8fea96",
+            "indexLength": 3024
+          },
+          {
+            "kind": "orchard/tree-4815",
+            "lod": 2,
+            "label": "tree:orchard:0:2",
+            "result": {
+              "islands": 0,
+              "moved": 0,
+              "dropped": 0
+            },
+            "positionsSha256": "258923b79b693a9e30ae3575d2077c669772079a2ef267b4c02354e626e77f8b",
+            "positionsLength": 3945,
+            "indexSha256": "ed26ca37390f441960207c65f5d10af9a5f3f2eb832af3cf19b6399a10184b3f",
+            "indexLength": 2940
+          }
+        ]
+      },
+      "rows": [
+        {
+          "pose": 0,
+          "repeatExact": true,
+          "draws": 159,
+          "triangles": 1454424,
+          "camera": [
+            111.33355214953997,
+            3.437098972543418,
+            -16.99439148867251
+          ],
+          "quaternion": [
+            -0.12287789395497116,
+            -0.37928358063571144,
+            -0.050897690191991994,
+            0.9156715643561641
+          ]
+        },
+        {
+          "pose": 1,
+          "repeatExact": true,
+          "draws": 410,
+          "triangles": 3095656,
+          "camera": [
+            59.69435073807902,
+            17.147487544768843,
+            -75.51204836732258
+          ],
+          "quaternion": [
+            -0.08072209971422684,
+            0.38121992433020974,
+            0.0334361884848661,
+            0.9203463115648369
+          ]
+        },
+        {
+          "pose": 2,
+          "repeatExact": true,
+          "draws": 401,
+          "triangles": 3428325,
+          "camera": [
+            -178.44106164940607,
+            15.753216872606153,
+            11.648744787544633
+          ],
+          "quaternion": [
+            -0.08072209971422682,
+            0.3812199243302096,
+            0.03343618848486608,
+            0.9203463115648369
+          ]
+        },
+        {
+          "pose": 3,
+          "repeatExact": true,
+          "draws": 147,
+          "triangles": 713403,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    }
+  }
+}

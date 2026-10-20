@@ -1,0 +1,45 @@
+{
+  "decoder": "Pillow RGB",
+  "rows": [
+    {
+      "pose": 0,
+      "independentlyDecodedRgbEqual": true,
+      "images": {
+        "before-0": "9e0c4bfa23de4fd71afd9aff7359ffe627935ce738783b2684c458aa2ae4009d",
+        "before-1": "9e0c4bfa23de4fd71afd9aff7359ffe627935ce738783b2684c458aa2ae4009d",
+        "after-0": "9e0c4bfa23de4fd71afd9aff7359ffe627935ce738783b2684c458aa2ae4009d",
+        "after-1": "9e0c4bfa23de4fd71afd9aff7359ffe627935ce738783b2684c458aa2ae4009d"
+      }
+    },
+    {
+      "pose": 1,
+      "independentlyDecodedRgbEqual": true,
+      "images": {
+        "before-0": "f37df7a68a88e5aabb9d1867d6fd0f67531f0e3f62759dfd19a38a54412a5df5",
+        "before-1": "f37df7a68a88e5aabb9d1867d6fd0f67531f0e3f62759dfd19a38a54412a5df5",
+        "after-0": "f37df7a68a88e5aabb9d1867d6fd0f67531f0e3f62759dfd19a38a54412a5df5",
+        "after-1": "f37df7a68a88e5aabb9d1867d6fd0f67531f0e3f62759dfd19a38a54412a5df5"
+      }
+    },
+    {
+      "pose": 2,
+      "independentlyDecodedRgbEqual": true,
+      "images": {
+        "before-0": "523683c3194d9deae56e723b8aa9f00ca4d751878963a75f932c348f017e602a",
+        "before-1": "523683c3194d9deae56e723b8aa9f00ca4d751878963a75f932c348f017e602a",
+        "after-0": "523683c3194d9deae56e723b8aa9f00ca4d751878963a75f932c348f017e602a",
+        "after-1": "523683c3194d9deae56e723b8aa9f00ca4d751878963a75f932c348f017e602a"
+      }
+    },
+    {
+      "pose": 3,
+      "independentlyDecodedRgbEqual": true,
+      "images": {
+        "before-0": "00cf5a84f2218ee8fd9768c21ac6af60ee738c1805debfd1c458989fba5c016e",
+        "before-1": "00cf5a84f2218ee8fd9768c21ac6af60ee738c1805debfd1c458989fba5c016e",
+        "after-0": "00cf5a84f2218ee8fd9768c21ac6af60ee738c1805debfd1c458989fba5c016e",
+        "after-1": "00cf5a84f2218ee8fd9768c21ac6af60ee738c1805debfd1c458989fba5c016e"
+      }
+    }
+  ]
+}

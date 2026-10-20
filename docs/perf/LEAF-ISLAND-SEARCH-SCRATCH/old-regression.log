@@ -1,0 +1,38 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/leafIslandSearchScratch.test.ts (1 test | 1 failed) 8ms
+   × reuses the centre-search scratch while keeping opposing island contacts independent 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/leafIslandSearchScratch.test.ts > reuses the centre-search scratch while keeping opposing island contacts independent
+AssertionError: expected 6 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 6
+
+ ❯ tests/presentation/leafIslandSearchScratch.test.ts:23:26
+     21|     expect(spy.mock.calls.length).toBeGreaterThan(4);
+     22|     // One shared query centre plus the rebuilt geometry bounding sphe…
+     23|     expect(targets.size).toBe(2);
+       |                          ^
+     24|   } finally { spy.mockRestore(); leaf.dispose(); wood.dispose(); }
+     25| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  20:07:42
+   Duration  244ms (transform 72%, import 18%, tests 5%, setup 3%, worker 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

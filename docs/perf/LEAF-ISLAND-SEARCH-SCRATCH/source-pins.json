@@ -1,0 +1,10 @@
+{
+  "head": "d778ff65b8ffa82a7829771e1cd64cb13fc7a214",
+  "baseline": "7f679b9b3f3d4df8c927863a5b36aef2e8da53df",
+  "productionFile": "src/presentation/leafIslands.ts",
+  "beforeSha256": "6d5e0b2960da9e3ad99367bb9aab3c6bfb62368d948cf3a6f402fe3ab8322e46",
+  "afterSha256": "836fbd1ef7500b7bdc3abf9ec677684a88dde151c29a0541ccc86c708b4094f2",
+  "otherProductionFilesChanged": [],
+  "nativeBaselineReused": true,
+  "geometryHashEncoding": "SHA256 of compact JSON numeric arrays; every attribute/index is also compared directly inside the native-input replay."
+}
