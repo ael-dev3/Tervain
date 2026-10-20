@@ -141,3 +141,27 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 
 - Method: the orchard pose crown crop (top 400 px of each frame, first 10 of 40 frames, fixed camera). A pixel counts as foliage when it is green-dominant and mid-to-dark. Crude but repeatable.
 - Mean foliage-covered fraction: 0.0.24 0.9304, 0.0.29 0.9426. The 0.0.29 crown covers at least as much as 0.0.24 at this pose, so no refill is needed (refill is parked for 0.0.30).
+
+## 0.0.35: grass tip cap in scene light, 2026-10-20
+
+- Method: frozen frames (Sol's #695 freezing of wind, sway, clouds, grain and simulation) drawn with and without the cap in one page through its `uTipCap` uniform, and live 0.0.34 drawn into the same frames in its own browser. A frame drawn twice is identical, so every difference below is exact, not capture noise.
+- Result: grass pixels at 180 or more (blade edges over bright sky left out) 698 → 0 (low sun behind the camera, hour 17.5) and 3,003 → 0 (noon, toward the sun); grass mean −0.05% and −0.59%; frame mean −0.02% and −0.14%; no pixel brighter; draws and triangles unchanged. With the cap off the build matches live in every pixel. Details and the one-pixel dump: docs/engineering/a155-0035-grass-tip-cap.md.
+- 0.0.32's cap numbers leave every frozen frame pixel-identical to no cap: that cap never engaged, and its brighter readings were capture noise.
+- Budget gate against live 0.0.34 on the release head: in the release PR.
+
+## 0.0.35 low-sun meadow walk, cap off against on, 2026-10-20
+
+- Method: on live 0.0.35, a camera walked the low-sun meadow at walking pace (hour 17.5, sun behind, 8 s at 15 frames a second, 1470×956 at 2×, GPU). The world advanced by a fixed step, and every frame was drawn three times from one state: the grass tip cap off (0.0.34's output), on, and a near-zero cap that blackens only grass (the grass mask).
+- Over the 120 frames: grass pixels at 180 or more 8,408 → 0; flashes (a grass pixel at 180 or more that was under 140 the frame before) 7,928 → 0; grass mean 102.86 → 102.83; no pixel brighter. In full-resolution crops, flashes to 170 or more 18,393 → 849, while upward jumps of 40 or more levels (blades crossing pixels as the camera moves) stay the same, 5.73 million either way.
+- So the cap takes out the bright flashes; the general shimmer of thin blades in motion is untouched and needs its own fix.
+
+## 0.0.36: oak crowns hold to their wood, 2026-10-20
+
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m): hero oaks 443 → 0 detached clumps (5,211 → 0 cards); all oaks 509 → 0; whole world 648 → 139 (2,384 cards, firs, birches and palms). Details: docs/engineering/a156-0036-oak-shell-seating.md.
+- Budget gate against live on the release head: in the release PR.
+
+## 0.0.37: birch, fir and palm foliage holds to its wood, 2026-10-20
+
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m): 139 → 0 detached clumps (2,384 → 0 cards); the canopy gate passes with no baseline. Birch seats like the oaks; firs gain a leader, and firs and palms gain twigs out to their far sheets and fronds. Details: docs/engineering/a157-0037-sheet-crowns.md.
+- Triangles, near crowns only: +222 per fir, +6 to +168 per palm; no added draw.
+- Budget gate against live on the release head: in the release PR.

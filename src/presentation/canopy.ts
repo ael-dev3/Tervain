@@ -263,10 +263,11 @@ export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
  * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
  * wind weights) copy the nearest bough vertex.
  */
-export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], reconnectRoots = false): THREE.BufferGeometry {
   if (!twigs.length) return wood;
   const source = wood;
   const p = source.getAttribute('position'), names = Object.keys(source.attributes);
+  const hasMotion = source.hasAttribute('_wind') || source.hasAttribute('_pivot');
   const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));
   const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
   let next = p.count;
@@ -314,20 +315,43 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const uv = source.getAttribute('uv');
   const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();
   const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
+  // Linking can delete a parent plan after other twigs were anchored to it. Reconnect only visibly separated roots
+  // against the retained wood and already emitted centreline segments; leaf placement and planned topology stay fixed.
+  const support = reconnectRoots ? woodAnchor(wood) : null, segments: THREE.Line3[] = [];
+  const root = new THREE.Vector3(), rootHit = new THREE.Vector3(), probeHit = new THREE.Vector3(), previousCentre = new THREE.Vector3();
   // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.
   const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
   for (const t of twigs) {
-    axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
+    if (support && !(t.from.distanceTo(t.to) > 1e-3)) continue;
+    root.copy(t.from);
+    if (support) {
+      let distance = support(root, rootHit);
+      for (const segment of segments) {
+        segment.closestPointToPoint(root, true, probeHit);
+        const d = probeHit.distanceTo(root);
+        if (d < distance) { distance = d; rootHit.copy(probeHit); }
+      }
+      // Existing grafts overlap within the small ring/embedding allowance. Leave them bit-for-bit unchanged.
+      if (Number.isFinite(distance) && distance > 0.12 && rootHit.distanceTo(t.to) > 1e-3) root.copy(rootHit);
+    }
+    axis.subVectors(t.to, root); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
     // Bow: the middle sags (gravity), perpendicular to the twig.
     down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);
     const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
-    const start = t.from.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    const start = root.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    // A repaired graft follows its new support at the root. Keep the tip on
+    // its original motion so the leaf clump it carries does not change binding.
+    const rootCopy = reconnectRoots && hasMotion && !root.equals(t.from) ? nearestVertex(root) : copy;
     const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
     const rings = twigRings(t);
     for (let ring = 0; ring < rings; ring++) {
       const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);
       centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));
+      if (support) {
+        if (ring) segments.push(new THREE.Line3(previousCentre.clone(), centre.clone()));
+        previousCentre.copy(centre);
+      }
       tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();
       for (let k = 0; k < ringVertices; k++) {
         const angle = (k % TWIG_SIDES) / TWIG_SIDES * Math.PI * 2, cosine = Math.cos(angle), sine = Math.sin(angle);
@@ -346,7 +370,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
           else if (name === 'normal') out.push(n.x, n.y, n.z);
           else if (name === 'tangent') out.push(across.x, across.y, across.z, -1);
           else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
-          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
+          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(ring === 0 && (name === '_wind' || name === '_pivot') ? rootCopy : copy, c));
         }
         next++;
       }
@@ -661,6 +685,82 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, snappedClumps: moved };
   return { geometry, moved };
+}
+
+/**
+ * Far cards (0.0.36): a card whose nearest point lies beyond `reach` of the wood moves straight toward that wood by its
+ * overshoot, ending `inside` of the reach. A crown's outer shell sits a little past the boughs' reach at the largest tree
+ * scale (the audit's 1.5 m), and as one chained mass the shell is out of the clump snap's reach; per card the move is
+ * small, so the crown keeps its layout. No card is removed; every other attribute is kept.
+ */
+export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, inside = 0.97): { geometry: THREE.BufferGeometry; moved: number } {
+  const position = canopy.getAttribute('position');
+  if (!position || !canopy.index) return { geometry: canopy, moved: 0 };
+  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), nearest = new THREE.Vector3(), from = new THREE.Vector3();
+  const out = new Float32Array(position.count * 3);
+  for (let v = 0; v < position.count; v++) { out[v * 3] = position.getX(v); out[v * 3 + 1] = position.getY(v); out[v * 3 + 2] = position.getZ(v); }
+  let moved = 0;
+  for (const part of components(canopy, () => {})) {
+    let distance = Infinity;
+    for (const sample of part.samples) { const d = anchor(sample, hit); if (d < distance) { distance = d; nearest.copy(hit); from.copy(sample); } }
+    if (!(distance > reach) || !Number.isFinite(distance)) continue;
+    const delta = nearest.sub(from).multiplyScalar((distance - reach * inside) / distance);
+    for (const v of part.vertices ?? []) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
+    moved++;
+  }
+  if (!moved) return { geometry: canopy, moved };
+  const geometry = canopy.clone();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, seatedCards: moved };
+  return { geometry, moved };
+}
+
+/**
+ * Supplied sheet crowns (0.0.37): the fir's wood stops at about two fifths of its height and palm fronds rise above their
+ * trunks, so whole needle sheets and fronds sit past the audit reach with nothing inside them. `leader` continues a
+ * conifer's trunk up its axis; then a twig grows from the nearest wood toward each part still past `reach`, ending
+ * `inside` of the reach short of the part's nearest sample. No leaf moves. The twigs follow the wood's index after its
+ * `twigIndex`, so they are not obstacles. `inPlace` writes the grown wood into `wood` itself (before its first upload),
+ * so a variant and the meshes already holding that geometry keep it.
+ */
+export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, leader = false, inside = 0.9, inPlace = false): { geometry: THREE.BufferGeometry; twigs: number } {
+  const position = wood.getAttribute('position');
+  const twigIndex = (wood.userData.twigIndex as number | undefined) ?? wood.index?.count ?? position.count;
+  let grown = wood, count = 0;
+  const replace = (next: THREE.BufferGeometry) => { if (grown !== wood) grown.dispose(); grown = next; };
+  if (leader) {
+    // From the trunk's top (the centre of its highest half metre of wood) up the axis, to just under the crown's tip.
+    let top = -Infinity, n = 0;
+    for (let i = 0; i < position.count; i++) top = Math.max(top, position.getY(i));
+    const from = new THREE.Vector3();
+    for (let i = 0; i < position.count; i++) if (position.getY(i) > top - 0.5) { from.x += position.getX(i); from.z += position.getZ(i); n++; }
+    from.set(from.x / n, top - 0.2, from.z / n);
+    leaf.computeBoundingBox();
+    const to = new THREE.Vector3(from.x, leaf.boundingBox!.max.y - 1.2, from.z);
+    if (to.y > from.y + 1) { replace(growTwigs(grown, [{ from, to }])); count++; }
+  }
+  const hit = new THREE.Vector3();
+  for (let round = 0; round < 3; round++) {
+    const set = detachedClumpSet(leaf, grown, reach, reach), anchor = woodAnchor(grown), twigs: CanopyTwig[] = [];
+    set.far.forEach((far, i) => {
+      if (!far) return;
+      let best = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
+      for (const sample of set.parts[i]!.samples) { const d = anchor(sample, hit); if (d < best) { best = d; from.copy(hit); to.copy(sample); } }
+      const length = from.distanceTo(to);
+      if (Number.isFinite(length) && length > reach * inside) twigs.push({ from, to: from.clone().lerp(to, (length - reach * inside) / length) });
+    });
+    if (!twigs.length) break;
+    replace(growTwigs(grown, twigs)); count += twigs.length;
+  }
+  if (grown === wood) return { geometry: wood, twigs: 0 };
+  grown.userData = { ...grown.userData, twigIndex, anchoredTwigs: ((wood.userData.anchoredTwigs as number | undefined) ?? 0) + count };
+  if (!inPlace) return { geometry: grown, twigs: count };
+  for (const name of Object.keys(wood.attributes)) if (!grown.hasAttribute(name)) wood.deleteAttribute(name);
+  for (const [name, attribute] of Object.entries(grown.attributes)) wood.setAttribute(name, attribute);
+  wood.setIndex(grown.index); wood.userData = grown.userData;
+  wood.computeBoundingBox(); wood.computeBoundingSphere();
+  return { geometry: wood, twigs: count };
 }
 
 /**

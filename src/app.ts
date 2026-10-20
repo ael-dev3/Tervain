@@ -35,7 +35,7 @@ import { threatFrom } from './presentation/sound/musicDirector';
 import { windTone } from './presentation/sound/soundscape';
 import { CameraRig } from './presentation/cameraRig';
 import { NearFade, heroNearCoverage } from './presentation/nearFade';
-import { Grade } from './presentation/grade';
+import { Grade, WORLD_EXPOSURE } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { chooseInteractable } from './presentation/interactionTarget';
 import { Player } from './presentation/player';
@@ -235,7 +235,7 @@ export class App {
     }
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.22;
+    this.renderer.toneMappingExposure = WORLD_EXPOSURE;
     GPU.halfTargets = this.renderer.extensions.has('EXT_color_buffer_float') || this.renderer.extensions.has('EXT_color_buffer_half_float');
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -1511,7 +1511,7 @@ export class App {
     // Leaves near the lens and between it and the wanderer give way (A84); only while the camera follows him.
     if (this.mode === 'play' && this.cam.mode === 'follow' && !this.cam.manual) FOLIAGE_FOCUS.value.set(this.player.x, this.player.y + 1.15, this.player.z, FOLIAGE_FOCUS_RADIUS);
     else FOLIAGE_FOCUS.value.w = 0;
-    this.renderer.toneMappingExposure = 1.22;
+    this.renderer.toneMappingExposure = WORLD_EXPOSURE;
     if (this.worldLook) {
       this.grade.setLook(this.worldLook);
       this.worldLook = null;

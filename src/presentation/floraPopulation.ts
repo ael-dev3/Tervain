@@ -1,4 +1,4 @@
-import { ORCHARD_SCALE } from './treeScale';
+import { HORIZON_CONIFER_SCALE, ORCHARD_SCALE, PALM_SCALE } from './treeScale';
 import { ARRIVAL_ROUTE, DEEPWOOD, ORCHARD, STRAND, WORLD } from '../world/layout';
 import { deepwoodCover, forestOpeningCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { forestStandAt, FOREST_CROWN_ENVELOPE, type ForestFamilyRole } from '../world/forestStands';
@@ -205,7 +205,7 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       const suitability = biomeAt(x, z).weights['sheltered-palms'];
       if (suitability <= 0.35 || rnd() >= 0.13 * suitability) continue;
       const age: TreeAge = rnd() < 0.22 ? 'young' : 'mature';
-      const scale = age === 'young' ? 0.7 + rnd() * 0.18 : 0.96 + rnd() * 0.24;
+      const scale = age === 'young' ? 0.7 + rnd() * 0.18 : PALM_SCALE.min + rnd() * PALM_SCALE.span;
       put(key, 'palm', x, z, scale, true, age);
     }
   }
@@ -238,7 +238,7 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
   for (let iz = 0, gz = WORLD.minZ + 6; gz < WORLD.maxZ - 6; gz += 11, iz++) for (let ix = 0, gx = WORLD.minX + 6; gx < WORLD.maxX - 6; gx += 11, ix++) {
     const key = `horizon:${ix}:${iz}`, rnd = randomFor(key, 41), x = gx + (rnd() - 0.5) * 11, z = gz + (rnd() - 0.5) * 11;
     if (realmRadius(x, z) < 0.86 || shoreDistance(x, z) < DEEPWOOD.shoreClearance + 8 || rnd() < 0.3) continue;
-    put(key, rnd() < 0.6 ? 'fir' : 'pine', x, z, 1.05 + rnd() * 1.2, false);
+    put(key, rnd() < 0.6 ? 'fir' : 'pine', x, z, HORIZON_CONIFER_SCALE.min + rnd() * HORIZON_CONIFER_SCALE.span, false);
   }
 
   // Symmetric priority suppression, not greedy insertion: every valid candidate has a fixed claim,

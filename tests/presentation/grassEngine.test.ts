@@ -3,7 +3,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { bladeRow, clumpTriangles, createGrassClump, visibleGrassBlades } from '../../src/presentation/grass/bladeGeometry';
 import { GUST_SPAN, GUST_TEXELS, GrassWind, gustField, SHADER_CLOCK_WRAP } from '../../src/presentation/grass/wind';
 import { GrassTrample, TRAMPLE_MAX_MOVERS, TRAMPLE_RECOVERY, type GrassMover } from '../../src/presentation/grass/trample';
-import { createGrassMaterial, type GrassMaterialOptions } from '../../src/presentation/grass/grassMaterial';
+import { createGrassMaterial, GRASS_TIP_CAP, type GrassMaterialOptions } from '../../src/presentation/grass/grassMaterial';
+import { displayToSceneLuminance } from '../../src/presentation/grade';
 import { createGrassField, GRASS_CLUMP, GRASS_MAX_SCALE, GRASS_QUALITY } from '../../src/presentation/grass/grassField';
 import { Habitat } from '../../src/presentation/ground/habitat';
 import { Exclusions } from '../../src/presentation/vegetation';
@@ -203,12 +204,37 @@ describe('grass material', () => {
     expect(shader.uniforms.tGust).toBe(wind.uniforms.tGust);
     expect(shader.uniforms.tTrample).toBe(trample.uniforms.tTrample);
     expect(shader.uniforms.uBand).toBe(grass.uniforms.uBand);
+    expect(shader.uniforms.uTipCap).toBe(grass.uniforms.uTipCap);
+    // The tip cap acts on scene light: after the lit colour is written, before tone mapping and fog.
+    expect(f.indexOf('float tipY')).toBeGreaterThan(f.indexOf('#include <opaque_fragment>'));
+    expect(f.indexOf('float tipY')).toBeLessThan(f.indexOf('#include <tonemapping_fragment>'));
+    expect(f.indexOf('#include <tonemapping_fragment>')).toBeLessThan(f.indexOf('#include <fog_fragment>'));
     expect(grass.material.customProgramCacheKey()).toContain('wisp4');
     grass.setBand({ inStart: 1, inEnd: 2, outStart: 3, outEnd: 4 });
     expect(grass.uniforms.uBand.value.toArray()).toEqual([1, 2, 3, 4]);
     expect(grass.material.side).toBe(THREE.DoubleSide);
     expect(grass.material.userData.preparationTextures).toEqual([wind.uniforms.tGust.value]);
     grass.material.dispose(); trample.dispose(); wind.dispose();
+  });
+
+  it('caps tips in scene light where they would reach about 158 of 255 on screen, easing toward about 166', () => {
+    // 0.0.32 used 0.62 here, a screen level; in scene light that is about 233 on screen, above every tip.
+    expect(GRASS_TIP_CAP.cap).toBeCloseTo(displayToSceneLuminance(158 / 255), 9);
+    expect(GRASS_TIP_CAP.cap + GRASS_TIP_CAP.knee).toBeCloseTo(displayToSceneLuminance(166 / 255), 9);
+    expect(GRASS_TIP_CAP.cap).toBeGreaterThan(0.19);
+    expect(GRASS_TIP_CAP.cap).toBeLessThan(0.21);
+    expect(GRASS_TIP_CAP.knee).toBeGreaterThan(0);
+    const wind = new GrassWind(WIND);
+    const grass = createGrassMaterial(materialOptions(wind));
+    expect(grass.uniforms.uTipCap.value.toArray()).toEqual([GRASS_TIP_CAP.cap, GRASS_TIP_CAP.knee]);
+    // The shader's curve: unchanged up to the cap, never above cap + knee, never brighter than it came in.
+    const capped = (y: number) => (y > GRASS_TIP_CAP.cap ? GRASS_TIP_CAP.cap + GRASS_TIP_CAP.knee * (1 - Math.exp((GRASS_TIP_CAP.cap - y) / GRASS_TIP_CAP.knee)) : y);
+    for (const y of [0.05, 0.2, 0.21, 0.26, 0.4, 1, 4]) {
+      expect(capped(y)).toBeLessThanOrEqual(y);
+      expect(capped(y)).toBeLessThan(GRASS_TIP_CAP.cap + GRASS_TIP_CAP.knee + 1e-12);
+    }
+    expect(capped(0.15)).toBe(0.15);
+    grass.material.dispose(); wind.dispose();
   });
 
   it('hides itself rather than drawing garbage if Three changes the chunks it relies on', () => {

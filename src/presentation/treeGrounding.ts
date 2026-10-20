@@ -171,8 +171,15 @@ export function groundedTreeFlareY(terrain: Pick<Terrain, 'heightAt'>, tree: Pic
 }
 
 /** Seats every placed broadleaf's flare (groundedTreeFlareY); shrubs and pines keep their planting seat. */
-export function seatTreeFlares(population: FloraTree[], terrain: Pick<Terrain, 'heightAt'>, variantFor: (tree: FloraTree) => TreeVariant, isPine: (sp: FloraTree['sp']) => boolean): void {
-  for (const tree of population) if (tree.sp !== 'shrub' && !isPine(tree.sp)) tree.y = groundedTreeFlareY(terrain, tree, variantFor(tree), tree.y);
+export function seatTreeFlares(population: FloraTree[], terrain: Pick<Terrain, 'heightAt'>, variantFor: (tree: FloraTree) => TreeVariant, isPine: (sp: FloraTree['sp']) => boolean, renderedVariantFor?: (tree: FloraTree) => TreeVariant): void {
+  for (const tree of population) if (tree.sp !== 'shrub' && !isPine(tree.sp)) {
+    const plantingY = tree.y, footprint = variantFor(tree);
+    tree.y = groundedTreeFlareY(terrain, tree, footprint, plantingY);
+    const rendered = renderedVariantFor?.(tree);
+    // A replacement keeps the planting claim, but its own roots must meet the soil too.
+    // Both checks share the original cap; do not compound it or raise an already seated tree.
+    if (rendered && rendered !== footprint) tree.y = Math.min(tree.y, groundedTreeFlareY(terrain, tree, rendered, plantingY));
+  }
 }
 
 /** Uniform source rocks use the same terrain-facet checks, without altering roots or tree policy. */

@@ -1,3 +1,6 @@
+import { anchorFarFoliage } from './canopy';
+import { intersectsTreeBounds } from './foliage/treeBounds';
+import { treeFootprint, treePlacementBox } from './foliage/treeFootprint';
 import { createMeshyForest, type MeshyTreeTemplates } from './meshyTrees';
 import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
@@ -164,7 +167,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     meshy ? (tree) => footprintFor(tree).crownRadius * tree.s : undefined);
   // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
   // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
-  seatTreeFlares(population, terrain, footprintFor, usesPine);
+  seatTreeFlares(population, terrain, footprintFor, usesPine, variantFor);
   // Navigation uses the wood actually drawn after seating (a generated oak's flare and roots differ from the footprint that keeps placement).
   registerFloraColliders(population, colliders, undefined, tree => usesPine(tree.sp) ? tree.radius
     : treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
@@ -333,6 +336,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         islandChecked.add(lod.leaf!);
         const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
         lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
+        // 0.0.37: the island pass can carry a chunk away from the twig that held one of its fir sheets or palm fronds
+        // (meshyTrees anchorFarFoliage). Any part now past the audit reach at this template's largest planted scale gets
+        // its own twig, written into the variant's wood itself.
+        if (l === 0 && (v.species === 'fir' || v.species === 'shorepine' || v.species === 'palm')) {
+          anchorFarFoliage(lod.leaf!, lod.wood, 1.5 / (largest.get(lod.leaf!) ?? 1), false, 0.9, true);
+        }
       }
       for (const m of [wood, leaf]) {
         if (!m) continue;
@@ -435,11 +444,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     // this much radius, so their union retains the same two-metre wind guard without
     // admitting any draw rejected by the original bound or adding a per-instance walk.
     b.leafShrink = leafBoundsShrink(b.variant.lods, b.bounds) * Math.min(...b.trees.map(t => t.s));
+    const footprint = treeFootprint(b.variant.lods);
     b.placements = b.trees.map(t => {
       const matrix = new THREE.Matrix4().compose(pos.set(t.x, t.y, t.z), quat.setFromAxisAngle(up, t.yaw), scl.set(t.s, t.s, t.s));
       const bounds = b.bounds.clone().applyMatrix4(matrix);
       bounds.radius += 2; // The same view/shadow edge guard used by every refresh.
-      const box = localBox.clone().applyMatrix4(matrix).expandByScalar(2);
+      const box = treePlacementBox(localBox.clone(), localBox, matrix, footprint);
       return { matrix, bounds, box };
     });
     for (const caster of b.casters) for (const mesh of [caster.wood, caster.leaf]) {
@@ -558,18 +568,19 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const pineShadows = usesPine(v.species);
       for (let treeIndex = 0; treeIndex < b.trees.length; treeIndex++) {
         const t = b.trees[treeIndex]!;
+        const { matrix: mtx, bounds: sphere, box } = b.placements[treeIndex]!;
+        // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
+        // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
+        // sun-shadow volume instead of paying for every tree in a large circle behind the player.
+        const inView = intersectsTreeBounds(frustum, sphere, box);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum && intersectsTreeBounds(shadowFrustum, sphere, box) && (inView || !cullShadows || !shadowOutOfView(sphere));
+        if (!inView && !inShadow) continue;
+        // Distance coverage is only consumed by retained colour or shadow instances.
         const dx = t.x - cx;
         const dz = t.z - cz;
         const d = Math.hypot(dx, dz);
         const horizon = smoothDistanceFade(d, FLORA_FADE_START, FLORA_MAX_DISTANCE);
         if (horizon <= 0) continue;
-        const { matrix: mtx, bounds: sphere, box } = b.placements[treeIndex]!;
-        // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
-        // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
-        // sun-shadow volume instead of paying for every tree in a large circle behind the player.
-        const inView = frustum.intersectsSphere(sphere) && frustum.intersectsBox(box);
-        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && shadowFrustum.intersectsBox(box) && (inView || !cullShadows || !shadowOutOfView(sphere));
-        if (!inView && !inShadow) continue;
         if (inShadow) {
           const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
           let from = 0, cast = false;

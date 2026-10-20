@@ -1,11 +1,11 @@
-import { ORCHARD_MAX_SCALE } from './treeScale';
+import { CONIFER_MAX_SCALE, ORCHARD_MAX_SCALE, PALM_MAX_SCALE } from './treeScale';
 import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createGltfLoader } from './assets/gltfLoader';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Species, TreeVariant } from './treeGen';
 import { assertNaturalModelBudget } from './naturalModelBudget';
-import { deduplicateTreeTextures } from './treeTexturePool';
+import { deduplicateTreeTextures, treeCutoutIsRedundant } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 import { modelAssetUrl } from './assets/modelUrl';
 import { withModelLoadSlot } from './assets/modelLoadQueue';
@@ -14,7 +14,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -455,7 +455,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const conifers = new Map<string, THREE.Texture>();
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
-  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species) => {
+  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species, geometry?: THREE.BufferGeometry) => {
     const material = source.clone(), fields = material as unknown as Record<string, unknown>;
     for (const [key, value] of Object.entries(fields)) if ((value as THREE.Texture | null)?.isTexture) {
       const original = value as THREE.Texture;
@@ -466,6 +466,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     material.metalness = 0; material.roughness = Math.max(wood ? 0.88 : 0.82, material.roughness);
     material.emissive.set(0); material.envMapIntensity = 0.35;
     material.alphaToCoverage = material.alphaTest > 0;
+    // RGB-only bark and opaque vertex alpha cannot fail this cutout. Keep the existing sample-alpha state
+    // to avoid adding coverage enable/disable transitions between wood and leaf draws.
+    if (wood && treeCutoutIsRedundant(source, geometry)) material.alphaTest = 0;
     material.transparent = false;
     if (!wood) { material.side = THREE.DoubleSide; material.shadowSide = THREE.DoubleSide; }
     // Playtest 7: the fir sheet's needles average a linear albedo of about 0.035 (broadleaf sheets 0.10-0.15), so firs
@@ -545,7 +548,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
       // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
       // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
       // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
@@ -596,7 +599,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
-          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          const graftBase = species === 'oak' && !hero && lod === 0 && twigs.length ? wood : null;
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, species === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); if (wood !== graftBase) wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
           // 0.0.28: orchard cards beyond the audit reach are culled (no card moves).
           if (species === 'orchard' && wood && lod === 0) {
@@ -612,6 +616,18 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
               lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
           }
+          // Preserve the existing leaf snap; only then seat roots orphaned by linking.
+          if (graftBase && wood) {
+            const seated = growTwigs(graftBase, twigs, true);
+            geometries.delete(wood); wood.dispose(); geometries.add(seated); wood = seated; graftBase.dispose();
+          }
+          // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
+          // the final wood (twigs included). Oaks (0.0.36) and birches (0.0.37) drop to no detached card at any scale; no
+          // card is removed.
+          if ((species === 'oak' || species === 'birch') && wood) {
+            const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE)).geometry;
+            if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
+          }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
@@ -619,6 +635,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         if (branch && leaf) deriveBranchLeaf(leaf, branch);
+        // 0.0.37: supplied fir and palm crowns get a leader (conifers) and twigs out to the sheets and fronds past the
+        // audit reach at their largest planted scale; the near crown only, where the audit and close views look.
+        const sheetScale = species === 'fir' || species === 'shorepine' ? CONIFER_MAX_SCALE : species === 'palm' ? PALM_MAX_SCALE : 0;
+        if (lod === 0 && sheetScale && wood && leaf) {
+          const anchored = anchorFarFoliage(leaf, wood, woodReachLocal(1.5, sheetScale), species !== 'palm').geometry;
+          if (anchored !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(anchored); wood = anchored; }
+        }
         return settle({ wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) });
       }) as TreeVariant['lods'];
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf
