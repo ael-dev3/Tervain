@@ -1,0 +1,314 @@
+{
+  "schema": 1,
+  "build": {
+    "version": "0.0.24",
+    "revision": "63604e2"
+  },
+  "profile": {
+    "postEnabled": true,
+    "postSamples": 4,
+    "drawingBuffer": [
+      640,
+      360
+    ]
+  },
+  "route": {
+    "x": 6,
+    "z": 26,
+    "frames": 31,
+    "startFrame": 0,
+    "metres": 1.3,
+    "stationary": false,
+    "syntheticCadence": 60
+  },
+  "controls": {
+    "hour": 12,
+    "wind": {
+      "time": 0.016666666666666666,
+      "direction": [
+        0.9060848207495054,
+        0.4230960855495319,
+        0.055999999999999994,
+        0
+      ],
+      "scroll": [
+        0.06342593745246537,
+        0.02961672598846723,
+        0.1014814999239446,
+        0.04738676158154757
+      ]
+    },
+    "sway": 0.06666666666666667,
+    "gradeTime": 0.03333333333333333,
+    "skyTime": null
+  },
+  "roi": {
+    "left": 64,
+    "top": 126,
+    "width": 512,
+    "height": 216
+  },
+  "stationaryControl": {
+    "eligiblePixels": 86334,
+    "changedPixels": 0,
+    "brightChangedPixels": 0,
+    "maskChangedPixels": 0,
+    "changedShare": 0
+  },
+  "threshold": 20,
+  "maskThreshold": 64,
+  "mask": "Intersection of consecutive native post/MSAA grass-contribution masks; not exclusive grass ownership.",
+  "interpretation": "Raw screen-space luminance changes >20/255, including ordinary camera motion. Bright subset: min RGB >=180, luminance >=200, channel spread <=40. No quality pass or hardware timing claim.",
+  "summary": {
+    "pairs": 30,
+    "eligibleObservations": 2183781,
+    "changedObservations": 677253,
+    "brightChangedObservations": 0,
+    "maskChangedObservations": 675574,
+    "changedShare": 0.31012862553525283,
+    "meanChangedPixels": 22575.1,
+    "p95ChangedPixels": 23842
+  },
+  "samples": [
+    {
+      "frame": 1,
+      "eligiblePixels": 74943,
+      "changedPixels": 23876,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22731,
+      "changedShare": 0.31858879415022084
+    },
+    {
+      "frame": 2,
+      "eligiblePixels": 74831,
+      "changedPixels": 23842,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22812,
+      "changedShare": 0.318611270730045
+    },
+    {
+      "frame": 3,
+      "eligiblePixels": 74589,
+      "changedPixels": 23775,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22840,
+      "changedShare": 0.31874673209186344
+    },
+    {
+      "frame": 4,
+      "eligiblePixels": 74163,
+      "changedPixels": 23540,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23144,
+      "changedShare": 0.3174089505548589
+    },
+    {
+      "frame": 5,
+      "eligiblePixels": 74045,
+      "changedPixels": 23641,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23298,
+      "changedShare": 0.31927881693564725
+    },
+    {
+      "frame": 6,
+      "eligiblePixels": 74136,
+      "changedPixels": 23545,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23141,
+      "changedShare": 0.3175919930937736
+    },
+    {
+      "frame": 7,
+      "eligiblePixels": 74079,
+      "changedPixels": 23512,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23128,
+      "changedShare": 0.31739089350558186
+    },
+    {
+      "frame": 8,
+      "eligiblePixels": 74224,
+      "changedPixels": 23446,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22875,
+      "changedShare": 0.3158816555292089
+    },
+    {
+      "frame": 9,
+      "eligiblePixels": 74195,
+      "changedPixels": 23357,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22823,
+      "changedShare": 0.31480557989082825
+    },
+    {
+      "frame": 10,
+      "eligiblePixels": 73921,
+      "changedPixels": 22736,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22711,
+      "changedShare": 0.30757159670459006
+    },
+    {
+      "frame": 11,
+      "eligiblePixels": 73429,
+      "changedPixels": 22471,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22866,
+      "changedShare": 0.3060235056993831
+    },
+    {
+      "frame": 12,
+      "eligiblePixels": 73150,
+      "changedPixels": 22366,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22757,
+      "changedShare": 0.3057552973342447
+    },
+    {
+      "frame": 13,
+      "eligiblePixels": 72777,
+      "changedPixels": 22277,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22999,
+      "changedShare": 0.306099454497987
+    },
+    {
+      "frame": 14,
+      "eligiblePixels": 72524,
+      "changedPixels": 22127,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22912,
+      "changedShare": 0.3050990017097788
+    },
+    {
+      "frame": 15,
+      "eligiblePixels": 72134,
+      "changedPixels": 22056,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23374,
+      "changedShare": 0.30576427204924167
+    },
+    {
+      "frame": 16,
+      "eligiblePixels": 72228,
+      "changedPixels": 22303,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23054,
+      "changedShare": 0.3087860663454616
+    },
+    {
+      "frame": 17,
+      "eligiblePixels": 71925,
+      "changedPixels": 22088,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 23108,
+      "changedShare": 0.30709767118526243
+    },
+    {
+      "frame": 18,
+      "eligiblePixels": 71715,
+      "changedPixels": 21975,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22927,
+      "changedShare": 0.3064212507843547
+    },
+    {
+      "frame": 19,
+      "eligiblePixels": 71596,
+      "changedPixels": 22061,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22519,
+      "changedShare": 0.30813173920330744
+    },
+    {
+      "frame": 20,
+      "eligiblePixels": 71557,
+      "changedPixels": 22170,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22161,
+      "changedShare": 0.3098229383568344
+    },
+    {
+      "frame": 21,
+      "eligiblePixels": 71591,
+      "changedPixels": 21977,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21942,
+      "changedShare": 0.3069799276445363
+    },
+    {
+      "frame": 22,
+      "eligiblePixels": 71439,
+      "changedPixels": 21823,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21895,
+      "changedShare": 0.3054774002995563
+    },
+    {
+      "frame": 23,
+      "eligiblePixels": 71063,
+      "changedPixels": 21768,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22194,
+      "changedShare": 0.30631974445210586
+    },
+    {
+      "frame": 24,
+      "eligiblePixels": 71128,
+      "changedPixels": 21921,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 22076,
+      "changedShare": 0.30819086716904737
+    },
+    {
+      "frame": 25,
+      "eligiblePixels": 71546,
+      "changedPixels": 22178,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21807,
+      "changedShare": 0.30998238895256197
+    },
+    {
+      "frame": 26,
+      "eligiblePixels": 71766,
+      "changedPixels": 22276,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21772,
+      "changedShare": 0.31039768135328705
+    },
+    {
+      "frame": 27,
+      "eligiblePixels": 72029,
+      "changedPixels": 22271,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21494,
+      "changedShare": 0.3091949076066584
+    },
+    {
+      "frame": 28,
+      "eligiblePixels": 72105,
+      "changedPixels": 22016,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21624,
+      "changedShare": 0.3053325012135081
+    },
+    {
+      "frame": 29,
+      "eligiblePixels": 72348,
+      "changedPixels": 21840,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21420,
+      "changedShare": 0.3018742743406867
+    },
+    {
+      "frame": 30,
+      "eligiblePixels": 72605,
+      "changedPixels": 22019,
+      "brightChangedPixels": 0,
+      "maskChangedPixels": 21170,
+      "changedShare": 0.3032711245781971
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "Decoded whole-scene RGB, 640x360; baseline-00.png is the published backing image for the shared hash.",
+  "images": {
+    "original.png": {
+      "rgbSha256": "cee111baac821fe93aee85bdf9e5b458ceef6d835c77b47ebc9704f13aa78424",
+      "changedChannelsAgainstOriginal": 0
+    },
+    "control.png": {
+      "rgbSha256": "cee111baac821fe93aee85bdf9e5b458ceef6d835c77b47ebc9704f13aa78424",
+      "changedChannelsAgainstOriginal": 0
+    },
+    "baseline-00.png": {
+      "rgbSha256": "cee111baac821fe93aee85bdf9e5b458ceef6d835c77b47ebc9704f13aa78424",
+      "changedChannelsAgainstOriginal": 0
+    }
+  }
+}
