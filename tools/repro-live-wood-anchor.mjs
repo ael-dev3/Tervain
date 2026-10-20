@@ -1,0 +1,23 @@
+import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createServer,transformWithOxc} from 'vite';import {liveProofPage} from './live-proof-page.mjs';
+const args=Object.fromEntries(process.argv.slice(2).flatMap((v,i,a)=>v.startsWith('--')?[[v.slice(2),a[i+1]]]:[])),out=args.out??'wood-anchor-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
+const sources={before:execFileSync('git',['show','421d34b:src/presentation/canopy.ts'],{encoding:'utf8'}),after:fs.readFileSync('src/presentation/canopy.ts','utf8')},modules={three:"export * from 'three';"};
+for(const mode of ['before','after']){
+ let s=sources[mode];const start=s.indexOf('export function woodAnchor'),end=s.indexOf('/** Sides of a grown twig',start);let block=s.slice(start,end);
+ block=block.replace('const visit = (node: number) => {','globalThis.__anchorCounters.creations++;\n    const visit = (node: number) => {\n      globalThis.__anchorCounters.nodes++;').replace('triangle.closestPointToPoint(', 'globalThis.__anchorCounters.triangles++;\n          triangle.closestPointToPoint(');
+ s=s.slice(0,start)+block+s.slice(end);s=s.replaceAll("from '../world/", "from '/src/world/").replaceAll("from './", "from '/src/presentation/");modules[mode]=(await transformWithOxc(s,'canopy.ts')).code;
+}
+const server=await createServer({configFile:false,logLevel:'error',server:{host:'127.0.0.1',port:0,cors:true,hmr:false,ws:false},optimizeDeps:{include:['three'],noDiscovery:true},plugins:[{name:'anchor-proof',resolveId(id){if(id.startsWith('/@anchor-'))return '\0'+id;},load(id){if(id.startsWith('\0/@anchor-'))return modules[id.slice('\0/@anchor-'.length)];}}]});let page;
+try{
+ await server.listen();const origin='http://127.0.0.1:'+server.httpServer.address().port;page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'low',hour:11});
+ const r=await page.eval(`const T=window.tervain,forest=T.world.modules.find(m=>m.name==='forest').module,THREE=await import(${JSON.stringify(origin)}+'/@anchor-three'),seen=new Set(),targets=[];
+ for(const lod of [0,1,2])for(const t of forest.canopyAuditTargets(lod)){if(!t.wood||!t.leaves||seen.has(t.wood.uuid+':'+t.leaves.uuid))continue;seen.add(t.wood.uuid+':'+t.leaves.uuid);targets.push(t);}
+ const hash=async data=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data))).map(v=>v.toString(16).padStart(2,'0')).join(''),results={};
+ for(const mode of ['before','after']){const {woodAnchor}=await import(${JSON.stringify(origin)}+'/@anchor-'+mode);globalThis.__anchorCounters={creations:0,nodes:0,triangles:0};const rows=[];
+ for(const t of targets){const anchor=woodAnchor(t.wood),positions=t.leaves.getAttribute('position'),point=new THREE.Vector3(),hit=new THREE.Vector3(),values=[];let misses=0,queries=0;
+ for(let i=0;i<positions.count;i+=Math.max(1,Math.floor(positions.count/256))){point.fromBufferAttribute(positions,i);for(const max of [.01,.75,Infinity]){hit.set(123,456,789);const d=anchor(point,hit,max);queries++;misses+=Number(d===Infinity);values.push(d,...hit.toArray());}}
+ rows.push({label:t.label,species:t.species,lod:t.lod,queries,misses,sha256:await hash(new Float64Array(values).buffer)});}
+ results[mode]={counters:{...globalThis.__anchorCounters},rows};}
+ return{build:await fetch(new URL('version.json',document.baseURI)).then(r=>r.json()),targets:targets.length,results};`);
+ r.identicalResults=JSON.stringify(r.results.before.rows)===JSON.stringify(r.results.after.rows);const a=r.results.before.counters,b=r.results.after.counters;r.identicalTraversal=a.nodes===b.nodes&&a.triangles===b.triangles;r.sourceSha256=createHash('sha256').update(sources.after).digest('hex');r.scope='Native published Low forest retained LOD wood/leaf geometry replayed through actual source woodAnchor implementations. Up to roughly 256 leaf-vertex positions per geometry pair, three reach limits, complete distance/hit-coordinate hashes including unchanged miss sentinels. Instrumented visitor creation, traversal and exact triangle-test counts. This is query replay, not a measurement of whole-world load allocations or hardware time.';r.pass=r.targets>0&&r.identicalResults&&r.identicalTraversal&&a.creations>b.creations&&b.creations===r.targets;
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(r,null,2)+'\n');console.log(JSON.stringify({build:r.build,targets:r.targets,before:a,after:b,identicalResults:r.identicalResults,identicalTraversal:r.identicalTraversal,pass:r.pass}));if(!r.pass)process.exitCode=1;
+}finally{page?.close();await server.close();}

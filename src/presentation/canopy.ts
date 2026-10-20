@@ -222,24 +222,26 @@ export function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3
   const boxDistance = (array: ArrayLike<number>, o: number, p: THREE.Vector3) => Math.hypot(
     Math.max(array[o]! - p.x, 0, p.x - array[o + 3]!), Math.max(array[o + 1]! - p.y, 0, p.y - array[o + 4]!), Math.max(array[o + 2]! - p.z, 0, p.z - array[o + 5]!));
   const triangle = new THREE.Triangle(), near = new THREE.Vector3();
-  return (p, hit, max = Infinity) => {
-    let best = max, found = false;
-    const visit = (node: number) => {
-      if (boxDistance(nodeBox, node * 6, p) > best) return;
-      if (nodeLeft[node]! < 0) {
-        for (let i = nodeStart[node]!; i < nodeEnd[node]!; i++) {
-          const t = order[i]!;
-          if (boxDistance(boxes, t * 6, p) > best) continue;
-          triangle.a.fromArray(corners, t * 9); triangle.b.fromArray(corners, t * 9 + 3); triangle.c.fromArray(corners, t * 9 + 6);
-          triangle.closestPointToPoint(p, near);
-          const d = near.distanceTo(p);
-          if (d <= best) { best = d; hit.copy(near); found = true; }
-        }
-        return;
+  let point: THREE.Vector3, destination: THREE.Vector3, best = Infinity, found = false;
+  const visit = (node: number) => {
+    if (boxDistance(nodeBox, node * 6, point) > best) return;
+    if (nodeLeft[node]! < 0) {
+      for (let i = nodeStart[node]!; i < nodeEnd[node]!; i++) {
+        const t = order[i]!;
+        if (boxDistance(boxes, t * 6, point) > best) continue;
+        triangle.a.fromArray(corners, t * 9); triangle.b.fromArray(corners, t * 9 + 3); triangle.c.fromArray(corners, t * 9 + 6);
+        triangle.closestPointToPoint(point, near);
+        const d = near.distanceTo(point);
+        if (d <= best) { best = d; destination.copy(near); found = true; }
       }
-      const a = nodeLeft[node]!, b = nodeRight[node]!;
-      if (boxDistance(nodeBox, a * 6, p) <= boxDistance(nodeBox, b * 6, p)) { visit(a); visit(b); } else { visit(b); visit(a); }
-    };
+      return;
+    }
+    const a = nodeLeft[node]!, b = nodeRight[node]!;
+    if (boxDistance(nodeBox, a * 6, point) <= boxDistance(nodeBox, b * 6, point)) { visit(a); visit(b); } else { visit(b); visit(a); }
+  };
+
+  return (p, hit, max = Infinity) => {
+    point = p; destination = hit; best = max; found = false;
     visit(0);
     return found ? best : Infinity;
   };

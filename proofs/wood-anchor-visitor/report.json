@@ -1,0 +1,944 @@
+{
+  "build": {
+    "version": "0.0.18",
+    "revision": "421d34b"
+  },
+  "targets": 57,
+  "results": {
+    "before": {
+      "counters": {
+        "creations": 45612,
+        "nodes": 1442072,
+        "triangles": 269063
+      },
+      "rows": [
+        {
+          "label": "tree:wild:54:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 393,
+          "sha256": "537626009a7302a505de22f0938ef4ecd1d0ed8756ab6dc3584c3129389ce033"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 0,
+          "queries": 780,
+          "misses": 423,
+          "sha256": "a2a91488a4fd3b3ac3eb9d7dc282b226e54b9343f83761724e8634debd068ead"
+        },
+        {
+          "label": "tree:wild:66:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 392,
+          "sha256": "ad892d13147098ea65bed82ad11f6b67468887436e2c7dddd32a087574659639"
+        },
+        {
+          "label": "tree:wild:70:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 395,
+          "sha256": "1f7db7b63b42faab00017fd7d48329c7abd798fff408c96508d13cf93d8f5d04"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 0,
+          "queries": 798,
+          "misses": 235,
+          "sha256": "810e132fdabcb61fc7236db1e16d8feb85bb14f8b812db1a946ed1e7b18f3e8f"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 0,
+          "queries": 771,
+          "misses": 410,
+          "sha256": "081e3c52413359606923d0ed885f0686c213e7a017099cffda59427bcf7fe1e2"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 0,
+          "queries": 777,
+          "misses": 365,
+          "sha256": "6f2ddeed442473c39d4c27defc5a29d26e9ee4ef48db44b2f4420b3939ed197b"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 0,
+          "queries": 774,
+          "misses": 434,
+          "sha256": "ca0af525ffc7095f02970f4565cd79525ac48fb241c778f877eb28515d6153be"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 0,
+          "queries": 774,
+          "misses": 422,
+          "sha256": "6f4437ede146467811537ee834270b4d8fc0e544ec95f0701c8be3f19afad0ee"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 0,
+          "queries": 807,
+          "misses": 251,
+          "sha256": "290ee0f838850f7088d26d8f7db132cf6b9fabfba4d3c2764b955f2e15139b4d"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 0,
+          "queries": 774,
+          "misses": 427,
+          "sha256": "ced27746d347d3546541a5337ca34346102697084c3f4c12fee50d5c3593c8d4"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 418,
+          "sha256": "670c0c380aefaa32590be3ec6c87d4c2952567626e9c325b309143a8fc7011ea"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 405,
+          "sha256": "b3f7ea12be0e1d2b39c86c07148a3b6edc2b59582a44410433d974eec08884e7"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 410,
+          "sha256": "6b47f91905838f4b6d0dcb3ef0de579ed2b43dab08ab5dff0e2b1aefd9bf6c67"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 0,
+          "queries": 801,
+          "misses": 427,
+          "sha256": "04d9bd6e70f9d13ee2302b8cb42af38ed06d19377cdd504d0ec5b94c8829c647"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 0,
+          "queries": 792,
+          "misses": 421,
+          "sha256": "a129675c1c1f501b6c4d716cd38bfe3e12fbd6cb71399158a78b2c19ceaa71fd"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 0,
+          "queries": 774,
+          "misses": 416,
+          "sha256": "bd015230c58526f9c5a95743db5cabf540bf33205dcc3c56695f10db0fed0de1"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 0,
+          "queries": 771,
+          "misses": 362,
+          "sha256": "da4d0b9d4ff25643ede1de9b1efdd5b890eb453ac6007f75a8a11bae4f6c06ed"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 0,
+          "queries": 771,
+          "misses": 417,
+          "sha256": "dfc06d6fdb97034ef1fbdda658fd81756c53f21b2c049863962f04cdffeb509a"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 0,
+          "queries": 774,
+          "misses": 437,
+          "sha256": "fe34199cab2374368057ad3aaadc3803299e391df2906c6935c1396c1c35b5f5"
+        },
+        {
+          "label": "tree:wild:54:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 411,
+          "sha256": "f408b1b4a79dad2c8016565246890ab7b734850012bdb42d63db7645e4a6cb06"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 1,
+          "queries": 816,
+          "misses": 413,
+          "sha256": "c2256d6eb1081821de0e833fff343c301df92a86fc0a68e4b05c6623b5c62797"
+        },
+        {
+          "label": "tree:wild:66:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 410,
+          "sha256": "98d1e48c7c15f472c2858fbc7e3ef897afb4fc09b71b10a0466861e128b1564c"
+        },
+        {
+          "label": "tree:wild:70:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 416,
+          "sha256": "9c8021eee0d5eaab0f353a43b73300338e83b96d68f1df3e6708c5b183d9f436"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 1,
+          "queries": 813,
+          "misses": 223,
+          "sha256": "0aae908e081dd4ee69b23302d563415fe1d2c83bc413343bdf7e9aed3efe5dc4"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 1,
+          "queries": 792,
+          "misses": 466,
+          "sha256": "fe594cd5549806912039aea37ffefc7b2a7a77c6990c32e9e99828dc2ce77c01"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 1,
+          "queries": 777,
+          "misses": 444,
+          "sha256": "13c17ea79da42898e857122e0cea2481758ea7091d73e65f709b00039cfd0d17"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 1,
+          "queries": 786,
+          "misses": 487,
+          "sha256": "46331fb04bd9780631d756970636d5fbc725c56117443ba32ce7b719352b3c68"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 1,
+          "queries": 786,
+          "misses": 491,
+          "sha256": "14ac542fdefd8d610786ba8453a8b6e209e17f6cff8276ef3a43966c0a69f5cb"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 1,
+          "queries": 831,
+          "misses": 240,
+          "sha256": "ba168d2f07191297d9f932016e1658ed3dcd8fc9a605bfd7336f801c4e904d07"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 1,
+          "queries": 792,
+          "misses": 461,
+          "sha256": "53890823c6f101b9760c5e6b0e434e12adddef3c7c7ddbaddeaee9b871429b91"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 1,
+          "queries": 795,
+          "misses": 485,
+          "sha256": "2f6a81833f254dac7cae737d093516c29c67fc4586b4f0bae2c3bf5427b09b9e"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 1,
+          "queries": 792,
+          "misses": 470,
+          "sha256": "708467d26ae19e5dcd33b9cb0e91c7cc006500014679121d354c7c88b420f3cd"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 1,
+          "queries": 786,
+          "misses": 472,
+          "sha256": "ab0f04440eafdc1f8493079ab0149017165709789b74caa8ffc610ae21efeefc"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 1,
+          "queries": 822,
+          "misses": 404,
+          "sha256": "026672bce80aa1aa54233824f6c99b026cb07a9afbb48c6457294e6e339501e2"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 1,
+          "queries": 810,
+          "misses": 395,
+          "sha256": "e885cb624664983447699b2f38fd34be90141f6e7a2153eb69f069f0fa4881a3"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 1,
+          "queries": 774,
+          "misses": 427,
+          "sha256": "c86306216759273f88f2ebfa86a16e0fefb6135e42a818fed2a80b6e1b90768b"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 1,
+          "queries": 807,
+          "misses": 353,
+          "sha256": "7e6c27d3ffc1629198839b4b2a55f7c9a39acbd8915816b16a14d2cf35173e45"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 1,
+          "queries": 768,
+          "misses": 427,
+          "sha256": "5ba75fd9c7caab2c6b74af6a5b389fef76f840dd86625d3e2af867d75a99462f"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 1,
+          "queries": 786,
+          "misses": 466,
+          "sha256": "3ceb677792f2a03b7652ecac0f55760e49ace9704dfcfe75277d21224b3cdda9"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 2,
+          "queries": 834,
+          "misses": 401,
+          "sha256": "b0bda674673ba1855639230f820e775658b6c1667af3efd39c9645aff64d1ea6"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 2,
+          "queries": 876,
+          "misses": 235,
+          "sha256": "e6965d259bbc52d53b6d1fb84582b8399a64aeb066a7afb352b11481a2b14c47"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 2,
+          "queries": 876,
+          "misses": 351,
+          "sha256": "7f273d96ebfe2326f125ec2c20e9a6e32ec122f64f9f118a8603553362402e87"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 2,
+          "queries": 795,
+          "misses": 486,
+          "sha256": "f8a20c7eda04ba8ff71716ed8d4d795cc019dcceeab302559584f71db4881f44"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 2,
+          "queries": 789,
+          "misses": 366,
+          "sha256": "ac42247334ae62c89eefff42115f77373e3ee07edf7f2ba2d98a70cce8c732b4"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 2,
+          "queries": 789,
+          "misses": 366,
+          "sha256": "4fca55ec9becc584d98237ba1d034ab16a10b3e53b8f201bda37f4cb6bcc9e86"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 2,
+          "queries": 816,
+          "misses": 215,
+          "sha256": "a0f39a1e036c5039f689eadeac5de337594ecff916c54bc4e1ddb0dd8f4a3499"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 2,
+          "queries": 876,
+          "misses": 366,
+          "sha256": "1de89ab698641d83ba3a2696e01a9bf0945bf9c9d2ef46a37d96f4382343a96c"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 2,
+          "queries": 939,
+          "misses": 457,
+          "sha256": "e9e22c0b8d5560de03965465419d205727d37c9512281ba1f6e93ce8e3dbb881"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 2,
+          "queries": 876,
+          "misses": 358,
+          "sha256": "20155fdc7517b4490d4e90690399fb4147636a02a724fc8bc41f18f2feab7a23"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 2,
+          "queries": 789,
+          "misses": 369,
+          "sha256": "b3ea9d253d0923692b2083de3b115a9519e5757321457f48ea779818e2f0336d"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 2,
+          "queries": 789,
+          "misses": 348,
+          "sha256": "23dbcb2a64a4bc5fa4ec75e9a3540e988e1edb5dd3f5661ac7fdc476d3258f69"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 2,
+          "queries": 789,
+          "misses": 345,
+          "sha256": "142c69f64175c19e7e91cd0acf03f7fbfac540be53fbcb7383bdc563cf94eab5"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 2,
+          "queries": 804,
+          "misses": 427,
+          "sha256": "5c391fa3858335f313e44c9774ec6ef97e340463af7354ca799439bfc3094e17"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 2,
+          "queries": 834,
+          "misses": 334,
+          "sha256": "803f07c9a5c193f5abf82ae1a1a371fb92222425928b622f59c0864c11e47d6a"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 2,
+          "queries": 816,
+          "misses": 317,
+          "sha256": "0d8884331d8c24eb5c034cde84a7485c5874d1b1a66bb5137c9b7726c8b6716e"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 2,
+          "queries": 789,
+          "misses": 306,
+          "sha256": "3f21ac7226c43cbbfe94b94ebc0ca4ff78b9e84b4d59c4091b91658392e1270a"
+        }
+      ]
+    },
+    "after": {
+      "counters": {
+        "creations": 57,
+        "nodes": 1442072,
+        "triangles": 269063
+      },
+      "rows": [
+        {
+          "label": "tree:wild:54:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 393,
+          "sha256": "537626009a7302a505de22f0938ef4ecd1d0ed8756ab6dc3584c3129389ce033"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 0,
+          "queries": 780,
+          "misses": 423,
+          "sha256": "a2a91488a4fd3b3ac3eb9d7dc282b226e54b9343f83761724e8634debd068ead"
+        },
+        {
+          "label": "tree:wild:66:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 392,
+          "sha256": "ad892d13147098ea65bed82ad11f6b67468887436e2c7dddd32a087574659639"
+        },
+        {
+          "label": "tree:wild:70:3",
+          "species": "pine",
+          "lod": 0,
+          "queries": 783,
+          "misses": 395,
+          "sha256": "1f7db7b63b42faab00017fd7d48329c7abd798fff408c96508d13cf93d8f5d04"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 0,
+          "queries": 798,
+          "misses": 235,
+          "sha256": "810e132fdabcb61fc7236db1e16d8feb85bb14f8b812db1a946ed1e7b18f3e8f"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 0,
+          "queries": 771,
+          "misses": 410,
+          "sha256": "081e3c52413359606923d0ed885f0686c213e7a017099cffda59427bcf7fe1e2"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 0,
+          "queries": 777,
+          "misses": 365,
+          "sha256": "6f2ddeed442473c39d4c27defc5a29d26e9ee4ef48db44b2f4420b3939ed197b"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 0,
+          "queries": 774,
+          "misses": 434,
+          "sha256": "ca0af525ffc7095f02970f4565cd79525ac48fb241c778f877eb28515d6153be"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 0,
+          "queries": 774,
+          "misses": 422,
+          "sha256": "6f4437ede146467811537ee834270b4d8fc0e544ec95f0701c8be3f19afad0ee"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 0,
+          "queries": 807,
+          "misses": 251,
+          "sha256": "290ee0f838850f7088d26d8f7db132cf6b9fabfba4d3c2764b955f2e15139b4d"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 0,
+          "queries": 774,
+          "misses": 427,
+          "sha256": "ced27746d347d3546541a5337ca34346102697084c3f4c12fee50d5c3593c8d4"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 418,
+          "sha256": "670c0c380aefaa32590be3ec6c87d4c2952567626e9c325b309143a8fc7011ea"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 405,
+          "sha256": "b3f7ea12be0e1d2b39c86c07148a3b6edc2b59582a44410433d974eec08884e7"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 0,
+          "queries": 771,
+          "misses": 410,
+          "sha256": "6b47f91905838f4b6d0dcb3ef0de579ed2b43dab08ab5dff0e2b1aefd9bf6c67"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 0,
+          "queries": 801,
+          "misses": 427,
+          "sha256": "04d9bd6e70f9d13ee2302b8cb42af38ed06d19377cdd504d0ec5b94c8829c647"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 0,
+          "queries": 792,
+          "misses": 421,
+          "sha256": "a129675c1c1f501b6c4d716cd38bfe3e12fbd6cb71399158a78b2c19ceaa71fd"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 0,
+          "queries": 774,
+          "misses": 416,
+          "sha256": "bd015230c58526f9c5a95743db5cabf540bf33205dcc3c56695f10db0fed0de1"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 0,
+          "queries": 771,
+          "misses": 362,
+          "sha256": "da4d0b9d4ff25643ede1de9b1efdd5b890eb453ac6007f75a8a11bae4f6c06ed"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 0,
+          "queries": 771,
+          "misses": 417,
+          "sha256": "dfc06d6fdb97034ef1fbdda658fd81756c53f21b2c049863962f04cdffeb509a"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 0,
+          "queries": 774,
+          "misses": 437,
+          "sha256": "fe34199cab2374368057ad3aaadc3803299e391df2906c6935c1396c1c35b5f5"
+        },
+        {
+          "label": "tree:wild:54:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 411,
+          "sha256": "f408b1b4a79dad2c8016565246890ab7b734850012bdb42d63db7645e4a6cb06"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 1,
+          "queries": 816,
+          "misses": 413,
+          "sha256": "c2256d6eb1081821de0e833fff343c301df92a86fc0a68e4b05c6623b5c62797"
+        },
+        {
+          "label": "tree:wild:66:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 410,
+          "sha256": "98d1e48c7c15f472c2858fbc7e3ef897afb4fc09b71b10a0466861e128b1564c"
+        },
+        {
+          "label": "tree:wild:70:3",
+          "species": "pine",
+          "lod": 1,
+          "queries": 801,
+          "misses": 416,
+          "sha256": "9c8021eee0d5eaab0f353a43b73300338e83b96d68f1df3e6708c5b183d9f436"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 1,
+          "queries": 813,
+          "misses": 223,
+          "sha256": "0aae908e081dd4ee69b23302d563415fe1d2c83bc413343bdf7e9aed3efe5dc4"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 1,
+          "queries": 792,
+          "misses": 466,
+          "sha256": "fe594cd5549806912039aea37ffefc7b2a7a77c6990c32e9e99828dc2ce77c01"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 1,
+          "queries": 777,
+          "misses": 444,
+          "sha256": "13c17ea79da42898e857122e0cea2481758ea7091d73e65f709b00039cfd0d17"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 1,
+          "queries": 786,
+          "misses": 487,
+          "sha256": "46331fb04bd9780631d756970636d5fbc725c56117443ba32ce7b719352b3c68"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 1,
+          "queries": 786,
+          "misses": 491,
+          "sha256": "14ac542fdefd8d610786ba8453a8b6e209e17f6cff8276ef3a43966c0a69f5cb"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 1,
+          "queries": 831,
+          "misses": 240,
+          "sha256": "ba168d2f07191297d9f932016e1658ed3dcd8fc9a605bfd7336f801c4e904d07"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 1,
+          "queries": 792,
+          "misses": 461,
+          "sha256": "53890823c6f101b9760c5e6b0e434e12adddef3c7c7ddbaddeaee9b871429b91"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 1,
+          "queries": 795,
+          "misses": 485,
+          "sha256": "2f6a81833f254dac7cae737d093516c29c67fc4586b4f0bae2c3bf5427b09b9e"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 1,
+          "queries": 792,
+          "misses": 470,
+          "sha256": "708467d26ae19e5dcd33b9cb0e91c7cc006500014679121d354c7c88b420f3cd"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 1,
+          "queries": 786,
+          "misses": 472,
+          "sha256": "ab0f04440eafdc1f8493079ab0149017165709789b74caa8ffc610ae21efeefc"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 1,
+          "queries": 822,
+          "misses": 404,
+          "sha256": "026672bce80aa1aa54233824f6c99b026cb07a9afbb48c6457294e6e339501e2"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 1,
+          "queries": 810,
+          "misses": 395,
+          "sha256": "e885cb624664983447699b2f38fd34be90141f6e7a2153eb69f069f0fa4881a3"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 1,
+          "queries": 774,
+          "misses": 427,
+          "sha256": "c86306216759273f88f2ebfa86a16e0fefb6135e42a818fed2a80b6e1b90768b"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 1,
+          "queries": 807,
+          "misses": 353,
+          "sha256": "7e6c27d3ffc1629198839b4b2a55f7c9a39acbd8915816b16a14d2cf35173e45"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 1,
+          "queries": 768,
+          "misses": 427,
+          "sha256": "5ba75fd9c7caab2c6b74af6a5b389fef76f840dd86625d3e2af867d75a99462f"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 1,
+          "queries": 786,
+          "misses": 466,
+          "sha256": "3ceb677792f2a03b7652ecac0f55760e49ace9704dfcfe75277d21224b3cdda9"
+        },
+        {
+          "label": "tree:wild:55:3",
+          "species": "fir",
+          "lod": 2,
+          "queries": 834,
+          "misses": 401,
+          "sha256": "b0bda674673ba1855639230f820e775658b6c1667af3efd39c9645aff64d1ea6"
+        },
+        {
+          "label": "tree:4:0",
+          "species": "shrub",
+          "lod": 2,
+          "queries": 876,
+          "misses": 235,
+          "sha256": "e6965d259bbc52d53b6d1fb84582b8399a64aeb066a7afb352b11481a2b14c47"
+        },
+        {
+          "label": "tree:wild:61:10",
+          "species": "birch",
+          "lod": 2,
+          "queries": 876,
+          "misses": 351,
+          "sha256": "7f273d96ebfe2326f125ec2c20e9a6e32ec122f64f9f118a8603553362402e87"
+        },
+        {
+          "label": "tree:wild:62:10",
+          "species": "birch",
+          "lod": 2,
+          "queries": 795,
+          "misses": 486,
+          "sha256": "f8a20c7eda04ba8ff71716ed8d4d795cc019dcceeab302559584f71db4881f44"
+        },
+        {
+          "label": "tree:wild:45:12",
+          "species": "oak",
+          "lod": 2,
+          "queries": 789,
+          "misses": 366,
+          "sha256": "ac42247334ae62c89eefff42115f77373e3ee07edf7f2ba2d98a70cce8c732b4"
+        },
+        {
+          "label": "tree:wild:61:12",
+          "species": "birch",
+          "lod": 2,
+          "queries": 789,
+          "misses": 366,
+          "sha256": "4fca55ec9becc584d98237ba1d034ab16a10b3e53b8f201bda37f4cb6bcc9e86"
+        },
+        {
+          "label": "tree:9:0",
+          "species": "shrub",
+          "lod": 2,
+          "queries": 816,
+          "misses": 215,
+          "sha256": "a0f39a1e036c5039f689eadeac5de337594ecff916c54bc4e1ddb0dd8f4a3499"
+        },
+        {
+          "label": "tree:wild:68:13",
+          "species": "oak",
+          "lod": 2,
+          "queries": 876,
+          "misses": 366,
+          "sha256": "1de89ab698641d83ba3a2696e01a9bf0945bf9c9d2ef46a37d96f4382343a96c"
+        },
+        {
+          "label": "tree:wild:57:20",
+          "species": "oak",
+          "lod": 2,
+          "queries": 939,
+          "misses": 457,
+          "sha256": "e9e22c0b8d5560de03965465419d205727d37c9512281ba1f6e93ce8e3dbb881"
+        },
+        {
+          "label": "tree:wild:36:23",
+          "species": "oak",
+          "lod": 2,
+          "queries": 876,
+          "misses": 358,
+          "sha256": "20155fdc7517b4490d4e90690399fb4147636a02a724fc8bc41f18f2feab7a23"
+        },
+        {
+          "label": "tree:wild:52:26",
+          "species": "oak",
+          "lod": 2,
+          "queries": 789,
+          "misses": 369,
+          "sha256": "b3ea9d253d0923692b2083de3b115a9519e5757321457f48ea779818e2f0336d"
+        },
+        {
+          "label": "tree:palm:16:6",
+          "species": "palm",
+          "lod": 2,
+          "queries": 789,
+          "misses": 348,
+          "sha256": "23dbcb2a64a4bc5fa4ec75e9a3540e988e1edb5dd3f5661ac7fdc476d3258f69"
+        },
+        {
+          "label": "tree:palm:15:8",
+          "species": "palm",
+          "lod": 2,
+          "queries": 789,
+          "misses": 345,
+          "sha256": "142c69f64175c19e7e91cd0acf03f7fbfac540be53fbcb7383bdc563cf94eab5"
+        },
+        {
+          "label": "tree:palm:17:9",
+          "species": "palm",
+          "lod": 2,
+          "queries": 804,
+          "misses": 427,
+          "sha256": "5c391fa3858335f313e44c9774ec6ef97e340463af7354ca799439bfc3094e17"
+        },
+        {
+          "label": "tree:edge:1:2",
+          "species": "shorepine",
+          "lod": 2,
+          "queries": 834,
+          "misses": 334,
+          "sha256": "803f07c9a5c193f5abf82ae1a1a371fb92222425928b622f59c0864c11e47d6a"
+        },
+        {
+          "label": "tree:orchard:0:0",
+          "species": "orchard",
+          "lod": 2,
+          "queries": 816,
+          "misses": 317,
+          "sha256": "0d8884331d8c24eb5c034cde84a7485c5874d1b1a66bb5137c9b7726c8b6716e"
+        },
+        {
+          "label": "tree:orchard:0:2",
+          "species": "orchard",
+          "lod": 2,
+          "queries": 789,
+          "misses": 306,
+          "sha256": "3f21ac7226c43cbbfe94b94ebc0ca4ff78b9e84b4d59c4091b91658392e1270a"
+        }
+      ]
+    }
+  },
+  "identicalResults": true,
+  "identicalTraversal": true,
+  "sourceSha256": "770b0d5f71ddf172674f305354c4f82c46b1023ede4895ef3a7ee8e35204931e",
+  "scope": "Native published Low forest retained LOD wood/leaf geometry replayed through actual source woodAnchor implementations. Up to roughly 256 leaf-vertex positions per geometry pair, three reach limits, complete distance/hit-coordinate hashes including unchanged miss sentinels. Instrumented visitor creation, traversal and exact triangle-test counts. This is query replay, not a measurement of whole-world load allocations or hardware time.",
+  "pass": true
+}
