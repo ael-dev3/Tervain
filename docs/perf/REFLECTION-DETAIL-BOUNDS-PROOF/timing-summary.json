@@ -1,0 +1,20 @@
+{
+  "before": {
+    "selectorMsMean": 0.025138888880610468,
+    "batchNormalizedP95Ms": 0.03933333327372869,
+    "samples": 12,
+    "callsPerSample": 300
+  },
+  "after": {
+    "selectorMsMean": 0.01566666669315762,
+    "batchNormalizedP95Ms": 0.017333333293596903,
+    "samples": 12,
+    "callsPerSample": 300
+  },
+  "control": {
+    "selectorMsMean": 0.023694444431198967,
+    "batchNormalizedP95Ms": 0.024333333273728688,
+    "samples": 12,
+    "callsPerSample": 300
+  }
+}

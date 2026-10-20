@@ -1,0 +1,31 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/waterRenderPass.test.ts (37 tests | 1 failed) 1457ms
+   × does not retransform unchanged reflection detail bounds on camera-only movement 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/waterRenderPass.test.ts > does not retransform unchanged reflection detail bounds on camera-only movement
+AssertionError: expected "applyMatrix4" to be called 1 times, but got 60 times
+ ❯ tests/presentation/waterRenderPass.test.ts:649:20
+    647|       expect(detail.hideTinyDetail(f.camera, 512)).toEqual([mesh]); me…
+    648|     }
+    649|     expect(sphere).toHaveBeenCalledTimes(1); expect(box).toHaveBeenCal…
+       |                    ^
+    650|     mesh.position.y = 2; mesh.updateMatrixWorld(true);
+    651|     expect(detail.hideTinyDetail(f.camera, 512)).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 36 passed (37)
+   Start at  18:29:43
+   Duration  1.79s (tests 85%, transform 12%, import 3%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

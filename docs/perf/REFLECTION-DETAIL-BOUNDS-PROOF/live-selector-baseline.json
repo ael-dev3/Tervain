@@ -1,0 +1,100 @@
+{
+  "version": {
+    "version": "0.0.35",
+    "revision": "15de8cc"
+  },
+  "detail": 361,
+  "rows": [
+    {
+      "ms": 0.5999999940395355,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.30000001192092896,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.09999999403953552,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.09999999403953552,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.09999999403953552,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.09999999403953552,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.10000002384185791,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 1.399999976158142,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.10000002384185791,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0.09999999403953552,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    },
+    {
+      "ms": 0,
+      "sphereTransforms": 333,
+      "boxTransforms": 149,
+      "hidden": 36
+    }
+  ],
+  "scope": "Read-only repeated actual reflection-detail selector at fixed world matrices with camera translating 0.05 m per sample. Hidden flags restored after each call. No GPU frame-time or whole-game CPU claim."
+}

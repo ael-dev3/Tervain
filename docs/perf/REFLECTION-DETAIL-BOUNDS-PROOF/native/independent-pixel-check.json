@@ -1,0 +1,33 @@
+{
+  "decoder": "Pillow RGB",
+  "checks": [
+    {
+      "pose": 0,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 1,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 2,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 3,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 4,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 5,
+      "allFourRgbExact": true
+    },
+    {
+      "pose": 6,
+      "allFourRgbExact": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hero-oak",
+    "lod": 0,
+    "oldMoved": 11,
+    "newMoved": 11,
+    "beforeFlags": 1083,
+    "afterFlags": 1083
+  },
+  {
+    "id": "hero-oak",
+    "lod": 1,
+    "oldMoved": 0,
+    "newMoved": 0,
+    "beforeFlags": 1546,
+    "afterFlags": 1546
+  },
+  {
+    "id": "hero-oak-b",
+    "lod": 0,
+    "oldMoved": 4,
+    "newMoved": 4,
+    "beforeFlags": 981,
+    "afterFlags": 981
+  },
+  {
+    "id": "hero-oak-b",
+    "lod": 1,
+    "oldMoved": 0,
+    "newMoved": 0,
+    "beforeFlags": 1397,
+    "afterFlags": 1397
+  },
+  {
+    "id": "hero-oak-c",
+    "lod": 0,
+    "oldMoved": 5,
+    "newMoved": 5,
+    "beforeFlags": 1049,
+    "afterFlags": 1049
+  },
+  {
+    "id": "hero-oak-c",
+    "lod": 1,
+    "oldMoved": 1,
+    "newMoved": 1,
+    "beforeFlags": 1263,
+    "afterFlags": 1263
+  }
+]

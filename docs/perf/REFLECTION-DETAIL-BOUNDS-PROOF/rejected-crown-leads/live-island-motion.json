@@ -1,0 +1,1028 @@
+{
+  "version": {
+    "version": "0.0.35",
+    "revision": "15de8cc"
+  },
+  "rows": [
+    {
+      "label": "tree:0:0",
+      "species": "shrub",
+      "lod": 0,
+      "position": [
+        -52.145939093991934,
+        12.825014199748189,
+        -145.40100630544396
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 5834
+    },
+    {
+      "label": "tree:wild:54:3",
+      "species": "pine",
+      "lod": 0,
+      "position": [
+        -37.604638288147214,
+        12.75108211175492,
+        -143.21020154429604
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 5058
+    },
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 0,
+      "position": [
+        -28.453830374796343,
+        12.136269222822904,
+        -145.68592114660893
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 5255
+    },
+    {
+      "label": "tree:wild:66:3",
+      "species": "pine",
+      "lod": 0,
+      "position": [
+        35.60858432326425,
+        13.075781000084726,
+        -144.11426090289376
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 4689
+    },
+    {
+      "label": "tree:wild:70:3",
+      "species": "pine",
+      "lod": 0,
+      "position": [
+        61.33451997275425,
+        13.527242300931299,
+        -145.5769638286438
+      ],
+      "islands": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 4968
+    },
+    {
+      "label": "tree:5:0",
+      "species": "shrub",
+      "lod": 0,
+      "position": [
+        -38.963802914459684,
+        14.917234774344529,
+        -135.31144005007644
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 4563
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 0,
+      "position": [
+        7.55238897798077,
+        10.313057567976745,
+        -97.69497398186945
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 22276
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 0,
+      "position": [
+        12.146619827458233,
+        9.560053426820778,
+        -97.35134759637066
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 24000
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 0,
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "islands": {
+        "islands": 2,
+        "moved": 2,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 24000
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 0,
+      "position": [
+        8.469502246402733,
+        8.02285472889906,
+        -88.94436590974223
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 21624
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 0,
+      "position": [
+        51.16108888764826,
+        5.722305877159534,
+        -79.83743565557528
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 24000
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 0,
+      "position": [
+        -17.98867185171734,
+        2.386838062941942,
+        -38.18580800167286
+      ],
+      "islands": {
+        "islands": 2,
+        "moved": 2,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 24000
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 0,
+      "position": [
+        -147.7846183909992,
+        0.3465435689000565,
+        -19.510794443343784
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 21544
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 0,
+      "position": [
+        -50.26862153270322,
+        0.16701653070884642,
+        -0.5058047151565719
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 21068
+    },
+    {
+      "label": "tree:palm:16:6",
+      "species": "palm",
+      "lod": 0,
+      "position": [
+        -273.4169481176326,
+        12.63484943411492,
+        -127.58557430005638
+      ],
+      "islands": {
+        "islands": 10,
+        "moved": 10,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 4528
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 0,
+      "position": [
+        -280.64188520316054,
+        11.475758337647715,
+        -110.2216643110896
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 4481
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 0,
+      "position": [
+        -265.194991728035,
+        11.541468601317636,
+        -105.68910092506097
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 18785
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 0,
+      "position": [
+        -248.51996068330482,
+        5.513107622628594,
+        -67.01607903232798
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 5137
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 0,
+      "position": [
+        -50.13987142487895,
+        0.2601112538322758,
+        19.78294701257255
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 22648
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 0,
+      "position": [
+        -49.971630191779695,
+        0.11509189244286738,
+        30.661973488004875
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 21932
+    },
+    {
+      "label": "tree:0:0",
+      "species": "shrub",
+      "lod": 1,
+      "position": [
+        -52.145939093991934,
+        12.825014199748189,
+        -145.40100630544396
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 3786
+    },
+    {
+      "label": "tree:wild:54:3",
+      "species": "pine",
+      "lod": 1,
+      "position": [
+        -37.604638288147214,
+        12.75108211175492,
+        -143.21020154429604
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 2511
+    },
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 1,
+      "position": [
+        -28.453830374796343,
+        12.136269222822904,
+        -145.68592114660893
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 3328
+    },
+    {
+      "label": "tree:wild:66:3",
+      "species": "pine",
+      "lod": 1,
+      "position": [
+        35.60858432326425,
+        13.075781000084726,
+        -144.11426090289376
+      ],
+      "islands": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 2335
+    },
+    {
+      "label": "tree:wild:70:3",
+      "species": "pine",
+      "lod": 1,
+      "position": [
+        61.33451997275425,
+        13.527242300931299,
+        -145.5769638286438
+      ],
+      "islands": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 2484
+    },
+    {
+      "label": "tree:5:0",
+      "species": "shrub",
+      "lod": 1,
+      "position": [
+        -38.963802914459684,
+        14.917234774344529,
+        -135.31144005007644
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 2763
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 1,
+      "position": [
+        7.55238897798077,
+        10.313057567976745,
+        -97.69497398186945
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 8696
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 1,
+      "position": [
+        12.146619827458233,
+        9.560053426820778,
+        -97.35134759637066
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 16788
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 1,
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "islands": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 17520
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 1,
+      "position": [
+        8.469502246402733,
+        8.02285472889906,
+        -88.94436590974223
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 6796
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 1,
+      "position": [
+        51.16108888764826,
+        5.722305877159534,
+        -79.83743565557528
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 15428
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 1,
+      "position": [
+        -17.98867185171734,
+        2.386838062941942,
+        -38.18580800167286
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 17200
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 1,
+      "position": [
+        -147.7846183909992,
+        0.3465435689000565,
+        -19.510794443343784
+      ],
+      "islands": {
+        "islands": 1,
+        "moved": 1,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 8696
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 1,
+      "position": [
+        -50.26862153270322,
+        0.16701653070884642,
+        -0.5058047151565719
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 6796
+    },
+    {
+      "label": "tree:palm:16:6",
+      "species": "palm",
+      "lod": 1,
+      "position": [
+        -273.4169481176326,
+        12.63484943411492,
+        -127.58557430005638
+      ],
+      "islands": {
+        "islands": 11,
+        "moved": 11,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 2735
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 1,
+      "position": [
+        -280.64188520316054,
+        11.475758337647715,
+        -110.2216643110896
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 2697
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 1,
+      "position": [
+        -265.194991728035,
+        11.541468601317636,
+        -105.68910092506097
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 16734
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 1,
+      "position": [
+        -248.51996068330482,
+        5.513107622628594,
+        -67.01607903232798
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 3225
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 1,
+      "position": [
+        -50.13987142487895,
+        0.2601112538322758,
+        19.78294701257255
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 6912
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 1,
+      "position": [
+        -49.971630191779695,
+        0.11509189244286738,
+        30.661973488004875
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 6796
+    },
+    {
+      "label": "tree:0:0",
+      "species": "shrub",
+      "lod": 2,
+      "position": [
+        -52.145939093991934,
+        12.825014199748189,
+        -145.40100630544396
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 2041
+    },
+    {
+      "label": "tree:wild:54:3",
+      "species": "pine",
+      "lod": 2,
+      "position": [
+        -37.604638288147214,
+        12.75108211175492,
+        -143.21020154429604
+      ],
+      "islands": {
+        "islands": 63,
+        "moved": 63,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 546
+    },
+    {
+      "label": "tree:wild:55:3",
+      "species": "fir",
+      "lod": 2,
+      "position": [
+        -28.453830374796343,
+        12.136269222822904,
+        -145.68592114660893
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1681
+    },
+    {
+      "label": "tree:wild:66:3",
+      "species": "pine",
+      "lod": 2,
+      "position": [
+        35.60858432326425,
+        13.075781000084726,
+        -144.11426090289376
+      ],
+      "islands": {
+        "islands": 60,
+        "moved": 60,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 520
+    },
+    {
+      "label": "tree:wild:70:3",
+      "species": "pine",
+      "lod": 2,
+      "position": [
+        61.33451997275425,
+        13.527242300931299,
+        -145.5769638286438
+      ],
+      "islands": {
+        "islands": 65,
+        "moved": 65,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 568
+    },
+    {
+      "label": "tree:5:0",
+      "species": "shrub",
+      "lod": 2,
+      "position": [
+        -38.963802914459684,
+        14.917234774344529,
+        -135.31144005007644
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 1359
+    },
+    {
+      "label": "tree:wild:61:10",
+      "species": "birch",
+      "lod": 2,
+      "position": [
+        7.55238897798077,
+        10.313057567976745,
+        -97.69497398186945
+      ],
+      "islands": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 2061
+    },
+    {
+      "label": "tree:wild:62:10",
+      "species": "birch",
+      "lod": 2,
+      "position": [
+        12.146619827458233,
+        9.560053426820778,
+        -97.35134759637066
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 4490
+    },
+    {
+      "label": "tree:wild:45:12",
+      "species": "oak",
+      "lod": 2,
+      "position": [
+        -92.57977414443666,
+        6.201664968635445,
+        -89.19255137063567
+      ],
+      "islands": {
+        "islands": 69,
+        "moved": 69,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1910
+    },
+    {
+      "label": "tree:wild:61:12",
+      "species": "birch",
+      "lod": 2,
+      "position": [
+        8.469502246402733,
+        8.02285472889906,
+        -88.94436590974223
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 1324
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "lod": 2,
+      "position": [
+        51.16108888764826,
+        5.722305877159534,
+        -79.83743565557528
+      ],
+      "islands": {
+        "islands": 44,
+        "moved": 44,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1686
+    },
+    {
+      "label": "tree:wild:57:20",
+      "species": "oak",
+      "lod": 2,
+      "position": [
+        -17.98867185171734,
+        2.386838062941942,
+        -38.18580800167286
+      ],
+      "islands": {
+        "islands": 75,
+        "moved": 75,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1836
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "lod": 2,
+      "position": [
+        -147.7846183909992,
+        0.3465435689000565,
+        -19.510794443343784
+      ],
+      "islands": {
+        "islands": 14,
+        "moved": 14,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 2076
+    },
+    {
+      "label": "tree:wild:52:26",
+      "species": "oak",
+      "lod": 2,
+      "position": [
+        -50.26862153270322,
+        0.16701653070884642,
+        -0.5058047151565719
+      ],
+      "islands": {
+        "islands": 17,
+        "moved": 17,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1364
+    },
+    {
+      "label": "tree:palm:16:6",
+      "species": "palm",
+      "lod": 2,
+      "position": [
+        -273.4169481176326,
+        12.63484943411492,
+        -127.58557430005638
+      ],
+      "islands": {
+        "islands": 5,
+        "moved": 5,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 1325
+    },
+    {
+      "label": "tree:palm:15:8",
+      "species": "palm",
+      "lod": 2,
+      "position": [
+        -280.64188520316054,
+        11.475758337647715,
+        -110.2216643110896
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 1315
+    },
+    {
+      "label": "tree:palm:17:9",
+      "species": "palm",
+      "lod": 2,
+      "position": [
+        -265.194991728035,
+        11.541468601317636,
+        -105.68910092506097
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 5343
+    },
+    {
+      "label": "tree:edge:1:2",
+      "species": "shorepine",
+      "lod": 2,
+      "position": [
+        -248.51996068330482,
+        5.513107622628594,
+        -67.01607903232798
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1667
+    },
+    {
+      "label": "tree:orchard:0:0",
+      "species": "orchard",
+      "lod": 2,
+      "position": [
+        -50.13987142487895,
+        0.2601112538322758,
+        19.78294701257255
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": true,
+      "vertices": 1359
+    },
+    {
+      "label": "tree:orchard:0:2",
+      "species": "orchard",
+      "lod": 2,
+      "position": [
+        -49.971630191779695,
+        0.11509189244286738,
+        30.661973488004875
+      ],
+      "islands": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "hierarchy": false,
+      "vertices": 1315
+    }
+  ]
+}
