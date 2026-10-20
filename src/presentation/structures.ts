@@ -490,16 +490,33 @@ export function lantern(R: Region, x: number, y: number, z: number) {
 }
 
 /** Stacked firewood, split logs laid in rows. */
-export function woodpile(R: Region, rnd: Rnd, x: number, z: number, yaw: number, len = 1.6, rows = 4) {
+/** Lower a rigid stack until every bottom log has a point seated in soil; retain its shape and spacing. */
+export function woodpileGroundShift(positions: ArrayLike<number>, bottomLogs: readonly { start: number; end: number }[], groundAt: (x: number, z: number) => number): number {
+  let shift = 0;
+  for (const { start, end } of bottomLogs) {
+    let foot = -1;
+    for (let i = start; i < end; i += 3) if (foot < 0 || positions[i + 1]! < positions[foot + 1]!) foot = i;
+    if (foot >= 0) shift = Math.min(shift, groundAt(positions[foot]!, positions[foot + 2]!) - positions[foot + 1]! - .01);
+  }
+  return shift;
+}
+
+export function woodpile(R: Region, rnd: Rnd, x: number, z: number, yaw: number, len = 1.6, rows = 4, groundAt?: (x: number, z: number) => number) {
+  const first = R.bark.p.n, supports: { start: number; end: number }[] = [];
   R.ctx.push(x, 0, z, yaw);
   for (let r = 0; r < rows; r++) {
     const n = Math.max(2, Math.round(len / 0.22) - r);
     for (let i = 0; i < n; i++) {
-      const lx = -len / 2 + (i + 0.5) * (len / n) + r * 0.11;
+      const lx = -len / 2 + (i + 0.5) * (len / n) + r * 0.11, start = R.bark.p.n;
       R.bark.rod(lx, 0.12 + r * 0.2, -0.28, lx + (rnd() - 0.5) * 0.02, 0.12 + r * 0.2 + (rnd() - 0.5) * 0.02, 0.28, 0.09 + rnd() * 0.03, 5, jitterTone(0xd8cbb8, rnd, 0.2), { jit: 0.1 });
+      if (groundAt && r === 0) supports.push({ start, end: R.bark.p.n });
     }
   }
   R.ctx.pop();
+  if (groundAt) {
+    const shift = woodpileGroundShift(R.bark.p.a, supports, groundAt);
+    for (let i = first + 1; i < R.bark.p.n; i += 3) R.bark.p.a[i]! += shift;
+  }
 }
 
 export function barrel(R: Region, rnd: Rnd, x: number, y: number, z: number, s = 1) {
