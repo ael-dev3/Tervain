@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { expect, it } from 'vitest';
-import { snapDetachedClumps } from '../../src/presentation/canopy';
+import { seatFarCards, snapDetachedClumps } from '../../src/presentation/canopy';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
 
 it('does not use a detached clump radius as proof of contact with wood', () => {
@@ -45,4 +45,38 @@ it('keeps a clump in place when a vertical move would worsen one member’s wood
   expect(result.moved).toBe(0);
   expect(Array.from(result.geometry.getAttribute('position').array)).toEqual(Array.from(leaves.getAttribute('position').array));
   result.geometry.dispose();leaves.dispose();wood.dispose();
+});
+
+it('seats each card past the reach just inside it, toward its nearest wood, where a chained shell defeats the clump snap', () => {
+  // A wood plate and a shell of touching cards 2 m over it: one chained clump whose centre lies inside its own radius.
+  const wood = new THREE.BufferGeometry();
+  wood.setAttribute('position', new THREE.Float32BufferAttribute([-4,0,-2, 4,0,-2, 4,0,2, -4,0,2],3));
+  wood.setIndex([0,1,2,0,2,3]);
+  const positions: number[] = [], indices: number[] = [];
+  const card = (x: number, y: number) => { const b = positions.length / 3; positions.push(x-.3,y,-.3, x+.3,y,-.3, x+.3,y,.3, x-.3,y,.3); indices.push(b,b+1,b+2,b,b+2,b+3); };
+  for (let x = -3; x <= 3; x += .5) card(x, 2);
+  card(0, 1);
+  const leaves = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(positions,3)).setIndex(indices);
+  const n = positions.length / 3;
+  leaves.setAttribute('uv', new THREE.Float32BufferAttribute(Array.from({length: n * 2}, (_, i) => i / (n * 2)), 2));
+  leaves.setAttribute('_wind', new THREE.Float32BufferAttribute(Array.from({length: n * 4}, (_, i) => i % 7), 4));
+  const audit = (leaf: THREE.BufferGeometry) => auditCanopies([{label:'shell',wood,leaves:leaf,matrix:new THREE.Matrix4()}],{gap:.75,woodReach:1.5}).trees[0]!;
+  const original = Array.from(leaves.getAttribute('position').array);
+  expect(audit(leaves).detachedClumps).toBe(1);
+  const snapped = snapDetachedClumps(leaves, wood, 1.5);
+  expect(snapped.moved).toBe(0); snapped.geometry.dispose();
+  const result = seatFarCards(leaves, wood, 1.5);
+  expect(result.moved).toBe(13);
+  expect(audit(result.geometry).detachedClumps).toBe(0);
+  expect(Array.from(leaves.getAttribute('position').array)).toEqual(original);
+  expect(Array.from(result.geometry.index!.array)).toEqual(indices);
+  for (const name of ['uv', '_wind']) expect(Array.from(result.geometry.getAttribute(name).array)).toEqual(Array.from(leaves.getAttribute(name).array));
+  const before = leaves.getAttribute('position'), after = result.geometry.getAttribute('position');
+  for (let i = 0; i < n; i++) {
+    expect(after.getX(i)).toBe(before.getX(i)); expect(after.getZ(i)).toBe(before.getZ(i));
+    // The shell drops straight down to just inside the reach; the card already within reach stays put.
+    expect(after.getY(i)).toBeCloseTo(before.getY(i) === 2 ? 1.5 * 0.97 : before.getY(i), 6);
+  }
+  expect(seatFarCards(result.geometry, wood, 1.5).moved).toBe(0);
+  result.geometry.dispose(); leaves.dispose(); wood.dispose();
 });
