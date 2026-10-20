@@ -560,11 +560,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       const pineShadows = usesPine(v.species);
       for (let treeIndex = 0; treeIndex < b.trees.length; treeIndex++) {
         const t = b.trees[treeIndex]!;
-        const dx = t.x - cx;
-        const dz = t.z - cz;
-        const d = Math.hypot(dx, dz);
-        const horizon = smoothDistanceFade(d, FLORA_FADE_START, FLORA_MAX_DISTANCE);
-        if (horizon <= 0) continue;
         const { matrix: mtx, bounds: sphere, box } = b.placements[treeIndex]!;
         // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
@@ -572,6 +567,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         const inView = frustum.intersectsSphere(sphere) && frustum.intersectsBox(box);
         const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && shadowFrustum.intersectsBox(box) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
+        // Distance coverage is only consumed by retained colour or shadow instances.
+        const dx = t.x - cx;
+        const dz = t.z - cz;
+        const d = Math.hypot(dx, dz);
+        const horizon = smoothDistanceFade(d, FLORA_FADE_START, FLORA_MAX_DISTANCE);
+        if (horizon <= 0) continue;
         if (inShadow) {
           const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
           let from = 0, cast = false;
