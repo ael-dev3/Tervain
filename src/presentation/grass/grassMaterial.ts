@@ -107,7 +107,7 @@ uniform vec4 uLook;
 uniform float uFarBlades;
 uniform float uGrassPx;
 centroid varying vec4 vGCol;
-varying vec2 vGInfo;
+centroid varying vec2 vGInfo;
 float gHash(float n) { return fract(sin(n) * 43758.5453123); }
 `;
 
@@ -273,15 +273,16 @@ vGCol = vec4(gBase * gRootShade, gEdge);
 // Seed heads and petals pass a little more light than the leaf, not a sparkle (A68).
 float gThrough = 0.06 + 0.7 * smoothstep(0.15, 1.0, gT) + 0.24 * gT * gT * gT + (gStem * gHead * 0.45 + gFlower * gBloom * 0.3) * gHeadCov;
 float gThin = mix(0.4, 1.0, gBladeCov);
-vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gThin);
+// An unresolved blade cannot carry a stable highlight. Transmission keeps its floor; sheen follows the footprint to zero.
+vGInfo = vec2( uLook.z * aTint.w * gThrough * gThin * (1.0 - 0.6 * gLying), uLook.w * aTint.w * (0.35 + 0.65 * gT) * gBladeCov);
 `;
 
 export const GRASS_FRAGMENT_DECL = /* glsl */ `
 centroid varying vec4 vGCol;
-varying vec2 vGInfo;
+centroid varying vec2 vGInfo;
 uniform vec3 uTransTint;
 uniform vec2 uTipCap;
-// Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities retain baseline interpolation.
+// Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities use the same covered sample; extrapolation can exceed the authored light range.
 // A clamp alone cannot reject extrapolated values that are bright but still inside 0..1.
 // With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
 // blade lies outside the triangle: the varyings are extrapolated there, far past any value a vertex wrote. The colour
@@ -389,7 +390,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       .replace('#include <tonemapping_fragment>', `${GRASS_TIP_CAP_GLSL}#include <tonemapping_fragment>`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v17-tip-cap${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v19-tip-cap-covered-light${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
