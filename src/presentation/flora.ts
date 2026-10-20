@@ -1,3 +1,4 @@
+import { treeFootprint, treePlacementBox } from './foliage/treeFootprint';
 import { createMeshyForest, type MeshyTreeTemplates } from './meshyTrees';
 import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
@@ -435,11 +436,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     // this much radius, so their union retains the same two-metre wind guard without
     // admitting any draw rejected by the original bound or adding a per-instance walk.
     b.leafShrink = leafBoundsShrink(b.variant.lods, b.bounds) * Math.min(...b.trees.map(t => t.s));
+    const footprint = treeFootprint(b.variant.lods);
     b.placements = b.trees.map(t => {
       const matrix = new THREE.Matrix4().compose(pos.set(t.x, t.y, t.z), quat.setFromAxisAngle(up, t.yaw), scl.set(t.s, t.s, t.s));
       const bounds = b.bounds.clone().applyMatrix4(matrix);
       bounds.radius += 2; // The same view/shadow edge guard used by every refresh.
-      const box = localBox.clone().applyMatrix4(matrix).expandByScalar(2);
+      const box = treePlacementBox(localBox.clone(), localBox, matrix, footprint);
       return { matrix, bounds, box };
     });
     for (const caster of b.casters) for (const mesh of [caster.wood, caster.leaf]) {
