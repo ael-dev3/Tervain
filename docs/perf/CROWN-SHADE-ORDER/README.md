@@ -40,4 +40,19 @@ All 18 masks match fresh retained geometry; terrain reference mismatches 188→0
 | Terrain reference mismatches | 188 | 0 | −188 |
 | Retained tree geometry changes | — | 0 | 0 |
 
-Each build's repeated screenshot has zero changed pixels. Cross-build context images differ at 114,777 pixels, but only 79 differ by more than 1/255 (maximum channel difference 3/255). This is not a pixel-identity claim: there is known independent-session software rounding, and the shade/density correction intentionally affects understory input. The draw/triangle rise in this context is unresolved; do not treat it as a no-increase receipt or approve solely from the cache assertions. Stock exact-head gate: **FAIL**, observed process exit status 1. Two live probes on b317734 and four completed frames per probe; no startup override or allowance. Live 285 draws / 3,048,306 triangles / 0 errors; candidate a221a5a8c 285 draws / 3,048,558 triangles / 0 errors. Delta 0 draws / +252 triangles (+0.00827%). This does not meet the strict no-increase rule. No PASS line is claimed. The PR remains draft for cost review.
+Each build's repeated screenshot has zero changed pixels. Cross-build context images differ at 114,777 pixels, but only 79 differ by more than 1/255 (maximum channel difference 3/255). This is not a pixel-identity claim: there is known independent-session software rounding, and the shade/density correction intentionally affects understory input. The initial context delta alone does not isolate a source regression; see the furniture-pass reconciliation below. Do not treat the cache assertions as a no-increase receipt. Stock exact-head gate: **FAIL**, observed process exit status 1. Two live probes on b317734 and four completed frames per probe; no startup override or allowance. Live 285 draws / 3,048,306 triangles / 0 errors; candidate a221a5a8c 285 draws / 3,048,558 triangles / 0 errors. Delta 0 draws / +252 triangles (+0.00827%). This does not meet the strict no-increase rule. No PASS line is claimed. The PR remains draft for cost review.
+
+## Context-count reconciliation
+
+A separately compiled original-code control reproduces the same stale mask/terrain values and 25,086 grass instances. `trace-capture.mjs` is the same read-only probe with a `renderBufferDirect` submission log. Both original and candidate are also captured with that logger.
+
+| Full native context capture | Draws | Triangles | Grass triangles |
+|---|---:|---:|---:|
+| Initial published-live capture | 236 | 5,215,133 | 1,662,273 |
+| Initial compiled candidate | 260 | 5,307,577 | 1,662,645 |
+| Compiled original-code control | 260 | 5,307,205 | 1,662,273 |
+| Candidate control | 236 | 5,215,505 | 1,662,645 |
+
+The logged control difference is exactly 24 furniture submissions / 92,072 triangles in one capture, plus +372 grass triangles in the candidate: −92,072 + 372 = −91,700 total triangles. `compiled-control-comparison.json` contains every differing submission. Thus the earlier +24/+92,444 context result is not a stable source regression; subtracting the identified differing pass leaves the +372 grass delta. This accounting is an explanation, **not** an adjusted budget score. The stock gate remains unmodified and still FAILS by +252 triangles.
+
+Corrected shade legitimately changes grass sampling (+5 instances in this context). I have not tuned placement or density to force the old budget. A strict no-increase review should keep this draft held; any small correctness exception belongs to the maintainer. The geometry fix for floating crowns remains separate.
