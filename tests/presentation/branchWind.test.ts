@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { BROADLEAF_BRANCH, CONIFER_BRANCH, branchLevel, deriveBranchLeaf, deriveBranchWood } from '../../src/presentation/foliage/branchWind';
@@ -196,5 +196,38 @@ describe('derived branch wind for conifers (not wired in yet)', () => {
     const w = new THREE.Vector4(), pv = new THREE.Vector3();
     field.read(field.nearest(tip.x, tip.y + 0.3, tip.z), w, pv);
     expect(attr(leaf, '_wind').getY(0)).toBeCloseTo(w.y, 5);
+  });
+});
+
+
+describe('nearest branch search bounds', () => {
+  it('matches a direct vertex search inside and outside the grid, including finite reach', () => {
+    const wood = tree().wood, field = deriveBranchWood(wood)!;
+    const p = attr(wood, 'position');
+    for (let k = 0; k < 120; k++) {
+      const x = Math.sin(k * 1.7) * 24, y = Math.cos(k * 0.7) * 20, z = Math.sin(k * 0.3) * 24;
+      let best = -1, distance = Infinity;
+      for (let i = 0; i < p.count; i++) {
+        const d = (p.getX(i) - x) ** 2 + (p.getY(i) - y) ** 2 + (p.getZ(i) - z) ** 2;
+        if (d < distance) { best = i; distance = d; }
+      }
+      for (const reach of [0, 0.75, 6, 30, Infinity]) {
+        expect(field.nearest(x, y, z, reach)).toBe(distance <= reach * reach ? best : -1);
+      }
+    }
+  });
+
+  it('does not enumerate an empty cube around a query beyond the wood', () => {
+    const field = deriveBranchWood(tree().wood)!;
+    // The shell tests call abs for each X/Y cell pair. Count that deterministic
+    // work rather than using a wall-clock timeout on a shared test runner.
+    const abs = vi.spyOn(Math, 'abs');
+    let count: number, vertex: number;
+    try {
+      vertex = field.nearest(24, 24, 24);
+      count = abs.mock.calls.length;
+    } finally { abs.mockRestore(); }
+    expect(vertex!).toBeGreaterThanOrEqual(0);
+    expect(count!).toBeLessThan(5000);
   });
 });
