@@ -1,0 +1,79 @@
+[
+  {
+    "pose": 0,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "da1b2ea0b9c97874b743b3cf75a03a6a957c41d77bfffc75484aa1e983faaab8",
+      "after": "da1b2ea0b9c97874b743b3cf75a03a6a957c41d77bfffc75484aa1e983faaab8",
+      "restore": "da1b2ea0b9c97874b743b3cf75a03a6a957c41d77bfffc75484aa1e983faaab8"
+    }
+  },
+  {
+    "pose": 1,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "3bad88ce4e2c30bb29c88108fa7e8786a69ecf00e0a5ddcc9626ac738b519cee",
+      "after": "3bad88ce4e2c30bb29c88108fa7e8786a69ecf00e0a5ddcc9626ac738b519cee",
+      "restore": "3bad88ce4e2c30bb29c88108fa7e8786a69ecf00e0a5ddcc9626ac738b519cee"
+    }
+  },
+  {
+    "pose": 2,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "15bd80bb2cf0d3f15ea75b849c3fff14bd608694df99715d2f943f9e83a9a1e0",
+      "after": "15bd80bb2cf0d3f15ea75b849c3fff14bd608694df99715d2f943f9e83a9a1e0",
+      "restore": "15bd80bb2cf0d3f15ea75b849c3fff14bd608694df99715d2f943f9e83a9a1e0"
+    }
+  },
+  {
+    "pose": 3,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "e896ded6e2d30d30af3af6f8ae0b1d25704761aea2ef2cef33c52f3715082675",
+      "after": "e896ded6e2d30d30af3af6f8ae0b1d25704761aea2ef2cef33c52f3715082675",
+      "restore": "e896ded6e2d30d30af3af6f8ae0b1d25704761aea2ef2cef33c52f3715082675"
+    }
+  },
+  {
+    "pose": 4,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "1db897bcc57bb13de029bc95fd39fc18b2c3bceaed2cfabd8020c8ef949857a7",
+      "after": "1db897bcc57bb13de029bc95fd39fc18b2c3bceaed2cfabd8020c8ef949857a7",
+      "restore": "1db897bcc57bb13de029bc95fd39fc18b2c3bceaed2cfabd8020c8ef949857a7"
+    }
+  },
+  {
+    "pose": 5,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "007d9537e35dbf61ef2c6597854624f81f50de7ca164d33f8d50080ce64f2c63",
+      "after": "007d9537e35dbf61ef2c6597854624f81f50de7ca164d33f8d50080ce64f2c63",
+      "restore": "007d9537e35dbf61ef2c6597854624f81f50de7ca164d33f8d50080ce64f2c63"
+    }
+  },
+  {
+    "pose": 6,
+    "width": 640,
+    "height": 360,
+    "changedRgbPixels": 0,
+    "sha256": {
+      "before": "7fe0859ce15c368ece55f3cf3ba51c1790f6e5a7ac3c899a507df3a6884ada1a",
+      "after": "7fe0859ce15c368ece55f3cf3ba51c1790f6e5a7ac3c899a507df3a6884ada1a",
+      "restore": "7fe0859ce15c368ece55f3cf3ba51c1790f6e5a7ac3c899a507df3a6884ada1a"
+    }
+  }
+]

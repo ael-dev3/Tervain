@@ -1,0 +1,38 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/treeBounds.test.ts (2 tests | 1 failed) 52ms
+   × stops at a box rejection without walking later sphere planes 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/treeBounds.test.ts > stops at a box rejection without walking later sphere planes
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/presentation/treeBounds.test.ts:15:22
+     13|   Object.defineProperty(frustum.planes, '5', { get() { laterReads++; r…
+     14|   expect(intersectsTreeBounds(frustum, sphere, box)).toBe(false);
+     15|   expect(laterReads).toBe(0);
+       |                      ^
+     16| });
+     17|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  13:16:13
+   Duration  188ms (tests 45%, transform 32%, import 18%, setup 4%, worker 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,405 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "trees": 451,
+    "batches": 20,
+    "quality": "high",
+    "treeDetailByDistance": false
+  },
+  "states": [
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          },
+          "distanceEvaluations": 451
+        },
+        "control": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "before": {
+      "samples": 60000,
+      "meanMs": 0.09278499999890724,
+      "p95Ms": 0.20000001788139343
+    },
+    "after": {
+      "samples": 60000,
+      "meanMs": 0.08721000000188749,
+      "p95Ms": 0.19999998807907104
+    },
+    "control": {
+      "samples": 60000,
+      "meanMs": 0.09371666666368643,
+      "p95Ms": 0.20000001788139343
+    }
+  },
+  "images": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204
+      ],
+      "before": {
+        "draws": 456,
+        "triangles": 6242951
+      },
+      "after": {
+        "draws": 456,
+        "triangles": 6242951
+      },
+      "restore": {
+        "draws": 456,
+        "triangles": 6242951
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        -0.09966865249116204
+      ],
+      "before": {
+        "draws": 417,
+        "triangles": 6142168
+      },
+      "after": {
+        "draws": 417,
+        "triangles": 6142168
+      },
+      "restore": {
+        "draws": 417,
+        "triangles": 6142168
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        -0.09966865249116204
+      ],
+      "before": {
+        "draws": 418,
+        "triangles": 6186277
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6186277
+      },
+      "restore": {
+        "draws": 418,
+        "triangles": 6186277
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        -0.09966865249116204
+      ],
+      "before": {
+        "draws": 419,
+        "triangles": 6201033
+      },
+      "after": {
+        "draws": 419,
+        "triangles": 6201033
+      },
+      "restore": {
+        "draws": 419,
+        "triangles": 6201033
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        -0.09966865249116204
+      ],
+      "before": {
+        "draws": 418,
+        "triangles": 6200649
+      },
+      "after": {
+        "draws": 418,
+        "triangles": 6200649
+      },
+      "restore": {
+        "draws": 418,
+        "triangles": 6200649
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "before": {
+        "draws": 314,
+        "triangles": 5114280
+      },
+      "after": {
+        "draws": 314,
+        "triangles": 5114280
+      },
+      "restore": {
+        "draws": 314,
+        "triangles": 5114280
+      },
+      "exactRgb": true
+    },
+    {
+      "pose": [
+        -300,
+        27,
+        1.5707963267948966,
+        0.5235987755982988
+      ],
+      "before": {
+        "draws": 738,
+        "triangles": 10335587
+      },
+      "after": {
+        "draws": 738,
+        "triangles": 10335587
+      },
+      "restore": {
+        "draws": 738,
+        "triangles": 10335587
+      },
+      "exactRgb": true
+    }
+  ],
+  "errors": [],
+  "timingPath": {
+    "samples": 120,
+    "speedMetresPerSecond": 2.6,
+    "stepSeconds": 0.016666666666666666,
+    "yawStepRadians": 0.003,
+    "scope": "Precomputed walking/turning cameras; forest refresh only, fixed sun volume; excludes camera construction, other world updates and draw submission."
+  },
+  "pixelProofIncluded": true,
+  "sourceSha256": {
+    "before": "0b3c7cb49ecdcff543a0798eae3d6a36239f2e58b14611965cd8eee53329c3bd",
+    "after": "905c65784fb890452792be360c731f13abc768b4c75201eee213798797fdcc70"
+  },
+  "scope": "Exact production refresh blocks and the production bounds helper, with reconstructed lexical bindings on the same native High tree batches, including shadow-only casters. Separate observed work counts and unobserved warmed JS component timing, with baseline A/A control. Capture inclusion is recorded by pixelProofIncluded; CPU-only receipts contain no image proof. No hardware FPS, heat or full-frame timing claim.",
+  "pass": true
+}
