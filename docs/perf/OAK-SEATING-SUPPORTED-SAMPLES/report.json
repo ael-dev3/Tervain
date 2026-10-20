@@ -1,0 +1,589 @@
+{
+  "baseline": "41a754200b6992a9ae39edd6dbfc0440d9a190a7",
+  "poses": [
+    {
+      "label": "tree:wild:32:27"
+    },
+    {
+      "label": "tree:wild:68:13"
+    },
+    {
+      "label": "tree:wild:26:25"
+    },
+    {
+      "forest": true
+    },
+    {
+      "sea": true
+    }
+  ],
+  "modes": {
+    "before": {
+      "rows": [
+        {
+          "draws": 519,
+          "triangles": 8002752,
+          "camera": [
+            -173.93433525357898,
+            5.915130433263681,
+            27.321394598288446
+          ],
+          "quaternion": [
+            0.11673205091005955,
+            0,
+            0,
+            0.9931634449023641
+          ]
+        },
+        {
+          "draws": 326,
+          "triangles": 4297113,
+          "camera": [
+            51.16108888764826,
+            6.948980680670194,
+            -59.83743565557528
+          ],
+          "quaternion": [
+            0.20522584445671727,
+            0,
+            0,
+            0.9787146431759501
+          ]
+        },
+        {
+          "draws": 417,
+          "triangles": 6074777,
+          "camera": [
+            -210.46539708886792,
+            2.669611483593643,
+            10.828832646738721
+          ],
+          "quaternion": [
+            0.2225585207551341,
+            0,
+            0,
+            0.9749193324779678
+          ]
+        },
+        {
+          "draws": 607,
+          "triangles": 7400350,
+          "camera": [
+            -2,
+            4.9,
+            45
+          ],
+          "quaternion": [
+            -0.22321631566493544,
+            0,
+            0,
+            0.9747689348871209
+          ]
+        },
+        {
+          "draws": 139,
+          "triangles": 778897,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    },
+    "after": {
+      "rows": [
+        {
+          "draws": 519,
+          "triangles": 8002752,
+          "camera": [
+            -173.93433525357898,
+            5.915130433263681,
+            27.321394598288446
+          ],
+          "quaternion": [
+            0.11673205091005955,
+            0,
+            0,
+            0.9931634449023641
+          ]
+        },
+        {
+          "draws": 326,
+          "triangles": 4297113,
+          "camera": [
+            51.16108888764826,
+            6.948980680670194,
+            -59.83743565557528
+          ],
+          "quaternion": [
+            0.20522584445671727,
+            0,
+            0,
+            0.9787146431759501
+          ]
+        },
+        {
+          "draws": 417,
+          "triangles": 6074777,
+          "camera": [
+            -210.46539708886792,
+            2.669611483593643,
+            10.828832646738721
+          ],
+          "quaternion": [
+            0.2225585207551341,
+            0,
+            0,
+            0.9749193324779678
+          ]
+        },
+        {
+          "draws": 607,
+          "triangles": 7400350,
+          "camera": [
+            -2,
+            4.9,
+            45
+          ],
+          "quaternion": [
+            -0.22321631566493544,
+            0,
+            0,
+            0.9747689348871209
+          ]
+        },
+        {
+          "draws": 139,
+          "triangles": 778897,
+          "camera": [
+            -300,
+            3,
+            27
+          ],
+          "quaternion": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ]
+        }
+      ],
+      "errors": []
+    }
+  },
+  "scope": "High native near trees, frozen time/wind, two independent worlds with original/candidate production source. Eye-height camera 20m south of tree, not certified walkable ground. Software rendering. No frame-time or heat claim.",
+  "replay": {
+    "rows": [
+      {
+        "input": 0,
+        "triangles": 10684,
+        "before": {
+          "queries": 26710,
+          "moved": 842,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 10785,
+          "moved": 842,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 1,
+        "triangles": 4348,
+        "before": {
+          "queries": 10870,
+          "moved": 619,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 5781,
+          "moved": 619,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 2,
+        "triangles": 10958,
+        "before": {
+          "queries": 27395,
+          "moved": 1336,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 13315,
+          "moved": 1336,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 3,
+        "triangles": 3398,
+        "before": {
+          "queries": 8495,
+          "moved": 702,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 5397,
+          "moved": 702,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 4,
+        "triangles": 11168,
+        "before": {
+          "queries": 27920,
+          "moved": 1014,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 11938,
+          "moved": 1014,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 5,
+        "triangles": 3312,
+        "before": {
+          "queries": 8280,
+          "moved": 542,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 4665,
+          "moved": 542,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 6,
+        "triangles": 10772,
+        "before": {
+          "queries": 26930,
+          "moved": 606,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 9690,
+          "moved": 606,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 7,
+        "triangles": 4348,
+        "before": {
+          "queries": 10870,
+          "moved": 853,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 6624,
+          "moved": 853,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 8,
+        "triangles": 10534,
+        "before": {
+          "queries": 26335,
+          "moved": 770,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 10351,
+          "moved": 770,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 9,
+        "triangles": 3398,
+        "before": {
+          "queries": 8495,
+          "moved": 680,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 5200,
+          "moved": 680,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 10,
+        "triangles": 12000,
+        "before": {
+          "queries": 30000,
+          "moved": 1083,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 12940,
+          "moved": 1083,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 11,
+        "triangles": 8760,
+        "before": {
+          "queries": 21900,
+          "moved": 1546,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 12810,
+          "moved": 1546,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 12,
+        "triangles": 12000,
+        "before": {
+          "queries": 30000,
+          "moved": 1049,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 12789,
+          "moved": 1049,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 13,
+        "triangles": 7714,
+        "before": {
+          "queries": 19285,
+          "moved": 1263,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 11068,
+          "moved": 1263,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 14,
+        "triangles": 12000,
+        "before": {
+          "queries": 30000,
+          "moved": 981,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 12480,
+          "moved": 981,
+          "equalInput": false
+        }
+      },
+      {
+        "input": 15,
+        "triangles": 8600,
+        "before": {
+          "queries": 21500,
+          "moved": 1397,
+          "equalInput": false
+        },
+        "after": {
+          "queries": 12262,
+          "moved": 1397,
+          "equalInput": false
+        }
+      }
+    ],
+    "batches": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 2022.5
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 1177.4000000059605
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 2023.699999988079
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 1151.2000000178814
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 1966.5999999940395
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 1995.199999988079
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 2027.6000000238419
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 1996.3999999761581
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 1124.5
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 2021.4000000059605
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 1123.4000000059605
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 1975.5
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 1138.5999999940395
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 1965.300000011921
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 1996.699999988079
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 1941.7000000178814
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 1991.8999999761581
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 1117
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 1973.9000000059605
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 1120
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 2003.5999999940395
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 1116.5
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 1948.699999988079
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 1936.699999988079
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 1961.800000011921
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 1954.800000011921
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 1145.5999999940395
+      }
+    ],
+    "scope": "Actual production pre-seat leaf geometries and final woods retained at function entry. All attributes/indices, moved counts and returned-reference behavior exactly match. Timings are construction-pass replay, not gameplay frame CPU or hardware GPU."
+  },
+  "comparisons": [
+    {
+      "pose": 0,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 1,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 2,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 3,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    },
+    {
+      "pose": 4,
+      "changedRgbPixels": 0,
+      "drawDelta": 0,
+      "triangleDelta": 0
+    }
+  ],
+  "complete": true,
+  "capturedHead": "45bd19063fb8baa41ee53b01f07dfe7299cec7aa",
+  "candidate": "58ac0c40a9b9b6f21d0d758af9afe3336b3c13e8",
+  "runtimeSourceIdenticalToCapturedHead": true,
+  "sources": {
+    "before": "d635a6a153a963bd23c64e65cf7a31f91b420b15d1f78ae190fee7fed4a6dee1",
+    "after": "889d69ee9919e353c2cfda020e1769485c7cbedbecc81eef2468f30c4b847517"
+  }
+}
