@@ -85,8 +85,16 @@ describe('original bark surface detail', () => {
     expect(shader.fragmentShader).toContain('vTvBarkPosition / vec3(0.86, 1.40, 0.86)');
     expect(shader.fragmentShader).toContain('tvBarkReliefRoughness.y');
     expect(shader.fragmentShader).toContain('dFdx(tvBarkHeight)');
+    // The explicit UV gradients are formed before divergent near/far control flow.
+    const branch = shader.fragmentShader.indexOf('if (tvBarkClose > 0.0)');
+    expect(branch).toBeGreaterThan(shader.fragmentShader.indexOf('dFdx(tvBarkCoordinates)'));
+    expect(branch).toBeGreaterThan(shader.fragmentShader.indexOf('dFdy(tvBarkCoordinates)'));
+    expect(shader.fragmentShader).toContain('textureGrad(barkMap, p.zy, dx.zy, dy.zy)');
+    expect(shader.fragmentShader).toContain('vec2 tvBarkReliefRoughness = vec2(0.0)');
+    expect(shader.fragmentShader.indexOf('dFdx(tvBarkHeight)')).toBeGreaterThan(branch);
+
     expect(shader.fragmentShader).toContain('tvDistanceNoise((-vViewPosition');
-    expect(material.customProgramCacheKey()).toContain('authored-source|tervain-metre-bark-v3|tervain-distance-dither-v3-full');
+    expect(material.customProgramCacheKey()).toContain('authored-source|tervain-metre-bark-v4|tervain-distance-dither-v3-full');
     expect(Array.from(geometry.getAttribute('uv').array)).toEqual(sourceUV);
     expect(shader.vertexShader).not.toContain('transformed +=');
     expect(shaderOf(mesh.customDepthMaterial!, 'depth').fragmentShader).not.toContain('tvBarkColour');

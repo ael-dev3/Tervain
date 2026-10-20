@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { BARK_SAMPLE_GLSL, BARK_READ_GLSL } from './barkSampling';
 import { TREE_SWAY_MULTIPLIER, WIND_GLSL, type SwayUniforms } from './vegetation';
 import { barkTextures, leafTexture, type BarkKind, type BarkTextures, type LeafKind } from './treeTextures';
 
@@ -65,19 +66,13 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         ${varyings}
         uniform sampler2D tvBarkColour;
         uniform sampler2D tvBarkSurface;
-        vec4 tvBarkSample(sampler2D barkMap, vec3 p, vec3 weights) {
-          return texture2D(barkMap, p.zy) * weights.x
-               + texture2D(barkMap, p.xz) * weights.y
-               + texture2D(barkMap, p.xy) * weights.z;
-        }`)
+${BARK_SAMPLE_GLSL}`)
       .replace('#include <map_fragment>', `#include <map_fragment>
         vec3 tvBarkWeights = pow(abs(normalize(vTvBarkNormal)), vec3(5.0));
         tvBarkWeights /= max(dot(tvBarkWeights, vec3(1.0)), 0.0001);
         // Each repeat covers 0.86m around the trunk and 1.40m vertically, at every instance scale.
         vec3 tvBarkCoordinates = vTvBarkPosition / vec3(0.86, 1.40, 0.86);
-        vec3 tvBarkAlbedo = tvBarkSample(tvBarkColour, tvBarkCoordinates, tvBarkWeights).rgb;
-        vec2 tvBarkReliefRoughness = tvBarkSample(tvBarkSurface, tvBarkCoordinates, tvBarkWeights).rg;
-        float tvBarkClose = 1.0 - smoothstep(45.0, 100.0, length(vViewPosition));
+${BARK_READ_GLSL}
         float tvBarkMacro = clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 4.0, 0.65, 1.35);
         diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, ${mix.toFixed(3)} * tvBarkClose);`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
@@ -94,7 +89,7 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec3 tvBarkGradient = sign(tvBarkDet) * (dFdx(tvBarkHeight) * tvBarkR1 + dFdy(tvBarkHeight) * tvBarkR2);
         if (abs(tvBarkDet) > 0.00000001) normal = normalize(abs(tvBarkDet) * normal - tvBarkGradient);`);
   };
-  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v3${variant}`; };
+  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v4${variant}`; };
   material.needsUpdate = true;
 }
 
