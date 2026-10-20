@@ -1,0 +1,203 @@
+{
+  "build": "v0.0.33 \u00b7 eba5bae11 \u00b7 pre-alpha",
+  "label": "tree:wild:58:16",
+  "geometrySha256": "ea29c96dfc03730d0af2e1066f94880fa78c92656c6c5c2dc9c7d9047eebfe85",
+  "rows": [
+    {
+      "part": 441,
+      "distanceWorld": 1.413062101637035,
+      "point": [
+        -2.774625539779663,
+        9.168347835540771,
+        -0.6853521317243576
+      ],
+      "uv": [
+        0.75,
+        0.5
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 990,
+      "distanceWorld": 1.4700654502756236,
+      "point": [
+        4.521901547908783,
+        8.882362723350525,
+        -0.02503974922001362
+      ],
+      "uv": [
+        0.5,
+        0.1875
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 1394,
+      "distanceWorld": 1.4758976586131842,
+      "point": [
+        2.0253128111362457,
+        7.352093502879143,
+        2.0704183876514435
+      ],
+      "uv": [
+        0.796875,
+        0
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 1783,
+      "distanceWorld": 1.4082692979821683,
+      "point": [
+        2.9779461696743965,
+        7.918656259775162,
+        -0.7686383202672005
+      ],
+      "uv": [
+        0.734375,
+        0.5
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 1874,
+      "distanceWorld": 1.476461233533599,
+      "point": [
+        2.915866479277611,
+        7.497795850038528,
+        -1.1062151119112968
+      ],
+      "uv": [
+        0,
+        0.234375
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 2572,
+      "distanceWorld": 1.482063266822984,
+      "point": [
+        -0.6471871435642242,
+        8.330713123083115,
+        4.694008439779282
+      ],
+      "uv": [
+        0.40625,
+        0.84375
+      ],
+      "alpha": 0.6666666666666666,
+      "cutoff": 0.35,
+      "opaque": true
+    },
+    {
+      "part": 3428,
+      "distanceWorld": 1.453157393518181,
+      "point": [
+        2.226381927728653,
+        9.948503732681274,
+        -3.723686933517456
+      ],
+      "uv": [
+        0.5,
+        0.3125
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 3440,
+      "distanceWorld": 1.4762721179845564,
+      "point": [
+        3.191725179553032,
+        7.767344743013382,
+        -0.27675195038318634
+      ],
+      "uv": [
+        0.21875,
+        0.375
+      ],
+      "alpha": 1,
+      "cutoff": 0.35,
+      "opaque": true
+    },
+    {
+      "part": 3442,
+      "distanceWorld": 1.4711287972605975,
+      "point": [
+        3.073221519589424,
+        6.881477206945419,
+        0.10046467883512378
+      ],
+      "uv": [
+        0.5,
+        0.21875
+      ],
+      "alpha": 0,
+      "cutoff": 0.35,
+      "opaque": false
+    },
+    {
+      "part": 3750,
+      "distanceWorld": 1.4478614380058497,
+      "point": [
+        -3.526310056447983,
+        12.304720133543015,
+        2.8897492587566376
+      ],
+      "uv": [
+        0.421875,
+        0.734375
+      ],
+      "alpha": 0.907843137254902,
+      "cutoff": 0.35,
+      "opaque": true
+    }
+  ],
+  "opaqueWitnesses": 3,
+  "nativeGeometryMatchesRetainedFixture": true,
+  "geometryDiffs": [
+    {
+      "part": "wood",
+      "attr": "position",
+      "oldLength": 15150,
+      "newLength": 15150,
+      "changed": 0,
+      "first": null
+    },
+    {
+      "part": "wood",
+      "attr": "index",
+      "oldLength": 11760,
+      "newLength": 11760,
+      "changed": 0,
+      "first": null
+    },
+    {
+      "part": "leaves",
+      "attr": "position",
+      "oldLength": 72000,
+      "newLength": 72000,
+      "changed": 0,
+      "first": null
+    },
+    {
+      "part": "leaves",
+      "attr": "index",
+      "oldLength": 36000,
+      "newLength": 36000,
+      "changed": 0,
+      "first": null
+    }
+  ]
+}

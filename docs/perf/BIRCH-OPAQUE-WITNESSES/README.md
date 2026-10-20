@@ -1,0 +1,11 @@
+# Opaque contact witnesses for retained birch flags
+
+Read-only follow-up for `tree:wild:58:16`. Live printed 0.0.33 / b317734. Ten retained points on the indexed leaf triangles were previously verified against production woodAnchor at world reach 1.5 m; see the checksum-verified fixture and executable distance replay in [the original receipt](https://github.com/ael-dev3/Tervain/tree/7a0bee676b5641979b83c40d42fb10de8907bcbc/docs/perf/BIRCH-CONTACT-WITNESSES).
+
+This new live query interpolates each point's native leaf UV and evaluates the actual cutout sampler (cutoff 0.35). **Three are opaque**: parts 2572 (alpha 0.666667, distance 1.482063 m), 3440 (alpha 1, distance 1.476272 m), 3750 (alpha 0.907843, distance 1.447861 m). The other seven have alpha zero at these witness points. This tests those points only; it does not classify every texel on a card.
+
+A separate read-only geometry control on the loop-reuse candidate confirms all native position/index buffers match the retained live fixture exactly: zero differences in wood positions (15,150 numbers), wood indices (11,760), leaf positions (72,000), leaf indices (36,000). The candidate changes only forest refresh iteration; no geometry or assets change. SHA-256 and full comparison counts are retained in geometry-control.json. The live cutout values and triangle points are independently retained in live-cutout.json. An initial asynchronous hash probe was invalid because its result was not awaited; it is excluded. The completed control awaits the result and compares every element.
+
+`probe.js` is the exact executed read-only browser expression with its witness input embedded. In a loaded game page it prints the UV, alpha and leaf point for every witness; it does not modify the scene. Use the original distance replay to verify geometric support, not the copied distance field alone. These probes do not establish a separate visible floating island, remove the other flags, or measure hardware performance.
+
+A blanket cull of the sampled far set remains unsafe: at least three flagged unmasked cards contain confirmed opaque surface points within wood reach. Conversely, transparent points cannot establish visible support. No geometry repair is promoted from these counts; the remaining static crown defect still needs a specific visible island mapped to its source cards.
