@@ -91,8 +91,14 @@ void main() {
   vec2 d = vUv - 0.5;
   float r2 = dot(d, d);
   vec2 off = d * r2 * uChromatic;
-  c.r = mix(c.r, texture2D(tScene, vUv + off).r, 0.6);
-  c.b = mix(c.b, texture2D(tScene, vUv - off).b, 0.6);
+  // With separation disabled both reads address the centre texel already in c.
+  // Keep the mix arithmetic identical, including its floating-point rounding.
+  vec2 separated = c.rb;
+  if (uChromatic != 0.0) {
+    separated = vec2(texture2D(tScene, vUv + off).r, texture2D(tScene, vUv - off).b);
+  }
+  c.r = mix(c.r, separated.x, 0.6);
+  c.b = mix(c.b, separated.y, 0.6);
   if (uSharpen > 0.0 && uUnder < 0.5) {
     // Contrast-adaptive sharpen for a lowered drawing resolution: the four neighbours pull the pixel away from their mean,
     // held inside the neighbourhood's own range so an edge gains no halo. Flat areas and the noise floor are left alone.

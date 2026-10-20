@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><script type="module">
+import * as THREE from 'three';import {Grade} from '/src/presentation/grade';
+const R=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});R.setSize(320,180);document.body.append(R.domElement);const grade=new Grade(R,{msaa:true}),candidate=grade.material;
+const size=128,data=new Uint16Array(size*size*4);let seed=9123;for(let i=0;i<data.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;data[i]=THREE.DataUtils.toHalfFloat(i%4===3?1:(seed/4294967296)*4);}
+const tex=new THREE.DataTexture(data,size,size,THREE.RGBAFormat,THREE.HalfFloatType);tex.minFilter=THREE.LinearFilter;tex.magFilter=THREE.LinearFilter;tex.needsUpdate=true;
+for(const name of ['tScene','tBloom','tDepth','tUnderCaustics'])candidate.uniforms[name].value=tex;candidate.uniforms.uTexel.value.set(1/size,1/size);
+const syncPixel=new Uint8Array(4);const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-1,1,1,-1,0,1),quad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),candidate);quad.frustumCulled=false;scene.add(quad);
+window.G={R,candidate,install(fragment){this.before=candidate.clone();this.before.uniforms=candidate.uniforms;this.before.fragmentShader=fragment;},resize(w,h){R.setSize(w,h);},draw(mode,settings={},shot=false){for(const [k,v]of Object.entries(settings))candidate.uniforms[k].value=v;quad.material=mode==='before'?this.before:candidate;const gl=R.getContext();gl.finish();R.info.reset();const start=performance.now();R.render(scene,camera);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,syncPixel);const ms=performance.now()-start;if(gl.getError())throw Error('WebGL error');return{ms,draws:R.info.render.calls,triangles:R.info.render.triangles,...(shot?{png:R.domElement.toDataURL()}: {})};}};window.READY=true;
+</script>
