@@ -1,0 +1,11 @@
+# Wood-only forest capture bounds
+
+Wood colour meshes still use the packed whole-tree sphere, including empty canopy space. This keeps off-screen wood batches in secondary-camera render lists. Cache the unused radial space across every source wood LOD, then shrink a separate retained wood sphere around the existing packed centre. Include every LOD because planar reflections can borrow middle-detail geometry. Retain the existing two-metre wind guard and rounding margin.
+
+Geometry, materials, instance packing, leaf bounds, shadow casters, visibility weights and draw order are unchanged. The new sphere is contained in the old one, so it cannot admit an additional draw. Construction adds one wood-vertex scan and three retained spheres per batch; changed packing adds a sphere copy/subtraction per LOD, with no new per-frame object allocation. This is a submission-cost reduction, not a claim to repair static floating crowns or establish a Mac FPS/heat improvement.
+
+`node tools/repro-live-wood-bounds.mjs --url https://ael-dev3.github.io/Tervain/ --out wood-bounds` runs six native High post/MSAA4 poses. Each compares the original whole-tree bound with the conservative wood bound, warms both modes, saves before/after/restore PNGs and requires exact RGB, non-increasing draws/triangles, matching texture counts and a real triangle reduction. Draw counting remains active if a caller uses the existing optional startup raster suppression; every retained frame has raster restored and nonzero draw counts.
+
+Add `--assert-production` against a served candidate build to require the actual production wood sphere to match the conservative candidate at every retained active pose. The report records that assertion mode and the served revision. The final version check rejects a deployment change during capture.
+
+Regression: `npx vitest run tests/presentation/foliageEngine.test.ts tests/presentation/leafBounds.test.ts`. The integration test exercises the actual forest mesh bound: a capture plane in the empty canopy shell intersects the old sphere and rejects the wood-only sphere. Old source fails the tighter-wood assertion; the candidate retains all existing geometry/wind-guard and shadow tests. Raw proofs and the unchanged exact-head budget receipt are linked in the PR.

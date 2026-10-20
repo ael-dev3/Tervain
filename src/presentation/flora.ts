@@ -105,6 +105,9 @@ interface Batch {
   /** Crowns need no empty trunk/root space; shared by leaf colour and depth meshes. */
   leafDrawBounds: THREE.Sphere[];
   leafShrink: number;
+  /** Wood need not keep empty canopy space in the colour/capture pass. */
+  woodDrawBounds: THREE.Sphere[];
+  woodShrink: number;
   trees: FloraTree[];
   placements: { matrix: THREE.Matrix4; bounds: THREE.Sphere; box: THREE.Box3 }[];
 }
@@ -264,7 +267,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         geometry.computeBoundingBox();
         box.union(geometry.boundingBox!);
       }
-      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], leafDrawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], leafShrink: 0, trees: [], placements: [] };
+      b = { variant, meshes: [], casters: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), drawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], leafDrawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], leafShrink: 0, woodDrawBounds: [new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty(), new THREE.Sphere().makeEmpty()], woodShrink: 0, trees: [], placements: [] };
       byVariant.set(variant, b);
       batches.push(b);
     }
@@ -342,7 +345,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         m.count = 0;
         // Secondary cameras need their own culling of the main view's packed instances.
         m.frustumCulled = true;
-        m.boundingSphere = m === leaf ? b.leafDrawBounds[l]! : b.drawBounds[l]!;
+        m.boundingSphere = m === leaf ? b.leafDrawBounds[l]! : b.woodDrawBounds[l]!;
         m.name = `${hero && heroVariants.has(v) ? 'hero-pine' : usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // Shadows come from the separate shadow-only casters below: only trees in the sun's shadow volume, lighter
         // source LODs away from the camera.
@@ -434,7 +437,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     // Shrink around the packed sphere's existing centre. Each instance can lose at least
     // this much radius, so their union retains the same two-metre wind guard without
     // admitting any draw rejected by the original bound or adding a per-instance walk.
-    b.leafShrink = leafBoundsShrink(b.variant.lods, b.bounds) * Math.min(...b.trees.map(t => t.s));
+    const minimumScale = Math.min(...b.trees.map(t => t.s));
+    b.leafShrink = leafBoundsShrink(b.variant.lods, b.bounds) * minimumScale;
+    // Keep every wood LOD: reflections can substitute the middle source.
+    b.woodShrink = leafBoundsShrink(b.variant.lods.map(lod => ({ leaf: lod.wood })), b.bounds) * minimumScale;
     b.placements = b.trees.map(t => {
       const matrix = new THREE.Matrix4().compose(pos.set(t.x, t.y, t.z), quat.setFromAxisAngle(up, t.yaw), scl.set(t.s, t.s, t.s));
       const bounds = b.bounds.clone().applyMatrix4(matrix);
@@ -639,6 +645,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           // Source bounds include every LOD; unchanged packing keeps its bounds without another walk.
           for (let i = 0; i < counts[l]!; i++) bound.union(b.placements[packed[i]!]!.bounds);
           copyLeafBatchBounds(b.leafDrawBounds[l]!, bound, b.leafShrink);
+          copyLeafBatchBounds(b.woodDrawBounds[l]!, bound, b.woodShrink);
         }
         for (const mesh of [m.wood, m.leaf]) {
           if (!mesh) continue;

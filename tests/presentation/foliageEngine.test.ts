@@ -504,7 +504,34 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     shadowCamera.position.set(tree.x, tree.y + 150, tree.z); shadowCamera.lookAt(tree.x, tree.y, tree.z); shadowCamera.updateMatrixWorld();
     const shadow = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
     const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), shadowFrustum: shadow, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
-    forest.update(0.1, frame);
+    // Exercise the actual packed mesh bound, not just the standalone shrink helper.
+    type PackedBatch = { drawBounds: THREE.Sphere[]; meshes: { wood: THREE.InstancedMesh | null }[] };
+    let packedBatches: PackedBatch[] | undefined;
+    const iterator = Array.prototype[Symbol.iterator];
+    Array.prototype[Symbol.iterator] = function<T>(this: T[]) {
+      const first = this[0] as { variant?: unknown; placements?: unknown } | undefined;
+      if (first?.variant && first.placements) packedBatches = this as unknown as PackedBatch[];
+      return iterator.call(this) as ArrayIterator<T>;
+    };
+    try { forest.update(0.1, frame); } finally { Array.prototype[Symbol.iterator] = iterator; }
+    expect(packedBatches).toBeDefined();
+    let tighterWood = 0;
+    for (const batch of packedBatches!) for (const [lod, mesh] of batch.meshes.entries()) {
+      if (!mesh.wood?.count) continue;
+      const whole = batch.drawBounds[lod]!, wood = mesh.wood.boundingSphere!;
+      expect(wood.center.equals(whole.center)).toBe(true);
+      expect(wood.radius).toBeLessThanOrEqual(whole.radius);
+      if (wood.radius < whole.radius - 1e-5) {
+        tighterWood++;
+        // A capture plane in the empty canopy shell must reject the wood draw.
+        const capture = new THREE.Frustum();
+        for (const plane of capture.planes) plane.set(new THREE.Vector3(), 1);
+        capture.planes[0]!.set(new THREE.Vector3(1, 0, 0), -whole.center.x - (whole.radius + wood.radius) / 2);
+        expect(capture.intersectsSphere(whole)).toBe(true);
+        expect(capture.intersectsSphere(wood)).toBe(false);
+      }
+    }
+    expect(tighterWood).toBeGreaterThan(0);
     const assertCaptureBounds = () => {
       const corner = new THREE.Vector3(), instance = new THREE.Matrix4();
       for (const mesh of colour.filter(m => m.geometry.hasAttribute('aDistanceCoverage') && m.count > 0)) {
