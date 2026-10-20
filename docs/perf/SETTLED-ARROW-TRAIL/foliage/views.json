@@ -1,0 +1,54 @@
+{
+  "rows": [
+    {
+      "label": "tree:2:62",
+      "camera": [
+        89.92903863452375,
+        8.944614171684583,
+        107.73058451269753
+      ],
+      "target": [
+        89.90264990451256,
+        27.580630589033508,
+        87.60124948156104
+      ],
+      "draws": 157,
+      "triangles": 1970726
+    },
+    {
+      "label": "tree:wild:71:20",
+      "camera": [
+        70.89764271860437,
+        3.547884179862973,
+        -19.02333443366458
+      ],
+      "target": [
+        71.0173146483037,
+        13.325294395115895,
+        -39.05705612272362
+      ],
+      "draws": 241,
+      "triangles": 3678368
+    },
+    {
+      "label": "tree:palm:13:13",
+      "camera": [
+        -291.9034710484,
+        2.830507548622304,
+        -63.6295505505102
+      ],
+      "target": [
+        -291.9169036238074,
+        21.763619572949985,
+        -83.57523003276535
+      ],
+      "draws": 116,
+      "triangles": 1067221
+    }
+  ],
+  "errors": [
+    "[warning] THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+    "[warning] THREE.WARNING: Multiple instances of Three.js being imported.",
+    "[warning] THREE.WARNING: Multiple instances of Three.js being imported."
+  ]
+}
