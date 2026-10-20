@@ -1,0 +1,38 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/oakTwigContact.test.ts (1 test | 1 failed) 10833ms
+   × reconnects oak twig roots orphaned by linking without moving leaves or changing triangle counts 10832ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/oakTwigContact.test.ts > reconnects oak twig roots orphaned by linking without moving leaves or changing triangle counts
+AssertionError: expected [ 0.31277791526343984, …(2) ] to have a length of +0 but got 3
+
+- Expected
++ Received
+
+- 0
++ 3
+
+ ❯ tests/presentation/oakTwigContact.test.ts:47:40
+     45|       expect(oldGaps.filter(x=>x>.12).length).toBeGreaterThan(0);
+     46|       expect(Math.max(...oldGaps)).toBeGreaterThan(.5);
+     47|       expect(newGaps.filter(x=>x>.12)).toHaveLength(0);
+       |                                        ^
+     48|     }
+     49|   } finally {before.dispose();after.dispose();spy.mockRestore();}
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:28:47
+   Duration  11.25s (tests 97%, transform 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,23 @@
+{
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/full-after.png": "0a95055ae5381b26cd1dcbc7cf2f83fabefaf2ebf97db14e1f2687b8c8a62da7",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/full-before.png": "e836cf0cb73ce217722d2486839e2516526c33369e9c2e8b94fcc20f960d13d4",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/full-inactive.png": "e836cf0cb73ce217722d2486839e2516526c33369e9c2e8b94fcc20f960d13d4",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/full-restore.png": "e836cf0cb73ce217722d2486839e2516526c33369e9c2e8b94fcc20f960d13d4",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/independent-checks.json": "7acc9e6d6be0100575119faafff7e92408936ceb002b3d95161985ccdf41299d",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/report.json": "8da9e861b804df76b2eb0cd3dd282fa4028eb361be92be3bf70632f0ce074356",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/setup.json": "4fd1f010040d583ee9ce46d206242db8771cdc2386230dd629550b7ab75f5551",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/wood-after.png": "ac60006e1541131a1f53450b905ff4f6714cb8625ac3394557efba01f72a37fc",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/wood-before.png": "22197876c14be1ff01026ffd234b192356c5d87b539ad10242fdb775fdf8294c",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/wood-inactive.png": "22197876c14be1ff01026ffd234b192356c5d87b539ad10242fdb775fdf8294c",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/wood-restore.png": "22197876c14be1ff01026ffd234b192356c5d87b539ad10242fdb775fdf8294c",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/native/wind-trace.json": "f8c2a49f12cd8089a52bf3c30cf6fa1ff40ea5e353bbb6d8a02dc76f251797ef",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/repro-native-wind.mjs": "4c85f663128b94eb621fe1a207a7e415985a26f3223049b5c43f6b53b0ecc66e",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/old-test.log": "a43360915c6c238108ff6a84b2b4c25909c010ff30e1e83d533a711e987629b1",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/tests.log": "338de0d0a6936b2b7c5d6631660c0177dcde0b7e17adf694722abb8267f09f62",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/build.log": "3b4102a78ed1d22bf5950ec521c3942ae4faf1678726609e3a0607d46de22886",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/budget.log": "67044b2420a0a033d9bb4b7ae1a653a5123b42b484ce64c572503bcda924c137",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/repro-native.mjs": "3a6872a34541580657957c5e20478140f66d34b0c42b77d5ea70af4df1d66f15",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/raster-suppression-init.js": "9e8662cb2255d77b2ddf5b78f54928972fb82d006d68d0c5b3a049986563f2e6",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/source-sha256.json": "2e1c8ba89f7368d7627df20d982bacf888b3c239d315f55515c78d7e5da29ca7",
+  "docs/perf/OAK-GRAFT-ROOTS-PROOF/README.md": "766b644e766896745e4bd6ab8f2414335085e2f98d0c941fc3719d02a4a19327"
+}

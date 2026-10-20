@@ -1,0 +1,30 @@
+[
+  {
+    "label": "full",
+    "controls": {
+      "inactive": true,
+      "restore": true
+    },
+    "rgbSha256": {
+      "before": "7f1965e744f81e05d34035c9ffe3a6fbcdf67420b53dc6bc06e4faed9d57fd36",
+      "inactive": "7f1965e744f81e05d34035c9ffe3a6fbcdf67420b53dc6bc06e4faed9d57fd36",
+      "after": "5400f93eb40526a27149080d2a6ddf9ce2354b50bf4ee5dbff83c31ba1e9f795",
+      "restore": "7f1965e744f81e05d34035c9ffe3a6fbcdf67420b53dc6bc06e4faed9d57fd36"
+    },
+    "changedPixels": 9
+  },
+  {
+    "label": "wood",
+    "controls": {
+      "inactive": true,
+      "restore": true
+    },
+    "rgbSha256": {
+      "before": "00c046e03d5082aa45dfd8ad3aa6c7c06de987e72c8c7ad3c8a55f7974dba1d1",
+      "inactive": "00c046e03d5082aa45dfd8ad3aa6c7c06de987e72c8c7ad3c8a55f7974dba1d1",
+      "after": "04253d3b1846cdd65ef113cb3410f96ad8d8cd0960aff5bc1edcda9d5e4283e7",
+      "restore": "00c046e03d5082aa45dfd8ad3aa6c7c06de987e72c8c7ad3c8a55f7974dba1d1"
+    },
+    "changedPixels": 106
+  }
+]
