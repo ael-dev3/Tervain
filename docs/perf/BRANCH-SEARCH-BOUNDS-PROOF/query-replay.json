@@ -1,0 +1,501 @@
+{
+  "version": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "variants": [
+    {
+      "species": "shrub",
+      "id": "tree-1521",
+      "lod": 0,
+      "queries": 666,
+      "exact": true
+    },
+    {
+      "species": "shrub",
+      "id": "tree-1521",
+      "lod": 1,
+      "queries": 532,
+      "exact": true
+    },
+    {
+      "species": "shrub",
+      "id": "tree-1521",
+      "lod": 2,
+      "queries": 398,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 0,
+      "queries": 562,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 1,
+      "queries": 279,
+      "exact": true
+    },
+    {
+      "species": "fir",
+      "id": "fir-spire",
+      "lod": 0,
+      "queries": 559,
+      "exact": true
+    },
+    {
+      "species": "fir",
+      "id": "fir-spire",
+      "lod": 1,
+      "queries": 457,
+      "exact": true
+    },
+    {
+      "species": "fir",
+      "id": "fir-spire",
+      "lod": 2,
+      "queries": 329,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 0,
+      "queries": 521,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 1,
+      "queries": 261,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 0,
+      "queries": 552,
+      "exact": true
+    },
+    {
+      "species": "pine",
+      "lod": 1,
+      "queries": 276,
+      "exact": true
+    },
+    {
+      "species": "shrub",
+      "id": "tree-4949",
+      "lod": 0,
+      "queries": 387,
+      "exact": true
+    },
+    {
+      "species": "shrub",
+      "id": "tree-4949",
+      "lod": 1,
+      "queries": 315,
+      "exact": true
+    },
+    {
+      "species": "shrub",
+      "id": "tree-4949",
+      "lod": 2,
+      "queries": 243,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "verdant-sentinel",
+      "lod": 0,
+      "queries": 5569,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "verdant-sentinel",
+      "lod": 1,
+      "queries": 2174,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "verdant-sentinel",
+      "lod": 2,
+      "queries": 406,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "tree-1527",
+      "lod": 0,
+      "queries": 6000,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "tree-1527",
+      "lod": 1,
+      "queries": 4197,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "tree-1527",
+      "lod": 2,
+      "queries": 1238,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak",
+      "lod": 0,
+      "queries": 6000,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak",
+      "lod": 1,
+      "queries": 4380,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak",
+      "lod": 2,
+      "queries": 542,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "tree-4815",
+      "lod": 0,
+      "queries": 5406,
+      "exact": true
+    },
+    {
+      "species": "birch",
+      "id": "tree-4815",
+      "lod": 1,
+      "queries": 1699,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak-c",
+      "lod": 0,
+      "queries": 6000,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak-c",
+      "lod": 1,
+      "queries": 3857,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak-c",
+      "lod": 2,
+      "queries": 451,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak-b",
+      "lod": 0,
+      "queries": 6000,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "hero-oak-b",
+      "lod": 2,
+      "queries": 500,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "verdant-sentinel",
+      "lod": 0,
+      "queries": 5386,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "verdant-sentinel",
+      "lod": 1,
+      "queries": 2174,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "verdant-sentinel",
+      "lod": 2,
+      "queries": 414,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "tree-1505",
+      "lod": 0,
+      "queries": 5267,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "tree-1505",
+      "lod": 1,
+      "queries": 1699,
+      "exact": true
+    },
+    {
+      "species": "oak",
+      "id": "tree-1505",
+      "lod": 2,
+      "queries": 253,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-lean",
+      "lod": 0,
+      "queries": 369,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-lean",
+      "lod": 1,
+      "queries": 301,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-lean",
+      "lod": 2,
+      "queries": 233,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-date",
+      "lod": 0,
+      "queries": 5568,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-date",
+      "lod": 1,
+      "queries": 5003,
+      "exact": true
+    },
+    {
+      "species": "palm",
+      "id": "palm-date",
+      "lod": 2,
+      "queries": 1519,
+      "exact": true
+    },
+    {
+      "species": "shorepine",
+      "id": "fir-spire",
+      "lod": 0,
+      "queries": 513,
+      "exact": true
+    },
+    {
+      "species": "shorepine",
+      "id": "fir-spire",
+      "lod": 1,
+      "queries": 413,
+      "exact": true
+    },
+    {
+      "species": "shorepine",
+      "id": "fir-spire",
+      "lod": 2,
+      "queries": 313,
+      "exact": true
+    },
+    {
+      "species": "orchard",
+      "id": "tree-4949",
+      "lod": 0,
+      "queries": 6190,
+      "exact": true
+    },
+    {
+      "species": "orchard",
+      "id": "tree-4949",
+      "lod": 1,
+      "queries": 1728,
+      "exact": true
+    },
+    {
+      "species": "orchard",
+      "id": "tree-4949",
+      "lod": 2,
+      "queries": 243,
+      "exact": true
+    },
+    {
+      "species": "orchard",
+      "id": "tree-4815",
+      "lod": 0,
+      "queries": 6080,
+      "exact": true
+    },
+    {
+      "species": "orchard",
+      "id": "tree-4815",
+      "lod": 1,
+      "queries": 1699,
+      "exact": true
+    }
+  ],
+  "timings": [
+    {
+      "round": 0,
+      "mode": "before",
+      "ms": 301
+    },
+    {
+      "round": 0,
+      "mode": "after",
+      "ms": 277.2999999821186
+    },
+    {
+      "round": 0,
+      "mode": "control",
+      "ms": 304.2000000178814
+    },
+    {
+      "round": 1,
+      "mode": "after",
+      "ms": 277
+    },
+    {
+      "round": 1,
+      "mode": "control",
+      "ms": 303.59999999403954
+    },
+    {
+      "round": 1,
+      "mode": "before",
+      "ms": 303.59999999403954
+    },
+    {
+      "round": 2,
+      "mode": "control",
+      "ms": 301.5
+    },
+    {
+      "round": 2,
+      "mode": "before",
+      "ms": 301.5
+    },
+    {
+      "round": 2,
+      "mode": "after",
+      "ms": 292
+    },
+    {
+      "round": 3,
+      "mode": "before",
+      "ms": 304.60000002384186
+    },
+    {
+      "round": 3,
+      "mode": "after",
+      "ms": 279
+    },
+    {
+      "round": 3,
+      "mode": "control",
+      "ms": 305.59999999403954
+    },
+    {
+      "round": 4,
+      "mode": "after",
+      "ms": 276.40000000596046
+    },
+    {
+      "round": 4,
+      "mode": "control",
+      "ms": 303.7999999821186
+    },
+    {
+      "round": 4,
+      "mode": "before",
+      "ms": 304.7000000178814
+    },
+    {
+      "round": 5,
+      "mode": "control",
+      "ms": 300
+    },
+    {
+      "round": 5,
+      "mode": "before",
+      "ms": 306
+    },
+    {
+      "round": 5,
+      "mode": "after",
+      "ms": 276.09999999403954
+    },
+    {
+      "round": 6,
+      "mode": "before",
+      "ms": 301.2999999821186
+    },
+    {
+      "round": 6,
+      "mode": "after",
+      "ms": 278.7000000178814
+    },
+    {
+      "round": 6,
+      "mode": "control",
+      "ms": 304.40000000596046
+    },
+    {
+      "round": 7,
+      "mode": "after",
+      "ms": 279.09999999403954
+    },
+    {
+      "round": 7,
+      "mode": "control",
+      "ms": 302.90000000596046
+    },
+    {
+      "round": 7,
+      "mode": "before",
+      "ms": 305.90000000596046
+    },
+    {
+      "round": 8,
+      "mode": "control",
+      "ms": 312.7999999821186
+    },
+    {
+      "round": 8,
+      "mode": "before",
+      "ms": 302.40000000596046
+    },
+    {
+      "round": 8,
+      "mode": "after",
+      "ms": 281.09999999403954
+    }
+  ],
+  "checksum": {
+    "before": 542675193,
+    "after": 542675193,
+    "control": 542675193
+  }
+}

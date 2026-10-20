@@ -1,0 +1,32 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/branchWind.test.ts (15 tests | 1 failed) 266ms
+   ❯ nearest branch search bounds (2)
+     × does not enumerate an empty cube around a query beyond the wood 77ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/branchWind.test.ts > nearest branch search bounds > does not enumerate an empty cube around a query beyond the wood
+AssertionError: expected 290276 to be less than 5000
+ ❯ tests/presentation/branchWind.test.ts:231:20
+    229|     } finally { abs.mockRestore(); }
+    230|     expect(vertex!).toBeGreaterThanOrEqual(0);
+    231|     expect(count!).toBeLessThan(5000);
+       |                    ^
+    232|   });
+    233| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  14:55:38
+   Duration  438ms (tests 74%, transform 18%, import 7%, setup 1%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

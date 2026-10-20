@@ -1,0 +1,12 @@
+[
+  {
+    "mode": "before",
+    "checks": 290276,
+    "vertex": 97
+  },
+  {
+    "mode": "after",
+    "checks": 4332,
+    "vertex": 97
+  }
+]

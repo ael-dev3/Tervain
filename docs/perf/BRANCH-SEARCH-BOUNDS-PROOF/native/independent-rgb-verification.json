@@ -1,0 +1,37 @@
+[
+  {
+    "pose": 0,
+    "rgbSha256": "0b377f3e857969f30aa1e7acb8c8a89645646112baf07310091bcb32b041cc96",
+    "allThreeExact": true
+  },
+  {
+    "pose": 1,
+    "rgbSha256": "d7c0afd666f7395788b8cb1d34b7d7cc66104bcf1de4b75496ad8e55bbc1de3c",
+    "allThreeExact": true
+  },
+  {
+    "pose": 2,
+    "rgbSha256": "cb9ca3ab62da5c0110610dc5d7cc701d672a09af754ed5179e4acbe2b154e59c",
+    "allThreeExact": true
+  },
+  {
+    "pose": 3,
+    "rgbSha256": "c9fb44c79bc94e8c8d6482047f3fdbb8db10a5bd419d4f9252dab614f79b2ff5",
+    "allThreeExact": true
+  },
+  {
+    "pose": 4,
+    "rgbSha256": "6a15ace5c4d8d14958dbb8357a228be87c3066ecc9039e55e5d1f1f22f072bb2",
+    "allThreeExact": true
+  },
+  {
+    "pose": 5,
+    "rgbSha256": "1c56b76dff5d641a968dd2b216c3a6ea11fadac4c1d40fb483988ac1bd6ed9a8",
+    "allThreeExact": true
+  },
+  {
+    "pose": 6,
+    "rgbSha256": "00117f731d098dc0143f1b50a765d2e11fcbac175fc7723985153f1a11610ac0",
+    "allThreeExact": true
+  }
+]

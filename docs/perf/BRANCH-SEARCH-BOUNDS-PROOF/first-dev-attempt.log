@@ -1,0 +1,35 @@
+2:58:15 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+{"fields":34,"queries":118237,"vertices":274055,"arrays":80,"reducedMotion":false,"strength":1}
+{"pose":0,"exact":true,"draws":414,"triangles":6107072}
+{"pose":1,"exact":true,"draws":417,"triangles":6142168}
+{"pose":2,"exact":true,"draws":418,"triangles":6186277}
+{"pose":3,"exact":true,"draws":419,"triangles":6201033}
+{"pose":4,"exact":true,"draws":418,"triangles":6200649}
+{"pose":5,"exact":true,"draws":314,"triangles":5114280}
+{"pose":6,"exact":true,"draws":738,"triangles":10335587}
+file://<temporary>/prove-branch-construction.mjs:15
+try{await server.listen();page=await liveProofPage('DEV_BUILD/?motion=1',{quality:'high',hour:12});const setup=await page.eval(`const T=tervain,W=T.world;T.frame=()=>{};T.present=()=>{};T.cam.manual=true;T.grade.time=0;T.worldLook=null;T.lastFrameDt=0;W.foliage.wind.uniforms.uGrassTime.value=3;W.sway.uTime.value=3;globalThis.__restoreOrchardRaster?.();if(globalThis.__tervainCpuNoRaster)throw Error('Raster suppressed');return {...globalThis.__branchProof,reducedMotion:T.settings.reducedMotion,strength:W.foliage.strength.value};`);console.log(JSON.stringify(setup));const poses=Array.from({length:5},(_,i)=>[-210+Math.sin(.8)*i*2.6/60,Math.cos(.8)*i*2.6/60,.8+i*.003,-Math.atan(.1)]).concat([[-210,0,3,0],[-300,27,Math.PI/2,Math.PI/6]]),rows=[];for(let i=0;i<poses.length;i++){const row={pose:poses[i]},pixels={};for(const mode of['before','after','restore']){const r=await page.eval(`const T=tervain,W=T.world,[x,z,yaw,pitch]=${JSON.stringify(poses[i])},c=T.cam.camera,y=x===-300?3:W.terrain.heightAt(x,z)+2;c.position.set(x,y,z);c.lookAt(x+30*Math.sin(yaw),y-30*Math.tan(pitch),z+30*Math.cos(yaw));c.updateMatrixWorld(true);W.update(0,T.game.state,T.player.group.position,T.settings,12,c,false);const p=T.grade.waterPass;p.reflectionValid=false;p.reflectionAge=Infinity;T.renderer.info.reset();T.renderWorld();return {draws:T.renderer.info.render.calls,triangles:T.renderer.info.render.triangles,png:T.renderer.domElement.toDataURL()};`);const png=Buffer.from(r.png.split(',')[1],'base64');delete r.png;fs.writeFileSync(path.join(out,`${i}-${mode}.png`),png);pixels[mode]=await sharp(png).removeAlpha().raw().toBuffer();row[mode]=r;}if(!pixels.before.equals(pixels.after)||!pixels.before.equals(pixels.restore))throw Error('Unstable RGB '+i);row.exactRgb=true;rows.push(row);console.log(JSON.stringify({pose:i,exact:true,...row.after}));}const errors=page.console().filter(x=>x.startsWith('[error]')||x.startsWith('[exception]'));if(errors.length)throw Error(errors.join('\n'));fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({setup,rows,errors,source,scope:'Instrumented development build invokes baseline and candidate nearest-wood code on every actual construction query. Wood branch arrays are compared at creation; identical nearest indices feed the same unchanged leaf-attribute derivation. The seven native normal-wind images are repeatability controls on that verified construction output, not independent old/new compiled-world loads. Reflection is refreshed each render; no hardware pacing claim.',pass:true},null,2));}finally{page?.close();await server.close();}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+Error: [error] [vite] failed to connect to websocket.
+your current setup:
+  (browser) 127.0.0.1:4198/ <--[HTTP]--> 127.0.0.1:4198/ (server)
+  (browser) 127.0.0.1:4198/ <--[WebSocket (failing)]--> 127.0.0.1:4198/ (server)
+Check out your Vite / network configuration and https://vite.dev/config/server-options.html#server-hmr .
+[error] Failed to send error to Vite server: TypeError: Cannot read properties of undefined (reading 'send')
+    at Object.send (DEV_BUILD/@vite/client:251:7)
+    at Object.send (DEV_BUILD/@vite/client:931:16)
+    at Object.send (DEV_BUILD/@vite/client:110:21)
+    at Object.send (DEV_BUILD/@vite/client:190:30)
+    at sendError (DEV_BUILD/@vite/client:260:19)
+    at sendLog (DEV_BUILD/@vite/client:288:11)
+[error] Failed to send error to Vite server: TypeError: Cannot read properties of undefined (reading 'send')
+    at Object.send (DEV_BUILD/@vite/client:251:7)
+    at Object.send (DEV_BUILD/@vite/client:931:16)
+    at Object.send (DEV_BUILD/@vite/client:110:21)
+    at Object.send (DEV_BUILD/@vite/client:190:30)
+    at sendError (DEV_BUILD/@vite/client:260:19)
+    at sendLog (DEV_BUILD/@vite/client:288:11)
+    at file://<temporary>/prove-branch-construction.mjs:15:1972
+
+Node.js v24.19.0
