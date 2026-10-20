@@ -70,6 +70,27 @@ describe('grass blade clumps', () => {
 });
 
 describe('grass wind', () => {
+  it('uploads only gust and turbulence while retaining every sampled RGBA value', () => {
+    const wind = new GrassWind(WIND);
+    try {
+      const texture = wind.uniforms.tGust.value as THREE.DataTexture;
+      const packed = texture.image.data as Uint8Array, original = gustField();
+      expect(texture.format).toBe(THREE.RGFormat);
+      expect(packed.byteLength).toBe(GUST_TEXELS * GUST_TEXELS * 2);
+      expect(original.byteLength).toBe(GUST_TEXELS * GUST_TEXELS * 4);
+      for (let i = 0; i < GUST_TEXELS * GUST_TEXELS; i++) {
+        expect(packed[i * 2]).toBe(original[i * 4]);
+        expect(packed[i * 2 + 1]).toBe(original[i * 4 + 1]);
+        // WebGL supplies these constants when sampling the absent RG channels.
+        expect(original[i * 4 + 2]).toBe(0);
+        expect(original[i * 4 + 3]).toBe(255);
+      }
+      expect(texture.minFilter).toBe(THREE.LinearFilter);
+      expect(texture.magFilter).toBe(THREE.LinearFilter);
+      expect(texture.wrapS).toBe(THREE.RepeatWrapping);
+      expect(texture.wrapT).toBe(THREE.RepeatWrapping);
+    } finally { wind.dispose(); }
+  });
   it('reads the same gust field on the CPU as the shader samples, tiling seamlessly', () => {
     const wind = new GrassWind(WIND);
     const data = gustField();

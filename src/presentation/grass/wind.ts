@@ -48,7 +48,7 @@ function stretch(values: Float32Array): Float32Array {
 
 let gustData: Uint8Array | null = null;
 
-/** RG8 noise: R = broad gust fronts (three octaves), G = turbulence. Deterministic and tileable. */
+/** CPU sampling cache: R = broad gust fronts, G = turbulence; retain the existing RGBA layout. */
 export function gustField(): Uint8Array {
   if (gustData) return gustData;
   const n = GUST_TEXELS;
@@ -69,7 +69,12 @@ export function gustField(): Uint8Array {
 }
 
 function gustTexture(): THREE.DataTexture {
-  const texture = new THREE.DataTexture(gustField().slice(), GUST_TEXELS, GUST_TEXELS, THREE.RGBAFormat);
+  // RG sampling supplies the same unused blue=0 and alpha=1 as the original RGBA field.
+  const source = gustField(), data = new Uint8Array(GUST_TEXELS * GUST_TEXELS * 2);
+  for (let i = 0; i < GUST_TEXELS * GUST_TEXELS; i++) {
+    data[i * 2] = source[i * 4]!; data[i * 2 + 1] = source[i * 4 + 1]!;
+  }
+  const texture = new THREE.DataTexture(data, GUST_TEXELS, GUST_TEXELS, THREE.RGFormat);
   texture.name = 'Tervain grass gust field';
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   texture.magFilter = THREE.LinearFilter;
