@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "8847b5770"
+    },
+    "printed": "v0.0.33 · 8847b5770 · pre-alpha",
+    "quality": "high",
+    "samples": 4,
+    "rasterSuppressed": false,
+    "bindings": 60,
+    "assertProduction": true
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204
+      ],
+      "time": 0,
+      "before": {
+        "reflectionCaptures": 0,
+        "draws": 414,
+        "triangles": 6107072,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 0,
+        "draws": 414,
+        "triangles": 6107072,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "c84dabc7ccbc51daee64ce2f0ce3a8b034cd70a5db33171c85fff95a305dda37"
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        -0.09966865249116204
+      ],
+      "time": 1.3,
+      "before": {
+        "reflectionCaptures": 0,
+        "draws": 417,
+        "triangles": 6142168,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 0,
+        "draws": 417,
+        "triangles": 6142168,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "1df5c479088692b572f9d4a8ec2dc61e2de329e13c87a8913d9112f69ee4cb21"
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        -0.09966865249116204
+      ],
+      "time": 2.6,
+      "before": {
+        "reflectionCaptures": 0,
+        "draws": 418,
+        "triangles": 6186277,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 0,
+        "draws": 418,
+        "triangles": 6186277,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "74ae9bba8314bdd5ad1137124a700fec13dd139f43b2681792484b9786658c4e"
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        -0.09966865249116204
+      ],
+      "time": 3.9000000000000004,
+      "before": {
+        "reflectionCaptures": 0,
+        "draws": 419,
+        "triangles": 6201033,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 0,
+        "draws": 419,
+        "triangles": 6201033,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "b34ad1bca466860c4b371ae40ec65bd6188046a553838859df91f32ba29ade14"
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        -0.09966865249116204
+      ],
+      "time": 5.2,
+      "before": {
+        "reflectionCaptures": 0,
+        "draws": 418,
+        "triangles": 6200649,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 0,
+        "draws": 418,
+        "triangles": 6200649,
+        "uploadBytes": 26880,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "827f82bce9de3dd49fba881734b320770d4bb4540ec0c4c0618b1adead11d81f"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "before": {
+        "reflectionCaptures": 1,
+        "draws": 314,
+        "triangles": 5114280,
+        "uploadBytes": 19200,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 1,
+        "draws": 312,
+        "triangles": 5097146,
+        "uploadBytes": 19200,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "2bb749c8357f90316ed2b1b1987454cbb006c6a003ef78a5764546b14addf1b7"
+    },
+    {
+      "pose": [
+        -300,
+        27,
+        1.5707963267948966,
+        0.5235987755982988
+      ],
+      "time": 7.800000000000001,
+      "before": {
+        "reflectionCaptures": 1,
+        "draws": 738,
+        "triangles": 10335587,
+        "uploadBytes": 61440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "reflectionCaptures": 1,
+        "draws": 738,
+        "triangles": 10335587,
+        "uploadBytes": 61440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "24443107ea41286ec7cc64d1591d6e9cd75d6a616d0dd38f5bde67f982e4b3f4"
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "7a469641a1581e533a1018d5af4f654b7f30d17c3f2a23f52cdccdb359a39bc5",
+  "pass": true,
+  "scope": "Forced fresh water reflection on every measured render, including sea control; published native High post/MSAA4; same production concentric-shrink helper, native packed bounds and all source wood LODs; wood only bounds. Renderer-only bound swap, wind phases advance per pose, shadows refreshed; source geometry, materials and instance packing unchanged. Native raster draws enabled."
+}
