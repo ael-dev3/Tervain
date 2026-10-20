@@ -101,5 +101,13 @@ it('grows a leader and twigs out to sheets past the reach, leaving every leaf wh
   expect(result.geometry.userData.twigIndex).toBe(wood.index!.count);
   expect(Array.from(result.geometry.index!.array).slice(0, wood.index!.count)).toEqual(Array.from(wood.index!.array));
   expect(anchorFarFoliage(leaves, result.geometry, 1.5).twigs).toBe(0);
-  result.geometry.dispose(); leaves.dispose(); wood.dispose();
+  // In place: the same wood object gains the twigs, keeps its original prefix and its collider boundary.
+  const held = wood.clone(), heldIndex = held.index!.count;
+  const placed = anchorFarFoliage(leaves, held, 1.5, true, 0.9, true);
+  expect(placed.geometry).toBe(held);
+  expect(placed.twigs).toBe(result.twigs);
+  expect(audit(held).detachedClumps).toBe(0);
+  expect(held.userData.twigIndex).toBe(heldIndex);
+  expect(held.userData.anchoredTwigs).toBe(result.twigs);
+  held.dispose(); result.geometry.dispose(); leaves.dispose(); wood.dispose();
 });

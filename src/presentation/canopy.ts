@@ -721,9 +721,10 @@ export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeo
  * trunks, so whole needle sheets and fronds sit past the audit reach with nothing inside them. `leader` continues a
  * conifer's trunk up its axis; then a twig grows from the nearest wood toward each part still past `reach`, ending
  * `inside` of the reach short of the part's nearest sample. No leaf moves. The twigs follow the wood's index after its
- * `twigIndex`, so they are not obstacles.
+ * `twigIndex`, so they are not obstacles. `inPlace` writes the grown wood into `wood` itself (before its first upload),
+ * so a variant and the meshes already holding that geometry keep it.
  */
-export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, leader = false, inside = 0.9): { geometry: THREE.BufferGeometry; twigs: number } {
+export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, leader = false, inside = 0.9, inPlace = false): { geometry: THREE.BufferGeometry; twigs: number } {
   const position = wood.getAttribute('position');
   const twigIndex = (wood.userData.twigIndex as number | undefined) ?? wood.index?.count ?? position.count;
   let grown = wood, count = 0;
@@ -752,8 +753,14 @@ export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferG
     if (!twigs.length) break;
     replace(growTwigs(grown, twigs)); count += twigs.length;
   }
-  if (grown !== wood) grown.userData = { ...grown.userData, twigIndex, anchoredTwigs: count };
-  return { geometry: grown, twigs: count };
+  if (grown === wood) return { geometry: wood, twigs: 0 };
+  grown.userData = { ...grown.userData, twigIndex, anchoredTwigs: ((wood.userData.anchoredTwigs as number | undefined) ?? 0) + count };
+  if (!inPlace) return { geometry: grown, twigs: count };
+  for (const name of Object.keys(wood.attributes)) if (!grown.hasAttribute(name)) wood.deleteAttribute(name);
+  for (const [name, attribute] of Object.entries(grown.attributes)) wood.setAttribute(name, attribute);
+  wood.setIndex(grown.index); wood.userData = grown.userData;
+  wood.computeBoundingBox(); wood.computeBoundingSphere();
+  return { geometry: wood, twigs: count };
 }
 
 /**
