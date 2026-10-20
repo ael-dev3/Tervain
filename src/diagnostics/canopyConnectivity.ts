@@ -100,7 +100,8 @@ export function spanningLeafEdges(parts: Component[], limit: number, charge: () 
 }
 
 /** Offline geometric candidates, not an art verdict. Full population adapters bypass render culling. */
-/** Each component's nearest wood distance (surface, in the leaf geometry's units); Infinity when none within maxGap. */
+/** A sampled wood-contact witness within maxGap, or Infinity. The search stops once a witness
+ * is inside that cutoff; its returned distance must not classify a smaller contact threshold. */
 export function contactDistances(parts: readonly Component[], wood: THREE.BufferGeometry, maxGap: number, charge: () => void = () => {}): number[] {
   const p = wood.getAttribute('position'), index = wood.index;
   if (!p) throw new Error('Missing wood positions');
@@ -147,6 +148,8 @@ export function farClumps(parts: readonly Component[], contacts: readonly number
 export function detachedClumpSet(leaves: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, gap: number, charge: () => void = () => {}) {
   const parts = components(leaves, charge);
   const maxGap = Math.max(gap, reach);
-  const contacts = contactDistances(parts, wood, maxGap, charge);
+  // Membership is decided at reach, not the (possibly larger) clump-link gap.
+  // A witness somewhere inside maxGap does not prove contact inside reach.
+  const contacts = contactDistances(parts, wood, reach, charge);
   return { parts, components: parts.length, contacts, ...farClumps(parts, contacts, reach, gap, maxGap, charge) };
 }
