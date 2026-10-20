@@ -1,0 +1,14 @@
+{
+  "pixels": 153,
+  "waterPixels": 153,
+  "significantPixelsAtDelta20": 0,
+  "maxChannelDelta": 2,
+  "bounds": [
+    350,
+    75,
+    365,
+    92
+  ],
+  "cachedRgbExact": true,
+  "restoredRgbExact": true
+}

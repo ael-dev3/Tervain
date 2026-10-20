@@ -1,0 +1,82 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "summary": [
+    {
+      "name": "tree-1521:2:foliage",
+      "before": 41,
+      "after": 37
+    },
+    {
+      "name": "hero-pine:0:wood",
+      "before": 27,
+      "after": 24
+    },
+    {
+      "name": "verdant-sentinel:0:foliage",
+      "before": 6,
+      "after": 5
+    },
+    {
+      "name": "tree-1527:0:foliage",
+      "before": 9,
+      "after": 6
+    },
+    {
+      "name": "hero-oak:0:foliage",
+      "before": 7,
+      "after": 6
+    },
+    {
+      "name": "hero-oak-c:0:foliage",
+      "before": 16,
+      "after": 11
+    }
+  ],
+  "pose": {
+    "from": [
+      -300,
+      3,
+      27
+    ],
+    "yaw": 1.5707963267948966,
+    "pitch": 0.5235987755982988
+  },
+  "frames": {
+    "before": {
+      "draws": 842,
+      "triangles": 10655759,
+      "reflectionRefreshed": true,
+      "reflectionCaptures": 1,
+      "forceReflection": true
+    },
+    "after-cached": {
+      "draws": 513,
+      "triangles": 6384334,
+      "reflectionRefreshed": true,
+      "reflectionCaptures": 0,
+      "forceReflection": false
+    },
+    "after-fresh": {
+      "draws": 842,
+      "triangles": 10220615,
+      "reflectionRefreshed": true,
+      "reflectionCaptures": 1,
+      "forceReflection": true
+    },
+    "restore": {
+      "draws": 842,
+      "triangles": 10655759,
+      "reflectionRefreshed": true,
+      "reflectionCaptures": 1,
+      "forceReflection": true
+    }
+  },
+  "changedChannels": 306,
+  "cachedChangedChannels": 0,
+  "restoreExact": true,
+  "errors": [],
+  "scope": "Read-only main-camera per-instance part-box filtering pilot, all source LODs and 2 m wind guard. Shadow casters unchanged; main colour meshes also serve auxiliary views. Pixel differences reject this as a production fix; no frame-time or budget claim."
+}
