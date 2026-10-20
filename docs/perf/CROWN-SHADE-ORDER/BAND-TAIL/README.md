@@ -14,7 +14,7 @@ Native High/MSAA4, frozen time and wind, seven views: meadow, fence, woodland, r
 
 The first run on the preceding compiled a221a5a8c build is exact at all seven views, including restored controls. Triangle reductions are 11,208; 2,136; 120; 336; 19,524; 7,344; 1,296. The tool on the current compiled head additionally reports alternating before/after settled grass-layer CPU samples (60 samples per mode, 16 calls per sample, six alternating rounds). These timings exclude generation, rendering and whole-frame CPU. Software counts/pixels/timings do not establish Mac GPU FPS or heat.
 
-Compiled 9cfcbd98ed0a77c599d1821e670a185ae860bd05: all seven before/after images and native/restored controls match exactly, all source-buffer hashes match, zero console errors. The unmodified stock receipt is pending; no PASS is claimed for this head yet.
+Compiled 9cfcbd98ed0a77c599d1821e670a185ae860bd05: all seven before/after images and native/restored controls match exactly, all source-buffer hashes match, zero console errors. The unmodified exact-head stock gate passes (observed exit 0): live b317734 285 draws / 3,048,306 triangles / 0 errors; candidate 9cfcbd98e 284 draws / 2,899,302 triangles / 0 errors. Delta −1 draw / −149,004 triangles (−4.89%). Two same-revision live probes and four completed frames per probe; no allowance or startup override.
 
 ## Compiled paired measurements
 
@@ -31,3 +31,9 @@ Compiled 9cfcbd98ed0a77c599d1821e670a185ae860bd05: all seven before/after images
 The largest paired mean increase is 0.04792 ms; the largest paired p95 increase is 0.05000 ms. This is a disclosed CPU tradeoff for omitting invisible submissions, not a claim of free CPU work. The measurements are settled grass-layer update timings, not whole-frame CPU or hardware GPU time. No new shader work or texture sampling sites are added.
 
 Current-head shade recheck: all 18 masks match retained geometry, 0/209,630 terrain vertices disagree, and all 60 retained tree geometry pairs match the published-live baseline. The empty exploratory `crownProfiles` field establishes no shader-uniform or camera-bound result.
+
+## Exact-head stock receipt
+
+`play-gate: PASS 9cfcbd98e`
+
+See `budget-gate.log`. The scoped CPU values above are for the seven custom capture poses, not the stock follow-camera path or an upper bound for every frame. Triangle counts do not establish an overall Mac FPS/heat improvement.

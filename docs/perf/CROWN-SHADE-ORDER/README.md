@@ -1,3 +1,5 @@
+> Latest follow-up: 9cfcbd98e omits already-invisible grass-band tails without changing density or placement. All seven compiled High/MSAA4 comparisons are pixel-identical. Stock gate PASS: 285→284 draws, 3,048,306→2,899,302 triangles, zero errors. See [current proof and disclosed CPU tradeoff](BAND-TAIL/README.md). The investigation below records the preceding a221a5a8c head and its historical +252-triangle failure.
+
 # Canopy shade initialized before leaf repair
 
 Live reproduction: 0.0.33 · b317734. Candidate source: a221a5a8ce433d173f2248bd43781e075ee6cfe2.
