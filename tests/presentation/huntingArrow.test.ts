@@ -172,21 +172,6 @@ describe('lodged arrows and the loose read at a distance (B11)', () => {
   });
 });
 
-it('applies water drag to a submerged muzzle without a fictitious surface-entry splash', () => {
-  for (const hz of [30, 60, 120]) {
-    const arrows = new HuntingArrows(), enter = vi.fn();
-    try {
-      const shot = arrows.launch(new THREE.Vector3(0, -.2, 0), new THREE.Vector3(0, -.2, 1), 65)!;
-      for (let i = 0; i < hz / 2; i++) arrows.update(1 / hz, () => null, undefined,
-        { sample: () => ({ surface: 0, flowX: 0, flowZ: 0 }), enter });
-      expect(enter).not.toHaveBeenCalled();
-      expect(arrows.floatingCount).toBe(1);
-      expect(arrows.activeCount).toBe(0);
-      expect(shot.position.z).toBeLessThan(8);
-    } finally { arrows.dispose(); }
-  }
-});
-
 it.each([true, false])('restores conservative culling on floating trails after warm-up (quiver=%s)', quiver => {
   const arrows = new HuntingArrows(), water = { sample: () => ({ surface: 0, flowX: .1, flowZ: .05 }), enter: vi.fn() };
   arrows.quiver = quiver;
@@ -211,4 +196,19 @@ it.each([true, false])('restores conservative culling on floating trails after w
     expect(arrows.floatingCount).toBe(0);
     expect(shot.mesh.parent).toBeNull();
   } finally { arrows.dispose(); }
+});
+
+it('applies water drag to a submerged muzzle without a fictitious surface-entry splash', () => {
+  for (const hz of [30, 60, 120]) {
+    const arrows = new HuntingArrows(), enter = vi.fn();
+    try {
+      const shot = arrows.launch(new THREE.Vector3(0, -.2, 0), new THREE.Vector3(0, -.2, 1), 65)!;
+      for (let i = 0; i < hz / 2; i++) arrows.update(1 / hz, () => null, undefined,
+        { sample: () => ({ surface: 0, flowX: 0, flowZ: 0 }), enter });
+      expect(enter).not.toHaveBeenCalled();
+      expect(arrows.floatingCount).toBe(1);
+      expect(arrows.activeCount).toBe(0);
+      expect(shot.position.z).toBeLessThan(8);
+    } finally { arrows.dispose(); }
+  }
 });
