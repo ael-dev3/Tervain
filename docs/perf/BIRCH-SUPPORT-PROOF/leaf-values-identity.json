@@ -1,0 +1,36 @@
+{
+  "scope": "SHA256 of canonical JSON numeric arrays; instanced visibility excluded; source live b317734 versus production 0004df34e",
+  "rows": [
+    {
+      "name": "position",
+      "live": "3c1258909c68a5fed9d599edadb727a42b031955a22cddad61e0625f849740c8",
+      "candidate": "3c1258909c68a5fed9d599edadb727a42b031955a22cddad61e0625f849740c8",
+      "equal": true
+    },
+    {
+      "name": "normal",
+      "live": "8c5a0ed05d681df2875003b29a9686dc7c7960080e10d739e10d81f198678ecd",
+      "candidate": "8c5a0ed05d681df2875003b29a9686dc7c7960080e10d739e10d81f198678ecd",
+      "equal": true
+    },
+    {
+      "name": "uv",
+      "live": "43d08926da66602c52d1e96637aaabce915f0549fcd1e4adcc631b9ed4cad37e",
+      "candidate": "43d08926da66602c52d1e96637aaabce915f0549fcd1e4adcc631b9ed4cad37e",
+      "equal": true
+    },
+    {
+      "name": "_wind",
+      "live": "e388c9806984a9dc5fea9ccd4352a7bc1af58bf7b1e8135cafc3cf81406e676e",
+      "candidate": "e388c9806984a9dc5fea9ccd4352a7bc1af58bf7b1e8135cafc3cf81406e676e",
+      "equal": true
+    },
+    {
+      "name": "_pivot",
+      "live": "a0acb8db17736464d777ec86b779642e8d1a57bd01df5d39a2a175bfaba900cf",
+      "candidate": "a0acb8db17736464d777ec86b779642e8d1a57bd01df5d39a2a175bfaba900cf",
+      "equal": true
+    }
+  ],
+  "allEqual": true
+}

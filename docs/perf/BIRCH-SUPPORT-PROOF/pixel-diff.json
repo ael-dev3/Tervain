@@ -1,0 +1,71 @@
+[
+  {
+    "pose": 0,
+    "inactive": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "after": {
+      "pixels": 99,
+      "maxDelta": 66
+    },
+    "restore": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "crossBuild-before": {
+      "exact": false,
+      "pixels": 22
+    },
+    "crossBuild-after": {
+      "exact": false,
+      "pixels": 21
+    }
+  },
+  {
+    "pose": 1,
+    "inactive": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "after": {
+      "pixels": 156,
+      "maxDelta": 92
+    },
+    "restore": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "crossBuild-before": {
+      "exact": true,
+      "pixels": 0
+    },
+    "crossBuild-after": {
+      "exact": true,
+      "pixels": 0
+    }
+  },
+  {
+    "pose": 2,
+    "inactive": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "after": {
+      "pixels": 105,
+      "maxDelta": 45
+    },
+    "restore": {
+      "pixels": 0,
+      "maxDelta": 0
+    },
+    "crossBuild-before": {
+      "exact": false,
+      "pixels": 19
+    },
+    "crossBuild-after": {
+      "exact": false,
+      "pixels": 19
+    }
+  }
+]

@@ -1,0 +1,31 @@
+
+ RUN  v5.0.2 [workspace file]
+
+ ❯ tests/presentation/birchTwigSupport.test.ts (2 tests | 1 failed) 7ms
+   × fills the planned tip inset without adding triangles or moving the source wood and plan 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/birchTwigSupport.test.ts > fills the planned tip inset without adding triangles or moving the source wood and plan
+AssertionError: expected 1.5600012820507667 to be less than or equal to 1.5
+ ❯ tests/presentation/birchTwigSupport.test.ts:11:43
+      9|  const supported=Reflect.apply(growTwigs,null,[wood,plans,.45*.95]) as…
+     10|  expect(woodAnchor(before)(point,hit)).toBeGreaterThan(1.5);
+     11|  expect(woodAnchor(supported)(point,hit)).toBeLessThanOrEqual(1.5);
+       |                                           ^
+     12|  expect(supported.index!.count).toBe(before.index!.count);
+     13|  expect(supported.getAttribute('position').count).toBe(before.getAttri…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  09:38:09
+   Duration  175ms (transform 60%, import 25%, tests 7%, setup 5%, worker 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

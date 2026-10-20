@@ -1,0 +1,72 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "0004df34e"
+  },
+  "label": "tree:wild:71:20",
+  "scale": 1.0636663067877292,
+  "leafSnapshots": {
+    "position": {
+      "itemSize": 3,
+      "normalized": false,
+      "sha256": "3c1258909c68a5fed9d599edadb727a42b031955a22cddad61e0625f849740c8"
+    },
+    "normal": {
+      "itemSize": 3,
+      "normalized": false,
+      "sha256": "8c5a0ed05d681df2875003b29a9686dc7c7960080e10d739e10d81f198678ecd"
+    },
+    "uv": {
+      "itemSize": 2,
+      "normalized": false,
+      "sha256": "43d08926da66602c52d1e96637aaabce915f0549fcd1e4adcc631b9ed4cad37e"
+    },
+    "_wind": {
+      "itemSize": 4,
+      "normalized": false,
+      "sha256": "e388c9806984a9dc5fea9ccd4352a7bc1af58bf7b1e8135cafc3cf81406e676e"
+    },
+    "_pivot": {
+      "itemSize": 3,
+      "normalized": false,
+      "sha256": "a0acb8db17736464d777ec86b779642e8d1a57bd01df5d39a2a175bfaba900cf"
+    }
+  },
+  "twigIndex": 24612,
+  "baseCount": 15217,
+  "plans": 58,
+  "originalIslandPass": {
+    "islands": 0,
+    "moved": 0,
+    "dropped": 0
+  },
+  "nativeRegenerationExact": true,
+  "regenerationMode": "production candidate",
+  "woodBoxEqual": false,
+  "woodSphereEqual": false,
+  "woodTriangles": [
+    8588,
+    8588
+  ],
+  "vertices": [
+    15705,
+    15705
+  ],
+  "beforeFlags": 76,
+  "afterFlags": 69,
+  "topCards": [
+    {
+      "part": 647,
+      "before": true,
+      "after": false
+    },
+    {
+      "part": 649,
+      "before": true,
+      "after": false
+    }
+  ],
+  "windBindingsExact": true,
+  "newWoodVerticesOutsideOldCombinedBox": 0,
+  "matched": 2
+}
