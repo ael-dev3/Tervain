@@ -1,0 +1,17 @@
+{
+  "before": {
+    "batches": 9,
+    "meanBatchMs": 1068.3555555608536,
+    "p95BatchMs": 1325.9000000059605
+  },
+  "after": {
+    "batches": 9,
+    "meanBatchMs": 709.3111111058129,
+    "p95BatchMs": 848
+  },
+  "control": {
+    "batches": 9,
+    "meanBatchMs": 1058.1000000006622,
+    "p95BatchMs": 1118.1000000238419
+  }
+}

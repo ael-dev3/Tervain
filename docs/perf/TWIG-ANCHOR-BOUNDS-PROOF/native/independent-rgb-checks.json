@@ -1,0 +1,65 @@
+[
+  {
+    "pose": 0,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "a2f3e3bb96d70282bf915e10475d565c0a8a627abae20a5d278f48ecf458ed32",
+      "after": "a2f3e3bb96d70282bf915e10475d565c0a8a627abae20a5d278f48ecf458ed32",
+      "restore": "a2f3e3bb96d70282bf915e10475d565c0a8a627abae20a5d278f48ecf458ed32"
+    }
+  },
+  {
+    "pose": 1,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "0cc3898770b7948f32c8feb6b54097c95d19ff87ffa8cf89a69bb8f33653a04b",
+      "after": "0cc3898770b7948f32c8feb6b54097c95d19ff87ffa8cf89a69bb8f33653a04b",
+      "restore": "0cc3898770b7948f32c8feb6b54097c95d19ff87ffa8cf89a69bb8f33653a04b"
+    }
+  },
+  {
+    "pose": 2,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "f03b2fbcc06f5dbef56453fb3a830ab5ff635117aef43f6a12cb878132c373c6",
+      "after": "f03b2fbcc06f5dbef56453fb3a830ab5ff635117aef43f6a12cb878132c373c6",
+      "restore": "f03b2fbcc06f5dbef56453fb3a830ab5ff635117aef43f6a12cb878132c373c6"
+    }
+  },
+  {
+    "pose": 3,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "62e793410232b8931a07cb88a7e0a3035ae114a5ae9c68f556f9b82f28740c62",
+      "after": "62e793410232b8931a07cb88a7e0a3035ae114a5ae9c68f556f9b82f28740c62",
+      "restore": "62e793410232b8931a07cb88a7e0a3035ae114a5ae9c68f556f9b82f28740c62"
+    }
+  },
+  {
+    "pose": 4,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "54eae87370833786ea4e107c3243a31a3418e37257204ff44f3ce8eb93ec3ee7",
+      "after": "54eae87370833786ea4e107c3243a31a3418e37257204ff44f3ce8eb93ec3ee7",
+      "restore": "54eae87370833786ea4e107c3243a31a3418e37257204ff44f3ce8eb93ec3ee7"
+    }
+  },
+  {
+    "pose": 5,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "b2077cf36a8b18005d22d44dc6e8ff075b0151bdbcb4e088bfeb7a700a20f63f",
+      "after": "b2077cf36a8b18005d22d44dc6e8ff075b0151bdbcb4e088bfeb7a700a20f63f",
+      "restore": "b2077cf36a8b18005d22d44dc6e8ff075b0151bdbcb4e088bfeb7a700a20f63f"
+    }
+  },
+  {
+    "pose": 6,
+    "exactRgb": true,
+    "rgbSha256": {
+      "before": "d88edab9fbdf5d689f982c3a2c40e0388a123550bfbcc86079ba5ba4bae495fb",
+      "after": "d88edab9fbdf5d689f982c3a2c40e0388a123550bfbcc86079ba5ba4bae495fb",
+      "restore": "d88edab9fbdf5d689f982c3a2c40e0388a123550bfbcc86079ba5ba4bae495fb"
+    }
+  }
+]
