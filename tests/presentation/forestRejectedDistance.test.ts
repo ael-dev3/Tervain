@@ -15,6 +15,9 @@ vi.mock('../../src/presentation/forestFloor',()=>({buildForestFloor:()=>({group:
 vi.mock('../../src/presentation/treeMaterials',()=>({woodMaterial:()=>new THREE.MeshStandardMaterial(),leafMaterial:()=>new THREE.MeshStandardMaterial(),installBarkDetail(){},disposeTreeMaterials(){}}));
 vi.mock('../../src/presentation/treeTextures',()=>({barkTextures:()=>({map:new THREE.DataTexture(),surface:new THREE.DataTexture()}),disposeTreeTextures(){}}));
 vi.mock('../../src/presentation/distanceVisibility',async original=>{const actual=await original<typeof import('../../src/presentation/distanceVisibility')>();return{...actual,smoothDistanceFade:vi.fn(actual.smoothDistanceFade)};});
+// The forest tests both bounds in one plane walk (treeBounds.test.ts proves it equals sphere && box); route it through the
+// Frustum methods so the view and shadow rejections below can be stubbed.
+vi.mock('../../src/presentation/foliage/treeBounds',()=>({intersectsTreeBounds:(f:THREE.Frustum,s:THREE.Sphere,b:THREE.Box3)=>f.intersectsSphere(s)&&f.intersectsBox(b)}));
 let forest:ReturnType<typeof buildFlora>;
 const camera=new THREE.PerspectiveCamera(60,16/9,.1,1200);
 beforeAll(async()=>{const terrain=new Terrain();forest=buildFlora({terrain,excl:new Exclusions(terrain),colliders:new Colliders(),quality:'high',settings:defaultSettings(),library:AssetLibrary.empty(),sway:{uTime:{value:0},uWind:{value:0}}},await pineTemplates());});
