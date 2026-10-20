@@ -1,0 +1,32 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/foliageEngine.test.ts (22 tests | 1 failed | 21 skipped) 1544ms
+   ❯ the forest with wind, shadow-only casters and strikes (4)
+     × casts shadows only from casters inside the sun volume, hides empty meshes, and shakes a struck tree 773ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/foliageEngine.test.ts > the forest with wind, shadow-only casters and strikes > casts shadows only from casters inside the sun volume, hides empty meshes, and shakes a struck tree
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/presentation/foliageEngine.test.ts:534:25
+    532|       }
+    533|     }
+    534|     expect(tighterWood).toBeGreaterThan(0);
+       |                         ^
+    535|     const assertCaptureBounds = () => {
+    536|       const corner = new THREE.Vector3(), instance = new THREE.Matrix4…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  06:35:28
+   Duration  2.17s (tests 74%, transform 17%, import 9%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

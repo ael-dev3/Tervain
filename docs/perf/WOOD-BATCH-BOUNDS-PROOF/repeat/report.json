@@ -1,0 +1,998 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "8847b5770"
+    },
+    "printed": "v0.0.33 · 8847b5770 · pre-alpha",
+    "quality": "high",
+    "samples": 4,
+    "rasterSuppressed": false,
+    "bindings": 60,
+    "assertProduction": true
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "before": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 229,
+        "triangles": 3683647,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "restore": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "submissions": {
+        "before": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "after": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "restore": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ]
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "4eed55b7aa66e0f340d2550b52256d877e165ec7ad0f5fe8bb0e5ba0fd69187d"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "before": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 229,
+        "triangles": 3683647,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "restore": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "submissions": {
+        "before": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "after": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "restore": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ]
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "4eed55b7aa66e0f340d2550b52256d877e165ec7ad0f5fe8bb0e5ba0fd69187d"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "before": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "after": {
+        "draws": 229,
+        "triangles": 3683647,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "restore": {
+        "draws": 230,
+        "triangles": 3692559,
+        "uploadBytes": 13440,
+        "textures": 274,
+        "estimatedTextureBytes": 1310269324,
+        "unknownTextureFormats": 0
+      },
+      "submissions": {
+        "before": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "after": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ],
+        "restore": [
+          {
+            "name": "tree-1521:0:wood",
+            "binding": 0,
+            "count": 1,
+            "indices": 23991
+          },
+          {
+            "name": "tree-1521:1:wood",
+            "binding": 1,
+            "count": 5,
+            "indices": 14652
+          },
+          {
+            "name": "tree-1521:2:wood",
+            "binding": 2,
+            "count": 30,
+            "indices": 4185
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 3,
+            "count": 13,
+            "indices": 13446
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 6,
+            "count": 27,
+            "indices": 20865
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 9,
+            "count": 13,
+            "indices": 12747
+          },
+          {
+            "name": "hero-pine:0:wood",
+            "binding": 12,
+            "count": 14,
+            "indices": 14136
+          },
+          {
+            "name": "tree-4949:1:wood",
+            "binding": 16,
+            "count": 5,
+            "indices": 14649
+          },
+          {
+            "name": "tree-4949:2:wood",
+            "binding": 17,
+            "count": 10,
+            "indices": 4188
+          },
+          {
+            "name": "hero-oak:0:wood",
+            "binding": 24,
+            "count": 4,
+            "indices": 15204
+          },
+          {
+            "name": "hero-oak-b:0:wood",
+            "binding": 33,
+            "count": 2,
+            "indices": 14274
+          },
+          {
+            "name": "verdant-sentinel:0:wood",
+            "binding": 36,
+            "count": 1,
+            "indices": 26736
+          },
+          {
+            "name": "palm-fan:0:wood",
+            "binding": 42,
+            "count": 5,
+            "indices": 25224
+          },
+          {
+            "name": "palm-lean:0:wood",
+            "binding": 45,
+            "count": 2,
+            "indices": 36252
+          },
+          {
+            "name": "palm-date:0:wood",
+            "binding": 48,
+            "count": 6,
+            "indices": 4866
+          },
+          {
+            "name": "fir-spire:0:wood",
+            "binding": 51,
+            "count": 1,
+            "indices": 20865
+          }
+        ]
+      },
+      "exactRgb": true,
+      "restored": true,
+      "rgbSha256": "4eed55b7aa66e0f340d2550b52256d877e165ec7ad0f5fe8bb0e5ba0fd69187d"
+    }
+  ],
+  "consoleErrors": [],
+  "sourceSha256": "7a469641a1581e533a1018d5af4f654b7f30d17c3f2a23f52cdccdb359a39bc5",
+  "pass": true,
+  "scope": "Published native High post/MSAA4; same production concentric-shrink helper, native packed bounds and all source wood LODs; wood only bounds. Renderer-only bound swap, wind phases advance per pose, shadows refreshed; source geometry, materials and instance packing unchanged. Native raster draws enabled."
+}

@@ -1,0 +1,53 @@
+[
+  {
+    "beforeDraws": 230,
+    "afterDraws": 229,
+    "restoreDraws": 230,
+    "removedWood": [
+      {
+        "binding": 36,
+        "count": 1,
+        "indices": 26736,
+        "name": "verdant-sentinel:0:wood",
+        "repeats": 1
+      }
+    ],
+    "trianglesAccounted": 8912.0,
+    "rgbExact": true,
+    "restored": true
+  },
+  {
+    "beforeDraws": 230,
+    "afterDraws": 229,
+    "restoreDraws": 230,
+    "removedWood": [
+      {
+        "binding": 36,
+        "count": 1,
+        "indices": 26736,
+        "name": "verdant-sentinel:0:wood",
+        "repeats": 1
+      }
+    ],
+    "trianglesAccounted": 8912.0,
+    "rgbExact": true,
+    "restored": true
+  },
+  {
+    "beforeDraws": 230,
+    "afterDraws": 229,
+    "restoreDraws": 230,
+    "removedWood": [
+      {
+        "binding": 36,
+        "count": 1,
+        "indices": 26736,
+        "name": "verdant-sentinel:0:wood",
+        "repeats": 1
+      }
+    ],
+    "trianglesAccounted": 8912.0,
+    "rgbExact": true,
+    "restored": true
+  }
+]
