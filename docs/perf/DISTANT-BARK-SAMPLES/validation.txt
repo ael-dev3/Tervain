@@ -9,3 +9,5 @@ Five active native-wood cutoff macro pairs: 0 changed RGB channels, all restored
 Compiled-head active-wood macro run: exit 0, source helper hash matches live probes; 0 changed RGB channels at every distance.
 Single-sample marker: 26,999 distant native-wood pixels, 0 active-detail pixels; source-level derived sampling opportunities 161,994 -> 0.
 These request figures are not measured GPU traffic, overdraw or whole-frame savings. Submission-window readings are noisy and not used as a performance result.
+Stock budget completed PASS output: 285 draws / 3,048,306 triangles / 0 errors, matching both live-probe maximums; exact head de2cf53223572bfef0ab1f77ca0ed399ed9b8478. Process ended; separate tool exit-status handle unavailable after reconnection.
+All 15 current-head CI build/test/software-WebGL jobs pass.

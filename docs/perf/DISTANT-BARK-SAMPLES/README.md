@@ -67,3 +67,11 @@ Timing fields (`softwareDrawMs` in the earlier forest acquisition, `submissionWa
 ## Scope
 
 This is a shader-work reduction with paired rendering proof. Static floating crowns, branch placement, roots, grass sparkle and the hardware 60 Hz/heat target remain open. A prior read-only live check found no leaf vertices outside the existing whole-tree bounds across all 60 retained geometry/LOD pairs; no bounds or geometry expansion is included.
+
+## Exact-head stock budget
+
+[Completed stock output](BUDGET.md) for de2cf53223572bfef0ab1f77ca0ed399ed9b8478: live b317734 for both live probes, four completed frames per probe, maxima 285 draws / 3,048,306 triangles in both live and candidate, zero console errors. No startup raster suppression, altered gate, triangle allowance or sample reduction. Candidate endpoint is anonymized.
+
+The report is actual completed stdout and the process ended. The tool's separate exit-status handle became unavailable after reconnection; an independently captured OS exit status is not claimed. The script prints this PASS result only on its successful budget path.
+
+Command: `node tools/play-gate.mjs --url CANDIDATE_BUILD_URL --budget-url https://ael-dev3.github.io/Tervain/ --head de2cf53223572bfef0ab1f77ca0ed399ed9b8478` with REPRO_INIT_FILE unset. All 15 current-head CI build, test and software-WebGL jobs pass.
