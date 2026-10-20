@@ -390,6 +390,34 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   return geometry;
 }
 
+/** Rebuild only appended twig wood after leaf seating, keeping the original plans and collision prefix. */
+export function reconnectGrownTwigRoots(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+  if (!twigs.length) return wood;
+  const ringVertices = wood.hasAttribute('uv') || wood.hasAttribute('tangent') ? TWIG_SIDES + 1 : TWIG_SIDES;
+  let addedVertices = 0, addedIndices = 0;
+  for (const twig of twigs) if (twig.from.distanceTo(twig.to) > 1e-3) {
+    const triangles = twigTriangles([twig]);
+    addedVertices += (triangles / (TWIG_SIDES * 2) + 1) * ringVertices;
+    addedIndices += triangles * 3;
+  }
+  const vertices = wood.getAttribute('position').count - addedVertices;
+  const indices = (wood.index?.count ?? 0) - addedIndices;
+  if (!wood.index || vertices <= 0 || indices <= 0) throw new Error('Invalid grown twig ranges');
+  // Hero twigIndex marks trunk-only collision geometry, not the appended twig boundary.
+  const source = new THREE.BufferGeometry();
+  try {
+    for (const name of Object.keys(wood.attributes)) {
+      const attr = wood.getAttribute(name) as THREE.BufferAttribute;
+      source.setAttribute(name, new THREE.BufferAttribute(attr.array.slice(0, vertices * attr.itemSize), attr.itemSize, attr.normalized));
+    }
+    source.setIndex(Array.from(wood.index.array.slice(0, indices)));
+    source.userData = { ...wood.userData };
+    const repaired = growTwigs(source, twigs, true);
+    repaired.userData = { ...wood.userData };
+    return repaired;
+  } finally { source.dispose(); }
+}
+
 /**
  * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch
  * tips are covered first). Positions are in the same space as the inputs. An anchor may be shared between retries
