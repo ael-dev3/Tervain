@@ -267,6 +267,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   if (!twigs.length) return wood;
   const source = wood;
   const p = source.getAttribute('position'), names = Object.keys(source.attributes);
+  const hasMotion = source.hasAttribute('_wind') || source.hasAttribute('_pivot');
   const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));
   const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);
   let next = p.count;
@@ -339,6 +340,9 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
     down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);
     const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;
     const start = root.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);
+    // A repaired graft follows its new support at the root. Keep the tip on
+    // its original motion so the leaf clump it carries does not change binding.
+    const rootCopy = reconnectRoots && hasMotion && !root.equals(t.from) ? nearestVertex(root) : copy;
     const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;
     const rings = twigRings(t);
     for (let ring = 0; ring < rings; ring++) {
@@ -366,7 +370,7 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
           else if (name === 'normal') out.push(n.x, n.y, n.z);
           else if (name === 'tangent') out.push(across.x, across.y, across.z, -1);
           else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));
-          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(copy, c));
+          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(ring === 0 && (name === '_wind' || name === '_pivot') ? rootCopy : copy, c));
         }
         next++;
       }
