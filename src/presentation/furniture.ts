@@ -9,14 +9,16 @@ import { modelAssetUrl } from './assets/modelUrl';
 import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 import { downloadAsset } from './assets/download';
 import type { FrameContext, SceneModule } from './context';
+import { attachInstanceDistanceVisibility, smoothDistanceFade } from './distanceVisibility';
 import { roughnessFloor } from './matte';
 import { clutterGeometry, clutterMaterial, clutterOnPiece, firewoodGeometry, firewoodMaterial, hungGeometry, hungMaterial, pegRailGeometry, type ClutterKind, type HungKind } from './clutter';
 
 /**
  * The rooms' furniture, drawn (A66): the prepared Meshy pieces in public/models/furniture, placed as world/furniture.ts
  * places them (the colliders use the same placements). One instanced mesh per kind of piece. A room is drawn only while
- * it can be seen into: the camera is inside it, or near it while its door stands open (its windows show the daylight,
- * not the room).
+ * it can be seen into: the camera is inside it, or near it while its door stands open or its windows are in sight (A79).
+ * Since 0.0.38 a room's furniture fades in and out with the dither the trees fade with, over the last metres of its range
+ * and with its door's swing, instead of appearing in one frame behind the windows.
  */
 export interface FurniturePiece { id: FurnitureId; file: string; bytes: number; sha256: string; triangles: number; size: [number, number, number] }
 export interface FurnitureManifest { schema: 1; pieces: FurniturePiece[] }
@@ -24,6 +26,8 @@ export type FurnitureTemplates = Map<FurnitureId, THREE.Mesh<THREE.BufferGeometr
 
 /** An open room's furniture is drawn while the camera or the wanderer is within this distance of its middle, metres. */
 const DRAW_RANGE = 34;
+/** Over the last metres of that range it fades out (0.0.38). */
+const DRAW_FADE = 4;
 /** Every piece stays under this many triangles. */
 export const FURNITURE_TRIANGLE_LIMIT = 6000;
 
@@ -77,8 +81,8 @@ export function loadFurniture(progress?: ModelLoadProgress): Promise<FurnitureTe
 
 interface Instance { room: InteriorSpec; centre: THREE.Vector2; matrix: THREE.Matrix4 }
 
-/** Whether a room can be seen into from outside: its door is open. */
-export type RoomOpen = (room: InteriorSpec) => boolean;
+/** How much of a room's inside can be seen from outside: 0 none, 1 all of it. */
+export type RoomOpen = (room: InteriorSpec) => number;
 
 /** The furniture of every room, as one instanced mesh per kind of piece, drawn for the rooms near the camera. */
 export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator, open: RoomOpen, placements: readonly FurniturePlacement[] = FURNITURE,
@@ -235,11 +239,13 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
     group.add(mesh);
     meshes.push({ mesh, instances, shown: '' });
   }
+  // Each drawn instance shows as much of itself as its room shows (0.0.38); `slots` holds the room of each drawn instance.
+  const fades = meshes.map(({ mesh }) => ({ visibility: attachInstanceDistanceVisibility(mesh), slots: [] as InteriorSpec[] }));
   let drawn = 0, triangles = 0;
   const camera = new THREE.Vector2(), focus = new THREE.Vector2();
   // The rooms that have furniture, in a fixed order; their visibility is checked once a frame and the instances rewritten
   // only when it changes, so a still frame allocates nothing (A70).
-  const roomList = [...new Set([...placements.map((p) => p.room), ...dressing.map((p) => p.room)])], roomShown = new Map<InteriorSpec, boolean>(roomList.map((room) => [room, false]));
+  const roomList = [...new Set([...placements.map((p) => p.room), ...dressing.map((p) => p.room)])], roomShown = new Map<InteriorSpec, number>(roomList.map((room) => [room, 0]));
   let shownKey = -1;
   return {
     group,
@@ -254,37 +260,50 @@ export function buildFurniture(templates: FurnitureTemplates, rooms: RoomLocator
       focus.set(f.focus.x, f.focus.z);
       // The room the camera is in, not one it looks down on from above the roof (A70).
       const inside = rooms.within(f.camera.position.x, f.camera.position.y, f.camera.position.z);
-      let key = 0;
+      let key = 0, faded = false;
       for (const [i, room] of roomList.entries()) {
         const b = room.building, cx = b.x, cz = b.z;
-        const v = room === inside || (open(room) && Math.min(Math.hypot(cx - camera.x, cz - camera.y), Math.hypot(cx - focus.x, cz - focus.y)) < DRAW_RANGE);
+        const near = Math.min(Math.hypot(cx - camera.x, cz - camera.y), Math.hypot(cx - focus.x, cz - focus.y));
+        const v = room === inside ? 1 : open(room) * smoothDistanceFade(near, DRAW_RANGE - DRAW_FADE, DRAW_RANGE);
+        if (v !== roomShown.get(room)) faded = true;
         roomShown.set(room, v);
-        if (v) key += 2 ** (i % 52) * (1 + Math.floor(i / 52));
+        if (v > 0) key += 2 ** (i % 52) * (1 + Math.floor(i / 52));
       }
-      if (key === shownKey) return;
+      if (!faded) return;
+      const setChanged = key !== shownKey;
       shownKey = key;
-      const visible = (instance: Instance) => roomShown.get(instance.room)!;
+      const visible = (instance: Instance) => roomShown.get(instance.room)! > 0;
       drawn = 0; triangles = 0;
-      for (const entry of meshes) {
-        const { mesh, instances } = entry;
+      for (const [m, entry] of meshes.entries()) {
+        const { mesh, instances } = entry, { visibility: { coverage }, slots } = fades[m]!;
         // Rewrite the instances only when the set of nearby rooms changes.
-        const near = instances.map(visible);
-        const shown = near.map((v) => (v ? '1' : '0')).join('');
-        if (shown !== entry.shown) {
-          entry.shown = shown;
-          let n = 0;
-          for (const [i, instance] of instances.entries()) if (near[i]) mesh.setMatrixAt(n++, instance.matrix);
-          mesh.count = n;
-          mesh.instanceMatrix.needsUpdate = true;
-          if (n) mesh.computeBoundingSphere();
-          mesh.visible = n > 0;
+        if (setChanged) {
+          const near = instances.map(visible);
+          const shown = near.map((v) => (v ? '1' : '0')).join('');
+          if (shown !== entry.shown) {
+            entry.shown = shown;
+            let n = 0;
+            slots.length = 0;
+            for (const [i, instance] of instances.entries()) if (near[i]) { mesh.setMatrixAt(n++, instance.matrix); slots.push(instance.room); }
+            mesh.count = n;
+            mesh.instanceMatrix.needsUpdate = true;
+            if (n) mesh.computeBoundingSphere();
+            mesh.visible = n > 0;
+          }
         }
+        let dirty = false;
+        for (const [n, room] of slots.entries()) {
+          const v = roomShown.get(room)!, end = Math.fround(v >= 0.9999 ? 1 : v);
+          if (coverage.getX(n) !== 0 || coverage.getY(n) !== end) { coverage.setXY(n, 0, end); dirty = true; }
+        }
+        if (dirty) coverage.needsUpdate = true;
         drawn += mesh.count;
         triangles += mesh.count * (mesh.geometry.index?.count ?? mesh.geometry.getAttribute('position').count) / 3;
       }
     },
     stats: () => ({ furniture: drawn, furnitureTris: triangles }),
     dispose() {
+      for (const { visibility } of fades) visibility.dispose();
       for (const { mesh } of meshes) {
         mesh.dispose();
         if (mesh.userData.ownsResources) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); }

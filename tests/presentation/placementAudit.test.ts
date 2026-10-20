@@ -55,7 +55,7 @@ it('exports furniture before it is drawn and forwards exports through its deferr
   const placement = FURNITURE.find(p => p.piece === 'chair')!;
   const template = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial());
   const rooms = { base: () => 0, within: () => null } as unknown as RoomLocator;
-  const furniture = buildFurniture(new Map([['chair', template]]), rooms, () => false, [placement], []);
+  const furniture = buildFurniture(new Map([['chair', template]]), rooms, () => 0, [placement], []);
   const wrapper = deferredFurniture();
   try {
     expect(wrapper.placementAuditTargets!()).toEqual([]);

@@ -4,6 +4,7 @@ import { buildFurniture, deferredFurniture, loadFurniture, type FurnitureTemplat
 import { InteriorLight } from './interiorLight';
 import { buildHearthFires } from './hearthFire';
 import { WINDOW_VIEW_SIZE, WindowView } from './windowView';
+import { smoothDistanceFade } from './distanceVisibility';
 import type { InteriorSpec } from '../world/interiors';
 import { DoorSwings, type DoorEvent } from './doors';
 import * as THREE from 'three';
@@ -83,6 +84,14 @@ type DustParticle = { x: number; y: number; z: number; vx: number; vy: number; v
 /** How the world prepares what arrives after it opened (A78): set by the app, which holds the renderer and camera. */
 /** A room's furniture is drawn while the camera is within this many metres of its building (A79: seen through windows). */
 export const ROOM_SEEN_FROM = 25;
+/** Over the last metres of that range it fades out rather than vanishing behind the windows in one frame (0.0.38). */
+export const ROOM_SEEN_FADE = 4;
+
+/** How much of a room's inside shows from outside: as far as its door stands open, or through its windows while the eye
+ * is near (A79), fading over the last metres of that range (0.0.38). */
+export function roomShowing(doorOpen: number, eyeDistance: number): number {
+  return Math.max(doorOpen, smoothDistanceFade(eyeDistance, ROOM_SEEN_FROM - ROOM_SEEN_FADE, ROOM_SEEN_FROM));
+}
 
 export interface WorldWarming { warm: ((object: THREE.Object3D) => Promise<unknown>) | null }
 
@@ -329,7 +338,7 @@ export class WorldScene {
       const environment = own(buildEnvironment(scene, settings.quality));
       scene.add(scenery.group);
       // A room's furniture shows only while someone can see into it (A66): see WorldScene.roomOpen.
-      let roomOpen: (room: InteriorSpec) => boolean = () => true;
+      let roomOpen: (room: InteriorSpec) => number = () => 1;
       // What arrives after the world opens is asked for only once it has opened, so it never competes with what the
       // first view needs (A72); WorldScene.open() lets it in.
       let letIn!: () => void;
@@ -824,11 +833,11 @@ export class WorldScene {
   /** The sky's image light at full strength, before a room dims it. */
   private readonly skyFill: number;
 
-  /** Whether a room's door stands at all open, so its inside can be seen from outside (A66). */
-  roomOpen(room: InteriorSpec): boolean {
-    // A79: through its windows a room is seen from outside too, so its furniture stays while the eye is near.
+  /** How much of a room's inside can be seen from outside (A66): through its door as it swings open and, since A79,
+   * through its windows while the eye is near. */
+  roomOpen(room: InteriorSpec): number {
     const b = room.building;
-    return this.doorSwings.openness(room) > 0 || Math.hypot(this.eye.x - b.x, this.eye.z - b.z) < ROOM_SEEN_FROM;
+    return roomShowing(this.doorSwings.openness(room), Math.hypot(this.eye.x - b.x, this.eye.z - b.z));
   }
 
   /** Swing the rooms' doors for the wanderer and residents near them (A66); returns door sounds to play. */
