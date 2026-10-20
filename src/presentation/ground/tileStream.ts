@@ -77,6 +77,7 @@ export class TileLayer {
   private pool: Tile[] = [];
   private buf: TileBuffers;
   private first = true;
+  private selectionValid = false;
   private wantList: { tx: number; tz: number; d: number }[] = [];
   visibleInstances = 0;
   visibleTriangles = 0;
@@ -235,6 +236,7 @@ export class TileLayer {
     if (this.disposed) return;
     const o = this.o;
     if (!this.enabled) {
+      this.selectionValid = false;
       this.group.visible = false;
       this.visibleInstances = this.visibleTriangles = this.drawCalls = 0;
       return;
@@ -242,8 +244,10 @@ export class TileLayer {
     this.group.visible = true;
     const streamChanged = this.first || !this.drawFocus.equals(cam) || this.wantList.length > 0;
     this.drawFocus.copy(cam);
+    // Distance/rank selection is unchanged after preparation; per-pass view culling still runs at draw time.
+    if (!streamChanged && this.selectionValid) return;
     // A stationary, fully prepared view has no new requests. Keep polling while
-    // reserve work is pending; per-tile distance/rank selection still runs below.
+    // reserve work is pending; new tiles still receive a fresh selection below.
     if (streamChanged) {
       const T = o.tileSize;
       // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
@@ -322,6 +326,7 @@ export class TileLayer {
     this.visibleTriangles = tris;
     this.drawCalls = draws;
     this.activeTiles = this.tiles.size;
+    this.selectionValid = true;
   }
 
   private trimFadedTail(t: Tile, count: number, camera: THREE.Vector3): number {

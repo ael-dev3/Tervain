@@ -1,0 +1,8 @@
+{
+  "baseline": "77c6866",
+  "test": "tests/presentation/grassSettledSelection.test.ts",
+  "failed": 1,
+  "passed": 1,
+  "reason": "Settled updates still repeat distance queries; the reserve/capture control passes.",
+  "candidateFocusedSuitePassed": 24
+}

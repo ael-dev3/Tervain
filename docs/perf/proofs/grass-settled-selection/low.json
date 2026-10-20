@@ -1,0 +1,120 @@
+{
+  "build": {
+    "version": "0.0.19",
+    "revision": "77c6866"
+  },
+  "tiles": 110,
+  "rows": {
+    "native": {
+      "settled": {
+        "distances": 13200,
+        "selections": 9120,
+        "statesMatch": true,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "moved": {
+        "distances": 110,
+        "selections": 76,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "disabled": true,
+      "reenabled": {
+        "distances": 110,
+        "selections": 76,
+        "statesMatch": true
+      },
+      "capturesSha256": "08e78269d4a4332b132fc30bf473ede52ae301c738a24ef7760a1cb46fef0715",
+      "passes": [
+        {
+          "turn": 0,
+          "drawCalls": 246,
+          "triangles": 1892578,
+          "textures": 263
+        },
+        {
+          "turn": 0.5,
+          "drawCalls": 353,
+          "triangles": 1978774,
+          "textures": 263
+        }
+      ]
+    },
+    "before": {
+      "settled": {
+        "distances": 13200,
+        "selections": 9120,
+        "statesMatch": true,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "moved": {
+        "distances": 110,
+        "selections": 76,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "disabled": true,
+      "reenabled": {
+        "distances": 110,
+        "selections": 76,
+        "statesMatch": true
+      },
+      "capturesSha256": "08e78269d4a4332b132fc30bf473ede52ae301c738a24ef7760a1cb46fef0715",
+      "passes": [
+        {
+          "turn": 0,
+          "drawCalls": 246,
+          "triangles": 1892578,
+          "textures": 263
+        },
+        {
+          "turn": 0.5,
+          "drawCalls": 353,
+          "triangles": 1978774,
+          "textures": 263
+        }
+      ]
+    },
+    "after": {
+      "settled": {
+        "distances": 0,
+        "selections": 0,
+        "statesMatch": true,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "moved": {
+        "distances": 110,
+        "selections": 76,
+        "statesSha256": "13ae247e7938e0487d97e400cbe8137bf4ae40747a000e98e2486a52993b57ef"
+      },
+      "disabled": true,
+      "reenabled": {
+        "distances": 110,
+        "selections": 76,
+        "statesMatch": true
+      },
+      "capturesSha256": "08e78269d4a4332b132fc30bf473ede52ae301c738a24ef7760a1cb46fef0715",
+      "passes": [
+        {
+          "turn": 0,
+          "drawCalls": 246,
+          "triangles": 1892578,
+          "textures": 263
+        },
+        {
+          "turn": 0.5,
+          "drawCalls": 353,
+          "triangles": 1978774,
+          "textures": 263
+        }
+      ]
+    }
+  },
+  "pixelDifferences": 0,
+  "visibleGrassPixels": 687,
+  "sourceSha256": {
+    "before": "b0babf9c73efa19432fd55a3e2e5711dec723ec11c202235fbdd70161e75ac1a",
+    "after": "b0b1dab4f3732bb6a1aadf11b3df618dc66eb9e41e5cd18ddf4a3d8b4edacc84"
+  },
+  "pass": true,
+  "scope": "Published native grass tiles and buffers. Before/candidate production update methods run on the same settled layers. Compares state/counters, movement and enable/disable controls, independent near/far capture selection and native post/MSAA draws at two camera orientations. The hidden-grass control proves visible coverage. Only update selection is changed; per-pass frustum culling and shader animation remain native. Software WebGL, no hardware frame-time claim.",
+  "quality": "low"
+}
