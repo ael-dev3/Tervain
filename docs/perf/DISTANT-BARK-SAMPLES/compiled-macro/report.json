@@ -1,0 +1,147 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "de2cf5322"
+    },
+    "materials": 18,
+    "quality": "high",
+    "samples": 4
+  },
+  "rows": [],
+  "fixture": {
+    "label": "tree:wild:70:35",
+    "kind": "oak/verdant-sentinel",
+    "position": [
+      62.325785261732136,
+      0.668290496441164,
+      56.79873619470279
+    ],
+    "scope": "One native wood mesh, geometry, textures, material and authored placement; isolated lighting scene, 30/60/99/100/120 m camera distances and scaled FOV for a bark macro. No production geometry change."
+  },
+  "macros": [
+    {
+      "distance": 30,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "before": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 1.4000000059604645
+      },
+      "after": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.5
+      }
+    },
+    {
+      "distance": 60,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "before": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.5
+      },
+      "after": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.5999999940395355
+      }
+    },
+    {
+      "distance": 99,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "before": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.4000000059604645
+      },
+      "after": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.4000000059604645
+      }
+    },
+    {
+      "distance": 100,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "before": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.4000000059604645
+      },
+      "after": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.4000000059604645
+      }
+    },
+    {
+      "distance": 120,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "before": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.29999998211860657
+      },
+      "after": {
+        "draws": 5,
+        "triangles": 8916,
+        "textures": 271,
+        "submissionWallMs": 0.29999998211860657
+      }
+    }
+  ],
+  "mask": {
+    "width": 640,
+    "height": 360,
+    "near": 0,
+    "far": 26999,
+    "baselineDetailRequests": 161994,
+    "candidateDetailRequests": 0,
+    "scope": "Single-sample isolated native wood at 120 m; red=positive detail weight, magenta=zero detail weight. Counts imply GLSL sampling operations, not measured GPU memory traffic or whole-forest savings."
+  },
+  "shaders": {
+    "matched": 1,
+    "compiled": [
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "mask",
+        "explicitGradients": false,
+        "guard": false
+      }
+    ]
+  },
+  "errors": [],
+  "sections": {
+    "forest": false,
+    "macro": true,
+    "mask": true
+  },
+  "sourceSha256": "574edb5892de7206394bc05056418f49a15ca6fba9bb6e866c75a8880f35f112",
+  "complete": true,
+  "scope": "Native frozen High/MSAA4 scene; source-exact original/candidate bark sampling blocks substituted into the same material objects to preserve opaque sort order. Submission-window wall readings exclude canvas readback and are not hardware GPU or whole-frame JS CPU timings. The single-sample diagnostic mask is separate from kept High/MSAA4 comparisons. No geometry, textures, placements or visual styling changes."
+}

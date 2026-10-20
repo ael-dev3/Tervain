@@ -1,0 +1,77 @@
+[
+  {
+    "distance": 30,
+    "originalSamplingCrossBrowser": {
+      "changedChannels": 7853,
+      "maxChannelDifference": 1
+    },
+    "liveOriginalVsCompiledCandidate": {
+      "changedChannels": 7853,
+      "maxChannelDifference": 1
+    },
+    "compiledPaired": {
+      "changedChannels": 0,
+      "maxChannelDifference": 0
+    }
+  },
+  {
+    "distance": 60,
+    "originalSamplingCrossBrowser": {
+      "changedChannels": 10417,
+      "maxChannelDifference": 1
+    },
+    "liveOriginalVsCompiledCandidate": {
+      "changedChannels": 10417,
+      "maxChannelDifference": 1
+    },
+    "compiledPaired": {
+      "changedChannels": 0,
+      "maxChannelDifference": 0
+    }
+  },
+  {
+    "distance": 99,
+    "originalSamplingCrossBrowser": {
+      "changedChannels": 8681,
+      "maxChannelDifference": 1
+    },
+    "liveOriginalVsCompiledCandidate": {
+      "changedChannels": 8681,
+      "maxChannelDifference": 1
+    },
+    "compiledPaired": {
+      "changedChannels": 0,
+      "maxChannelDifference": 0
+    }
+  },
+  {
+    "distance": 100,
+    "originalSamplingCrossBrowser": {
+      "changedChannels": 8501,
+      "maxChannelDifference": 1
+    },
+    "liveOriginalVsCompiledCandidate": {
+      "changedChannels": 8501,
+      "maxChannelDifference": 1
+    },
+    "compiledPaired": {
+      "changedChannels": 0,
+      "maxChannelDifference": 0
+    }
+  },
+  {
+    "distance": 120,
+    "originalSamplingCrossBrowser": {
+      "changedChannels": 7901,
+      "maxChannelDifference": 1
+    },
+    "liveOriginalVsCompiledCandidate": {
+      "changedChannels": 7901,
+      "maxChannelDifference": 1
+    },
+    "compiledPaired": {
+      "changedChannels": 0,
+      "maxChannelDifference": 0
+    }
+  }
+]

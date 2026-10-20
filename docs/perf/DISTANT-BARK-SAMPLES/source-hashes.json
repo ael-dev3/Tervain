@@ -1,0 +1,6 @@
+{
+  "src/presentation/barkSampling.ts": "574edb5892de7206394bc05056418f49a15ca6fba9bb6e866c75a8880f35f112",
+  "src/presentation/treeMaterials.ts": "86e951f97323d566691e1fda666f36848d447f11f8aa18474a989d60dfa4bd5c",
+  "tests/presentation/treeBarkDetail.test.ts": "473f202433754e675e8264201b7af20a50b457a23d7a3c0e13dbb84438239514",
+  "tools/repro-live-bark-distance.mjs": "f207581f82c998c86e8e1d0d64c344fcbf99f189a0516279faec91542cf3f9c2"
+}

@@ -1,0 +1,192 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "materials": 18,
+    "quality": "high",
+    "samples": 4
+  },
+  "rows": [
+    {
+      "pose": 0,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "maxChannelError": 0,
+      "before": {
+        "draws": 321,
+        "triangles": 5283438,
+        "textures": 274,
+        "softwareDrawMs": 7.4000000059604645
+      },
+      "after": {
+        "draws": 321,
+        "triangles": 5283438,
+        "textures": 274,
+        "softwareDrawMs": 6.800000011920929
+      }
+    },
+    {
+      "pose": 1,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "maxChannelError": 0,
+      "before": {
+        "draws": 282,
+        "triangles": 5181143,
+        "textures": 274,
+        "softwareDrawMs": 6.800000011920929
+      },
+      "after": {
+        "draws": 282,
+        "triangles": 5181143,
+        "textures": 274,
+        "softwareDrawMs": 14.300000011920929
+      }
+    },
+    {
+      "pose": 2,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "maxChannelError": 0,
+      "before": {
+        "draws": 283,
+        "triangles": 5224748,
+        "textures": 274,
+        "softwareDrawMs": 6.5999999940395355
+      },
+      "after": {
+        "draws": 283,
+        "triangles": 5224748,
+        "textures": 274,
+        "softwareDrawMs": 6.199999988079071
+      }
+    },
+    {
+      "pose": 3,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "maxChannelError": 0,
+      "before": {
+        "draws": 284,
+        "triangles": 5239504,
+        "textures": 274,
+        "softwareDrawMs": 5.899999976158142
+      },
+      "after": {
+        "draws": 284,
+        "triangles": 5239504,
+        "textures": 274,
+        "softwareDrawMs": 7.5
+      }
+    },
+    {
+      "pose": 4,
+      "changedChannels": 0,
+      "restoreChangedChannels": 0,
+      "maxChannelError": 0,
+      "before": {
+        "draws": 283,
+        "triangles": 5239120,
+        "textures": 274,
+        "softwareDrawMs": 6.4000000059604645
+      },
+      "after": {
+        "draws": 283,
+        "triangles": 5239120,
+        "textures": 274,
+        "softwareDrawMs": 6.5
+      }
+    }
+  ],
+  "shaders": {
+    "matched": 8,
+    "compiled": [
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "before",
+        "explicitGradients": false,
+        "guard": false
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      },
+      {
+        "mode": "after",
+        "explicitGradients": true,
+        "guard": true
+      }
+    ]
+  },
+  "errors": [],
+  "sourceSha256": "574edb5892de7206394bc05056418f49a15ca6fba9bb6e866c75a8880f35f112",
+  "complete": true,
+  "scope": "Native frozen High/MSAA4 scene; source-exact original/candidate bark sampling blocks substituted into the same material objects to preserve opaque sort order. Software gl.finish draw durations are not hardware GPU or JS CPU timings. No geometry, textures, placements or visual styling changes."
+}

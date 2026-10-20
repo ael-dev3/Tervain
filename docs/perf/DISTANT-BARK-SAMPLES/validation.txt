@@ -1,0 +1,11 @@
+Source head de2cf53223572bfef0ab1f77ca0ed399ed9b8478
+Published baseline 0.0.33 b317734
+Related tests: 3 files, 10 tests pass.
+Command: npx vitest run tests/presentation/treeBarkDetail.test.ts tests/presentation/treeTexturePool.test.ts tests/presentation/pineBarkNormals.test.ts
+Original-source negative regression: treeBarkDetail has 1 failed / 3 passed; exit 1 as expected. The missing distance guard/gradient assertion fails. Candidate source restored.
+Production build/type check: npm run build, exit 0.
+Five native High/MSAA4 forest pairs: 0 changed RGB channels, all restored-baseline controls exact; 8 native bark material callbacks executed the candidate sampling code.
+Five active native-wood cutoff macro pairs: 0 changed RGB channels, all restored-baseline controls exact.
+Compiled-head active-wood macro run: exit 0, source helper hash matches live probes; 0 changed RGB channels at every distance.
+Single-sample marker: 26,999 distant native-wood pixels, 0 active-detail pixels; source-level derived sampling opportunities 161,994 -> 0.
+These request figures are not measured GPU traffic, overdraw or whole-frame savings. Submission-window readings are noisy and not used as a performance result.
