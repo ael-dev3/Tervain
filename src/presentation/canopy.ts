@@ -263,7 +263,7 @@ export interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }
  * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,
  * wind weights) copy the nearest bough vertex.
  */
-export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[]): THREE.BufferGeometry {
+export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], tipInset = 0): THREE.BufferGeometry {
   if (!twigs.length) return wood;
   const source = wood;
   const p = source.getAttribute('position'), names = Object.keys(source.attributes);
@@ -316,7 +316,15 @@ export function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig
   const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();
   // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.
   const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;
-  for (const t of twigs) {
+  // Fill the support inset after leaf placement: leaves and their wind anchors stay unchanged.
+  // Cap short tips before the bend threshold so the planned triangle budget stays exact.
+  const supports = tipInset > 0 && Number.isFinite(tipInset) ? twigs.map(plan => {
+    const length = plan.from.distanceTo(plan.to);
+    const extension = length > 1e-3 ? Math.min(tipInset,
+      length <= TWIG_BEND_LENGTH ? Math.max(0, TWIG_BEND_LENGTH - 1e-4 - length) : tipInset) : 0;
+    return extension > 0 ? { from: plan.from, to: plan.to.clone().addScaledVector(axis.subVectors(plan.to, plan.from), extension / length) } : plan;
+  }) : twigs;
+  for (const t of supports) {
     axis.subVectors(t.to, t.from); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);
     a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);
     // Bow: the middle sags (gravity), perpendicular to the twig.
