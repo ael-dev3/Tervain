@@ -9,6 +9,26 @@ interface EmbeddedImages {
 /** Immutable page-lifetime templates share content; each world still owns its cloned GPU handles. */
 const pool = new Map<string, THREE.Texture>();
 const installed = new WeakSet<GLTF>();
+const opaque = new WeakSet<THREE.Texture>();
+/** Only simple lossy WebP is intrinsically RGB. Extended/lossless containers may carry alpha. */
+function opaqueWebP(bytes: Uint8Array, mime: string | undefined): boolean {
+  if (mime !== 'image/webp' || bytes.length < 30) return false;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  return view.getUint32(0, false) === 0x52494646 && view.getUint32(4, true) + 8 === bytes.length &&
+    view.getUint32(8, false) === 0x57454250 && view.getUint32(12, false) === 0x56503820 &&
+    20 + view.getUint32(16, true) + (view.getUint32(16, true) % 2) === bytes.length;
+}
+/** A source cutout is redundant only when every possible alpha input survives its threshold. */
+export function treeCutoutIsRedundant(material: THREE.MeshStandardMaterial, geometry?: THREE.BufferGeometry): boolean {
+  if (!material.map || !opaque.has(material.map) || material.alphaMap || material.opacity !== 1 ||
+    !(material.alphaTest > 0 && material.alphaTest < 1)) return false;
+  if (material.vertexColors) {
+    const color = geometry?.getAttribute('color');
+    if (!color || (color.itemSize !== 3 && color.itemSize !== 4)) return false;
+    if (color.itemSize === 4) for (let i = 0; i < color.count; i++) if (color.getW(i) !== 1) return false;
+  }
+  return true;
+}
 
 function embeddedImages(buffer: ArrayBuffer): { json: EmbeddedImages; binary: Uint8Array } {
   const view = new DataView(buffer);
@@ -81,13 +101,15 @@ export async function deduplicateTreeTextures(gltf: GLTF, buffer: ArrayBuffer): 
         Array.from(new Uint8Array(value), byte => byte.toString(16).padStart(2, '0')).join(''));
       digests.set(source!, digest);
     }
-    return { texture, key: `${image.mimeType ?? ''}:${await digest}:${textureSignature(texture)}` };
+    return { texture, opaque: opaqueWebP(binary.subarray(offset, offset + length), image.mimeType),
+      key: `${image.mimeType ?? ''}:${await digest}:${textureSignature(texture)}` };
   }));
   const replacements = new Map<THREE.Texture, THREE.Texture>();
   for (const plan of plans) {
     const canonical = pool.get(plan.key);
     if (canonical) replacements.set(plan.texture, canonical);
     else pool.set(plan.key, plan.texture);
+    if (plan.opaque) opaque.add(canonical ?? plan.texture);
   }
   for (const ref of refs) ref.fields[ref.key] = replacements.get(ref.texture) ?? ref.texture;
 

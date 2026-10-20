@@ -141,3 +141,10 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 
 - Method: the orchard pose crown crop (top 400 px of each frame, first 10 of 40 frames, fixed camera). A pixel counts as foliage when it is green-dominant and mid-to-dark. Crude but repeatable.
 - Mean foliage-covered fraction: 0.0.24 0.9304, 0.0.29 0.9426. The 0.0.29 crown covers at least as much as 0.0.24 at this pose, so no refill is needed (refill is parked for 0.0.30).
+
+## 0.0.35: grass tip cap in scene light, 2026-10-20
+
+- Method: frozen frames (Sol's #695 freezing of wind, sway, clouds, grain and simulation) drawn with and without the cap in one page through its `uTipCap` uniform, and live 0.0.34 drawn into the same frames in its own browser. A frame drawn twice is identical, so every difference below is exact, not capture noise.
+- Result: grass pixels at 180 or more (blade edges over bright sky left out) 698 → 0 (low sun behind the camera, hour 17.5) and 3,003 → 0 (noon, toward the sun); grass mean −0.05% and −0.59%; frame mean −0.02% and −0.14%; no pixel brighter; draws and triangles unchanged. With the cap off the build matches live in every pixel. Details and the one-pixel dump: docs/engineering/a155-0035-grass-tip-cap.md.
+- 0.0.32's cap numbers leave every frozen frame pixel-identical to no cap: that cap never engaged, and its brighter readings were capture noise.
+- Budget gate against live 0.0.34 on the release head: in the release PR.

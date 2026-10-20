@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GUST_SPAN, TURBULENCE_SPAN, type GrassWind } from './wind';
 import type { GrassTrample } from './trample';
 import { RANK_HEADROOM } from '../ground/tileStream';
+import { displayToSceneLuminance } from '../grade';
 
 /**
  * The grass material: Three's Lambert lighting (so sun, shadows, lanterns, hemisphere light and fog all reach the grass
@@ -82,6 +83,8 @@ export interface GrassUniforms {
   uFarBlades: THREE.IUniform<number>;
   /** Drawing-buffer height in pixels, for the blades' projected size. */
   uGrassPx: THREE.IUniform<number>;
+  /** The tip cap in scene light: where it starts and how far above that a blade can still rise (GRASS_TIP_CAP). */
+  uTipCap: THREE.IUniform<THREE.Vector2>;
 }
 
 const f = (v: number) => (Number.isInteger(v) ? v.toFixed(1) : String(v));
@@ -277,6 +280,7 @@ export const GRASS_FRAGMENT_DECL = /* glsl */ `
 centroid varying vec4 vGCol;
 varying vec2 vGInfo;
 uniform vec3 uTransTint;
+uniform vec2 uTipCap;
 // Colour and the steep cross-blade edge ramp share one centroid vector. The two light intensities retain baseline interpolation.
 // A clamp alone cannot reject extrapolated values that are bright but still inside 0..1.
 // With multisampling a pixel only partly covered by a blade still shades at its centre, which for a sliver of a
@@ -310,6 +314,25 @@ void RE_Direct_Grass( const in IncidentLight directLight, const in vec3 geometry
 #define RE_Direct RE_Direct_Grass
 `;
 
+/**
+ * A soft cap on the brightest lit blades (warm tips against a low sun), in scene light: above the level that reaches
+ * about 158 of 255 on screen by day, a blade's luminance eases toward the level for about 166, and its colour scales as
+ * one so the hue stays. 0.0.32 put 0.62 here, a screen level, but the blades are written in scene light and the grade
+ * tone maps them afterwards, which took that cap to about 233 on screen, above every tip it was meant for.
+ */
+export const GRASS_TIP_CAP = (() => {
+  const cap = displayToSceneLuminance(158 / 255);
+  return { cap, knee: displayToSceneLuminance(166 / 255) - cap };
+})();
+
+/** Applied as the lit colour is written, before tone mapping, so it acts on scene light with or without the grade. */
+export const GRASS_TIP_CAP_GLSL = /* glsl */ `
+{
+  float tipY = dot( gl_FragColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
+  if ( tipY > uTipCap.x ) gl_FragColor.rgb *= ( uTipCap.x + uTipCap.y * ( 1.0 - exp( ( uTipCap.x - tipY ) / uTipCap.y ) ) ) / tipY;
+}
+`;
+
 const NORMAL_BEGIN = THREE.ShaderChunk.normal_fragment_begin.replace('normal *= faceDirection;', '');
 
 export interface GrassMaterial {
@@ -330,6 +353,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
     uTransTint: { value: opts.look.transTint.clone() },
     uFarBlades: { value: Math.min(1, Math.max(0.1, opts.farBlades ?? 0.5)) },
     uGrassPx: { value: 1080 },
+    uTipCap: { value: new THREE.Vector2(GRASS_TIP_CAP.cap, GRASS_TIP_CAP.knee) },
   };
   const trample = opts.trample?.uniforms ?? { tTrample: { value: null }, uTrample: { value: new THREE.Vector4(0, 0, 1, 0) } };
   const material = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -343,7 +367,7 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
   material.onBeforeCompile = (shader) => {
     const v0 = shader.vertexShader, f0 = shader.fragmentShader;
     const needV = ['#include <common>', '#include <beginnormal_vertex>', '#include <begin_vertex>'];
-    const needF = ['#include <common>', '#include <color_fragment>', '#include <normal_fragment_begin>', '#include <lights_lambert_pars_fragment>'];
+    const needF = ['#include <common>', '#include <color_fragment>', '#include <normal_fragment_begin>', '#include <lights_lambert_pars_fragment>', '#include <tonemapping_fragment>'];
     if (!needV.every((m) => v0.includes(m)) || !needF.every((m) => f0.includes(m)) || !THREE.ShaderChunk.normal_fragment_begin.includes('normal *= faceDirection;')) {
       failed = true;
       console.warn('grass shader chunks changed; grass hidden');
@@ -361,10 +385,11 @@ export function createGrassMaterial(opts: GrassMaterialOptions): GrassMaterial {
       // a flat strip.
       .replace('#include <color_fragment>', 'diffuseColor.rgb = G_COL * ( 0.8 + 0.28 * ( 1.0 - abs( G_EDGE ) ) );')
       .replace('#include <normal_fragment_begin>', NORMAL_BEGIN)
-      .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`);
+      .replace('#include <lights_lambert_pars_fragment>', `#include <lights_lambert_pars_fragment>\n${GRASS_LIGHT_GLSL}`)
+      .replace('#include <tonemapping_fragment>', `${GRASS_TIP_CAP_GLSL}#include <tonemapping_fragment>`);
     opts.patch?.(shader);
   };
-  material.customProgramCacheKey = () => `tervain-grass-blades-v16-rendered-width-coverage${opts.patchKey ? `-${opts.patchKey}` : ''}`;
+  material.customProgramCacheKey = () => `tervain-grass-blades-v17-tip-cap${opts.patchKey ? `-${opts.patchKey}` : ''}`;
   return {
     material, uniforms, ok: () => !failed,
     setBand(b) { uniforms.uBand.value.set(b.inStart, b.inEnd, b.outStart, b.outEnd); },
