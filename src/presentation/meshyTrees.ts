@@ -596,7 +596,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
-          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, species === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
           // 0.0.28: orchard cards beyond the audit reach are culled (no card moves).
           if (species === 'orchard' && wood && lod === 0) {
