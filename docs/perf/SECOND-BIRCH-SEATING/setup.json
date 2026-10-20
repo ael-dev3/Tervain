@@ -1,0 +1,306 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "maxScale": 1.0850455875083804,
+      "localReach": 1.3824303948781458,
+      "moved": 5,
+      "removed": 55,
+      "modes": {
+        "native": {
+          "lo": [
+            -5.831171989440918,
+            5.591824054718018,
+            -5.468743324279785
+          ],
+          "hi": [
+            5.782823085784912,
+            16.309389114379883,
+            5.359069347381592
+          ],
+          "size": [
+            11.61399507522583,
+            10.717565059661865,
+            10.827812671661377
+          ],
+          "triangles": 12000,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 55,
+            "detachedClumps": 7,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -5.831171989440918,
+            5.591824054718018,
+            -5.468743324279785
+          ],
+          "hi": [
+            5.782823085784912,
+            16.309389114379883,
+            5.359069347381592
+          ],
+          "size": [
+            11.61399507522583,
+            10.717565059661865,
+            10.827812671661377
+          ],
+          "triangles": 12000,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 6000,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 42,
+            "detachedClumps": 2,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -5.831171989440918,
+            5.591824054718018,
+            -5.468743324279785
+          ],
+          "hi": [
+            5.782823085784912,
+            16.309389114379883,
+            5.359069347381592
+          ],
+          "size": [
+            11.61399507522583,
+            10.717565059661865,
+            10.827812671661377
+          ],
+          "triangles": 11890,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 5945,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "treesWithDetached": 0
+          }
+        }
+      }
+    },
+    {
+      "lod": 1,
+      "maxScale": 1.0850455875083804,
+      "localReach": 1.3824303948781458,
+      "moved": 0,
+      "removed": 0,
+      "modes": {
+        "native": {
+          "lo": [
+            -4.921639919281006,
+            5.053748607635498,
+            -5.0078125
+          ],
+          "hi": [
+            5.08287239074707,
+            16.885025024414062,
+            4.981923580169678
+          ],
+          "size": [
+            10.004512310028076,
+            11.831276416778564,
+            9.989736080169678
+          ],
+          "triangles": 8394,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 4197,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 607,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -4.921639919281006,
+            5.053748607635498,
+            -5.0078125
+          ],
+          "hi": [
+            5.08287239074707,
+            16.885025024414062,
+            4.981923580169678
+          ],
+          "size": [
+            10.004512310028076,
+            11.831276416778564,
+            9.989736080169678
+          ],
+          "triangles": 8394,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 4197,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 607,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -4.921639919281006,
+            5.053748607635498,
+            -5.0078125
+          ],
+          "hi": [
+            5.08287239074707,
+            16.885025024414062,
+            4.981923580169678
+          ],
+          "size": [
+            10.004512310028076,
+            11.831276416778564,
+            9.989736080169678
+          ],
+          "triangles": 8394,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 4197,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 607,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        }
+      }
+    },
+    {
+      "lod": 2,
+      "maxScale": 1.0850455875083804,
+      "localReach": 1.3824303948781458,
+      "moved": 0,
+      "removed": 0,
+      "modes": {
+        "native": {
+          "lo": [
+            -4.784801006317139,
+            3.528881788253784,
+            -4.480400085449219
+          ],
+          "hi": [
+            4.758707046508789,
+            15.619537353515625,
+            4.879887104034424
+          ],
+          "size": [
+            9.543508052825928,
+            12.09065556526184,
+            9.360287189483643
+          ],
+          "triangles": 2103,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 151,
+            "chunks": 2,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 13,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -4.784801006317139,
+            3.528881788253784,
+            -4.480400085449219
+          ],
+          "hi": [
+            4.758707046508789,
+            15.619537353515625,
+            4.879887104034424
+          ],
+          "size": [
+            9.543508052825928,
+            12.09065556526184,
+            9.360287189483643
+          ],
+          "triangles": 2103,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 151,
+            "chunks": 2,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 13,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -4.784801006317139,
+            3.528881788253784,
+            -4.480400085449219
+          ],
+          "hi": [
+            4.758707046508789,
+            15.619537353515625,
+            4.879887104034424
+          ],
+          "size": [
+            9.543508052825928,
+            12.09065556526184,
+            9.360287189483643
+          ],
+          "triangles": 2103,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 151,
+            "chunks": 2,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 13,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        }
+      }
+    }
+  ],
+  "samples": 4
+}
