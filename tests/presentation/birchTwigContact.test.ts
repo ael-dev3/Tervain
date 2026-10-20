@@ -28,6 +28,8 @@ it('reconnects the retained birch twig roots while preserving every leaf and pla
   const ids=['verdant-sentinel','tree-1527','tree-4815'], templates=await meshyTreeTemplates(ids),real=C.growTwigs;
   let enabled=false;
   const spy=vi.spyOn(C,'growTwigs').mockImplementation((wood,twigs,reconnect)=>real(wood,twigs,enabled&&reconnect));
+  // Far-card seating measures against the final wood; hold it still so only the twig roots differ.
+  const seat=vi.spyOn(C,'seatFarCards').mockImplementation(canopy=>({geometry:canopy,moved:0}));
   const before=createMeshyForest(templates),after=createMeshyForest(templates);
   try {
     const originals=ids.map(id=>before.variant('birch',0,id));enabled=true;
@@ -44,5 +46,5 @@ it('reconnects the retained birch twig roots while preserving every leaf and pla
     expect(oldGaps.filter(x=>x>.12)).toHaveLength(4);
     expect(Math.max(...oldGaps)).toBeGreaterThan(1.2);
     expect(newGaps.filter(x=>x>.12)).toHaveLength(0);
-  } finally {before.dispose();after.dispose();spy.mockRestore();}
+  } finally {before.dispose();after.dispose();spy.mockRestore();seat.mockRestore();}
 },120000);

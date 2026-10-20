@@ -1,3 +1,4 @@
+import { anchorFarFoliage } from './canopy';
 import { intersectsTreeBounds } from './foliage/treeBounds';
 import { treeFootprint, treePlacementBox } from './foliage/treeFootprint';
 import { createMeshyForest, type MeshyTreeTemplates } from './meshyTrees';
@@ -335,6 +336,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         islandChecked.add(lod.leaf!);
         const scale = Math.max(1, largest.get(lod.leaf!) ?? 1);
         lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
+        // 0.0.37: the island pass can carry a chunk away from the twig that held one of its fir sheets or palm fronds
+        // (meshyTrees anchorFarFoliage). Any part now past the audit reach at this template's largest planted scale gets
+        // its own twig, written into the variant's wood itself.
+        if (l === 0 && (v.species === 'fir' || v.species === 'shorepine' || v.species === 'palm')) {
+          anchorFarFoliage(lod.leaf!, lod.wood, 1.5 / (largest.get(lod.leaf!) ?? 1), false, 0.9, true);
+        }
       }
       for (const m of [wood, leaf]) {
         if (!m) continue;

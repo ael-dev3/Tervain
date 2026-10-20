@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { expect, it } from 'vitest';
-import { seatFarCards, snapDetachedClumps } from '../../src/presentation/canopy';
+import { anchorFarFoliage, seatFarCards, snapDetachedClumps } from '../../src/presentation/canopy';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
 
 it('does not use a detached clump radius as proof of contact with wood', () => {
@@ -79,4 +79,35 @@ it('seats each card past the reach just inside it, toward its nearest wood, wher
   }
   expect(seatFarCards(result.geometry, wood, 1.5).moved).toBe(0);
   result.geometry.dispose(); leaves.dispose(); wood.dispose();
+});
+
+it('grows a leader and twigs out to sheets past the reach, leaving every leaf where it was', () => {
+  // A trunk up to y 4 and a sheet hanging at y 8, beside the axis: nothing inside it but air.
+  const wood = new THREE.BufferGeometry();
+  const ring = (y: number, r: number) => [0, 1, 2, 3].flatMap(k => [Math.cos(k * Math.PI / 2) * r, y, Math.sin(k * Math.PI / 2) * r]);
+  wood.setAttribute('position', new THREE.Float32BufferAttribute([...ring(0, .3), ...ring(4, .2)], 3));
+  wood.setAttribute('normal', new THREE.Float32BufferAttribute(new Array(24).fill(0).map((_, i) => i % 3 === 1 ? 0 : .7), 3));
+  wood.setAttribute('uv', new THREE.Float32BufferAttribute(new Array(16).fill(.5), 2));
+  wood.setIndex([0,1,5,0,5,4, 1,2,6,1,6,5, 2,3,7,2,7,6, 3,0,4,3,4,7]);
+  const leaves = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([1,8,-1, 3,8,-1, 3,8,1, 1,8,1], 3)).setIndex([0,1,2,0,2,3]);
+  const before = Array.from(leaves.getAttribute('position').array);
+  const audit = (w: THREE.BufferGeometry) => auditCanopies([{label:'sheet',wood:w,leaves,matrix:new THREE.Matrix4()}],{gap:.75,woodReach:1.5}).trees[0]!;
+  expect(audit(wood).detachedClumps).toBe(1);
+  const result = anchorFarFoliage(leaves, wood, 1.5, true);
+  expect(result.twigs).toBeGreaterThan(0);
+  expect(audit(result.geometry).detachedClumps).toBe(0);
+  expect(Array.from(leaves.getAttribute('position').array)).toEqual(before);
+  // The grown wood keeps the original as its prefix; colliders stop at the original index.
+  expect(result.geometry.userData.twigIndex).toBe(wood.index!.count);
+  expect(Array.from(result.geometry.index!.array).slice(0, wood.index!.count)).toEqual(Array.from(wood.index!.array));
+  expect(anchorFarFoliage(leaves, result.geometry, 1.5).twigs).toBe(0);
+  // In place: the same wood object gains the twigs, keeps its original prefix and its collider boundary.
+  const held = wood.clone(), heldIndex = held.index!.count;
+  const placed = anchorFarFoliage(leaves, held, 1.5, true, 0.9, true);
+  expect(placed.geometry).toBe(held);
+  expect(placed.twigs).toBe(result.twigs);
+  expect(audit(held).detachedClumps).toBe(0);
+  expect(held.userData.twigIndex).toBe(heldIndex);
+  expect(held.userData.anchoredTwigs).toBe(result.twigs);
+  held.dispose(); result.geometry.dispose(); leaves.dispose(); wood.dispose();
 });

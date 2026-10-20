@@ -1,4 +1,4 @@
-import { ORCHARD_MAX_SCALE } from './treeScale';
+import { CONIFER_MAX_SCALE, ORCHARD_MAX_SCALE, PALM_MAX_SCALE } from './treeScale';
 import * as THREE from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createGltfLoader } from './assets/gltfLoader';
@@ -14,7 +14,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -622,8 +622,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             geometries.delete(wood); wood.dispose(); geometries.add(seated); wood = seated; graftBase.dispose();
           }
           // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
-          // the final wood (twigs included). Hero oaks drop to no detached card at any scale; no card is removed.
-          if (species === 'oak' && wood) {
+          // the final wood (twigs included). Oaks (0.0.36) and birches (0.0.37) drop to no detached card at any scale; no
+          // card is removed.
+          if ((species === 'oak' || species === 'birch') && wood) {
             const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE)).geometry;
             if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
           }
@@ -634,6 +635,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         if (branch && leaf) deriveBranchLeaf(leaf, branch);
+        // 0.0.37: supplied fir and palm crowns get a leader (conifers) and twigs out to the sheets and fronds past the
+        // audit reach at their largest planted scale; the near crown only, where the audit and close views look.
+        const sheetScale = species === 'fir' || species === 'shorepine' ? CONIFER_MAX_SCALE : species === 'palm' ? PALM_MAX_SCALE : 0;
+        if (lod === 0 && sheetScale && wood && leaf) {
+          const anchored = anchorFarFoliage(leaf, wood, woodReachLocal(1.5, sheetScale), species !== 'palm').geometry;
+          if (anchored !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(anchored); wood = anchored; }
+        }
         return settle({ wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) });
       }) as TreeVariant['lods'];
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf
