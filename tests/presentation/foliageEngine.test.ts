@@ -493,6 +493,22 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
       forest.group.position.set(0, 0, 0); forest.group.rotation.y = 0;
       forest.group.updateMatrixWorld(true);
     }
+    // Depth twins share the fixed batch pose but must still inherit parent transforms.
+    const depthTwins = colour.filter(mesh => mesh.name.endsWith(':depth'));
+    expect(depthTwins.length).toBeGreaterThan(0);
+    const depthCompositions = depthTwins.map(mesh => vi.spyOn(mesh, 'updateMatrix'));
+    try {
+      forest.group.position.set(-3, 2, 5); forest.group.rotation.y = -0.6;
+      forest.group.updateMatrixWorld(true);
+      for (const [i, mesh] of depthTwins.entries()) {
+        expect(depthCompositions[i]).not.toHaveBeenCalled();
+        mesh.matrixWorld.elements.forEach((value, index) => expect(value).toBeCloseTo(forest.group.matrixWorld.elements[index]!, 12));
+      }
+    } finally {
+      depthCompositions.forEach(spy => spy.mockRestore());
+      forest.group.position.set(0, 0, 0); forest.group.rotation.y = 0;
+      forest.group.updateMatrixWorld(true);
+    }
     // Every tree material carries the wind; leaves the foliage look.
     for (const m of colour.filter((m) => /solitary-pine/.test(m.name))) {
       expect((m.material as THREE.Material).customProgramCacheKey()).toMatch(/:foliage(:depth)?$/.test(m.name) ? /tervain-foliage-v6-leaf-focus-world1-gap1-mip1\|foliage-options:\[null,null\]\|single-shadow-matrix1\|shake-matrix1\|mover-members1(\|leaf-(shade|depth))?$/ : /tervain-foliage-v6-wood-fill1\|foliage-options:\[null,null\]\|single-shadow-matrix1\|shake-matrix1\|mover-members1$/);
