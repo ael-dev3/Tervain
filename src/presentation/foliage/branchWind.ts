@@ -155,8 +155,13 @@ export function deriveBranchWood(wood: THREE.BufferGeometry, shape: BranchShape 
     };
     for (let s = 0; s <= last; s++) {
       if ((s - 1) * cell > Math.min(max, best >= 0 ? Math.sqrt(bd) : Infinity)) break;
-      for (let a = -s; a <= s; a++) for (let b = -s; b <= s; b++) {
-        if (Math.abs(a) === s || Math.abs(b) === s) { for (let c = -s; c <= s; c++) visit(cx + a, cy + b, cz + c); }
+      // Intersect the shell with the occupied grid before walking it. Queries
+      // outside the wood (leaf cards) otherwise enumerate empty space cubically.
+      const ax0 = Math.max(-s, -cx), ax1 = Math.min(s, nx - 1 - cx);
+      const ay0 = Math.max(-s, -cy), ay1 = Math.min(s, ny - 1 - cy);
+      const az0 = Math.max(-s, -cz), az1 = Math.min(s, nz - 1 - cz);
+      for (let a = ax0; a <= ax1; a++) for (let b = ay0; b <= ay1; b++) {
+        if (Math.abs(a) === s || Math.abs(b) === s) { for (let c = az0; c <= az1; c++) visit(cx + a, cy + b, cz + c); }
         else if (s > 0) { visit(cx + a, cy + b, cz - s); visit(cx + a, cy + b, cz + s); }
         else visit(cx, cy, cz);
       }
