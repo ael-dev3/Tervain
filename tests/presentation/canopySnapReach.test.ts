@@ -91,7 +91,7 @@ it('stops searching a retained card once its first sample reaches wood', () => {
     expect(result).toEqual({geometry:leaves,moved:0});
     expect(Array.from(leaves.getAttribute('position').array)).toEqual(positions);
     // Component construction also projects the leaf centre. Count only searches against the wood triangle.
-    const woodSearches = closest.mock.contexts.filter(triangle => triangle.a.z === 0 && triangle.b.z === 0 && triangle.c.z === 0);
+    const woodSearches = closest.mock.contexts.filter(triangle => triangle instanceof THREE.Triangle && triangle.a.z === 0 && triangle.b.z === 0 && triangle.c.z === 0);
     expect(woodSearches).toHaveLength(1);
   } finally { closest.mockRestore(); leaves.dispose(); wood.dispose(); }
 });
