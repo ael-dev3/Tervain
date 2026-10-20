@@ -1,0 +1,2553 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "vertices": 851873,
+    "placements": 451,
+    "improved": 451,
+    "maxShrink": 2814.326306120066,
+    "constructionMs": 13.399999976158142,
+    "reducedMotion": false,
+    "foliageStrength": 1,
+    "wind": [
+      0.90598744347974,
+      0.4233045620555545,
+      0.16,
+      0.42
+    ]
+  },
+  "study": {
+    "bufferCount": 600,
+    "rows": [
+      {
+        "mode": "before",
+        "frames": [
+          {
+            "i": 1,
+            "bytes": 1128,
+            "calls": 10,
+            "draws": 417,
+            "triangles": 6142168
+          },
+          {
+            "i": 2,
+            "bytes": 3480,
+            "calls": 16,
+            "draws": 418,
+            "triangles": 6186277
+          },
+          {
+            "i": 3,
+            "bytes": 6920,
+            "calls": 14,
+            "draws": 419,
+            "triangles": 6201033
+          },
+          {
+            "i": 4,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 418,
+            "triangles": 6200649
+          },
+          {
+            "i": 5,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 421,
+            "triangles": 6201103
+          },
+          {
+            "i": 6,
+            "bytes": 2960,
+            "calls": 10,
+            "draws": 423,
+            "triangles": 6214380
+          },
+          {
+            "i": 7,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6214616
+          },
+          {
+            "i": 8,
+            "bytes": 1280,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6245522
+          },
+          {
+            "i": 9,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6245602
+          },
+          {
+            "i": 10,
+            "bytes": 2792,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6260090
+          },
+          {
+            "i": 11,
+            "bytes": 1112,
+            "calls": 10,
+            "draws": 427,
+            "triangles": 6290840
+          },
+          {
+            "i": 12,
+            "bytes": 5452,
+            "calls": 21,
+            "draws": 428,
+            "triangles": 6294057
+          },
+          {
+            "i": 13,
+            "bytes": 1616,
+            "calls": 13,
+            "draws": 428,
+            "triangles": 6309642
+          },
+          {
+            "i": 14,
+            "bytes": 3320,
+            "calls": 11,
+            "draws": 428,
+            "triangles": 6322227
+          },
+          {
+            "i": 15,
+            "bytes": 7964,
+            "calls": 18,
+            "draws": 430,
+            "triangles": 6343357
+          },
+          {
+            "i": 16,
+            "bytes": 7960,
+            "calls": 22,
+            "draws": 431,
+            "triangles": 6385433
+          },
+          {
+            "i": 17,
+            "bytes": 624,
+            "calls": 6,
+            "draws": 433,
+            "triangles": 6385605
+          },
+          {
+            "i": 18,
+            "bytes": 5504,
+            "calls": 10,
+            "draws": 435,
+            "triangles": 6392772
+          },
+          {
+            "i": 19,
+            "bytes": 640,
+            "calls": 6,
+            "draws": 435,
+            "triangles": 6392931
+          },
+          {
+            "i": 20,
+            "bytes": 5008,
+            "calls": 12,
+            "draws": 435,
+            "triangles": 6412138
+          },
+          {
+            "i": 21,
+            "bytes": 4800,
+            "calls": 16,
+            "draws": 435,
+            "triangles": 6422341
+          },
+          {
+            "i": 22,
+            "bytes": 10072,
+            "calls": 20,
+            "draws": 435,
+            "triangles": 6461858
+          },
+          {
+            "i": 23,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 436,
+            "triangles": 6471100
+          },
+          {
+            "i": 24,
+            "bytes": 5376,
+            "calls": 12,
+            "draws": 436,
+            "triangles": 6490935
+          },
+          {
+            "i": 25,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 437,
+            "triangles": 6492631
+          },
+          {
+            "i": 26,
+            "bytes": 6824,
+            "calls": 22,
+            "draws": 437,
+            "triangles": 6540155
+          },
+          {
+            "i": 27,
+            "bytes": 1568,
+            "calls": 12,
+            "draws": 438,
+            "triangles": 6552804
+          },
+          {
+            "i": 28,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6552804
+          },
+          {
+            "i": 29,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6552884
+          },
+          {
+            "i": 30,
+            "bytes": 9056,
+            "calls": 18,
+            "draws": 438,
+            "triangles": 6585304
+          },
+          {
+            "i": 31,
+            "bytes": 3176,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6605938
+          },
+          {
+            "i": 32,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 439,
+            "triangles": 6607135
+          },
+          {
+            "i": 33,
+            "bytes": 4368,
+            "calls": 16,
+            "draws": 439,
+            "triangles": 6643429
+          },
+          {
+            "i": 34,
+            "bytes": 4384,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6657174
+          },
+          {
+            "i": 35,
+            "bytes": 3360,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6685932
+          },
+          {
+            "i": 36,
+            "bytes": 1432,
+            "calls": 10,
+            "draws": 439,
+            "triangles": 6683528
+          },
+          {
+            "i": 37,
+            "bytes": 8248,
+            "calls": 18,
+            "draws": 440,
+            "triangles": 6711157
+          },
+          {
+            "i": 38,
+            "bytes": 1680,
+            "calls": 12,
+            "draws": 440,
+            "triangles": 6742021
+          },
+          {
+            "i": 39,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6738609
+          },
+          {
+            "i": 40,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6740087
+          },
+          {
+            "i": 41,
+            "bytes": 4536,
+            "calls": 12,
+            "draws": 440,
+            "triangles": 6753673
+          },
+          {
+            "i": 42,
+            "bytes": 10512,
+            "calls": 20,
+            "draws": 441,
+            "triangles": 6757417
+          },
+          {
+            "i": 43,
+            "bytes": 2152,
+            "calls": 14,
+            "draws": 441,
+            "triangles": 6787569
+          },
+          {
+            "i": 44,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6785297
+          },
+          {
+            "i": 45,
+            "bytes": 5872,
+            "calls": 10,
+            "draws": 442,
+            "triangles": 6798856
+          },
+          {
+            "i": 46,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6796376
+          },
+          {
+            "i": 47,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6796472
+          },
+          {
+            "i": 48,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6795720
+          },
+          {
+            "i": 49,
+            "bytes": 4112,
+            "calls": 12,
+            "draws": 442,
+            "triangles": 6809560
+          },
+          {
+            "i": 50,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 446,
+            "triangles": 6810304
+          },
+          {
+            "i": 51,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 448,
+            "triangles": 6810766
+          },
+          {
+            "i": 52,
+            "bytes": 2048,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6841210
+          },
+          {
+            "i": 53,
+            "bytes": 3192,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 6865871
+          },
+          {
+            "i": 54,
+            "bytes": 1024,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6877522
+          },
+          {
+            "i": 55,
+            "bytes": 5896,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6896521
+          },
+          {
+            "i": 56,
+            "bytes": 8568,
+            "calls": 24,
+            "draws": 452,
+            "triangles": 6951500
+          },
+          {
+            "i": 57,
+            "bytes": 3224,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6980350
+          },
+          {
+            "i": 58,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6982945
+          },
+          {
+            "i": 59,
+            "bytes": 4432,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6998169
+          },
+          {
+            "i": 60,
+            "bytes": 3816,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 7006428
+          },
+          {
+            "i": 61,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7006508
+          },
+          {
+            "i": 62,
+            "bytes": 5400,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 7010883
+          },
+          {
+            "i": 63,
+            "bytes": 1584,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 7008320
+          },
+          {
+            "i": 64,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7010432
+          },
+          {
+            "i": 65,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7010660
+          },
+          {
+            "i": 66,
+            "bytes": 8560,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 7046893
+          },
+          {
+            "i": 67,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 7046965
+          },
+          {
+            "i": 68,
+            "bytes": 5056,
+            "calls": 12,
+            "draws": 451,
+            "triangles": 7060509
+          },
+          {
+            "i": 69,
+            "bytes": 6064,
+            "calls": 12,
+            "draws": 450,
+            "triangles": 6995120
+          },
+          {
+            "i": 70,
+            "bytes": 6040,
+            "calls": 10,
+            "draws": 450,
+            "triangles": 7004686
+          },
+          {
+            "i": 71,
+            "bytes": 8760,
+            "calls": 20,
+            "draws": 450,
+            "triangles": 7019187
+          },
+          {
+            "i": 72,
+            "bytes": 6944,
+            "calls": 16,
+            "draws": 451,
+            "triangles": 7026585
+          },
+          {
+            "i": 73,
+            "bytes": 736,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 7026585
+          },
+          {
+            "i": 74,
+            "bytes": 4144,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 7078045
+          },
+          {
+            "i": 75,
+            "bytes": 5304,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 7091010
+          },
+          {
+            "i": 76,
+            "bytes": 10912,
+            "calls": 24,
+            "draws": 453,
+            "triangles": 7146659
+          },
+          {
+            "i": 77,
+            "bytes": 6912,
+            "calls": 16,
+            "draws": 453,
+            "triangles": 7182634
+          },
+          {
+            "i": 78,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 455,
+            "triangles": 7184106
+          },
+          {
+            "i": 79,
+            "bytes": 3960,
+            "calls": 12,
+            "draws": 455,
+            "triangles": 7212062
+          },
+          {
+            "i": 80,
+            "bytes": 6560,
+            "calls": 10,
+            "draws": 455,
+            "triangles": 7217487
+          },
+          {
+            "i": 81,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 456,
+            "triangles": 7216875
+          },
+          {
+            "i": 82,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 456,
+            "triangles": 7222257
+          },
+          {
+            "i": 83,
+            "bytes": 5824,
+            "calls": 12,
+            "draws": 457,
+            "triangles": 7237934
+          },
+          {
+            "i": 84,
+            "bytes": 3536,
+            "calls": 12,
+            "draws": 458,
+            "triangles": 7252348
+          },
+          {
+            "i": 85,
+            "bytes": 9832,
+            "calls": 28,
+            "draws": 460,
+            "triangles": 7318237
+          },
+          {
+            "i": 86,
+            "bytes": 1656,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7347845
+          },
+          {
+            "i": 87,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7357045
+          },
+          {
+            "i": 88,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7359061
+          },
+          {
+            "i": 89,
+            "bytes": 2664,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7388061
+          },
+          {
+            "i": 90,
+            "bytes": 5336,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7401685
+          },
+          {
+            "i": 91,
+            "bytes": 3720,
+            "calls": 12,
+            "draws": 462,
+            "triangles": 7415380
+          },
+          {
+            "i": 92,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7416632
+          },
+          {
+            "i": 93,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7416728
+          },
+          {
+            "i": 94,
+            "bytes": 6896,
+            "calls": 10,
+            "draws": 462,
+            "triangles": 7421104
+          },
+          {
+            "i": 95,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7422112
+          },
+          {
+            "i": 96,
+            "bytes": 4512,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7427394
+          },
+          {
+            "i": 97,
+            "bytes": 6360,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7447213
+          },
+          {
+            "i": 98,
+            "bytes": 4544,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7475169
+          },
+          {
+            "i": 99,
+            "bytes": 2512,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7482720
+          },
+          {
+            "i": 100,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7483786
+          },
+          {
+            "i": 101,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7484874
+          },
+          {
+            "i": 102,
+            "bytes": 4912,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7498418
+          },
+          {
+            "i": 103,
+            "bytes": 1560,
+            "calls": 10,
+            "draws": 460,
+            "triangles": 7495307
+          },
+          {
+            "i": 104,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7496315
+          },
+          {
+            "i": 105,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7496235
+          },
+          {
+            "i": 106,
+            "bytes": 6512,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7514706
+          },
+          {
+            "i": 107,
+            "bytes": 3520,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7484264
+          },
+          {
+            "i": 108,
+            "bytes": 19784,
+            "calls": 36,
+            "draws": 460,
+            "triangles": 7561697
+          },
+          {
+            "i": 109,
+            "bytes": 10440,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7587826
+          },
+          {
+            "i": 110,
+            "bytes": 1976,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7618346
+          },
+          {
+            "i": 111,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7620290
+          },
+          {
+            "i": 112,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7628578
+          },
+          {
+            "i": 113,
+            "bytes": 6696,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7649501
+          },
+          {
+            "i": 114,
+            "bytes": 1240,
+            "calls": 10,
+            "draws": 461,
+            "triangles": 7645302
+          },
+          {
+            "i": 115,
+            "bytes": 6696,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7664049
+          },
+          {
+            "i": 116,
+            "bytes": 1224,
+            "calls": 10,
+            "draws": 461,
+            "triangles": 7661882
+          },
+          {
+            "i": 117,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7661882
+          },
+          {
+            "i": 118,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7674826
+          },
+          {
+            "i": 119,
+            "bytes": 13032,
+            "calls": 18,
+            "draws": 463,
+            "triangles": 7739243
+          }
+        ],
+        "bytes": 430816,
+        "calls": 1337,
+        "maxFrameBytes": 19784
+      },
+      {
+        "mode": "after",
+        "frames": [
+          {
+            "i": 1,
+            "bytes": 624,
+            "calls": 4,
+            "draws": 417,
+            "triangles": 6024762
+          },
+          {
+            "i": 2,
+            "bytes": 3544,
+            "calls": 14,
+            "draws": 418,
+            "triangles": 6052415
+          },
+          {
+            "i": 3,
+            "bytes": 4488,
+            "calls": 10,
+            "draws": 419,
+            "triangles": 6071450
+          },
+          {
+            "i": 4,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 418,
+            "triangles": 6071066
+          },
+          {
+            "i": 5,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 421,
+            "triangles": 6071520
+          },
+          {
+            "i": 6,
+            "bytes": 4808,
+            "calls": 16,
+            "draws": 423,
+            "triangles": 6098271
+          },
+          {
+            "i": 7,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6098507
+          },
+          {
+            "i": 8,
+            "bytes": 2960,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6111134
+          },
+          {
+            "i": 9,
+            "bytes": 1280,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6142078
+          },
+          {
+            "i": 10,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6143092
+          },
+          {
+            "i": 11,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 427,
+            "triangles": 6143322
+          },
+          {
+            "i": 12,
+            "bytes": 1772,
+            "calls": 11,
+            "draws": 428,
+            "triangles": 6163451
+          },
+          {
+            "i": 13,
+            "bytes": 4280,
+            "calls": 13,
+            "draws": 428,
+            "triangles": 6179995
+          },
+          {
+            "i": 14,
+            "bytes": 4512,
+            "calls": 17,
+            "draws": 428,
+            "triangles": 6224059
+          },
+          {
+            "i": 15,
+            "bytes": 5260,
+            "calls": 12,
+            "draws": 430,
+            "triangles": 6232604
+          },
+          {
+            "i": 16,
+            "bytes": 1344,
+            "calls": 10,
+            "draws": 431,
+            "triangles": 6243268
+          },
+          {
+            "i": 17,
+            "bytes": 7512,
+            "calls": 24,
+            "draws": 433,
+            "triangles": 6306197
+          },
+          {
+            "i": 18,
+            "bytes": 8192,
+            "calls": 16,
+            "draws": 435,
+            "triangles": 6338534
+          },
+          {
+            "i": 19,
+            "bytes": 1368,
+            "calls": 12,
+            "draws": 435,
+            "triangles": 6351278
+          },
+          {
+            "i": 20,
+            "bytes": 3512,
+            "calls": 12,
+            "draws": 435,
+            "triangles": 6364243
+          },
+          {
+            "i": 21,
+            "bytes": 7120,
+            "calls": 16,
+            "draws": 435,
+            "triangles": 6379799
+          },
+          {
+            "i": 22,
+            "bytes": 10072,
+            "calls": 20,
+            "draws": 435,
+            "triangles": 6419316
+          },
+          {
+            "i": 23,
+            "bytes": 2720,
+            "calls": 12,
+            "draws": 436,
+            "triangles": 6442032
+          },
+          {
+            "i": 24,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 436,
+            "triangles": 6443040
+          },
+          {
+            "i": 25,
+            "bytes": 6272,
+            "calls": 16,
+            "draws": 437,
+            "triangles": 6459284
+          },
+          {
+            "i": 26,
+            "bytes": 5912,
+            "calls": 18,
+            "draws": 437,
+            "triangles": 6511087
+          },
+          {
+            "i": 27,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6511151
+          },
+          {
+            "i": 28,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6511151
+          },
+          {
+            "i": 29,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6511231
+          },
+          {
+            "i": 30,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6512239
+          },
+          {
+            "i": 31,
+            "bytes": 5696,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6538226
+          },
+          {
+            "i": 32,
+            "bytes": 2328,
+            "calls": 10,
+            "draws": 439,
+            "triangles": 6525879
+          },
+          {
+            "i": 33,
+            "bytes": 4560,
+            "calls": 22,
+            "draws": 439,
+            "triangles": 6563062
+          },
+          {
+            "i": 34,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 439,
+            "triangles": 6564222
+          },
+          {
+            "i": 35,
+            "bytes": 4032,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6576807
+          },
+          {
+            "i": 36,
+            "bytes": 1432,
+            "calls": 10,
+            "draws": 439,
+            "triangles": 6574403
+          },
+          {
+            "i": 37,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6575903
+          },
+          {
+            "i": 38,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6575903
+          },
+          {
+            "i": 39,
+            "bytes": 8976,
+            "calls": 28,
+            "draws": 440,
+            "triangles": 6643739
+          },
+          {
+            "i": 40,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6645217
+          },
+          {
+            "i": 41,
+            "bytes": 4032,
+            "calls": 12,
+            "draws": 440,
+            "triangles": 6658803
+          },
+          {
+            "i": 42,
+            "bytes": 5400,
+            "calls": 10,
+            "draws": 441,
+            "triangles": 6663506
+          },
+          {
+            "i": 43,
+            "bytes": 976,
+            "calls": 8,
+            "draws": 441,
+            "triangles": 6665738
+          },
+          {
+            "i": 44,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6663466
+          },
+          {
+            "i": 45,
+            "bytes": 5872,
+            "calls": 10,
+            "draws": 442,
+            "triangles": 6677025
+          },
+          {
+            "i": 46,
+            "bytes": 3960,
+            "calls": 12,
+            "draws": 441,
+            "triangles": 6687130
+          },
+          {
+            "i": 47,
+            "bytes": 1880,
+            "calls": 12,
+            "draws": 441,
+            "triangles": 6715146
+          },
+          {
+            "i": 48,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6714394
+          },
+          {
+            "i": 49,
+            "bytes": 4432,
+            "calls": 12,
+            "draws": 442,
+            "triangles": 6727275
+          },
+          {
+            "i": 50,
+            "bytes": 4904,
+            "calls": 12,
+            "draws": 446,
+            "triangles": 6740604
+          },
+          {
+            "i": 51,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 448,
+            "triangles": 6741066
+          },
+          {
+            "i": 52,
+            "bytes": 3928,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6757134
+          },
+          {
+            "i": 53,
+            "bytes": 840,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 6752945
+          },
+          {
+            "i": 54,
+            "bytes": 1024,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6764596
+          },
+          {
+            "i": 55,
+            "bytes": 7240,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 6811515
+          },
+          {
+            "i": 56,
+            "bytes": 3040,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6840365
+          },
+          {
+            "i": 57,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6840365
+          },
+          {
+            "i": 58,
+            "bytes": 4168,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 6885354
+          },
+          {
+            "i": 59,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6887034
+          },
+          {
+            "i": 60,
+            "bytes": 3664,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 6910669
+          },
+          {
+            "i": 61,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6910749
+          },
+          {
+            "i": 62,
+            "bytes": 5400,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 6915124
+          },
+          {
+            "i": 63,
+            "bytes": 5952,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 6925146
+          },
+          {
+            "i": 64,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6927258
+          },
+          {
+            "i": 65,
+            "bytes": 6768,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 6954504
+          },
+          {
+            "i": 66,
+            "bytes": 5704,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 6961887
+          },
+          {
+            "i": 67,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 6961959
+          },
+          {
+            "i": 68,
+            "bytes": 3544,
+            "calls": 12,
+            "draws": 451,
+            "triangles": 6990809
+          },
+          {
+            "i": 69,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 450,
+            "triangles": 6906593
+          },
+          {
+            "i": 70,
+            "bytes": 11416,
+            "calls": 16,
+            "draws": 450,
+            "triangles": 6934986
+          },
+          {
+            "i": 71,
+            "bytes": 6512,
+            "calls": 14,
+            "draws": 450,
+            "triangles": 6936013
+          },
+          {
+            "i": 72,
+            "bytes": 2984,
+            "calls": 12,
+            "draws": 451,
+            "triangles": 6957844
+          },
+          {
+            "i": 73,
+            "bytes": 736,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 6957844
+          },
+          {
+            "i": 74,
+            "bytes": 2272,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 6979176
+          },
+          {
+            "i": 75,
+            "bytes": 8864,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 7005685
+          },
+          {
+            "i": 76,
+            "bytes": 752,
+            "calls": 6,
+            "draws": 453,
+            "triangles": 7007285
+          },
+          {
+            "i": 77,
+            "bytes": 12120,
+            "calls": 22,
+            "draws": 453,
+            "triangles": 7067748
+          },
+          {
+            "i": 78,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 455,
+            "triangles": 7069220
+          },
+          {
+            "i": 79,
+            "bytes": 2968,
+            "calls": 18,
+            "draws": 455,
+            "triangles": 7128668
+          },
+          {
+            "i": 80,
+            "bytes": 11112,
+            "calls": 16,
+            "draws": 455,
+            "triangles": 7146678
+          },
+          {
+            "i": 81,
+            "bytes": 8224,
+            "calls": 18,
+            "draws": 456,
+            "triangles": 7172125
+          },
+          {
+            "i": 82,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 456,
+            "triangles": 7177507
+          },
+          {
+            "i": 83,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 457,
+            "triangles": 7180599
+          },
+          {
+            "i": 84,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 458,
+            "triangles": 7181539
+          },
+          {
+            "i": 85,
+            "bytes": 7144,
+            "calls": 16,
+            "draws": 460,
+            "triangles": 7188988
+          },
+          {
+            "i": 86,
+            "bytes": 9032,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7214135
+          },
+          {
+            "i": 87,
+            "bytes": 4560,
+            "calls": 18,
+            "draws": 461,
+            "triangles": 7297849
+          },
+          {
+            "i": 88,
+            "bytes": 2648,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7327785
+          },
+          {
+            "i": 89,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7328865
+          },
+          {
+            "i": 90,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7328945
+          },
+          {
+            "i": 91,
+            "bytes": 5336,
+            "calls": 12,
+            "draws": 462,
+            "triangles": 7342710
+          },
+          {
+            "i": 92,
+            "bytes": 3720,
+            "calls": 12,
+            "draws": 462,
+            "triangles": 7357436
+          },
+          {
+            "i": 93,
+            "bytes": 2664,
+            "calls": 12,
+            "draws": 462,
+            "triangles": 7385452
+          },
+          {
+            "i": 94,
+            "bytes": 6896,
+            "calls": 10,
+            "draws": 462,
+            "triangles": 7389828
+          },
+          {
+            "i": 95,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7390836
+          },
+          {
+            "i": 96,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7382644
+          },
+          {
+            "i": 97,
+            "bytes": 10056,
+            "calls": 18,
+            "draws": 461,
+            "triangles": 7415937
+          },
+          {
+            "i": 98,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7416945
+          },
+          {
+            "i": 99,
+            "bytes": 2512,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7424496
+          },
+          {
+            "i": 100,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7425562
+          },
+          {
+            "i": 101,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7426650
+          },
+          {
+            "i": 102,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7426650
+          },
+          {
+            "i": 103,
+            "bytes": 4512,
+            "calls": 16,
+            "draws": 460,
+            "triangles": 7437013
+          },
+          {
+            "i": 104,
+            "bytes": 1656,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7467089
+          },
+          {
+            "i": 105,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7467009
+          },
+          {
+            "i": 106,
+            "bytes": 6512,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7485480
+          },
+          {
+            "i": 107,
+            "bytes": 4528,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7439662
+          },
+          {
+            "i": 108,
+            "bytes": 10376,
+            "calls": 24,
+            "draws": 460,
+            "triangles": 7491036
+          },
+          {
+            "i": 109,
+            "bytes": 4896,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7504580
+          },
+          {
+            "i": 110,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7504580
+          },
+          {
+            "i": 111,
+            "bytes": 6728,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7549629
+          },
+          {
+            "i": 112,
+            "bytes": 8392,
+            "calls": 18,
+            "draws": 461,
+            "triangles": 7600311
+          },
+          {
+            "i": 113,
+            "bytes": 10896,
+            "calls": 18,
+            "draws": 461,
+            "triangles": 7634708
+          },
+          {
+            "i": 114,
+            "bytes": 1240,
+            "calls": 10,
+            "draws": 461,
+            "triangles": 7630509
+          },
+          {
+            "i": 115,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7630429
+          },
+          {
+            "i": 116,
+            "bytes": 12512,
+            "calls": 22,
+            "draws": 461,
+            "triangles": 7659674
+          },
+          {
+            "i": 117,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7659674
+          },
+          {
+            "i": 118,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7672618
+          },
+          {
+            "i": 119,
+            "bytes": 7152,
+            "calls": 12,
+            "draws": 463,
+            "triangles": 7693038
+          }
+        ],
+        "bytes": 427984,
+        "calls": 1337,
+        "maxFrameBytes": 12512
+      },
+      {
+        "mode": "control",
+        "frames": [
+          {
+            "i": 1,
+            "bytes": 1128,
+            "calls": 10,
+            "draws": 417,
+            "triangles": 6142168
+          },
+          {
+            "i": 2,
+            "bytes": 3480,
+            "calls": 16,
+            "draws": 418,
+            "triangles": 6186277
+          },
+          {
+            "i": 3,
+            "bytes": 6920,
+            "calls": 14,
+            "draws": 419,
+            "triangles": 6201033
+          },
+          {
+            "i": 4,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 418,
+            "triangles": 6200649
+          },
+          {
+            "i": 5,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 421,
+            "triangles": 6201103
+          },
+          {
+            "i": 6,
+            "bytes": 2960,
+            "calls": 10,
+            "draws": 423,
+            "triangles": 6214380
+          },
+          {
+            "i": 7,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6214616
+          },
+          {
+            "i": 8,
+            "bytes": 1280,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6245522
+          },
+          {
+            "i": 9,
+            "bytes": 608,
+            "calls": 4,
+            "draws": 424,
+            "triangles": 6245602
+          },
+          {
+            "i": 10,
+            "bytes": 2792,
+            "calls": 10,
+            "draws": 424,
+            "triangles": 6260090
+          },
+          {
+            "i": 11,
+            "bytes": 1112,
+            "calls": 10,
+            "draws": 427,
+            "triangles": 6290840
+          },
+          {
+            "i": 12,
+            "bytes": 5452,
+            "calls": 21,
+            "draws": 428,
+            "triangles": 6294057
+          },
+          {
+            "i": 13,
+            "bytes": 1616,
+            "calls": 13,
+            "draws": 428,
+            "triangles": 6309642
+          },
+          {
+            "i": 14,
+            "bytes": 3320,
+            "calls": 11,
+            "draws": 428,
+            "triangles": 6322227
+          },
+          {
+            "i": 15,
+            "bytes": 7964,
+            "calls": 18,
+            "draws": 430,
+            "triangles": 6343357
+          },
+          {
+            "i": 16,
+            "bytes": 7960,
+            "calls": 22,
+            "draws": 431,
+            "triangles": 6385433
+          },
+          {
+            "i": 17,
+            "bytes": 624,
+            "calls": 6,
+            "draws": 433,
+            "triangles": 6385605
+          },
+          {
+            "i": 18,
+            "bytes": 5504,
+            "calls": 10,
+            "draws": 435,
+            "triangles": 6392772
+          },
+          {
+            "i": 19,
+            "bytes": 640,
+            "calls": 6,
+            "draws": 435,
+            "triangles": 6392931
+          },
+          {
+            "i": 20,
+            "bytes": 5008,
+            "calls": 12,
+            "draws": 435,
+            "triangles": 6412138
+          },
+          {
+            "i": 21,
+            "bytes": 4800,
+            "calls": 16,
+            "draws": 435,
+            "triangles": 6422341
+          },
+          {
+            "i": 22,
+            "bytes": 10072,
+            "calls": 20,
+            "draws": 435,
+            "triangles": 6461858
+          },
+          {
+            "i": 23,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 436,
+            "triangles": 6471100
+          },
+          {
+            "i": 24,
+            "bytes": 5376,
+            "calls": 12,
+            "draws": 436,
+            "triangles": 6490935
+          },
+          {
+            "i": 25,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 437,
+            "triangles": 6492631
+          },
+          {
+            "i": 26,
+            "bytes": 6824,
+            "calls": 22,
+            "draws": 437,
+            "triangles": 6540155
+          },
+          {
+            "i": 27,
+            "bytes": 1568,
+            "calls": 12,
+            "draws": 438,
+            "triangles": 6552804
+          },
+          {
+            "i": 28,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6552804
+          },
+          {
+            "i": 29,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 438,
+            "triangles": 6552884
+          },
+          {
+            "i": 30,
+            "bytes": 9056,
+            "calls": 18,
+            "draws": 438,
+            "triangles": 6585304
+          },
+          {
+            "i": 31,
+            "bytes": 3176,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6605938
+          },
+          {
+            "i": 32,
+            "bytes": 656,
+            "calls": 6,
+            "draws": 439,
+            "triangles": 6607135
+          },
+          {
+            "i": 33,
+            "bytes": 4368,
+            "calls": 16,
+            "draws": 439,
+            "triangles": 6643429
+          },
+          {
+            "i": 34,
+            "bytes": 4384,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6657174
+          },
+          {
+            "i": 35,
+            "bytes": 3360,
+            "calls": 12,
+            "draws": 439,
+            "triangles": 6685932
+          },
+          {
+            "i": 36,
+            "bytes": 1432,
+            "calls": 10,
+            "draws": 439,
+            "triangles": 6683528
+          },
+          {
+            "i": 37,
+            "bytes": 8248,
+            "calls": 18,
+            "draws": 440,
+            "triangles": 6711157
+          },
+          {
+            "i": 38,
+            "bytes": 1680,
+            "calls": 12,
+            "draws": 440,
+            "triangles": 6742021
+          },
+          {
+            "i": 39,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6738609
+          },
+          {
+            "i": 40,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6740087
+          },
+          {
+            "i": 41,
+            "bytes": 4536,
+            "calls": 12,
+            "draws": 440,
+            "triangles": 6753673
+          },
+          {
+            "i": 42,
+            "bytes": 10512,
+            "calls": 20,
+            "draws": 441,
+            "triangles": 6757417
+          },
+          {
+            "i": 43,
+            "bytes": 2152,
+            "calls": 14,
+            "draws": 441,
+            "triangles": 6787569
+          },
+          {
+            "i": 44,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6785297
+          },
+          {
+            "i": 45,
+            "bytes": 5872,
+            "calls": 10,
+            "draws": 442,
+            "triangles": 6798856
+          },
+          {
+            "i": 46,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6796376
+          },
+          {
+            "i": 47,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 441,
+            "triangles": 6796472
+          },
+          {
+            "i": 48,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 440,
+            "triangles": 6795720
+          },
+          {
+            "i": 49,
+            "bytes": 4112,
+            "calls": 12,
+            "draws": 442,
+            "triangles": 6809560
+          },
+          {
+            "i": 50,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 446,
+            "triangles": 6810304
+          },
+          {
+            "i": 51,
+            "bytes": 704,
+            "calls": 6,
+            "draws": 448,
+            "triangles": 6810766
+          },
+          {
+            "i": 52,
+            "bytes": 2048,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6841210
+          },
+          {
+            "i": 53,
+            "bytes": 3192,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 6865871
+          },
+          {
+            "i": 54,
+            "bytes": 1024,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6877522
+          },
+          {
+            "i": 55,
+            "bytes": 5896,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6896521
+          },
+          {
+            "i": 56,
+            "bytes": 8568,
+            "calls": 24,
+            "draws": 452,
+            "triangles": 6951500
+          },
+          {
+            "i": 57,
+            "bytes": 3224,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6980350
+          },
+          {
+            "i": 58,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 6982945
+          },
+          {
+            "i": 59,
+            "bytes": 4432,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 6998169
+          },
+          {
+            "i": 60,
+            "bytes": 3816,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 7006428
+          },
+          {
+            "i": 61,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7006508
+          },
+          {
+            "i": 62,
+            "bytes": 5400,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 7010883
+          },
+          {
+            "i": 63,
+            "bytes": 1584,
+            "calls": 10,
+            "draws": 452,
+            "triangles": 7008320
+          },
+          {
+            "i": 64,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7010432
+          },
+          {
+            "i": 65,
+            "bytes": 672,
+            "calls": 6,
+            "draws": 452,
+            "triangles": 7010660
+          },
+          {
+            "i": 66,
+            "bytes": 8560,
+            "calls": 16,
+            "draws": 452,
+            "triangles": 7046893
+          },
+          {
+            "i": 67,
+            "bytes": 688,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 7046965
+          },
+          {
+            "i": 68,
+            "bytes": 5056,
+            "calls": 12,
+            "draws": 451,
+            "triangles": 7060509
+          },
+          {
+            "i": 69,
+            "bytes": 6064,
+            "calls": 12,
+            "draws": 450,
+            "triangles": 6995120
+          },
+          {
+            "i": 70,
+            "bytes": 6040,
+            "calls": 10,
+            "draws": 450,
+            "triangles": 7004686
+          },
+          {
+            "i": 71,
+            "bytes": 8760,
+            "calls": 20,
+            "draws": 450,
+            "triangles": 7019187
+          },
+          {
+            "i": 72,
+            "bytes": 6944,
+            "calls": 16,
+            "draws": 451,
+            "triangles": 7026585
+          },
+          {
+            "i": 73,
+            "bytes": 736,
+            "calls": 6,
+            "draws": 451,
+            "triangles": 7026585
+          },
+          {
+            "i": 74,
+            "bytes": 4144,
+            "calls": 18,
+            "draws": 452,
+            "triangles": 7078045
+          },
+          {
+            "i": 75,
+            "bytes": 5304,
+            "calls": 12,
+            "draws": 452,
+            "triangles": 7091010
+          },
+          {
+            "i": 76,
+            "bytes": 10912,
+            "calls": 24,
+            "draws": 453,
+            "triangles": 7146659
+          },
+          {
+            "i": 77,
+            "bytes": 6912,
+            "calls": 16,
+            "draws": 453,
+            "triangles": 7182634
+          },
+          {
+            "i": 78,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 455,
+            "triangles": 7184106
+          },
+          {
+            "i": 79,
+            "bytes": 3960,
+            "calls": 12,
+            "draws": 455,
+            "triangles": 7212062
+          },
+          {
+            "i": 80,
+            "bytes": 6560,
+            "calls": 10,
+            "draws": 455,
+            "triangles": 7217487
+          },
+          {
+            "i": 81,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 456,
+            "triangles": 7216875
+          },
+          {
+            "i": 82,
+            "bytes": 784,
+            "calls": 6,
+            "draws": 456,
+            "triangles": 7222257
+          },
+          {
+            "i": 83,
+            "bytes": 5824,
+            "calls": 12,
+            "draws": 457,
+            "triangles": 7237934
+          },
+          {
+            "i": 84,
+            "bytes": 3536,
+            "calls": 12,
+            "draws": 458,
+            "triangles": 7252348
+          },
+          {
+            "i": 85,
+            "bytes": 9832,
+            "calls": 28,
+            "draws": 460,
+            "triangles": 7318237
+          },
+          {
+            "i": 86,
+            "bytes": 1656,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7347845
+          },
+          {
+            "i": 87,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7357045
+          },
+          {
+            "i": 88,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7359061
+          },
+          {
+            "i": 89,
+            "bytes": 2664,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7388061
+          },
+          {
+            "i": 90,
+            "bytes": 5336,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7401685
+          },
+          {
+            "i": 91,
+            "bytes": 3720,
+            "calls": 12,
+            "draws": 462,
+            "triangles": 7415380
+          },
+          {
+            "i": 92,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7416632
+          },
+          {
+            "i": 93,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7416728
+          },
+          {
+            "i": 94,
+            "bytes": 6896,
+            "calls": 10,
+            "draws": 462,
+            "triangles": 7421104
+          },
+          {
+            "i": 95,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7422112
+          },
+          {
+            "i": 96,
+            "bytes": 4512,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7427394
+          },
+          {
+            "i": 97,
+            "bytes": 6360,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7447213
+          },
+          {
+            "i": 98,
+            "bytes": 4544,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7475169
+          },
+          {
+            "i": 99,
+            "bytes": 2512,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7482720
+          },
+          {
+            "i": 100,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7483786
+          },
+          {
+            "i": 101,
+            "bytes": 816,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7484874
+          },
+          {
+            "i": 102,
+            "bytes": 4912,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7498418
+          },
+          {
+            "i": 103,
+            "bytes": 1560,
+            "calls": 10,
+            "draws": 460,
+            "triangles": 7495307
+          },
+          {
+            "i": 104,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7496315
+          },
+          {
+            "i": 105,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7496235
+          },
+          {
+            "i": 106,
+            "bytes": 6512,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7514706
+          },
+          {
+            "i": 107,
+            "bytes": 3520,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7484264
+          },
+          {
+            "i": 108,
+            "bytes": 19784,
+            "calls": 36,
+            "draws": 460,
+            "triangles": 7561697
+          },
+          {
+            "i": 109,
+            "bytes": 10440,
+            "calls": 18,
+            "draws": 460,
+            "triangles": 7587826
+          },
+          {
+            "i": 110,
+            "bytes": 1976,
+            "calls": 12,
+            "draws": 460,
+            "triangles": 7618346
+          },
+          {
+            "i": 111,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 460,
+            "triangles": 7620290
+          },
+          {
+            "i": 112,
+            "bytes": 800,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7628578
+          },
+          {
+            "i": 113,
+            "bytes": 6696,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7649501
+          },
+          {
+            "i": 114,
+            "bytes": 1240,
+            "calls": 10,
+            "draws": 461,
+            "triangles": 7645302
+          },
+          {
+            "i": 115,
+            "bytes": 6696,
+            "calls": 12,
+            "draws": 461,
+            "triangles": 7664049
+          },
+          {
+            "i": 116,
+            "bytes": 1224,
+            "calls": 10,
+            "draws": 461,
+            "triangles": 7661882
+          },
+          {
+            "i": 117,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 461,
+            "triangles": 7661882
+          },
+          {
+            "i": 118,
+            "bytes": 768,
+            "calls": 6,
+            "draws": 462,
+            "triangles": 7674826
+          },
+          {
+            "i": 119,
+            "bytes": 13032,
+            "calls": 18,
+            "draws": 463,
+            "triangles": 7739243
+          }
+        ],
+        "bytes": 430816,
+        "calls": 1337,
+        "maxFrameBytes": 19784
+      }
+    ],
+    "scope": "Actual native forest-owned instance matrix, colour and coverage ArrayBuffers traced at WebGL bufferData/bufferSubData, real transfers with draw/raster calls suppressed. 120-step walking/turning path, first frame excluded after a full warm loop. Includes shadow/planar-capture forest uploads; excludes other scene buffers, texture uploads and GPU draw cost. Separate from CPU timing; not whole-scene traffic or hardware timing."
+  },
+  "errors": [],
+  "helperSource": "import type { Box3, BufferGeometry, Matrix4 } from 'three';\n\ntype Point = readonly [number, number];\n/** All-LOD horizontal envelope: cardinal bounds clipped by the four diagonal support planes.\n * Constant storage per template; source vertices are read once, never copied or sorted. */\nexport function treeFootprint(lods: readonly { wood: BufferGeometry | null; leaf: BufferGeometry | null }[]): readonly Point[] {\n  let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;\n  let minSum = Infinity, maxSum = -Infinity, minDifference = Infinity, maxDifference = -Infinity;\n  for (const lod of lods) for (const geometry of [lod.wood, lod.leaf]) {\n    const position = geometry?.getAttribute('position');\n    if (!position) continue;\n    for (let i = 0; i < position.count; i++) {\n      const x = position.getX(i), z = position.getZ(i);\n      if (!Number.isFinite(x) || !Number.isFinite(z)) return [];\n      minX = Math.min(minX, x); maxX = Math.max(maxX, x);\n      minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z);\n      minSum = Math.min(minSum, x + z); maxSum = Math.max(maxSum, x + z);\n      minDifference = Math.min(minDifference, x - z); maxDifference = Math.max(maxDifference, x - z);\n    }\n  }\n  if (!Number.isFinite(minX)) return [];\n  let polygon: Point[] = [[minX, minZ], [maxX, minZ], [maxX, maxZ], [minX, maxZ]];\n  // Expand the diagonal planes slightly to retain boundary vertices under rounding.\n  for (const [nx, nz, limit] of [[1, 1, maxSum + 1e-7], [-1, -1, -minSum + 1e-7], [1, -1, maxDifference + 1e-7], [-1, 1, -minDifference + 1e-7]]) {\n    const clipped: Point[] = [];\n    for (let i = 0; i < polygon.length; i++) {\n      const a = polygon[i]!, b = polygon[(i + 1) % polygon.length]!;\n      const da = nx! * a[0] + nz! * a[1] - limit!, db = nx! * b[0] + nz! * b[1] - limit!;\n      if (da <= 0) clipped.push(a);\n      if (da < 0 && db > 0 || da > 0 && db < 0) {\n        const t = da / (da - db);\n        clipped.push([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])]);\n      }\n    }\n    polygon = clipped;\n  }\n  return polygon;\n}\n\n/** Preserve the original vertical bounds and wind guard, tightening only empty horizontal corners.\n * Non-upright or projective transforms keep the original box. Always contained in that original box. */\nexport function treePlacementBox(target: Box3, local: Box3, matrix: Matrix4, footprint: readonly Point[], guard = 2): Box3 {\n  target.copy(local).applyMatrix4(matrix).expandByScalar(guard);\n  const e = matrix.elements;\n  if (!footprint.length || e[4] !== 0 || e[6] !== 0 || e[3] !== 0 || e[7] !== 0 || e[11] !== 0 || e[15] !== 1) return target;\n  let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;\n  for (const [x, z] of footprint) {\n    const wx = e[0]! * x + e[8]! * z + e[12]!, wz = e[2]! * x + e[10]! * z + e[14]!;\n    minX = Math.min(minX, wx); maxX = Math.max(maxX, wx);\n    minZ = Math.min(minZ, wz); maxZ = Math.max(maxZ, wz);\n  }\n  const margin = guard + 1e-5;\n  target.min.x = Math.max(target.min.x, minX - margin); target.max.x = Math.min(target.max.x, maxX + margin);\n  target.min.z = Math.max(target.min.z, minZ - margin); target.max.z = Math.min(target.max.z, maxZ + margin);\n  return target;\n}\n",
+  "pass": true
+}

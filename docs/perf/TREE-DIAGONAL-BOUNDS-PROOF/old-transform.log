@@ -1,0 +1,38 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/treeFootprint.test.ts (3 tests | 1 failed) 19ms
+   × rejects an empty rotated corner while keeping every source vertex and its wind guard 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/treeFootprint.test.ts > rejects an empty rotated corner while keeping every source vertex and its wind guard
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/presentation/treeFootprint.test.ts:12:85
+     10|   const bound = treePlacementBox(new THREE.Box3(), local, matrix, tree…
+     11|   const corner = new THREE.Box3(new THREE.Vector3(12, 4, -1), new THRE…
+     12|   expect(old.intersectsBox(corner)).toBe(true); expect(bound.intersect…
+       |                                                                                     ^
+     13|   expect(old.containsBox(bound)).toBe(true);
+     14|   wood.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  14:08:20
+   Duration  159ms (transform 43%, import 26%, tests 22%, setup 6%, worker 3%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
