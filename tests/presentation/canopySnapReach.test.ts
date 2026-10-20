@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { anchorFarFoliage, seatFarCards, snapDetachedClumps } from '../../src/presentation/canopy';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
 
@@ -79,6 +79,21 @@ it('seats each card past the reach just inside it, toward its nearest wood, wher
   }
   expect(seatFarCards(result.geometry, wood, 1.5).moved).toBe(0);
   result.geometry.dispose(); leaves.dispose(); wood.dispose();
+});
+
+it('stops searching a retained card once its first sample reaches wood', () => {
+  const wood = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([-10,-10,0, 10,-10,0, 0,10,0], 3)).setIndex([0,1,2]);
+  const leaves = new THREE.PlaneGeometry(.2,.2).translate(0,0,.1);
+  const positions = Array.from(leaves.getAttribute('position').array);
+  const closest = vi.spyOn(THREE.Triangle.prototype, 'closestPointToPoint');
+  try {
+    const result = seatFarCards(leaves, wood, 1.5);
+    expect(result).toEqual({geometry:leaves,moved:0});
+    expect(Array.from(leaves.getAttribute('position').array)).toEqual(positions);
+    // Component construction also projects the leaf centre. Count only searches against the wood triangle.
+    const woodSearches = closest.mock.contexts.filter(triangle => triangle instanceof THREE.Triangle && triangle.a.z === 0 && triangle.b.z === 0 && triangle.c.z === 0);
+    expect(woodSearches).toHaveLength(1);
+  } finally { closest.mockRestore(); leaves.dispose(); wood.dispose(); }
 });
 
 it('grows a leader and twigs out to sheets past the reach, leaving every leaf where it was', () => {

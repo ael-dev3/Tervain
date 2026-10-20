@@ -702,7 +702,12 @@ export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeo
   let moved = 0;
   for (const part of components(canopy, () => {})) {
     let distance = Infinity;
-    for (const sample of part.samples) { const d = anchor(sample, hit); if (d < distance) { distance = d; nearest.copy(hit); from.copy(sample); } }
+    for (const sample of part.samples) {
+      const d = anchor(sample, hit);
+      if (d < distance) { distance = d; nearest.copy(hit); from.copy(sample); }
+      // One supporting sample already keeps this card. Later samples cannot increase its minimum distance.
+      if (distance <= reach) break;
+    }
     if (!(distance > reach) || !Number.isFinite(distance)) continue;
     const delta = nearest.sub(from).multiplyScalar((distance - reach * inside) / distance);
     for (const v of part.vertices ?? []) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
