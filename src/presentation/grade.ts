@@ -177,6 +177,24 @@ export interface GradeOptions {
 /** Seconds after which the grain's clock starts again: a whole number of its 24 patterns a second. */
 const GRAIN_CLOCK_WRAP = 4096;
 
+/** The world's tone-mapping exposure (Three's ACES filmic), set on the renderer for every world frame. */
+export const WORLD_EXPOSURE = 1.22;
+/** Strength of the daylight contrast curve in the final pass (night fades it to 1). */
+export const DAY_CONTRAST = 1.13;
+
+/**
+ * The scene light (linear luminance, before tone mapping) a grey pixel needs to reach `display` (0..1) on screen by
+ * day: the inverse of Three's ACES filmic fit at the world exposure, the sRGB encoding and the contrast curve in FRAG.
+ * The hue-dependent steps (warm lights, olive greens, saturation) are left out, so this places a level, not a pixel.
+ */
+export function displayToSceneLuminance(display: number): number {
+  const encoded = Math.min(Math.max((display - 0.408) / DAY_CONTRAST + 0.4, 0), 1);
+  const toned = encoded <= 0.04045 ? encoded / 12.92 : ((encoded + 0.055) / 1.055) ** 2.4;
+  // RRTAndODTFit(v) = (v² + 0.0245786 v - 0.000090537) / (0.983729 v² + 0.432951 v + 0.238081), solved for v.
+  const a = 1 - 0.983729 * toned, b = 0.0245786 - 0.432951 * toned, c = -(0.000090537 + 0.238081 * toned);
+  return ((-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)) * 0.6 / WORLD_EXPOSURE;
+}
+
 export class Grade {
   readonly target: THREE.WebGLRenderTarget;
   private bloomA: THREE.WebGLRenderTarget;
@@ -211,7 +229,7 @@ export class Grade {
         uBloom: { value: 0.24 },
         uTime: { value: 0 },
         uSaturation: { value: 0.88 },
-        uContrast: { value: 1.13 },
+        uContrast: { value: DAY_CONTRAST },
         uVignette: { value: 0.18 },
         uGrain: { value: 0.012 },
         uEarth: { value: 1 },
