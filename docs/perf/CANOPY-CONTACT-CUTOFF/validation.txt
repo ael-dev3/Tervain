@@ -1,0 +1,9 @@
+Source head: 216318286a644029ad0ba7fd6e410c8924995653
+Focused tests: 5 files / 29 tests pass.
+Command: npx vitest run tests/presentation/canopyContactThreshold.test.ts tests/presentation/canopyFlaggedSet.test.ts tests/presentation/canopySnapReach.test.ts tests/presentation/canopyAudit.test.ts tests/presentation/canopyVerticalGap.test.ts
+Negative regression: original helper source, new test file: 2 failed / 3 passed; exit 1 as expected. Candidate source was restored.
+Production build: npm run build; exit 0 (includes tsc --noEmit).
+Native published repro: exit 0, complete true, no errors.
+Compiled native repro with baseline-report comparison: exit 0, complete true, no errors.
+Cross-build RGB pixel comparison: 0 different pixels, 0 different channels.
+Scope: software raster and diagnostic correctness; no hardware timing claim.

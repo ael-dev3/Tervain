@@ -1,0 +1,990 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "216318286"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:79:22",
+      "kind": "oak/hero-oak-b",
+      "position": [
+        119.95635049169846,
+        1.516842585341648,
+        -23.714840934816763
+      ],
+      "scale": 1.4374499894864854,
+      "reach": 0.75,
+      "gap": 1.5,
+      "oldCards": 5200,
+      "newCards": 3082,
+      "referenceCards": 3082,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 557674,
+      "newOperations": 681278
+    },
+    {
+      "label": "tree:wild:79:22",
+      "kind": "oak/hero-oak-b",
+      "position": [
+        119.95635049169846,
+        1.516842585341648,
+        -23.714840934816763
+      ],
+      "scale": 1.4374499894864854,
+      "reach": 1,
+      "gap": 1.5,
+      "oldCards": 4403,
+      "newCards": 2260,
+      "referenceCards": 2260,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 531558,
+      "newOperations": 635341
+    },
+    {
+      "label": "tree:wild:79:22",
+      "kind": "oak/hero-oak-b",
+      "position": [
+        119.95635049169846,
+        1.516842585341648,
+        -23.714840934816763
+      ],
+      "scale": 1.4374499894864854,
+      "reach": 1.5,
+      "gap": 0.75,
+      "oldCards": 946,
+      "newCards": 946,
+      "referenceCards": 946,
+      "oldClumps": 3,
+      "newClumps": 3,
+      "referenceClumps": 3,
+      "referenceComplete": true,
+      "defaultMasksEqual": true,
+      "oldOperations": 499036,
+      "newOperations": 499036
+    },
+    {
+      "label": "tree:wild:70:35",
+      "kind": "oak/verdant-sentinel",
+      "position": [
+        62.325785261732136,
+        0.668290496441164,
+        56.79873619470279
+      ],
+      "scale": 1.1812307621561924,
+      "reach": 0.75,
+      "gap": 1.5,
+      "oldCards": 4093,
+      "newCards": 1827,
+      "referenceCards": 1827,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 351510,
+      "newOperations": 597426
+    },
+    {
+      "label": "tree:wild:70:35",
+      "kind": "oak/verdant-sentinel",
+      "position": [
+        62.325785261732136,
+        0.668290496441164,
+        56.79873619470279
+      ],
+      "scale": 1.1812307621561924,
+      "reach": 1,
+      "gap": 1.5,
+      "oldCards": 3177,
+      "newCards": 1117,
+      "referenceCards": 1117,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 320736,
+      "newOperations": 497888
+    },
+    {
+      "label": "tree:wild:70:35",
+      "kind": "oak/verdant-sentinel",
+      "position": [
+        62.325785261732136,
+        0.668290496441164,
+        56.79873619470279
+      ],
+      "scale": 1.1812307621561924,
+      "reach": 1.5,
+      "gap": 0.75,
+      "oldCards": 167,
+      "newCards": 167,
+      "referenceCards": 167,
+      "oldClumps": 29,
+      "newClumps": 29,
+      "referenceClumps": 29,
+      "referenceComplete": true,
+      "defaultMasksEqual": true,
+      "oldOperations": 235519,
+      "newOperations": 235519
+    },
+    {
+      "label": "tree:wild:42:45",
+      "kind": "oak/hero-oak",
+      "position": [
+        -112.96382317621304,
+        0.08060169808350409,
+        117.01269175272436
+      ],
+      "scale": 1.324303292967379,
+      "reach": 0.75,
+      "gap": 1.5,
+      "oldCards": 4986,
+      "newCards": 2968,
+      "referenceCards": 2968,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 520248,
+      "newOperations": 707523
+    },
+    {
+      "label": "tree:wild:42:45",
+      "kind": "oak/hero-oak",
+      "position": [
+        -112.96382317621304,
+        0.08060169808350409,
+        117.01269175272436
+      ],
+      "scale": 1.324303292967379,
+      "reach": 1,
+      "gap": 1.5,
+      "oldCards": 4148,
+      "newCards": 2145,
+      "referenceCards": 2145,
+      "oldClumps": 1,
+      "newClumps": 1,
+      "referenceClumps": 1,
+      "referenceComplete": true,
+      "defaultMasksEqual": null,
+      "oldOperations": 503590,
+      "newOperations": 649073
+    },
+    {
+      "label": "tree:wild:42:45",
+      "kind": "oak/hero-oak",
+      "position": [
+        -112.96382317621304,
+        0.08060169808350409,
+        117.01269175272436
+      ],
+      "scale": 1.324303292967379,
+      "reach": 1.5,
+      "gap": 0.75,
+      "oldCards": 732,
+      "newCards": 732,
+      "referenceCards": 732,
+      "oldClumps": 15,
+      "newClumps": 15,
+      "referenceClumps": 15,
+      "referenceComplete": true,
+      "defaultMasksEqual": true,
+      "oldOperations": 441677,
+      "newOperations": 441677
+    }
+  ],
+  "geometryBefore": [
+    {
+      "kind": "birch/tree-1527",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"343d7cb84112c476133058d0086ed972acb67196b3b4d2cb4def3298e5fdc7fd\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"db73a3695b767347bc8583bb335c2c0a6ba04e77d6f6d3e7de9e0a604b924008\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0068aae01c1f217a3b7eae2692e52670d918d91000fcdd6e3a99740bba9e7d36\"],[\"position\",3,false,null,null,\"Float32Array\",\"5fd85bf17fdc6ceddf20585f93a2431d0271453890e8071981b266a750c51fc7\"],[\"uv\",2,false,null,null,\"Float32Array\",\"703bdd5ed883b23fb9b050b8dbd349daeff1aa348b35cec4f118a199c83cdce7\"],[\"index\",\"Uint16Array\",\"0b2f193c16e2fc41456c0c8c79c58d3ec50f1d0889c343fbd60b6fca7586cbf2\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ea94da9e0fe6dfa6ccc9ce4f8fec8f056502aaacaf5b0e3444b30f8d920bc83\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"6d12db7e781d5ba6370135b20b269db9fa9c7d6bc84453ab5e4e594adb947b00\"],[\"normal\",3,false,null,null,\"Float32Array\",\"60e6cb1ab613ebeaff26ace053f5ba865671c46305ced83b474a19c5c6b44915\"],[\"position\",3,false,null,null,\"Float32Array\",\"7e31e1a5c9aa7732a666bfe77ceabe5768b9cdbb7df0b48ea0e33c9ba81e785d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"23bca2921edacbfe079798e0e6016813b21b94fbcce31e23e3a9666e0426681c\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "birch/tree-1527",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"dbf5a466431d42c302c316a88965152a1daa968aa0bb83c9973b38c43d496728\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"67fcd86d91d003a78d11bc01d449db1d0dbcf5fba7d5b0a3cdc039cfdb45c167\"],[\"normal\",3,false,null,null,\"Float32Array\",\"487c623471c0cfbf77e1522eac08fb8f759734135834aeb8727238f305454dd9\"],[\"position\",3,false,null,null,\"Float32Array\",\"d99f4d731559a65bed26518fbd97dca8ae9ec05d6c4ad7ea6465924c56b3b92d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"dd562f86710d091f3f2d4c023db39030cf9439ad53b5e7fe0a56f4bafefb6e4e\"],[\"index\",\"Uint16Array\",\"6d52b7831c9064d275f80a9cdb7f2b226c0354f53856511b98f6d72bd8ec5c5d\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0a8f5b6c0829479f7af218daef991de76bdceda35bc2f02539b160b4cd4a0797\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a2a7eaeaf1a843a2d129e040a7c998bc6a4a9fddd3e35a5189f7d824d62c4e1b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"caf2a129434e3f54091ef2b0dd540e0fab79164f70d857c01b6cb7f25bfaa801\"],[\"position\",3,false,null,null,\"Float32Array\",\"060e6736cebe3775cd3ea8e9551d930726459eeb0cacd50cf047415f120725fd\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6eee2a93896c16996aee22802c5123dd9b8fac81819e7632408fb278cfa70073\"],[\"index\",\"Uint16Array\",\"ce7c77740336f9fa1be53d363f9eef68f276b7bcba2a56862f01cab644be2d8e\"]]"
+    },
+    {
+      "kind": "birch/tree-1527",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"56b432fca2acbb624f530140058a722a148a3312b80183ed5ca591ac50cec68f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"283ea2252e1cc7cbe0cecab029ab42e799edb5ef9030c0c7a5d779255ef492df\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c\"],[\"position\",3,false,null,null,\"Float32Array\",\"8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820\"],[\"uv\",2,false,null,null,\"Float32Array\",\"68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57\"],[\"index\",\"Uint16Array\",\"099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0cd4cd5869f139d7282496d779396394ae494102d0d508b3250117a7fee742b0\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8ff60fd791de5edcbe90a6525c2045f43b589b0f0b66e81325cb3caff9102d6e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d\"],[\"position\",3,false,null,null,\"Float32Array\",\"1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca\"],[\"uv\",2,false,null,null,\"Float32Array\",\"e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92\"],[\"index\",\"Uint32Array\",\"bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c294412aac31f4aa33ae75c1ab368680413987fc4e2eef5a8a4549fa05696cf4\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a39bd333f9b5bbf3091f31e4dcde2f11c531eeddb98449fdd5df53cb77dfccbc\"],[\"normal\",3,false,null,null,\"Float32Array\",\"b3ea714326c0fcc2cc4c53b67b4a2fad7187f9583e1f52e8dd52320bd75e3078\"],[\"position\",3,false,null,null,\"Float32Array\",\"08db0e1214d0ed937cbd27811efe32a05706bc414ab2aa5161a43de2182c2780\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"f02b7f86fd80eaf9280f74e796a8f68d80063da2c3db161db50a267dc08f8a9d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d0720105c40dc03e612a89c72c4ae03bba7261f71d407c54d80d8f4c6fe6c539\"],[\"index\",\"Uint16Array\",\"8b0e6bbc0c0f10e233ab88f532df99811c4ef3d747cbf3d6f7f85b754104a1ce\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bc52eef495205d93406c8fe9ecadbecb22f0ecc5e55bd2fc31a3fe587e0cdf8d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bdda12e7c8d7dab27b4e6e3b128aad4a51bd073e96d2af376288dbdf60dc01b5\"],[\"normal\",3,false,null,null,\"Float32Array\",\"8d6b8a25ef0a529fb92adf2b83358a4ad460ef4a0f2ce3ba955deaad877507e7\"],[\"position\",3,false,null,null,\"Float32Array\",\"b13f99d5b3c14ca4ed8102fa6c95cb253e50caa0c14ef1a5a696d51f8f92ca5f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f644feed9c056df44df7d08da2838986ce55754e62ffd1c11c3b6596a5892012\"],[\"index\",\"Uint16Array\",\"ed05140974eba7d78048dc122e2ed416f79843d551b6c53f097f9c763fe31eda\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2a833ec928277c4507d3286720868f3abdd6efe42336443897587406c3c0a5be\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"48059a444305ce5f19347399e91133d9353554d184041030ac6888c6e0fe7f17\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385\"],[\"position\",3,false,null,null,\"Float32Array\",\"e46fff362151a80b74318bc3d1c55da437a078e5fefffd73fe923c40dd3e95c0\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f\"],[\"index\",\"Uint16Array\",\"cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"ca98c834d31b931ebe314c3ea4dd862741acca3442b644fa5901fda9b400fa08\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"c7c88c256978127eaec161744a39b72ffe2deab1054a19fd0b7463adf78003f6\"],[\"normal\",3,false,null,null,\"Float32Array\",\"aeb25f6efd63b7cd53648e5918f4dcf8b14a3f983e0f2e32ab11df7cc6f65d94\"],[\"position\",3,false,null,null,\"Float32Array\",\"35de7a70b669f6ebd491d92d7f9570c0568890323bd5502bb7adbcba8f6ee1a5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"38b7015789854cb9434734e62638d66fe9e8dc8eb44b250b10296b4f4261cd1a\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724\"],[\"position\",3,false,null,null,\"Float32Array\",\"a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95\"],[\"index\",\"Uint16Array\",\"12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"7095733a36295c5315be8c8d558096511f0e6303e49b91864b13eeb39e35253b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4a4b5a6221870ae738281fbf0469617d6e9fea11e09ce69574c4c1c9f0c2526e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8ceea8222917a3e25d32d3d5719b05b77334dca4532b24f0af10c7878682ab70\"],[\"index\",\"Uint16Array\",\"ebd70e39939d2782a9e69e3870c336cb12d6b66efdb5650ffe12935b5b891c8b\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4dadc29c4975832096acb446c2538efc40a47d03f0357f2b4b3b83664a546844\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bf6eeaa34da314ee6ce83e11e4658479cd89f579cc7690887fe672e594a60f03\"],[\"normal\",3,false,null,null,\"Float32Array\",\"4740e5284ac3bc953b743ef2d588a1a81bbb10b3562248bd608596dca59753e5\"],[\"position\",3,false,null,null,\"Float32Array\",\"5ff482f6f7b939ce78220995d243622a9dc132d02c2b60b5eea45983f5a5688e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1500b082f786ec95cc5dec50639288e2844ca5f2aad360fabe3ec80c5b0e0aa4\"],[\"index\",\"Uint16Array\",\"19fd0a502431326cac26d56b52c9880384caa807081f75d2dcbe3b75f21a65fe\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2f565bef3b6f45da717c8b1c6cbe90f4c0c8548a9c0e067e5174f3721c1ef702\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"722f2f9e1f333db7a4972d6cf9fe858fa692b743daafc94a1b82af8807934590\"],[\"normal\",3,false,null,null,\"Float32Array\",\"cb4ac3789eadd336844b7c02d34896dc79075b2d22482cad25c10a3958a9991c\"],[\"position\",3,false,null,null,\"Float32Array\",\"6065e3c58db16a6af6998c44716dad3aee80dfd3743241b359c40c57be0cebb2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ccb69ddafe044e4df667b78c88e2cbf5fb7e1ae05baba44ccd60181f422790ca\"],[\"index\",\"Uint16Array\",\"1eb235239c6cb0e320af5a3c88e15d803849aafc495d04943dc4bf2549f106ef\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d6fff01a8a7f29011f0ae9aca231551f0db0a937b482d9aa1fcffcd7d33e2c88\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"18cf505a4060fb72087637c7ba7d10e4fc5bad79a18a28ab608b0fd207ada015\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"430da9020302c8db7a2e75dd4635bb0bf499d94150c360acc1565b62451d7478\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"3795073135c33d97a59aeae40865350c48268add160113ccba33c0b6ad6df11d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dd1a478aacb54ea29d6cd0a428017d6d79e349a15b9fd2de93d987ce3667e062\"],[\"position\",3,false,null,null,\"Float32Array\",\"74de644e4525993e29fcc0f70b4f5cc7c920d8cce45b1b14df862605cf40d030\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c217ea71ab320a7c86e76046b9edeb12dcab21d6e851d2e00d9e4e3e443f4922\"],[\"index\",\"Uint16Array\",\"75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d6fff01a8a7f29011f0ae9aca231551f0db0a937b482d9aa1fcffcd7d33e2c88\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"18cf505a4060fb72087637c7ba7d10e4fc5bad79a18a28ab608b0fd207ada015\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"16f9f8a403fb46f738bfd0f1c80d9c260771eef1446a803389702144b15ec7b5\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ea666022c302c3fa000f9efde828be860e51ffc82ce2d993d71850dc6328ec41\"],[\"normal\",3,false,null,null,\"Float32Array\",\"d783b33ca5fe43e65f7fd358a4ba9cc99ec9373b6b1c0d3c8dfa75f691439aca\"],[\"position\",3,false,null,null,\"Float32Array\",\"4a2b8df80f14ea4ce941d0aa61ca1ced8cfede480277806c37f7369ddb7344f8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"efbb4ca4d575be1a7b27c9449c207aea750f59729f8dc1468fd27f943eff6a5f\"],[\"index\",\"Uint16Array\",\"71f364e56d0ebdeba277bbc549b683a2d2392dc03be217a0b1c9b0f29d8e04c3\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"f744fea8b1c1c586e581d1126ba5163e48978191beb43d987b71f24ffb834939\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"44a90115c0251995b2898b027497ae441baad4b15c3d45b7809278a83530ce17\"],[\"normal\",3,false,null,null,\"Float32Array\",\"2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34\"],[\"position\",3,false,null,null,\"Float32Array\",\"930a11b416e4adbac522d9a2754cbf0830906b34f7103634541545e6126a3d67\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5\"],[\"index\",\"Uint16Array\",\"d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d412d3f06898fa8048395dfd1984e5c35d6bf65d52433cdafdee5e44b84d3f4d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a6c9aae830d343111a0a3ff6d773107f57543e8bbeb34186bb69b89286c41e8b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24475ebf445a83fae005d1030bf33d7d5996089cb9ee57a038b513a2c6cfd3a3\"],[\"position\",3,false,null,null,\"Float32Array\",\"af241171bcf2bacad4267a8f8bc4e8333dd8d193f36b0314a43fc21b3a861c7b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"30af249f116bfbb8ed57f4a2e20e1fcac7f8c422263cc37f9f07325dd1a5f973\"],[\"index\",\"Uint16Array\",\"bee2d9e0ec621438f39919755fd7bad5e402a0d2351170602a87b18170df1d73\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ad91f3d41105e1c8d38beea6fad53ca1949a81d794483c5a512ff47d3fcef3b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f7de12ec251dd44783949b5679eceabcabda1524899f11f088fcdf59b49fb351\"],[\"normal\",3,false,null,null,\"Float32Array\",\"976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7\"],[\"position\",3,false,null,null,\"Float32Array\",\"c5fe4bfd7f3e1afab1ffbbf88574ca3c39a4d085795dda535cef85d82b13f4dd\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481\"],[\"index\",\"Uint16Array\",\"a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"341d77e9a4522f7bf20e7f71452b818a4ac7e70842894be6b86e8d9b8c1c51b7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bc2c49e150339e5f6ec4021270cf7f83bfbe6eb10b6c7089e8b01ab67fbd0b0f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c5d5b399db21b29920ebd7f4ff232ef0e3db4f1b1e45f4580ec1518f386d1032\"],[\"position\",3,false,null,null,\"Float32Array\",\"3993ef77df8f995ef4c8463afcc3d9bb464048cd78992bdb86402826fcf60fda\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2b8d362fffd1b4c71463495e03139d8b5b2b71323f37e35d942c601c6d113c30\"],[\"index\",\"Uint16Array\",\"5fb77df7e63af05f10d6faf77e931c96c3f324e0903e83b74abe4fcd30ecbbfe\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0dc54650350726a4910d41c494d8f0a8ceed903c5f66136f0fe3e060c04ae564\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8019db8ab459b45adea51a117250322ed6146f9fdea730628b1d51bcbb49851e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87\"],[\"position\",3,false,null,null,\"Float32Array\",\"c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b\"],[\"index\",\"Uint16Array\",\"349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"6e376fad28a967204e4815fafd071a615911f1272d37e3a636255ce5461fb100\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"85dc550f824d3543ae5aefe1d9ec4169b6bd536c5b88f77fe338d8c1fd93f5a9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"85dd7f09e09c0fbc2b1479f510133ea759f7865fad67c2708dc1dcb991c922b6\"],[\"position\",3,false,null,null,\"Float32Array\",\"68000a00cd1f2fba64af8dd84f8a1445f79af5a017aed99d499b4051bf5b6778\"],[\"uv\",2,false,null,null,\"Float32Array\",\"77d10a2f72cc68d6824205223210f5c98e391e92064df34d7e2858e679101b3a\"],[\"index\",\"Uint16Array\",\"06a718a78bd7bccb281d655eacb09485ca33eb994a424246e5dac5d7cca7f44e\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"5c747b32336d229c220ffb2b29f88562159f22670ff71e873a52943f5efc14db\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ecf256e1c64219562866b5e9dbccaef3ef18f2968e442d3b09d7b93c42f8a4cc\"],[\"position\",3,false,null,null,\"Float32Array\",\"e0eda17796fad3e2c7437219a4d4305f719b28968e8de40ada5085a4befcde07\"],[\"uv\",2,false,null,null,\"Float32Array\",\"22d32c52aa9ecffacee2171bc32747c73a016ab80cec961c26caf1fd0328a064\"],[\"index\",\"Uint16Array\",\"6f850355fba6ee97d536bf682b75acf8610e08157cb523af14ff0542c88ae9ff\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12\"],[\"position\",3,false,null,null,\"Float32Array\",\"5b023888de5c11b70809976611727c1a4a88cf4ba675a3ba0a4cfc2e5719d78d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 1,
+      "wood": "[[\"color\",4,true,null,null,\"Uint8Array\",\"5e23a3855ee67b33ab3d956651024b54e89c9c656fe09041bd8f4ea90d3be198\"],[\"normal\",3,false,null,null,\"Float32Array\",\"34d696165cf9907870272b001b6c840e216cc005c904a1fe271f94908575c34c\"],[\"position\",3,false,null,null,\"Float32Array\",\"6bc957628e7c843d1e4941ca71bec2686cdc28187da795a57f8b6d259b0e20ea\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d908d65d50e9bb06e3dd69781e70e61cf782030511320802de903f40289e664b\"],[\"index\",\"Uint16Array\",\"852ed6bf07d9840bacc86625009686b905783162c226772d6af48a8f908363b8\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476\"],[\"position\",3,false,null,null,\"Float32Array\",\"77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca\"],[\"index\",\"Uint16Array\",\"80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8f2dc44dea1603fa5dcdda0229a6d12864d60d9f0cf11c26933f0ecd5c049f0c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"9ae5fb6f3adbc160c2d551805e5501f4232bdb00d79b03a1bd897fc96bbf33f7\"],[\"color\",4,true,null,null,\"Uint8Array\",\"618806cb05f6842c181a72d72ea5ebbe072c82257eba0f681c3f58777fd1a455\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c86f4eee4d3b3911efea9988a5fe2abdc6aed2127553412e6acb4b2470508ace\"],[\"position\",3,false,null,null,\"Float32Array\",\"8e03b1f67dc6c51a611dc29b97402f846b95fca8eec95139a41565af43dff6cf\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c63ab99b951a67aa9c0cfed4b7c7faf5e31d19e554a314ed389770d99ef50d56\"],[\"index\",\"Uint16Array\",\"71a3305ddcd68059e27394fc3ba361709188b80e17883b0c875af72e360e1e38\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"884aeb205aa5bb63f0d1999410fc1cfadc6a1a3633d62df6260ddc7191d1b57e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8400a983af1e1fa21060bf95b5fca3e33d3594c828d6ab929217b045435ebd9f\"],[\"color\",4,false,null,null,\"Float32Array\",\"bc4c30c3e3aa2348e1bf0387e416f2cd998022306533ae8a099851a024973305\"],[\"normal\",3,false,null,null,\"Float32Array\",\"771d8e904f555de206eadd50973342f8abca6357eb04fbd044e45e5789ff49f8\"],[\"position\",3,false,null,null,\"Float32Array\",\"bb61a5c8478b12d0905d5925a59a120f74d16474312233faeca663fcb32f7f6c\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d23a9e85376276a72ce97b7b8960cbd85882bc1941974320e96200517339e002\"],[\"index\",\"Uint16Array\",\"a21d3efb8fd1aaa8eb6e7349ccf9e62bcff586b6b1e662e8a9a332a8c4750714\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"e3319383717ffee1f04690150c379a26f4da7a5dd5da8f2f0d2e6c3b0f82bfa9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"6bfd262b6f14fc6c3ff1e4d980bab5b505928dc129b512a9bde208a6bf2a653f\"],[\"position\",3,false,null,null,\"Float32Array\",\"2ef6ebf6d866621a5e344110a193c3fb4304477b7a9f8c3a5c585e8920512662\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d2d04515615cccb7436da6798efbed04675b5f7d8d1c923520698120df3f5305\"],[\"index\",\"Uint16Array\",\"1dcf659460bad8b71bca65fae157a8a7cd14fbebf0baa31864c3853085ecc139\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35\"],[\"position\",3,false,null,null,\"Float32Array\",\"3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 1,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"92b6c65716bc5114511b113a085e56de94d55d6642d61c6ab69127e2a36d51a9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dd441c9f62da69dae7b955460f706046c0c7d879226fe1f8ff5550b46fa0c9ff\"],[\"position\",3,false,null,null,\"Float32Array\",\"54234d0f6cad86676c45c1e178af86fc6a64f70055a99c48e7ebf75f0aa6f464\"],[\"uv\",2,false,null,null,\"Float32Array\",\"fcb35c04c402d109872169d6e870f08c0f71d958fb1d8c622c502026af6e835b\"],[\"index\",\"Uint16Array\",\"02db26da65893d62b3d3b559b8b224a91914e2cea64197fc2fb746613c2a0f42\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4\"],[\"position\",3,false,null,null,\"Float32Array\",\"294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36\"],[\"index\",\"Uint16Array\",\"22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"13812a9bd2ff292a7db2dcbdf62654470a7a26a0ede0749d7abe88d3cf60c71f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"064f3fab676c20799c9c6b0fb94b7b1716a872c9f6cbfb22cd09080aeb87cf8b\"],[\"color\",4,true,null,null,\"Uint8Array\",\"3ee75c9e32ff795f62203d35a98f0831aa790d3917140d79d77fc1fbcb2b4013\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e599b69fc44b83e8a7b08d9911157754503da60427b8fd22a72599753e4a09b6\"],[\"position\",3,false,null,null,\"Float32Array\",\"52e46a57980886d967b306ddaa2d7cb776da8da1cf76b2e31ca978d662083101\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5b903c51b8ece9b699b0d5507e30d49284f8e64580af969a84eb83fc5a6f2b9d\"],[\"index\",\"Uint16Array\",\"ad56a0761703d7212231a1952a891f2389b1b3769d3a85a7c396f050a6969297\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1cf7863111cd8a30a92fcd096ceedc1f3e4a36f8ab83c2d3331d4fa3e89c675e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"520cf32e62f68c99b02a9a0038e0f3fd2ca1ae509d814a3a7923a06952a3bed5\"],[\"color\",4,false,null,null,\"Float32Array\",\"f806e8044472ad5d804d14a82f98a6a8b9c84d47942436d549d5ec7bed8e0667\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5366fb51949cb12b252eb62454856c98ce92dc31c743d9faa5c62b0bf3905a58\"],[\"position\",3,false,null,null,\"Float32Array\",\"3a4e883b11b8f1bc5c9114a6dc1835bcb2e4d15686526fc72065615641940597\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f29811231270930daa79e4ac5dbf8e2bf5dc7aedb389274390942db87ff78a4f\"],[\"index\",\"Uint16Array\",\"669eb49df8e8643f32ca6900c56d4dc1fa29ac7fd749795cf739194c2814c707\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"1546a44840bd24c5ddcac03b758a198f9a5e2c0dd8440f0f9d9fdfdf3fa68b67\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e567a8c969983b979251a99991205fd5de1c7ef18621a079b10d8ba222ca6ac1\"],[\"position\",3,false,null,null,\"Float32Array\",\"861a1869d8e7fcf0e925532d00553b2b641e6ba69e812031c17c419065ba9b27\"],[\"uv\",2,false,null,null,\"Float32Array\",\"04c137b1b421fc18aab7200f39ca5a7ca14c7f6a940ab99cdcc6d06d477a080f\"],[\"index\",\"Uint16Array\",\"6503110ed2ae249b4b4db242e6e8490255fa080156883f89e2388aaa56e9fdca\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0\"],[\"position\",3,false,null,null,\"Float32Array\",\"9a799db8a5037ca3a05ff583ce18cb04b82a03c3dd09182f1d359912d7a861b8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 1,
+      "wood": "[[\"color\",4,true,null,null,\"Uint8Array\",\"b0a40c6b45339a5a2b1c882e77952272e652fd5b33ef061c6e95424e3bcc6ba8\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fd98c054ba619825cbaaa25dfed02ca5d9d5bf1ab7933562b51b55485d5fdb9a\"],[\"position\",3,false,null,null,\"Float32Array\",\"d313a3c914092042adb30b8dda6c82b766d5e21c4afd1eced91233632143cf05\"],[\"uv\",2,false,null,null,\"Float32Array\",\"17b6f1464bf45e99a3747900c60e6df6daa9237908f0cc859307828a116c95c2\"],[\"index\",\"Uint16Array\",\"3b70c27c1311d36f0c6725b5d12cd06ec3724bdc20efe928c19a98e15f50f8be\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1\"],[\"position\",3,false,null,null,\"Float32Array\",\"60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05\"],[\"uv\",2,false,null,null,\"Float32Array\",\"efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19\"],[\"index\",\"Uint16Array\",\"7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c6cc8895c04d4472f71bc26be6701d25ed4797220db81510c4b1a32cc6e00693\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"4d9da5d948e26b6fa4e65657c585406729fdda80ebad959d7e8979337fdb5646\"],[\"color\",4,true,null,null,\"Uint8Array\",\"27f96658bdda1e8032622efae6c7b4c32ef8402e1dda5b32c63568ac66b627cf\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0f48cd6eec212a377a89059c821b22d8e9a9012d89987911c6113d064f45bd8c\"],[\"position\",3,false,null,null,\"Float32Array\",\"e963a001ed79e3c70bc7e96da09ae903a3a6865ee1ee4ea4f4de43cb33dc8604\"],[\"uv\",2,false,null,null,\"Float32Array\",\"209f53426dfb3f200ce69d86845aaaf8ecec7c1302047fe6522935956fbe210f\"],[\"index\",\"Uint16Array\",\"8a659a8cb09e11cdf8db731ca876bbddc43fe41c2786e51fd6efc651c57e8d4e\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"78d812273cb103130d2752387357a23e10f2a2f1867f4136fce4f41e0cc4a37c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"058f11d60296117a9e52cd244157cba3e33e3a6136a23402f8b1b3dd003ec817\"],[\"color\",4,false,null,null,\"Float32Array\",\"b6d3f1521cda3026a79bcd0d36970cf62e666d26735c51a0dde75a0ca2cf5209\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e80e3ec844f6472ec9097383e547044a53601458e39da9324a1136c231811337\"],[\"position\",3,false,null,null,\"Float32Array\",\"a21aacb4a2f3c72c316f770f00bfdc7aa38bfcc026c77fba2e4604288585d310\"],[\"uv\",2,false,null,null,\"Float32Array\",\"0489a8af864b347fa5590e11c9fceaed552550ad390f60f5657d22e6508bf89f\"],[\"index\",\"Uint16Array\",\"cfd99ca400b8910aa525d0e4805197656dbbee315adad18374475785d26090cf\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"484adaca4c03d84bcba9613b37ecc25e454c4de9097198edc01653fa5e54bb31\"],[\"position\",3,false,null,null,\"Float32Array\",\"a4233272ace4fa724568d3c1f5a37ba68425e0de942b3306894f938291495560\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c7e6b09fecfa0832b4b9ef2839ad61ac8568cb7e2145e87d4052c4a4f381d00a\"],[\"index\",\"Uint16Array\",\"8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c\"],[\"position\",3,false,null,null,\"Float32Array\",\"e04415734e6cc80ed94a38dd8fb1ce120c0a862a53b7103ec65f1af8454c3023\"],[\"uv\",2,false,null,null,\"Float32Array\",\"67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22\"],[\"index\",\"Uint16Array\",\"149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a\"],[\"position\",3,false,null,null,\"Float32Array\",\"851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62\"],[\"index\",\"Uint16Array\",\"b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862\"],[\"position\",3,false,null,null,\"Float32Array\",\"8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838\"],[\"uv\",2,false,null,null,\"Float32Array\",\"13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"477e15a3f924e40e8b763caa6c853146519f4308a50c8e5a4795a3f5693186ec\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fbd14cc1958b059a5479fd8744ef7e6f639c61958aada4a4403ef738fd8431ae\"],[\"normal\",3,false,null,null,\"Float32Array\",\"1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57\"],[\"position\",3,false,null,null,\"Float32Array\",\"061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90\"],[\"index\",\"Uint16Array\",\"0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"9c768b256efbe2de521d8ed664c9b9b307e7a3e55d22e9984469539857332a00\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ed0d639af0ba9691c6e3abca5423241834b39bd4c742e92fa3224f085f28bfeb\"],[\"normal\",3,false,null,null,\"Float32Array\",\"cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f\"],[\"position\",3,false,null,null,\"Float32Array\",\"61c77ae9cd0b0bb6049638051eb34f9e97c7b9299019bc0dba5d50633fd8c420\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42\"],[\"index\",\"Uint16Array\",\"eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"9e5377238c8ebefa22d764ba2cc82267762f127c8196727ed494792941727871\"],[\"position\",3,false,null,null,\"Float32Array\",\"48ec5ea080da6a768acd386bd8f7dc49166d5bcd414e1168d0ed2c1c9221603f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"77bba703615de945db1e2b6bd5c32d3761fe42171b0c7d3b57aabb323cab75ec\"],[\"index\",\"Uint16Array\",\"d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2\"],[\"position\",3,false,null,null,\"Float32Array\",\"9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94\"],[\"index\",\"Uint16Array\",\"cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"89e17016e04408e84569be97fbcf948466929e89fc67902223d3f2b7be065367\"],[\"position\",3,false,null,null,\"Float32Array\",\"d056cbe7dae6342d9c40655ddafbe5f8922472281a40da6ba408390624f83dcb\"],[\"uv\",2,false,null,null,\"Float32Array\",\"86108bc1fc0d383ed8ca39f879745e45e8e0b8811e32442fba6ea3dd82fb529e\"],[\"index\",\"Uint16Array\",\"1a69fa0de939fd337ba3517eacd530315dbcd34781e965363f262c2d8619ea98\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4\"],[\"position\",3,false,null,null,\"Float32Array\",\"e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40\"],[\"index\",\"Uint16Array\",\"75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"9a782d23fecb9c12bdec7875ce05c32c64dd6e9731dfa5922836e68d77e25086\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cbbffb407ca76103709e96e1c0bbc26542437bef8044058f9e17f22e9d7c7041\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"141437c764c67c7384da6499ec6480bbd96b4f02b1aed0ec109747e125e2f543\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cea172e2bb4ffe43d0f0ef4c10865611e8c12d128a5d27de204350ab12ed178d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24d326ef1389b9f29a238da36dac3f6145903b2a62ab680497931e912b4a6c1f\"],[\"position\",3,false,null,null,\"Float32Array\",\"3f26dda151506ac8e52342d44b68594db36ea5285cc86d7792da07bb3682443e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1c892b0218e88bf4bf7dcf3335ae6f69d2f1a3ae5057fc8127652ecd48d9030d\"],[\"index\",\"Uint16Array\",\"5fb6e30de7af0609fd06d60677c934c57c62e0f6f5b365ff660be5df5db5130b\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9\"],[\"position\",3,false,null,null,\"Float32Array\",\"4672df0694e6d6455589e53ab0dfd09687ba8a20e66258e2810fbb1f0f590a8f\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d\"],[\"index\",\"Uint16Array\",\"e7ed8a2049cff8eaf628870b9c3d3d5550aea70cd5834aebd0b0f6f4c6bd6e0a\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"581ad6e4118d2c0a042d2c99f54e9ebd36c2f7039e3ed6696ae37671ea2d5189\"],[\"position\",3,false,null,null,\"Float32Array\",\"781af0154e7ce12f0dabcea7ac74a3705f0559fa7030d86bf597cb09a38d1f46\"],[\"uv\",2,false,null,null,\"Float32Array\",\"511778ea22161623a0e117f649427904faf17446ba3fa321c76df840635a5b93\"],[\"index\",\"Uint16Array\",\"fd6b087e1fd57bab8dca97722fd33a35310c62eeb33f7db1a3dc9c5e6a49048e\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"f5e51af652d729a02e6bc429635edcfb71d4f8516e48e0815eaaddf09dc63725\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"90bd78c7182c13552674c9e391d57810ac0da663804ff5b7d9f51528c16006ac\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385\"],[\"position\",3,false,null,null,\"Float32Array\",\"8ddd86004cdc85283daa06e73a66054f87eed66ff4ca4fce2ec24537d065d3d8\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f\"],[\"index\",\"Uint16Array\",\"cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2d8d835b8f134ef2baa7437d4950d83ec8a858dce2363d420457a209721a4e99\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"da9d03c6c0e8b0333b7621bd1ca72db1dce00e94ccb92885bc7e1d8b1350d23f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5af1a543d8e06344b6fa94f5cd43afe0faba3398acf0e7ca7ab28403d0495e69\"],[\"position\",3,false,null,null,\"Float32Array\",\"2c9a4c50e4c356a39d2d61c56f26e40f578375b84e03c48c8598eb09abfaf1da\"],[\"uv\",2,false,null,null,\"Float32Array\",\"410cac356120d3ccb2c1ce5429393e5a3402ea5e03091e711b927c6108bafa87\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724\"],[\"position\",3,false,null,null,\"Float32Array\",\"336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95\"],[\"index\",\"Uint16Array\",\"12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda\"],[\"position\",3,false,null,null,\"Float32Array\",\"4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70\"],[\"index\",\"Uint32Array\",\"091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679\"],[\"position\",3,false,null,null,\"Float32Array\",\"435c9eca1dbf216f93b70f7bf89ed6c72f95b2da3f5ff4be909e14d38c4898d4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38\"],[\"index\",\"Uint16Array\",\"7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"2f3f8952d2bba17fb0ff2f2c4a1631eb63da65643cac19d45d8b8f8be5704511\"],[\"position\",3,false,null,null,\"Float32Array\",\"e6680a10aed6dbc344390217001d3ae9d102845a24ca9df98fc89902d38cd560\"],[\"uv\",2,false,null,null,\"Float32Array\",\"de336d4466fb33e0f221eae4d415ed7cd4df6052839031a9e09d0630d0c151b7\"],[\"index\",\"Uint16Array\",\"43c9400778ea6cb608c9e1d2332e113a15411803137808f25d6bef95a2c7dcd3\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"74470a2971c655c7e32d93f032b2684bfd725b6c1dbd18cd103d4164852b9030\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a88e1ab20388830149cc1f25dd04be6cce75dbb3ed2020a54fe2903d54a5e3cc\"],[\"normal\",3,false,null,null,\"Float32Array\",\"1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0\"],[\"position\",3,false,null,null,\"Float32Array\",\"07a2916aec7671cefef10ed3294fa9ae27628eb3109c39f19607b14e0f39c3d2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc\"],[\"index\",\"Uint16Array\",\"ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ece6014e7b694d69fe68d5f6223895558a44dc53ce983dc65893cf9c1ade8bf\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"1c4255f06693d27a5acb6cd77e8792bab8b46ff09a806d4127379a10612f4bb3\"],[\"normal\",3,false,null,null,\"Float32Array\",\"7f8d717896d12cda222c0bd471dfd61b37bfdf41dc6c74c3564ac8661fb17fb3\"],[\"position\",3,false,null,null,\"Float32Array\",\"98f74f8595ed963aba41f9d81b2158c19b21246183420c8bba96d370a5e32470\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f6951047bc439f7c02078054c0223869da60d64a19ae7e79b6819533b4b5059f\"],[\"index\",\"Uint16Array\",\"7d52be915934913a26a77236523fa61e034a48a33b3fe9b9707a463f3f8bde11\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c1983a3521b1535869b0d4b79abbf19f994d66c591ad7f483bbe978f3669e06f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"228ffdc4d7bb47bc367b2d79e760c1126eccfe61ee0b342d04f3dce84742927f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9\"],[\"position\",3,false,null,null,\"Float32Array\",\"7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357\"],[\"index\",\"Uint16Array\",\"13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"e451c5d177babd7c5dd81bc1a3e244581eccbc0ad53047036cf3caae66b958e3\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"adc42d4585b5891f5b21f07c9efe3ae880c932b44a68001d439e6d753903962b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b\"],[\"position\",3,false,null,null,\"Float32Array\",\"38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b\"],[\"index\",\"Uint32Array\",\"a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e7d78fbc3f2f086d7e6251c4e13f75d44903d54b2c4f35e9c51955447961d9f2\"],[\"position\",3,false,null,null,\"Float32Array\",\"d5e0b4d179b83a158e390d7a7d189ee656877e080afca4e567bc7663f63bc909\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"cde112d4a6cf869f7a6d607fb49cb444edb4164c04d6579dc41a92ccc31a2c2f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9239667c569e0ab6bf36cabcf42588f0cb53cec0011a3d32207f2bf3977c849f\"],[\"index\",\"Uint16Array\",\"59db49b62f0813058b95cdd9628a96dba07583f1ea5a10e9d755351ac71d93be\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"ee972c3828f0db4d4df2912b27b91a07fe188421ee313c0c9ad9800b2a8b6033\"],[\"position\",3,false,null,null,\"Float32Array\",\"ec5e56f6de7978c34e0bde285e89da0c1f5e50582005f39869e83be5ace67a8c\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"9813bb243084fa1232edb82dae0e9a714c4d3e74e86efd18278713a21599b0d9\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9cb019cf0bfcf41d8403645166536c020609deacfcda79b87d20740c64efb0d2\"],[\"index\",\"Uint32Array\",\"c7ba9200fc534a2952fd1624fe8e9624ae3cd9cc638d3a60978784c913813018\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e5183170a1b1a975f086a637842339941bd5de70aa0d941d16006b391c3d2a82\"],[\"position\",3,false,null,null,\"Float32Array\",\"7607e916804cdec038b8becfb1154f6e82e871d6c16cdbb3e24f8d935ca4af2d\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d9ac385bcb2cb10d30dae8c0fa930ba80d78462fbd52fea7f5102fd3c263112b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cde007fba37a53bb4b1cf3c4b86ad0b3769b685954af508d86ebddb7f60d3516\"],[\"index\",\"Uint16Array\",\"063716dc881d14bc47846379a569c819519b96477fde82d86cf86a47b7eae46e\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e2531b96059abf8ef4b23c525f738a2bc54c1756752d2b98d6d3cb19d48c8dda\"],[\"position\",3,false,null,null,\"Float32Array\",\"63dfe438baea71d8aec80775371b76fe9cb326cb66149474c44a7d9f4df14fba\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"903053373998030351f7c519a6c1320a9967383db9c1a3c392dade4dd806c46b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"101e15b44b4707a1ae3c789de18914ad0ff011d73a93a900d1032b4c81498a04\"],[\"index\",\"Uint32Array\",\"1d8b424badd8caa8863258bcec109cc0088d6849979625283714d174cb3a9757\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71\"],[\"position\",3,false,null,null,\"Float32Array\",\"c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63\"],[\"uv\",2,false,null,null,\"Float32Array\",\"28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7\"],[\"index\",\"Uint16Array\",\"644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa\"],[\"position\",3,false,null,null,\"Float32Array\",\"ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50\"],[\"index\",\"Uint32Array\",\"21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"18bd8d7f17136436abb7e6fe8d2fb9936d295f1d5d453bfe30e0a7f2562f2c54\"],[\"position\",3,false,null,null,\"Float32Array\",\"9f481c8eb48bd978862eed697e8ff70d9da727394ba0849e0e96357ce8e7fbd3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"facb86a49956939cd6b6269c53d0720301619e013b85673bbdc4af979d586845\"],[\"index\",\"Uint16Array\",\"d8b0972f717637c0dba9e54fc7d629634c269a2d81d7a36c8858ac8549e7dd86\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"4b3200ab4357f57145a7e3aa441e38e8ab518bcbf35e65b545f460a0873028c1\"],[\"position\",3,false,null,null,\"Float32Array\",\"9f706c9fb295164622d64e496a6c33cc45877da18e9187e271b9a289d2ec864e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"18d5839ab2074f9b22db3121b33a7295a79d3afffdac9c6bba591c37f5919307\"],[\"index\",\"Uint16Array\",\"b3d8255959708464a3598dff23d228ef1061c68725061080ea64a8e30287e229\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"96b8bb02289e2c1d5eaf06a9b31eba66a02bf757b0f1b8067ccb32661a8d6f7d\"],[\"position\",3,false,null,null,\"Float32Array\",\"d393275785ee1bebeae142fdafb6281652bbe8e1ffb1277a8e6b026e6796e311\"],[\"uv\",2,false,null,null,\"Float32Array\",\"26d6862b0218688a190f781d9563a29a793d0785355363841c43d491fb4d43ad\"],[\"index\",\"Uint16Array\",\"c3ed8fecd824272d599b706ea1ee52feaa3b1bfd7a8225c3c2d4554ee123855e\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"95309e453e7bc3656c3f0ac5893ebfbe8705823e9abdc3e02757ffdb3abec54b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4eae809e527dc95acd72ccb4e1bb784e25fbb243f7feca02c43e49d8633af9f5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f110387261d7fb2c887299e790712e4e40bf8d50282db2be8bc30072c4741877\"],[\"index\",\"Uint16Array\",\"5a537879a94537a83b2ed2bffd547a92014a05428e45aa586f752402817fad20\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084\"],[\"position\",3,false,null,null,\"Float32Array\",\"1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51\"],[\"uv\",2,false,null,null,\"Float32Array\",\"56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db\"],[\"index\",\"Uint32Array\",\"4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"63ae9516039779c905ab6258492cf28ce361eeeea265dc9696a22a85a51e30eb\"],[\"position\",3,false,null,null,\"Float32Array\",\"1b5fc013663dad7e816529b1e5b7d109f5064087626002e5a017e0aaff43cfaa\"],[\"uv\",2,false,null,null,\"Float32Array\",\"42265ef7266007e4882cd97c63050867c0160a98099ffe4d7a6ddf8b8e6a733b\"],[\"index\",\"Uint16Array\",\"d25a7bab8edba2bcf9eb20cfe809cc6017b62818a93575b88d8212921409017f\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"501dc83df5c57dbc9d6d7f004df7b61bab06e822cde0ef00e7238f3f8df4c572\"],[\"position\",3,false,null,null,\"Float32Array\",\"9ef9259c6442ab5602d8c08eaf275e7fc95faf10f127a3dfe95fffcf8ab38b19\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f2b1d3b40f212f32e38e0cd0d2f80f1d71e524775e8fe7da57ee897b54806112\"],[\"index\",\"Uint16Array\",\"d6a8907766bd6b5b003d72881e4cfacc1227a1c54491c76a3a4b8a0924d9446b\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f9b57db5ec64704a286de9679850e52272e01637ab48a4ed7f5051c2ca484523\"],[\"position\",3,false,null,null,\"Float32Array\",\"0bd86cccddb368484c106d3dc22d106e63791cd1cb07a4930347be886d01f44d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a\"],[\"index\",\"Uint32Array\",\"327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce\"],[\"position\",3,false,null,null,\"Float32Array\",\"b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40\"],[\"index\",\"Uint16Array\",\"5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"fa74b6a93791d93c7b408d67540d8065958e9d0ebe73372eaa836b06f37e3fc9\"],[\"position\",3,false,null,null,\"Float32Array\",\"8baaaabef0673cbe2236574a894adba45863c59c8139d5e6cbbc764ee7ddf62a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d\"],[\"index\",\"Uint32Array\",\"4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce\"],[\"position\",3,false,null,null,\"Float32Array\",\"b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40\"],[\"index\",\"Uint16Array\",\"5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70\"],[\"index\",\"Uint32Array\",\"091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"088d04274fbe6bebd2657b22367e3720aa925d4d3dfb68e1f0d6ab557a5a5147\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"676650d260cafb4f3d8d3adf311fc9b34a463de620218c88d044a14bf04177a2\"],[\"color\",3,false,null,null,\"Float32Array\",\"b4f9ff65e853b606855bb100fe97d694d91b6b8ef30b771b9eb2f78939bcc133\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c7848a45154d0d364d3afd437926d43b584e356d7d9e9da633d483fa472425ab\"],[\"position\",3,false,null,null,\"Float32Array\",\"15aaed5132d1df3329d17bde744f5caeb0312604839992132bff9405b427b546\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"2449b96d23eb21f50e82b2dc61884bfaf730b8550b293e8f2431f686f663cd46\"],[\"uv\",2,false,null,null,\"Float32Array\",\"23df03f5a2555794fa062fc1afac5e7e3d1ab8131c6158da1bfcf7f9e660763e\"],[\"index\",\"Uint16Array\",\"b9b964b65a1698d86248d29a1124d0a5cbe1597307b1f1a4e667e7ce5bdfbfcd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"5d0ea975de0061808846a2817ec3048d733b8fc871531921f4ee43d2d6259461\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"d5ff1164f1ec1d4e09a75dd71d2f0902c13680ee82cfada8a8f614553faabc97\"],[\"color\",3,false,null,null,\"Float32Array\",\"cbc5af883a6fc4da7a267923ffe0badb6da3ab37bb61fd96477f11cd89d08d29\"],[\"normal\",3,false,null,null,\"Float32Array\",\"de6b19d3aa956a624cdfe33b120a36062b69f4f6d186f66eda9b1b21b60ae5ee\"],[\"position\",3,false,null,null,\"Float32Array\",\"6afb8c83013ace58018d0306520c04d15b3167c164ab15da5a18c6b3af1a07d7\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"d7501575e974a59c955ec283cb3fdf8ce9f7380f13f0e7cfefe252c68932664f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9e6a5ce5be8215eb6c683365342f99919a878a8977430054ef74d8693a5dea65\"],[\"index\",\"Uint16Array\",\"98b4d0af0d5f3c370bb7f9abfbe016e9930c57adc36d522217b43794dc645697\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4574b69d61f441336791620f6c24a8317ef0d7d444ecc200c6c6d5bfe595bd7e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ace1f0fc9751bfbd87e0b12a9d802bfd676cf10e81c13693191fe009f9acf85f\"],[\"color\",3,false,null,null,\"Float32Array\",\"c77079638cfe943b5c6df4e9472795fda1f59f20d1c8c25f911d6c58818024ab\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ba3d719feaca16404ed2a546892ce82d1c6090749c28f577393f4fc565c99bd0\"],[\"position\",3,false,null,null,\"Float32Array\",\"3fa3d5c75ff4fd55691eba9d7a5cc9627a81c5d434c5bac51073e67ef111150d\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"c808bb8e9cb376b29f60c950dd1968d6ac691a75a78923f3b88cc2a89f2cbbb6\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f793e83b2bfda0a8664e69f6006d7ff9d536b47feaf977a7c851352ee84a6db5\"],[\"index\",\"Uint16Array\",\"4cec7c64ad0a0750368046ba69cbba23fea0eec285c14f20c30dfae5f049da78\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"98095106e08693a686f947f2efe912a488f94a22dae6495d4f617d33053f0774\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fad5242404ac13c0c97b63349d71aac83b0633c2e8b4313de6bbc6089c88f58e\"],[\"color\",3,false,null,null,\"Float32Array\",\"f2b463f67e4ee4d4c697b030b30069ae29deb8953bada131680144b0c4d94d6f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"38ece8e9f8c85162dad389a887ef7030f252f48263d1655665286214da25ca56\"],[\"position\",3,false,null,null,\"Float32Array\",\"c95a18a9b433450883aafd1811135eb43d34d2b737617690a57ed82d8871963b\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"13a967f228de57d839d568d0bbe285dc6afd00f72f1d5a018ee286ab10775f3b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"0a316f470d5b00f2651d83e941c089c47f1d43233eb20099dd5f12aa7a30b700\"],[\"index\",\"Uint16Array\",\"f6591a13a92b98ea7234763d8162c10209594b19fdf36d1fbba56902abb3a820\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8273348486b7fc24fbb719a77a841f8228a0b29c9411b9fa04dee3817b86d454\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"5da0ee4bc5c0f9eee9258102fc8f7374c8a7ebcd6fc7902aba8187b4d3174394\"],[\"color\",3,false,null,null,\"Float32Array\",\"e2b7087e04048008979870e37a64e2514e9f2ae757e3d32c0c4d699fa0da030b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5e589081b7c0c8c8ee39b12215fd4a940d875eb84f9faf3268c3e2b1fa335a20\"],[\"position\",3,false,null,null,\"Float32Array\",\"b4e11d15f9edd769191e063541473107b0edb78d06f7c9650ff1770fe33c7ba3\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"7860f035fec30603f5badbbd511ace1ec28a40e3e7eaa2c213ebd3deeec7f662\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ae92d6c8a53940f126f39fb27527da060da4238a217f753c6fa37eae38442a93\"],[\"index\",\"Uint16Array\",\"a4470fa4627919e6ef0eb73e05c77b4f09ed8b180d3e65c30d089bb79ac95d6b\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"99d69e33fba38c354dae3e2efbe6f6c043f2cfba96cf7ac45c4d8acf32f41608\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"9f7f23eb8f84e82807365ef1be8056d4c4b4cce309592833e6ed837c7120496e\"],[\"color\",3,false,null,null,\"Float32Array\",\"1091b407052ec5103569700c4ff7ac7b76397e486a7d138d139439b6a848679f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"aa6535de5dfc5b12cab86abe79a23d64f03a56b36bc0d3f87efe0a1d2c76560d\"],[\"position\",3,false,null,null,\"Float32Array\",\"89b2b5805b491eb2be98a67cdd946cfd3ebad5b8f8bf8f203da57a472998eb2f\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"39803d3cccd87fdd1b21a5ca1f228c93dea0eb62eb5e1b482881fc1a89f12f89\"],[\"uv\",2,false,null,null,\"Float32Array\",\"20e55ce265beedff689b01ef3c1d477113949dd60cae28607eb130cdf059f7cb\"],[\"index\",\"Uint16Array\",\"c136ace47f863180b29640ea1cc386479d1d5e42be56a01792095593e313abd5\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"205721874380ecdd3d8d48b53802778b960a96ce519099b38dea1616554aef36\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ef0b5c938101c9c75b4458ecd92bde664623036a8317dc177fa60768a72278d6\"],[\"color\",3,false,null,null,\"Float32Array\",\"0ea1714eefe05271f20e4de138caaba7f42479ace3e54c54c76b2a2b03c47778\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0a8d12c2a61f2e59cc872119235991f38c04663ecca2b148fc529dc5b25fa24b\"],[\"position\",3,false,null,null,\"Float32Array\",\"55e32441d1e5cf3945e20661cfd631d0261fa049550bfe6f3e0a2d1cca8af082\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"ea98a0c0fbdcc8ea110018b17fdf021e4cfe0bea87fcac68908e3177adc2005f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"85e55749d6007d5dacdb3e4da2e37fb67828d1cbc5dfc23516a431cefc85c152\"],[\"index\",\"Uint16Array\",\"e0d7cbe89f2e9b79daba82b8a50ede09b9204ed0a17e115a39e4ef17fccc7ace\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"422491b7b2f825799ee46c0f296a552c9120b472fd4c81efe27ba2c52c4f3e7e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a28b8c7cd2cd7d330583c8b1590b2d7df41e6f75d3b139297922125df2f7c1a8\"],[\"color\",3,false,null,null,\"Float32Array\",\"7020f8ecc27b05ce46f9e69ffe7cb8d9ba9d75166dc9176e9318176333c8e57e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"457de101d2974907840be70d48829d516491e9b95a55c0f85ecfa13121f558be\"],[\"position\",3,false,null,null,\"Float32Array\",\"3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"cbac0c5d2e7ac0abb32b5055718bcf27a208bc321a77d1e6552318a6726ebbc8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"33d49eed11782925668f7da13548000ad797f1993b3f54a2b2fa203b654e30cb\"],[\"index\",\"Uint16Array\",\"8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"79520aed855605d4c3660b356133d30a26293525b58b38fcf75ed6fb6d8f04b7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"d8e9e3b10b0f559058bde62dde7c969b1969b33a2b365c80afc97626ccc32b1f\"],[\"color\",3,false,null,null,\"Float32Array\",\"8e4424574c66d4056bd000e1160227b8379417e041ee94172facff3eced2c307\"],[\"normal\",3,false,null,null,\"Float32Array\",\"21a4f29727bfdb9438d03e1ff5c673fae99d134ec4b71b7dddc634accb6dcc38\"],[\"position\",3,false,null,null,\"Float32Array\",\"32191a8bfcb368553f16f068d7c6b0e1d517975a21f0977224dd69352f6d949e\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"6c817efa0455dacfe0d1fe5b59e8a485d8831a195e9fc00b04ac71ddb97d2030\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce620060dc750956b5ea84fc5a50b07c65c669ebd75e178f10bf0de918ba4a09\"],[\"index\",\"Uint16Array\",\"070ff4ac89cc780776a9c3d19b38f5e00e4ce97c4c8d37eb4757f430331009f0\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"b2085e030e2c327a439d754f54ddd0ed4bbe219ac2ff780215fcf33dcf78693a\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f902144fc943358312517e47a399b3d326234c24f60195e466e9aa439f478390\"],[\"color\",3,false,null,null,\"Float32Array\",\"e06c275eb2f224ac97401a046342501c676299b51c3d827e0f2ba6bbef59dc97\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ace952dec17f980206b7285af9906556389973a12b290a9742b45a866ffebfb5\"],[\"position\",3,false,null,null,\"Float32Array\",\"ae59ecf3fba48532f3f15ae36546f666dbe0888a598b069fcd37c6ab24b54e92\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"3eae4e8164e75c7892643c3e654711fc913e1b92cd92498d6036559258850422\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1cc4c0e76b4d33b5dcb02e288eed66d46b24bdaf6bc0d4899c8f114b482ab18c\"],[\"index\",\"Uint16Array\",\"29cac30b823e5cb3d4b259932dc2c2a0558be0a7baa824f0689e127ba9e2250c\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d4cccb439041398c4d8d0ddf4ad6dbd8630954d30f4deac1243d98a96f1d5482\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"b5ddb893f8db9e541bfcb0d0111243bd9fba14dea20991bcec74ea1e06bfabce\"],[\"color\",3,false,null,null,\"Float32Array\",\"c2257d1d4cc50bff55b0546a68f1fea68a07b43e151bd590de9d69c94eb945ff\"],[\"normal\",3,false,null,null,\"Float32Array\",\"7825eda511de1f1bb92f8b1c5d9cdf6a65ce360f3aa873b59e6e29ab87e1d291\"],[\"position\",3,false,null,null,\"Float32Array\",\"1e31639c421174bef381dd747c8a2ead63a701f22ee406e9eb78e7272501a4b7\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"aee5c7ff4b3a99493033797f9709e8e54f2516c659bbd8799e5124d739165b95\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1450052ace8954aff8ba9245f9ee7bf8058cdd65db8f0790bbdae96bb8071c1e\"],[\"index\",\"Uint16Array\",\"3a3eaeedd41eb9471b3b317661ad02c4301059e73aad9d1697685f37fb8120cc\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8cf74932fd069b75afd313598de7eb409d23317cbe1cbc3b49b6c700f4bd0bf6\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"387096e889a8be3b309a87f78e79cff504a5dac9d7f3193d13ceeee223103b2c\"],[\"color\",3,false,null,null,\"Float32Array\",\"c61bd24ee992bb4589e399032690f75e4a9dd2a1b5d8048e5ac09db07137f9e9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"a97615b11a371f00819bdd6fd3d4fbf553d53923554efac7ff7e3b6ddd86fa6d\"],[\"position\",3,false,null,null,\"Float32Array\",\"9a0a2cef06a8c0e75de30c1a13c42c0fcfb5baf43f060adc20ccbc133f4314f4\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"5c67edb3da6f16e2da4081ab56fcb3cf8492a464fcd54d5068517dd86fc58ea3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ef23f9f5cdbf83cdb0b35dec438c8afc15b35553baffe678ecbb2e67efb47059\"],[\"index\",\"Uint16Array\",\"def38a934aacd5c82d4cd94c611fc94715aeaf06d417ee828bbf40a2e8c2e3f9\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"101bb8aeab946925b14006ee79fbfa56dcf5b2a65c44ca9b435abbd1abe3a22b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"3d9677c4ed1b9c17ba8962936757225eae23f5b35e7b941ccac88a82eef2ab89\"],[\"color\",3,false,null,null,\"Float32Array\",\"0ac7c6dd477796029932e2781f4e7c2522ea788c650dc6eb23e0fcec033fec71\"],[\"normal\",3,false,null,null,\"Float32Array\",\"17bf82bc9cfbbfc09aa469a21ebc6d73d79a26f4d7ebf620f1385dc6fc10cc9b\"],[\"position\",3,false,null,null,\"Float32Array\",\"bab9db9746f7369917f0c06236a3f2195c4a0ed86304a678d67f7936fe0ae9c1\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"3908870befd9da78b6319c1ebcf8e512d010f8f75db2961e99068cfc1fdc962d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c6c5fad027c1d905218bb9cacd5f3f8dafa400f36615c47fa54ae675ff260891\"],[\"index\",\"Uint16Array\",\"bf278ab1b4e5c5a27a540ae7d34e9f18fcaddb40ce9b068c00721b9dc82120ea\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c3011cb24a074a8fe40dc1a21c2fa378b82d17f0cbf0c482ef76b7258e3d3f99\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fa9bbb1b73920d9b9d5a02a1964171a07f4a30b0f4518cb6c3a341a537588112\"],[\"color\",3,false,null,null,\"Float32Array\",\"d97b09311c62b791ecdf277d28ed77b9e79e3b34ad7f2438e5ff32aa2ab7bc6b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c7a1e28b610cfc267865dadf5dd00b1e1a9fdd8d5f0b2183b49b2de554f88b72\"],[\"position\",3,false,null,null,\"Float32Array\",\"0581e4abc678a386c6113c014360664b3b34a6330b3ec37a69168e3ac02ea8de\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"387be14828c576226b3b745ee5d7f379058cc6535f22555fd4bd0b50715b0d0d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"41c10ac3b1758b7e68787b615f6624e0da8cb2d39576c772748d5d1d108d8dd8\"],[\"index\",\"Uint16Array\",\"9a4598936bfc955f20d37b91df2d48f8178250ab2e5bd86474a65a589c1f5a0f\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bd50e12c55dda3ee443c1cb6d71c7bcf6351c4ec96f7bc8d6adec015d1192eea\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"6234f7b46cc8f191f132d285eb78fe9f7fa5a9d7334f42c4cf285336939ec173\"],[\"color\",3,false,null,null,\"Float32Array\",\"96b6176352da1347a9c11145365beab7901b444420ab9ef5be3b3e40bc1b8d5d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"655b454c58e63cca7b7b23b4d855ff406caaadadc5f0ba2ef56aa867a6cf6a70\"],[\"position\",3,false,null,null,\"Float32Array\",\"474ba9e82322cd82ba29dd04421c416f01fb1176e1b975d2eac387588deb3e71\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"fb9af914fd4b0dee57fd09014037688362b790d9702f4316de0df6c5cbca66cd\"],[\"uv\",2,false,null,null,\"Float32Array\",\"919f71208d19c24efa975e6cdf02118fda393016586f9e6368c58f0ef7b3f6fb\"],[\"index\",\"Uint16Array\",\"32bc7a912ff7f2f4f2208465fb4cf2d668801de34bf5ea62ad3ba93bcbbc1844\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"a2de851d7f389c29a9cf9c206abbd3059b8619f0a8c41e3bfee6b9cc452a316b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"111d658b4b44c3ad4631373fafde7beb42e4228cfbbcf13e9840f72255c6111c\"],[\"color\",3,false,null,null,\"Float32Array\",\"0fe83841985650773dd926c6392855ce4e7d7d3defad191dc5037d07767e9c89\"],[\"normal\",3,false,null,null,\"Float32Array\",\"65d35c8c955fc2dd6a829f33ad9ad56a38948579ce6f23922ab1724d213dfb58\"],[\"position\",3,false,null,null,\"Float32Array\",\"d802e4323fc7c347ad777e9221627d37f88d4936a76d41fa16aada656edb4930\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"650abcb458e8f4e3f760d88acbd125cbbf2a5fc15ae984992d11c78411f7531f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8f55b4efb1a2b132d9650fb29a3fbc87476d8cf0765e19426e9e2ba4cd4ace0e\"],[\"index\",\"Uint16Array\",\"54505aca76e6277c14694461da2a49b78369a2b584e1b29ba45be81da3e664d8\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bd50e12c55dda3ee443c1cb6d71c7bcf6351c4ec96f7bc8d6adec015d1192eea\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"69f7e0b4b51b01d22735bb3e1f8a679b9af05db35bda1b9af0150780f8079f29\"],[\"color\",3,false,null,null,\"Float32Array\",\"f01ecc47f6fcc46abaf5fca6022ad29e66926563263d6a0b5087212d0a72ade7\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dade91d7a55830255087ade513d6f1c1bc7e27882b30bcb7ce88075abbb47261\"],[\"position\",3,false,null,null,\"Float32Array\",\"a008f180338343b186b7b6f3655f81574da3f79d1b49c5cdbe94468b02b78cd4\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"be989edb2b0b50595c2f4eb9ce8f676c2d02f42ad29e94f7804b63b16215202e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"b23874cbda811f47601a58ef287a1e1dbbeaa243e79891cbfecf3943914c1f27\"],[\"index\",\"Uint16Array\",\"75fe8ae5640a905160132f8ead0b7ae5d0bc974637bfe5fa75a6b8daeac82978\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"795a353285754342c4c0648433c3058ff6624dd5c76e4fe981c091df731023da\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cd6d033f2a675fd837dd1288b57ad04851dfa349ad5c6941db310e61dfbd0a95\"],[\"color\",3,false,null,null,\"Float32Array\",\"da684a1e963aca4148e6338bb7eceef58e3f20f07c8918b23fbb027827faaaa6\"],[\"normal\",3,false,null,null,\"Float32Array\",\"3e192559f6b62e9f47d52d6350167fb92c10919ba93594b1116d6021b75ae38b\"],[\"position\",3,false,null,null,\"Float32Array\",\"8d0a7931d4577c0e2be8a2ed4334123d0904674e60194eea8bf01e3a8386d860\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"1e4b4d43d248df9bb9a1777b951868367281340ed70c6eab4e1af0587bcbb13f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2efd28418dab79346eb1e6255d9a489e99f7423841bfe6ccd1277ed5fbd9efcb\"],[\"index\",\"Uint16Array\",\"ba925bf2369aa9972e2082e2ba02865283110e0d6688d1fe8ec2603c0bfd2af3\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"a053e623e2288e0d3a9049ba9dc5b3cc9f3f86ab3ea2b70dd4344622e22e3c0c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f4649c43152c780da8bc3dc1e193b95b4756e505f50c0fb83c997c62b2e83ed9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34\"],[\"position\",3,false,null,null,\"Float32Array\",\"1a82c01f2774c9bfcded5128a27614b3538999b40f5f253eea65d5aae9d182e1\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5\"],[\"index\",\"Uint16Array\",\"d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4f90acea102274f70faea7d282bf4c86de5583617b15edb5993a85569aa50bb7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f41b93aeeaaecb31d3e3ff363f1e45c4d5ad3c115c18dc2f7cc376cc3d343166\"],[\"normal\",3,false,null,null,\"Float32Array\",\"65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace\"],[\"position\",3,false,null,null,\"Float32Array\",\"9d9327c5623f688f457935e2068f3d8f00aaa79943b6ea39e54bdd78c3aab977\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d\"],[\"index\",\"Uint32Array\",\"5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"61891a3f9286c5df915f492d17bd8fe9c2da162906d49374b6f37c6ac3c70f6b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"7905cb48c245ba59cf286e89dd61f4f130dd2e162f627f0565b68b92dbaaee73\"],[\"normal\",3,false,null,null,\"Float32Array\",\"976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7\"],[\"position\",3,false,null,null,\"Float32Array\",\"d0e9e9f5a2ad12a357b2f1bce1e06c105f59c5c933461798e413038bb1f6368b\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481\"],[\"index\",\"Uint16Array\",\"a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0ddf2f0e1b720b83e6e922d881ab3eaf0813596175bca017de3080a344f220db\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"5db65f43a20f0fb8209c29cc491169bcdb009b031b68104205e5999c1d66b583\"],[\"normal\",3,false,null,null,\"Float32Array\",\"54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350\"],[\"position\",3,false,null,null,\"Float32Array\",\"28c9531805759048b308912ea81f811bc7269b59800bbb9bc5363c57bc7bbb02\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc\"],[\"index\",\"Uint32Array\",\"04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"dad29ed669b59c01d55ad1a0fca92c9614245177fd282032f2f2f0000f8e607d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a1d91305c9e3f3c2a34729d59e8b41c601a2c9d6970c9769fc4d229aeb8a9ed5\"],[\"normal\",3,false,null,null,\"Float32Array\",\"857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87\"],[\"position\",3,false,null,null,\"Float32Array\",\"1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b\"],[\"index\",\"Uint16Array\",\"349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"330adf6d65b49601490cab66a7f2426706fac84d55a5408ae241603888efce47\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"7354afde805f5877e305c90d51a37592ef83e04c66c5a3764dec540faf3db62f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e\"],[\"position\",3,false,null,null,\"Float32Array\",\"786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572\"],[\"index\",\"Uint32Array\",\"3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2\"],[\"position\",3,false,null,null,\"Float32Array\",\"97e9631e0c5c7861f5bddc1c9b79d541ea04e3ed70507cb5239889f686cda769\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd\"],[\"index\",\"Uint16Array\",\"008c96094c6cef8a9e2c67cabbb6ed44529657bd3f316b888e0a9397edf48c3d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"d5ce8ee7a4720e48958132845de748831ed0fe1fe56049d4aeef1a8b1d70d67f\"],[\"position\",3,false,null,null,\"Float32Array\",\"5c33bd8040f4bcbc41c5ecb3f21c1157cf0a8d956b9ae9c4c1b03a4bb446d96f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4cd3bf461d959fc87aa48c0a254554086e1cd8fbe91957c2fb4b3d9240390b56\"],[\"index\",\"Uint32Array\",\"3fbe26fc0f7170963eeb4b06718d93ead0dbb71139b77fb18e2e5016d2539dfe\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8\"],[\"position\",3,false,null,null,\"Float32Array\",\"d73bd110149e67fe0937473674ac1d688a0e465a98d84f481c6cc168ea6fca9d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10\"],[\"index\",\"Uint16Array\",\"3ebc0e9f0d75b5150e803ce6376d9aef9dc71542ac8d1e5d96da55c9106b353d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"af4137c80ce57745872cb06b283b89a2c0d026cb89332013222017aacc2ee230\"],[\"position\",3,false,null,null,\"Float32Array\",\"a89a541d3acd5bcd0ddee57b2b0cddd421aea8f67e65cc1f6e354a1d36aec09f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"86c15d4c0e2154544e60520526fcb826dc36eed9a1325b3088b0f5df9deae55e\"],[\"index\",\"Uint32Array\",\"09b79d1e3b3331a7c94c03984673e7bf8fd32ff700c01780953b6b74bdef4ffc\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11\"],[\"position\",3,false,null,null,\"Float32Array\",\"bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521\"],[\"uv\",2,false,null,null,\"Float32Array\",\"45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041\"],[\"index\",\"Uint16Array\",\"ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae\"],[\"position\",3,false,null,null,\"Float32Array\",\"783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78\"],[\"uv\",2,false,null,null,\"Float32Array\",\"569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e\"],[\"index\",\"Uint32Array\",\"a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679\"],[\"position\",3,false,null,null,\"Float32Array\",\"708f4c0294971107cde2aa9e7e9b0ce49f762f1ca2c274c596aa19fc6216aea9\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38\"],[\"index\",\"Uint16Array\",\"7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0e0d592eab88007ae4aea4a50cdd8f80b53750343fe6941ce39248c9e0bb0c82\"],[\"position\",3,false,null,null,\"Float32Array\",\"e3fde5b6e55e8dd7930a3e819f758f65ccfa80506a168c5150c5773572c47254\"],[\"uv\",2,false,null,null,\"Float32Array\",\"74b8796f39eb6465a5e083814671ab4862c0d5ce45d574c3c2361b8cb9406827\"],[\"index\",\"Uint32Array\",\"c387e3e917405a02e939e392da8790dbb5e59f0363c93864403e86d941a1d788\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0\"],[\"position\",3,false,null,null,\"Float32Array\",\"139118aa907b618dced937629797359539c0b47d327ce1fdc77a8ec6d5ab47ce\"],[\"uv\",2,false,null,null,\"Float32Array\",\"477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc\"],[\"index\",\"Uint16Array\",\"ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"df91ece0496748d8bc64792ff96d10dea58b8d20d90063f56e1757387624061b\"],[\"position\",3,false,null,null,\"Float32Array\",\"6bc7210c99bebe3a729ead754f3f84a8d32ad0e8c73922e41f85a42d51a9625a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3eb8526157af8c4f18cf2a19ac3cfa284135a834a9899a31810a0c6638ad9fac\"],[\"index\",\"Uint32Array\",\"18a654c9cc23055bb0b75d45ad97d619ec5cda5686962865adb962c81d60bec7\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9\"],[\"position\",3,false,null,null,\"Float32Array\",\"d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357\"],[\"index\",\"Uint16Array\",\"13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b\"],[\"position\",3,false,null,null,\"Float32Array\",\"d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b\"],[\"index\",\"Uint32Array\",\"a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506\"]]"
+    }
+  ],
+  "geometryAfter": [
+    {
+      "kind": "birch/tree-1527",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"343d7cb84112c476133058d0086ed972acb67196b3b4d2cb4def3298e5fdc7fd\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"db73a3695b767347bc8583bb335c2c0a6ba04e77d6f6d3e7de9e0a604b924008\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0068aae01c1f217a3b7eae2692e52670d918d91000fcdd6e3a99740bba9e7d36\"],[\"position\",3,false,null,null,\"Float32Array\",\"5fd85bf17fdc6ceddf20585f93a2431d0271453890e8071981b266a750c51fc7\"],[\"uv\",2,false,null,null,\"Float32Array\",\"703bdd5ed883b23fb9b050b8dbd349daeff1aa348b35cec4f118a199c83cdce7\"],[\"index\",\"Uint16Array\",\"0b2f193c16e2fc41456c0c8c79c58d3ec50f1d0889c343fbd60b6fca7586cbf2\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ea94da9e0fe6dfa6ccc9ce4f8fec8f056502aaacaf5b0e3444b30f8d920bc83\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"6d12db7e781d5ba6370135b20b269db9fa9c7d6bc84453ab5e4e594adb947b00\"],[\"normal\",3,false,null,null,\"Float32Array\",\"60e6cb1ab613ebeaff26ace053f5ba865671c46305ced83b474a19c5c6b44915\"],[\"position\",3,false,null,null,\"Float32Array\",\"7e31e1a5c9aa7732a666bfe77ceabe5768b9cdbb7df0b48ea0e33c9ba81e785d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"23bca2921edacbfe079798e0e6016813b21b94fbcce31e23e3a9666e0426681c\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "birch/tree-1527",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"dbf5a466431d42c302c316a88965152a1daa968aa0bb83c9973b38c43d496728\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"67fcd86d91d003a78d11bc01d449db1d0dbcf5fba7d5b0a3cdc039cfdb45c167\"],[\"normal\",3,false,null,null,\"Float32Array\",\"487c623471c0cfbf77e1522eac08fb8f759734135834aeb8727238f305454dd9\"],[\"position\",3,false,null,null,\"Float32Array\",\"d99f4d731559a65bed26518fbd97dca8ae9ec05d6c4ad7ea6465924c56b3b92d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"dd562f86710d091f3f2d4c023db39030cf9439ad53b5e7fe0a56f4bafefb6e4e\"],[\"index\",\"Uint16Array\",\"6d52b7831c9064d275f80a9cdb7f2b226c0354f53856511b98f6d72bd8ec5c5d\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0a8f5b6c0829479f7af218daef991de76bdceda35bc2f02539b160b4cd4a0797\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a2a7eaeaf1a843a2d129e040a7c998bc6a4a9fddd3e35a5189f7d824d62c4e1b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"caf2a129434e3f54091ef2b0dd540e0fab79164f70d857c01b6cb7f25bfaa801\"],[\"position\",3,false,null,null,\"Float32Array\",\"060e6736cebe3775cd3ea8e9551d930726459eeb0cacd50cf047415f120725fd\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6eee2a93896c16996aee22802c5123dd9b8fac81819e7632408fb278cfa70073\"],[\"index\",\"Uint16Array\",\"ce7c77740336f9fa1be53d363f9eef68f276b7bcba2a56862f01cab644be2d8e\"]]"
+    },
+    {
+      "kind": "birch/tree-1527",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"56b432fca2acbb624f530140058a722a148a3312b80183ed5ca591ac50cec68f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"283ea2252e1cc7cbe0cecab029ab42e799edb5ef9030c0c7a5d779255ef492df\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ec7e1141cb2361dde35a9df88b32886c904bc112dc2615f48a622b3a9427e49c\"],[\"position\",3,false,null,null,\"Float32Array\",\"8bdf2be26f0ed3afbb6e5c71c1f6694c6a192e1037dd494e6a5dd153ff5ec820\"],[\"uv\",2,false,null,null,\"Float32Array\",\"68c0509981657f8e974a5a7f4ad3932828e2b3a43cd8261b6e83ed20ec85cc57\"],[\"index\",\"Uint16Array\",\"099816d0fb72a84e7e6e7f8f3491d3f3ae4b11e3c7d23d1bf23b74c5dd48c639\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0cd4cd5869f139d7282496d779396394ae494102d0d508b3250117a7fee742b0\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8ff60fd791de5edcbe90a6525c2045f43b589b0f0b66e81325cb3caff9102d6e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ae004f8bf59af8584075a9d61e9380f603ad52f108e3008c52b2c44a20d7d51d\"],[\"position\",3,false,null,null,\"Float32Array\",\"1ac960f62e89d6916203da1f417f5fc2820493a7512480f4f29aff1fc259b9ca\"],[\"uv\",2,false,null,null,\"Float32Array\",\"e22670afe6196e554a15bdcc411ad0f2fd04554f2ac55410f5ab148f2973bb92\"],[\"index\",\"Uint32Array\",\"bd9642ddaab56a370efc5807701decd4d49827c9726f679b335aaf68a29cb1d7\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c294412aac31f4aa33ae75c1ab368680413987fc4e2eef5a8a4549fa05696cf4\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a39bd333f9b5bbf3091f31e4dcde2f11c531eeddb98449fdd5df53cb77dfccbc\"],[\"normal\",3,false,null,null,\"Float32Array\",\"b3ea714326c0fcc2cc4c53b67b4a2fad7187f9583e1f52e8dd52320bd75e3078\"],[\"position\",3,false,null,null,\"Float32Array\",\"08db0e1214d0ed937cbd27811efe32a05706bc414ab2aa5161a43de2182c2780\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"f02b7f86fd80eaf9280f74e796a8f68d80063da2c3db161db50a267dc08f8a9d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d0720105c40dc03e612a89c72c4ae03bba7261f71d407c54d80d8f4c6fe6c539\"],[\"index\",\"Uint16Array\",\"8b0e6bbc0c0f10e233ab88f532df99811c4ef3d747cbf3d6f7f85b754104a1ce\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bc52eef495205d93406c8fe9ecadbecb22f0ecc5e55bd2fc31a3fe587e0cdf8d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bdda12e7c8d7dab27b4e6e3b128aad4a51bd073e96d2af376288dbdf60dc01b5\"],[\"normal\",3,false,null,null,\"Float32Array\",\"8d6b8a25ef0a529fb92adf2b83358a4ad460ef4a0f2ce3ba955deaad877507e7\"],[\"position\",3,false,null,null,\"Float32Array\",\"b13f99d5b3c14ca4ed8102fa6c95cb253e50caa0c14ef1a5a696d51f8f92ca5f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f644feed9c056df44df7d08da2838986ce55754e62ffd1c11c3b6596a5892012\"],[\"index\",\"Uint16Array\",\"ed05140974eba7d78048dc122e2ed416f79843d551b6c53f097f9c763fe31eda\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2a833ec928277c4507d3286720868f3abdd6efe42336443897587406c3c0a5be\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"48059a444305ce5f19347399e91133d9353554d184041030ac6888c6e0fe7f17\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385\"],[\"position\",3,false,null,null,\"Float32Array\",\"e46fff362151a80b74318bc3d1c55da437a078e5fefffd73fe923c40dd3e95c0\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f\"],[\"index\",\"Uint16Array\",\"cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"ca98c834d31b931ebe314c3ea4dd862741acca3442b644fa5901fda9b400fa08\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"c7c88c256978127eaec161744a39b72ffe2deab1054a19fd0b7463adf78003f6\"],[\"normal\",3,false,null,null,\"Float32Array\",\"aeb25f6efd63b7cd53648e5918f4dcf8b14a3f983e0f2e32ab11df7cc6f65d94\"],[\"position\",3,false,null,null,\"Float32Array\",\"35de7a70b669f6ebd491d92d7f9570c0568890323bd5502bb7adbcba8f6ee1a5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"38b7015789854cb9434734e62638d66fe9e8dc8eb44b250b10296b4f4261cd1a\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "birch/tree-4815",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724\"],[\"position\",3,false,null,null,\"Float32Array\",\"a1d8d9e02cc37417e81aacfe7d5fe2599e7b8e41a0aa1e5f29f5e92f62b2b6a9\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95\"],[\"index\",\"Uint16Array\",\"12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"7095733a36295c5315be8c8d558096511f0e6303e49b91864b13eeb39e35253b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4a4b5a6221870ae738281fbf0469617d6e9fea11e09ce69574c4c1c9f0c2526e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8ceea8222917a3e25d32d3d5719b05b77334dca4532b24f0af10c7878682ab70\"],[\"index\",\"Uint16Array\",\"ebd70e39939d2782a9e69e3870c336cb12d6b66efdb5650ffe12935b5b891c8b\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4dadc29c4975832096acb446c2538efc40a47d03f0357f2b4b3b83664a546844\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bf6eeaa34da314ee6ce83e11e4658479cd89f579cc7690887fe672e594a60f03\"],[\"normal\",3,false,null,null,\"Float32Array\",\"4740e5284ac3bc953b743ef2d588a1a81bbb10b3562248bd608596dca59753e5\"],[\"position\",3,false,null,null,\"Float32Array\",\"5ff482f6f7b939ce78220995d243622a9dc132d02c2b60b5eea45983f5a5688e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1500b082f786ec95cc5dec50639288e2844ca5f2aad360fabe3ec80c5b0e0aa4\"],[\"index\",\"Uint16Array\",\"19fd0a502431326cac26d56b52c9880384caa807081f75d2dcbe3b75f21a65fe\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2f565bef3b6f45da717c8b1c6cbe90f4c0c8548a9c0e067e5174f3721c1ef702\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"722f2f9e1f333db7a4972d6cf9fe858fa692b743daafc94a1b82af8807934590\"],[\"normal\",3,false,null,null,\"Float32Array\",\"cb4ac3789eadd336844b7c02d34896dc79075b2d22482cad25c10a3958a9991c\"],[\"position\",3,false,null,null,\"Float32Array\",\"6065e3c58db16a6af6998c44716dad3aee80dfd3743241b359c40c57be0cebb2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ccb69ddafe044e4df667b78c88e2cbf5fb7e1ae05baba44ccd60181f422790ca\"],[\"index\",\"Uint16Array\",\"1eb235239c6cb0e320af5a3c88e15d803849aafc495d04943dc4bf2549f106ef\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d6fff01a8a7f29011f0ae9aca231551f0db0a937b482d9aa1fcffcd7d33e2c88\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"18cf505a4060fb72087637c7ba7d10e4fc5bad79a18a28ab608b0fd207ada015\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"430da9020302c8db7a2e75dd4635bb0bf499d94150c360acc1565b62451d7478\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"3795073135c33d97a59aeae40865350c48268add160113ccba33c0b6ad6df11d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dd1a478aacb54ea29d6cd0a428017d6d79e349a15b9fd2de93d987ce3667e062\"],[\"position\",3,false,null,null,\"Float32Array\",\"74de644e4525993e29fcc0f70b4f5cc7c920d8cce45b1b14df862605cf40d030\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c217ea71ab320a7c86e76046b9edeb12dcab21d6e851d2e00d9e4e3e443f4922\"],[\"index\",\"Uint16Array\",\"75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3\"]]"
+    },
+    {
+      "kind": "birch/verdant-sentinel",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d6fff01a8a7f29011f0ae9aca231551f0db0a937b482d9aa1fcffcd7d33e2c88\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"18cf505a4060fb72087637c7ba7d10e4fc5bad79a18a28ab608b0fd207ada015\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"c38ed5c96c8c9eec090d0a0ba2984b0bc931882fe9c7983cf498fe9b233d5a11\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"16f9f8a403fb46f738bfd0f1c80d9c260771eef1446a803389702144b15ec7b5\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ea666022c302c3fa000f9efde828be860e51ffc82ce2d993d71850dc6328ec41\"],[\"normal\",3,false,null,null,\"Float32Array\",\"d783b33ca5fe43e65f7fd358a4ba9cc99ec9373b6b1c0d3c8dfa75f691439aca\"],[\"position\",3,false,null,null,\"Float32Array\",\"4a2b8df80f14ea4ce941d0aa61ca1ced8cfede480277806c37f7369ddb7344f8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"efbb4ca4d575be1a7b27c9449c207aea750f59729f8dc1468fd27f943eff6a5f\"],[\"index\",\"Uint16Array\",\"71f364e56d0ebdeba277bbc549b683a2d2392dc03be217a0b1c9b0f29d8e04c3\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"f744fea8b1c1c586e581d1126ba5163e48978191beb43d987b71f24ffb834939\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"44a90115c0251995b2898b027497ae441baad4b15c3d45b7809278a83530ce17\"],[\"normal\",3,false,null,null,\"Float32Array\",\"2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34\"],[\"position\",3,false,null,null,\"Float32Array\",\"930a11b416e4adbac522d9a2754cbf0830906b34f7103634541545e6126a3d67\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5\"],[\"index\",\"Uint16Array\",\"d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d412d3f06898fa8048395dfd1984e5c35d6bf65d52433cdafdee5e44b84d3f4d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a6c9aae830d343111a0a3ff6d773107f57543e8bbeb34186bb69b89286c41e8b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24475ebf445a83fae005d1030bf33d7d5996089cb9ee57a038b513a2c6cfd3a3\"],[\"position\",3,false,null,null,\"Float32Array\",\"af241171bcf2bacad4267a8f8bc4e8333dd8d193f36b0314a43fc21b3a861c7b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"30af249f116bfbb8ed57f4a2e20e1fcac7f8c422263cc37f9f07325dd1a5f973\"],[\"index\",\"Uint16Array\",\"bee2d9e0ec621438f39919755fd7bad5e402a0d2351170602a87b18170df1d73\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ad91f3d41105e1c8d38beea6fad53ca1949a81d794483c5a512ff47d3fcef3b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f7de12ec251dd44783949b5679eceabcabda1524899f11f088fcdf59b49fb351\"],[\"normal\",3,false,null,null,\"Float32Array\",\"976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7\"],[\"position\",3,false,null,null,\"Float32Array\",\"c5fe4bfd7f3e1afab1ffbbf88574ca3c39a4d085795dda535cef85d82b13f4dd\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481\"],[\"index\",\"Uint16Array\",\"a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"341d77e9a4522f7bf20e7f71452b818a4ac7e70842894be6b86e8d9b8c1c51b7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"bc2c49e150339e5f6ec4021270cf7f83bfbe6eb10b6c7089e8b01ab67fbd0b0f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c5d5b399db21b29920ebd7f4ff232ef0e3db4f1b1e45f4580ec1518f386d1032\"],[\"position\",3,false,null,null,\"Float32Array\",\"3993ef77df8f995ef4c8463afcc3d9bb464048cd78992bdb86402826fcf60fda\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2b8d362fffd1b4c71463495e03139d8b5b2b71323f37e35d942c601c6d113c30\"],[\"index\",\"Uint16Array\",\"5fb77df7e63af05f10d6faf77e931c96c3f324e0903e83b74abe4fcd30ecbbfe\"]]"
+    },
+    {
+      "kind": "fir/fir-spire",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0dc54650350726a4910d41c494d8f0a8ceed903c5f66136f0fe3e060c04ae564\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8019db8ab459b45adea51a117250322ed6146f9fdea730628b1d51bcbb49851e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87\"],[\"position\",3,false,null,null,\"Float32Array\",\"c1d459815b4fd1003f2db73198fc6b6ef9ffc1ab4b8d97f74708548c825ab3c5\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b\"],[\"index\",\"Uint16Array\",\"349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"6e376fad28a967204e4815fafd071a615911f1272d37e3a636255ce5461fb100\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"85dc550f824d3543ae5aefe1d9ec4169b6bd536c5b88f77fe338d8c1fd93f5a9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"85dd7f09e09c0fbc2b1479f510133ea759f7865fad67c2708dc1dcb991c922b6\"],[\"position\",3,false,null,null,\"Float32Array\",\"68000a00cd1f2fba64af8dd84f8a1445f79af5a017aed99d499b4051bf5b6778\"],[\"uv\",2,false,null,null,\"Float32Array\",\"77d10a2f72cc68d6824205223210f5c98e391e92064df34d7e2858e679101b3a\"],[\"index\",\"Uint16Array\",\"06a718a78bd7bccb281d655eacb09485ca33eb994a424246e5dac5d7cca7f44e\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"5c747b32336d229c220ffb2b29f88562159f22670ff71e873a52943f5efc14db\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ecf256e1c64219562866b5e9dbccaef3ef18f2968e442d3b09d7b93c42f8a4cc\"],[\"position\",3,false,null,null,\"Float32Array\",\"e0eda17796fad3e2c7437219a4d4305f719b28968e8de40ada5085a4befcde07\"],[\"uv\",2,false,null,null,\"Float32Array\",\"22d32c52aa9ecffacee2171bc32747c73a016ab80cec961c26caf1fd0328a064\"],[\"index\",\"Uint16Array\",\"6f850355fba6ee97d536bf682b75acf8610e08157cb523af14ff0542c88ae9ff\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12\"],[\"position\",3,false,null,null,\"Float32Array\",\"5b023888de5c11b70809976611727c1a4a88cf4ba675a3ba0a4cfc2e5719d78d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 1,
+      "wood": "[[\"color\",4,true,null,null,\"Uint8Array\",\"5e23a3855ee67b33ab3d956651024b54e89c9c656fe09041bd8f4ea90d3be198\"],[\"normal\",3,false,null,null,\"Float32Array\",\"34d696165cf9907870272b001b6c840e216cc005c904a1fe271f94908575c34c\"],[\"position\",3,false,null,null,\"Float32Array\",\"6bc957628e7c843d1e4941ca71bec2686cdc28187da795a57f8b6d259b0e20ea\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d908d65d50e9bb06e3dd69781e70e61cf782030511320802de903f40289e664b\"],[\"index\",\"Uint16Array\",\"852ed6bf07d9840bacc86625009686b905783162c226772d6af48a8f908363b8\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476\"],[\"position\",3,false,null,null,\"Float32Array\",\"77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca\"],[\"index\",\"Uint16Array\",\"80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-b",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8f2dc44dea1603fa5dcdda0229a6d12864d60d9f0cf11c26933f0ecd5c049f0c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"9ae5fb6f3adbc160c2d551805e5501f4232bdb00d79b03a1bd897fc96bbf33f7\"],[\"color\",4,true,null,null,\"Uint8Array\",\"618806cb05f6842c181a72d72ea5ebbe072c82257eba0f681c3f58777fd1a455\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c86f4eee4d3b3911efea9988a5fe2abdc6aed2127553412e6acb4b2470508ace\"],[\"position\",3,false,null,null,\"Float32Array\",\"8e03b1f67dc6c51a611dc29b97402f846b95fca8eec95139a41565af43dff6cf\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c63ab99b951a67aa9c0cfed4b7c7faf5e31d19e554a314ed389770d99ef50d56\"],[\"index\",\"Uint16Array\",\"71a3305ddcd68059e27394fc3ba361709188b80e17883b0c875af72e360e1e38\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"884aeb205aa5bb63f0d1999410fc1cfadc6a1a3633d62df6260ddc7191d1b57e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"8400a983af1e1fa21060bf95b5fca3e33d3594c828d6ab929217b045435ebd9f\"],[\"color\",4,false,null,null,\"Float32Array\",\"bc4c30c3e3aa2348e1bf0387e416f2cd998022306533ae8a099851a024973305\"],[\"normal\",3,false,null,null,\"Float32Array\",\"771d8e904f555de206eadd50973342f8abca6357eb04fbd044e45e5789ff49f8\"],[\"position\",3,false,null,null,\"Float32Array\",\"bb61a5c8478b12d0905d5925a59a120f74d16474312233faeca663fcb32f7f6c\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d23a9e85376276a72ce97b7b8960cbd85882bc1941974320e96200517339e002\"],[\"index\",\"Uint16Array\",\"a21d3efb8fd1aaa8eb6e7349ccf9e62bcff586b6b1e662e8a9a332a8c4750714\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"e3319383717ffee1f04690150c379a26f4da7a5dd5da8f2f0d2e6c3b0f82bfa9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"6bfd262b6f14fc6c3ff1e4d980bab5b505928dc129b512a9bde208a6bf2a653f\"],[\"position\",3,false,null,null,\"Float32Array\",\"2ef6ebf6d866621a5e344110a193c3fb4304477b7a9f8c3a5c585e8920512662\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d2d04515615cccb7436da6798efbed04675b5f7d8d1c923520698120df3f5305\"],[\"index\",\"Uint16Array\",\"1dcf659460bad8b71bca65fae157a8a7cd14fbebf0baa31864c3853085ecc139\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35\"],[\"position\",3,false,null,null,\"Float32Array\",\"3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 1,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"92b6c65716bc5114511b113a085e56de94d55d6642d61c6ab69127e2a36d51a9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dd441c9f62da69dae7b955460f706046c0c7d879226fe1f8ff5550b46fa0c9ff\"],[\"position\",3,false,null,null,\"Float32Array\",\"54234d0f6cad86676c45c1e178af86fc6a64f70055a99c48e7ebf75f0aa6f464\"],[\"uv\",2,false,null,null,\"Float32Array\",\"fcb35c04c402d109872169d6e870f08c0f71d958fb1d8c622c502026af6e835b\"],[\"index\",\"Uint16Array\",\"02db26da65893d62b3d3b559b8b224a91914e2cea64197fc2fb746613c2a0f42\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4\"],[\"position\",3,false,null,null,\"Float32Array\",\"294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36\"],[\"index\",\"Uint16Array\",\"22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796\"]]"
+    },
+    {
+      "kind": "oak/hero-oak-c",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"13812a9bd2ff292a7db2dcbdf62654470a7a26a0ede0749d7abe88d3cf60c71f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"064f3fab676c20799c9c6b0fb94b7b1716a872c9f6cbfb22cd09080aeb87cf8b\"],[\"color\",4,true,null,null,\"Uint8Array\",\"3ee75c9e32ff795f62203d35a98f0831aa790d3917140d79d77fc1fbcb2b4013\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e599b69fc44b83e8a7b08d9911157754503da60427b8fd22a72599753e4a09b6\"],[\"position\",3,false,null,null,\"Float32Array\",\"52e46a57980886d967b306ddaa2d7cb776da8da1cf76b2e31ca978d662083101\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5b903c51b8ece9b699b0d5507e30d49284f8e64580af969a84eb83fc5a6f2b9d\"],[\"index\",\"Uint16Array\",\"ad56a0761703d7212231a1952a891f2389b1b3769d3a85a7c396f050a6969297\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1cf7863111cd8a30a92fcd096ceedc1f3e4a36f8ab83c2d3331d4fa3e89c675e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"520cf32e62f68c99b02a9a0038e0f3fd2ca1ae509d814a3a7923a06952a3bed5\"],[\"color\",4,false,null,null,\"Float32Array\",\"f806e8044472ad5d804d14a82f98a6a8b9c84d47942436d549d5ec7bed8e0667\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5366fb51949cb12b252eb62454856c98ce92dc31c743d9faa5c62b0bf3905a58\"],[\"position\",3,false,null,null,\"Float32Array\",\"3a4e883b11b8f1bc5c9114a6dc1835bcb2e4d15686526fc72065615641940597\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f29811231270930daa79e4ac5dbf8e2bf5dc7aedb389274390942db87ff78a4f\"],[\"index\",\"Uint16Array\",\"669eb49df8e8643f32ca6900c56d4dc1fa29ac7fd749795cf739194c2814c707\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 0,
+      "wood": "[[\"color\",4,false,null,null,\"Float32Array\",\"1546a44840bd24c5ddcac03b758a198f9a5e2c0dd8440f0f9d9fdfdf3fa68b67\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e567a8c969983b979251a99991205fd5de1c7ef18621a079b10d8ba222ca6ac1\"],[\"position\",3,false,null,null,\"Float32Array\",\"861a1869d8e7fcf0e925532d00553b2b641e6ba69e812031c17c419065ba9b27\"],[\"uv\",2,false,null,null,\"Float32Array\",\"04c137b1b421fc18aab7200f39ca5a7ca14c7f6a940ab99cdcc6d06d477a080f\"],[\"index\",\"Uint16Array\",\"6503110ed2ae249b4b4db242e6e8490255fa080156883f89e2388aaa56e9fdca\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0\"],[\"position\",3,false,null,null,\"Float32Array\",\"9a799db8a5037ca3a05ff583ce18cb04b82a03c3dd09182f1d359912d7a861b8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7\"],[\"index\",\"Uint16Array\",\"23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 1,
+      "wood": "[[\"color\",4,true,null,null,\"Uint8Array\",\"b0a40c6b45339a5a2b1c882e77952272e652fd5b33ef061c6e95424e3bcc6ba8\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fd98c054ba619825cbaaa25dfed02ca5d9d5bf1ab7933562b51b55485d5fdb9a\"],[\"position\",3,false,null,null,\"Float32Array\",\"d313a3c914092042adb30b8dda6c82b766d5e21c4afd1eced91233632143cf05\"],[\"uv\",2,false,null,null,\"Float32Array\",\"17b6f1464bf45e99a3747900c60e6df6daa9237908f0cc859307828a116c95c2\"],[\"index\",\"Uint16Array\",\"3b70c27c1311d36f0c6725b5d12cd06ec3724bdc20efe928c19a98e15f50f8be\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1\"],[\"position\",3,false,null,null,\"Float32Array\",\"60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05\"],[\"uv\",2,false,null,null,\"Float32Array\",\"efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19\"],[\"index\",\"Uint16Array\",\"7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de\"]]"
+    },
+    {
+      "kind": "oak/hero-oak",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c6cc8895c04d4472f71bc26be6701d25ed4797220db81510c4b1a32cc6e00693\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"4d9da5d948e26b6fa4e65657c585406729fdda80ebad959d7e8979337fdb5646\"],[\"color\",4,true,null,null,\"Uint8Array\",\"27f96658bdda1e8032622efae6c7b4c32ef8402e1dda5b32c63568ac66b627cf\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0f48cd6eec212a377a89059c821b22d8e9a9012d89987911c6113d064f45bd8c\"],[\"position\",3,false,null,null,\"Float32Array\",\"e963a001ed79e3c70bc7e96da09ae903a3a6865ee1ee4ea4f4de43cb33dc8604\"],[\"uv\",2,false,null,null,\"Float32Array\",\"209f53426dfb3f200ce69d86845aaaf8ecec7c1302047fe6522935956fbe210f\"],[\"index\",\"Uint16Array\",\"8a659a8cb09e11cdf8db731ca876bbddc43fe41c2786e51fd6efc651c57e8d4e\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"78d812273cb103130d2752387357a23e10f2a2f1867f4136fce4f41e0cc4a37c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"058f11d60296117a9e52cd244157cba3e33e3a6136a23402f8b1b3dd003ec817\"],[\"color\",4,false,null,null,\"Float32Array\",\"b6d3f1521cda3026a79bcd0d36970cf62e666d26735c51a0dde75a0ca2cf5209\"],[\"normal\",3,false,null,null,\"Float32Array\",\"e80e3ec844f6472ec9097383e547044a53601458e39da9324a1136c231811337\"],[\"position\",3,false,null,null,\"Float32Array\",\"a21aacb4a2f3c72c316f770f00bfdc7aa38bfcc026c77fba2e4604288585d310\"],[\"uv\",2,false,null,null,\"Float32Array\",\"0489a8af864b347fa5590e11c9fceaed552550ad390f60f5657d22e6508bf89f\"],[\"index\",\"Uint16Array\",\"cfd99ca400b8910aa525d0e4805197656dbbee315adad18374475785d26090cf\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"484adaca4c03d84bcba9613b37ecc25e454c4de9097198edc01653fa5e54bb31\"],[\"position\",3,false,null,null,\"Float32Array\",\"a4233272ace4fa724568d3c1f5a37ba68425e0de942b3306894f938291495560\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c7e6b09fecfa0832b4b9ef2839ad61ac8568cb7e2145e87d4052c4a4f381d00a\"],[\"index\",\"Uint16Array\",\"8b2e969f8bca8c694f2423a012ec6ec1c95f17fba73a827e56c367a11b60493b\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c\"],[\"position\",3,false,null,null,\"Float32Array\",\"e04415734e6cc80ed94a38dd8fb1ce120c0a862a53b7103ec65f1af8454c3023\"],[\"uv\",2,false,null,null,\"Float32Array\",\"67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22\"],[\"index\",\"Uint16Array\",\"149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"75107ebee78052b0bc4af76c574f3d1a17ddb239ec98e59bdb9943c434616d1a\"],[\"position\",3,false,null,null,\"Float32Array\",\"851e344efb6e1fe521669f48155925fe9ff921c4a43659ba93542f0fd582ecb3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6649383685c1134619b8d516c4891cea587772d319490741bf8e33f1916e9c62\"],[\"index\",\"Uint16Array\",\"b5df9c669195b8f969056363e536b1358dd6b4fda2f99a99eca0b0522fa4ee5d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862\"],[\"position\",3,false,null,null,\"Float32Array\",\"8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838\"],[\"uv\",2,false,null,null,\"Float32Array\",\"13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "oak/tree-1505",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"477e15a3f924e40e8b763caa6c853146519f4308a50c8e5a4795a3f5693186ec\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fbd14cc1958b059a5479fd8744ef7e6f639c61958aada4a4403ef738fd8431ae\"],[\"normal\",3,false,null,null,\"Float32Array\",\"1538762e362d725a4d0ba838bde31b92d8991ef43c6055d07899cb737c19ec57\"],[\"position\",3,false,null,null,\"Float32Array\",\"061bdf2b1386320b56d966bc4e0f6d09804fa0b9b988791d12a2193335af00a1\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f737d54f0c44e15e78339a4f8303841d0eb06dabdbc1c3c84a84df9b07bb4c90\"],[\"index\",\"Uint16Array\",\"0c4142abfea1b7b044cd63db4490430bb7153f4ff62631530b6625b94438942d\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"9c768b256efbe2de521d8ed664c9b9b307e7a3e55d22e9984469539857332a00\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ed0d639af0ba9691c6e3abca5423241834b39bd4c742e92fa3224f085f28bfeb\"],[\"normal\",3,false,null,null,\"Float32Array\",\"cb441ee052055b70de91c1423a7b1f45b43d49a63994cf43e11cdd16e0ac7c2f\"],[\"position\",3,false,null,null,\"Float32Array\",\"61c77ae9cd0b0bb6049638051eb34f9e97c7b9299019bc0dba5d50633fd8c420\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c2bcfef03fc9e6710d551314cb6c7120018cd49a0e0526ccaaca6adad1640c42\"],[\"index\",\"Uint16Array\",\"eb9184be4a0d25edd472c6210c21e678d0d08e3f9654913f70c51ad1cc060bbf\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"9e5377238c8ebefa22d764ba2cc82267762f127c8196727ed494792941727871\"],[\"position\",3,false,null,null,\"Float32Array\",\"48ec5ea080da6a768acd386bd8f7dc49166d5bcd414e1168d0ed2c1c9221603f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"77bba703615de945db1e2b6bd5c32d3761fe42171b0c7d3b57aabb323cab75ec\"],[\"index\",\"Uint16Array\",\"d9f0749bd8056ee41efc999144ca22de96ede12f0f90c1a3e20e66cc7e975c76\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2\"],[\"position\",3,false,null,null,\"Float32Array\",\"9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94\"],[\"index\",\"Uint16Array\",\"cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"89e17016e04408e84569be97fbcf948466929e89fc67902223d3f2b7be065367\"],[\"position\",3,false,null,null,\"Float32Array\",\"d056cbe7dae6342d9c40655ddafbe5f8922472281a40da6ba408390624f83dcb\"],[\"uv\",2,false,null,null,\"Float32Array\",\"86108bc1fc0d383ed8ca39f879745e45e8e0b8811e32442fba6ea3dd82fb529e\"],[\"index\",\"Uint16Array\",\"1a69fa0de939fd337ba3517eacd530315dbcd34781e965363f262c2d8619ea98\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4\"],[\"position\",3,false,null,null,\"Float32Array\",\"e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40\"],[\"index\",\"Uint16Array\",\"75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3\"]]"
+    },
+    {
+      "kind": "oak/verdant-sentinel",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"9a782d23fecb9c12bdec7875ce05c32c64dd6e9731dfa5922836e68d77e25086\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cbbffb407ca76103709e96e1c0bbc26542437bef8044058f9e17f22e9d7c7041\"],[\"normal\",3,false,null,null,\"Float32Array\",\"70c431ba5322c256cd9deb93007f07e3a17b0083721759a740dd040ed14be4ae\"],[\"position\",3,false,null,null,\"Float32Array\",\"97d0b28031168124ec049bc618788efde901afc59b4e74f133578fc1f33f2a4f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"094a2a6f9dd079e89fd7b29c1b892a28ed10aa7a9a2eb513e436d84261c10b37\"],[\"index\",\"Uint16Array\",\"86e53004593c7e63074db39ce2851fa39f08d80269e2ba9ef5bde5d391ca67a4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"141437c764c67c7384da6499ec6480bbd96b4f02b1aed0ec109747e125e2f543\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cea172e2bb4ffe43d0f0ef4c10865611e8c12d128a5d27de204350ab12ed178d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24d326ef1389b9f29a238da36dac3f6145903b2a62ab680497931e912b4a6c1f\"],[\"position\",3,false,null,null,\"Float32Array\",\"3f26dda151506ac8e52342d44b68594db36ea5285cc86d7792da07bb3682443e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1c892b0218e88bf4bf7dcf3335ae6f69d2f1a3ae5057fc8127652ecd48d9030d\"],[\"index\",\"Uint16Array\",\"5fb6e30de7af0609fd06d60677c934c57c62e0f6f5b365ff660be5df5db5130b\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"6eb68541b3f321640173dd6c804029bbc203e189ea48f542a1607c5d3363b6d9\"],[\"position\",3,false,null,null,\"Float32Array\",\"4672df0694e6d6455589e53ab0dfd09687ba8a20e66258e2810fbb1f0f590a8f\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"ec3edfaab9ff2be4aecbe030ed365848fcca65fbeb35e1236acc816751049e3e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c6c6f7aa792ff481c7e365c8f32b4973931a19b77233918903fc15db00f7574d\"],[\"index\",\"Uint16Array\",\"e7ed8a2049cff8eaf628870b9c3d3d5550aea70cd5834aebd0b0f6f4c6bd6e0a\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"581ad6e4118d2c0a042d2c99f54e9ebd36c2f7039e3ed6696ae37671ea2d5189\"],[\"position\",3,false,null,null,\"Float32Array\",\"781af0154e7ce12f0dabcea7ac74a3705f0559fa7030d86bf597cb09a38d1f46\"],[\"uv\",2,false,null,null,\"Float32Array\",\"511778ea22161623a0e117f649427904faf17446ba3fa321c76df840635a5b93\"],[\"index\",\"Uint16Array\",\"fd6b087e1fd57bab8dca97722fd33a35310c62eeb33f7db1a3dc9c5e6a49048e\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"f5e51af652d729a02e6bc429635edcfb71d4f8516e48e0815eaaddf09dc63725\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"90bd78c7182c13552674c9e391d57810ac0da663804ff5b7d9f51528c16006ac\"],[\"normal\",3,false,null,null,\"Float32Array\",\"fa1f68d12351e1408d5014d52faf8f374b3585032249508506fac689ecb21385\"],[\"position\",3,false,null,null,\"Float32Array\",\"8ddd86004cdc85283daa06e73a66054f87eed66ff4ca4fce2ec24537d065d3d8\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"60ac76fc598b24dd211078ec9d0b4127e8867d2547f0d1cfd5cff6e452f4083e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1657963a1d3ba8881c84a069f41c5622152525739ffd674775d9866f3b75043f\"],[\"index\",\"Uint16Array\",\"cc86e1579ac6768507c60737840b40870310eb30db9d246630ffb8fa0965d09c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"2d8d835b8f134ef2baa7437d4950d83ec8a858dce2363d420457a209721a4e99\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"da9d03c6c0e8b0333b7621bd1ca72db1dce00e94ccb92885bc7e1d8b1350d23f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5af1a543d8e06344b6fa94f5cd43afe0faba3398acf0e7ca7ab28403d0495e69\"],[\"position\",3,false,null,null,\"Float32Array\",\"2c9a4c50e4c356a39d2d61c56f26e40f578375b84e03c48c8598eb09abfaf1da\"],[\"uv\",2,false,null,null,\"Float32Array\",\"410cac356120d3ccb2c1ce5429393e5a3402ea5e03091e711b927c6108bafa87\"],[\"index\",\"Uint16Array\",\"660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc\"]]"
+    },
+    {
+      "kind": "orchard/tree-4815",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"97d26052216450f604ee4eaafb5b3ed6a274b8c996864fa7237ad12a93a4a724\"],[\"position\",3,false,null,null,\"Float32Array\",\"336d13f2df804546ebe8987d7ffb6c93e38a1348fa73d6d907cb7254c30dfcfa\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"daa67b6b533cd2d1277046d656b25953b76f71c99127d0adbda79874f392cfd4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"47ff6d61cffb8c2ebb0d28b6ef3eb1784f9cabd64cd3481c20825b58fe8a9b95\"],[\"index\",\"Uint16Array\",\"12378a9a8c8e5fab983e13a698756c9345ea5d6d2cc82551674af947cfa01aa2\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"bcd446cad9b07f8cdbfae40521785a59000a6f2c29fe9914b741c2616d574bda\"],[\"position\",3,false,null,null,\"Float32Array\",\"4807a4e9aa69930ea370757c5838b62c0059111ab4d13d269413a87bb12020a0\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70\"],[\"index\",\"Uint32Array\",\"091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679\"],[\"position\",3,false,null,null,\"Float32Array\",\"435c9eca1dbf216f93b70f7bf89ed6c72f95b2da3f5ff4be909e14d38c4898d4\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38\"],[\"index\",\"Uint16Array\",\"7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"2f3f8952d2bba17fb0ff2f2c4a1631eb63da65643cac19d45d8b8f8be5704511\"],[\"position\",3,false,null,null,\"Float32Array\",\"e6680a10aed6dbc344390217001d3ae9d102845a24ca9df98fc89902d38cd560\"],[\"uv\",2,false,null,null,\"Float32Array\",\"de336d4466fb33e0f221eae4d415ed7cd4df6052839031a9e09d0630d0c151b7\"],[\"index\",\"Uint16Array\",\"43c9400778ea6cb608c9e1d2332e113a15411803137808f25d6bef95a2c7dcd3\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"74470a2971c655c7e32d93f032b2684bfd725b6c1dbd18cd103d4164852b9030\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a88e1ab20388830149cc1f25dd04be6cce75dbb3ed2020a54fe2903d54a5e3cc\"],[\"normal\",3,false,null,null,\"Float32Array\",\"1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0\"],[\"position\",3,false,null,null,\"Float32Array\",\"07a2916aec7671cefef10ed3294fa9ae27628eb3109c39f19607b14e0f39c3d2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc\"],[\"index\",\"Uint16Array\",\"ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"1ece6014e7b694d69fe68d5f6223895558a44dc53ce983dc65893cf9c1ade8bf\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"1c4255f06693d27a5acb6cd77e8792bab8b46ff09a806d4127379a10612f4bb3\"],[\"normal\",3,false,null,null,\"Float32Array\",\"7f8d717896d12cda222c0bd471dfd61b37bfdf41dc6c74c3564ac8661fb17fb3\"],[\"position\",3,false,null,null,\"Float32Array\",\"98f74f8595ed963aba41f9d81b2158c19b21246183420c8bba96d370a5e32470\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f6951047bc439f7c02078054c0223869da60d64a19ae7e79b6819533b4b5059f\"],[\"index\",\"Uint16Array\",\"7d52be915934913a26a77236523fa61e034a48a33b3fe9b9707a463f3f8bde11\"]]"
+    },
+    {
+      "kind": "orchard/tree-4949",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c1983a3521b1535869b0d4b79abbf19f994d66c591ad7f483bbe978f3669e06f\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"228ffdc4d7bb47bc367b2d79e760c1126eccfe61ee0b342d04f3dce84742927f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9\"],[\"position\",3,false,null,null,\"Float32Array\",\"7915e6effd03355fde3e91c451f3f394fb2218516c902f106ede86db303e111e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357\"],[\"index\",\"Uint16Array\",\"13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"e451c5d177babd7c5dd81bc1a3e244581eccbc0ad53047036cf3caae66b958e3\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"adc42d4585b5891f5b21f07c9efe3ae880c932b44a68001d439e6d753903962b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b\"],[\"position\",3,false,null,null,\"Float32Array\",\"38695bbe30b01e31058885a355de25a7ad5fac92c40f682200e8ae905cd72405\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b\"],[\"index\",\"Uint32Array\",\"a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e7d78fbc3f2f086d7e6251c4e13f75d44903d54b2c4f35e9c51955447961d9f2\"],[\"position\",3,false,null,null,\"Float32Array\",\"d5e0b4d179b83a158e390d7a7d189ee656877e080afca4e567bc7663f63bc909\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"cde112d4a6cf869f7a6d607fb49cb444edb4164c04d6579dc41a92ccc31a2c2f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9239667c569e0ab6bf36cabcf42588f0cb53cec0011a3d32207f2bf3977c849f\"],[\"index\",\"Uint16Array\",\"59db49b62f0813058b95cdd9628a96dba07583f1ea5a10e9d755351ac71d93be\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"ee972c3828f0db4d4df2912b27b91a07fe188421ee313c0c9ad9800b2a8b6033\"],[\"position\",3,false,null,null,\"Float32Array\",\"ec5e56f6de7978c34e0bde285e89da0c1f5e50582005f39869e83be5ace67a8c\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"9813bb243084fa1232edb82dae0e9a714c4d3e74e86efd18278713a21599b0d9\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9cb019cf0bfcf41d8403645166536c020609deacfcda79b87d20740c64efb0d2\"],[\"index\",\"Uint32Array\",\"c7ba9200fc534a2952fd1624fe8e9624ae3cd9cc638d3a60978784c913813018\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e5183170a1b1a975f086a637842339941bd5de70aa0d941d16006b391c3d2a82\"],[\"position\",3,false,null,null,\"Float32Array\",\"7607e916804cdec038b8becfb1154f6e82e871d6c16cdbb3e24f8d935ca4af2d\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d9ac385bcb2cb10d30dae8c0fa930ba80d78462fbd52fea7f5102fd3c263112b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cde007fba37a53bb4b1cf3c4b86ad0b3769b685954af508d86ebddb7f60d3516\"],[\"index\",\"Uint16Array\",\"063716dc881d14bc47846379a569c819519b96477fde82d86cf86a47b7eae46e\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"e2531b96059abf8ef4b23c525f738a2bc54c1756752d2b98d6d3cb19d48c8dda\"],[\"position\",3,false,null,null,\"Float32Array\",\"63dfe438baea71d8aec80775371b76fe9cb326cb66149474c44a7d9f4df14fba\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"903053373998030351f7c519a6c1320a9967383db9c1a3c392dade4dd806c46b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"101e15b44b4707a1ae3c789de18914ad0ff011d73a93a900d1032b4c81498a04\"],[\"index\",\"Uint32Array\",\"1d8b424badd8caa8863258bcec109cc0088d6849979625283714d174cb3a9757\"]]"
+    },
+    {
+      "kind": "palm/palm-date",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"df2c61f2d5c33970a11bd00607458b11b83e6de3b010378674392707dd2fef71\"],[\"position\",3,false,null,null,\"Float32Array\",\"c8a8c0f1417bb19af6a32d38bfe827a15633180b873d8c1065ced1d68320a1da\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"78929c3080a48afd362087b5fafa8c7a6df53a12dde5e0e3db3cf67a65e00d63\"],[\"uv\",2,false,null,null,\"Float32Array\",\"28de3e4ea2767d072e2ee49c9c86106fd1e7db7e74c77a92d2d6fd1e50ace3d7\"],[\"index\",\"Uint16Array\",\"644589cf076cf91ab1b51146da986af7b5bfad614503bb86255db7155c30f189\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f5867419d29f3b3bba1e20d0b05952496fddb907224dc26cfa4aa826f1a4defa\"],[\"position\",3,false,null,null,\"Float32Array\",\"ed42527c66c2501bdc2444622aaa662e9cafd29423c3f486dae47da9c1c929f4\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"a9c8a375a7616f2c29bc3c260bd1840a71656ffce73d8ad8827861327bde9ce5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4fe860886256fe1ffe91e7450759c1c2fcd819ee13956449a2bf6accbc2fac50\"],[\"index\",\"Uint32Array\",\"21bcdb9b141f7cf4526d399da0f1bc72a5315a90bf64230dc45d73dfbf31fd08\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"18bd8d7f17136436abb7e6fe8d2fb9936d295f1d5d453bfe30e0a7f2562f2c54\"],[\"position\",3,false,null,null,\"Float32Array\",\"9f481c8eb48bd978862eed697e8ff70d9da727394ba0849e0e96357ce8e7fbd3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"facb86a49956939cd6b6269c53d0720301619e013b85673bbdc4af979d586845\"],[\"index\",\"Uint16Array\",\"d8b0972f717637c0dba9e54fc7d629634c269a2d81d7a36c8858ac8549e7dd86\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"4b3200ab4357f57145a7e3aa441e38e8ab518bcbf35e65b545f460a0873028c1\"],[\"position\",3,false,null,null,\"Float32Array\",\"9f706c9fb295164622d64e496a6c33cc45877da18e9187e271b9a289d2ec864e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"18d5839ab2074f9b22db3121b33a7295a79d3afffdac9c6bba591c37f5919307\"],[\"index\",\"Uint16Array\",\"b3d8255959708464a3598dff23d228ef1061c68725061080ea64a8e30287e229\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"96b8bb02289e2c1d5eaf06a9b31eba66a02bf757b0f1b8067ccb32661a8d6f7d\"],[\"position\",3,false,null,null,\"Float32Array\",\"d393275785ee1bebeae142fdafb6281652bbe8e1ffb1277a8e6b026e6796e311\"],[\"uv\",2,false,null,null,\"Float32Array\",\"26d6862b0218688a190f781d9563a29a793d0785355363841c43d491fb4d43ad\"],[\"index\",\"Uint16Array\",\"c3ed8fecd824272d599b706ea1ee52feaa3b1bfd7a8225c3c2d4554ee123855e\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"95309e453e7bc3656c3f0ac5893ebfbe8705823e9abdc3e02757ffdb3abec54b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4eae809e527dc95acd72ccb4e1bb784e25fbb243f7feca02c43e49d8633af9f5\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f110387261d7fb2c887299e790712e4e40bf8d50282db2be8bc30072c4741877\"],[\"index\",\"Uint16Array\",\"5a537879a94537a83b2ed2bffd547a92014a05428e45aa586f752402817fad20\"]]"
+    },
+    {
+      "kind": "palm/palm-fan",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f92ac3c8f1d090c59aaf13bcf2bf4425add7912def25f025f4b29961cb58e084\"],[\"position\",3,false,null,null,\"Float32Array\",\"1e187fa79ffec096d1dff367309277154fdff548e21ccf0edba5eb7b323a1d51\"],[\"uv\",2,false,null,null,\"Float32Array\",\"56751b1b20b971cacd8309bc92bc84e09fd3096e4308ae6418f8cdef06cc34db\"],[\"index\",\"Uint32Array\",\"4a7cbea26c0f6a368aae9972bfa8b41cfbd71502dbe6e15531fb55abbea961c6\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"63ae9516039779c905ab6258492cf28ce361eeeea265dc9696a22a85a51e30eb\"],[\"position\",3,false,null,null,\"Float32Array\",\"1b5fc013663dad7e816529b1e5b7d109f5064087626002e5a017e0aaff43cfaa\"],[\"uv\",2,false,null,null,\"Float32Array\",\"42265ef7266007e4882cd97c63050867c0160a98099ffe4d7a6ddf8b8e6a733b\"],[\"index\",\"Uint16Array\",\"d25a7bab8edba2bcf9eb20cfe809cc6017b62818a93575b88d8212921409017f\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"501dc83df5c57dbc9d6d7f004df7b61bab06e822cde0ef00e7238f3f8df4c572\"],[\"position\",3,false,null,null,\"Float32Array\",\"9ef9259c6442ab5602d8c08eaf275e7fc95faf10f127a3dfe95fffcf8ab38b19\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f2b1d3b40f212f32e38e0cd0d2f80f1d71e524775e8fe7da57ee897b54806112\"],[\"index\",\"Uint16Array\",\"d6a8907766bd6b5b003d72881e4cfacc1227a1c54491c76a3a4b8a0924d9446b\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"f9b57db5ec64704a286de9679850e52272e01637ab48a4ed7f5051c2ca484523\"],[\"position\",3,false,null,null,\"Float32Array\",\"0bd86cccddb368484c106d3dc22d106e63791cd1cb07a4930347be886d01f44d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3899119cff3f7b5afd985fb387f5bae2af9ea1381f7aad6bd1171929cac60e3a\"],[\"index\",\"Uint32Array\",\"327dfbad3d2ed1696790ecbf656441dba260dc0afac20b2e11caa0524193ef50\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce\"],[\"position\",3,false,null,null,\"Float32Array\",\"b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40\"],[\"index\",\"Uint16Array\",\"5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"fa74b6a93791d93c7b408d67540d8065958e9d0ebe73372eaa836b06f37e3fc9\"],[\"position\",3,false,null,null,\"Float32Array\",\"8baaaabef0673cbe2236574a894adba45863c59c8139d5e6cbbc764ee7ddf62a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"25332ead8f515abe99860e886fb550de2f265c5ee95c39de0b0a41605c7c714d\"],[\"index\",\"Uint32Array\",\"4b891f9d2ac281304659b6036b5840223d8cfbe4b0d0b8f0676e115046c5226c\"]]"
+    },
+    {
+      "kind": "palm/palm-lean",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"957c19757152621dc15e93041862858420a67085fed7e203675ef4f7910bfdce\"],[\"position\",3,false,null,null,\"Float32Array\",\"b1b928c51769e213d1acfdb170443fc4f4243fc36292587964bb11c118b89bc2\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5ec5adf6b35b00a6c3edbc1d454a860d0839c7f16e07b59e3f631b53cc35da40\"],[\"index\",\"Uint16Array\",\"5afe56b777d6da983fcaf96e43abd7448c50c520ff3c71e529915b7fabf8c5ea\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"559a4defa68330288f47667b280c8e5eec5e9fa3e83f231d533243ceb6402a8b\"],[\"position\",3,false,null,null,\"Float32Array\",\"4207553a8fa78e6f20904008ccf6fa0cfd359d1554c49dd9e7ebfd5a6deeb5e1\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce50cc6f44e73237528deaf1f467618ec4df3c8034b700f767a3905b16a6df70\"],[\"index\",\"Uint32Array\",\"091e6325e5efff909d4fa311effcc49860d3b6da82d704b88fbcb8196d4c025a\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"088d04274fbe6bebd2657b22367e3720aa925d4d3dfb68e1f0d6ab557a5a5147\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"676650d260cafb4f3d8d3adf311fc9b34a463de620218c88d044a14bf04177a2\"],[\"color\",3,false,null,null,\"Float32Array\",\"b4f9ff65e853b606855bb100fe97d694d91b6b8ef30b771b9eb2f78939bcc133\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c7848a45154d0d364d3afd437926d43b584e356d7d9e9da633d483fa472425ab\"],[\"position\",3,false,null,null,\"Float32Array\",\"15aaed5132d1df3329d17bde744f5caeb0312604839992132bff9405b427b546\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"2449b96d23eb21f50e82b2dc61884bfaf730b8550b293e8f2431f686f663cd46\"],[\"uv\",2,false,null,null,\"Float32Array\",\"23df03f5a2555794fa062fc1afac5e7e3d1ab8131c6158da1bfcf7f9e660763e\"],[\"index\",\"Uint16Array\",\"b9b964b65a1698d86248d29a1124d0a5cbe1597307b1f1a4e667e7ce5bdfbfcd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"5d0ea975de0061808846a2817ec3048d733b8fc871531921f4ee43d2d6259461\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"d5ff1164f1ec1d4e09a75dd71d2f0902c13680ee82cfada8a8f614553faabc97\"],[\"color\",3,false,null,null,\"Float32Array\",\"cbc5af883a6fc4da7a267923ffe0badb6da3ab37bb61fd96477f11cd89d08d29\"],[\"normal\",3,false,null,null,\"Float32Array\",\"de6b19d3aa956a624cdfe33b120a36062b69f4f6d186f66eda9b1b21b60ae5ee\"],[\"position\",3,false,null,null,\"Float32Array\",\"6afb8c83013ace58018d0306520c04d15b3167c164ab15da5a18c6b3af1a07d7\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"d7501575e974a59c955ec283cb3fdf8ce9f7380f13f0e7cfefe252c68932664f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"9e6a5ce5be8215eb6c683365342f99919a878a8977430054ef74d8693a5dea65\"],[\"index\",\"Uint16Array\",\"98b4d0af0d5f3c370bb7f9abfbe016e9930c57adc36d522217b43794dc645697\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4574b69d61f441336791620f6c24a8317ef0d7d444ecc200c6c6d5bfe595bd7e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ace1f0fc9751bfbd87e0b12a9d802bfd676cf10e81c13693191fe009f9acf85f\"],[\"color\",3,false,null,null,\"Float32Array\",\"c77079638cfe943b5c6df4e9472795fda1f59f20d1c8c25f911d6c58818024ab\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ba3d719feaca16404ed2a546892ce82d1c6090749c28f577393f4fc565c99bd0\"],[\"position\",3,false,null,null,\"Float32Array\",\"3fa3d5c75ff4fd55691eba9d7a5cc9627a81c5d434c5bac51073e67ef111150d\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"c808bb8e9cb376b29f60c950dd1968d6ac691a75a78923f3b88cc2a89f2cbbb6\"],[\"uv\",2,false,null,null,\"Float32Array\",\"f793e83b2bfda0a8664e69f6006d7ff9d536b47feaf977a7c851352ee84a6db5\"],[\"index\",\"Uint16Array\",\"4cec7c64ad0a0750368046ba69cbba23fea0eec285c14f20c30dfae5f049da78\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"98095106e08693a686f947f2efe912a488f94a22dae6495d4f617d33053f0774\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fad5242404ac13c0c97b63349d71aac83b0633c2e8b4313de6bbc6089c88f58e\"],[\"color\",3,false,null,null,\"Float32Array\",\"f2b463f67e4ee4d4c697b030b30069ae29deb8953bada131680144b0c4d94d6f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"38ece8e9f8c85162dad389a887ef7030f252f48263d1655665286214da25ca56\"],[\"position\",3,false,null,null,\"Float32Array\",\"c95a18a9b433450883aafd1811135eb43d34d2b737617690a57ed82d8871963b\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"13a967f228de57d839d568d0bbe285dc6afd00f72f1d5a018ee286ab10775f3b\"],[\"uv\",2,false,null,null,\"Float32Array\",\"0a316f470d5b00f2651d83e941c089c47f1d43233eb20099dd5f12aa7a30b700\"],[\"index\",\"Uint16Array\",\"f6591a13a92b98ea7234763d8162c10209594b19fdf36d1fbba56902abb3a820\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8273348486b7fc24fbb719a77a841f8228a0b29c9411b9fa04dee3817b86d454\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"5da0ee4bc5c0f9eee9258102fc8f7374c8a7ebcd6fc7902aba8187b4d3174394\"],[\"color\",3,false,null,null,\"Float32Array\",\"e2b7087e04048008979870e37a64e2514e9f2ae757e3d32c0c4d699fa0da030b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"5e589081b7c0c8c8ee39b12215fd4a940d875eb84f9faf3268c3e2b1fa335a20\"],[\"position\",3,false,null,null,\"Float32Array\",\"b4e11d15f9edd769191e063541473107b0edb78d06f7c9650ff1770fe33c7ba3\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"7860f035fec30603f5badbbd511ace1ec28a40e3e7eaa2c213ebd3deeec7f662\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ae92d6c8a53940f126f39fb27527da060da4238a217f753c6fa37eae38442a93\"],[\"index\",\"Uint16Array\",\"a4470fa4627919e6ef0eb73e05c77b4f09ed8b180d3e65c30d089bb79ac95d6b\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"99d69e33fba38c354dae3e2efbe6f6c043f2cfba96cf7ac45c4d8acf32f41608\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"9f7f23eb8f84e82807365ef1be8056d4c4b4cce309592833e6ed837c7120496e\"],[\"color\",3,false,null,null,\"Float32Array\",\"1091b407052ec5103569700c4ff7ac7b76397e486a7d138d139439b6a848679f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"aa6535de5dfc5b12cab86abe79a23d64f03a56b36bc0d3f87efe0a1d2c76560d\"],[\"position\",3,false,null,null,\"Float32Array\",\"89b2b5805b491eb2be98a67cdd946cfd3ebad5b8f8bf8f203da57a472998eb2f\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"39803d3cccd87fdd1b21a5ca1f228c93dea0eb62eb5e1b482881fc1a89f12f89\"],[\"uv\",2,false,null,null,\"Float32Array\",\"20e55ce265beedff689b01ef3c1d477113949dd60cae28607eb130cdf059f7cb\"],[\"index\",\"Uint16Array\",\"c136ace47f863180b29640ea1cc386479d1d5e42be56a01792095593e313abd5\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"205721874380ecdd3d8d48b53802778b960a96ce519099b38dea1616554aef36\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"ef0b5c938101c9c75b4458ecd92bde664623036a8317dc177fa60768a72278d6\"],[\"color\",3,false,null,null,\"Float32Array\",\"0ea1714eefe05271f20e4de138caaba7f42479ace3e54c54c76b2a2b03c47778\"],[\"normal\",3,false,null,null,\"Float32Array\",\"0a8d12c2a61f2e59cc872119235991f38c04663ecca2b148fc529dc5b25fa24b\"],[\"position\",3,false,null,null,\"Float32Array\",\"55e32441d1e5cf3945e20661cfd631d0261fa049550bfe6f3e0a2d1cca8af082\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"ea98a0c0fbdcc8ea110018b17fdf021e4cfe0bea87fcac68908e3177adc2005f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"85e55749d6007d5dacdb3e4da2e37fb67828d1cbc5dfc23516a431cefc85c152\"],[\"index\",\"Uint16Array\",\"e0d7cbe89f2e9b79daba82b8a50ede09b9204ed0a17e115a39e4ef17fccc7ace\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"422491b7b2f825799ee46c0f296a552c9120b472fd4c81efe27ba2c52c4f3e7e\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a28b8c7cd2cd7d330583c8b1590b2d7df41e6f75d3b139297922125df2f7c1a8\"],[\"color\",3,false,null,null,\"Float32Array\",\"7020f8ecc27b05ce46f9e69ffe7cb8d9ba9d75166dc9176e9318176333c8e57e\"],[\"normal\",3,false,null,null,\"Float32Array\",\"457de101d2974907840be70d48829d516491e9b95a55c0f85ecfa13121f558be\"],[\"position\",3,false,null,null,\"Float32Array\",\"3e4d348c4c4a10d0a9a0b2d05416b89da92ea6b8e4e93602c3fe574e69fed35d\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"cbac0c5d2e7ac0abb32b5055718bcf27a208bc321a77d1e6552318a6726ebbc8\"],[\"uv\",2,false,null,null,\"Float32Array\",\"33d49eed11782925668f7da13548000ad797f1993b3f54a2b2fa203b654e30cb\"],[\"index\",\"Uint16Array\",\"8ccc9c12a121e917c9e00e2ff08c63f182c350e614875a1ede9488143b6b0fb6\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"79520aed855605d4c3660b356133d30a26293525b58b38fcf75ed6fb6d8f04b7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"d8e9e3b10b0f559058bde62dde7c969b1969b33a2b365c80afc97626ccc32b1f\"],[\"color\",3,false,null,null,\"Float32Array\",\"8e4424574c66d4056bd000e1160227b8379417e041ee94172facff3eced2c307\"],[\"normal\",3,false,null,null,\"Float32Array\",\"21a4f29727bfdb9438d03e1ff5c673fae99d134ec4b71b7dddc634accb6dcc38\"],[\"position\",3,false,null,null,\"Float32Array\",\"32191a8bfcb368553f16f068d7c6b0e1d517975a21f0977224dd69352f6d949e\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"6c817efa0455dacfe0d1fe5b59e8a485d8831a195e9fc00b04ac71ddb97d2030\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ce620060dc750956b5ea84fc5a50b07c65c669ebd75e178f10bf0de918ba4a09\"],[\"index\",\"Uint16Array\",\"070ff4ac89cc780776a9c3d19b38f5e00e4ce97c4c8d37eb4757f430331009f0\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"b2085e030e2c327a439d754f54ddd0ed4bbe219ac2ff780215fcf33dcf78693a\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f902144fc943358312517e47a399b3d326234c24f60195e466e9aa439f478390\"],[\"color\",3,false,null,null,\"Float32Array\",\"e06c275eb2f224ac97401a046342501c676299b51c3d827e0f2ba6bbef59dc97\"],[\"normal\",3,false,null,null,\"Float32Array\",\"ace952dec17f980206b7285af9906556389973a12b290a9742b45a866ffebfb5\"],[\"position\",3,false,null,null,\"Float32Array\",\"ae59ecf3fba48532f3f15ae36546f666dbe0888a598b069fcd37c6ab24b54e92\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"3eae4e8164e75c7892643c3e654711fc913e1b92cd92498d6036559258850422\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1cc4c0e76b4d33b5dcb02e288eed66d46b24bdaf6bc0d4899c8f114b482ab18c\"],[\"index\",\"Uint16Array\",\"29cac30b823e5cb3d4b259932dc2c2a0558be0a7baa824f0689e127ba9e2250c\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"d4cccb439041398c4d8d0ddf4ad6dbd8630954d30f4deac1243d98a96f1d5482\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"b5ddb893f8db9e541bfcb0d0111243bd9fba14dea20991bcec74ea1e06bfabce\"],[\"color\",3,false,null,null,\"Float32Array\",\"c2257d1d4cc50bff55b0546a68f1fea68a07b43e151bd590de9d69c94eb945ff\"],[\"normal\",3,false,null,null,\"Float32Array\",\"7825eda511de1f1bb92f8b1c5d9cdf6a65ce360f3aa873b59e6e29ab87e1d291\"],[\"position\",3,false,null,null,\"Float32Array\",\"1e31639c421174bef381dd747c8a2ead63a701f22ee406e9eb78e7272501a4b7\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"aee5c7ff4b3a99493033797f9709e8e54f2516c659bbd8799e5124d739165b95\"],[\"uv\",2,false,null,null,\"Float32Array\",\"1450052ace8954aff8ba9245f9ee7bf8058cdd65db8f0790bbdae96bb8071c1e\"],[\"index\",\"Uint16Array\",\"3a3eaeedd41eb9471b3b317661ad02c4301059e73aad9d1697685f37fb8120cc\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"8cf74932fd069b75afd313598de7eb409d23317cbe1cbc3b49b6c700f4bd0bf6\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"387096e889a8be3b309a87f78e79cff504a5dac9d7f3193d13ceeee223103b2c\"],[\"color\",3,false,null,null,\"Float32Array\",\"c61bd24ee992bb4589e399032690f75e4a9dd2a1b5d8048e5ac09db07137f9e9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"a97615b11a371f00819bdd6fd3d4fbf553d53923554efac7ff7e3b6ddd86fa6d\"],[\"position\",3,false,null,null,\"Float32Array\",\"9a0a2cef06a8c0e75de30c1a13c42c0fcfb5baf43f060adc20ccbc133f4314f4\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"5c67edb3da6f16e2da4081ab56fcb3cf8492a464fcd54d5068517dd86fc58ea3\"],[\"uv\",2,false,null,null,\"Float32Array\",\"ef23f9f5cdbf83cdb0b35dec438c8afc15b35553baffe678ecbb2e67efb47059\"],[\"index\",\"Uint16Array\",\"def38a934aacd5c82d4cd94c611fc94715aeaf06d417ee828bbf40a2e8c2e3f9\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"101bb8aeab946925b14006ee79fbfa56dcf5b2a65c44ca9b435abbd1abe3a22b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"3d9677c4ed1b9c17ba8962936757225eae23f5b35e7b941ccac88a82eef2ab89\"],[\"color\",3,false,null,null,\"Float32Array\",\"0ac7c6dd477796029932e2781f4e7c2522ea788c650dc6eb23e0fcec033fec71\"],[\"normal\",3,false,null,null,\"Float32Array\",\"17bf82bc9cfbbfc09aa469a21ebc6d73d79a26f4d7ebf620f1385dc6fc10cc9b\"],[\"position\",3,false,null,null,\"Float32Array\",\"bab9db9746f7369917f0c06236a3f2195c4a0ed86304a678d67f7936fe0ae9c1\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"3908870befd9da78b6319c1ebcf8e512d010f8f75db2961e99068cfc1fdc962d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"c6c5fad027c1d905218bb9cacd5f3f8dafa400f36615c47fa54ae675ff260891\"],[\"index\",\"Uint16Array\",\"bf278ab1b4e5c5a27a540ae7d34e9f18fcaddb40ce9b068c00721b9dc82120ea\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"c3011cb24a074a8fe40dc1a21c2fa378b82d17f0cbf0c482ef76b7258e3d3f99\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"fa9bbb1b73920d9b9d5a02a1964171a07f4a30b0f4518cb6c3a341a537588112\"],[\"color\",3,false,null,null,\"Float32Array\",\"d97b09311c62b791ecdf277d28ed77b9e79e3b34ad7f2438e5ff32aa2ab7bc6b\"],[\"normal\",3,false,null,null,\"Float32Array\",\"c7a1e28b610cfc267865dadf5dd00b1e1a9fdd8d5f0b2183b49b2de554f88b72\"],[\"position\",3,false,null,null,\"Float32Array\",\"0581e4abc678a386c6113c014360664b3b34a6330b3ec37a69168e3ac02ea8de\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"387be14828c576226b3b745ee5d7f379058cc6535f22555fd4bd0b50715b0d0d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"41c10ac3b1758b7e68787b615f6624e0da8cb2d39576c772748d5d1d108d8dd8\"],[\"index\",\"Uint16Array\",\"9a4598936bfc955f20d37b91df2d48f8178250ab2e5bd86474a65a589c1f5a0f\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bd50e12c55dda3ee443c1cb6d71c7bcf6351c4ec96f7bc8d6adec015d1192eea\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"6234f7b46cc8f191f132d285eb78fe9f7fa5a9d7334f42c4cf285336939ec173\"],[\"color\",3,false,null,null,\"Float32Array\",\"96b6176352da1347a9c11145365beab7901b444420ab9ef5be3b3e40bc1b8d5d\"],[\"normal\",3,false,null,null,\"Float32Array\",\"655b454c58e63cca7b7b23b4d855ff406caaadadc5f0ba2ef56aa867a6cf6a70\"],[\"position\",3,false,null,null,\"Float32Array\",\"474ba9e82322cd82ba29dd04421c416f01fb1176e1b975d2eac387588deb3e71\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"fb9af914fd4b0dee57fd09014037688362b790d9702f4316de0df6c5cbca66cd\"],[\"uv\",2,false,null,null,\"Float32Array\",\"919f71208d19c24efa975e6cdf02118fda393016586f9e6368c58f0ef7b3f6fb\"],[\"index\",\"Uint16Array\",\"32bc7a912ff7f2f4f2208465fb4cf2d668801de34bf5ea62ad3ba93bcbbc1844\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"a2de851d7f389c29a9cf9c206abbd3059b8619f0a8c41e3bfee6b9cc452a316b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"111d658b4b44c3ad4631373fafde7beb42e4228cfbbcf13e9840f72255c6111c\"],[\"color\",3,false,null,null,\"Float32Array\",\"0fe83841985650773dd926c6392855ce4e7d7d3defad191dc5037d07767e9c89\"],[\"normal\",3,false,null,null,\"Float32Array\",\"65d35c8c955fc2dd6a829f33ad9ad56a38948579ce6f23922ab1724d213dfb58\"],[\"position\",3,false,null,null,\"Float32Array\",\"d802e4323fc7c347ad777e9221627d37f88d4936a76d41fa16aada656edb4930\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"650abcb458e8f4e3f760d88acbd125cbbf2a5fc15ae984992d11c78411f7531f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"8f55b4efb1a2b132d9650fb29a3fbc87476d8cf0765e19426e9e2ba4cd4ace0e\"],[\"index\",\"Uint16Array\",\"54505aca76e6277c14694461da2a49b78369a2b584e1b29ba45be81da3e664d8\"]]"
+    },
+    {
+      "kind": "pine/procedural",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"bd50e12c55dda3ee443c1cb6d71c7bcf6351c4ec96f7bc8d6adec015d1192eea\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"69f7e0b4b51b01d22735bb3e1f8a679b9af05db35bda1b9af0150780f8079f29\"],[\"color\",3,false,null,null,\"Float32Array\",\"f01ecc47f6fcc46abaf5fca6022ad29e66926563263d6a0b5087212d0a72ade7\"],[\"normal\",3,false,null,null,\"Float32Array\",\"dade91d7a55830255087ade513d6f1c1bc7e27882b30bcb7ce88075abbb47261\"],[\"position\",3,false,null,null,\"Float32Array\",\"a008f180338343b186b7b6f3655f81574da3f79d1b49c5cdbe94468b02b78cd4\"],[\"tvAo\",4,true,null,null,\"Uint8Array\",\"be989edb2b0b50595c2f4eb9ce8f676c2d02f42ad29e94f7804b63b16215202e\"],[\"uv\",2,false,null,null,\"Float32Array\",\"b23874cbda811f47601a58ef287a1e1dbbeaa243e79891cbfecf3943914c1f27\"],[\"index\",\"Uint16Array\",\"75fe8ae5640a905160132f8ead0b7ae5d0bc974637bfe5fa75a6b8daeac82978\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"795a353285754342c4c0648433c3058ff6624dd5c76e4fe981c091df731023da\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"cd6d033f2a675fd837dd1288b57ad04851dfa349ad5c6941db310e61dfbd0a95\"],[\"color\",3,false,null,null,\"Float32Array\",\"da684a1e963aca4148e6338bb7eceef58e3f20f07c8918b23fbb027827faaaa6\"],[\"normal\",3,false,null,null,\"Float32Array\",\"3e192559f6b62e9f47d52d6350167fb92c10919ba93594b1116d6021b75ae38b\"],[\"position\",3,false,null,null,\"Float32Array\",\"8d0a7931d4577c0e2be8a2ed4334123d0904674e60194eea8bf01e3a8386d860\"],[\"tvAo\",4,false,null,null,\"Float32Array\",\"1e4b4d43d248df9bb9a1777b951868367281340ed70c6eab4e1af0587bcbb13f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2efd28418dab79346eb1e6255d9a489e99f7423841bfe6ccd1277ed5fbd9efcb\"],[\"index\",\"Uint16Array\",\"ba925bf2369aa9972e2082e2ba02865283110e0d6688d1fe8ec2603c0bfd2af3\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 0,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"a053e623e2288e0d3a9049ba9dc5b3cc9f3f86ab3ea2b70dd4344622e22e3c0c\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f4649c43152c780da8bc3dc1e193b95b4756e505f50c0fb83c997c62b2e83ed9\"],[\"normal\",3,false,null,null,\"Float32Array\",\"2d914181702667f48fe78144d3670d7417720d4dcabca06e1405914bfe693b34\"],[\"position\",3,false,null,null,\"Float32Array\",\"1a82c01f2774c9bfcded5128a27614b3538999b40f5f253eea65d5aae9d182e1\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"d8b0c5d8fb32d337c769402aaf159ff05f74440e7fd081639eb2b0685aafce1a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"116eb089d95c3de9c09e345f2a544fc834bb98e0080a91d08ed2f582ff3773a5\"],[\"index\",\"Uint16Array\",\"d9d2b3d68cf9ba5ad06c518c712a7d42311fba456c2b00e8f7499dea8ae6963c\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"4f90acea102274f70faea7d282bf4c86de5583617b15edb5993a85569aa50bb7\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"f41b93aeeaaecb31d3e3ff363f1e45c4d5ad3c115c18dc2f7cc376cc3d343166\"],[\"normal\",3,false,null,null,\"Float32Array\",\"65028cb8e8d22b44a1eb904020ff32c3221d87c7195d787ae9eb7971afff9ace\"],[\"position\",3,false,null,null,\"Float32Array\",\"9d9327c5623f688f457935e2068f3d8f00aaa79943b6ea39e54bdd78c3aab977\"],[\"uv\",2,false,null,null,\"Float32Array\",\"5aa3c013e83eafe256d0a86272a8fc2615bd2859f9926205e3b8ce67f9afcb6d\"],[\"index\",\"Uint32Array\",\"5b3ab855997494fdec3ebc6c8069b595a8f315f86d69ccf5687d5f114f5195d2\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 1,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"61891a3f9286c5df915f492d17bd8fe9c2da162906d49374b6f37c6ac3c70f6b\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"7905cb48c245ba59cf286e89dd61f4f130dd2e162f627f0565b68b92dbaaee73\"],[\"normal\",3,false,null,null,\"Float32Array\",\"976a6dc73b0c56717e836f61d275085051670681153dbfb9c3435000ec07aff7\"],[\"position\",3,false,null,null,\"Float32Array\",\"d0e9e9f5a2ad12a357b2f1bce1e06c105f59c5c933461798e413038bb1f6368b\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6b86f6eaec2b9f3245fc1f72375b825a43c19303e516c55826ee3a28f5520e13\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3cbc18818652ddbac99836a9ce660366b6feaa353efac94e9b6dbe3304334481\"],[\"index\",\"Uint16Array\",\"a98f9de7a07bb50115d50e6f647c6408b45723720c8bf8fba8fcb47a1b4ead7a\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"0ddf2f0e1b720b83e6e922d881ab3eaf0813596175bca017de3080a344f220db\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"5db65f43a20f0fb8209c29cc491169bcdb009b031b68104205e5999c1d66b583\"],[\"normal\",3,false,null,null,\"Float32Array\",\"54f28c4f4d23a5b60994fecdff4e5deec208bb5a54a25faedc375420680a1350\"],[\"position\",3,false,null,null,\"Float32Array\",\"28c9531805759048b308912ea81f811bc7269b59800bbb9bc5363c57bc7bbb02\"],[\"uv\",2,false,null,null,\"Float32Array\",\"d1ab5030bb6e31b014022cc138e0b1e437a53c1d6f8ee43b084d5f35ba4eaecc\"],[\"index\",\"Uint32Array\",\"04e22dcedfabc9ffbc5ae4c70c23c0b2ce3652c48b07568d7ba74e0d0d97286c\"]]"
+    },
+    {
+      "kind": "shorepine/fir-spire",
+      "lod": 2,
+      "wood": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"dad29ed669b59c01d55ad1a0fca92c9614245177fd282032f2f2f0000f8e607d\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"a1d91305c9e3f3c2a34729d59e8b41c601a2c9d6970c9769fc4d229aeb8a9ed5\"],[\"normal\",3,false,null,null,\"Float32Array\",\"857681de6f86b4207bb039fb9447cdb8fd924c4789171f5dcd76befbcac1bb87\"],[\"position\",3,false,null,null,\"Float32Array\",\"1fc63e73e6fc6b1972c4b03d1e4de7e7ea737976743d7eb0621be7fd4f1c3aa1\"],[\"tangent\",4,false,null,null,\"Float32Array\",\"6d0880d9836e15a5d374c8bf19e3ff28708e73a03dcc741983bdf33227cf1f7f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"cc2b8a32cacb1b3c4b6b69cc1ff7827ba6b9bea93ff76ab33afa211829f0ba4b\"],[\"index\",\"Uint16Array\",\"349d0e6dd99d3f60f94f20ca0d596a429108df9800d1587511c5454d37b05bbd\"]]",
+      "leaves": "[[\"_pivot\",3,false,null,null,\"Float32Array\",\"330adf6d65b49601490cab66a7f2426706fac84d55a5408ae241603888efce47\"],[\"_wind\",4,false,null,null,\"Float32Array\",\"7354afde805f5877e305c90d51a37592ef83e04c66c5a3764dec540faf3db62f\"],[\"normal\",3,false,null,null,\"Float32Array\",\"24567c7b9598fc26b5e94b9e867357f948fbf82eb8cfb26334226be4eeb70b2e\"],[\"position\",3,false,null,null,\"Float32Array\",\"786249faffef864c1c43fb0cd79c0643a592ebf25213d6bf7a15576ac1f1212a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"610eedef4dcf38b5c337bb3c622b453b2a798147ca2f7cb3977b381fcf365572\"],[\"index\",\"Uint32Array\",\"3c4d94c2087baf2969d38df8284e8900ef02b0c2ad002bdc1091727a7d8ad674\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0a7119a41dcc23e632bc7a757eaada5f2291fb254c3603ec466e6f8572948eb2\"],[\"position\",3,false,null,null,\"Float32Array\",\"97e9631e0c5c7861f5bddc1c9b79d541ea04e3ed70507cb5239889f686cda769\"],[\"uv\",2,false,null,null,\"Float32Array\",\"2035cc69707fda6861e14bca778e8499771caee48f9ea33e12b2a8ede13324fd\"],[\"index\",\"Uint16Array\",\"008c96094c6cef8a9e2c67cabbb6ed44529657bd3f316b888e0a9397edf48c3d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"d5ce8ee7a4720e48958132845de748831ed0fe1fe56049d4aeef1a8b1d70d67f\"],[\"position\",3,false,null,null,\"Float32Array\",\"5c33bd8040f4bcbc41c5ecb3f21c1157cf0a8d956b9ae9c4c1b03a4bb446d96f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4cd3bf461d959fc87aa48c0a254554086e1cd8fbe91957c2fb4b3d9240390b56\"],[\"index\",\"Uint32Array\",\"3fbe26fc0f7170963eeb4b06718d93ead0dbb71139b77fb18e2e5016d2539dfe\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"2482b115ef552d6f73722ac4e89987a30a60e27b48b33660e7a4d1e9912bb1a8\"],[\"position\",3,false,null,null,\"Float32Array\",\"d73bd110149e67fe0937473674ac1d688a0e465a98d84f481c6cc168ea6fca9d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"e79070ebab0df676ef0ce836f7c89ca6c3a3acb80f29baf173b0fc1944f9dc10\"],[\"index\",\"Uint16Array\",\"3ebc0e9f0d75b5150e803ce6376d9aef9dc71542ac8d1e5d96da55c9106b353d\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"af4137c80ce57745872cb06b283b89a2c0d026cb89332013222017aacc2ee230\"],[\"position\",3,false,null,null,\"Float32Array\",\"a89a541d3acd5bcd0ddee57b2b0cddd421aea8f67e65cc1f6e354a1d36aec09f\"],[\"uv\",2,false,null,null,\"Float32Array\",\"86c15d4c0e2154544e60520526fcb826dc36eed9a1325b3088b0f5df9deae55e\"],[\"index\",\"Uint32Array\",\"09b79d1e3b3331a7c94c03984673e7bf8fd32ff700c01780953b6b74bdef4ffc\"]]"
+    },
+    {
+      "kind": "shrub/tree-1521",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"c251352c503843b2bb667674b1a07ef96748b20bb020523b2a431fa44c416b11\"],[\"position\",3,false,null,null,\"Float32Array\",\"bedbcc36e5b36cf538958b1fa2c83bad753a7dd746d79b1dfcf1effb6e741521\"],[\"uv\",2,false,null,null,\"Float32Array\",\"45a52fd979ca2332f213e023382cc888d27b02104d5208978b37d1fce2d87041\"],[\"index\",\"Uint16Array\",\"ebd135ad60ab49456e9789215fedb246e4ddb034a7edaf952202fd1c0608b85c\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"d5a09230cc151fe045b8eea1400ec8f8b4eee6d9ad5469dee9eb34931931bcae\"],[\"position\",3,false,null,null,\"Float32Array\",\"783d28bb02f8cdbb226121dd51ca38ca015471dc8aa66600e94f91b1b5793f78\"],[\"uv\",2,false,null,null,\"Float32Array\",\"569725db9e7667ac6ffe8914706eda8395a69b279f3a87c88b553b8e8095b61e\"],[\"index\",\"Uint32Array\",\"a8b7ccafeff844bbc73e80b425d70918ff0e608153ff46861a8eb31947487321\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 0,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0dd68257666a3de768cafda4ba0e51f619d9ed7c2ead8f3008f0ae13da31b679\"],[\"position\",3,false,null,null,\"Float32Array\",\"708f4c0294971107cde2aa9e7e9b0ce49f762f1ca2c274c596aa19fc6216aea9\"],[\"uv\",2,false,null,null,\"Float32Array\",\"4585bd8e04eccf3bdc147dcd37470c2e9141cf9bbfb772b87719b101151ddf38\"],[\"index\",\"Uint16Array\",\"7b90fa09b2198772458f10f8163c47941e091d504d283bb480de9b8eb6fd8669\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"0e0d592eab88007ae4aea4a50cdd8f80b53750343fe6941ce39248c9e0bb0c82\"],[\"position\",3,false,null,null,\"Float32Array\",\"e3fde5b6e55e8dd7930a3e819f758f65ccfa80506a168c5150c5773572c47254\"],[\"uv\",2,false,null,null,\"Float32Array\",\"74b8796f39eb6465a5e083814671ab4862c0d5ce45d574c3c2361b8cb9406827\"],[\"index\",\"Uint32Array\",\"c387e3e917405a02e939e392da8790dbb5e59f0363c93864403e86d941a1d788\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 1,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"1f12c729e999aef3bcdde84fb4f5663aa18ac810b9f81fcf3f82989a232240a0\"],[\"position\",3,false,null,null,\"Float32Array\",\"139118aa907b618dced937629797359539c0b47d327ce1fdc77a8ec6d5ab47ce\"],[\"uv\",2,false,null,null,\"Float32Array\",\"477883fdce5a473561d865810ee02efee5aeb96d659344bf09e7ca4b643ea8bc\"],[\"index\",\"Uint16Array\",\"ae247ec2c50dce5eb6fe194428ec962909778d9f7dd24b1c77393f9c5005cebe\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"df91ece0496748d8bc64792ff96d10dea58b8d20d90063f56e1757387624061b\"],[\"position\",3,false,null,null,\"Float32Array\",\"6bc7210c99bebe3a729ead754f3f84a8d32ad0e8c73922e41f85a42d51a9625a\"],[\"uv\",2,false,null,null,\"Float32Array\",\"3eb8526157af8c4f18cf2a19ac3cfa284135a834a9899a31810a0c6638ad9fac\"],[\"index\",\"Uint32Array\",\"18a654c9cc23055bb0b75d45ad97d619ec5cda5686962865adb962c81d60bec7\"]]"
+    },
+    {
+      "kind": "shrub/tree-4949",
+      "lod": 2,
+      "wood": "[[\"normal\",3,false,null,null,\"Float32Array\",\"ef2a61b23a305f9724b12495ad3553b04abc3f1baa4fec3fc58e912af402d0f9\"],[\"position\",3,false,null,null,\"Float32Array\",\"d15c42999f747912bd17d611cc393411318e3e240fd447df787d94e6facdb49d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"db0000a1bcf31e1bd201853437a222f6e887a6167bd595737a2165e6e45f8357\"],[\"index\",\"Uint16Array\",\"13738d358ff99030d2be7d53047082ac87a595079abfedb00bcf8c03866580c4\"]]",
+      "leaves": "[[\"normal\",3,false,null,null,\"Float32Array\",\"27be4d02e2c66c3be0ddfef5bc29296185d9503ab49775108a0500c2a1651d2b\"],[\"position\",3,false,null,null,\"Float32Array\",\"d94181e94babc8273060e2526ff20547aa674dbb7c1a1d7095304c7d3af18f3d\"],[\"uv\",2,false,null,null,\"Float32Array\",\"6d8e771c90ced1a5c258a6d8264d183c4a72ead31fa235ea5c51f3d00daf5c0b\"],[\"index\",\"Uint32Array\",\"a72b537ce674608daf95ff5d56c8c1fddb32f2a6f7c6d1e40ef665b52cd8b506\"]]"
+    }
+  ],
+  "eye": [
+    138,
+    6.957361650466919,
+    -9
+  ],
+  "focus": [
+    125.0475193,
+    9.5641761,
+    -15.430061
+  ],
+  "camera": [
+    0.44465702440005717,
+    -2.7755575615628914e-17,
+    -0.8957009158484137,
+    0,
+    0.1589054705894322,
+    0.984137195848921,
+    0.07888619120843435,
+    0,
+    0.8814925876423683,
+    -0.17740907458927394,
+    0.4376035171075975,
+    0,
+    138,
+    6.957361650466919,
+    -9,
+    1
+  ],
+  "buffer": [
+    640,
+    360
+  ],
+  "cost": {
+    "original": {
+      "draws": 563,
+      "triangles": 9244972
+    },
+    "before": {
+      "draws": 563,
+      "triangles": 9244972
+    },
+    "after": {
+      "draws": 563,
+      "triangles": 9244972
+    }
+  },
+  "imageStddev": [
+    38.13362551516848,
+    38.69099895920717,
+    21.23956689385264
+  ],
+  "compiledDefaultGeometryMatches": true,
+  "errors": [],
+  "sourceHashes": {
+    "before": "024b4bbddabd9068ebb44bb2a70db65a3ee74e00a7d8f7048a3eb4e52cbc0ead",
+    "after": "1009babf7437a14df2e9748c33a633b7975a500cd1c36d533d11ea7b8d3923f9"
+  },
+  "pixelsIdentical": true,
+  "scope": "Actual native High tree geometry, unmasked custom-threshold detector queries and independent audit. Default geometry/read-only rendered controls remain identical. Corrects false detector flags, not static floating foliage or art. Software raster, not hardware frame timing.",
+  "complete": true
+}
