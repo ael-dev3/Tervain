@@ -1,0 +1,17 @@
+{
+  "before": {
+    "average": 0.16843750000827842,
+    "p95BatchAverage": 0.16916666676600775,
+    "blocks": 12
+  },
+  "after": {
+    "average": 0.16861111112973756,
+    "p95BatchAverage": 0.1816666666418314,
+    "blocks": 12
+  },
+  "control": {
+    "average": 0.17739583331470687,
+    "p95BatchAverage": 0.2620833333581686,
+    "blocks": 12
+  }
+}

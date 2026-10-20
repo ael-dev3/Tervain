@@ -32,3 +32,16 @@ The integration regression moves and rotates the forest parent, spies on depth m
 The deterministic composition count is the firm result; small wall-clock differences should be assessed against the unchanged control. Historical live16 33 ms frames and Mac heat remain open.
 
 Reproduce with `node tools/repro-leaf-depth-static-pose.mjs [output-directory]` with dependencies and headless Chrome configured. `PROOF_URL` can point the same read-only diagnostic at a published build; `PROOF_CPU_ONLY=1` retains existing native rows and reruns uninstrumented timing. Its original and fixed modes use the same scene, toggling only the production flag. Compiled stock exact-head budget is supplied separately.
+## Targeted scene-update CPU
+
+[Published-world raw blocks](scene-cpu.json), [summary](scene-cpu-summary.json). Published High world; uninstrumented actual scene.updateMatrixWorld path used by WebGLRenderer. Three warm rotating rounds, 12 measured rotating blocks of 240 traversals/mode. Batch-average CPU per traversal; not per-frame p95, rendering, GPU, pacing or heat.
+
+| Mode | Average ms/traversal | p95 block-average ms/traversal | Measured blocks |
+| --- | ---: | ---: | ---: |
+| before | 0.168438 | 0.169167 | 12 |
+| after | 0.168611 | 0.181667 | 12 |
+| control | 0.177396 | 0.262083 | 12 |
+
+Do not equate block-average p95 with individual frame p95. The full-render CPU result above remains inconclusive; the isolated update result and 60 avoided calls describe this small change. This is not a Mac heat or 60 fps claim.
+
+[Unmodified compiled exact-head budget](budget.txt).

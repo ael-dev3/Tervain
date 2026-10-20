@@ -1,0 +1,263 @@
+{
+  "version": {
+    "version": "0.0.37",
+    "revision": "635d63d"
+  },
+  "twins": 60,
+  "rows": [
+    {
+      "round": 3,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.29999998211861,
+      "perTraversalMs": 0.16791666659216087
+    },
+    {
+      "round": 3,
+      "mode": "after",
+      "loops": 240,
+      "ms": 43.30000001192093,
+      "perTraversalMs": 0.18041666671633722
+    },
+    {
+      "round": 3,
+      "mode": "control",
+      "loops": 240,
+      "ms": 62.900000005960464,
+      "perTraversalMs": 0.2620833333581686
+    },
+    {
+      "round": 4,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.69999998807907,
+      "perTraversalMs": 0.16541666661699614
+    },
+    {
+      "round": 4,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.5,
+      "perTraversalMs": 0.16875
+    },
+    {
+      "round": 4,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.60000002384186,
+      "perTraversalMs": 0.16916666676600775
+    },
+    {
+      "round": 5,
+      "mode": "control",
+      "loops": 240,
+      "ms": 41.29999998211861,
+      "perTraversalMs": 0.17208333325882752
+    },
+    {
+      "round": 5,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 5,
+      "mode": "after",
+      "loops": 240,
+      "ms": 43.599999994039536,
+      "perTraversalMs": 0.1816666666418314
+    },
+    {
+      "round": 6,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.5,
+      "perTraversalMs": 0.16875
+    },
+    {
+      "round": 6,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.900000005960464,
+      "perTraversalMs": 0.16625000002483528
+    },
+    {
+      "round": 6,
+      "mode": "control",
+      "loops": 240,
+      "ms": 41.69999998807907,
+      "perTraversalMs": 0.17374999995032947
+    },
+    {
+      "round": 7,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.80000001192093,
+      "perTraversalMs": 0.16583333338300388
+    },
+    {
+      "round": 7,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.599999994039536,
+      "perTraversalMs": 0.1691666666418314
+    },
+    {
+      "round": 7,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 8,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.30000001192093,
+      "perTraversalMs": 0.1679166667163372
+    },
+    {
+      "round": 8,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.5,
+      "perTraversalMs": 0.16875
+    },
+    {
+      "round": 8,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.89999997615814,
+      "perTraversalMs": 0.16624999990065892
+    },
+    {
+      "round": 9,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.20000001788139,
+      "perTraversalMs": 0.1675000000745058
+    },
+    {
+      "round": 9,
+      "mode": "after",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 9,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.79999998211861,
+      "perTraversalMs": 0.1699999999254942
+    },
+    {
+      "round": 10,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.70000001788139,
+      "perTraversalMs": 0.16541666674117247
+    },
+    {
+      "round": 10,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.39999997615814,
+      "perTraversalMs": 0.16833333323399227
+    },
+    {
+      "round": 10,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 11,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 11,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.400000005960464,
+      "perTraversalMs": 0.1683333333581686
+    },
+    {
+      "round": 11,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.900000005960464,
+      "perTraversalMs": 0.16625000002483528
+    },
+    {
+      "round": 12,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.29999998211861,
+      "perTraversalMs": 0.16791666659216087
+    },
+    {
+      "round": 12,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.70000001788139,
+      "perTraversalMs": 0.16541666674117247
+    },
+    {
+      "round": 12,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.29999998211861,
+      "perTraversalMs": 0.16791666659216087
+    },
+    {
+      "round": 13,
+      "mode": "after",
+      "loops": 240,
+      "ms": 39.5,
+      "perTraversalMs": 0.16458333333333333
+    },
+    {
+      "round": 13,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.80000001192093,
+      "perTraversalMs": 0.17000000004967053
+    },
+    {
+      "round": 13,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.599999994039536,
+      "perTraversalMs": 0.1691666666418314
+    },
+    {
+      "round": 14,
+      "mode": "control",
+      "loops": 240,
+      "ms": 40.900000005960464,
+      "perTraversalMs": 0.17041666669150193
+    },
+    {
+      "round": 14,
+      "mode": "before",
+      "loops": 240,
+      "ms": 40.5,
+      "perTraversalMs": 0.16875
+    },
+    {
+      "round": 14,
+      "mode": "after",
+      "loops": 240,
+      "ms": 40.20000001788139,
+      "perTraversalMs": 0.1675000000745058
+    }
+  ],
+  "scope": "Published High world; uninstrumented actual scene.updateMatrixWorld path used by WebGLRenderer. Three warm rotating rounds, 12 measured rotating blocks of 240 traversals/mode. Batch-average CPU per traversal; not per-frame p95, rendering, GPU, pacing or heat.",
+  "errors": []
+}
