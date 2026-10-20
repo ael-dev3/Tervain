@@ -599,7 +599,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
-          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, species === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          const graftBase = species === 'oak' && !hero && lod === 0 && twigs.length ? wood : null;
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, species === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); if (wood !== graftBase) wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
           // 0.0.28: orchard cards beyond the audit reach are culled (no card moves).
           if (species === 'orchard' && wood && lod === 0) {
@@ -614,6 +615,11 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
             const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75, 0.9,
               lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(snapped); canopy = snapped;
+          }
+          // Preserve the existing leaf snap; only then seat roots orphaned by linking.
+          if (graftBase && wood) {
+            const seated = growTwigs(graftBase, twigs, true);
+            geometries.delete(wood); wood.dispose(); geometries.add(seated); wood = seated; graftBase.dispose();
           }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
