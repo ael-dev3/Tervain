@@ -53,7 +53,7 @@ export const FLOAT_LINE: Readonly<Record<PropSpec['kind'], number>> = { barrel: 
 const WATER_DRAG = 2.4;
 const GRAVITY = 17;
 export interface PhysicalActor { id: string; x: number; y: number; z: number; radius: number; height: number; active: boolean }
-interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean; radius: number; halfHeight: number }
+interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean; radius: number; halfHeight: number; lastSync: number }
 let initialization: Promise<void> | undefined;
 export function initializePhysics() { return initialization ??= RAPIER.init(); }
 const STEP = 1 / 60;
@@ -77,6 +77,7 @@ const shapeRadius = (shape: RAPIER.Shape): number => {
 
 /** Real rigid-body contacts; gameplay terrain/controller remains the authored source of standing heights. */
 export class RealmPhysics {
+  private actorSyncSerial = 0;
   readonly world = new RAPIER.World({ x: 0, y: -17, z: 0 });
   readonly props: Prop[] = [];
   private propHandles = new Set<number>();
@@ -235,16 +236,21 @@ export class RealmPhysics {
 
   /** Living people can deflect loose cargo without adding a second player-movement obstacle. */
   syncActors(people: readonly PhysicalActor[]) {
-    const retained = new Set<string>();
+    // Reuse per-actor presence marks instead of rebuilding a roster hash table every fixed step.
+    // Clear stale marks before the bounded counter can reuse an earlier value.
+    if (++this.actorSyncSerial === 0x3fffffff) {
+      this.actorSyncSerial = 1;
+      for (const actor of this.actors.values()) actor.lastSync = 0;
+    }
+    const serial = this.actorSyncSerial;
     for (const person of people) {
-      retained.add(person.id);
       let actor = this.actors.get(person.id);
       const target = { x: person.x, y: person.y + person.height / 2, z: person.z };
       const halfHeight = Math.max(0, person.height / 2 - person.radius);
       if (!actor) {
         const body = this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(target.x, target.y, target.z));
         const collider = this.world.createCollider(RAPIER.ColliderDesc.capsule(halfHeight, person.radius), body);
-        actor = { body, collider, from: { ...target }, target, active: person.active, radius: person.radius, halfHeight };
+        actor = { body, collider, from: { ...target }, target, active: person.active, radius: person.radius, halfHeight, lastSync: serial };
         this.actors.set(person.id, actor);
         this.projectileActorHandles.add(collider.handle);
         if (/^animal:\d+$/.test(person.id)) this.projectileAnimalHandles.add(collider.handle);
@@ -261,10 +267,10 @@ export class RealmPhysics {
       } else {
         actor.from = { ...previous };
       }
-      actor.target = target; actor.active = person.active;
+      actor.target = target; actor.active = person.active; actor.lastSync = serial;
       actor.body.setEnabled(person.active);
     }
-    for (const [id, actor] of this.actors) if (!retained.has(id)) { actor.active = false; actor.body.setEnabled(false); }
+    for (const actor of this.actors.values()) if (actor.lastSync !== serial) { actor.active = false; actor.body.setEnabled(false); }
     this.world.propagateModifiedBodyPositionsToColliders();
   }
 
