@@ -34,7 +34,7 @@ it('seats the displayed roots within the original cap without raising old seats 
   try {
     for (const pose of poses) {
       const plantingY = groundedTreeY(terrain, pose, footprint);
-      const base = { ...pose, sp: 'oak', v: 1, y: plantingY, radius: 1, tint: 1 } as FloraTree;
+      const base = { ...pose, sp: 'oak', v: 1, y: plantingY, radius: 1, tint: 1, collisionId: null, decorationRank: 0 } satisfies FloraTree;
       const before = { ...base }, after = { ...base }, unchanged = { ...base }, smallerModel = { ...base };
       seatTreeFlares([before], terrain, () => footprint, () => false);
       seatTreeFlares([after], terrain, () => footprint, () => false, () => rendered);
