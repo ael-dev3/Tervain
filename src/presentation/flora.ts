@@ -164,7 +164,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     meshy ? (tree) => footprintFor(tree).crownRadius * tree.s : undefined);
   // Seat each placed tree's whole lower flare on its slope (playtest 5: flares hovered up to 1.3 m over downhill ground).
   // Shrubs keep their planting seat (their low branches spread wide at flare height), and pines have no spreading flare.
-  seatTreeFlares(population, terrain, footprintFor, usesPine);
+  seatTreeFlares(population, terrain, footprintFor, usesPine, variantFor);
   // Navigation uses the wood actually drawn after seating (a generated oak's flare and roots differ from the footprint that keeps placement).
   registerFloraColliders(population, colliders, undefined, tree => usesPine(tree.sp) ? tree.radius
     : treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
