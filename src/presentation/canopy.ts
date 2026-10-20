@@ -688,6 +688,35 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
 }
 
 /**
+ * Far cards (0.0.36): a card whose nearest point lies beyond `reach` of the wood moves straight toward that wood by its
+ * overshoot, ending `inside` of the reach. A crown's outer shell sits a little past the boughs' reach at the largest tree
+ * scale (the audit's 1.5 m), and as one chained mass the shell is out of the clump snap's reach; per card the move is
+ * small, so the crown keeps its layout. No card is removed; every other attribute is kept.
+ */
+export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, inside = 0.97): { geometry: THREE.BufferGeometry; moved: number } {
+  const position = canopy.getAttribute('position');
+  if (!position || !canopy.index) return { geometry: canopy, moved: 0 };
+  const anchor = woodAnchor(wood), hit = new THREE.Vector3(), nearest = new THREE.Vector3(), from = new THREE.Vector3();
+  const out = new Float32Array(position.count * 3);
+  for (let v = 0; v < position.count; v++) { out[v * 3] = position.getX(v); out[v * 3 + 1] = position.getY(v); out[v * 3 + 2] = position.getZ(v); }
+  let moved = 0;
+  for (const part of components(canopy, () => {})) {
+    let distance = Infinity;
+    for (const sample of part.samples) { const d = anchor(sample, hit); if (d < distance) { distance = d; nearest.copy(hit); from.copy(sample); } }
+    if (!(distance > reach) || !Number.isFinite(distance)) continue;
+    const delta = nearest.sub(from).multiplyScalar((distance - reach * inside) / distance);
+    for (const v of part.vertices ?? []) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
+    moved++;
+  }
+  if (!moved) return { geometry: canopy, moved };
+  const geometry = canopy.clone();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData = { ...canopy.userData, seatedCards: moved };
+  return { geometry, moved };
+}
+
+/**
  * Wood triangles that stand clear of the canopy (A134): the giant oak's upper branch tips end in open, flat shards that
  * read black against the sky. Any wood triangle above the crown's lower third whose centroid is farther than `reach`
  * from every clump-covered point is dropped.

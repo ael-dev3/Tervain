@@ -14,7 +14,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -620,6 +620,12 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (graftBase && wood) {
             const seated = growTwigs(graftBase, twigs, true);
             geometries.delete(wood); wood.dispose(); geometries.add(seated); wood = seated; graftBase.dispose();
+          }
+          // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
+          // the final wood (twigs included). Hero oaks drop to no detached card at any scale; no card is removed.
+          if (species === 'oak' && wood) {
+            const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE)).geometry;
+            if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
           }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });

@@ -148,3 +148,14 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Result: grass pixels at 180 or more (blade edges over bright sky left out) 698 → 0 (low sun behind the camera, hour 17.5) and 3,003 → 0 (noon, toward the sun); grass mean −0.05% and −0.59%; frame mean −0.02% and −0.14%; no pixel brighter; draws and triangles unchanged. With the cap off the build matches live in every pixel. Details and the one-pixel dump: docs/engineering/a155-0035-grass-tip-cap.md.
 - 0.0.32's cap numbers leave every frozen frame pixel-identical to no cap: that cap never engaged, and its brighter readings were capture noise.
 - Budget gate against live 0.0.34 on the release head: in the release PR.
+
+## 0.0.35 low-sun meadow walk, cap off against on, 2026-10-20
+
+- Method: on live 0.0.35, a camera walked the low-sun meadow at walking pace (hour 17.5, sun behind, 8 s at 15 frames a second, 1470×956 at 2×, GPU). The world advanced by a fixed step, and every frame was drawn three times from one state: the grass tip cap off (0.0.34's output), on, and a near-zero cap that blackens only grass (the grass mask).
+- Over the 120 frames: grass pixels at 180 or more 8,408 → 0; flashes (a grass pixel at 180 or more that was under 140 the frame before) 7,928 → 0; grass mean 102.86 → 102.83; no pixel brighter. In full-resolution crops, flashes to 170 or more 18,393 → 849, while upward jumps of 40 or more levels (blades crossing pixels as the camera moves) stay the same, 5.73 million either way.
+- So the cap takes out the bright flashes; the general shimmer of thin blades in motion is untouched and needs its own fix.
+
+## 0.0.36: oak crowns hold to their wood, 2026-10-20
+
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m): hero oaks 443 → 0 detached clumps (5,211 → 0 cards); all oaks 509 → 0; whole world 648 → 139 (2,384 cards, firs, birches and palms). Details: docs/engineering/a156-0036-oak-shell-seating.md.
+- Budget gate against live on the release head: in the release PR.
