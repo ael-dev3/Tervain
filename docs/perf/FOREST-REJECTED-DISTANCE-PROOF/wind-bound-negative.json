@@ -1,0 +1,277 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "choices": [
+      {
+        "label": null,
+        "species": "pine",
+        "height": 55.333542944796754,
+        "scale": 2.1754319244995712
+      },
+      {
+        "label": null,
+        "species": "pine",
+        "height": 54.37626412643055,
+        "scale": 2.2160060537047683
+      },
+      {
+        "label": null,
+        "species": "fir",
+        "height": 52.40721417143941,
+        "scale": 2.1836339238099756
+      },
+      {
+        "label": null,
+        "species": "pine",
+        "height": 51.198072829824355,
+        "scale": 2.097485201060772
+      },
+      {
+        "label": "tree:wild:79:22",
+        "species": "oak",
+        "height": 26.939114790149834,
+        "scale": 1.4374499894864856
+      },
+      {
+        "label": "tree:wild:32:27",
+        "species": "oak",
+        "height": 26.467871532028965,
+        "scale": 1.4164879838377238
+      },
+      {
+        "label": "tree:wild:36:23",
+        "species": "oak",
+        "height": 24.875838239863516,
+        "scale": 1.381991013325751
+      },
+      {
+        "label": "tree:wild:68:13",
+        "species": "oak",
+        "height": 24.343198833087698,
+        "scale": 1.2466424136608838
+      }
+    ],
+    "wind": [
+      0.90598744347974,
+      0.4233045620555545,
+      0.16,
+      0.42
+    ],
+    "reducedMotion": false
+  },
+  "rows": [
+    {
+      "label": null,
+      "species": "pine",
+      "height": 55.333542944796754,
+      "scale": 2.1754319244995712,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 2968,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.3017746924654551,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 5058,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.3997116410051238,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": null,
+      "species": "pine",
+      "height": 54.37626412643055,
+      "scale": 2.2160060537047683,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 3119,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.23777432699637135,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 4968,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.35078313921751925,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": null,
+      "species": "fir",
+      "height": 52.40721417143941,
+      "scale": 2.1836339238099756,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 5505,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.09410725935732642,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 5255,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.19631516300539648,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": null,
+      "species": "pine",
+      "height": 51.198072829824355,
+      "scale": 2.097485201060772,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 2814,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.22393660903244242,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 4689,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.3378073316359714,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:79:22",
+      "species": "oak",
+      "height": 26.939114790149834,
+      "scale": 1.4374499894864856,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 3532,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.47670198447550655,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 24000,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.5671377380066724,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:32:27",
+      "species": "oak",
+      "height": 26.467871532028965,
+      "scale": 1.4164879838377238,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 3791,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.2332421676608838,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 24000,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.27905591913195044,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:36:23",
+      "species": "oak",
+      "height": 24.875838239863516,
+      "scale": 1.381991013325751,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 16153,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.14281066448271038,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 21544,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.163824186238435,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    },
+    {
+      "label": "tree:wild:68:13",
+      "species": "oak",
+      "height": 24.343198833087698,
+      "scale": 1.2466424136608838,
+      "rows": [
+        {
+          "part": "wood",
+          "vertices": 3640,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.3535214344673508,
+          "escapedSamples": 0,
+          "witness": null
+        },
+        {
+          "part": "leaf",
+          "vertices": 24000,
+          "maxBoxEscape": 0,
+          "maxSphereEscape": 0,
+          "maxDisplacement": 0.4311569738912457,
+          "escapedSamples": 0,
+          "witness": null
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Native High material vertex shaders, native source geometry and largest instance of eight tallest templates; 17 wind phases with unchanged native wind/gust uniforms, movers and shakes disabled. Float position readback compared to actual placement boxes/spheres. Not rendered forest/frame pacing proof."
+}

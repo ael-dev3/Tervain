@@ -1,0 +1,33 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/forestRejectedDistance.test.ts (3 tests | 1 failed) 1345ms
+   × does not evaluate horizon fades for trees rejected by both view and shadow bounds 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/forestRejectedDistance.test.ts > does not evaluate horizon fades for trees rejected by both view and shadow bounds
+AssertionError: expected 557 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 557
+
+ ❯ tests/presentation/forestRejectedDistance.test.ts:27:268
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  12:35:57
+   Duration  2.00s (tests 70%, transform 20%, import 9%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

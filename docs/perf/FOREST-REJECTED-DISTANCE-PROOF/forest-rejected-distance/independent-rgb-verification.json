@@ -1,0 +1,37 @@
+[
+  {
+    "pose": 0,
+    "exactRgb": true,
+    "rgbSha256": "b65f6dea7291b3a14218bf8cded9f2386d555c9b2826972439111b566dea2c86"
+  },
+  {
+    "pose": 1,
+    "exactRgb": true,
+    "rgbSha256": "a2907877a51fd25b4ac3d899c1e80bfc1fa9d63de39af94d7aff59bf064875d7"
+  },
+  {
+    "pose": 2,
+    "exactRgb": true,
+    "rgbSha256": "3b24a67a4bf20aa9954c485837c821176f99e8def7f835cde8494f9d20ea4fc0"
+  },
+  {
+    "pose": 3,
+    "exactRgb": true,
+    "rgbSha256": "02475a9bbfdf67ea2457913a71309d2aee85b0eb31f03659e7a96276040c59f6"
+  },
+  {
+    "pose": 4,
+    "exactRgb": true,
+    "rgbSha256": "cba16b9aa86a403c9f42ea081b3eb8e0311a80e2345af6ca37df2da05e10fc16"
+  },
+  {
+    "pose": 5,
+    "exactRgb": true,
+    "rgbSha256": "8c0e658651e0c18bb5dbb038611409214e89251407e45d6a0c4d5a18865003fa"
+  },
+  {
+    "pose": 6,
+    "exactRgb": true,
+    "rgbSha256": "e06be50ea9dd64979f7bdff8b4b91689a4dcb903fd213e503a98b96b40efe28f"
+  }
+]

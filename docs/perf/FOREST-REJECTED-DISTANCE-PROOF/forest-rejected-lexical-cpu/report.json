@@ -1,0 +1,257 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "af6db3757"
+    },
+    "trees": 451,
+    "batches": 20,
+    "quality": "high",
+    "treeDetailByDistance": false
+  },
+  "states": [
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 207
+        },
+        "control": {
+          "stats": {
+            "visible": 175,
+            "drawTris": 1959777,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 207
+        },
+        "control": {
+          "stats": {
+            "visible": 176,
+            "drawTris": 1979503,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 209
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2007604,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 208
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          },
+          "distanceEvaluations": 208
+        },
+        "control": {
+          "stats": {
+            "visible": 178,
+            "drawTris": 2017658,
+            "shadowTrees": 56,
+            "shadowTris": 196102
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          },
+          "distanceEvaluations": 134
+        },
+        "control": {
+          "stats": {
+            "visible": 134,
+            "drawTris": 1203509,
+            "shadowTrees": 2,
+            "shadowTris": 4440
+          }
+        }
+      }
+    },
+    {
+      "rows": {
+        "before": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          },
+          "distanceEvaluations": 451
+        },
+        "after": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          },
+          "distanceEvaluations": 234
+        },
+        "control": {
+          "stats": {
+            "visible": 214,
+            "drawTris": 2342137,
+            "shadowTrees": 60,
+            "shadowTris": 206014
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "before": {
+      "samples": 6000,
+      "meanMs": 0.0957166666785876,
+      "p95Ms": 0.20000001788139343
+    },
+    "after": {
+      "samples": 6000,
+      "meanMs": 0.08561666665474574,
+      "p95Ms": 0.19999998807907104
+    },
+    "control": {
+      "samples": 6000,
+      "meanMs": 0.0958500000089407,
+      "p95Ms": 0.20000001788139343
+    }
+  },
+  "images": [],
+  "errors": [],
+  "timingPath": {
+    "samples": 120,
+    "speedMetresPerSecond": 2.6,
+    "stepSeconds": 0.016666666666666666,
+    "yawStepRadians": 0.003,
+    "scope": "Precomputed walking/turning cameras; forest refresh only, fixed sun volume; excludes camera construction, other world updates and draw submission."
+  },
+  "pixelProofIncluded": false,
+  "sourceSha256": {
+    "before": "0b3c7cb49ecdcff543a0798eae3d6a36239f2e58b14611965cd8eee53329c3bd",
+    "after": "8837807e0215acec30bf28350c09b340b13dd24c589831d7a8972e78c078886e"
+  },
+  "scope": "Exact production refresh blocks with reconstructed lexical bindings on the same native High tree batches, including shadow-only casters. Separate observed work counts and unobserved warmed JS component timing, with baseline A/A control. Capture inclusion is recorded by pixelProofIncluded; CPU-only receipts contain no image proof. No hardware FPS, heat or full-frame timing claim.",
+  "pass": true
+}
