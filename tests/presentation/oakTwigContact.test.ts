@@ -28,6 +28,8 @@ it('reconnects oak twig roots orphaned by linking without moving leaves or chang
   const ids=['verdant-sentinel','tree-1505','oak-elder'], templates=await meshyTreeTemplates(ids),real=C.growTwigs;
   let enabled=false;
   const spy=vi.spyOn(C,'growTwigs').mockImplementation((wood,twigs,reconnect)=>real(wood,twigs,enabled&&reconnect));
+  // Far-card seating (heroOakSeatedCards.test.ts) measures against the final wood; hold it still so only the roots differ.
+  const seat=vi.spyOn(C,'seatFarCards').mockImplementation(canopy=>({geometry:canopy,moved:0}));
   const before=createMeshyForest(templates),after=createMeshyForest(templates);
   try {
     const originals=ids.map(id=>before.variant('oak',0,id));enabled=true;
@@ -46,5 +48,5 @@ it('reconnects oak twig roots orphaned by linking without moving leaves or chang
       expect(Math.max(...oldGaps)).toBeGreaterThan(.5);
       expect(newGaps.filter(x=>x>.12)).toHaveLength(0);
     }
-  } finally {before.dispose();after.dispose();spy.mockRestore();}
+  } finally {before.dispose();after.dispose();spy.mockRestore();seat.mockRestore();}
 },120000);
