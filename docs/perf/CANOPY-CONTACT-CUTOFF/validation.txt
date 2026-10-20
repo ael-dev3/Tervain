@@ -7,3 +7,5 @@ Native published repro: exit 0, complete true, no errors.
 Compiled native repro with baseline-report comparison: exit 0, complete true, no errors.
 Cross-build RGB pixel comparison: 0 different pixels, 0 different channels.
 Scope: software raster and diagnostic correctness; no hardware timing claim.
+Stock budget: actual exit 0; PASS 216318286; two same-revision live probes; four complete samples each; no init, no allowances.
+All 15 current-head CI build/test/software-WebGL jobs pass.

@@ -55,3 +55,11 @@ Compiled candidate 216318286 versus live b317734: all 60 retained geometry/LOD p
 ![Live contextual control](live/before.png)
 
 ![Compiled candidate, same camera](candidate/after.png)
+
+## Exact-head stock budget
+
+[Actual budget receipt](BUDGET.md): exit 0, head 216318286a644029ad0ba7fd6e410c8924995653, live revision b317734 for both live probes. Four completed frames per probe; maximum draws 285 → 285, triangles 3,048,306 → 3,048,306, console errors 0 → 0. No triangle allowances, gate edits, startup raster suppression or reduced samples. Candidate endpoint is anonymized in the transcript.
+
+Command: `node tools/play-gate.mjs --url CANDIDATE_BUILD_URL --budget-url https://ael-dev3.github.io/Tervain/ --head 216318286a644029ad0ba7fd6e410c8924995653` (REPRO_INIT_FILE unset).
+
+All 15 current-head build, test and software-WebGL CI jobs pass. The exact-head receipt supplies the play-gate status. Hardware frame timing remains outside this software proof.
