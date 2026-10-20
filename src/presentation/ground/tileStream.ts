@@ -231,6 +231,21 @@ export class TileLayer {
     return Math.hypot(dx, dy, dz);
   }
 
+  /** Let a secondary camera select resident tiles that the main camera hid, without changing streaming or counters. */
+  showForCapture(camera: THREE.Vector3): () => void {
+    const shown: THREE.Mesh[] = [];
+    if (this.enabled && this.group.visible) for (const t of this.tiles.values()) {
+      if (t.mesh.visible || t.count === 0) continue;
+      const d = this.distTo(t, camera), band = this.o.band;
+      if (band && (d > band.end || (d < band.start && this.farthest(t, camera) < band.start))) continue;
+      if (this.instanceCountAt(t, d) === 0) continue;
+      t.mesh.visible = true;
+      shown.push(t.mesh);
+    }
+    // onBeforeRender/onAfterRender own the per-camera counts; only visibility needs a capture-wide scope.
+    return () => { for (const mesh of shown) mesh.visible = false; };
+  }
+
   update(cam: THREE.Vector3, reserve?: { remaining: number; deadline?: number }) {
     if (this.disposed) return;
     const o = this.o;
