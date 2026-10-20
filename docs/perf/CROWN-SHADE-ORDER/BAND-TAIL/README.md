@@ -37,3 +37,7 @@ Current-head shade recheck: all 18 masks match retained geometry, 0/209,630 terr
 `play-gate: PASS 9cfcbd98e`
 
 See `budget-gate.log`. The scoped CPU values above are for the seven custom capture poses, not the stock follow-camera path or an upper bound for every frame. Triangle counts do not establish an overall Mac FPS/heat improvement.
+
+## Next tree lead: negative bounds-order check
+
+All 20 retained near-leaf templates were inspected through native `material.userData.tvFoliage`: crown centre/radii match bounds of current retained geometry, maximum local-coordinate difference 0.0. A preliminary selector that collected no rows was discarded. The final probe requires complete template coverage. No shader, geometry or camera change is proposed from this result; static detached clumps remain open. `crown-profile-probe.mjs` reproduces this read-only check with `--no-images true`, alongside the field assertions.
