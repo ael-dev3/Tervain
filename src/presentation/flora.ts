@@ -640,7 +640,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           for (let i = 0; i < counts[l]!; i++) bound.union(b.placements[packed[i]!]!.bounds);
           copyLeafBatchBounds(b.leafDrawBounds[l]!, bound, b.leafShrink);
         }
-        for (const mesh of [m.wood, m.leaf]) {
+        for (const part of colourParts) {
+          const mesh = m[part];
           if (!mesh) continue;
           mesh.count = counts[l]!;
           const packed = packedTrees.get(mesh);
@@ -651,14 +652,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
           }
         }
         // A growing prefix may expose a tail changed while it was not drawn/uploaded.
-        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) {
+        for (const part of colourParts) {
+          const visibility = b.visibility[l]![part];
           if (visibility && (coverageChanged.has(visibility.coverage) || counts[l]! > previousCount)) {
             uploadPrefix(visibility.coverage, counts[l]!);
           }
         }
         drawTris += v.lods[l]!.tris * counts[l]!;
         // Empty meshes leave the render lists entirely (no per-frame draw setup for an LOD nobody sees).
-        for (const mesh of [m.wood, m.leaf]) if (mesh) mesh.visible = counts[l]! > 0;
+        for (const part of colourParts) if (m[part]) m[part]!.visible = counts[l]! > 0;
         if (m.leafDepth) { m.leafDepth.count = counts[l]!; m.leafDepth.visible = counts[l]! > 0; }
         const c = b.casters[l];
         if (c) {

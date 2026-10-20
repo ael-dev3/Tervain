@@ -504,7 +504,16 @@ describe('the forest with wind, shadow-only casters and strikes', () => {
     shadowCamera.position.set(tree.x, tree.y + 150, tree.z); shadowCamera.lookAt(tree.x, tree.y, tree.z); shadowCamera.updateMatrixWorld();
     const shadow = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
     const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0, 1, 0), shadowFrustum: shadow, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
-    forest.update(0.1, frame);
+    // A moving-camera refresh must not allocate temporary mesh/coverage pair lists.
+    let renderPairs = 0;
+    const iterator = Array.prototype[Symbol.iterator];
+    Array.prototype[Symbol.iterator] = function<T>(this: T[]) {
+      const pair = this as ({ isInstancedMesh?: boolean; coverage?: { isInstancedBufferAttribute?: boolean } } | null)[];
+      if (pair.length === 2 && pair.some(Boolean) && pair.every(member => member === null || member?.isInstancedMesh || member?.coverage?.isInstancedBufferAttribute)) renderPairs++;
+      return iterator.call(this) as ArrayIterator<T>;
+    };
+    try { forest.update(0.1, frame); } finally { Array.prototype[Symbol.iterator] = iterator; }
+    expect(renderPairs).toBe(0);
     const assertCaptureBounds = () => {
       const corner = new THREE.Vector3(), instance = new THREE.Matrix4();
       for (const mesh of colour.filter(m => m.geometry.hasAttribute('aDistanceCoverage') && m.count > 0)) {
