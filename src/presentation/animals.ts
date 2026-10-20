@@ -553,6 +553,9 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
     animal.root.quaternion.slerp(animal.turn, 1 - Math.exp(-dt * 9));
     point.y = groundOf(point.x, point.z) - animal.bounds.min.y;
     animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
+    // Without retained sole vertices the height cannot change below; keep the
+    // current skin palette and skip only the redundant second hierarchy walk.
+    if (!animal.paws.length) return;
     let correction = -Infinity;
     for (const paw of animal.paws) for (const index of paw.vertices) {
       paw.mesh.getVertexPosition(index, vertex).applyMatrix4(paw.mesh.matrixWorld);
