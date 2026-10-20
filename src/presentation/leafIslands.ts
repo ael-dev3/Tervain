@@ -78,10 +78,16 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
     if (d === Infinity) return false;
     return d <= reach || part.samples.some(q => anchor(q, hit, reach) <= reach);
   };
+  const nearestFrom = new THREE.Vector3(), nearestTo = new THREE.Vector3();
   const nearest = (part: (typeof list)[number]) => {
-    let d = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
-    for (const q of [part.box.getCenter(new THREE.Vector3()), ...part.samples]) { const e = anchor(q, hit, d); if (e < d) { d = e; from.copy(q); to.copy(hit); } }
-    return { d, from, to };
+    let d = Infinity;
+    // Preserve the centre-first search and tie ordering without allocating an array and three vectors per part.
+    for (let n = -1; n < part.samples.length; n++) {
+      const q = n < 0 ? part.box.getCenter(centre) : part.samples[n]!;
+      const e = anchor(q, hit, d);
+      if (e < d) { d = e; nearestFrom.copy(q); nearestTo.copy(hit); }
+    }
+    return d;
   };
   // Parts in a grid by their boxes grown by half the gap: parts within `gap` share a cell.
   const sizes = list.map(part => Math.max(part.box.max.x - part.box.min.x, part.box.max.y - part.box.min.y, part.box.max.z - part.box.min.z)).sort((x, y) => x - y);
@@ -99,9 +105,12 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const gap2 = gap * gap;
   const visited = new Uint32Array(list.length);
   let visitId = 0;
+  // The breadth-first caller consumes this list before asking for the next part's neighbours.
+  const found: number[] = [];
   const neighbours = (i: number) => {
     if (++visitId === 0x100000000) { visited.fill(0); visitId = 1; }
-    const found: number[] = [], o = i * 6;
+    found.length = 0;
+    const o = i * 6;
     const x0 = flat[o]!, y0 = flat[o + 1]!, z0 = flat[o + 2]!, x1 = flat[o + 3]!, y1 = flat[o + 4]!, z1 = flat[o + 5]!;
     for (const k of cellsOf[i]!) for (const j of grid.get(k)!) {
       // A pair can share several cells; retain only its first visit and original ordering.
@@ -128,8 +137,12 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   const islands = chunks.filter(chunk => !chunk.sort((x, y) => axis[x]! - axis[y]!).some(i => touches(list[i]!)));
   const droppedTriangles = new Set<number>(), shifts = new Map<number, { shift: THREE.Vector3; chunk: number[] }>();
   for (const members of islands) {
-    let near = { d: Infinity, from: new THREE.Vector3(), to: new THREE.Vector3() };
-    for (const i of members) { const n = nearest(list[i]!); if (n.d < near.d) near = n; }
+    const near = { d: Infinity, from: new THREE.Vector3(), to: new THREE.Vector3() };
+    for (const i of members) {
+      const d = nearest(list[i]!);
+      // A later part reuses the search scratch; retain this island's winning contact in its own vectors.
+      if (d < near.d) { near.d = d; near.from.copy(nearestFrom); near.to.copy(nearestTo); }
+    }
     if (near.d <= reach) continue;
     result.islands++;
     if (!Number.isFinite(near.d) || near.d > drop) {

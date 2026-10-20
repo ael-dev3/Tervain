@@ -159,3 +159,9 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m): hero oaks 443 → 0 detached clumps (5,211 → 0 cards); all oaks 509 → 0; whole world 648 → 139 (2,384 cards, firs, birches and palms). Details: docs/engineering/a156-0036-oak-shell-seating.md.
 - Budget gate against live on the release head: in the release PR.
+
+## 0.0.37: birch, fir and palm foliage holds to its wood, 2026-10-20
+
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m): 139 → 0 detached clumps (2,384 → 0 cards); the canopy gate passes with no baseline. Birch seats like the oaks; firs gain a leader, and firs and palms gain twigs out to their far sheets and fronds. Details: docs/engineering/a157-0037-sheet-crowns.md.
+- Triangles, near crowns only: +222 per fir, +6 to +168 per palm; no added draw.
+- Budget gate against live on the release head: in the release PR.
