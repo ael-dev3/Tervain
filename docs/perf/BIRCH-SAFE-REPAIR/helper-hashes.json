@@ -1,0 +1,10 @@
+{
+  "baseline": "b317734",
+  "helpersMatchBaseline": true,
+  "sha256": {
+    "src/presentation/canopy.ts": "6991746a5e679f617fbaa4dded3b963107dd5e69588c3c2890c65a9cd5cbb57f",
+    "src/diagnostics/canopyConnectivity.ts": "024b4bbddabd9068ebb44bb2a70db65a3ee74e00a7d8f7048a3eb4e52cbc0ead",
+    "src/diagnostics/canopyAudit.ts": "51d5fd75fc9c23c3a1f6eb8b2fe5ee4b3da7fd59227b1134e625d8a69f5580ee",
+    "src/presentation/floraPopulation.ts": "74ef10328f4a34ac8092fa9d177442a17c6ba9144a7077770f4c728a8d9c80f3"
+  }
+}

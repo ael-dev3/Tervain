@@ -1,0 +1,530 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "lod": 0,
+      "maxScale": 1.0636663067877292,
+      "localReach": 1.4102167102857643,
+      "moved": 0,
+      "removed": 0,
+      "modes": {
+        "native": {
+          "lo": [
+            -7.03022575378418,
+            4.586678504943848,
+            -5.568946838378906
+          ],
+          "hi": [
+            6.823962688446045,
+            16.39605712890625,
+            5.678987503051758
+          ],
+          "size": [
+            13.854188442230225,
+            11.809378623962402,
+            11.247934341430664
+          ],
+          "triangles": 11138,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 5569,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 76,
+            "detachedClumps": 11,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -7.03022575378418,
+            4.586678504943848,
+            -5.568946838378906
+          ],
+          "hi": [
+            6.823962688446045,
+            16.39605712890625,
+            5.678987503051758
+          ],
+          "size": [
+            13.854188442230225,
+            11.809378623962402,
+            11.247934341430664
+          ],
+          "triangles": 11138,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 5569,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 76,
+            "detachedClumps": 11,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -7.03022575378418,
+            4.586678504943848,
+            -5.568946838378906
+          ],
+          "hi": [
+            6.823962688446045,
+            16.39605712890625,
+            5.678987503051758
+          ],
+          "size": [
+            13.854188442230225,
+            11.809378623962402,
+            11.247934341430664
+          ],
+          "triangles": 11138,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 5569,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 76,
+            "detachedClumps": 11,
+            "treesWithDetached": 1
+          }
+        }
+      }
+    },
+    {
+      "lod": 1,
+      "maxScale": 1.0636663067877292,
+      "localReach": 1.4102167102857643,
+      "moved": 0,
+      "removed": 403,
+      "modes": {
+        "native": {
+          "lo": [
+            -5.133535861968994,
+            4.050025463104248,
+            -4.626202583312988
+          ],
+          "hi": [
+            5.186343669891357,
+            15.547258377075195,
+            5.533242702484131
+          ],
+          "size": [
+            10.319879531860352,
+            11.497232913970947,
+            10.15944528579712
+          ],
+          "triangles": 4348,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 2174,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 403,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -5.133535861968994,
+            4.050025463104248,
+            -4.626202583312988
+          ],
+          "hi": [
+            5.186343669891357,
+            15.547258377075195,
+            5.533242702484131
+          ],
+          "size": [
+            10.319879531860352,
+            11.497232913970947,
+            10.15944528579712
+          ],
+          "triangles": 4348,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 2174,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 403,
+            "detachedClumps": 1,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -5.117332935333252,
+            4.050025463104248,
+            -4.399014472961426
+          ],
+          "hi": [
+            5.186343669891357,
+            15.461901664733887,
+            5.533242702484131
+          ],
+          "size": [
+            10.30367660522461,
+            11.411876201629639,
+            9.932257175445557
+          ],
+          "triangles": 3542,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 1771,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "treesWithDetached": 0
+          }
+        }
+      }
+    },
+    {
+      "lod": 2,
+      "maxScale": 1.0636663067877292,
+      "localReach": 1.4102167102857643,
+      "moved": 0,
+      "removed": 2,
+      "modes": {
+        "native": {
+          "lo": [
+            -6.411332607269287,
+            2.9145429134368896,
+            -5.158291816711426
+          ],
+          "hi": [
+            6.363254547119141,
+            16,
+            5.141517639160156
+          ],
+          "size": [
+            12.774587154388428,
+            13.08545708656311,
+            10.299809455871582
+          ],
+          "triangles": 1442,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 399,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 2,
+            "detachedClumps": 2,
+            "treesWithDetached": 1
+          }
+        },
+        "seat": {
+          "lo": [
+            -6.411332607269287,
+            2.9145429134368896,
+            -5.158291816711426
+          ],
+          "hi": [
+            6.363254547119141,
+            16,
+            5.141517639160156
+          ],
+          "size": [
+            12.774587154388428,
+            13.08545708656311,
+            10.299809455871582
+          ],
+          "triangles": 1442,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 399,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 2,
+            "detachedClumps": 2,
+            "treesWithDetached": 1
+          }
+        },
+        "cull": {
+          "lo": [
+            -6.411332607269287,
+            2.9145429134368896,
+            -5.158291816711426
+          ],
+          "hi": [
+            6.363254547119141,
+            16,
+            5.141517639160156
+          ],
+          "size": [
+            12.774587154388428,
+            13.08545708656311,
+            10.299809455871582
+          ],
+          "triangles": 1429,
+          "summary": {
+            "trees": 1,
+            "missingWood": 0,
+            "leafless": 0,
+            "components": 397,
+            "chunks": 1,
+            "candidates": 0,
+            "woodReach": 1.5,
+            "detachedCards": 0,
+            "detachedClumps": 0,
+            "treesWithDetached": 0
+          }
+        }
+      }
+    }
+  ],
+  "samples": 4,
+  "images": [
+    {
+      "pose": {
+        "from": [
+          85,
+          5,
+          -24
+        ],
+        "to": [
+          72,
+          12,
+          -39
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 196,
+          "triangles": 4168410
+        },
+        "seat": {
+          "draws": 196,
+          "triangles": 4168410
+        },
+        "cull": {
+          "draws": 196,
+          "triangles": 4168410
+        },
+        "restored": {
+          "draws": 196,
+          "triangles": 4168410
+        }
+      },
+      "changedChannels": {
+        "seat": 0,
+        "cull": 0,
+        "restored": 0
+      },
+      "hashes": {
+        "native": "10fa8037daa185c9c86d7e343cb1383dccbbc7a453866749b53f9cc65a280e97",
+        "seat": "10fa8037daa185c9c86d7e343cb1383dccbbc7a453866749b53f9cc65a280e97",
+        "cull": "10fa8037daa185c9c86d7e343cb1383dccbbc7a453866749b53f9cc65a280e97",
+        "restored": "10fa8037daa185c9c86d7e343cb1383dccbbc7a453866749b53f9cc65a280e97"
+      },
+      "nonblank": true
+    },
+    {
+      "pose": {
+        "from": [
+          82,
+          8,
+          -28
+        ],
+        "to": [
+          76.4,
+          9.42,
+          -33.56
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 201,
+          "triangles": 4502744
+        },
+        "seat": {
+          "draws": 201,
+          "triangles": 4502744
+        },
+        "cull": {
+          "draws": 201,
+          "triangles": 4502744
+        },
+        "restored": {
+          "draws": 201,
+          "triangles": 4502744
+        }
+      },
+      "changedChannels": {
+        "seat": 0,
+        "cull": 0,
+        "restored": 0
+      },
+      "hashes": {
+        "native": "d7792d107f3771a0496651c7aa973c1d61d26a70e32fd98e5b9e4d0e93ae51ca",
+        "seat": "d7792d107f3771a0496651c7aa973c1d61d26a70e32fd98e5b9e4d0e93ae51ca",
+        "cull": "d7792d107f3771a0496651c7aa973c1d61d26a70e32fd98e5b9e4d0e93ae51ca",
+        "restored": "d7792d107f3771a0496651c7aa973c1d61d26a70e32fd98e5b9e4d0e93ae51ca"
+      },
+      "nonblank": true
+    },
+    {
+      "pose": {
+        "from": [
+          101.4976,
+          5,
+          -6.173299999999998
+        ],
+        "to": [
+          70.8976,
+          12,
+          -39.0233
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 243,
+          "triangles": 4738240
+        },
+        "seat": {
+          "draws": 243,
+          "triangles": 4738240
+        },
+        "cull": {
+          "draws": 243,
+          "triangles": 4738240
+        },
+        "restored": {
+          "draws": 243,
+          "triangles": 4738240
+        }
+      },
+      "changedChannels": {
+        "seat": 0,
+        "cull": 0,
+        "restored": 0
+      },
+      "hashes": {
+        "native": "879af9d198d8a7411b3e2f0f4a0665ec1b9f0037c0ad7605cabbc15595404f9b",
+        "seat": "879af9d198d8a7411b3e2f0f4a0665ec1b9f0037c0ad7605cabbc15595404f9b",
+        "cull": "879af9d198d8a7411b3e2f0f4a0665ec1b9f0037c0ad7605cabbc15595404f9b",
+        "restored": "879af9d198d8a7411b3e2f0f4a0665ec1b9f0037c0ad7605cabbc15595404f9b"
+      },
+      "nonblank": true
+    },
+    {
+      "pose": {
+        "from": [
+          118.4976,
+          5,
+          12.076700000000002
+        ],
+        "to": [
+          70.8976,
+          12,
+          -39.0233
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 280,
+          "triangles": 5750902
+        },
+        "seat": {
+          "draws": 280,
+          "triangles": 5750902
+        },
+        "cull": {
+          "draws": 280,
+          "triangles": 5750902
+        },
+        "restored": {
+          "draws": 280,
+          "triangles": 5750902
+        }
+      },
+      "changedChannels": {
+        "seat": 0,
+        "cull": 0,
+        "restored": 0
+      },
+      "hashes": {
+        "native": "0ced1232feeb8d9baef87dfc330cfd13c924b13d218f82aa1314b6bb79590515",
+        "seat": "0ced1232feeb8d9baef87dfc330cfd13c924b13d218f82aa1314b6bb79590515",
+        "cull": "0ced1232feeb8d9baef87dfc330cfd13c924b13d218f82aa1314b6bb79590515",
+        "restored": "0ced1232feeb8d9baef87dfc330cfd13c924b13d218f82aa1314b6bb79590515"
+      },
+      "nonblank": true
+    },
+    {
+      "pose": {
+        "from": [
+          152.4976,
+          5,
+          48.576699999999995
+        ],
+        "to": [
+          70.8976,
+          12,
+          -39.0233
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 373,
+          "triangles": 7581717
+        },
+        "seat": {
+          "draws": 373,
+          "triangles": 7581717
+        },
+        "cull": {
+          "draws": 373,
+          "triangles": 7581717
+        },
+        "restored": {
+          "draws": 373,
+          "triangles": 7581717
+        }
+      },
+      "changedChannels": {
+        "seat": 0,
+        "cull": 0,
+        "restored": 0
+      },
+      "hashes": {
+        "native": "e6b9ffe356f760f6df37451974a579383dd5163f829290505d8ea8ab4c422068",
+        "seat": "e6b9ffe356f760f6df37451974a579383dd5163f829290505d8ea8ab4c422068",
+        "cull": "e6b9ffe356f760f6df37451974a579383dd5163f829290505d8ea8ab4c422068",
+        "restored": "e6b9ffe356f760f6df37451974a579383dd5163f829290505d8ea8ab4c422068"
+      },
+      "nonblank": true
+    }
+  ],
+  "scope": "Read-only distant-only colour-LOD trials on the published High forest. Near retained geometry is unchanged, old shadow casters remain, native shadow map warmed once per pose then frozen; actual High/MSAA4 post renders at 640x360, time/wind frozen. No production repair, hardware performance result, regression test or budget PASS is claimed.",
+  "complete": true
+}

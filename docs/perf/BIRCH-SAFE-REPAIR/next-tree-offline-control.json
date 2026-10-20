@@ -1,0 +1,72 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "label": "tree:wild:58:16",
+  "scale": 1.0850455875083804,
+  "rows": {
+    "native": {
+      "size": [
+        11.61399507522583,
+        10.717565059661865,
+        10.827812671661377
+      ],
+      "triangles": 12000,
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 6000,
+        "chunks": 1,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 55,
+        "detachedClumps": 7,
+        "treesWithDetached": 1
+      }
+    },
+    "seat": {
+      "size": [
+        11.61399507522583,
+        10.717565059661865,
+        10.827812671661377
+      ],
+      "triangles": 12000,
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 6000,
+        "chunks": 1,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 42,
+        "detachedClumps": 2,
+        "treesWithDetached": 1
+      }
+    },
+    "cull": {
+      "size": [
+        11.61399507522583,
+        10.717565059661865,
+        10.827812671661377
+      ],
+      "triangles": 11890,
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 5945,
+        "chunks": 1,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 0,
+        "detachedClumps": 0,
+        "treesWithDetached": 0
+      }
+    }
+  },
+  "sourceUnchanged": true,
+  "scope": "Offline near-geometry control on exact exported native position/index buffers, using the selected tree scale. This is not the distant-only candidate and not rendered or a proposed near repair."
+}
