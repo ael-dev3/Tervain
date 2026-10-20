@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "eba5bae11"
+    },
+    "printed": "v0.0.33 · eba5bae11 · pre-alpha",
+    "samples": 4,
+    "rasterSuppressed": false
+  },
+  "rows": [
+    {
+      "pose": [
+        -210,
+        0,
+        0.8,
+        -0.09966865249116204
+      ],
+      "time": 0,
+      "pairLists": 0,
+      "cost": {
+        "draws": 456,
+        "triangles": 6242951,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "08185a25ecc9c0e9ba602fd47c6a7c05f55f875bc06e75cb5d58b7ef31509502"
+    },
+    {
+      "pose": [
+        -209.96891456939434,
+        0.0301906240717105,
+        0.803,
+        -0.09966865249116204
+      ],
+      "time": 1.3,
+      "pairLists": 0,
+      "cost": {
+        "draws": 417,
+        "triangles": 6142168,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "7651f0925ceb3a0b2a68c7fe7018a35b4b6325b162ca5aef8a34d3f52fad3a8d"
+    },
+    {
+      "pose": [
+        -209.93782913878871,
+        0.060381248143421,
+        0.806,
+        -0.09966865249116204
+      ],
+      "time": 2.6,
+      "pairLists": 0,
+      "cost": {
+        "draws": 418,
+        "triangles": 6186277,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "730ef487d98f3147999c63bfd40d5c2174874b60b0c25694983dc4ecc3dd4d47"
+    },
+    {
+      "pose": [
+        -209.90674370818306,
+        0.09057187221513151,
+        0.809,
+        -0.09966865249116204
+      ],
+      "time": 3.9000000000000004,
+      "pairLists": 0,
+      "cost": {
+        "draws": 419,
+        "triangles": 6201033,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "b42d0e1ce97eb29f15d225b96699d31e4abc473d2dc6517d2ebfe863dadfbf1e"
+    },
+    {
+      "pose": [
+        -209.87565827757743,
+        0.120762496286842,
+        0.812,
+        -0.09966865249116204
+      ],
+      "time": 5.2,
+      "pairLists": 0,
+      "cost": {
+        "draws": 418,
+        "triangles": 6200649,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "fa3054ab1143494e86a2f36e04a2d40100cc0968a3e4cce7baf21afcc2949d39"
+    },
+    {
+      "pose": [
+        -210,
+        0,
+        3,
+        0
+      ],
+      "time": 6.5,
+      "pairLists": 0,
+      "cost": {
+        "draws": 230,
+        "triangles": 3692559,
+        "textures": 274
+      },
+      "repeatRgbExact": true,
+      "rgbSha256": "4eed55b7aa66e0f340d2550b52256d877e165ec7ad0f5fe8bb0e5ba0fd69187d"
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "scope": "Native High post/MSAA4, frozen simulation/time, six forest camera poses; pair-list iterations observed only during each World.update, not a total heap-allocation profile. No render or bounds overrides."
+}

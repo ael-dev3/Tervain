@@ -1,0 +1,35 @@
+{
+  "pass": true,
+  "rows": [
+    {
+      "pose": 0,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    },
+    {
+      "pose": 1,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    },
+    {
+      "pose": 2,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    },
+    {
+      "pose": 3,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    },
+    {
+      "pose": 4,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    },
+    {
+      "pose": 5,
+      "rgbBytes": 691200,
+      "changedChannels": 0
+    }
+  ]
+}

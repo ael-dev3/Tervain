@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "poses": 6,
+  "rgbExactAll": true,
+  "costEqualAll": true,
+  "beforePairs": [
+    180,
+    180,
+    180,
+    180,
+    180,
+    180
+  ],
+  "afterPairs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

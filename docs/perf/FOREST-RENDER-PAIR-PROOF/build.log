@@ -1,0 +1,54 @@
+
+> tervain@0.0.33 build
+> tsc --noEmit && vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 672 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/version.json                                                    0.04 kB │ gzip:     0.05 kB
+dist/index.html                                                      1.12 kB │ gzip:     0.61 kB
+dist/gothic3/index.html                                              1.15 kB │ gzip:     0.63 kB
+dist/gothic3-local/index.html                                        2.79 kB │ gzip:     1.36 kB
+dist/assets/terrainTextureWorker-D1dbXuII.js                         9.89 kB
+dist/assets/sheetWorker-C6E0C0Re.js                                 28.02 kB
+dist/assets/gothic3Local-CjSrmsMl.css                                2.20 kB │ gzip:     1.01 kB
+dist/assets/gothic3-oEHuT4vL.css                                     8.21 kB │ gzip:     2.70 kB
+dist/assets/tervain-CFUVQKsU.css                                    49.40 kB │ gzip:    12.18 kB
+dist/assets/canopyAudit-Cku-nbAj.js                                  4.97 kB │ gzip:     2.17 kB
+dist/assets/placementAudit-Di3-ffV4.js                               8.32 kB │ gzip:     3.40 kB
+dist/assets/browser-navigation-area-source-runtime-71iKsKjf.js       9.53 kB │ gzip:     3.20 kB
+dist/assets/browser-npc-navigation-owner-DsOZLbQ4.js                12.17 kB │ gzip:     4.38 kB
+dist/assets/preload-helper-B93sBQrk.js                              50.21 kB │ gzip:    14.88 kB
+dist/assets/runtime-rules-CX8U_MsO.js                               51.13 kB │ gzip:    12.21 kB
+dist/assets/gothic3Local-tM2zo5Uw.js                                71.54 kB │ gzip:    26.06 kB
+dist/assets/browser-npc-entity-DF7gdWgu.js                          81.62 kB │ gzip:    22.46 kB
+dist/assets/native-entity-heap-DhSDg-Ei.js                         331.14 kB │ gzip:    78.44 kB
+dist/assets/three.module-BPv0JJVX.js                               738.46 kB │ gzip:   187.63 kB
+dist/assets/gothic3-CcMJ_kyT.js                                  1,184.77 kB │ gzip:   269.75 kB
+dist/assets/tervain-Dhx9V1VB.js                                  1,736.64 kB │ gzip:   631.67 kB
+dist/assets/world-C6YzBfS_.js                                    4,540.19 kB │ gzip: 1,747.08 kB
+dist/assets/browser-npc-entity-services-BvAp2u72.js             34,013.54 kB │ gzip: 4,123.43 kB
+
+✓ built in 5.34s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 1200 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 4.5s of this 5.3s build (84%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin vite:prepare-out-dir renderStart (73%, 3.9s, 1 call)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+3 callbacks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - plugin vite:asset load (83 calls)
+  - plugin vite:build-html transform (3 calls)
+  - plugin vite:worker-import-meta-url transform (2 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
