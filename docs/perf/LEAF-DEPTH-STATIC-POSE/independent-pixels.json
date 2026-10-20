@@ -1,0 +1,122 @@
+[
+  {
+    "file": "fence-before-0.png",
+    "rgbSha256": "5529f3aab841494358ffec75842635f7b50a0563a263532acaef0727d58e5530",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-before-1.png",
+    "rgbSha256": "5529f3aab841494358ffec75842635f7b50a0563a263532acaef0727d58e5530",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-after-0.png",
+    "rgbSha256": "5529f3aab841494358ffec75842635f7b50a0563a263532acaef0727d58e5530",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-after-1.png",
+    "rgbSha256": "5529f3aab841494358ffec75842635f7b50a0563a263532acaef0727d58e5530",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-before-0.png",
+    "rgbSha256": "b50d7cfe9881ae4d4af9e59e6122a4b03430ffdab350842d8468680c825e4ea8",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-before-1.png",
+    "rgbSha256": "b50d7cfe9881ae4d4af9e59e6122a4b03430ffdab350842d8468680c825e4ea8",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-after-0.png",
+    "rgbSha256": "b50d7cfe9881ae4d4af9e59e6122a4b03430ffdab350842d8468680c825e4ea8",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-after-1.png",
+    "rgbSha256": "b50d7cfe9881ae4d4af9e59e6122a4b03430ffdab350842d8468680c825e4ea8",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-before-0.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-before-1.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-after-0.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-after-1.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-before-0.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-before-1.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-after-0.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-after-1.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-before-0.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-before-1.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-after-0.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-after-1.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "forest-before-0.png",
+    "rgbSha256": "4b1a272fa94f64e8e697e1d21a70cfb9f5289074b9d262ef70d9115835145ff6",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "forest-before-1.png",
+    "rgbSha256": "4b1a272fa94f64e8e697e1d21a70cfb9f5289074b9d262ef70d9115835145ff6",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "forest-after-0.png",
+    "rgbSha256": "4b1a272fa94f64e8e697e1d21a70cfb9f5289074b9d262ef70d9115835145ff6",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "forest-after-1.png",
+    "rgbSha256": "4b1a272fa94f64e8e697e1d21a70cfb9f5289074b9d262ef70d9115835145ff6",
+    "changedRgbPixels": 0
+  }
+]
