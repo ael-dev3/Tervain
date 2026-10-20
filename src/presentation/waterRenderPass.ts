@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { detachWaterOptics } from './waterOptics';
+import { ReflectionBounds } from './reflectionBounds';
 
 export interface WaterRenderInputs {
   meshes: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>[];
@@ -76,8 +77,7 @@ export class WaterRenderPass {
   private detail: THREE.Mesh[] = [];
   private detailAge = Infinity;
   private detailScene: THREE.Scene | null = null;
-  private detailSphere = new THREE.Sphere();
-  private detailBox = new THREE.Box3();
+  private readonly detailBounds = new ReflectionBounds();
   private mirroredEye = new THREE.Vector3();
 
   constructor() {
@@ -174,12 +174,12 @@ export class WaterRenderPass {
       if (!mesh.visible || !mesh.parent) continue;
       const geometry = mesh.geometry;
       if (!geometry.boundingSphere) geometry.computeBoundingSphere();
-      const sphere = this.detailSphere.copy(geometry.boundingSphere!).applyMatrix4(mesh.matrixWorld);
+      const sphere = this.detailBounds.sphere(geometry.boundingSphere!, mesh.matrixWorld);
       const distance = sphere.center.distanceTo(this.mirroredEye) - sphere.radius;
       let hide = distance > 0 && sphere.radius / distance * pixelsPerRadian < REFLECTION_DETAIL_PX;
       if (!hide && sphere.center.y - sphere.radius < plane) {
         if (!geometry.boundingBox) geometry.computeBoundingBox();
-        hide = this.detailBox.copy(geometry.boundingBox!).applyMatrix4(mesh.matrixWorld).max.y < plane - 0.01;
+        hide = this.detailBounds.box(geometry.boundingBox!, mesh.matrixWorld).max.y < plane - 0.01;
       }
       if (hide) { mesh.visible = false; hidden.push(mesh); }
     }

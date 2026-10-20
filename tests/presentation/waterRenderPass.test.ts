@@ -634,3 +634,21 @@ it('does not allocate input snapshot arrays while moving across visible water', 
   for(let i=0;i<60;i++){f.camera.position.x+=.01;f.render();}
   expect(maps.reduce((n,spy)=>n+spy.mock.calls.length,0)).toBe(0);
 });
+
+it('does not retransform unchanged reflection detail bounds on camera-only movement', () => {
+  const f = setup(), geometry = new THREE.BoxGeometry(1, 1, 1), mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+  geometry.computeBoundingSphere(); geometry.computeBoundingBox(); mesh.position.set(0, -2, 0); mesh.updateMatrixWorld(true); f.scene.add(mesh);
+  const detail = f.pass as unknown as { detail: THREE.Mesh[]; reflector: { getWorldPosition(v: THREE.Vector3): THREE.Vector3 } | null; currentCameraPosition: THREE.Vector3; hideTinyDetail(camera: THREE.Camera, size: number): THREE.Object3D[] };
+  detail.detail = [mesh]; detail.reflector = { getWorldPosition: v => v.set(0, 0, 0) };
+  const sphere = vi.spyOn(THREE.Sphere.prototype, 'applyMatrix4'), box = vi.spyOn(THREE.Box3.prototype, 'applyMatrix4');
+  try {
+    for (let i = 0; i < 60; i++) {
+      detail.currentCameraPosition.set(i * .05, 2, 4);
+      expect(detail.hideTinyDetail(f.camera, 512)).toEqual([mesh]); mesh.visible = true;
+    }
+    expect(sphere).toHaveBeenCalledTimes(1); expect(box).toHaveBeenCalledTimes(1);
+    mesh.position.y = 2; mesh.updateMatrixWorld(true);
+    expect(detail.hideTinyDetail(f.camera, 512)).toEqual([]);
+    expect(sphere).toHaveBeenCalledTimes(2);
+  } finally { sphere.mockRestore(); box.mockRestore(); detail.reflector = null; }
+});
