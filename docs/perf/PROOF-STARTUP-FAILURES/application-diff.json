@@ -1,0 +1,12 @@
+{
+  "base": "b317734",
+  "candidate": "3337b0053e1649e8ab3c6a2e556c3a5357b15e8b",
+  "paths": [
+    "src",
+    "public",
+    "package.json",
+    "package-lock.json",
+    "vite.config.ts"
+  ],
+  "gitDiffExitCode": 0
+}

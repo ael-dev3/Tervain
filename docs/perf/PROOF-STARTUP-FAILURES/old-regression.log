@@ -1,0 +1,35 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/tooling/liveProofStartup.test.ts (1 test | 1 failed) 67ms
+   × closes failed proof pages immediately instead of waiting after a fatal startup error 66ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/tooling/liveProofStartup.test.ts > closes failed proof pages immediately instead of waiting after a fatal startup error
+AssertionError: expected 'waited after fatal error' to be 'Published world emitted console error…' // Object.is equality
+
+Expected: "Published world emitted console errors during startup"
+Received: "waited after fatal error"
+
+ ❯ tests/tooling/liveProofStartup.test.ts:19:30
+     17|    expect(run.status).toBe(0);const result=JSON.parse(run.stdout.trim(…
+     18|    if(selected==='ready'){expect(result.ready).toBe(true);expect(resul…
+     19|    else expect(result.error).toBe(selected==='resource'?'Published wor…
+       |                              ^
+     20|   }
+     21|  }finally{rmSync(dir,{recursive:true,force:true});}
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:43:24
+   Duration  256ms (tests 45%, transform 44%, setup 6%, import 3%, worker 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,19 @@
+{
+  "fixture": "HTML page whose required module returns HTTP 404 with HTML MIME type; no game build or renderer timing claim",
+  "watchdogMs": 3000,
+  "results": [
+    {
+      "name": "old",
+      "error": "CDP connection closed",
+      "externalCutoff": true,
+      "elapsedAfterOpenMs": 3049.6910310000003
+    },
+    {
+      "name": "candidate",
+      "error": "Published world failed to load a script",
+      "externalCutoff": false,
+      "elapsedAfterOpenMs": 23.985807999999906
+    }
+  ],
+  "pass": true
+}
