@@ -199,18 +199,28 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
   // The twigs as points every TWIG_STEP along their length, in a grid: the nearest one to a card names its twig.
   const TWIG_STEP = 0.4, TWIG_CELL = 1;
   const samples = new Map<number, number[]>(), tk = (x: number, y: number, z: number) => ((x + 1024) * 2048 + (y + 1024)) * 2048 + (z + 1024);
+  let minX = Infinity, minY = Infinity, minZ = Infinity, maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
   twigs.forEach((t, k) => {
     const steps = Math.max(1, Math.ceil(t.from.distanceTo(t.to) / TWIG_STEP));
     for (let s = 0; s <= steps; s++) {
       const f = s / steps, x = t.from.x + (t.to.x - t.from.x) * f, y = t.from.y + (t.to.y - t.from.y) * f, z = t.from.z + (t.to.z - t.from.z) * f;
-      const key = tk(Math.floor(x / TWIG_CELL), Math.floor(y / TWIG_CELL), Math.floor(z / TWIG_CELL)), list = samples.get(key);
+      const gx = Math.floor(x / TWIG_CELL), gy = Math.floor(y / TWIG_CELL), gz = Math.floor(z / TWIG_CELL);
+      minX = Math.min(minX, gx); minY = Math.min(minY, gy); minZ = Math.min(minZ, gz);
+      maxX = Math.max(maxX, gx); maxY = Math.max(maxY, gy); maxZ = Math.max(maxZ, gz);
+      const key = tk(gx, gy, gz), list = samples.get(key);
       if (list) list.push(k, x, y, z); else samples.set(key, [k, x, y, z]);
     }
   });
   const nearestTwig = (cx: number, cy: number, cz: number, within: number): number => {
     let best = -1, bd = within * within;
     const gx = Math.floor(cx / TWIG_CELL), gy = Math.floor(cy / TWIG_CELL), gz = Math.floor(cz / TWIG_CELL), span = Math.ceil(within / TWIG_CELL);
-    for (let a = -span; a <= span; a++) for (let b = -span; b <= span; b++) for (let d = -span; d <= span; d++) {
+    // Preserve the original cell order and strict-distance ties. Outside the packed key's
+    // unique coordinate range, keep the old traversal (out-of-range cells can alias).
+    const bounded = gx - span >= -1024 && gx + span < 1024 && gy - span >= -1024 && gy + span < 1024 && gz - span >= -1024 && gz + span < 1024;
+    const ax = bounded ? Math.max(-span, minX - gx) : -span, bx = bounded ? Math.min(span, maxX - gx) : span;
+    const ay = bounded ? Math.max(-span, minY - gy) : -span, by = bounded ? Math.min(span, maxY - gy) : span;
+    const az = bounded ? Math.max(-span, minZ - gz) : -span, bz = bounded ? Math.min(span, maxZ - gz) : span;
+    for (let a = ax; a <= bx; a++) for (let b = ay; b <= by; b++) for (let d = az; d <= bz; d++) {
       const list = samples.get(tk(gx + a, gy + b, gz + d)); if (!list) continue;
       for (let i = 0; i < list.length; i += 4) { const dd = (list[i + 1]! - cx) ** 2 + (list[i + 2]! - cy) ** 2 + (list[i + 3]! - cz) ** 2; if (dd < bd) { bd = dd; best = list[i]!; } }
     }
