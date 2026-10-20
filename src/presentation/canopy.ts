@@ -717,6 +717,46 @@ export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeo
 }
 
 /**
+ * Supplied sheet crowns (0.0.37): the fir's wood stops at about two fifths of its height and palm fronds rise above their
+ * trunks, so whole needle sheets and fronds sit past the audit reach with nothing inside them. `leader` continues a
+ * conifer's trunk up its axis; then a twig grows from the nearest wood toward each part still past `reach`, ending
+ * `inside` of the reach short of the part's nearest sample. No leaf moves. The twigs follow the wood's index after its
+ * `twigIndex`, so they are not obstacles.
+ */
+export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, leader = false, inside = 0.9): { geometry: THREE.BufferGeometry; twigs: number } {
+  const position = wood.getAttribute('position');
+  const twigIndex = (wood.userData.twigIndex as number | undefined) ?? wood.index?.count ?? position.count;
+  let grown = wood, count = 0;
+  const replace = (next: THREE.BufferGeometry) => { if (grown !== wood) grown.dispose(); grown = next; };
+  if (leader) {
+    // From the trunk's top (the centre of its highest half metre of wood) up the axis, to just under the crown's tip.
+    let top = -Infinity, n = 0;
+    for (let i = 0; i < position.count; i++) top = Math.max(top, position.getY(i));
+    const from = new THREE.Vector3();
+    for (let i = 0; i < position.count; i++) if (position.getY(i) > top - 0.5) { from.x += position.getX(i); from.z += position.getZ(i); n++; }
+    from.set(from.x / n, top - 0.2, from.z / n);
+    leaf.computeBoundingBox();
+    const to = new THREE.Vector3(from.x, leaf.boundingBox!.max.y - 1.2, from.z);
+    if (to.y > from.y + 1) { replace(growTwigs(grown, [{ from, to }])); count++; }
+  }
+  const hit = new THREE.Vector3();
+  for (let round = 0; round < 3; round++) {
+    const set = detachedClumpSet(leaf, grown, reach, reach), anchor = woodAnchor(grown), twigs: CanopyTwig[] = [];
+    set.far.forEach((far, i) => {
+      if (!far) return;
+      let best = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
+      for (const sample of set.parts[i]!.samples) { const d = anchor(sample, hit); if (d < best) { best = d; from.copy(hit); to.copy(sample); } }
+      const length = from.distanceTo(to);
+      if (Number.isFinite(length) && length > reach * inside) twigs.push({ from, to: from.clone().lerp(to, (length - reach * inside) / length) });
+    });
+    if (!twigs.length) break;
+    replace(growTwigs(grown, twigs)); count += twigs.length;
+  }
+  if (grown !== wood) grown.userData = { ...grown.userData, twigIndex, anchoredTwigs: count };
+  return { geometry: grown, twigs: count };
+}
+
+/**
  * Wood triangles that stand clear of the canopy (A134): the giant oak's upper branch tips end in open, flat shards that
  * read black against the sky. Any wood triangle above the crown's lower third whose centroid is farther than `reach`
  * from every clump-covered point is dropped.
