@@ -813,7 +813,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     lighterForReflection() {
       // The water's planar reflection is a 512 px image of a rippled surface: there the middle model reads exactly as
       // the full one, at a fraction of its triangles. Each full-detail mesh keeps its own instances and their distance
-      // coverage. Wood must also use the middle model's material: its baked atlas can have a different UV layout.
+      // coverage. Wood keeps its matching atlas; leaves also need the borrowed wind program when hierarchies differ.
       // Buffers and materials remain shared, never copied or freed here (A76).
       let frame: ReflectionSwapFrame | undefined;
       for (const reusable of reflectionFrames) if (!reusable.active) { frame = reusable; break; }
@@ -823,6 +823,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       for (const b of batches) for (const part of ['wood', 'leaf'] as const) {
         const near = b.meshes[0]?.[part], mid = b.meshes[1]?.[part];
         if (!near || !mid || near.count === 0) continue;
+        const switchLeafWind = part === 'leaf' && (!!near.geometry.getAttribute('_wind') && !!near.geometry.getAttribute('_pivot'))
+          !== (!!mid.geometry.getAttribute('_wind') && !!mid.geometry.getAttribute('_pivot'));
         let proxy = reflectionProxies.get(near);
         if (!proxy) {
           proxy = new THREE.BufferGeometry();
@@ -834,9 +836,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         }
         rememberReflectionGeometry(frame, near);
         near.geometry = proxy;
-        if (part === 'wood') near.material = mid.material;
+        if (part === 'wood' || switchLeafWind) near.material = mid.material;
         const depth = part === 'leaf' ? b.meshes[0]?.leafDepth : null;
-        if (depth) { rememberReflectionGeometry(frame, depth); depth.geometry = proxy; }
+        const midDepth = part === 'leaf' ? b.meshes[1]?.leafDepth : null;
+        if (depth) { rememberReflectionGeometry(frame, depth); depth.geometry = proxy; if (switchLeafWind && midDepth) depth.material = midDepth.material; }
       }
       const releaseFrame = frame;
       return () => {
