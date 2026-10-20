@@ -7,7 +7,7 @@ import type { BuildContext, FrameContext, SceneModule } from './context';
 import { SPECIES, buildTreeVariant, type TreeVariant, type Species } from './treeGen';
 import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterials';
 import { disposeTreeTextures } from './treeTextures';
-import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeightsFor, type FloraTree } from './floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeightsFor, floraAuditLabel, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
@@ -717,21 +717,21 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     physicalWood,
     canopyAuditTargets(lod = 0) {
       if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid canopy LOD');
-      return batches.flatMap((b, batch) => {
+      return batches.flatMap(b => {
         const level = b.variant.lods[lod]!, wood = level.wood;
         group.updateWorldMatrix(true, false);
         const cutouts = b.meshes.map(m => m.leaf ? leafCutoutSampler(m.leaf.material as THREE.Material) : null);
-        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
+        return b.placements.map((p, i) => ({ label: floraAuditLabel(b.trees[i]!), kind: `${b.variant.species}/${b.variant.assetId ?? 'procedural'}`,
           species: b.variant.species, lod, wood, leaves: level.leaf, cutout: cutouts[Math.min(lod, b.meshes.length - 1)], cutoutRequired: ((b.meshes[Math.min(lod, b.meshes.length - 1)]?.leaf?.material as THREE.Material | undefined)?.alphaTest ?? 0) > 0, matrix: new THREE.Matrix4().multiplyMatrices(group.matrixWorld, p.matrix) }));
       });
     },
     placementAuditTargets(lod = 0) {
       if (!Number.isInteger(lod) || lod < 0 || lod > 2) throw new Error('Invalid placement LOD');
-      return batches.flatMap((b, batch) => {
+      return batches.flatMap(b => {
         const mesh = b.meshes[lod]?.wood;
         if (!mesh) return [];
         mesh.updateWorldMatrix(true, false);
-        return b.placements.map((p, i) => ({ label: b.trees[i]!.collisionId ?? `tree:${batch}:${i}`, kind: 'root' as const,
+        return b.placements.map((p, i) => ({ label: floraAuditLabel(b.trees[i]!), kind: 'root' as const,
           geometry: mesh.geometry, matrix: new THREE.Matrix4().multiplyMatrices(mesh.matrixWorld, p.matrix) }));
       });
     },

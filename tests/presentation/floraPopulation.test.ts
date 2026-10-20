@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, floraLod, type FloraTree, type FloraClaim } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, floraLod, floraAuditLabel, type FloraTree, type FloraClaim } from '../../src/presentation/floraPopulation';
 import { buildTreeVariant } from '../../src/presentation/treeGen';
 import { Exclusions, TREE_SWAY_ENABLED, TREE_SWAY_MULTIPLIER } from '../../src/presentation/vegetation';
 import { Colliders, buildStaticColliders } from '../../src/world/colliders';
@@ -21,6 +21,19 @@ beforeAll(() => {
 });
 
 describe('canonical flora population', () => {
+  it('keeps audit identities attached to placements across preset thinning and reordering', () => {
+    const byLabel = new Map(population.map(tree => [floraAuditLabel(tree), tree]));
+    expect(byLabel.size).toBe(population.length);
+    for (const quality of presets) {
+      const selected = selectFloraPopulation(population, quality).trees;
+      for (const tree of [...selected].reverse()) expect(byLabel.get(floraAuditLabel(tree))).toBe(tree);
+    }
+    for (const tree of population.filter(tree => tree.collisionId)) expect(floraAuditLabel(tree)).toBe(tree.collisionId);
+    const a = { collisionId: null, sp: 'pine' as const, v: 0, x: 137.0056026952807, z: 57.60848844377324 };
+    const b = { ...a, x: 154.3054524618201, z: -74.81677297339775 };
+    expect(floraAuditLabel(a)).not.toBe(floraAuditLabel(b));
+    expect(floraAuditLabel({ ...a })).toBe(floraAuditLabel(a));
+  });
   it('reports one terminal stand/age placement outcome without changing the canonical world', () => {
     const claims: FloraClaim[] = [];
     const observed = createFloraPopulation(terrain, exclusions, undefined, undefined, claim => claims.push(claim));
