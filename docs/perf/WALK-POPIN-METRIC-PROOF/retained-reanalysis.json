@@ -1,0 +1,30 @@
+[
+  {
+    "route": {
+      "kind": "woods",
+      "frames": 13,
+      "metres": 1.56,
+      "speed": 2.6,
+      "cadence": 20,
+      "yawDegrees": 30
+    },
+    "frames": 13,
+    "centralEvents": 0,
+    "wholeFrameEvents": 2,
+    "centralChangedPixels": 2
+  },
+  {
+    "route": {
+      "kind": "meadow",
+      "frames": 31,
+      "metres": 3.9000000000000004,
+      "speed": 2.6,
+      "cadence": 20,
+      "yawDegrees": 30
+    },
+    "frames": 31,
+    "centralEvents": 0,
+    "wholeFrameEvents": 0,
+    "centralChangedPixels": 0
+  }
+]

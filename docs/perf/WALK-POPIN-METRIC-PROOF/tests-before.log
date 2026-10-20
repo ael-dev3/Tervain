@@ -1,0 +1,59 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/tooling/walkPopinMetric.test.ts (5 tests | 2 failed) 10ms
+   ❯ same-camera visibility changes (5)
+     × detects dark foliage arriving against a bright background as well as its removal 5ms
+     × does not miss colour changes with almost equal luminance 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/tooling/walkPopinMetric.test.ts > same-camera visibility changes > detects dark foliage arriving against a bright background as well as its removal
+AssertionError: expected +0 to be 16 // Object.is equality
+
+- Expected
++ Received
+
+- 16
++ 0
+
+ ❯ tests/tooling/walkPopinMetric.test.ts:15:39
+     13|     for (const [a, b] of [[before, after], [after, before]]) {
+     14|       const r = walkVisibilityChanges(a, b, W, H);
+     15|       expect(r.central.changedPixels).toBe(16);
+       |                                       ^
+     16|       expect(r.central.events).toEqual([{pixels: 16, box: [6, 6, 4, 4]…
+     17|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/tooling/walkPopinMetric.test.ts > same-camera visibility changes > does not miss colour changes with almost equal luminance
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/tooling/walkPopinMetric.test.ts:22:71
+     20|     // Both colours have luminance about 54, but the changed channels …
+     21|     const before = image([255, 0, 0]), after = patch(before, [0, 76, 0…
+     22|     expect(walkVisibilityChanges(before, after, W, H).central.events).…
+       |                                                                       ^
+     23|   });
+     24|   it('keeps natural edge entrances out of the central metric but retai…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  05:41:06
+   Duration  259ms (transform 80%, setup 6%, tests 6%, import 5%, worker 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

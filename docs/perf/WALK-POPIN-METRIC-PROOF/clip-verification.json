@@ -1,0 +1,12 @@
+[
+  {
+    "clip": "walking-lossless.mkv",
+    "frames": 13,
+    "rgbExact": true
+  },
+  {
+    "clip": "stale-lossless.mkv",
+    "frames": 13,
+    "rgbExact": true
+  }
+]
