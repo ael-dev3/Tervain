@@ -50,6 +50,11 @@ export function createGrassClump({ blades, segments }: ClumpSpec): THREE.BufferG
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
+  // The shader replaces these with its curved blade normals. Without the attribute,
+  // Three forces FLAT_SHADED and silently ignores those procedural normals.
+  const normal = new Float32Array(position.length);
+  for (let i = 1; i < normal.length; i += 3) normal[i] = 1;
+  geometry.setAttribute('normal', new THREE.BufferAttribute(normal, 3));
   geometry.setIndex(index);
   geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 2);
   return geometry;

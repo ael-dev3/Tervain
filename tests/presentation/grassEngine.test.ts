@@ -32,6 +32,14 @@ describe('grass blade clumps', () => {
     for (const spec of [{ blades: 1, segments: 1 }, { blades: 18, segments: 4 }, { blades: 24, segments: 5 }]) {
       const g = createGrassClump(spec);
       const position = g.getAttribute('position');
+      // Three selects its derivative-normal fallback when this attribute is absent,
+      // even though the grass shader supplies its own objectNormal.
+      const normal = g.getAttribute('normal');
+      expect(normal).toBeDefined();
+      expect(normal.count).toBe(position.count);
+      for (let i = 0; i < normal.count; i++) {
+        expect([normal.getX(i), normal.getY(i), normal.getZ(i)]).toEqual([0, 1, 0]);
+      }
       const perBlade = spec.segments * 2 + 1;
       // Whole-blade rejection is safe only if no primitive joins vertices from different blades.
       for (let i = 0; i < g.index!.count; i += 3) {
