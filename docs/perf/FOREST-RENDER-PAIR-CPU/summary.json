@@ -1,0 +1,49 @@
+{
+  "rows": [
+    {
+      "label": "live-a",
+      "revision": "b317734",
+      "avgForestUpdateMs": 0.09244999999801318,
+      "p95BlockRangeMs": [
+        0.19999998807907104,
+        0.20000001788139343
+      ],
+      "maxObservedUpdateMs": 0.9000000059604645
+    },
+    {
+      "label": "candidate-a",
+      "revision": "eba5bae11",
+      "avgForestUpdateMs": 0.10681666666269302,
+      "p95BlockRangeMs": [
+        0.20000001788139343,
+        0.20000001788139343
+      ],
+      "maxObservedUpdateMs": 12.599999994039536
+    },
+    {
+      "label": "candidate-b",
+      "revision": "eba5bae11",
+      "avgForestUpdateMs": 0.10628333330154419,
+      "p95BlockRangeMs": [
+        0.20000001788139343,
+        0.20000001788139343
+      ],
+      "maxObservedUpdateMs": 6.5999999940395355
+    },
+    {
+      "label": "live-b",
+      "revision": "b317734",
+      "avgForestUpdateMs": 0.09873333331445852,
+      "p95BlockRangeMs": [
+        0.19999998807907104,
+        0.20000001788139343
+      ],
+      "maxObservedUpdateMs": 0.6000000238418579
+    }
+  ],
+  "liveMeanMs": 0.09559166665623585,
+  "candidateMeanMs": 0.1065499999821186,
+  "deltaMs": 0.010958333325882752,
+  "deltaPercent": 11.463691040444779,
+  "decision": "Withdraw: no CPU win established; iterator-observed source-site reduction is not a normal heap/GC profile."
+}

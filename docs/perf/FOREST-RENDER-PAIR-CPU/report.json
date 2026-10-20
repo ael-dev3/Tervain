@@ -1,0 +1,438 @@
+{
+  "rows": [
+    {
+      "build": {
+        "version": "0.0.33",
+        "revision": "b317734"
+      },
+      "quality": "high",
+      "rasterSuppressed": true,
+      "iteratorNative": true,
+      "warmupCalls": 3000,
+      "measuredCalls": 6000,
+      "positions": [
+        [
+          -210,
+          0,
+          0.8
+        ],
+        [
+          -209.96891456939434,
+          0.0301906240717105,
+          0.803
+        ],
+        [
+          -209.93782913878871,
+          0.060381248143421,
+          0.806
+        ],
+        [
+          -209.90674370818306,
+          0.09057187221513151,
+          0.809
+        ],
+        [
+          -209.87565827757743,
+          0.120762496286842,
+          0.812
+        ],
+        [
+          -209.84457284697177,
+          0.1509531203585525,
+          0.8150000000000001
+        ]
+      ],
+      "blocks": [
+        {
+          "avgMs": 0.0923999999165535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.699999988079071
+        },
+        {
+          "avgMs": 0.09120000004768372,
+          "p95Ms": 0.19999998807907104,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09140000003576279,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.4000000059604645
+        },
+        {
+          "avgMs": 0.0913999999165535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09160000002384186,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.09400000005960464,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.7000000178813934
+        },
+        {
+          "avgMs": 0.09359999996423721,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.6000000238418579
+        },
+        {
+          "avgMs": 0.09419999998807907,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.9000000059604645
+        },
+        {
+          "avgMs": 0.08980000001192093,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09220000004768372,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.4000000059604645
+        },
+        {
+          "avgMs": 0.09360000002384186,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.30000001192092896
+        },
+        {
+          "avgMs": 0.09399999994039536,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.4000000059604645
+        }
+      ],
+      "scope": "Actual native forest.module.update CPU only, including its floor/falling-leaf updates. Frozen simulation/wind, zero dt, six moving/turning poses above culling refresh thresholds. Camera preparation excluded. No iterator observer or render/GPU timing. 0.1 ms clock quantization can limit p95 resolution.",
+      "label": "live-a",
+      "errors": []
+    },
+    {
+      "build": {
+        "version": "0.0.33",
+        "revision": "eba5bae11"
+      },
+      "quality": "high",
+      "rasterSuppressed": true,
+      "iteratorNative": true,
+      "warmupCalls": 3000,
+      "measuredCalls": 6000,
+      "positions": [
+        [
+          -210,
+          0,
+          0.8
+        ],
+        [
+          -209.96891456939434,
+          0.0301906240717105,
+          0.803
+        ],
+        [
+          -209.93782913878871,
+          0.060381248143421,
+          0.806
+        ],
+        [
+          -209.90674370818306,
+          0.09057187221513151,
+          0.809
+        ],
+        [
+          -209.87565827757743,
+          0.120762496286842,
+          0.812
+        ],
+        [
+          -209.84457284697177,
+          0.1509531203585525,
+          0.8150000000000001
+        ]
+      ],
+      "blocks": [
+        {
+          "avgMs": 0.09680000001192093,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09800000005960464,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.097,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.11239999997615814,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 4.699999988079071
+        },
+        {
+          "avgMs": 0.10080000001192092,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.800000011920929
+        },
+        {
+          "avgMs": 0.10099999994039535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5999999940395355
+        },
+        {
+          "avgMs": 0.12060000002384186,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 8.599999994039536
+        },
+        {
+          "avgMs": 0.1079999998807907,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 1.2000000178813934
+        },
+        {
+          "avgMs": 0.12359999996423722,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 12.599999994039536
+        },
+        {
+          "avgMs": 0.09920000010728836,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.12239999997615814,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 12.599999994039536
+        },
+        {
+          "avgMs": 0.102,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 1.5
+        }
+      ],
+      "scope": "Actual native forest.module.update CPU only, including its floor/falling-leaf updates. Frozen simulation/wind, zero dt, six moving/turning poses above culling refresh thresholds. Camera preparation excluded. No iterator observer or render/GPU timing. 0.1 ms clock quantization can limit p95 resolution.",
+      "label": "candidate-a",
+      "errors": []
+    },
+    {
+      "build": {
+        "version": "0.0.33",
+        "revision": "eba5bae11"
+      },
+      "quality": "high",
+      "rasterSuppressed": true,
+      "iteratorNative": true,
+      "warmupCalls": 3000,
+      "measuredCalls": 6000,
+      "positions": [
+        [
+          -210,
+          0,
+          0.8
+        ],
+        [
+          -209.96891456939434,
+          0.0301906240717105,
+          0.803
+        ],
+        [
+          -209.93782913878871,
+          0.060381248143421,
+          0.806
+        ],
+        [
+          -209.90674370818306,
+          0.09057187221513151,
+          0.809
+        ],
+        [
+          -209.87565827757743,
+          0.120762496286842,
+          0.812
+        ],
+        [
+          -209.84457284697177,
+          0.1509531203585525,
+          0.8150000000000001
+        ]
+      ],
+      "blocks": [
+        {
+          "avgMs": 0.09379999989271164,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.30000001192092896
+        },
+        {
+          "avgMs": 0.0939999998807907,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.094,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.10639999997615814,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 6.5999999940395355
+        },
+        {
+          "avgMs": 0.09460000002384186,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.29999998211860657
+        },
+        {
+          "avgMs": 0.10679999995231629,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 6.5
+        },
+        {
+          "avgMs": 0.09700000005960464,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.800000011920929
+        },
+        {
+          "avgMs": 0.10600000005960465,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 4.5999999940395355
+        },
+        {
+          "avgMs": 0.10219999998807908,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 4.5
+        },
+        {
+          "avgMs": 0.12279999995231629,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.699999988079071
+        },
+        {
+          "avgMs": 0.1603999999165535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 4.699999988079071
+        },
+        {
+          "avgMs": 0.0973999999165535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.6000000238418579
+        }
+      ],
+      "scope": "Actual native forest.module.update CPU only, including its floor/falling-leaf updates. Frozen simulation/wind, zero dt, six moving/turning poses above culling refresh thresholds. Camera preparation excluded. No iterator observer or render/GPU timing. 0.1 ms clock quantization can limit p95 resolution.",
+      "label": "candidate-b",
+      "errors": []
+    },
+    {
+      "build": {
+        "version": "0.0.33",
+        "revision": "b317734"
+      },
+      "quality": "high",
+      "rasterSuppressed": true,
+      "iteratorNative": true,
+      "warmupCalls": 3000,
+      "measuredCalls": 6000,
+      "positions": [
+        [
+          -210,
+          0,
+          0.8
+        ],
+        [
+          -209.96891456939434,
+          0.0301906240717105,
+          0.803
+        ],
+        [
+          -209.93782913878871,
+          0.060381248143421,
+          0.806
+        ],
+        [
+          -209.90674370818306,
+          0.09057187221513151,
+          0.809
+        ],
+        [
+          -209.87565827757743,
+          0.120762496286842,
+          0.812
+        ],
+        [
+          -209.84457284697177,
+          0.1509531203585525,
+          0.8150000000000001
+        ]
+      ],
+      "blocks": [
+        {
+          "avgMs": 0.09579999989271164,
+          "p95Ms": 0.19999998807907104,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09519999998807907,
+          "p95Ms": 0.19999998807907104,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.09839999997615814,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09940000003576278,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5999999940395355
+        },
+        {
+          "avgMs": 0.09900000005960465,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.4000000059604645
+        },
+        {
+          "avgMs": 0.09800000011920929,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.6000000238418579
+        },
+        {
+          "avgMs": 0.09619999998807907,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.6000000238418579
+        },
+        {
+          "avgMs": 0.09500000005960464,
+          "p95Ms": 0.19999998807907104,
+          "maxMs": 0.20000001788139343
+        },
+        {
+          "avgMs": 0.09939999985694885,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.09719999992847443,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.30000001192092896
+        },
+        {
+          "avgMs": 0.10719999992847443,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.5
+        },
+        {
+          "avgMs": 0.10399999994039535,
+          "p95Ms": 0.20000001788139343,
+          "maxMs": 0.4000000059604645
+        }
+      ],
+      "scope": "Actual native forest.module.update CPU only, including its floor/falling-leaf updates. Frozen simulation/wind, zero dt, six moving/turning poses above culling refresh thresholds. Camera preparation excluded. No iterator observer or render/GPU timing. 0.1 ms clock quantization can limit p95 resolution.",
+      "label": "live-b",
+      "errors": []
+    }
+  ],
+  "pass": true,
+  "scope": "ABBA independent software-browser CPU-only profiles; no full-frame, hardware GPU or Mac performance claim."
+}
