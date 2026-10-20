@@ -1,0 +1,583 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "rows": [
+    {
+      "label": "tree:wild:45:12",
+      "lod": 0,
+      "vertices": 24000,
+      "native": {
+        "normal": "c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0",
+        "position": "9a799db8a5037ca3a05ff583ce18cb04b82a03c3dd09182f1d359912d7a861b8",
+        "uv": "1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7",
+        "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+      },
+      "outputs": {
+        "before": {
+          "moved": 1,
+          "hashes": {
+            "normal": "c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0",
+            "position": "b4f3dacd317714586ae095cedf9976bed920683085005c6b83f22540c241f452",
+            "uv": "1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        },
+        "after": {
+          "moved": 1,
+          "hashes": {
+            "normal": "c51a9df73d469acaf797e2723050e8ba37f7b29e60aa3678630bd537bc0e82d0",
+            "position": "b4f3dacd317714586ae095cedf9976bed920683085005c6b83f22540c241f452",
+            "uv": "1d31624bf2596aad6d7be9522e30105bf4b9037234fce2438a860a80ae7762a7",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "lod": 0,
+      "vertices": 24000,
+      "native": {
+        "normal": "1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35",
+        "position": "3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66",
+        "uv": "d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60",
+        "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35",
+            "position": "3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66",
+            "uv": "d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "1cc4b96dab48f703a6b8ec4f87f171e8c127c97bb3187d83d2895b9654775d35",
+            "position": "3dff347951e533172c2555321b2806e842ca7b4f2c6bc190109b077025092e66",
+            "uv": "d16464b60987a184a1edbec705ce2066bdf0e71cf96e07998d32e73cf6266d60",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "lod": 0,
+      "vertices": 24000,
+      "native": {
+        "normal": "89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12",
+        "position": "5b023888de5c11b70809976611727c1a4a88cf4ba675a3ba0a4cfc2e5719d78d",
+        "uv": "617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4",
+        "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+      },
+      "outputs": {
+        "before": {
+          "moved": 1,
+          "hashes": {
+            "normal": "89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12",
+            "position": "5873c67dbc401757e441106290d65f5df41446f342be536c1481ac049bd5f51b",
+            "uv": "617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        },
+        "after": {
+          "moved": 1,
+          "hashes": {
+            "normal": "89c6f216ce5100950ce2d35d33fd16361adf25527b03f0db9152e0830f2c2e12",
+            "position": "5873c67dbc401757e441106290d65f5df41446f342be536c1481ac049bd5f51b",
+            "uv": "617e0d2bc8efa8e494551037d9c308b003695b905f3d41fdb257b94a38c6f2b4",
+            "index": "23a64d9fc91f05d500cc63b24eda243b9524c6ceaed31eee6d9487db0eac318f"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "lod": 0,
+      "vertices": 21544,
+      "native": {
+        "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+        "position": "9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3",
+        "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94",
+        "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+            "position": "9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3",
+            "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94",
+            "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "8db3b358a1a26530c2155cf42da4f235ac47e91db0e848f2750c1b64a83188b2",
+            "position": "9ee47579073c47783490b72a5e94bddf61bfe39fc61cb2069ee8280fec5ef9f3",
+            "uv": "5b644186e1972de44e7bd7ac08c745b5f9e07ab7530757d971483b7ee19aaa94",
+            "index": "cc5aff38c8e55f4eadc7e8f76725c9182c0cad33665160b40746e18d8dd4c282"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "lod": 0,
+      "vertices": 21068,
+      "native": {
+        "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+        "position": "e04415734e6cc80ed94a38dd8fb1ce120c0a862a53b7103ec65f1af8454c3023",
+        "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+        "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c"
+      },
+      "outputs": {
+        "before": {
+          "moved": 2,
+          "hashes": {
+            "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+            "position": "e59ff21314a40f11cb388dad748f6c60dbc383b355f07c03d027de12f323de5c",
+            "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+            "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c"
+          }
+        },
+        "after": {
+          "moved": 2,
+          "hashes": {
+            "normal": "8c78102724e5b69c362ddaec2431405a4293397443ec5894fb91a85d162d891c",
+            "position": "e59ff21314a40f11cb388dad748f6c60dbc383b355f07c03d027de12f323de5c",
+            "uv": "67f572c3408ab0d48fc4a82cb68fb8d259c6f11aa60a74effeb46a3f01c7ac22",
+            "index": "149966b88d5d8182a4626cd49b97b47610b04ac23180c3ec60b7463a1357a76c"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:45:12",
+      "lod": 1,
+      "vertices": 17520,
+      "native": {
+        "normal": "530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1",
+        "position": "60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05",
+        "uv": "efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19",
+        "index": "7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1",
+            "position": "60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05",
+            "uv": "efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19",
+            "index": "7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "530e171d28221455a441ce744126a200c72a8ea5090a2463de3e48142f8eb2a1",
+            "position": "60e1c77eb0095bac45839ad3df0c3da30b6a19e4556e9e6ebd68a30216d05e05",
+            "uv": "efdcbb645602d1cfbf872cb7dfebb9aed1300e6c6d2e05f6f7b44bba65828e19",
+            "index": "7c949bb39ea984ef858c11038b9497f8f59f1482ceb3d09519f52c7de26fd9de"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:68:13",
+      "lod": 1,
+      "vertices": 15428,
+      "native": {
+        "normal": "b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4",
+        "position": "294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac",
+        "uv": "2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36",
+        "index": "22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4",
+            "position": "294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac",
+            "uv": "2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36",
+            "index": "22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "b6bd660b833a1a7aa297c1846a4be1e0dadf14c18bec570c8bd5b8898f4b7df4",
+            "position": "294e256253d64000494f4085385a8ec69b6d5a9f5a0095edbc7cddf40a4238ac",
+            "uv": "2136f3bb96eb446b7cf157c8b90bbc6ff88c91e0d0850b86f96159bb128e6a36",
+            "index": "22657d2d2cb71bc28d69eefe527ba312efbfb59f4dcd7d1527b3415e2d58b796"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:57:20",
+      "lod": 1,
+      "vertices": 17200,
+      "native": {
+        "normal": "b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476",
+        "position": "77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d",
+        "uv": "8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca",
+        "index": "80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476",
+            "position": "77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d",
+            "uv": "8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca",
+            "index": "80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "b3434ba9fdf8aad943825804a580fbb9a6cace3f13bf771bf681cf6e1d258476",
+            "position": "77be2c1405e5167573e0d46c138dd8c8e774284a256f1d346426e7d41fdec53d",
+            "uv": "8a90cd953a58bd7a059cef0cacafc68d42dee8c7641801758415c8d828329fca",
+            "index": "80f1cda9cfb506d365be3385c59886c7fe0769b9c7ed4535a67c930314f62572"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:36:23",
+      "lod": 1,
+      "vertices": 8696,
+      "native": {
+        "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+        "position": "e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5",
+        "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40",
+        "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+            "position": "e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5",
+            "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40",
+            "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "475680916cb0a63d9520bde57240b9ada687f57484a473a96fcb05c390ae6ea4",
+            "position": "e75b05e97017b0317c9622821c0fb3a45923f36c2096485e2d0593118234d7b5",
+            "uv": "29b00d2737dfc05a4e28ff61eabfafecbb908f989747878ee5f3f58e7dd17c40",
+            "index": "75a4c2012cb53bba9d49940a718991842f50779a62c04e0e0e7bd73875e41bf3"
+          }
+        }
+      }
+    },
+    {
+      "label": "tree:wild:52:26",
+      "lod": 1,
+      "vertices": 6796,
+      "native": {
+        "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+        "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+        "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+        "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc"
+      },
+      "outputs": {
+        "before": {
+          "moved": 0,
+          "hashes": {
+            "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+            "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+            "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+            "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc"
+          }
+        },
+        "after": {
+          "moved": 0,
+          "hashes": {
+            "normal": "3bc7143226cc2edb3a6ed3b4354321d4973b740c4cd5ad59ae31319c7eba4862",
+            "position": "8b34d09aae3766a857e513492e52dfdfd8db8e9dfda110066fde1ebea0075838",
+            "uv": "13c91a5ac8df6a380c53d642b2a737a8d7c32a5098d20931b3e849fb3079c6a7",
+            "index": "660c88432731bcc6d5354ed88bbdb1a51b42c6e5becc7a818b0ef47622e911bc"
+          }
+        }
+      }
+    }
+  ],
+  "tripletArraysPerCopyPass": {
+    "before": 180252,
+    "after": 0
+  },
+  "timing": {
+    "before": {
+      "averageMs": 4.619999997814497,
+      "p50Ms": 4.5,
+      "p95Ms": 5.299999982118607,
+      "samplesMs": [
+        4.5999999940395355,
+        5.299999982118607,
+        3.800000011920929,
+        5,
+        4.5,
+        5.299999982118607,
+        3.800000011920929,
+        4.699999988079071,
+        4.5999999940395355,
+        5,
+        6.5,
+        4.5,
+        5,
+        4.4000000059604645,
+        4.299999982118607,
+        4.5999999940395355,
+        5.200000017881393,
+        4.4000000059604645,
+        4.5,
+        4.0999999940395355,
+        5.0999999940395355,
+        4.199999988079071,
+        4,
+        4.5,
+        4.800000011920929,
+        4,
+        4.199999988079071,
+        4.4000000059604645,
+        5.0999999940395355,
+        4.199999988079071
+      ]
+    },
+    "after": {
+      "averageMs": 1.3600000023841858,
+      "p50Ms": 1.4000000059604645,
+      "p95Ms": 1.800000011920929,
+      "samplesMs": [
+        1.600000023841858,
+        1.5999999940395355,
+        2.300000011920929,
+        1.699999988079071,
+        1.5,
+        1.4000000059604645,
+        1.4000000059604645,
+        1.5,
+        1.600000023841858,
+        1.5999999940395355,
+        1.2999999821186066,
+        1.4000000059604645,
+        1.4000000059604645,
+        0.9000000059604645,
+        1.2000000178813934,
+        1.2999999821186066,
+        1.0999999940395355,
+        1,
+        1.2999999821186066,
+        1.800000011920929,
+        1.4000000059604645,
+        0.9000000059604645,
+        1.2000000178813934,
+        1.2999999821186066,
+        1.4000000059604645,
+        0.9000000059604645,
+        1.199999988079071,
+        1.5,
+        1.100000023841858,
+        1
+      ]
+    }
+  },
+  "sink": 2568.953260540962,
+  "samples": 4,
+  "images": [
+    {
+      "pose": {
+        "from": [
+          -210,
+          5,
+          0
+        ],
+        "to": [
+          -215,
+          9,
+          -7
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 120,
+          "triangles": 2134577
+        },
+        "before": {
+          "draws": 120,
+          "triangles": 2134577
+        },
+        "after": {
+          "draws": 120,
+          "triangles": 2134577
+        },
+        "restored": {
+          "draws": 120,
+          "triangles": 2134577
+        }
+      },
+      "beforeAfterChangedChannels": 0,
+      "nativeBeforeChangedChannels": 0,
+      "restoredChangedChannels": 0
+    },
+    {
+      "pose": {
+        "from": [
+          -2,
+          5,
+          38
+        ],
+        "to": [
+          -2,
+          8,
+          28
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 189,
+          "triangles": 3828565
+        },
+        "before": {
+          "draws": 189,
+          "triangles": 3828565
+        },
+        "after": {
+          "draws": 189,
+          "triangles": 3828565
+        },
+        "restored": {
+          "draws": 189,
+          "triangles": 3828565
+        }
+      },
+      "beforeAfterChangedChannels": 0,
+      "nativeBeforeChangedChannels": 0,
+      "restoredChangedChannels": 0
+    },
+    {
+      "pose": {
+        "from": [
+          -180,
+          5,
+          12
+        ],
+        "to": [
+          -185,
+          9,
+          3
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 136,
+          "triangles": 2237110
+        },
+        "before": {
+          "draws": 136,
+          "triangles": 2237110
+        },
+        "after": {
+          "draws": 136,
+          "triangles": 2237110
+        },
+        "restored": {
+          "draws": 136,
+          "triangles": 2237110
+        }
+      },
+      "beforeAfterChangedChannels": 0,
+      "nativeBeforeChangedChannels": 358,
+      "restoredChangedChannels": 0
+    },
+    {
+      "pose": {
+        "from": [
+          -12.3,
+          5,
+          44.8
+        ],
+        "to": [
+          -13,
+          9,
+          34
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 211,
+          "triangles": 4644895
+        },
+        "before": {
+          "draws": 211,
+          "triangles": 4644895
+        },
+        "after": {
+          "draws": 211,
+          "triangles": 4644895
+        },
+        "restored": {
+          "draws": 211,
+          "triangles": 4644895
+        }
+      },
+      "beforeAfterChangedChannels": 0,
+      "nativeBeforeChangedChannels": 0,
+      "restoredChangedChannels": 0
+    },
+    {
+      "pose": {
+        "from": [
+          -4,
+          5,
+          46
+        ],
+        "to": [
+          -4,
+          9,
+          35
+        ]
+      },
+      "captures": {
+        "native": {
+          "draws": 234,
+          "triangles": 4171097
+        },
+        "before": {
+          "draws": 234,
+          "triangles": 4171097
+        },
+        "after": {
+          "draws": 234,
+          "triangles": 4171097
+        },
+        "restored": {
+          "draws": 234,
+          "triangles": 4171097
+        }
+      },
+      "beforeAfterChangedChannels": 0,
+      "nativeBeforeChangedChannels": 0,
+      "restoredChangedChannels": 0
+    }
+  ],
+  "sources": {
+    "before": "6991746a5e679f617fbaa4dded3b963107dd5e69588c3c2890c65a9cd5cbb57f",
+    "after": "3e3fb30662c273108d4617e2a68f07d1bf8fa8312ef5e722bf33752a9cc5a93a"
+  },
+  "scope": "Native published High oak geometry reprocessed through original/candidate snapping on identical inputs; copy-only timing includes ten retained templates, not full loading or per-frame CPU/GPU timing. Original warmed shadow map and ground shade retained. Native/restored controls expose reprocessing effects separately. No detached-clump repair is proposed.",
+  "pass": true
+}

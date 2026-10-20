@@ -1,0 +1,23 @@
+{
+  "head": "6d400ea8add69f8140f0216f60ccd11f6d078c73",
+  "live": {
+    "draws": 285,
+    "triangles": 3048306,
+    "errors": 0
+  },
+  "candidate": {
+    "draws": 285,
+    "triangles": 3048306,
+    "errors": 0
+  },
+  "gateExitCode": 0,
+  "gateSourceSha256": "4e86bfc96cbdce99996d9b520ad52499e40949d2799a680f15a333eeeb9c6fe1",
+  "startupOverride": false,
+  "triangleAllowance": 0,
+  "localTests": {
+    "files": 3,
+    "passed": 6
+  },
+  "buildExitCode": 0,
+  "scope": "Software deterministic gate, not a hardware frame-time receipt. Candidate preview URL redacted in published log."
+}

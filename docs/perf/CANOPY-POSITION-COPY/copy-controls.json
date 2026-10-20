@@ -1,0 +1,36 @@
+{
+  "pass": true,
+  "scope": "Extracted original/candidate production copy snippets; allocation-work negative control and Float32, normalized and interleaved getter semantics, not a renderer or whole-helper run.",
+  "rows": [
+    {
+      "name": "float",
+      "vertices": 2,
+      "exact": true,
+      "triplets": {
+        "before": 2,
+        "after": 0
+      },
+      "originalFailsZeroTripletAssertion": true
+    },
+    {
+      "name": "normalized",
+      "vertices": 2,
+      "exact": true,
+      "triplets": {
+        "before": 2,
+        "after": 0
+      },
+      "originalFailsZeroTripletAssertion": true
+    },
+    {
+      "name": "interleaved",
+      "vertices": 2,
+      "exact": true,
+      "triplets": {
+        "before": 2,
+        "after": 0
+      },
+      "originalFailsZeroTripletAssertion": true
+    }
+  ]
+}
