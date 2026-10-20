@@ -1,0 +1,5 @@
+{
+  "src/presentation/flora.ts": "bfdcbbbe51c91b9e9dcd9a64fca1a4f232d2b14f982966ffd908e389e3bf73e2",
+  "src/presentation/treeGrounding.ts": "4990bee9932b65895911d95c47db01be938304472e8ef7dda37bfcf9422a1de1",
+  "tests/presentation/renderedRootSeating.test.ts": "92ec5e24d5828d1ddaca9501cc55ca1dbc76fbdbb4de88efe73c9d029addfe2e"
+}
