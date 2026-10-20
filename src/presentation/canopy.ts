@@ -638,7 +638,9 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
   };
   const movedParts = verticalGap === undefined ? null : new Set<number>();
   const out = new Float32Array(position.count * 3);
-  for (let v = 0; v < position.count; v++) out.set([position.getX(v), position.getY(v), position.getZ(v)], v * 3);
+  for (let v = 0; v < position.count; v++) {
+    out[v * 3] = position.getX(v); out[v * 3 + 1] = position.getY(v); out[v * 3 + 2] = position.getZ(v);
+  }
   const mid = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3(), p = new THREE.Vector3(), supportHit = new THREE.Vector3();
   let moved = 0;
   const translate = (members: number[], vertical: boolean) => {
