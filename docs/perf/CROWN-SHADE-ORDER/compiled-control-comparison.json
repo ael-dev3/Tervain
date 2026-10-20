@@ -1,0 +1,471 @@
+{
+  "beforeBuild": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "afterBuild": {
+    "version": "0.0.33",
+    "revision": "a221a5a8c"
+  },
+  "before": {
+    "draws": 260,
+    "triangles": 5307205,
+    "grass": {
+      "grassInstances": 25086,
+      "grassTris": 1662273,
+      "grassDraws": 39,
+      "grassTiles": 175,
+      "grassMovers": 0
+    },
+    "renderCalls": 264
+  },
+  "after": {
+    "draws": 236,
+    "triangles": 5215505,
+    "grass": {
+      "grassInstances": 25091,
+      "grassTris": 1662645,
+      "grassDraws": 39,
+      "grassTiles": 175,
+      "grassMovers": 0
+    },
+    "renderCalls": 240
+  },
+  "renderSubmissionDifferences": [
+    {
+      "render": {
+        "name": "Furniture / rug 3",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 4,
+        "index": 6,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / bread",
+        "geometry": "",
+        "material": "bread",
+        "type": "Mesh",
+        "instances": 4,
+        "vertices": 2063,
+        "index": 5679,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / bed",
+        "geometry": "",
+        "material": "bed",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 5489,
+        "index": 11049,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / candle",
+        "geometry": "",
+        "material": "candle",
+        "type": "Mesh",
+        "instances": 6,
+        "vertices": 1489,
+        "index": 3768,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / cauldron",
+        "geometry": "",
+        "material": "cauldron",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 2225,
+        "index": 5574,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / chest",
+        "geometry": "",
+        "material": "chest",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 4828,
+        "index": 8064,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / herbs",
+        "geometry": "",
+        "material": "herbs",
+        "type": "Mesh",
+        "instances": 15,
+        "vertices": 2351,
+        "index": 3867,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / jug",
+        "geometry": "",
+        "material": "jug",
+        "type": "Mesh",
+        "instances": 4,
+        "vertices": 2091,
+        "index": 5610,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / table",
+        "geometry": "",
+        "material": "table",
+        "type": "Mesh",
+        "instances": 4,
+        "vertices": 3487,
+        "index": 7329,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung ladle",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 6,
+        "vertices": 576,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung sickle",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 2,
+        "vertices": 408,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung kettle",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 2,
+        "vertices": 1104,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung saw",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 216,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung axe",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 7,
+        "vertices": 144,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung stool",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 2,
+        "vertices": 384,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / peg rails",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 7,
+        "vertices": 468,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung pan",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 3,
+        "vertices": 540,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung onions",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 5,
+        "vertices": 1044,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / hung rope",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 4,
+        "vertices": 1008,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / clutter candle",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 7,
+        "vertices": 396,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / clutter jar",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 16,
+        "vertices": 130,
+        "index": 648,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / clutter bowl",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 14,
+        "vertices": 104,
+        "index": 504,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / clutter cup",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 15,
+        "vertices": 55,
+        "index": 240,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    },
+    {
+      "render": {
+        "name": "Furniture / floor shadows",
+        "geometry": "",
+        "material": "",
+        "type": "Mesh",
+        "instances": 34,
+        "vertices": 4,
+        "index": 6,
+        "drawRange": {
+          "start": 0,
+          "count": null
+        },
+        "group": null
+      },
+      "before": 1,
+      "after": 0
+    }
+  ],
+  "pixelDiff": {
+    "changed": 115537,
+    "over1": 136,
+    "max": 3
+  },
+  "retainedGeometryIdentical": true,
+  "auxiliaryFurnitureDelta": {
+    "draws": -24,
+    "triangles": -92072,
+    "allDifferencesAreFurniture": true
+  },
+  "grassDelta": 372,
+  "totalTriangleDelta": -91700,
+  "explainedTriangleDelta": -91700
+}

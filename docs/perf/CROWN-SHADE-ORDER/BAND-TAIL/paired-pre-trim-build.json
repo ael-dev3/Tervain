@@ -1,0 +1,447 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "a221a5a8c"
+  },
+  "samples": 4,
+  "rows": [
+    {
+      "pose": [
+        -210,
+        6.9307849407196045,
+        0,
+        0.5
+      ],
+      "modes": {
+        "native": {
+          "draws": 193,
+          "triangles": 3606404,
+          "grass": {
+            "grassInstances": 15176,
+            "grassTris": 948678,
+            "grassDraws": 44,
+            "grassTiles": 178,
+            "grassMovers": 0
+          },
+          "buffersSha256": "6639b168053c56480d2b0c3c4cc9391eccaf26ef5a0e3094a08e67e5a2ae804c"
+        },
+        "before": {
+          "draws": 193,
+          "triangles": 3606404,
+          "grass": {
+            "grassInstances": 15176,
+            "grassTris": 948678,
+            "grassDraws": 44,
+            "grassTiles": 178,
+            "grassMovers": 0
+          },
+          "buffersSha256": "6639b168053c56480d2b0c3c4cc9391eccaf26ef5a0e3094a08e67e5a2ae804c"
+        },
+        "after": {
+          "draws": 193,
+          "triangles": 3595196,
+          "grass": {
+            "grassInstances": 14299,
+            "grassTris": 875058,
+            "grassDraws": 44,
+            "grassTiles": 178,
+            "grassMovers": 0
+          },
+          "buffersSha256": "6639b168053c56480d2b0c3c4cc9391eccaf26ef5a0e3094a08e67e5a2ae804c"
+        },
+        "restored": {
+          "draws": 193,
+          "triangles": 3606404,
+          "grass": {
+            "grassInstances": 15176,
+            "grassTris": 948678,
+            "grassDraws": 44,
+            "grassTiles": 178,
+            "grassMovers": 0
+          },
+          "buffersSha256": "6639b168053c56480d2b0c3c4cc9391eccaf26ef5a0e3094a08e67e5a2ae804c"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        -2,
+        4.382848739624023,
+        38,
+        0
+      ],
+      "modes": {
+        "native": {
+          "draws": 133,
+          "triangles": 1818198,
+          "grass": {
+            "grassInstances": 21991,
+            "grassTris": 1365045,
+            "grassDraws": 42,
+            "grassTiles": 180,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b0e51c62addb7ebf70b1a8e519c95db5c9df217ad3fb76e32fc0278e569d6d0a"
+        },
+        "before": {
+          "draws": 133,
+          "triangles": 1818198,
+          "grass": {
+            "grassInstances": 21991,
+            "grassTris": 1365045,
+            "grassDraws": 42,
+            "grassTiles": 180,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b0e51c62addb7ebf70b1a8e519c95db5c9df217ad3fb76e32fc0278e569d6d0a"
+        },
+        "after": {
+          "draws": 133,
+          "triangles": 1816062,
+          "grass": {
+            "grassInstances": 21870,
+            "grassTris": 1354929,
+            "grassDraws": 42,
+            "grassTiles": 180,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b0e51c62addb7ebf70b1a8e519c95db5c9df217ad3fb76e32fc0278e569d6d0a"
+        },
+        "restored": {
+          "draws": 133,
+          "triangles": 1818198,
+          "grass": {
+            "grassInstances": 21991,
+            "grassTris": 1365045,
+            "grassDraws": 42,
+            "grassTiles": 180,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b0e51c62addb7ebf70b1a8e519c95db5c9df217ad3fb76e32fc0278e569d6d0a"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        -180,
+        4.607493042945862,
+        12,
+        0.8
+      ],
+      "modes": {
+        "native": {
+          "draws": 244,
+          "triangles": 4119128,
+          "grass": {
+            "grassInstances": 9486,
+            "grassTris": 460794,
+            "grassDraws": 42,
+            "grassTiles": 175,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b4281637d3a2a1e61c091f7cccab4999f43be22b4c3d223f4f416bd7f5673c13"
+        },
+        "before": {
+          "draws": 244,
+          "triangles": 4119128,
+          "grass": {
+            "grassInstances": 9486,
+            "grassTris": 460794,
+            "grassDraws": 42,
+            "grassTiles": 175,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b4281637d3a2a1e61c091f7cccab4999f43be22b4c3d223f4f416bd7f5673c13"
+        },
+        "after": {
+          "draws": 244,
+          "triangles": 4119008,
+          "grass": {
+            "grassInstances": 9467,
+            "grassTris": 459246,
+            "grassDraws": 42,
+            "grassTiles": 175,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b4281637d3a2a1e61c091f7cccab4999f43be22b4c3d223f4f416bd7f5673c13"
+        },
+        "restored": {
+          "draws": 244,
+          "triangles": 4119128,
+          "grass": {
+            "grassInstances": 9486,
+            "grassTris": 460794,
+            "grassDraws": 42,
+            "grassTiles": 175,
+            "grassMovers": 0
+          },
+          "buffersSha256": "b4281637d3a2a1e61c091f7cccab4999f43be22b4c3d223f4f416bd7f5673c13"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        -12.3,
+        4.951056236028671,
+        44.8,
+        0.4
+      ],
+      "modes": {
+        "native": {
+          "draws": 122,
+          "triangles": 1782070,
+          "grass": {
+            "grassInstances": 20116,
+            "grassTris": 1209372,
+            "grassDraws": 41,
+            "grassTiles": 176,
+            "grassMovers": 0
+          },
+          "buffersSha256": "82f8c83580026c71777a6729fc9e4d59d0f02c097c93b285479b5aa7dcacb5e1"
+        },
+        "before": {
+          "draws": 122,
+          "triangles": 1782070,
+          "grass": {
+            "grassInstances": 20116,
+            "grassTris": 1209372,
+            "grassDraws": 41,
+            "grassTiles": 176,
+            "grassMovers": 0
+          },
+          "buffersSha256": "82f8c83580026c71777a6729fc9e4d59d0f02c097c93b285479b5aa7dcacb5e1"
+        },
+        "after": {
+          "draws": 122,
+          "triangles": 1781734,
+          "grass": {
+            "grassInstances": 18036,
+            "grassTris": 1034652,
+            "grassDraws": 40,
+            "grassTiles": 176,
+            "grassMovers": 0
+          },
+          "buffersSha256": "82f8c83580026c71777a6729fc9e4d59d0f02c097c93b285479b5aa7dcacb5e1"
+        },
+        "restored": {
+          "draws": 122,
+          "triangles": 1782070,
+          "grass": {
+            "grassInstances": 20116,
+            "grassTris": 1209372,
+            "grassDraws": 41,
+            "grassTiles": 176,
+            "grassMovers": 0
+          },
+          "buffersSha256": "82f8c83580026c71777a6729fc9e4d59d0f02c097c93b285479b5aa7dcacb5e1"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        -4,
+        4.7038785219192505,
+        46,
+        0
+      ],
+      "modes": {
+        "native": {
+          "draws": 104,
+          "triangles": 1655230,
+          "grass": {
+            "grassInstances": 20225,
+            "grassTris": 1226481,
+            "grassDraws": 42,
+            "grassTiles": 183,
+            "grassMovers": 0
+          },
+          "buffersSha256": "eb3b754aefdac0ea51a08a4a1f46b2f7eb9c9297e44fa709dc13f0326b761f04"
+        },
+        "before": {
+          "draws": 104,
+          "triangles": 1655230,
+          "grass": {
+            "grassInstances": 20225,
+            "grassTris": 1226481,
+            "grassDraws": 42,
+            "grassTiles": 183,
+            "grassMovers": 0
+          },
+          "buffersSha256": "eb3b754aefdac0ea51a08a4a1f46b2f7eb9c9297e44fa709dc13f0326b761f04"
+        },
+        "after": {
+          "draws": 102,
+          "triangles": 1635706,
+          "grass": {
+            "grassInstances": 19652,
+            "grassTris": 1178397,
+            "grassDraws": 40,
+            "grassTiles": 183,
+            "grassMovers": 0
+          },
+          "buffersSha256": "eb3b754aefdac0ea51a08a4a1f46b2f7eb9c9297e44fa709dc13f0326b761f04"
+        },
+        "restored": {
+          "draws": 104,
+          "triangles": 1655230,
+          "grass": {
+            "grassInstances": 20225,
+            "grassTris": 1226481,
+            "grassDraws": 42,
+            "grassTiles": 183,
+            "grassMovers": 0
+          },
+          "buffersSha256": "eb3b754aefdac0ea51a08a4a1f46b2f7eb9c9297e44fa709dc13f0326b761f04"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        -33.4,
+        4.732298362255095,
+        55,
+        0
+      ],
+      "modes": {
+        "native": {
+          "draws": 80,
+          "triangles": 1372699,
+          "grass": {
+            "grassInstances": 19591,
+            "grassTris": 1188042,
+            "grassDraws": 39,
+            "grassTiles": 198,
+            "grassMovers": 0
+          },
+          "buffersSha256": "120ec5e8b15988c9cd8d52ff982f7c41dd62ef2d62087c3a15892de506124325"
+        },
+        "before": {
+          "draws": 80,
+          "triangles": 1372699,
+          "grass": {
+            "grassInstances": 19591,
+            "grassTris": 1188042,
+            "grassDraws": 39,
+            "grassTiles": 198,
+            "grassMovers": 0
+          },
+          "buffersSha256": "120ec5e8b15988c9cd8d52ff982f7c41dd62ef2d62087c3a15892de506124325"
+        },
+        "after": {
+          "draws": 80,
+          "triangles": 1365355,
+          "grass": {
+            "grassInstances": 16521,
+            "grassTris": 930210,
+            "grassDraws": 37,
+            "grassTiles": 198,
+            "grassMovers": 0
+          },
+          "buffersSha256": "120ec5e8b15988c9cd8d52ff982f7c41dd62ef2d62087c3a15892de506124325"
+        },
+        "restored": {
+          "draws": 80,
+          "triangles": 1372699,
+          "grass": {
+            "grassInstances": 19591,
+            "grassTris": 1188042,
+            "grassDraws": 39,
+            "grassTiles": 198,
+            "grassMovers": 0
+          },
+          "buffersSha256": "120ec5e8b15988c9cd8d52ff982f7c41dd62ef2d62087c3a15892de506124325"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    },
+    {
+      "pose": [
+        128,
+        6.987612247467041,
+        -1,
+        -2.4
+      ],
+      "modes": {
+        "native": {
+          "draws": 261,
+          "triangles": 5860867,
+          "grass": {
+            "grassInstances": 25086,
+            "grassTris": 1662525,
+            "grassDraws": 39,
+            "grassTiles": 187,
+            "grassMovers": 0
+          },
+          "buffersSha256": "ce8bd4ec4ba89efc0d299abd400c2fa4538eb22fd4ead04ae5f1c572b34afff1"
+        },
+        "before": {
+          "draws": 261,
+          "triangles": 5860867,
+          "grass": {
+            "grassInstances": 25086,
+            "grassTris": 1662525,
+            "grassDraws": 39,
+            "grassTiles": 187,
+            "grassMovers": 0
+          },
+          "buffersSha256": "ce8bd4ec4ba89efc0d299abd400c2fa4538eb22fd4ead04ae5f1c572b34afff1"
+        },
+        "after": {
+          "draws": 261,
+          "triangles": 5859571,
+          "grass": {
+            "grassInstances": 25047,
+            "grassTris": 1659297,
+            "grassDraws": 39,
+            "grassTiles": 187,
+            "grassMovers": 0
+          },
+          "buffersSha256": "ce8bd4ec4ba89efc0d299abd400c2fa4538eb22fd4ead04ae5f1c572b34afff1"
+        },
+        "restored": {
+          "draws": 261,
+          "triangles": 5860867,
+          "grass": {
+            "grassInstances": 25086,
+            "grassTris": 1662525,
+            "grassDraws": 39,
+            "grassTiles": 187,
+            "grassMovers": 0
+          },
+          "buffersSha256": "ce8bd4ec4ba89efc0d299abd400c2fa4538eb22fd4ead04ae5f1c572b34afff1"
+        }
+      },
+      "identicalPixels": true,
+      "nativeRestored": true,
+      "nativeMatchesExpected": true,
+      "nonblank": true
+    }
+  ],
+  "errors": [],
+  "methodSha256": "f37b7c0c0139589f3205191e3d84c38f50c95b47d62ae867b2edfb145ada5d20",
+  "complete": true,
+  "scope": "Native frozen High/MSAA4 world; source-exact baseline/candidate tail methods, per-pass camera callbacks intact. Grass buffers hashed unchanged. No shader, density, placement or styling changes. Software counts/pixels, not hardware frame times."
+}

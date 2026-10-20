@@ -1,0 +1,44 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/crownShadeRepairOrder.test.ts (4 tests | 4 failed) 423ms
+   × projects final repaired foliage before low immediate understory sampling 413ms
+   × projects final repaired foliage before low deferred understory sampling 3ms
+   × projects final repaired foliage before high immediate understory sampling 3ms
+   × projects final repaired foliage before high deferred understory sampling 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/crownShadeRepairOrder.test.ts > projects final repaired foliage before low immediate understory sampling
+ FAIL  tests/presentation/crownShadeRepairOrder.test.ts > projects final repaired foliage before low deferred understory sampling
+ FAIL  tests/presentation/crownShadeRepairOrder.test.ts > projects final repaired foliage before high immediate understory sampling
+ FAIL  tests/presentation/crownShadeRepairOrder.test.ts > projects final repaired foliage before high deferred understory sampling
+AssertionError: expected +0 to be 0.5812844550992385 // Object.is equality
+
+- Expected
++ Received
+
+- 0.5812844550992385
++ 0
+
+ ❯ tests/presentation/crownShadeRepairOrder.test.ts:54:50
+     52|       for (let x = -2; x <= 10; x += .25) {
+     53|         const expected = reference.coverAt(x, 0);
+     54|         expect(ctx.plantedCrowns!.coverAt(x, 0)).toBe(expected);
+       |                                                  ^
+     55|         if (expected > .1) supported++;
+     56|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  02:12:07
+   Duration  1.04s (tests 44%, transform 36%, import 19%, setup 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
