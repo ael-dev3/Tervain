@@ -10,7 +10,7 @@ function patch(source: Uint8Array, rgb: number[], x = 8, y = 8) {
 describe('same-camera visibility changes', () => {
   it('detects dark foliage arriving against a bright background as well as its removal', () => {
     const before = image([200, 210, 220]), after = patch(before, [35, 55, 20]);
-    for (const [a, b] of [[before, after], [after, before]]) {
+    for (const [a, b] of [[before, after], [after, before]] as const) {
       const r = walkVisibilityChanges(a, b, W, H);
       expect(r.central.changedPixels).toBe(16);
       expect(r.central.events).toEqual([{pixels: 16, box: [6, 6, 4, 4]}]);
