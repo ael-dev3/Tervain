@@ -186,3 +186,29 @@ it('applies water drag to a submerged muzzle without a fictitious surface-entry 
     } finally { arrows.dispose(); }
   }
 });
+
+it.each([true, false])('restores conservative culling on floating trails after warm-up (quiver=%s)', quiver => {
+  const arrows = new HuntingArrows(), water = { sample: () => ({ surface: 0, flowX: .1, flowZ: .05 }), enter: vi.fn() };
+  arrows.quiver = quiver;
+  try {
+    const shot = arrows.launch(new THREE.Vector3(0, -.2, 0), new THREE.Vector3(0, 0, 1), 1)!;
+    arrows.update(1 / 120, () => null, undefined, water);
+    expect(arrows.floatingCount).toBe(1);
+    const trail = shot.mesh.getObjectByName('Hunting / arrow trail')!;
+    expect(trail.frustumCulled).toBe(false);
+    arrows.update(.2, () => null, undefined, water);
+    expect(trail.frustumCulled).toBe(false);
+    arrows.update(.3, () => null, undefined, water);
+    expect(trail.frustumCulled).toBe(true);
+    expect(trail.visible).toBe(true);
+    expect(trail.scale.z).toBe(.0001);
+    const before = shot.mesh.position.clone();
+    arrows.update(.5, () => null, undefined, water);
+    expect(shot.mesh.position.x - before.x).toBeCloseTo(.05, 10);
+    expect(shot.mesh.position.z - before.z).toBeCloseTo(.025, 10);
+    expect(water.enter).not.toHaveBeenCalled();
+    arrows.update(30, () => null, undefined, water);
+    expect(arrows.floatingCount).toBe(0);
+    expect(shot.mesh.parent).toBeNull();
+  } finally { arrows.dispose(); }
+});
