@@ -1,0 +1,18 @@
+[
+  {
+    "phase": 0,
+    "unchangedControlsExact": {
+      "inactive": true,
+      "restore": true
+    },
+    "changedPixels": 0
+  },
+  {
+    "phase": 1,
+    "unchangedControlsExact": {
+      "inactive": true,
+      "restore": true
+    },
+    "changedPixels": 406
+  }
+]

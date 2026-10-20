@@ -1,0 +1,70 @@
+{
+  "groups": [
+    {
+      "group": 0,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "7ea40bda031b032273406e117ad04305a712e9ae647f6268816c75ace0d2534e",
+        "inactive": "7ea40bda031b032273406e117ad04305a712e9ae647f6268816c75ace0d2534e",
+        "after": "7ea40bda031b032273406e117ad04305a712e9ae647f6268816c75ace0d2534e",
+        "restore": "7ea40bda031b032273406e117ad04305a712e9ae647f6268816c75ace0d2534e"
+      }
+    },
+    {
+      "group": 1,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "dcd83e2b8fbd86a8bef87f2fdff01f13ef03f3857e6e75682940d154a59acc5d",
+        "inactive": "dcd83e2b8fbd86a8bef87f2fdff01f13ef03f3857e6e75682940d154a59acc5d",
+        "after": "20b27afab32b9d57452adcf8c965a3b31d9013afe4b46cdfc24434aead1be257",
+        "restore": "dcd83e2b8fbd86a8bef87f2fdff01f13ef03f3857e6e75682940d154a59acc5d"
+      }
+    },
+    {
+      "group": 2,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "659fa84d2714eb0b1721fa4bda2e681f652e8eb8cc2c56aab2a37fc7d3b2eeac",
+        "inactive": "659fa84d2714eb0b1721fa4bda2e681f652e8eb8cc2c56aab2a37fc7d3b2eeac",
+        "after": "e055eb53ddd40681e9b0bc57c9f3fd1560fb90d7a97ac9ef2701932cb2f92afa",
+        "restore": "659fa84d2714eb0b1721fa4bda2e681f652e8eb8cc2c56aab2a37fc7d3b2eeac"
+      }
+    },
+    {
+      "group": 3,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "6d4d59ef908fb404ad8a9335ba7b6866299e95ee530ab4dbd57120d80aa6da86",
+        "inactive": "6d4d59ef908fb404ad8a9335ba7b6866299e95ee530ab4dbd57120d80aa6da86",
+        "after": "1686ce89c38ccede6a0b089e2fe153a8ac1c2f7b1b05f38c2fc04a98690d9d56",
+        "restore": "6d4d59ef908fb404ad8a9335ba7b6866299e95ee530ab4dbd57120d80aa6da86"
+      }
+    },
+    {
+      "group": 4,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "7493a8239e23993e36d8ace6302a21d2bfd4045e87d8175b9642307faa6ed8e8",
+        "inactive": "7493a8239e23993e36d8ace6302a21d2bfd4045e87d8175b9642307faa6ed8e8",
+        "after": "12889c5b67007484c88591e0f3b8557cd0f96fa4a36869d29a3b2380accf36db",
+        "restore": "7493a8239e23993e36d8ace6302a21d2bfd4045e87d8175b9642307faa6ed8e8"
+      }
+    },
+    {
+      "group": 5,
+      "baselineControlExact": true,
+      "rgbSha256": {
+        "before": "0f171fc211c2a788858deba2860ab5510e4d56e13e4f13b7fdfc142184496545",
+        "inactive": "0f171fc211c2a788858deba2860ab5510e4d56e13e4f13b7fdfc142184496545",
+        "after": "e71a7307471227039666b8e2a73513683e487bcad4287725265d2ad4c7e4db6c",
+        "restore": "0f171fc211c2a788858deba2860ab5510e4d56e13e4f13b7fdfc142184496545"
+      }
+    }
+  ],
+  "losslessAnimations": {
+    "framesPerFile": 5,
+    "frameDurationMs": 2000,
+    "allTenFramesMatch": true,
+    "scope": "Offline five-phase sequence at times 0,2,4,6,8 seconds, not real gameplay cadence."
+  }
+}

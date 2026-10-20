@@ -1,0 +1,1303 @@
+{
+  "setup": {
+    "version": {
+      "version": "0.0.34",
+      "revision": "d2c8327"
+    },
+    "label": "tree:wild:71:20",
+    "species": "birch",
+    "assetId": "verdant-sentinel",
+    "treePosition": [
+      70.89764271860437,
+      2.1659799361355874,
+      -39.02333443366458
+    ],
+    "scale": 1.0636663067877292,
+    "changed": {
+      "position": 0,
+      "normal": 0,
+      "uv": 0,
+      "_wind": 16,
+      "_pivot": 12
+    },
+    "changedRoots": [
+      {
+        "from": [
+          4.533639094956165,
+          7.055722389143119,
+          -1.9891476474784469
+        ],
+        "to": [
+          4.450388016211683,
+          6.6611481439541445,
+          -2.736681965724303
+        ],
+        "root": [
+          4.542780891347113,
+          8.020839672314551,
+          -1.0994835058369725
+        ],
+        "copy": 7011,
+        "rootCopy": 7022,
+        "vertexStart": 15537,
+        "indexStart": 25386,
+        "vertices": 8,
+        "indices": 18
+      },
+      {
+        "from": [
+          -5.070789214093666,
+          6.62917120457613,
+          -2.067710992121373
+        ],
+        "to": [
+          -5.32970518215053,
+          6.683839949090786,
+          -1.9909566222414838
+        ],
+        "root": [
+          -4.885927872629031,
+          7.504804650805517,
+          -2.412128323034608
+        ],
+        "copy": 15206,
+        "rootCopy": 15151,
+        "vertexStart": 15641,
+        "indexStart": 25620,
+        "vertices": 8,
+        "indices": 18
+      }
+    ],
+    "sourceVertices": 15705,
+    "sourceTriangles": 8588,
+    "nativeRegenerationExact": true,
+    "productionReplayExact": true,
+    "wind": [
+      0.90598744347974,
+      0.4233045620555545,
+      0.16,
+      0.42
+    ],
+    "reducedMotion": false
+  },
+  "trace": {
+    "phases": [
+      {
+        "time": 0,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.0643388003472925,
+            "centre": [
+              66.07507069905598,
+              10.970138549804688,
+              -38.82167307535807
+            ],
+            "nearest": [
+              66.07987360619416,
+              10.92624449777785,
+              -38.7748785723709
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.41034889271791913,
+            "centre": [
+              75.3673324584961,
+              10.299700419108072,
+              -35.352746327718094
+            ],
+            "nearest": [
+              75.54267259591022,
+              9.945694913411003,
+              -35.46375151634719
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06419216767216997,
+            "centre": [
+              66.07479095458984,
+              10.969610850016275,
+              -38.82193374633789
+            ],
+            "nearest": [
+              66.07970780507425,
+              10.926261443291557,
+              -38.77484565964517
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03326559264673644,
+            "centre": [
+              75.51084645589192,
+              9.942209561665852,
+              -35.37993621826172
+            ],
+            "nearest": [
+              75.52506379434537,
+              9.913512690918767,
+              -35.38893380409147
+            ]
+          }
+        ]
+      },
+      {
+        "time": 0.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06437707922171435,
+            "centre": [
+              65.99740091959634,
+              10.801762262980143,
+              -38.93290456136067
+            ],
+            "nearest": [
+              66.0030809965518,
+              10.758577276771035,
+              -38.88549989892101
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.11662513597911543,
+            "centre": [
+              75.39434560139973,
+              10.203896204630533,
+              -35.35764821370442
+            ],
+            "nearest": [
+              75.45738748904267,
+              10.109308662671145,
+              -35.383731535016004
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420862777057146,
+            "centre": [
+              65.99711608886719,
+              10.801156997680664,
+              -38.933188120524086
+            ],
+            "nearest": [
+              66.00290769463979,
+              10.758591308566347,
+              -38.885466350932234
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03383389316981878,
+            "centre": [
+              75.43807729085286,
+              10.130734125773111,
+              -35.357627868652344
+            ],
+            "nearest": [
+              75.45342027126237,
+              10.101903935961596,
+              -35.36646785929781
+            ]
+          }
+        ]
+      },
+      {
+        "time": 1,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420783824700985,
+            "centre": [
+              65.90731557210286,
+              10.60050328572591,
+              -39.0513064066569
+            ],
+            "nearest": [
+              65.91459056697876,
+              10.55998187880671,
+              -39.002034340298785
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.14772816528907243,
+            "centre": [
+              75.43321482340494,
+              10.140253067016602,
+              -35.34590530395508
+            ],
+            "nearest": [
+              75.37143149915674,
+              10.269593053840037,
+              -35.31016178044338
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.0642436683921703,
+            "centre": [
+              65.90751647949219,
+              10.600993474324543,
+              -39.05097579956055
+            ],
+            "nearest": [
+              65.91469420644432,
+              10.559975874179509,
+              -39.00205458082444
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.034447436331161756,
+            "centre": [
+              75.3656234741211,
+              10.354294459025065,
+              -35.354087829589844
+            ],
+            "nearest": [
+              75.38209040377666,
+              10.325295585021063,
+              -35.36272098683434
+            ]
+          }
+        ]
+      },
+      {
+        "time": 1.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06431096447301254,
+            "centre": [
+              66.0509541829427,
+              10.939486185709635,
+              -38.86791356404622
+            ],
+            "nearest": [
+              66.055813579858,
+              10.895739345245701,
+              -38.821025395362724
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.20351350263985454,
+            "centre": [
+              75.45591990152994,
+              10.156329790751139,
+              -35.40696589152018
+            ],
+            "nearest": [
+              75.51650156820885,
+              9.973256020933636,
+              -35.47201665803338
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06418727662830379,
+            "centre": [
+              66.05076090494791,
+              10.939109166463215,
+              -38.868073781331375
+            ],
+            "nearest": [
+              66.05569366454937,
+              10.895750985001094,
+              -38.821002107641455
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.033339338480463145,
+            "centre": [
+              75.48082733154297,
+              9.96318467458089,
+              -35.37377421061198
+            ],
+            "nearest": [
+              75.49529586246248,
+              9.934527879418205,
+              -35.38277205448425
+            ]
+          }
+        ]
+      },
+      {
+        "time": 2,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06440195509623729,
+            "centre": [
+              66.00967407226562,
+              10.851067860921223,
+              -38.91301091512044
+            ],
+            "nearest": [
+              66.01539165104165,
+              10.807873325138216,
+              -38.86558567720171
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.10816587900928835,
+            "centre": [
+              75.52719116210938,
+              9.925078392028809,
+              -35.37973658243815
+            ],
+            "nearest": [
+              75.46734927509065,
+              10.01294282818468,
+              -35.35977044112588
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06421788768459492,
+            "centre": [
+              66.00931803385416,
+              10.850343068440754,
+              -38.913370768229164
+            ],
+            "nearest": [
+              66.0151827743021,
+              10.807891907275339,
+              -38.865543570591655
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.033726455144392535,
+            "centre": [
+              75.46714782714844,
+              10.104534784952799,
+              -35.42484029134114
+            ],
+            "nearest": [
+              75.48207405295857,
+              10.075610781715678,
+              -35.43367678365488
+            ]
+          }
+        ]
+      },
+      {
+        "time": 2.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420104475351235,
+            "centre": [
+              65.94084167480469,
+              10.676164627075195,
+              -39.01440302530924
+            ],
+            "nearest": [
+              65.94749503831729,
+              10.634889912896687,
+              -38.965680290668274
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.0017311666755050496,
+            "centre": [
+              75.4432881673177,
+              10.205818812052408,
+              -35.39276123046875
+            ],
+            "nearest": [
+              75.44232044482536,
+              10.20721770286004,
+              -35.39243942968487
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06422162192485026,
+            "centre": [
+              65.94102986653645,
+              10.676592508951822,
+              -39.01409022013346
+            ],
+            "nearest": [
+              65.94759060342435,
+              10.634883576338904,
+              -38.96569870853858
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03415349184095574,
+            "centre": [
+              75.39173889160156,
+              10.239247639973957,
+              -35.34413401285807
+            ],
+            "nearest": [
+              75.40773592400312,
+              10.210367900070136,
+              -35.35288138859948
+            ]
+          }
+        ]
+      },
+      {
+        "time": 3,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06430017680374676,
+            "centre": [
+              65.98899586995442,
+              10.802183151245117,
+              -38.94333394368489
+            ],
+            "nearest": [
+              65.99471217575511,
+              10.759359877492617,
+              -38.89571038008341
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.007841581267291004,
+            "centre": [
+              75.45364888509114,
+              10.070337295532227,
+              -35.347267150878906
+            ],
+            "nearest": [
+              75.44928311034661,
+              10.076683798410636,
+              -35.345800075943565
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420252555000686,
+            "centre": [
+              65.98889668782552,
+              10.80196762084961,
+              -38.943383534749344
+            ],
+            "nearest": [
+              65.99464235248503,
+              10.759365363215794,
+              -38.89569706634245
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.033819864568022676,
+            "centre": [
+              75.42521158854166,
+              10.13461176554362,
+              -35.33305994669596
+            ],
+            "nearest": [
+              75.44062949037368,
+              10.105844946582739,
+              -35.341922320495875
+            ]
+          }
+        ]
+      },
+      {
+        "time": 3.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06442112167349605,
+            "centre": [
+              66.02381134033203,
+              10.861329396565754,
+              -38.875362396240234
+            ],
+            "nearest": [
+              66.02957229496313,
+              10.818112526669488,
+              -38.82793672306864
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.24926536041479327,
+            "centre": [
+              75.36918385823567,
+              10.285453796386719,
+              -35.35453542073567
+            ],
+            "nearest": [
+              75.49956347837902,
+              10.080715115794959,
+              -35.411249151203165
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06422253942055939,
+            "centre": [
+              66.02340952555338,
+              10.86051305135091,
+              -38.87577819824219
+            ],
+            "nearest": [
+              66.02934050433379,
+              10.818133469798603,
+              -38.82788948216227
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03372879157623592,
+            "centre": [
+              75.48598225911458,
+              10.112082799275715,
+              -35.40815862019856
+            ],
+            "nearest": [
+              75.50084647996404,
+              10.083120285302519,
+              -35.416982400798965
+            ]
+          }
+        ]
+      },
+      {
+        "time": 4,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420125121455068,
+            "centre": [
+              66.01180521647134,
+              10.832599639892578,
+              -38.92729059855143
+            ],
+            "nearest": [
+              66.01743485917967,
+              10.790188771723896,
+              -38.87942175647572
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.2492842312960372,
+            "centre": [
+              75.38310241699219,
+              10.237691879272461,
+              -35.3570810953776
+            ],
+            "nearest": [
+              75.48338646431992,
+              10.02061887251893,
+              -35.42754418900403
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06419467789016821,
+            "centre": [
+              66.011962890625,
+              10.832916895548502,
+              -38.92701721191406
+            ],
+            "nearest": [
+              66.01750880466538,
+              10.790182395312,
+              -38.87943610225471
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03357483351908729,
+            "centre": [
+              75.45598856608072,
+              10.026354471842447,
+              -35.365562438964844
+            ],
+            "nearest": [
+              75.470914591499,
+              9.997636804742587,
+              -35.3744943372731
+            ]
+          }
+        ]
+      },
+      {
+        "time": 4.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06429286509687093,
+            "centre": [
+              65.92158762613931,
+              10.668048858642578,
+              -39.039371490478516
+            ],
+            "nearest": [
+              65.92825776198936,
+              10.626364621907257,
+              -38.990879159147674
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.17391573037523583,
+            "centre": [
+              75.45001220703125,
+              10.079960823059082,
+              -35.375990549723305
+            ],
+            "nearest": [
+              75.37676951379116,
+              10.231957203641066,
+              -35.333808925182915
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06422887966714382,
+            "centre": [
+              65.92157236735025,
+              10.668006896972656,
+              -39.039320627848305
+            ],
+            "nearest": [
+              65.92823626995046,
+              10.626365972294824,
+              -38.99087504211125
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.034293970722422476,
+            "centre": [
+              75.36613718668619,
+              10.30746841430664,
+              -35.35316594441731
+            ],
+            "nearest": [
+              75.3823945071737,
+              10.278553022387964,
+              -35.36186514372909
+            ]
+          }
+        ]
+      },
+      {
+        "time": 5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06443422791659745,
+            "centre": [
+              65.99875386555989,
+              10.827411651611328,
+              -38.92041142781575
+            ],
+            "nearest": [
+              66.00450417769429,
+              10.784089143571086,
+              -38.87306310224168
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.05137515859170217,
+            "centre": [
+              75.45396931966145,
+              10.177081108093262,
+              -35.39759572347005
+            ],
+            "nearest": [
+              75.46772157174306,
+              10.130462238699636,
+              -35.414237943858765
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06421800170435595,
+            "centre": [
+              65.99833170572916,
+              10.826534271240234,
+              -38.92085774739583
+            ],
+            "nearest": [
+              66.00425563566529,
+              10.784110000576879,
+              -38.87301383393032
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03384622224163417,
+            "centre": [
+              75.44919077555338,
+              10.153172492980957,
+              -35.3907725016276
+            ],
+            "nearest": [
+              75.46441212241125,
+              10.124254923427834,
+              -35.399584512238285
+            ]
+          }
+        ]
+      },
+      {
+        "time": 5.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06421762479085984,
+            "centre": [
+              66.06521352132161,
+              10.937812805175781,
+              -38.85831197102864
+            ],
+            "nearest": [
+              66.07022382922628,
+              10.894729802437276,
+              -38.81095529226509
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.06802797888780958,
+            "centre": [
+              75.53323109944661,
+              9.921065330505371,
+              -35.367431640625
+            ],
+            "nearest": [
+              75.51696479550421,
+              9.861953189436097,
+              -35.396909904580326
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06418458184855805,
+            "centre": [
+              66.06531778971353,
+              10.937999725341797,
+              -38.858107248942055
+            ],
+            "nearest": [
+              66.07026664204874,
+              10.894725478732315,
+              -38.810963755350464
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.033202131979190974,
+            "centre": [
+              75.50427754720052,
+              9.893289566040039,
+              -35.39411544799805
+            ],
+            "nearest": [
+              75.51844946643824,
+              9.864653563174821,
+              -35.40314415848107
+            ]
+          }
+        ]
+      },
+      {
+        "time": 6,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06427386231357876,
+            "centre": [
+              65.92631530761719,
+              10.645789464314777,
+              -39.01166661580403
+            ],
+            "nearest": [
+              65.93336487472838,
+              10.604693047096644,
+              -38.96275324879579
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.09271177682686312,
+            "centre": [
+              75.44573720296223,
+              10.1959228515625,
+              -35.389469146728516
+            ],
+            "nearest": [
+              75.40513945147643,
+              10.276402914580254,
+              -35.36778376932001
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06424111172753894,
+            "centre": [
+              65.92636362711588,
+              10.645914077758789,
+              -39.011525472005204
+            ],
+            "nearest": [
+              65.9333771771386,
+              10.604692280610767,
+              -38.962755665854715
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03436713141990748,
+            "centre": [
+              75.38572184244791,
+              10.337093353271484,
+              -35.34867731730143
+            ],
+            "nearest": [
+              75.40199023819476,
+              10.308083384073838,
+              -35.35732952563276
+            ]
+          }
+        ]
+      },
+      {
+        "time": 6.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06444268632223857,
+            "centre": [
+              65.98153686523438,
+              10.785726547241211,
+              -38.95078150431315
+            ],
+            "nearest": [
+              65.98718391156548,
+              10.742212888548433,
+              -38.90358476506848
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.00022197904298731154,
+            "centre": [
+              75.43226369222005,
+              10.126100222269693,
+              -35.33251953125
+            ],
+            "nearest": [
+              75.43213987836639,
+              10.126279749509822,
+              -35.332478121164044
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06421164923684006,
+            "centre": [
+              65.98112742106119,
+              10.78482945760091,
+              -38.95123291015625
+            ],
+            "nearest": [
+              65.9869382427832,
+              10.742231507263108,
+              -38.90353820525468
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03396651492145693,
+            "centre": [
+              75.41119384765625,
+              10.189330418904621,
+              -35.331410725911454
+            ],
+            "nearest": [
+              75.42686373883294,
+              10.160511784150607,
+              -35.34022349717452
+            ]
+          }
+        ]
+      },
+      {
+        "time": 7,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06425144742200962,
+            "centre": [
+              66.04562632242838,
+              10.908079783121744,
+              -38.879296620686844
+            ],
+            "nearest": [
+              66.05095695179736,
+              10.865181632784527,
+              -38.831761564317894
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.3434711784874377,
+            "centre": [
+              75.37295786539713,
+              10.246204376220703,
+              -35.382142384847
+            ],
+            "nearest": [
+              75.52200148335191,
+              9.950719962762532,
+              -35.474052187380664
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.0641949635046335,
+            "centre": [
+              66.045654296875,
+              10.908121109008789,
+              -38.87918599446614
+            ],
+            "nearest": [
+              66.05095868810008,
+              10.86518146370053,
+              -38.83176191161899
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03335949334089621,
+            "centre": [
+              75.49521128336588,
+              9.956663131713867,
+              -35.41193771362305
+            ],
+            "nearest": [
+              75.50958240826856,
+              9.927924681295794,
+              -35.42090588136015
+            ]
+          }
+        ]
+      },
+      {
+        "time": 7.5,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.0642431638550438,
+            "centre": [
+              65.96316274007161,
+              10.745182037353516,
+              -38.96883646647135
+            ],
+            "nearest": [
+              65.96982281481678,
+              10.703807719699375,
+              -38.92014361951054
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.11917334031534076,
+            "centre": [
+              75.37752024332681,
+              10.257111867268879,
+              -35.36062240600586
+            ],
+            "nearest": [
+              75.44530443141711,
+              10.162288596599968,
+              -35.38544449750729
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06422908993244858,
+            "centre": [
+              65.96328481038411,
+              10.745444615681965,
+              -38.96861012776692
+            ],
+            "nearest": [
+              65.96987669507946,
+              10.70380360644188,
+              -38.92015448414122
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.03399435966614194,
+            "centre": [
+              75.43546040852864,
+              10.201884587605793,
+              -35.40189997355143
+            ],
+            "nearest": [
+              75.45092118638671,
+              10.172903725728313,
+              -35.410657283753366
+            ]
+          }
+        ]
+      },
+      {
+        "time": 8,
+        "before": [
+          {
+            "vertex": 15537,
+            "gap": 0.06442877713019954,
+            "centre": [
+              65.97105916341145,
+              10.780987421671549,
+              -38.980712890625
+            ],
+            "nearest": [
+              65.97654079329631,
+              10.737303868514541,
+              -38.9336728413066
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.08420045774163194,
+            "centre": [
+              75.46188354492188,
+              10.061661720275879,
+              -35.368703206380204
+            ],
+            "nearest": [
+              75.41485580096197,
+              10.129691597433046,
+              -35.352890420543325
+            ]
+          }
+        ],
+        "after": [
+          {
+            "vertex": 15537,
+            "gap": 0.06420129031382368,
+            "centre": [
+              65.97065989176431,
+              10.780120849609375,
+              -38.98114903767903
+            ],
+            "nearest": [
+              65.97629576907835,
+              10.737321925318534,
+              -38.93362751998012
+            ]
+          },
+          {
+            "vertex": 15641,
+            "gap": 0.033961639101615225,
+            "centre": [
+              75.38861592610677,
+              10.182738622029621,
+              -35.32430648803711
+            ],
+            "nearest": [
+              75.4044041376872,
+              10.153996794180205,
+              -35.33314009644107
+            ]
+          }
+        ]
+      }
+    ],
+    "unmodifiedVertexDifferences": 0,
+    "scope": "Actual native High wood vertex shader, float position readback, 17 wind phases. Root-ring centre distance to all other drawn wood triangles; own twig excluded. Native wind, no movers/shakes. All other vertex positions checked exactly, including twig tips. Not frame-time or motion-clip evidence."
+  },
+  "imageSetup": {
+    "focus": [
+      75.42607499489367,
+      10.148587782221265,
+      -35.40602991230394
+    ],
+    "camera": [
+      78.42607499489367,
+      10.848587782221264,
+      -32.90602991230394
+    ],
+    "bindings": 2
+  },
+  "images": [
+    {
+      "time": 0,
+      "strength": 0,
+      "before": {
+        "draws": 513,
+        "triangles": 8865574
+      },
+      "inactive": {
+        "draws": 510,
+        "triangles": 8865571
+      },
+      "after": {
+        "draws": 510,
+        "triangles": 8865571
+      },
+      "restore": {
+        "draws": 510,
+        "triangles": 8865571
+      },
+      "changedPixels": 0
+    },
+    {
+      "time": 0,
+      "strength": 1,
+      "before": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "inactive": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "after": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "restore": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "changedPixels": 75
+    },
+    {
+      "time": 2,
+      "strength": 1,
+      "before": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "inactive": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "after": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "restore": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "changedPixels": 141
+    },
+    {
+      "time": 4,
+      "strength": 1,
+      "before": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "inactive": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "after": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "restore": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "changedPixels": 109
+    },
+    {
+      "time": 6,
+      "strength": 1,
+      "before": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "inactive": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "after": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "restore": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "changedPixels": 83
+    },
+    {
+      "time": 8,
+      "strength": 1,
+      "before": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "inactive": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "after": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "restore": {
+        "draws": 507,
+        "triangles": 8842129
+      },
+      "changedPixels": 56
+    }
+  ],
+  "errors": [],
+  "productionSource": "import * as THREE from 'three';\nimport { components, contactDistances, detachedClumpSet, farClumps } from '../diagnostics/canopyConnectivity';\n\n/**\n * Cluster canopies for broadleaf trees (A134).\n *\n * The supplied broadleaf crowns are built of a few dozen large curved leaf sheets, each carrying one leaf picture, so a\n * crown read as flat cut-out cards with sky between them. A near or middle crown is now rebuilt at load from many small\n * leaf-cluster cards gathered into clumps: a dense outer shell with a sparser heart, every clump crossed by several cards\n * at different angles so it reads round from any side. The source sheets are kept only as a density field (where the\n * artist put leaves) and the wood's outer branch tips are covered first, so the crown follows the tree's own shape.\n *\n * The result is deterministic for a given source and options, and has the attributes of the cards it replaces\n * (position, normal, uv), so wind, shadows, distance fades, reflections and leaf sites keep working unchanged.\n */\n\nexport interface CanopyOptions {\n  /** Cards to place (two triangles each). */\n  readonly cards: number;\n  /** Card edge length range (m). */\n  readonly size: readonly [number, number];\n  /** Clump radius (m). */\n  readonly clump: number;\n  /** Cards per clump on the crown's outer shell (the heart takes about half as many). */\n  readonly perClump: number;\n  /** Atlas cells across (the atlas is cells x cells clusters). */\n  readonly cells: number;\n  readonly seed: number;\n  /** Optional share of clusters taken from each atlas cell (cells x cells entries); uniform when absent. */\n  readonly cellWeights?: readonly number[];\n}\n\n/** The index a draw `r` (0..1) lands on across `weights`. */\nexport function weightedCell(weights: readonly number[], r: number): number {\n  let total = 0;\n  for (const w of weights) total += w;\n  let at = r * total;\n  for (let i = 0; i < weights.length; i++) { at -= weights[i]!; if (at < 0) return i; }\n  return weights.length - 1;\n}\n\nexport const NEAR_CANOPY = { size: [0.6, 1.2], clump: 0.95, perClump: 8, cells: 2 } as const;\nexport const MID_CANOPY = { size: [1.0, 1.9], clump: 1.4, perClump: 6, cells: 2 } as const;\n\n/** Small stable PRNG (mulberry32). */\nexport function canopyRandom(seed: number): () => number {\n  let a = seed >>> 0;\n  return () => {\n    a = (a + 0x6d2b79f5) >>> 0;\n    let t = a;\n    t = Math.imul(t ^ (t >>> 15), t | 1);\n    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);\n    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;\n  };\n}\n\nexport interface CanopyCrown { centre: THREE.Vector3; radii: THREE.Vector3 }\n\nexport function canopyCrown(leaf: THREE.BufferGeometry): CanopyCrown {\n  leaf.computeBoundingBox();\n  const box = leaf.boundingBox!, size = box.getSize(new THREE.Vector3());\n  const h = Math.max(0.3, Math.max(size.x, size.z) / 2);\n  return { centre: box.getCenter(new THREE.Vector3()), radii: new THREE.Vector3(h, Math.max(0.3, size.y / 2), h) };\n}\n\n/** Outward from the crown's heart (on its spheroid), a little upward. */\nfunction clumpOutward(crown: CanopyCrown, c: THREE.Vector3, out: THREE.Vector3): THREE.Vector3 {\n  out.set((c.x - crown.centre.x) / crown.radii.x ** 2, (c.y - crown.centre.y) / crown.radii.y ** 2, (c.z - crown.centre.z) / crown.radii.z ** 2);\n  if (out.lengthSq() < 1e-8) out.set(0, 1, 0);\n  return out.normalize().addScaledVector(new THREE.Vector3(0, 1, 0), 0.25).normalize();\n}\n\nconst depthIn = (crown: CanopyCrown, p: THREE.Vector3) => Math.hypot((p.x - crown.centre.x) / crown.radii.x, (p.y - crown.centre.y) / crown.radii.y, (p.z - crown.centre.z) / crown.radii.z);\n\n/** Cumulative source-triangle areas, immutable for one canopy build. */\nfunction leafAreas(leaf: THREE.BufferGeometry): Float64Array {\n  const p = leaf.getAttribute('position');\n  const index = leaf.index;\n  const tris = index ? index.count / 3 : p.count / 3;\n  const at = (t: number, k: number) => (index ? index.getX(t * 3 + k) : t * 3 + k);\n  const areas = new Float64Array(tris);\n  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();\n  let total = 0;\n  for (let t = 0; t < tris; t++) {\n    a.fromBufferAttribute(p, at(t, 0)); b.fromBufferAttribute(p, at(t, 1)); c.fromBufferAttribute(p, at(t, 2));\n    total += b.sub(a).cross(c.sub(a)).length() / 2;\n    areas[t] = total;\n  }\n  return areas;\n}\n\n/** Area-weighted points on the source leaf triangles: where the source tree carries leaves. */\nfunction leafSamples(leaf: THREE.BufferGeometry, count: number, random: () => number, areas: Float64Array): THREE.Vector3[] {\n  const p = leaf.getAttribute('position'), index = leaf.index, tris = areas.length;\n  const at = (t: number, k: number) => (index ? index.getX(t * 3 + k) : t * 3 + k);\n  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();\n  const total = areas[tris - 1] ?? 0;\n  const out: THREE.Vector3[] = [];\n  if (!(total > 0)) return out;\n  for (let i = 0; i < count; i++) {\n    const r = random() * total;\n    let lo = 0, hi = tris - 1;\n    while (lo < hi) { const mid = (lo + hi) >> 1; if (areas[mid]! < r) lo = mid + 1; else hi = mid; }\n    let u = random(), v = random();\n    if (u + v > 1) { u = 1 - u; v = 1 - v; }\n    a.fromBufferAttribute(p, at(lo, 0)); b.fromBufferAttribute(p, at(lo, 1)); c.fromBufferAttribute(p, at(lo, 2));\n    out.push(a.clone().addScaledVector(b.sub(a), u).addScaledVector(c.sub(a), v));\n  }\n  return out;\n}\n\n/** The wood's outer branch tips inside the crown: vertices far out from the trunk, high in the crown, spread apart. */\nexport function branchTips(wood: THREE.BufferGeometry | null, crown: CanopyCrown, spacing: number, limit: number): THREE.Vector3[] {\n  if (!wood) return [];\n  const p = wood.getAttribute('position'), v = new THREE.Vector3();\n  const candidates: { p: THREE.Vector3; score: number }[] = [];\n  const base = crown.centre.y - crown.radii.y;\n  for (let i = 0; i < p.count; i++) {\n    v.fromBufferAttribute(p, i);\n    if (v.y < base + crown.radii.y * 0.4) continue;\n    const d = depthIn(crown, v);\n    if (d < 0.55 || d > 1.35) continue;\n    candidates.push({ p: v.clone(), score: d });\n  }\n  candidates.sort((x, y) => y.score - x.score || x.p.x - y.p.x || x.p.y - y.p.y || x.p.z - y.p.z);\n  const out: THREE.Vector3[] = [];\n  for (const c of candidates) {\n    if (out.length >= limit) break;\n    if (out.every(o => o.distanceToSquared(c.p) > spacing * spacing)) out.push(c.p);\n  }\n  return out;\n}\n\n/** Clump centres: branch tips first, then even (minimum-distance) samples of the source leaves. */\nfunction clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THREE.Vector3[], count: number, spacing: number, random: () => number): THREE.Vector3[] {\n  const out = tips.slice(0, count);\n  const cell = spacing, grid = new Map<string, THREE.Vector3[]>();\n  const key = (x: number, y: number, z: number) => `${x},${y},${z}`;\n  const add = (q: THREE.Vector3) => {\n    const k = key(Math.floor(q.x / cell), Math.floor(q.y / cell), Math.floor(q.z / cell));\n    let list = grid.get(k); if (!list) { list = []; grid.set(k, list); } list.push(q);\n  };\n  const near = (q: THREE.Vector3, d: number) => {\n    const cx = Math.floor(q.x / cell), cy = Math.floor(q.y / cell), cz = Math.floor(q.z / cell);\n    for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) for (let z = -1; z <= 1; z++)\n      for (const o of grid.get(key(cx + x, cy + y, cz + z)) ?? []) if (o.distanceToSquared(q) < d * d) return true;\n    return false;\n  };\n  out.forEach(add);\n  // Geometry stays unchanged while spacing relaxes; build its distribution only on the first sampling round.\n  let areas: Float64Array | undefined;\n  // Relax the spacing until the count is met: dense sources fill at full spacing, sparse ones closer together.\n  for (let d = spacing; out.length < count && d > spacing * 0.2; d *= 0.8) {\n    const samples = leafSamples(leaf, (count - out.length) * 6, random, areas ??= leafAreas(leaf));\n    for (const q of samples) {\n      if (out.length >= count) break;\n      // The heart stays open (trunk and boughs show through it, as under a real crown): most samples there are skipped.\n      if (depthIn(crown, q) < 0.45 && random() < 0.7) continue;\n      // The lowest fifth of the source crown is hanging sheet ends; the boughs and trunk show beneath the canopy.\n      if (q.y < crown.centre.y - crown.radii.y * 0.6) continue;\n      if (near(q, d)) continue;\n      out.push(q); add(q);\n    }\n  }\n  return out;\n}\n\n\n/**\n * Clump centres stay within `ANCHOR_REACH` clump radii of the wood (playtest 7): a clump placed from the source sheets\n * alone could hang metres clear of every branch and read, from below at dusk, as a leaf mass floating in the sky.\n */\nexport const ANCHOR_REACH = 0.55;\n/** A clump farther than this many clump radii from the wood is dropped instead of given a twig (its cards go elsewhere). */\nconst ANCHOR_DROP = 7;\n/** Clump centres closer than this many clump radii overlap: one held by the wood holds the other. */\nconst ANCHOR_LINK = 1.8;\n/** A clump is held through a neighbour only within this many clump radii of the wood. */\nconst ANCHOR_HOLD = 3;\n/** No drawn clump centre ends farther than this from its nearest wood or twig, in source metres, for every LOD: a middle\n * crown's larger clumps spread their cards wider, so its limit is the near one's, not a share of its own radius (0.0.17). */\nexport const ANCHOR_LIMIT = 0.75;\n/** Twigs stay above the player's 2.6 m slab (source space is metres): see treeWoodCollisionRadius. */\nconst TWIG_FLOOR = 3.2;\n\n/** Nearest point on the wood's triangles: returns the distance and writes the point to `hit` (Infinity without wood). */\n/** With `max`, the search stops there: a point farther from the wood returns Infinity. */\nexport function woodAnchor(wood: THREE.BufferGeometry | null): (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number {\n  const position = wood?.getAttribute('position');\n  if (!wood || !position || position.count === 0) return () => Infinity;\n  const index = wood.index, count = Math.floor((index?.count ?? position.count) / 3);\n  // Flat triangle corners and boxes; a bounding-volume tree over them (leaves of up to 8 triangles, split at the median\n  // centre of the longest axis). Nearest queries visit the closer half first and prune by distance.\n  const corners = new Float32Array(count * 9), boxes = new Float32Array(count * 6), centres = new Float32Array(count * 3);\n  for (let t = 0; t < count; t++) {\n    for (let k = 0; k < 3; k++) {\n      const v = index ? index.getX(t * 3 + k) : t * 3 + k;\n      corners[t * 9 + k * 3] = position.getX(v); corners[t * 9 + k * 3 + 1] = position.getY(v); corners[t * 9 + k * 3 + 2] = position.getZ(v);\n    }\n    for (let c = 0; c < 3; c++) {\n      const a = corners[t * 9 + c]!, b = corners[t * 9 + 3 + c]!, d = corners[t * 9 + 6 + c]!;\n      boxes[t * 6 + c] = Math.min(a, b, d); boxes[t * 6 + 3 + c] = Math.max(a, b, d); centres[t * 3 + c] = (a + b + d) / 3;\n    }\n  }\n  const order = new Int32Array(count).map((_, i) => i);\n  const nodeBox: number[] = [], nodeStart: number[] = [], nodeEnd: number[] = [], nodeLeft: number[] = [], nodeRight: number[] = [];\n  const build = (start: number, end: number): number => {\n    const id = nodeStart.length;\n    nodeStart.push(start); nodeEnd.push(end); nodeLeft.push(-1); nodeRight.push(-1);\n    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];\n    for (let i = start; i < end; i++) { const t = order[i]!; for (let c = 0; c < 3; c++) { lo[c] = Math.min(lo[c]!, boxes[t * 6 + c]!); hi[c] = Math.max(hi[c]!, boxes[t * 6 + 3 + c]!); } }\n    nodeBox.push(...lo, ...hi);\n    if (end - start <= 8) return id;\n    const axis = hi[0]! - lo[0]! >= hi[1]! - lo[1]! && hi[0]! - lo[0]! >= hi[2]! - lo[2]! ? 0 : hi[1]! - lo[1]! >= hi[2]! - lo[2]! ? 1 : 2;\n    order.subarray(start, end).sort((a, b) => centres[a * 3 + axis]! - centres[b * 3 + axis]!);\n    const middle = (start + end) >> 1;\n    const left = build(start, middle), right = build(middle, end);\n    nodeLeft[id] = left; nodeRight[id] = right;\n    return id;\n  };\n  build(0, count);\n  const boxDistance = (array: ArrayLike<number>, o: number, p: THREE.Vector3) => Math.hypot(\n    Math.max(array[o]! - p.x, 0, p.x - array[o + 3]!), Math.max(array[o + 1]! - p.y, 0, p.y - array[o + 4]!), Math.max(array[o + 2]! - p.z, 0, p.z - array[o + 5]!));\n  const triangle = new THREE.Triangle(), near = new THREE.Vector3();\n  return (p, hit, max = Infinity) => {\n    let best = max, found = false;\n    const visit = (node: number) => {\n      if (boxDistance(nodeBox, node * 6, p) > best) return;\n      if (nodeLeft[node]! < 0) {\n        for (let i = nodeStart[node]!; i < nodeEnd[node]!; i++) {\n          const t = order[i]!;\n          if (boxDistance(boxes, t * 6, p) > best) continue;\n          triangle.a.fromArray(corners, t * 9); triangle.b.fromArray(corners, t * 9 + 3); triangle.c.fromArray(corners, t * 9 + 6);\n          triangle.closestPointToPoint(p, near);\n          const d = near.distanceTo(p);\n          if (d <= best) { best = d; hit.copy(near); found = true; }\n        }\n        return;\n      }\n      const a = nodeLeft[node]!, b = nodeRight[node]!;\n      if (boxDistance(nodeBox, a * 6, p) <= boxDistance(nodeBox, b * 6, p)) { visit(a); visit(b); } else { visit(b); visit(a); }\n    };\n    visit(0);\n    return found ? best : Infinity;\n  };\n}\n\n/** Sides of a grown twig; rings along it (base, bend, tip). Each twig costs sides \u00d7 (rings \u2212 1) \u00d7 2 triangles. */\nconst TWIG_SIDES = 3;\n/** Only a twig longer than this (m) bends at a middle ring; a short one, hidden in leaves, is a single tapered segment. */\nconst TWIG_BEND_LENGTH = 2.5;\nconst twigRings = (t: CanopyTwig) => t.from.distanceTo(t.to) > TWIG_BEND_LENGTH ? 3 : 2;\n/** Triangles the twigs add to the wood (growTwigs). */\nexport const twigTriangles = (twigs: readonly CanopyTwig[]) => twigs.reduce((n, t) => n + TWIG_SIDES * (twigRings(t) - 1) * 2, 0);\n\n/** A twig grown from the wood (`from`, on its surface) out to a clump's centre (`to`). */\nexport interface CanopyTwig { from: THREE.Vector3; to: THREE.Vector3 }\n\n/**\n * The wood with twigs added (playtest 7): a thin three-sided limb from just inside the bough out to each clump,\n * tapering to a point and bowing down a little at its middle, with the wood's own attribute set. Each twig gets its\n * own bark: uv runs along it from the bough's uv, and normal and tangent follow its own surface (copied tangents\n * from the bough left the normal map's frame skewed and the twigs near black). Other attributes (vertex colours,\n * wind weights) copy the nearest bough vertex.\n */\nexport function growTwigs(wood: THREE.BufferGeometry, twigs: readonly CanopyTwig[], reconnectRoots = false): THREE.BufferGeometry {\n  if (!twigs.length) return wood;\n  const source = wood;\n  const p = source.getAttribute('position'), names = Object.keys(source.attributes);\n  const hasMotion = source.hasAttribute('_wind') || source.hasAttribute('_pivot');\n  const added: Record<string, number[]> = Object.fromEntries(names.map(n => [n, []]));\n  const index: number[] = source.index ? Array.from(source.index.array) : Array.from({ length: p.count }, (_, i) => i);\n  let next = p.count;\n  // Each twig inherits the nearest source vertex's bark attributes. Group the\n  // wood into metre cells once, then reject cells whose squared distance bound\n  // cannot beat the current nearest vertex. Small plans keep the direct scan.\n  const bounds = new THREE.Box3(), probe = new THREE.Vector3();\n  if (twigs.length >= 32) for (let i = 0; i < p.count; i++) {\n    probe.fromBufferAttribute(p, i);\n    if (Number.isFinite(probe.x) && Number.isFinite(probe.y) && Number.isFinite(probe.z)) bounds.expandByPoint(probe);\n  }\n  const ox = Math.floor(bounds.min.x), oy = Math.floor(bounds.min.y), oz = Math.floor(bounds.min.z);\n  const nx = Math.floor(bounds.max.x) - ox + 1, ny = Math.floor(bounds.max.y) - oy + 1, nz = Math.floor(bounds.max.z) - oz + 1;\n  const grid = new Map<number, { x: number; y: number; z: number; indices: number[]; distance2: number }>();\n  if (twigs.length >= 32 && Number.isSafeInteger(nx * ny * nz)) for (let i = 0; i < p.count; i++) {\n    const x = Math.floor(p.getX(i)), y = Math.floor(p.getY(i)), z = Math.floor(p.getZ(i));\n    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) continue;\n    const key = x - ox + nx * (y - oy + ny * (z - oz)), bucket = grid.get(key);\n    if (bucket) bucket.indices.push(i); else grid.set(key, { x, y, z, indices: [i], distance2: Infinity });\n  }\n  const nearestVertex = (q: THREE.Vector3) => {\n    let best = 0, bd = Infinity;\n    const consider = (i: number) => {\n      const d = (p.getX(i) - q.x) ** 2 + (p.getY(i) - q.y) ** 2 + (p.getZ(i) - q.z) ** 2;\n      if (d < bd || d === bd && i < best) { bd = d; best = i; }\n    };\n    if (grid.size && Number.isFinite(q.x) && Number.isFinite(q.y) && Number.isFinite(q.z)) {\n      let nearest: { indices: number[]; distance2: number } | undefined;\n      for (const bucket of grid.values()) {\n        const dx = Math.max(bucket.x - q.x, 0, q.x - (bucket.x + 1));\n        const dy = Math.max(bucket.y - q.y, 0, q.y - (bucket.y + 1));\n        const dz = Math.max(bucket.z - q.z, 0, q.z - (bucket.z + 1));\n        bucket.distance2 = dx * dx + dy * dy + dz * dz;\n        if (!nearest || bucket.distance2 < nearest.distance2) nearest = bucket;\n      }\n      if (nearest) for (const i of nearest.indices) consider(i);\n      for (const bucket of grid.values()) {\n        // Keep equal bounds: a tied vertex can have a lower original index.\n        if (bucket === nearest || bucket.distance2 > bd) continue;\n        for (const i of bucket.indices) consider(i);\n      }\n    } else for (let i = 0; i < p.count; i++) consider(i);\n    return best;\n  };\n  const uv = source.getAttribute('uv');\n  const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3(), q = new THREE.Vector3(), n = new THREE.Vector3();\n  const centre = new THREE.Vector3(), tangent = new THREE.Vector3(), across = new THREE.Vector3(), down = new THREE.Vector3();\n  // Linking can delete a parent plan after other twigs were anchored to it. Reconnect only visibly separated roots\n  // against the retained wood and already emitted centreline segments; leaf placement and planned topology stay fixed.\n  const support = reconnectRoots ? woodAnchor(wood) : null, segments: THREE.Line3[] = [];\n  const root = new THREE.Vector3(), rootHit = new THREE.Vector3(), probeHit = new THREE.Vector3(), previousCentre = new THREE.Vector3();\n  // Every UV-mapped ring needs both U ends at its seam, including bark without a normal map.\n  const ringVertices = added.uv || added.tangent ? TWIG_SIDES + 1 : TWIG_SIDES;\n  for (const t of twigs) {\n    if (support && !(t.from.distanceTo(t.to) > 1e-3)) continue;\n    root.copy(t.from);\n    if (support) {\n      let distance = support(root, rootHit);\n      for (const segment of segments) {\n        segment.closestPointToPoint(root, true, probeHit);\n        const d = probeHit.distanceTo(root);\n        if (d < distance) { distance = d; rootHit.copy(probeHit); }\n      }\n      // Existing grafts overlap within the small ring/embedding allowance. Leave them bit-for-bit unchanged.\n      if (Number.isFinite(distance) && distance > 0.12 && rootHit.distanceTo(t.to) > 1e-3) root.copy(rootHit);\n    }\n    axis.subVectors(t.to, root); const length = axis.length(); if (!(length > 1e-3)) continue; axis.divideScalar(length);\n    a.set(Math.abs(axis.y) < 0.9 ? 0 : 1, Math.abs(axis.y) < 0.9 ? 1 : 0, 0).cross(axis).normalize(); b.crossVectors(axis, a);\n    // Bow: the middle sags (gravity), perpendicular to the twig.\n    down.set(0, -1, 0).addScaledVector(axis, axis.y).normalize().multiplyScalar(length * 0.08);\n    const r0 = Math.min(0.05, Math.max(0.022, 0.018 + length * 0.007)), r1 = 0.004;\n    const start = root.clone().addScaledVector(axis, -Math.min(0.08, r0 * 2)), base = next, copy = nearestVertex(t.from);\n    // A repaired graft follows its new support at the root. Keep the tip on\n    // its original motion so the leaf clump it carries does not change binding.\n    const rootCopy = reconnectRoots && hasMotion && !root.equals(t.from) ? nearestVertex(root) : copy;\n    const u0 = uv ? uv.getX(copy) : 0, v0 = uv ? uv.getY(copy) : 0;\n    const rings = twigRings(t);\n    for (let ring = 0; ring < rings; ring++) {\n      const f = ring / (rings - 1), r = r0 + (r1 - r0) * Math.pow(f, 0.8);\n      centre.copy(start).lerp(t.to, f).addScaledVector(down, Math.sin(f * Math.PI));\n      if (support) {\n        if (ring) segments.push(new THREE.Line3(previousCentre.clone(), centre.clone()));\n        previousCentre.copy(centre);\n      }\n      tangent.copy(axis).addScaledVector(down, Math.cos(f * Math.PI) * Math.PI / Math.max(length, 1e-3)).normalize();\n      for (let k = 0; k < ringVertices; k++) {\n        const angle = (k % TWIG_SIDES) / TWIG_SIDES * Math.PI * 2, cosine = Math.cos(angle), sine = Math.sin(angle);\n        n.copy(a).multiplyScalar(cosine).addScaledVector(b, sine);\n        q.copy(centre).addScaledVector(n, r);\n        n.addScaledVector(tangent, -n.dot(tangent)).normalize();\n        // U runs around the twig; V decreases along its length. Using the\n        // lengthwise tangent here rotated the source normal map by 90 degrees.\n        if (added.tangent) {\n          across.copy(a).multiplyScalar(-sine).addScaledVector(b, cosine);\n          across.addScaledVector(n, -across.dot(n)).normalize();\n        }\n        for (const name of names) {\n          const attr = source.getAttribute(name), out = added[name]!;\n          if (name === 'position') out.push(q.x, q.y, q.z);\n          else if (name === 'normal') out.push(n.x, n.y, n.z);\n          else if (name === 'tangent') out.push(across.x, across.y, across.z, -1);\n          else if (name === 'uv') out.push(u0 + k / TWIG_SIDES * 0.02, v0 - f * Math.min(0.08, length * 0.02));\n          else for (let c = 0; c < attr.itemSize; c++) out.push(attr.getComponent(ring === 0 && (name === '_wind' || name === '_pivot') ? rootCopy : copy, c));\n        }\n        next++;\n      }\n    }\n    for (let ring = 0; ring < rings - 1; ring++) for (let k = 0; k < TWIG_SIDES; k++) {\n      const k1 = ringVertices > TWIG_SIDES ? k + 1 : (k + 1) % TWIG_SIDES, i0 = base + ring * ringVertices, i1 = i0 + ringVertices;\n      index.push(i0 + k, i0 + k1, i1 + k1, i0 + k, i1 + k1, i1 + k);\n    }\n  }\n  const geometry = new THREE.BufferGeometry();\n  for (const name of names) {\n    const attr = source.getAttribute(name) as THREE.BufferAttribute, values = new Float32Array((p.count + (next - p.count)) * attr.itemSize);\n    for (let i = 0; i < p.count; i++) for (let c = 0; c < attr.itemSize; c++) values[i * attr.itemSize + c] = attr.getComponent(i, c);\n    values.set(added[name]!, p.count * attr.itemSize);\n    geometry.setAttribute(name, new THREE.BufferAttribute(values, attr.itemSize));\n  }\n  geometry.setIndex(index);\n  geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  // The twigs follow the wood's own triangles; treeWoodCollisionRadius stops at `twigIndex` (twigs are not obstacles).\n  geometry.userData = { ...wood.userData, twigs: twigs.length, twigIndex: source.index ? source.index.count : p.count };\n  return geometry;\n}\n\n/**\n * Build the cluster canopy. `leaf` is the source crown (density field and outline), `wood` the tree's wood (its branch\n * tips are covered first). Positions are in the same space as the inputs. An anchor may be shared between retries\n * only while that source wood stays unchanged.\n */\nexport function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions, anchor = woodAnchor(wood)): THREE.BufferGeometry {\n  const random = canopyRandom(opts.seed);\n  const crown = canopyCrown(leaf);\n  // Cards per clump vary with depth: a full shell, a thin heart.\n  const meanPer = opts.perClump * 0.8;\n  const clumps = Math.max(1, Math.round(opts.cards / meanPer));\n  const spacing = opts.clump * 1.1;\n  const tips = branchTips(wood, crown, spacing * 1.2, Math.round(clumps * 0.25));\n  // Every clump hangs from the wood (playtest 7). One beyond reach keeps its place and grows a twig out to it (see\n  // growTwigs), from the nearest bough or an earlier twig, nearest clumps first, so twigs branch from each other rather\n  // than fanning out of one point. It is drawn a little fuller, and smaller clumps along the twig hide it in leaves (a\n  // bare twig read as a dark spike against the sky). Only a clump far out is dropped.\n  const hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;\n  let dropped = 0;\n  const twigs: CanopyTwig[] = [], grown = new Set<THREE.Vector3>(), placedIn = new Set<THREE.Vector3>();\n  const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random);\n  const plans = sources.map(source => {\n    // Where the clump will sit once drawn in (below).\n    const sits = source.clone().addScaledVector(clumpOutward(crown, source, new THREE.Vector3()), -opts.clump * 0.6);\n    return { source, sits, d: wood ? anchor(sits, hit) : 0, hit: hit.clone(), keep: [source] as THREE.Vector3[], twig: null as CanopyTwig | null };\n  });\n  const onTwig = (q: THREE.Vector3, out: THREE.Vector3) => {\n    let best = Infinity; const line = new THREE.Line3(), at = new THREE.Vector3();\n    for (const t of twigs) { line.set(t.from, t.to).closestPointToPoint(q, true, at); const d = at.distanceTo(q); if (d < best) { best = d; out.copy(at); } }\n    return best;\n  };\n  // A clump overlapping one already held (by wood or a twig) is held through it: its leaves touch that clump's.\n  const held: THREE.Vector3[] = [], link = opts.clump * ANCHOR_LINK;\n  const touchesHeld = (q: THREE.Vector3) => held.some(h => h.distanceToSquared(q) <= link * link);\n  for (const plan of [...plans].sort((a, b) => a.d - b.d)) {\n    if (!wood) continue;\n    // Only near the wood: a clump far out still gets its own twig, so leaves stay close to the branches.\n    if (plan.d <= reach || plan.d <= opts.clump * ANCHOR_HOLD && touchesHeld(plan.sits)) { held.push(plan.sits); continue; }\n    held.push(plan.sits);\n    if (plan.d > opts.clump * ANCHOR_DROP) { dropped++; plan.keep = []; continue; }\n    const from = plan.hit.clone(), viaTwig = new THREE.Vector3(), dt = onTwig(plan.sits, viaTwig);\n    if (dt <= reach) continue;\n    if (dt < plan.d) from.copy(viaTwig);\n    // A twig through the 2.6 m walking slab would widen the trunk's collision footprint; low clumps are pulled in instead.\n    if (Math.min(from.y, plan.sits.y) < TWIG_FLOOR) {\n      const moved = from.clone().addScaledVector(plan.sits.clone().sub(from).normalize(), reach * 0.9);\n      placedIn.add(moved); plan.keep = [moved]; continue;\n    }\n    // The twig ends inside its clump, short of the centre, so the tip never pokes out of the leaves.\n    const reachIn = Math.max(0, from.distanceTo(plan.sits) - opts.clump * 0.45);\n    plan.twig = { from, to: from.clone().lerp(plan.sits, reachIn / Math.max(from.distanceTo(plan.sits), 1e-6)) };\n    twigs.push(plan.twig);\n    grown.add(plan.source);\n    const step = opts.clump * 1.0, length = from.distanceTo(plan.sits);\n    for (let along = length - step; along > reach + opts.clump * 0.5; along -= step) {\n      const at = from.clone().lerp(plan.sits, along / length);\n      placedIn.add(at); plan.keep.push(at); held.push(at);\n    }\n  }\n  // Playtest 8: no lone clump out in the sky. Clumps link when their leaves touch; any group not linked (through\n  // others) to a clump at the wood is pulled in, nearest first, until it touches the linked mass. At play distance a\n  // twig is invisible, so a clump hanging on one alone read as a floating chunk; a pulled clump drops its twig.\n  if (wood) {\n    const touch = opts.clump * 1.1, tmp = new THREE.Vector3();\n    const items = plans.flatMap(plan => plan.keep.map((c, k) => ({ plan, k, at: placedIn.has(c) ? c.clone() : c.clone().addScaledVector(clumpOutward(crown, c, tmp), -opts.clump * 0.6), linked: false })));\n    type Item = (typeof items)[number];\n    // Each unlinked clump keeps its nearest linked one, updated only against clumps as they join.\n    const near = new Map<Item, { to: Item; d: number }>();\n    const join = (added: Item[]) => { for (const it of items) if (!it.linked) for (const l of added) { const d = it.at.distanceToSquared(l.at), n = near.get(it); if (!n || d < n.d) near.set(it, { to: l, d }); } };\n    const spread = (from: Item) => {\n      const queue = [from], added = [from]; from.linked = true; near.delete(from);\n      while (queue.length) { const a = queue.pop()!; for (const b of items) if (!b.linked && b.at.distanceToSquared(a.at) <= touch * touch) { b.linked = true; near.delete(b); added.push(b); queue.push(b); } }\n      return added;\n    };\n    const seeds: Item[] = [];\n    for (const it of items) if (!it.linked && anchor(it.at, tmp) <= reach) seeds.push(...spread(it));\n    join(seeds);\n    while (seeds.length && near.size) {\n      let best: Item | null = null, bd = Infinity;\n      for (const [it, n] of near) if (n.d < bd) { bd = n.d; best = it; }\n      const to = near.get(best!)!.to;\n      best!.at.sub(to.at).setLength(touch * 0.85).add(to.at);\n      placedIn.add(best!.at); best!.plan.keep[best!.k] = best!.at;\n      if (best!.plan.twig) { twigs.splice(twigs.indexOf(best!.plan.twig), 1); best!.plan.twig = null; }\n      join(spread(best!));\n    }\n  }\n  // 0.0.17: a clump held only through its neighbours (above) could still sit metres from every branch: linked masses\n  // chain without limit, and at dusk, moving through the forest, they read as leaf chunks floating beside the tree.\n  // Last, every clump as drawn is pulled in toward its nearest wood or twig until it is within ANCHOR_LIMIT.\n  if (wood) {\n    const limit = ANCHOR_LIMIT, tmp = new THREE.Vector3(), viaTwig = new THREE.Vector3();\n    for (const plan of plans) plan.keep = plan.keep.map(c => {\n      const at = placedIn.has(c) ? c.clone() : c.clone().addScaledVector(clumpOutward(crown, c, tmp), -opts.clump * 0.6);\n      let d = anchor(at, hit);\n      const dt = onTwig(at, viaTwig);\n      if (dt < d) { d = dt; hit.copy(viaTwig); }\n      if (!(d > limit) || !Number.isFinite(d)) return c;\n      const moved = at.sub(hit).setLength(limit).add(hit);\n      placedIn.add(moved);\n      if (grown.has(c)) grown.add(moved);\n      return moved;\n    });\n  }\n  const centres = plans.flatMap(plan => plan.keep);\n  const weights = centres.map(c => 0.6 + 0.4 * THREE.MathUtils.smoothstep(depthIn(crown, c), 0.35, 0.85));\n  const weightSum = weights.reduce((s, w) => s + w, 0);\n  const positions: number[] = [], normals: number[] = [], uvs: number[] = [], index: number[] = [];\n  const out = new THREE.Vector3(), dir = new THREE.Vector3(), n = new THREE.Vector3(), t1 = new THREE.Vector3(), t2 = new THREE.Vector3();\n  const centre = new THREE.Vector3(), corner = new THREE.Vector3(), vn = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);\n  const ax = new THREE.Vector3(), ay = new THREE.Vector3();\n  const randomUnit = (v: THREE.Vector3) => {\n    const z = random() * 2 - 1, a = random() * Math.PI * 2, r = Math.sqrt(1 - z * z);\n    return v.set(r * Math.cos(a), z, r * Math.sin(a));\n  };\n  let placed = 0, carry = 0;\n  centres.forEach((source, ci) => {\n    let c = source;\n    carry += opts.cards * weights[ci]! / weightSum;\n    const k = ci === centres.length - 1 ? opts.cards - placed : Math.min(opts.cards - placed, Math.floor(carry));\n    carry -= k;\n    // Outward from the crown's heart (on its spheroid), a little upward.\n    clumpOutward(crown, c, out);\n    const rc = opts.clump * (0.8 + random() * 0.4) * (grown.has(c) ? 1.15 : 1);\n    // Clumps bulge outward (their cards sit on their outer face), so each is drawn in by part of its radius: the canopy\n    // keeps the source crown's outline rather than growing a clump past it.\n    if (!placedIn.has(c)) c = c.clone().addScaledVector(out, -opts.clump * 0.6);\n    for (let j = 0; j < k; j++) {\n      // A point in the clump, biased to its outer face; the card faces mostly out from the clump, then out and up.\n      dir.copy(randomUnit(dir)).addScaledVector(out, 0.7).normalize();\n      centre.copy(c).addScaledVector(dir, rc * (0.3 + 0.7 * Math.sqrt(random())));\n      n.copy(dir).multiplyScalar(0.75).addScaledVector(out, 0.35).addScaledVector(randomUnit(t1), 0.35).normalize();\n      // Card basis with a random roll about its normal.\n      t1.copy(Math.abs(n.y) < 0.9 ? up : out.x !== 0 || out.z !== 0 ? t2.set(out.z, 0, -out.x).normalize() : t2.set(1, 0, 0));\n      t1.crossVectors(n, t1).normalize(); t2.crossVectors(n, t1).normalize();\n      const roll = random() * Math.PI * 2, cr = Math.cos(roll), sr = Math.sin(roll);\n      ax.copy(t1).multiplyScalar(cr).addScaledVector(t2, sr);\n      ay.copy(t1).multiplyScalar(-sr).addScaledVector(t2, cr);\n      const s = (opts.size[0] + (opts.size[1] - opts.size[0]) * random()) / 2;\n      const cellIndex = opts.cellWeights ? weightedCell(opts.cellWeights, random()) : Math.floor(random() * opts.cells * opts.cells), cu = cellIndex % opts.cells, cv = Math.floor(cellIndex / opts.cells);\n      const flip = random() < 0.5;\n      const base = positions.length / 3;\n      for (const [x, y] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {\n        corner.copy(centre).addScaledVector(ax, x * s).addScaledVector(ay, y * s);\n        positions.push(corner.x, corner.y, corner.z);\n        // Rounded shading: the clump's sphere at this corner, then the crown's, then the card's own facing.\n        vn.copy(corner).sub(c).normalize().multiplyScalar(0.55).addScaledVector(out, 0.3).addScaledVector(n, 0.15).normalize();\n        normals.push(vn.x, vn.y, vn.z);\n        const u = ((flip ? -x : x) * 0.5 + 0.5), v = y * 0.5 + 0.5;\n        uvs.push((cu + u) / opts.cells, (cv + v) / opts.cells);\n      }\n      index.push(base, base + 1, base + 2, base, base + 2, base + 3);\n      placed++;\n    }\n  });\n  const geometry = new THREE.BufferGeometry();\n  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));\n  geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));\n  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));\n  geometry.setIndex(index);\n  geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  geometry.userData.canopy = { clumps: centres.length, tips: tips.length, cards: placed, anchored: twigs.length, dropped, twigs };\n  return geometry;\n}\n\n/** Largest instance scale a tree can be placed at (floraPopulation: veteran oaks reach 1.46). */\nexport const MAX_TREE_SCALE = 1.46;\n/** Converts a world distance in metres into a tree's local units for an instance scale (world = local \u00d7 scale). */\nexport function woodReachLocal(metres: number, scale: number): number { return metres / scale; }\n\n/**\n * Cull (0.0.28): drop every card whose centre is farther than `reach` from the wood. Used for orchards only, where the\n * far cards hang beyond the audit reach; no card is moved.\n */\nexport function cullFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number, reach: number): { geometry: THREE.BufferGeometry; removed: number } {\n  const position = canopy.getAttribute(\"position\"), normal = canopy.getAttribute(\"normal\"), uv = canopy.getAttribute(\"uv\");\n  const index = canopy.index;\n  if (!position || !index) return { geometry: canopy, removed: 0 };\n  const cards = index.count / 6, positions: number[] = [], normals: number[] = [], uvs: number[] = [], kept: number[] = [];\n  const centre = new THREE.Vector3(), hit = new THREE.Vector3();\n  let removed = 0;\n  for (let c = 0; c < cards; c++) {\n    const first = index.getX(c * 6);\n    centre.set(0, 0, 0);\n    for (let k = 0; k < 4; k++) centre.add(new THREE.Vector3().fromBufferAttribute(position, first + k));\n    centre.multiplyScalar(0.25);\n    if (anchor(centre, hit, reach) > reach) { removed++; continue; }\n    const base = positions.length / 3;\n    for (let k = 0; k < 4; k++) {\n      const v = first + k;\n      positions.push(position.getX(v), position.getY(v), position.getZ(v));\n      if (normal) normals.push(normal.getX(v), normal.getY(v), normal.getZ(v));\n      if (uv) uvs.push(uv.getX(v), uv.getY(v));\n    }\n    kept.push(base, base + 1, base + 2, base, base + 2, base + 3);\n  }\n  const geometry = new THREE.BufferGeometry();\n  geometry.setAttribute(\"position\", new THREE.Float32BufferAttribute(positions, 3));\n  if (normal) geometry.setAttribute(\"normal\", new THREE.Float32BufferAttribute(normals, 3));\n  if (uv) geometry.setAttribute(\"uv\", new THREE.Float32BufferAttribute(uvs, 2));\n  geometry.setIndex(kept);\n  geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  geometry.userData = { ...canopy.userData, culledCards: removed };\n  return { geometry, removed };\n}\n\n/** Remove only components the unmasked audit flags beyond local wood reach; keep surviving attributes unchanged. */\nexport function cullDetachedCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number): { geometry: THREE.BufferGeometry; removed: number } {\n  const parts = components(canopy, () => {}), contacts = contactDistances(parts, wood, reach);\n  const removedVertices = new Set<number>();\n  let removed = 0;\n  for (let i = 0; i < parts.length; i++) if (!(contacts[i]! <= reach)) {\n    removed++; for (const vertex of parts[i]!.vertices!) removedVertices.add(vertex);\n  }\n  if (!removed) return { geometry: canopy, removed };\n  const index = canopy.index, kept: number[] = [], count = index?.count ?? canopy.getAttribute('position').count;\n  for (let i = 0; i < count; i += 3) {\n    const a = index?.getX(i) ?? i, b = index?.getX(i + 1) ?? i + 1, c = index?.getX(i + 2) ?? i + 2;\n    if (!removedVertices.has(a) && !removedVertices.has(b) && !removedVertices.has(c)) kept.push(a, b, c);\n  }\n  const geometry = new THREE.BufferGeometry();\n  for (const [name, attribute] of Object.entries(canopy.attributes)) geometry.setAttribute(name, attribute);\n  geometry.setIndex(kept); geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  geometry.userData = { ...canopy.userData, detachedCardsCulled: removed };\n  return { geometry, removed };\n}\n\n/**\n * Detached clumps (0.0.25): the clumps the canopy audit counts as detached (shared component-graph rule) are translated\n * `pull` of the way onto their nearest wood point. No card is removed; each clump keeps its size and orientation.\n * Optional `verticalGap` checks untouched clumps again, with a converted world gap, and only accepts vertical\n * translations that improve every member. The original projected layout is preserved for groundcover shade.\n */\nexport function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, gap = 0.75, pull = 0.9, verticalGap?: number): { geometry: THREE.BufferGeometry; moved: number } {\n  const position = canopy.getAttribute('position');\n  if (!position || !canopy.index) return { geometry: canopy, moved: 0 };\n  const set = detachedClumpSet(canopy, wood, reach, gap), anchor = woodAnchor(wood);\n  const collect = (far: readonly boolean[], clumpOf: readonly number[]) => {\n    const groups = new Map<number, number[]>();\n    far.forEach((isFar, i) => { if (!isFar) return; const key = clumpOf[i]!, members = groups.get(key); if (members) members.push(i); else groups.set(key, [i]); });\n    return groups;\n  };\n  const movedParts = verticalGap === undefined ? null : new Set<number>();\n  const out = new Float32Array(position.count * 3);\n  for (let v = 0; v < position.count; v++) out.set([position.getX(v), position.getY(v), position.getZ(v)], v * 3);\n  const mid = new THREE.Vector3(), hit = new THREE.Vector3(), delta = new THREE.Vector3(), p = new THREE.Vector3(), supportHit = new THREE.Vector3();\n  let moved = 0;\n  const translate = (members: number[], vertical: boolean) => {\n    const vertices = members.flatMap(i => set.parts[i]!.vertices ?? []);\n    if (!vertices.length) return;\n    mid.set(0, 0, 0);\n    for (const v of vertices) mid.add(p.fromBufferAttribute(position, v));\n    mid.multiplyScalar(1 / vertices.length);\n    let radius = 0;\n    for (const v of vertices) radius = Math.max(radius, p.fromBufferAttribute(position, v).distanceTo(mid));\n    const distance = anchor(mid, hit);\n    if (!(distance > (vertical ? Math.min(radius, reach) : radius))) return;\n    delta.copy(hit).sub(mid).multiplyScalar(pull);\n    if (vertical) {\n      delta.x = 0; delta.z = 0;\n      // Accept only a strict improvement for every member; do not trade one supported card for another.\n      for (const i of members) {\n        let before = Infinity, after = Infinity;\n        for (const sample of set.parts[i]!.samples) {\n          before = Math.min(before, anchor(sample, supportHit));\n          after = Math.min(after, anchor(p.copy(sample).add(delta), supportHit));\n        }\n        if (!(after < before - 1e-5)) return;\n      }\n      // Preserve the projected canopy and grass shade input bit-for-bit, including signed zeros.\n      for (const v of vertices) out[v * 3 + 1] = out[v * 3 + 1]! + delta.y;\n    } else {\n      for (const v of vertices) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }\n      if (movedParts) for (const i of members) movedParts.add(i);\n    }\n    moved++;\n  };\n  for (const members of collect(set.far, set.clumpOf).values()) translate(members, false);\n  if (verticalGap !== undefined) {\n    // Previously moved parts retain the existing layout. Reuse unchanged parts and their wood-contact results.\n    const contacts = set.contacts.map((distance, i) => movedParts!.has(i) ? 0 : distance);\n    const residual = farClumps(set.parts, contacts, reach, verticalGap, Math.max(reach, verticalGap));\n    for (const members of collect(residual.far, residual.clumpOf).values()) translate(members, true);\n  }\n  const geometry = new THREE.BufferGeometry();\n  geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));\n  for (const name of ['normal', 'uv']) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }\n  geometry.setIndex(canopy.index.clone());\n  geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  geometry.userData = { ...canopy.userData, snappedClumps: moved };\n  return { geometry, moved };\n}\n\n/**\n * Wood triangles that stand clear of the canopy (A134): the giant oak's upper branch tips end in open, flat shards that\n * read black against the sky. Any wood triangle above the crown's lower third whose centroid is farther than `reach`\n * from every clump-covered point is dropped.\n */\nexport function trimExposedWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number): { geometry: THREE.BufferGeometry; removed: number } {\n  const index = wood.index;\n  if (!index) return { geometry: wood, removed: 0 };\n  const crown = canopyCrown(canopy);\n  const cp = canopy.getAttribute('position');\n  const cell = reach, grid = new Set<string>();\n  for (let i = 0; i < cp.count; i++) grid.add(`${Math.floor(cp.getX(i) / cell)},${Math.floor(cp.getY(i) / cell)},${Math.floor(cp.getZ(i) / cell)}`);\n  const covered = (x: number, y: number, z: number) => {\n    const cx = Math.floor(x / cell), cy = Math.floor(y / cell), cz = Math.floor(z / cell);\n    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (let c = -1; c <= 1; c++) if (grid.has(`${cx + a},${cy + b},${cz + c}`)) return true;\n    return false;\n  };\n  const p = wood.getAttribute('position'), keep: number[] = [];\n  const floor = crown.centre.y - crown.radii.y * 0.3;\n  let removed = 0;\n  for (let t = 0; t < index.count; t += 3) {\n    const i0 = index.getX(t), i1 = index.getX(t + 1), i2 = index.getX(t + 2);\n    const x = (p.getX(i0) + p.getX(i1) + p.getX(i2)) / 3, y = (p.getY(i0) + p.getY(i1) + p.getY(i2)) / 3, z = (p.getZ(i0) + p.getZ(i1) + p.getZ(i2)) / 3;\n    if (y > floor && !covered(x, y, z)) { removed++; continue; }\n    keep.push(i0, i1, i2);\n  }\n  if (!removed) return { geometry: wood, removed: 0 };\n  const geometry = wood.clone();\n  geometry.setIndex(keep);\n  geometry.computeBoundingBox(); geometry.computeBoundingSphere();\n  return { geometry, removed };\n}\n\n/* ---- Leaf-cluster atlas ---- */\n\nexport interface CanopyAtlasLevel { width: number; height: number; data: Uint8Array }\n\n/** Fraction of texels whose alpha (0..255) clears `cutoff` (0..1). */\nexport function alphaCoverage(level: CanopyAtlasLevel, cutoff: number, scale = 1): number {\n  const limit = cutoff * 255;\n  let n = 0;\n  for (let i = 3; i < level.data.length; i += 4) if (level.data[i]! * scale > limit) n++;\n  return n / (level.width * level.height);\n}\n\n/**\n * Halve a level (box filter, colour weighted by alpha so leaf edges do not darken), then scale its alpha so the share of\n * texels past the cut-off matches the full-size level: a distant crown keeps the body it has up close.\n */\nexport function downsampleCoverage(level: CanopyAtlasLevel, target: number, cutoff: number): CanopyAtlasLevel {\n  const w = Math.max(1, level.width >> 1), h = Math.max(1, level.height >> 1), d = new Uint8Array(w * h * 4), s = level.data;\n  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {\n    let r = 0, g = 0, b = 0, a = 0;\n    for (let k = 0; k < 4; k++) {\n      const sx = Math.min(level.width - 1, x * 2 + (k & 1)), sy = Math.min(level.height - 1, y * 2 + (k >> 1)), i = (sy * level.width + sx) * 4;\n      const al = s[i + 3]! + 1;\n      r += s[i]! * al; g += s[i + 1]! * al; b += s[i + 2]! * al; a += al;\n    }\n    const o = (y * w + x) * 4;\n    d[o] = r / a; d[o + 1] = g / a; d[o + 2] = b / a; d[o + 3] = Math.max(0, a - 4) / 4;\n  }\n  const out = { width: w, height: h, data: d };\n  let lo = 0.5, hi = 4;\n  for (let i = 0; i < 18; i++) { const mid = (lo + hi) / 2; if (alphaCoverage(out, cutoff, mid) < target) lo = mid; else hi = mid; }\n  const scale = (lo + hi) / 2;\n  for (let i = 3; i < d.length; i += 4) d[i] = Math.min(255, Math.round(d[i]! * scale));\n  return out;\n}\n\n/**\n * A procedural atlas of `cells` x `cells` dense leaf clusters: many small pointed leaves in olive greens, the back leaves\n * darker than the front, thinning toward the cluster's rim so its edge is soft. Pixel rows run from v = 0 upward.\n */\nexport function canopyAtlas(size: number, cells: number, seed: number): CanopyAtlasLevel {\n  const random = canopyRandom(seed);\n  const data = new Uint8Array(size * size * 4);\n  // Background colour under the leaves (alpha 0) is a dark green, so filtered edges never pick up white or black.\n  for (let i = 0; i < size * size; i++) { data[i * 4] = 52; data[i * 4 + 1] = 66; data[i * 4 + 2] = 30; }\n  const cell = size / cells;\n  for (let cv = 0; cv < cells; cv++) for (let cu = 0; cu < cells; cu++) {\n    const cx = (cu + 0.5) * cell, cy = (cv + 0.5) * cell, R = cell * 0.47;\n    const leaves = 340;\n    for (let l = 0; l < leaves; l++) {\n      const depth = l / leaves; // drawn back to front\n      const rr = R * Math.sqrt(random()) * (0.55 + 0.45 * (1 - depth * 0.4));\n      const ang = random() * Math.PI * 2;\n      const lx = cx + Math.cos(ang) * rr, ly = cy + Math.sin(ang) * rr;\n      const rim = rr / R;\n      // Leaves point roughly outward from the cluster's stem, with scatter.\n      const heading = ang + (random() - 0.5) * 1.6;\n      const len = cell * (0.075 + random() * 0.05) * (1 - 0.3 * rim), wid = len * (0.36 + random() * 0.14);\n      const hx = Math.cos(heading), hy = Math.sin(heading);\n      const shade = 0.68 + 0.42 * depth + (random() - 0.5) * 0.2;\n      const hue = random();\n      const base = [84 + hue * 40, 112 + hue * 30 + random() * 14, 40 + random() * 20];\n      const fade = 1 - 0.55 * THREE.MathUtils.smoothstep(rim, 0.62, 1.0);\n      const reach = len + 2;\n      const x0 = Math.max(0, Math.floor(lx - reach)), x1 = Math.min(size - 1, Math.ceil(lx + reach));\n      const y0 = Math.max(0, Math.floor(ly - reach)), y1 = Math.min(size - 1, Math.ceil(ly + reach));\n      for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {\n        let cover = 0, along = 0, across = 0;\n        for (let sub = 0; sub < 4; sub++) {\n          const px = x + 0.25 + 0.5 * (sub & 1) - lx, py = y + 0.25 + 0.5 * (sub >> 1) - ly;\n          const u = (px * hx + py * hy) / len, v = (-px * hy + py * hx) / wid; // u in -0.5..0.5 along the leaf\n          const t = u + 0.5;\n          if (t <= 0 || t >= 1) continue;\n          const half = Math.pow(Math.sin(Math.PI * Math.pow(t, 0.8)), 0.75) * 0.5;\n          if (Math.abs(v) < half) { cover += 0.25; along += t * 0.25; across += Math.abs(v) / Math.max(half, 1e-3) * 0.25; }\n        }\n        if (cover <= 0) continue;\n        along /= cover; across /= cover;\n        // A lighter midrib, a darker leaf edge and base.\n        const light = shade * (0.82 + 0.18 * along) * (1.05 - 0.2 * across) * (across < 0.12 ? 1.12 : 1);\n        const i = (y * size + x) * 4, a = cover * fade, prev = data[i + 3]! / 255;\n        const outA = a + prev * (1 - a);\n        for (let k = 0; k < 3; k++) {\n          const c = Math.min(255, base[k]! * light);\n          data[i + k] = outA > 0 ? (c * a + data[i + k]! * prev * (1 - a)) / outA : data[i + k]!;\n        }\n        data[i + 3] = Math.round(outA * 255);\n      }\n    }\n  }\n  return { width: size, height: size, data };\n}\n\n/** The atlas with coverage-preserving mips, as a texture (A134). */\nexport function canopyAtlasTexture(size: number, cells: number, cutoff: number, seed = 1340): THREE.DataTexture {\n  const top = canopyAtlas(size, cells, seed);\n  const target = alphaCoverage(top, cutoff);\n  const mipmaps: CanopyAtlasLevel[] = [top];\n  while (mipmaps[mipmaps.length - 1]!.width > 1) mipmaps.push(downsampleCoverage(mipmaps[mipmaps.length - 1]!, target, cutoff));\n  const texture = new THREE.DataTexture(top.data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);\n  texture.mipmaps = mipmaps as unknown as THREE.DataTexture['mipmaps'];\n  texture.generateMipmaps = false;\n  texture.minFilter = THREE.LinearMipmapLinearFilter;\n  texture.magFilter = THREE.LinearFilter;\n  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;\n  texture.colorSpace = THREE.SRGBColorSpace;\n  texture.anisotropy = 8;\n  texture.name = 'canopy-cluster-atlas';\n  texture.needsUpdate = true;\n  return texture;\n}\n"
+}
