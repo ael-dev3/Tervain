@@ -1,0 +1,44 @@
+<!doctype html><meta charset="utf-8"><title>Production LOD mask cost</title>
+<link rel="icon" href="data:,"><script type="module">
+import * as THREE from 'three';
+import {attachInstanceDistanceVisibility as before} from '/baseline.ts';
+import {attachInstanceDistanceVisibility as after} from '/held.ts';
+import {attachInstanceDistanceVisibility as pilot} from '/viewraypilot.ts';
+try {
+ const renderer=new THREE.WebGLRenderer({antialias:false});renderer.setSize(128,128);
+ document.body.append(renderer.domElement);renderer.info.autoReset=false;
+ const gl=renderer.getContext(),ext=gl.getExtension('EXT_disjoint_timer_query_webgl2');
+ if(!ext)throw Error('Elapsed GPU queries unavailable');
+ const target=new THREE.WebGLRenderTarget(128,128),scene=new THREE.Scene();
+ const camera=new THREE.PerspectiveCamera(50,1,.1,1000);camera.updateMatrixWorld();
+ const sources={},entries={};const instances=128;
+ for(const [mode,attach] of [['before',before],['after',after],['viewraypilot',pilot]]){
+  const material=new THREE.MeshStandardMaterial({side:THREE.DoubleSide,depthTest:false,depthWrite:false});
+  material.onBeforeCompile=shader=>{shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor=vec4(1.0);');};
+  const mesh=new THREE.InstancedMesh(new THREE.PlaneGeometry(300,300),material,instances);
+  mesh.frustumCulled=false;const visibility=attach(mesh),compile=material.onBeforeCompile;
+  material.onBeforeCompile=function(shader,r){compile.call(this,shader,r);sources[mode]={vertex:shader.vertexShader,fragment:shader.fragmentShader};};
+  for(let i=0;i<instances;i++)mesh.setMatrixAt(i,new THREE.Matrix4().makeTranslation(0,0,-150));
+  mesh.instanceMatrix.needsUpdate=true;scene.add(mesh);entries[mode]={mesh,coverage:visibility.coverage};
+ }
+ const draw=(mode,partial)=>{
+  for(const [key,e] of Object.entries(entries))e.mesh.visible=key===mode;
+  const c=entries[mode].coverage;
+  for(let i=0;i<instances;i++)c.itemSize===3?c.setXYZ(i,0,partial ? 0.5 : 1,partial ? 150 : 0):c.setXY(i,0,partial ? 0.5 : 1);
+  c.needsUpdate=true;renderer.setRenderTarget(target);renderer.info.reset();renderer.render(scene,camera);
+  return{draws:renderer.info.render.calls,triangles:renderer.info.render.triangles};
+ };
+ window.lodShaderCost=async function(samples=7){
+  for(const partial of [false,true])for(const mode of ['before','after','viewraypilot'])draw(mode,partial);
+  gl.finish();const programs=renderer.info.programs.length,rows=[];
+  for(const partial of [false,true])for(let i=0;i<samples;i++)for(const mode of (i%2?['viewraypilot','after','before']:['before','after','viewraypilot'])){
+   const q=gl.createQuery();gl.beginQuery(ext.TIME_ELAPSED_EXT,q);const cost=draw(mode,partial);gl.endQuery(ext.TIME_ELAPSED_EXT);
+   let ms=null;for(let n=0;n<10000;n++){if(gl.getQueryParameter(q,gl.QUERY_RESULT_AVAILABLE)){if(gl.getParameter(ext.GPU_DISJOINT_EXT))throw Error('Disjoint elapsed query');ms=gl.getQueryParameter(q,gl.QUERY_RESULT)/1e6;break;}await new Promise(r=>setTimeout(r,10));}
+   gl.deleteQuery(q);if(ms===null||gl.getError()||gl.isContextLost())throw Error('Invalid elapsed query');
+   if(cost.draws!==1||cost.triangles!==instances*2||renderer.info.programs.length!==programs)throw Error('Changed render/program cost');
+   const pixels=new Uint8Array(128*128*4);renderer.readRenderTargetPixels(target,0,0,128,128,pixels);let white=0;for(let k=0;k<pixels.length;k+=4)if(pixels[k]>200)white++;const rgbaSha256=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',pixels)),x=>x.toString(16).padStart(2,'0')).join('');rows.push({mode,partial,sample:i,ms,white,rgbaSha256,...cost});
+  }
+  return{rows,sources,instances,size:[128,128],programs,scope:'Actual production hooks, one instanced draw of 128 overlapping opaque planes with depth testing disabled. Partial interval [0,0.5), full interval [0,1); shared radius 150 m. No texture samples. Alternating A/B order; warmed programs. Elapsed query includes the tiny submission interval, not isolated hardware ISA timing or a native forest frame. Software renderer, not Apple GPU.'};
+ };window.fixtureReady=true;
+}catch(error){window.fixtureError=String(error.stack??error);}
+</script>

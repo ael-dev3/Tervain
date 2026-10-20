@@ -1,0 +1,17 @@
+{
+  "docs/perf/LOD-POP-COST-STUDY/baseline.ts": "b4c62e733f1840324893af4664d9de977bb15c478c6a50e49c5a9755136332a6",
+  "docs/perf/LOD-POP-COST-STUDY/held.ts": "b0c33b8728b147464161f88489e74d4a1d246285467a483a65a8e0a95cb0d5db",
+  "docs/perf/LOD-POP-COST-STUDY/viewraypilot.ts": "b9351434e758497d88d82df7b2c34ffc695d011854c80bfc123e04a75b9daf33",
+  "docs/perf/LOD-POP-COST-STUDY/viewray.html": "23fed42e3540edbb30dff490299fb137af5ed602177a3e7b281219e85b16b7a8",
+  "docs/perf/LOD-POP-COST-STUDY/viewray-report.json": "17340fb404ca293fd0141f803d93469e2b88613c2cc88aa07a3c0034f87e5246",
+  "docs/perf/LOD-POP-COST-STUDY/run.mjs": "1dce32ffc3158201e692ef93c0511e422ea8f7392e8be013a6e73fd05c02902c",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/report.json": "bd03478eb74e02998ea93b2670d0dda2a7414d60915789a66aa6cf78bdc0a770",
+  "docs/perf/LOD-POP-COST-STUDY/native-route.mjs": "20ff44d3e4d33ea5dd699f5da41e4ac2597b0f1288e2cd6f1ad6d73eb33aae57",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/0-0.png": "91948b08131fa094f2f6e0e395529dc82fe71a80ff67ea6ef62084831b995d19",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/0-1.png": "91948b08131fa094f2f6e0e395529dc82fe71a80ff67ea6ef62084831b995d19",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/1-0.png": "fbc9aef3b4f5e49858cbc78401a87506c495de22c09b9c3a9eb14864a8d81912",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/1-1.png": "fbc9aef3b4f5e49858cbc78401a87506c495de22c09b9c3a9eb14864a8d81912",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/2-0.png": "19224fca0b523fcfc46d2f07b7b2022eceb1c1bf5083b491a4f2d8e5afd6b409",
+  "docs/perf/LOD-POP-COST-STUDY/native-route/2-1.png": "19224fca0b523fcfc46d2f07b7b2022eceb1c1bf5083b491a4f2d8e5afd6b409",
+  "docs/perf/LOD-POP-COST-STUDY/README.md": "ec4ab64052b454d2363c98c4eb073ab693c900778443a30125248c88fb4feaf5"
+}

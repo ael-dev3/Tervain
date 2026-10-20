@@ -1,0 +1,432 @@
+{
+  "rows": [
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 0,
+      "ms": 24.561339,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 0,
+      "ms": 68.08384,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 0,
+      "ms": 44.754658,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 1,
+      "ms": 43.991626,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 1,
+      "ms": 63.610358,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 1,
+      "ms": 25.155935,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 2,
+      "ms": 24.538164,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 2,
+      "ms": 65.771288,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 2,
+      "ms": 39.615586,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 3,
+      "ms": 38.649291,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 3,
+      "ms": 63.78383,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 3,
+      "ms": 26.640719,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 4,
+      "ms": 30.268627,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 4,
+      "ms": 60.937114,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 4,
+      "ms": 37.905015,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 5,
+      "ms": 50.152405,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 5,
+      "ms": 74.182214,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 5,
+      "ms": 28.505394,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": false,
+      "sample": 6,
+      "ms": 25.642215,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": false,
+      "sample": 6,
+      "ms": 61.753738,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": false,
+      "sample": 6,
+      "ms": 45.004912,
+      "white": 16384,
+      "rgbaSha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 0,
+      "ms": 25.128549,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 0,
+      "ms": 60.544564,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 0,
+      "ms": 39.670058,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 1,
+      "ms": 39.575643,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 1,
+      "ms": 63.172525,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 1,
+      "ms": 26.667128,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 2,
+      "ms": 25.246078,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 2,
+      "ms": 70.804557,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 2,
+      "ms": 47.432488,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 3,
+      "ms": 49.09071,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 3,
+      "ms": 61.143864,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 3,
+      "ms": 24.917968,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 4,
+      "ms": 28.858764,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 4,
+      "ms": 60.60129,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 4,
+      "ms": 43.008433,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 5,
+      "ms": 43.061285,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 5,
+      "ms": 60.532796,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 5,
+      "ms": 24.823453,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "before",
+      "partial": true,
+      "sample": 6,
+      "ms": 24.837195,
+      "white": 9252,
+      "rgbaSha256": "1a42b35783ed2779cf1f4b8144255983f5c46408dabbd1beaff0a95232344c18",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "after",
+      "partial": true,
+      "sample": 6,
+      "ms": 62.886359,
+      "white": 8703,
+      "rgbaSha256": "bbcb5eedae84b1108b3488b2abf8969987aa0fbf2c8a4449fd6dbdb4d728ea2c",
+      "draws": 1,
+      "triangles": 256
+    },
+    {
+      "mode": "viewraypilot",
+      "partial": true,
+      "sample": 6,
+      "ms": 43.912934,
+      "white": 8693,
+      "rgbaSha256": "67cafeed7617c36a954bbd1754582d1a9ad2bd52d9b39aadb61874b843eebaf3",
+      "draws": 1,
+      "triangles": 256
+    }
+  ],
+  "instances": 128,
+  "size": [
+    128,
+    128
+  ],
+  "programs": 3,
+  "scope": "Actual production hooks, one instanced draw of 128 overlapping opaque planes with depth testing disabled. Partial interval [0,0.5), full interval [0,1); shared radius 150 m. No texture samples. Alternating A/B order; warmed programs. Elapsed query includes the tiny submission interval, not isolated hardware ISA timing or a native forest frame. Software renderer, not Apple GPU.",
+  "errors": []
+}

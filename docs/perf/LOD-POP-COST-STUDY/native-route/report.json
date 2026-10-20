@@ -1,0 +1,62 @@
+{
+  "setup": {
+    "build": {
+      "version": "0.0.33",
+      "revision": "b317734"
+    },
+    "label": "tree:wild:33:21",
+    "species": "pine",
+    "position": [
+      -168.19665829044806,
+      6.733970127787277,
+      -31.325527595733305
+    ],
+    "quality": "medium",
+    "targets": 392,
+    "yaw": 2.356194490192345,
+    "occluders": 0,
+    "terrainBlocks": 0
+  },
+  "rows": [
+    {
+      "d": 150,
+      "camera": [
+        -274.2626754684302,
+        3.678086286260452,
+        74.74048958224881
+      ],
+      "msaa": 4,
+      "repeatExact": true,
+      "drawsAcrossAcquisitionRenders": 2115,
+      "trianglesAcrossAcquisitionRenders": 27223703
+    },
+    {
+      "d": 149,
+      "camera": [
+        -273.55556868724364,
+        3.636181739981647,
+        74.03338280106226
+      ],
+      "msaa": 4,
+      "repeatExact": true,
+      "drawsAcrossAcquisitionRenders": 1896,
+      "trianglesAcrossAcquisitionRenders": 26577635
+    },
+    {
+      "d": 148,
+      "camera": [
+        -272.8484619060571,
+        3.5942771937028417,
+        73.32627601987572
+      ],
+      "msaa": 4,
+      "repeatExact": true,
+      "drawsAcrossAcquisitionRenders": 1897,
+      "trianglesAcrossAcquisitionRenders": 26624289
+    }
+  ],
+  "errors": [],
+  "scope": "Native live Medium 2 m walk, 1 m camera samples, pine selected with an unobstructed crown-centre ray and terrain-height checks, fixed time and wind. Repeated renders check stability. This is a baseline only, not a repair or frame-time/pop-event measurement.",
+  "counterScope": "Counters read after three renderWorld calls since the explicit info reset; not per-frame costs or a budget receipt.",
+  "routeScope": "Three externally positioned camera samples over 2 m, not an input-driven full-band walk or cadence recording."
+}
