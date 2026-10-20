@@ -1,3 +1,4 @@
+import { intersectsTreeBounds } from './foliage/treeBounds';
 import { createMeshyForest, type MeshyTreeTemplates } from './meshyTrees';
 import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
@@ -567,8 +568,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
         // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
         // sun-shadow volume instead of paying for every tree in a large circle behind the player.
-        const inView = frustum.intersectsSphere(sphere) && frustum.intersectsBox(box);
-        const inShadow = b.casters.length > 0 && !!shadowFrustum?.intersectsSphere(sphere) && shadowFrustum.intersectsBox(box) && (inView || !cullShadows || !shadowOutOfView(sphere));
+        const inView = intersectsTreeBounds(frustum, sphere, box);
+        const inShadow = b.casters.length > 0 && !!shadowFrustum && intersectsTreeBounds(shadowFrustum, sphere, box) && (inView || !cullShadows || !shadowOutOfView(sphere));
         if (!inView && !inShadow) continue;
         if (inShadow) {
           const sw: readonly number[] = forceLod >= 0 ? [0, 1, 2].map((l) => l === Math.min(2, Math.floor(forceLod)) ? 1 : 0) : floraShadowWeights(d, pineShadows, shadowWeights);
