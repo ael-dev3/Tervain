@@ -1,0 +1,48 @@
+
+> tervain@0.0.33 build
+> tsc --noEmit && vite build --outDir [workspace file]
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 672 modules transformed.
+
+(!) outDir [workspace file] is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+rendering chunks...
+computing gzip size...
+../tervain-runtime-tmp/actor-roster-dist/version.json                                                    0.04 kB │ gzip:     0.05 kB
+../tervain-runtime-tmp/actor-roster-dist/index.html                                                      1.12 kB │ gzip:     0.61 kB
+../tervain-runtime-tmp/actor-roster-dist/gothic3/index.html                                              1.15 kB │ gzip:     0.63 kB
+../tervain-runtime-tmp/actor-roster-dist/gothic3-local/index.html                                        2.79 kB │ gzip:     1.36 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/terrainTextureWorker-D1dbXuII.js                         9.89 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/sheetWorker-C6E0C0Re.js                                 28.02 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/gothic3Local-CjSrmsMl.css                                2.20 kB │ gzip:     1.01 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/gothic3-oEHuT4vL.css                                     8.21 kB │ gzip:     2.70 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/tervain-CFUVQKsU.css                                    49.40 kB │ gzip:    12.18 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/canopyAudit-DIICiDA3.js                                  4.97 kB │ gzip:     2.17 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/placementAudit-Di3-ffV4.js                               8.32 kB │ gzip:     3.40 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/browser-navigation-area-source-runtime-71iKsKjf.js       9.53 kB │ gzip:     3.20 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/browser-npc-navigation-owner-DsOZLbQ4.js                12.17 kB │ gzip:     4.38 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/preload-helper-B93sBQrk.js                              50.21 kB │ gzip:    14.88 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/runtime-rules-CX8U_MsO.js                               51.13 kB │ gzip:    12.21 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/gothic3Local-tM2zo5Uw.js                                71.54 kB │ gzip:    26.06 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/browser-npc-entity-DF7gdWgu.js                          81.62 kB │ gzip:    22.46 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/native-entity-heap-DhSDg-Ei.js                         331.14 kB │ gzip:    78.44 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/three.module-BPv0JJVX.js                               738.46 kB │ gzip:   187.63 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/gothic3-CcMJ_kyT.js                                  1,184.77 kB │ gzip:   269.75 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/tervain-B50JbuXM.js                                  1,736.64 kB │ gzip:   631.67 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/world-Bks693q3.js                                    4,540.38 kB │ gzip: 1,747.13 kB
+../tervain-runtime-tmp/actor-roster-dist/assets/browser-npc-entity-services-BvAp2u72.js             34,013.54 kB │ gzip: 4,123.43 kB
+
+✓ built in 2.48s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 1200 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

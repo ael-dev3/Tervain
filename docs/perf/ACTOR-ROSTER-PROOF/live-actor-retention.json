@@ -1,0 +1,115 @@
+{
+  "build": {
+    "version": "0.0.33",
+    "revision": "b317734"
+  },
+  "nativeFunctionSha256": "6f1562f931f09be4d7b7f6355a2f0c762ef39181352d031831f3798153e386fd",
+  "player": [
+    -33.4,
+    55
+  ],
+  "steps": 24,
+  "rows": [
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    },
+    {
+      "people": 34,
+      "actors": 34
+    }
+  ],
+  "observedSetAdds": 816,
+  "observedSetHas": 816,
+  "sourceAccountedRosterSets": 24,
+  "scope": "Published native fixed-step gameplay at a forest pose, rendered draw calls suppressed during this counter-only collection. Set operation observer, not CPU/heap timing, GPU or M5 performance.",
+  "errors": []
+}

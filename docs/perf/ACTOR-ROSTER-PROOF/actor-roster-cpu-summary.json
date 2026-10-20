@@ -1,0 +1,27 @@
+{
+  "runs": 3,
+  "summary": [
+    {
+      "label": "baseline-a",
+      "samples": 36000,
+      "meanElapsedMs": 0.0059265425,
+      "p95ElapsedMs": 0.006379,
+      "threadCpuMsPerSync": 0.005623305555555556
+    },
+    {
+      "label": "candidate",
+      "samples": 36000,
+      "meanElapsedMs": 0.004727661777777777,
+      "p95ElapsedMs": 0.005088,
+      "threadCpuMsPerSync": 0.004739222222222222
+    },
+    {
+      "label": "baseline-b",
+      "samples": 36000,
+      "meanElapsedMs": 0.005888917833333333,
+      "p95ElapsedMs": 0.006399,
+      "threadCpuMsPerSync": 0.006144694444444444
+    }
+  ],
+  "source": "Three independent processes; 36 rotated batches per mode, 36,000 sync calls per mode. Pooled elapsed p95; thread CPU includes loop/clock bookkeeping."
+}

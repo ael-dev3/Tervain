@@ -1,0 +1,68 @@
+{
+  "pass": true,
+  "rows": [
+    {
+      "pose": 0,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "08185a25ecc9c0e9ba602fd47c6a7c05f55f875bc06e75cb5d58b7ef31509502"
+    },
+    {
+      "pose": 1,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "7651f0925ceb3a0b2a68c7fe7018a35b4b6325b162ca5aef8a34d3f52fad3a8d"
+    },
+    {
+      "pose": 2,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "730ef487d98f3147999c63bfd40d5c2174874b60b0c25694983dc4ecc3dd4d47"
+    },
+    {
+      "pose": 3,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "b42d0e1ce97eb29f15d225b96699d31e4abc473d2dc6517d2ebfe863dadfbf1e"
+    },
+    {
+      "pose": 4,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "fa3054ab1143494e86a2f36e04a2d40100cc0968a3e4cce7baf21afcc2949d39"
+    },
+    {
+      "pose": 5,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "4eed55b7aa66e0f340d2550b52256d877e165ec7ad0f5fe8bb0e5ba0fd69187d"
+    },
+    {
+      "pose": 6,
+      "size": [
+        640,
+        360
+      ],
+      "allFourRgbExact": true,
+      "sha256": "e010644d344e5f01a705d588834d4e2f11bd8a4a29be15c758687c8ff158ff06"
+    }
+  ]
+}

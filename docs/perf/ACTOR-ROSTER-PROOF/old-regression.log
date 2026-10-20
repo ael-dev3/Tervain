@@ -1,0 +1,58 @@
+
+ RUN  v5.0.2 [workspace file]
+
+ ❯ tests/actorRosterPresence.test.ts (2 tests | 2 failed) 87ms
+   × updates an existing roster without constructing a membership Set 51ms
+   × clears stale presence marks before rollover and keeps returning actors enabled 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/actorRosterPresence.test.ts > updates an existing roster without constructing a membership Set
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/actorRosterPresence.test.ts:14:20
+     12|  try{p.syncActors([a,b]);globalThis.Set=ObservedSet;
+     13|   try{p.syncActors([a]);observed=created;}finally{globalThis.Set=Nativ…
+     14|   expect(observed).toBe(0);
+       |                    ^
+     15|   const actors=Reflect.get(p,'actors') as Map<string,{active:boolean;b…
+     16|   expect(actors.get(a.id)!.body.isEnabled()).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/actorRosterPresence.test.ts > clears stale presence marks before rollover and keeps returning actors enabled
+AssertionError: expected 1073741822 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 1073741822
+
+ ❯ tests/actorRosterPresence.test.ts:24:44
+     22|  try{p.syncActors([a,b]);const actors=Reflect.get(p,'actors') as Map<s…
+     23|   Reflect.set(p,'actorSyncSerial',0x3ffffffe);p.syncActors([a]);
+     24|   expect(Reflect.get(p,'actorSyncSerial')).toBe(1);
+       |                                            ^
+     25|   expect(actors.get(a.id)!.active).toBe(true);expect(actors.get(b.id)!…
+     26|   p.syncActors([]);p.syncActors([]);expect(actors.get(a.id)!.body.isEn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  11:26:30
+   Duration  430ms (import 38%, transform 35%, tests 25%, setup 2%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
