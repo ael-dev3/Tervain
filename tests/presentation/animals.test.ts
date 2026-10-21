@@ -23,6 +23,22 @@ afterEach(() => vi.restoreAllMocks());
 const level = { ...flat, groundAt: () => 0, normalAt: (_x: number, _z: number, out: [number, number, number]) => { out[0] = 0; out[1] = 1; out[2] = 0; return out; } };
 
 describe('peaceful animated land wildlife', () => {
+  it.each([false, true])('samples the animal centre once per placement (tame=%s), retaining paw contacts', tame => {
+    const heightAt = vi.fn((_x: number, _z: number) => 0), groundAt = vi.fn((_x: number, _z: number) => 0);
+    const terrain = { ...level, heightAt, groundAt } as unknown as Terrain;
+    const module = buildAnimals({ terrain, colliders: new Colliders(), quality: 'low' }, new Map([[dog.id, animalFixture()]]), [{ ...dog, tame }], () => {});
+    try {
+      const start = module.snapshot()[0]!;
+      heightAt.mockClear(); groundAt.mockClear();
+      module.update(0, frame(new THREE.Vector3(start.x, 0, start.z + 18)));
+      const ground = tame ? groundAt : heightAt;
+      const centre = ground.mock.calls.filter(args => args[0] === start.x && args[1] === start.z);
+      expect(centre).toHaveLength(1);
+      expect(ground.mock.calls.length).toBeGreaterThan(1); // Paw support still samples its own positions.
+      if (!tame) expect(groundAt).not.toHaveBeenCalled();
+    } finally { module.dispose?.(); }
+  });
+
   it('uses all nineteen unique source models, with the seated cat retaining seated gestures', () => {
     expect(ANIMALS).toHaveLength(19); expect(new Set(ANIMALS.map(animal => animal.id)).size).toBe(19);
     expect(ANIMALS.filter(animal => animal.species === 'cat')).toHaveLength(3);
