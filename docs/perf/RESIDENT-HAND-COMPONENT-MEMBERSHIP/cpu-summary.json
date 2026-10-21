@@ -1,0 +1,89 @@
+{
+  "village-baker": {
+    "before": {
+      "preparations": 72,
+      "meanMs": 21.401408583333364,
+      "p95Ms": 27.158698000000186,
+      "p95LargestResumeMs": 4.146062999999913,
+      "affectedResumeIndex": 23,
+      "resumeMeanMs": 2.661807958333322,
+      "resumeP95Ms": 3.211137000000008
+    },
+    "predicate": {
+      "preparations": 72,
+      "meanMs": 20.9581532499999,
+      "p95Ms": 26.432037000000264,
+      "p95LargestResumeMs": 3.0710129999999936,
+      "affectedResumeIndex": 23,
+      "resumeMeanMs": 1.8709721249999929,
+      "resumeP95Ms": 2.61902699999996
+    },
+    "control": {
+      "preparations": 72,
+      "meanMs": 21.4247983888889,
+      "p95Ms": 25.63444999999888,
+      "p95LargestResumeMs": 3.6553089999999884,
+      "affectedResumeIndex": 23,
+      "resumeMeanMs": 2.6658371944444466,
+      "resumeP95Ms": 3.4446779999999535
+    }
+  },
+  "ford-bandit-a": {
+    "before": {
+      "preparations": 72,
+      "meanMs": 10.181424486111078,
+      "p95Ms": 11.414320999999745,
+      "p95LargestResumeMs": 2.261326000000281,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 1.816385736111095,
+      "resumeP95Ms": 1.9584939999999733
+    },
+    "predicate": {
+      "preparations": 72,
+      "meanMs": 9.591056861111257,
+      "p95Ms": 10.443178000000898,
+      "p95LargestResumeMs": 1.9371769999997923,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 1.375852055555577,
+      "resumeP95Ms": 1.6287430000002132
+    },
+    "control": {
+      "preparations": 72,
+      "meanMs": 10.164596375000006,
+      "p95Ms": 11.49337099999957,
+      "p95LargestResumeMs": 2.128667999999834,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 1.809119277777774,
+      "resumeP95Ms": 2.0508080000004156
+    }
+  },
+  "rillford-reeve": {
+    "before": {
+      "preparations": 72,
+      "meanMs": 6.786324236111107,
+      "p95Ms": 7.3418419999989055,
+      "p95LargestResumeMs": 1.3302559999997356,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 0.9020571666666607,
+      "resumeP95Ms": 0.9948130000002493
+    },
+    "predicate": {
+      "preparations": 72,
+      "meanMs": 6.730542694444542,
+      "p95Ms": 7.370623999999225,
+      "p95LargestResumeMs": 1.315769000000273,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 0.9015321805555472,
+      "resumeP95Ms": 1.0860560000000987
+    },
+    "control": {
+      "preparations": 72,
+      "meanMs": 6.7915383333334045,
+      "p95Ms": 7.55861700000105,
+      "p95LargestResumeMs": 1.3541230000000724,
+      "affectedResumeIndex": 1,
+      "resumeMeanMs": 0.8990177361111541,
+      "resumeP95Ms": 0.9759910000002492
+    }
+  }
+}

@@ -1,0 +1,53 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/residentFingerMembership.test.ts (2 tests | 2 failed) 113ms
+   × scores village-baker hand components without repeated linear membership scans 78ms
+   × scores ford-bandit-a hand components without repeated linear membership scans 34ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  08:02:19
+   Duration  277ms (tests 54%, transform 28%, import 14%, setup 2%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/residentFingerMembership.test.ts > scores village-baker hand components without repeated linear membership scans
+AssertionError: expected 1744 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1744
+
+ ❯ tests/presentation/residentFingerMembership.test.ts:24:26
+     22|     .update(new Uint8Array(plan.joints.buffer)).update(new Uint8Array(…
+     23|   expect(digest).toBe(expected);
+     24|   expect(numericQueries).toBe(0);
+       |                          ^
+     25| });
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/presentation/residentFingerMembership.test.ts > scores ford-bandit-a hand components without repeated linear membership scans
+AssertionError: expected 1335 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1335
+
+ ❯ tests/presentation/residentFingerMembership.test.ts:24:26
+     22|     .update(new Uint8Array(plan.joints.buffer)).update(new Uint8Array(…
+     23|   expect(digest).toBe(expected);
+     24|   expect(numericQueries).toBe(0);
+       |                          ^
+     25| });
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+

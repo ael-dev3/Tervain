@@ -1,0 +1,308 @@
+{
+  "baseline": "b2635c4c3",
+  "candidate": "6bf8b3dc4b741bf077894fa45167a9ff907c2180",
+  "rows": [
+    {
+      "pose": {
+        "name": "forest",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 878,
+            "triangles": 12965076
+          },
+          {
+            "draws": 878,
+            "triangles": 12965076
+          }
+        ],
+        "after": [
+          {
+            "draws": 878,
+            "triangles": 12965076
+          },
+          {
+            "draws": 878,
+            "triangles": 12965076
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "fence",
+        "camera": [
+          -2,
+          4.9,
+          45.4
+        ],
+        "target": [
+          -2,
+          2,
+          39.5
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 689,
+            "triangles": 8328926
+          },
+          {
+            "draws": 689,
+            "triangles": 8328926
+          }
+        ],
+        "after": [
+          {
+            "draws": 689,
+            "triangles": 8328926
+          },
+          {
+            "draws": 689,
+            "triangles": 8328926
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "run-round",
+        "camera": [
+          -11.3,
+          4.2,
+          45.3
+        ],
+        "target": [
+          -12.3,
+          2,
+          44.8
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 269,
+            "triangles": 2699742
+          },
+          {
+            "draws": 269,
+            "triangles": 2699742
+          }
+        ],
+        "after": [
+          {
+            "draws": 269,
+            "triangles": 2699742
+          },
+          {
+            "draws": 269,
+            "triangles": 2699742
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "bow",
+        "camera": [
+          -1.5,
+          4.1,
+          45.1
+        ],
+        "target": [
+          -4,
+          2,
+          46
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 316,
+            "triangles": 3209466
+          },
+          {
+            "draws": 316,
+            "triangles": 3209466
+          }
+        ],
+        "after": [
+          {
+            "draws": 316,
+            "triangles": 3209466
+          },
+          {
+            "draws": 316,
+            "triangles": 3209466
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "village",
+        "camera": [
+          -5,
+          4,
+          -10
+        ],
+        "target": [
+          -4,
+          2,
+          -2
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 623,
+            "triangles": 6656282
+          },
+          {
+            "draws": 623,
+            "triangles": 6656282
+          }
+        ],
+        "after": [
+          {
+            "draws": 623,
+            "triangles": 6656282
+          },
+          {
+            "draws": 623,
+            "triangles": 6656282
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "One native High world: both complete planners run on the same actual resident preparation inputs before installation. Serialized descriptors and all joint/weight elements match. Proof-only dual work and lookup counters supply no CPU timing.",
+  "setup": {
+    "pairs": [
+      {
+        "equal": true,
+        "sourceVertices": 39356,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35677,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 44607,
+        "beforeQueries": 694,
+        "logicalScanLength": 206185
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "beforeQueries": 155,
+        "logicalScanLength": 12080
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35936,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 42137,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39484,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 37313,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "beforeQueries": 157,
+        "logicalScanLength": 12397
+      },
+      {
+        "equal": true,
+        "sourceVertices": 69044,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39935,
+        "beforeQueries": 1744,
+        "logicalScanLength": 1502334
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65711,
+        "beforeQueries": 1335,
+        "logicalScanLength": 843264
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41033,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41761,
+        "beforeQueries": 0,
+        "logicalScanLength": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "beforeQueries": 530,
+        "logicalScanLength": 133575
+      },
+      {
+        "equal": true,
+        "sourceVertices": 11387,
+        "beforeQueries": 348,
+        "logicalScanLength": 59186
+      }
+    ],
+    "remaining": 0
+  },
+  "errors": [],
+  "residentWarnings": [],
+  "complete": true,
+  "sourceSha256": "e7a5af73d8036b3cd924fb0a653dee3aac0cdcf8ea671328b78d6700c2fde9b9"
+}
