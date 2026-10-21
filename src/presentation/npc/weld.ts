@@ -77,30 +77,3 @@ export function* weldExactSteps(position: THREE.BufferAttribute | THREE.Interlea
   }
   return { node, first: Int32Array.from(firsts) };
 }
-
-/** Same hash, collision checks and first-encounter order, with bounded work for staged preparation.
- * Keep the synchronous entry point above unchanged for callers that cannot suspend. */
-export function* weldExactSteps(position: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): Generator<void, Weld, void> {
-  const count = position.count;
-  const node = new Int32Array(count);
-  const buckets = new Map<number, number[]>();
-  const firsts: number[] = [];
-  let work = 0;
-  for (let vertex = 0; vertex < count; vertex++) {
-    if (++work === 512) { work = 0; yield; }
-    const x = position.getX(vertex), y = position.getY(vertex), z = position.getZ(vertex);
-    const hash = (Math.imul(floatBits(x), 73856093) ^ Math.imul(floatBits(y), 19349663) ^ Math.imul(floatBits(z), 83492791)) | 0;
-    let bucket = buckets.get(hash);
-    let id = -1;
-    if (bucket) {
-      for (const candidate of bucket) {
-        if (++work === 512) { work = 0; yield; }
-        const v = firsts[candidate]!;
-        if (position.getX(v) === x && position.getY(v) === y && position.getZ(v) === z) { id = candidate; break; }
-      }
-    } else { bucket = []; buckets.set(hash, bucket); }
-    if (id < 0) { id = firsts.length; firsts.push(vertex); bucket.push(id); }
-    node[vertex] = id;
-  }
-  return { node, first: Int32Array.from(firsts) };
-}
