@@ -30,11 +30,17 @@ const closeOf = (value: THREE.Texture) => (value.image as unknown as { close: Re
 
 describe('embedded tree LOD texture residency', () => {
   it('recognizes actual opaque bark while retaining other alpha inputs and unknown images', async () => {
+    const read = (file: string) => {
+      const bytes = readFileSync(new URL(`../../public/models/flora/hero/${file}`, import.meta.url));
+      return { bytes, json: JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString()) };
+    };
     for (const id of ['hero-oak', 'hero-oak-b', 'hero-oak-c']) {
-      const bytes = readFileSync(new URL(`../../public/models/flora/hero/${id}-near.glb`, import.meta.url));
-      const json = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString());
+      // hero-oak-b and -c carry no images: they draw hero-oak's, whose near file theirs names (A159).
+      const own = read(`${id}-near.glb`), shared = own.json.asset.extras?.tervainSharedImages as string | undefined;
+      const { bytes, json } = shared ? read(shared) : own;
       const wood = json.materials.find((m: { name: string }) => m.name.toLowerCase().includes('wood'));
       expect(wood.alphaMode).toBe('MASK');
+      expect(own.json.materials.find((m: { name: string }) => m.name === wood.name)).toMatchObject({ alphaMode: wood.alphaMode, alphaCutoff: wood.alphaCutoff });
       const entry = model([texture()]);
       entry.material.alphaTest = wood.alphaCutoff;
       entry.gltf.parser.associations.set(entry.material.map!, { textures: wood.pbrMetallicRoughness.baseColorTexture.index });
