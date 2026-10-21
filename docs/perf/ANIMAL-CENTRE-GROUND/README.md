@@ -32,3 +32,8 @@ High, 640×360 DPR1, frozen time/wind, native post/MSAA, one source-paired world
 ## Reproduce
 
 From the candidate checkout with dependencies and Chrome configured: `node tools/repro-animal-ground-native.mjs [output-directory]`. For the longer CPU repeat in a fresh world: `REPRO_CPU_REPEAT=1 node tools/repro-animal-ground-native.mjs [different-output-directory]`. Fetch the pinned original commit if the checkout is shallow. `npx vitest run tests/presentation/animals.test.ts tests/presentation/animalWorld.test.ts tests/presentation/animalPhysicalInputs.test.ts` (30 tests) and `npm run build` pass. The unmodified compiled current-head budget receipt is added after completion.
+## Rebased compiled head and budget
+
+Current feature head `d5fc6a0a80e4a471f1f23a08528a3d5539989bbe` rebases the unchanged placement runtime onto published main `a3396ee14`. The source-paired captures above were made on `cacffa069` with original candidate `d344a351a449f73bd2fcef0091ff68171138156c`; the runtime SHA-256 still matches exactly. These are not independent full-world pixel comparisons on the rebased main. The separate compiled gate on the current head passes against the newer live baseline.
+
+Unmodified stock budget: live 285 draws / 3,046,047 triangles / 0 errors; candidate 285 / 3,046,047 / 0. Two same-revision live probes, four distinct completed samples each, no sampler changes or allowances. [Raw receipt](budget.txt). The obsolete original-head run was cancelled when Pages changed revision; no receipt is reused. This remains a small redundant-query/helper-cost cut, not proof that the historical hardware ~33 ms frames are resolved.
