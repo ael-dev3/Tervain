@@ -132,6 +132,11 @@ export const CLUSTER_SCALE = 0.85;
 /** Cluster-canopy cards (A134): a near crown's cap, and a middle crown's share of its source triangles. */
 export const CANOPY_NEAR_CARDS = 6000;
 export const CANOPY_MID_SHARE = 1.2;
+/** A supplied oak's middle clumps and cards, as a share of MID_CANOPY: its middle crown has a third of its near crown's
+ * cards, and at MID_CANOPY's size it read 28% smaller than the near one (A169). */
+const SUPPLIED_OAK_MID_SCALE = 1.25;
+/** Supplied trees whose far file's trunk is holed by its decimation: the far level draws the middle wood (A169). */
+const FAR_WOOD_FROM_MIDDLE: ReadonlySet<string> = new Set(['palm-date']);
 /** A rebuilt far crown (A168) takes as many cards as its far file has, in fewer, larger clumps (FAR_CANOPY). */
 export const CANOPY_FAR_SHARE = 1.0;
 /** A generated oak's far clumps and cards, as a share of FAR_CANOPY: at that size its lobed crown read a quarter smaller than its middle one. */
@@ -611,6 +616,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
       const decoded = source.map(meshyTreeParts), bounds = new THREE.Box3().setFromObject(source[0].scene);
+      // A169: a far file whose trunk was decimated into holes draws its middle file's wood (the same shared images).
+      if (FAR_WOOD_FROM_MIDDLE.has(id)) decoded[2] = { ...decoded[2]!, wood: decoded[1]!.wood };
       // A generated tree's roots and trunk foot are modelled below its ground plane (y = 0): that plane stays the ground.
       const bottom = hero ? 0 : bounds.min.y, nativeHeight = bounds.max.y - bottom;
       if (!(nativeHeight > 0)) throw new Error(`Tree ${id} has no height.`);
@@ -689,7 +696,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
           // A164: a generated orchard tree is under half an oak's height: its clumps and cards are scaled to it.
           const base = lod === 0 ? NEAR_CANOPY : lod === 1 ? MID_CANOPY : FAR_CANOPY;
-          const k = hero && model === 'orchard' ? (lod === 2 ? ORCHARD_FAR_CANOPY_SCALE : ORCHARD_CANOPY_SCALE) : hero && model === 'oak' && lod === 2 ? OAK_FAR_CANOPY_SCALE : 1;
+          const k = hero && model === 'orchard' ? (lod === 2 ? ORCHARD_FAR_CANOPY_SCALE : ORCHARD_CANOPY_SCALE) : hero && model === 'oak' && lod === 2 ? OAK_FAR_CANOPY_SCALE
+            : !hero && model === 'oak' && lod === 1 ? SUPPLIED_OAK_MID_SCALE : 1;
           // Its open crown shows the sky between lobes, where a long twig out to a far clump read as a bare stick: such
           // clumps are dropped instead.
           const shape = k === 1 ? base : { ...base, size: [base.size[0] * k, base.size[1] * k] as const, clump: base.clump * k, ...(model === 'orchard' ? { anchorDrop: ORCHARD_ANCHOR_DROP } : {}) };

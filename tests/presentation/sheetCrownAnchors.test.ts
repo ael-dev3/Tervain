@@ -21,3 +21,17 @@ it('leaves no fir or palm sheet past the audit reach at its largest planted scal
     }
   } finally { forest.dispose(); }
 }, 600000);
+
+it('draws the date palm’s middle wood at its far level, whose own trunk is decimated into holes (A169)', async () => {
+  const forest = createMeshyForest(await meshyTreeTemplates(['palm-date']));
+  try {
+    const [, mid, far] = forest.variant('palm', 0, 'palm-date').lods;
+    // The far level carries the middle trunk and limbs first, then its own twigs out to its fronds.
+    const head = (twigIndex: number | undefined, wood: typeof mid.wood) => Array.from(wood!.index!.array).slice(0, twigIndex);
+    const midHead = head(mid.wood!.userData.twigIndex as number, mid.wood);
+    expect(far.wood!.userData.twigIndex).toBe(mid.wood!.userData.twigIndex);
+    expect(head(far.wood!.userData.twigIndex as number, far.wood)).toEqual(midHead);
+    const position = (wood: typeof mid.wood, i: number) => [0, 1, 2].map(axis => wood!.getAttribute('position').array[i * 3 + axis]);
+    for (let i = 0; i < 64; i++) expect(position(far.wood, midHead[i]!)).toEqual(position(mid.wood, midHead[i]!));
+  } finally { forest.dispose(); }
+}, 120000);
