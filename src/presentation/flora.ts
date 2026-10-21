@@ -405,6 +405,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       if (leaf && installed.leaf && leafPrepass) {
         entry.leafDepth = splitLeafPrepass(leaf);
         if (entry.leafDepth) {
+          // Like its colour twin, placement is entirely in the shared instance matrix.
+          entry.leafDepth.matrixAutoUpdate = false;
           entry.leafDepth.frustumCulled = true;
           entry.leafDepth.boundingSphere = b.leafDrawBounds[l]!;
           group.add(entry.leafDepth);
