@@ -1,0 +1,489 @@
+{
+  "baseline": "4749be770789a6d6a0477e3d7890b2e961ac231f",
+  "rows": [
+    {
+      "pose": {
+        "name": "forest",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ],
+        "after": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "fence",
+        "camera": [
+          -2,
+          4.9,
+          45.4
+        ],
+        "target": [
+          -2,
+          2,
+          39.5
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 644,
+            "triangles": 7104866
+          },
+          {
+            "draws": 644,
+            "triangles": 7104866
+          }
+        ],
+        "after": [
+          {
+            "draws": 644,
+            "triangles": 7104866
+          },
+          {
+            "draws": 644,
+            "triangles": 7104866
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "run-round",
+        "camera": [
+          -11.3,
+          4.2,
+          45.3
+        ],
+        "target": [
+          -12.3,
+          2,
+          44.8
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 253,
+            "triangles": 2218496
+          },
+          {
+            "draws": 253,
+            "triangles": 2218496
+          }
+        ],
+        "after": [
+          {
+            "draws": 253,
+            "triangles": 2218496
+          },
+          {
+            "draws": 253,
+            "triangles": 2218496
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "bow",
+        "camera": [
+          -1.5,
+          4.1,
+          45.1
+        ],
+        "target": [
+          -4,
+          2,
+          46
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 300,
+            "triangles": 2728220
+          },
+          {
+            "draws": 300,
+            "triangles": 2728220
+          }
+        ],
+        "after": [
+          {
+            "draws": 300,
+            "triangles": 2728220
+          },
+          {
+            "draws": 300,
+            "triangles": 2728220
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "village",
+        "camera": [
+          -5,
+          4,
+          -10
+        ],
+        "target": [
+          -4,
+          2,
+          -2
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 587,
+            "triangles": 5509880
+          },
+          {
+            "draws": 587,
+            "triangles": 5509880
+          }
+        ],
+        "after": [
+          {
+            "draws": 587,
+            "triangles": 5509880
+          },
+          {
+            "draws": 587,
+            "triangles": 5509880
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "forest-wind-1",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ],
+        "wind": 1,
+        "time": 3
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ],
+        "after": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "forest-wind-2",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ],
+        "wind": 1,
+        "time": 7
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ],
+        "after": [
+          {
+            "draws": 822,
+            "triangles": 11573288
+          },
+          {
+            "draws": 822,
+            "triangles": 11573288
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "Native High world pairs original and candidate on the actual same leaf inputs and branch fields, compares every output element before installation. Render swaps equal wind attributes; later clones inherit identical values. Dual preparation is not a timing measurement.",
+  "setup": {
+    "pairs": [
+      {
+        "equal": true,
+        "cards": 513,
+        "anchored": 0.8089668615984406,
+        "vertices": 5137
+      },
+      {
+        "equal": true,
+        "cards": 413,
+        "anchored": 0.7941888619854721,
+        "vertices": 3225
+      },
+      {
+        "equal": true,
+        "cards": 313,
+        "anchored": 0.7859424920127795,
+        "vertices": 1667
+      },
+      {
+        "equal": true,
+        "cards": 5342,
+        "anchored": 0.9204417821040809,
+        "vertices": 21368
+      },
+      {
+        "equal": true,
+        "cards": 2174,
+        "anchored": 0.8974241030358786,
+        "vertices": 8696
+      },
+      {
+        "equal": true,
+        "cards": 398,
+        "anchored": 0.5778894472361809,
+        "vertices": 2041
+      },
+      {
+        "equal": true,
+        "cards": 5569,
+        "anchored": 0.8374932662955648,
+        "vertices": 22276
+      },
+      {
+        "equal": true,
+        "cards": 2174,
+        "anchored": 0.858785648574057,
+        "vertices": 8696
+      },
+      {
+        "equal": true,
+        "cards": 398,
+        "anchored": 0.8442211055276382,
+        "vertices": 2041
+      },
+      {
+        "equal": true,
+        "cards": 6000,
+        "anchored": 0.5881666666666666,
+        "vertices": 24000
+      },
+      {
+        "equal": true,
+        "cards": 4197,
+        "anchored": 0.511317607815106,
+        "vertices": 16788
+      },
+      {
+        "equal": true,
+        "cards": 1220,
+        "anchored": 0.9221311475409836,
+        "vertices": 4490
+      },
+      {
+        "equal": true,
+        "cards": 5479,
+        "anchored": 0.978280708158423,
+        "vertices": 21916
+      },
+      {
+        "equal": true,
+        "cards": 1699,
+        "anchored": 0.9582107121836374,
+        "vertices": 6796
+      },
+      {
+        "equal": true,
+        "cards": 233,
+        "anchored": 1,
+        "vertices": 1315
+      },
+      {
+        "equal": true,
+        "cards": 5406,
+        "anchored": 0.6873843877173511,
+        "vertices": 21624
+      },
+      {
+        "equal": true,
+        "cards": 1699,
+        "anchored": 0.6715715126545027,
+        "vertices": 6796
+      },
+      {
+        "equal": true,
+        "cards": 5584,
+        "anchored": 0.9358882521489972,
+        "vertices": 22336
+      },
+      {
+        "equal": true,
+        "cards": 1656,
+        "anchored": 0.9281400966183575,
+        "vertices": 6624
+      },
+      {
+        "equal": true,
+        "cards": 218,
+        "anchored": 0.9678899082568807,
+        "vertices": 1249
+      },
+      {
+        "equal": true,
+        "cards": 5386,
+        "anchored": 0.869847753434831,
+        "vertices": 21544
+      },
+      {
+        "equal": true,
+        "cards": 2174,
+        "anchored": 0.8449862005519779,
+        "vertices": 8696
+      },
+      {
+        "equal": true,
+        "cards": 398,
+        "anchored": 0.8442211055276382,
+        "vertices": 2041
+      },
+      {
+        "equal": true,
+        "cards": 5267,
+        "anchored": 0.842035314220619,
+        "vertices": 21068
+      },
+      {
+        "equal": true,
+        "cards": 1699,
+        "anchored": 0.861094761624485,
+        "vertices": 6796
+      },
+      {
+        "equal": true,
+        "cards": 233,
+        "anchored": 0.9914163090128756,
+        "vertices": 1315
+      },
+      {
+        "equal": true,
+        "cards": 513,
+        "anchored": 0.8265107212475633,
+        "vertices": 5137
+      },
+      {
+        "equal": true,
+        "cards": 413,
+        "anchored": 0.8159806295399515,
+        "vertices": 3225
+      },
+      {
+        "equal": true,
+        "cards": 313,
+        "anchored": 0.8146964856230032,
+        "vertices": 1667
+      },
+      {
+        "equal": true,
+        "cards": 5901,
+        "anchored": 0.9761057447890188,
+        "vertices": 23604
+      },
+      {
+        "equal": true,
+        "cards": 1728,
+        "anchored": 0.96875,
+        "vertices": 6912
+      },
+      {
+        "equal": true,
+        "cards": 243,
+        "anchored": 1,
+        "vertices": 1359
+      },
+      {
+        "equal": true,
+        "cards": 5674,
+        "anchored": 0.6364117025026437,
+        "vertices": 22696
+      },
+      {
+        "equal": true,
+        "cards": 1699,
+        "anchored": 0.7045320776927605,
+        "vertices": 6796
+      }
+    ],
+    "source": "4749be770 with candidate leaf-wind source override"
+  },
+  "errors": [],
+  "complete": true,
+  "candidateSourceSha256": "7c90f0e2cfc2d00109df32cf1d8df5f331cc8a4428aa96dc2b5408d17b4c895b",
+  "candidate": "8e9cdaf9022447103c80469dacd09e4c037e2879"
+}

@@ -1,0 +1,145 @@
+{
+  "pairs": [
+    {
+      "file": "forest-before-0.png",
+      "rgbSha256": "7f14266907f269120e5dd9a51326a4ff859d7426fb8a7e83bf0e08e7d3920b91",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-before-1.png",
+      "rgbSha256": "7f14266907f269120e5dd9a51326a4ff859d7426fb8a7e83bf0e08e7d3920b91",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-after-0.png",
+      "rgbSha256": "7f14266907f269120e5dd9a51326a4ff859d7426fb8a7e83bf0e08e7d3920b91",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-after-1.png",
+      "rgbSha256": "7f14266907f269120e5dd9a51326a4ff859d7426fb8a7e83bf0e08e7d3920b91",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "fence-before-0.png",
+      "rgbSha256": "ae49f93df91d3ebd364df74f27f87735f9eefc7c87f8463c608c0ce165eed8d2",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "fence-before-1.png",
+      "rgbSha256": "ae49f93df91d3ebd364df74f27f87735f9eefc7c87f8463c608c0ce165eed8d2",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "fence-after-0.png",
+      "rgbSha256": "ae49f93df91d3ebd364df74f27f87735f9eefc7c87f8463c608c0ce165eed8d2",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "fence-after-1.png",
+      "rgbSha256": "ae49f93df91d3ebd364df74f27f87735f9eefc7c87f8463c608c0ce165eed8d2",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "run-round-before-0.png",
+      "rgbSha256": "bcbb31d78f3b51d59b6cd867a67dad68fc99378e5ec7561b43f003e8b6afca12",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "run-round-before-1.png",
+      "rgbSha256": "bcbb31d78f3b51d59b6cd867a67dad68fc99378e5ec7561b43f003e8b6afca12",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "run-round-after-0.png",
+      "rgbSha256": "bcbb31d78f3b51d59b6cd867a67dad68fc99378e5ec7561b43f003e8b6afca12",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "run-round-after-1.png",
+      "rgbSha256": "bcbb31d78f3b51d59b6cd867a67dad68fc99378e5ec7561b43f003e8b6afca12",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "bow-before-0.png",
+      "rgbSha256": "696c4c77dae191a2ac0675b2ec2c48e83f526c297762b2a612946afe03b91524",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "bow-before-1.png",
+      "rgbSha256": "696c4c77dae191a2ac0675b2ec2c48e83f526c297762b2a612946afe03b91524",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "bow-after-0.png",
+      "rgbSha256": "696c4c77dae191a2ac0675b2ec2c48e83f526c297762b2a612946afe03b91524",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "bow-after-1.png",
+      "rgbSha256": "696c4c77dae191a2ac0675b2ec2c48e83f526c297762b2a612946afe03b91524",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "village-before-0.png",
+      "rgbSha256": "ba0c4dfc5fd1932d5b6d69de9f51aec4f63aebf10a01c52b344fdf6e8b31798e",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "village-before-1.png",
+      "rgbSha256": "ba0c4dfc5fd1932d5b6d69de9f51aec4f63aebf10a01c52b344fdf6e8b31798e",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "village-after-0.png",
+      "rgbSha256": "ba0c4dfc5fd1932d5b6d69de9f51aec4f63aebf10a01c52b344fdf6e8b31798e",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "village-after-1.png",
+      "rgbSha256": "ba0c4dfc5fd1932d5b6d69de9f51aec4f63aebf10a01c52b344fdf6e8b31798e",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-1-before-0.png",
+      "rgbSha256": "bfe8abf4010b0e0aecf83243e77bd0872037a5b090eb8194fe9dbd7fef3d09b3",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-1-before-1.png",
+      "rgbSha256": "bfe8abf4010b0e0aecf83243e77bd0872037a5b090eb8194fe9dbd7fef3d09b3",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-1-after-0.png",
+      "rgbSha256": "bfe8abf4010b0e0aecf83243e77bd0872037a5b090eb8194fe9dbd7fef3d09b3",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-1-after-1.png",
+      "rgbSha256": "bfe8abf4010b0e0aecf83243e77bd0872037a5b090eb8194fe9dbd7fef3d09b3",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-2-before-0.png",
+      "rgbSha256": "84918b31bde8e4d54b0d2378158ca098b0e007b9a2eda2d572f9c1cf031e54f9",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-2-before-1.png",
+      "rgbSha256": "84918b31bde8e4d54b0d2378158ca098b0e007b9a2eda2d572f9c1cf031e54f9",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-2-after-0.png",
+      "rgbSha256": "84918b31bde8e4d54b0d2378158ca098b0e007b9a2eda2d572f9c1cf031e54f9",
+      "changedRgbPixels": 0
+    },
+    {
+      "file": "forest-wind-2-after-1.png",
+      "rgbSha256": "84918b31bde8e4d54b0d2378158ca098b0e007b9a2eda2d572f9c1cf031e54f9",
+      "changedRgbPixels": 0
+    }
+  ],
+  "changedPixelsBetweenWindPhases": 155963
+}
