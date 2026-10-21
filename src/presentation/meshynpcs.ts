@@ -278,8 +278,12 @@ function* residentHands(mesh: THREE.SkinnedMesh, own: ResidentBones, scene: THRE
       for (let i = 0; i < HAND_DIRECTIONS; i++) {
         const y = 1 - (2 * i + 1) / HAND_DIRECTIONS, r = Math.sqrt(1 - y * y), a = i * Math.PI * (3 - Math.sqrt(5));
         direction.set(Math.cos(a) * r, y, Math.sin(a) * r);
-        let best = shape[0]!;
-        for (const candidate of shape) if (candidate[1].dot(direction) > best[1].dot(direction)) best = candidate;
+        let best = shape[0]!, bestScore = best[1].dot(direction);
+        // The winning vertex does not change between candidates: project it only when it becomes the winner.
+        for (let j = 1; j < shape.length; j++) {
+          const candidate = shape[j]!, score = candidate[1].dot(direction);
+          if (score > bestScore) { best = candidate; bestScore = score; }
+        }
         vertices.add(best[0]);
       }
       // Each shape's scan is a few milliseconds: the next waits for the next step.
