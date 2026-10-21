@@ -89,3 +89,36 @@ it('does not let a collapsed first triangle hide real needles sharing its UVs', 
   try { expect(anchorLeafIslands(leaf, wood, needle)).toEqual({ islands: 1, moved: 1, dropped: 0 }); }
   finally { leaf.dispose(); wood.dispose(); }
 });
+
+
+it('repairs and caches thin opaque witnesses missed by both 6- and 48-grids', () => {
+  const leaf = mergeGeometries([thinLeaf(4), thinLeaf(6)]), wood = trunk();
+  let calls = 0;
+  const cutout = { uv: 'uv', cutoff: 0.42, mayHaveOpaque: () => true,
+    alpha: (u: number, v: number) => { calls++; return Math.hypot(u - 1 / 192, v - 1 / 192) < 0.001 ? 1 : 0; } };
+  try {
+    expect(anchorLeafIslands(leaf, wood, cutout)).toEqual({ islands: 2, moved: 2, dropped: 0 });
+    expect(calls).toBe(28 + 1225 + 18721);
+    const p = leaf.getAttribute('position');
+    for (const base of [0, 3]) {
+      const point = new THREE.Vector3().fromBufferAttribute(p, base).multiplyScalar(190 / 192)
+        .addScaledVector(new THREE.Vector3().fromBufferAttribute(p, base + 1), 1 / 192)
+        .addScaledVector(new THREE.Vector3().fromBufferAttribute(p, base + 2), 1 / 192);
+      expect(woodAnchor(wood)(point, new THREE.Vector3())).toBeLessThanOrEqual(0.5);
+    }
+  } finally { leaf.dispose(); wood.dispose(); }
+});
+
+it('keeps attached 192-grid needles and proven-clear patterns unchanged', () => {
+  for (const [x, visible] of [[0.1, true], [4, false]] as const) {
+    const leaf = thinLeaf(x), wood = trunk(), before = leaf.getAttribute('position').array.slice();
+    let calls = 0;
+    const cutout = { uv: 'uv', cutoff: 0.42, mayHaveOpaque: () => visible,
+      alpha: (u: number, v: number) => { calls++; return visible && Math.hypot(u - 1 / 192, v - 1 / 192) < 0.001 ? 1 : 0; } };
+    try {
+      expect(anchorLeafIslands(leaf, wood, cutout)).toEqual({ islands: 0, moved: 0, dropped: 0 });
+      expect(leaf.getAttribute('position').array).toEqual(before);
+      if (!visible) expect(calls).toBe(28);
+    } finally { leaf.dispose(); wood.dispose(); }
+  }
+});
