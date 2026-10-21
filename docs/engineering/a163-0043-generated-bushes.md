@@ -48,7 +48,7 @@ Per template in game (wood plus leaves), against the supplied shrubs the family 
 
 ## Evidence
 
-- A real-play walk past a group of shrubs (12 s, fixed 1/60 s steps, wind running), against live 0.0.42:
+- A real-play walk past a group of shrubs (12 s, fixed 1/60 s steps; the trees stood still, the capture ran with reduced motion: corrected and re-measured with the wind in A166), against live 0.0.42:
 
 | Spikes against live 0.0.42 | Change |
 | --- | ---: |

@@ -253,3 +253,11 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Not taken: the birches of the slot (+22.0% over the frame: the meadow lost the crowns' shade) and the oaks (+36.4%: veteran boles in a grove spaced for slim trees).
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
 - Details: docs/engineering/a165-0045-generated-sentinel.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.46: every broadleaf crown sways by its own limbs, 2026-10-21
+
+- Branch data (`_wind`, `_pivot`) on every broadleaf's near and middle crowns, where they swayed as one; twigs and leaf cards calmer at every tree that sways per branch.
+- Real-play walks with the wind running, against 0.0.45, flicker spikes of 40+ levels over the whole frame: oaks −1.6%, orchard −1.7%, sentinels −0.8%, shrubs −15.7%, pine wood −28.4%. Of 60+ levels: −1.9%, −9.6%, −1.8%, −24.3% and −35.5%.
+- GPU time at an oak pose, wind running, three alternating rounds: median 6.71 ms against 6.62 ms (rounds 6.54 to 6.72 ms on each side). Draws and triangles unchanged.
+- Correction: the walks for 0.0.42 to 0.0.45 ran with reduced motion (trees still). Re-measured with the wind, over the whole frame at 40+ levels: 0.0.42 −1.0%, 0.0.43 +1.4%, 0.0.44 −39.6% and −49.9%, 0.0.45 −8.0%.
+- Details: docs/engineering/a166-0046-branch-wind.md. Budget gate against live on the release head: in the release PR.
