@@ -1,0 +1,40 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/residentWeldBuckets.test.ts (4 tests | 2 failed) 249ms
+   × allocates a collision list only when needed (sync) 5ms
+   × allocates a collision list only when needed (staged) 1ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  00:40:10
+   Duration  397ms (tests 75%, transform 14%, import 9%, setup 2%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/residentWeldBuckets.test.ts > allocates a collision list only when needed (sync)
+ FAIL  tests/presentation/residentWeldBuckets.test.ts > allocates a collision list only when needed (staged)
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/presentation/residentWeldBuckets.test.ts:27:23
+     25|   expect(result.node).toEqual(Int32Array.of(0, 1, 0, 1, 2, 2, 3));
+     26|   expect(result.first).toEqual(Int32Array.of(0, 1, 4, 6));
+     27|   expect(arrays.size).toBe(1);
+       |                       ^
+     28| });
+     29|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

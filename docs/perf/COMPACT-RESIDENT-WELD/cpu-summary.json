@@ -1,0 +1,118 @@
+[
+  {
+    "id": "rillford-reeve",
+    "kind": "sync",
+    "vertices": 65659,
+    "arrays": {
+      "before": 21474,
+      "after": 0
+    },
+    "modes": {
+      "before": {
+        "meanMs": 2.614121266975309,
+        "p95BlockMeanMs": 3.538777458333333,
+        "blocks": 27,
+        "calls": 648
+      },
+      "after": {
+        "meanMs": 1.9945347361111097,
+        "p95BlockMeanMs": 2.1610281250000014,
+        "blocks": 27,
+        "calls": 648
+      },
+      "control": {
+        "meanMs": 2.625081720679012,
+        "p95BlockMeanMs": 3.4178707916666675,
+        "blocks": 27,
+        "calls": 648
+      }
+    }
+  },
+  {
+    "id": "rillford-reeve",
+    "kind": "staged",
+    "vertices": 65659,
+    "arrays": {
+      "before": 21474,
+      "after": 0
+    },
+    "modes": {
+      "before": {
+        "meanMs": 3.7844557932098746,
+        "p95BlockMeanMs": 4.588204374999994,
+        "blocks": 27,
+        "calls": 648
+      },
+      "after": {
+        "meanMs": 2.4091755802469152,
+        "p95BlockMeanMs": 2.6751082916666746,
+        "blocks": 27,
+        "calls": 648
+      },
+      "control": {
+        "meanMs": 3.674949816358026,
+        "p95BlockMeanMs": 4.543160625000003,
+        "blocks": 27,
+        "calls": 648
+      }
+    }
+  },
+  {
+    "id": "ash-recorder",
+    "kind": "sync",
+    "vertices": 35677,
+    "arrays": {
+      "before": 17112,
+      "after": 0
+    },
+    "modes": {
+      "before": {
+        "meanMs": 1.781317097222222,
+        "p95BlockMeanMs": 2.10629933333333,
+        "blocks": 27,
+        "calls": 648
+      },
+      "after": {
+        "meanMs": 1.4552887824074043,
+        "p95BlockMeanMs": 1.5483071249999891,
+        "blocks": 27,
+        "calls": 648
+      },
+      "control": {
+        "meanMs": 1.8181493595679,
+        "p95BlockMeanMs": 2.2475002083333493,
+        "blocks": 27,
+        "calls": 648
+      }
+    }
+  },
+  {
+    "id": "ash-recorder",
+    "kind": "staged",
+    "vertices": 35677,
+    "arrays": {
+      "before": 17112,
+      "after": 0
+    },
+    "modes": {
+      "before": {
+        "meanMs": 2.2250073796296315,
+        "p95BlockMeanMs": 2.513351666666646,
+        "blocks": 27,
+        "calls": 648
+      },
+      "after": {
+        "meanMs": 1.6836883132716045,
+        "p95BlockMeanMs": 1.8487300416666888,
+        "blocks": 27,
+        "calls": 648
+      },
+      "control": {
+        "meanMs": 2.300632660493827,
+        "p95BlockMeanMs": 2.9240442500000277,
+        "blocks": 27,
+        "calls": 648
+      }
+    }
+  }
+]
