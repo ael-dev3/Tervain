@@ -1,0 +1,10 @@
+
+ RUN  v5.0.2 [repository]
+
+forest floor turn uploads: 48636 -> 3648 bytes
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  10:57:06
+   Duration  1.98s (tests 63%, import 22%, transform 15%)
+
