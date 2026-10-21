@@ -331,7 +331,12 @@ export class TileLayer {
       const i = (count - 1) * 4;
       // The tile's nearest point overestimates density at individual anchors. Retain a centimetre
       // of distance and rank headroom for CPU/GPU float rounding; never trim a partially faded clump.
-      const distance = Math.max(0, Math.hypot(base[i]! - camera.x, base[i + 1]! - camera.y, base[i + 2]! - camera.z) - .01);
+      const anchorDistance = Math.hypot(base[i]! - camera.x, base[i + 1]! - camera.y, base[i + 2]! - camera.z);
+      // The shader's distance band also clips whole clumps. Keep a centimetre on both
+      // boundaries so CPU/GPU rounding cannot remove a partially visible blade.
+      const band = this.o.band;
+      if (band && (anchorDistance < band.start - .01 || anchorDistance > band.end + .01)) { count--; continue; }
+      const distance = Math.max(0, anchorDistance - .01);
       const q = Math.pow(1 - smoothstep(this.o.fadeStart, this.o.fadeEnd, distance), this.o.power);
       if (base[i + 3]! < q * RANK_HEADROOM + 1e-5) break;
       count--;

@@ -206,11 +206,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   }
   const { trees, obstacles } = selectFloraPopulation(population, quality);
   const plantedCrowns = new PlantedCrownIndex();
-  for (const tree of population) {
-    if (!tree.collisionId) continue;
-    const leaf = variantFor(tree).lods[0].leaf;
-    if (leaf) plantedCrowns.add(tree.sp, tree, leaf);
-  }
   ctx.plantedCrowns = plantedCrowns;
   let forestFloor: SceneModule | undefined;
   const initializeFloor = (extraTrees: readonly FloraTree[] = []) => {
@@ -218,7 +213,6 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     forestFloor = buildForestFloor(terrain, excl, quality, [...population, ...extraTrees], plantedCrowns, ctx.foliage);
     group.add(forestFloor.group);
   };
-  if (!deferFloor) initializeFloor();
 
   /* Developer aid: `?lineup=x,z` plants one of every species in rows near a point, and `?lod=0|1|2` forces a level of detail. */
   const q = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
@@ -415,6 +409,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     }
     triangles += v.lods[0].tris * b.trees.length;
   }
+
+  // Leaf-island repair above can replace positions/index data. Cache projected shade only
+  // after that final geometry exists, before terrain, habitat or floor consumers sample it.
+  for (const tree of population) {
+    if (!tree.collisionId) continue;
+    const leaf = variantFor(tree).lods[0].leaf;
+    if (leaf) plantedCrowns.add(tree.sp, tree, leaf);
+  }
+  if (!deferFloor) initializeFloor();
 
   // Detached leaves drift downwind; leaves knocked loose by a strike join them.
   const windDirection = ctx.foliage?.wind.direction;

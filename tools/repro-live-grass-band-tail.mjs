@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import sharp from 'sharp';
+import {liveProofPage} from './live-proof-page.mjs';
+const args=Object.fromEntries(process.argv.slice(2).flatMap((v,i,a)=>v.startsWith('--')?[[v.slice(2),a[i+1]]]:[]));
+const out=args.out??'grass-band-tail-proof';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
+const file='src/presentation/ground/tileStream.ts';
+const sources={before:execFileSync('git',['show',`${args['baseline-ref']??'a221a5a8ce433d173f2248bd43781e075ee6cfe2'}:${file}`],{encoding:'utf8'}),after:fs.readFileSync(file,'utf8')};
+const methods=Object.fromEntries(Object.entries(sources).map(([name,source])=>{const body=source.split('  private trimFadedTail(t: Tile, count: number, camera: THREE.Vector3): number {')[1]?.split('\n  private instanceCountAt(')[0];assert(body,'Production tail method missing');return[name,'function(t,count,camera){'+body.replace(' as Float32Array','').replaceAll(']!',']').replace('t.attrs[0]!','t.attrs[0]')];}));
+const page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:'high',hour:11});
+try{
+ const report=await page.eval(`const T=tervain,W=T.world,R=T.renderer,G=W.groundcover,cam=T.cam.camera;T.frame=()=>{};T.present=()=>{};T.perf=null;T.cam.manual=true;T.settings.reducedMotion=true;T.hud.show(false);T.worldLook=null;T.grade.time=0;T.grade.waterTime=0;T.lastFrameDt=0;
+ let layers;const iterator=Array.prototype[Symbol.iterator];Array.prototype[Symbol.iterator]=function(){if(this.length===2&&this[0]?.group?.name==='grass-near'&&this[1]?.group?.name==='grass-far')layers=[this[0],this[1]];return iterator.call(this);};try{G.update(0,{camera:cam,focus:T.player.group.position,reducedMotion:true});}finally{Array.prototype[Symbol.iterator]=iterator;}if(!layers)throw Error('Native grass layers unavailable');
+ const smoothstep=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);},RANK_HEADROOM=1.12,methods=Object.fromEntries(Object.entries(${JSON.stringify(methods)}).map(([k,s])=>[k,eval('('+s+')')])),native=layers.map(l=>l.trimFadedTail);
+ globalThis.__restoreOrchardRaster?.();if(T.grade.target.samples!==4)throw Error('Native High/MSAA4 required');R.info.autoReset=false;
+ const digest=async()=>{const chunks=[];for(const l of layers)for(const t of l.tiles.values())for(const a of t.attrs)chunks.push(new Uint8Array(a.array.buffer,a.array.byteOffset,a.array.byteLength));const bytes=new Uint8Array(chunks.reduce((n,b)=>n+b.length,0));let at=0;for(const b of chunks){bytes.set(b,at);at+=b.length;}return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(x=>x.toString(16).padStart(2,'0')).join('');};
+ const rows=[],images={};try{for(const[index,[x,z,yaw]]of [[-210,0,.5],[-2,38,0],[-180,12,.8],[-12.3,44.8,.4],[-4,46,0],[-33.4,55,0],[128,-1,-2.4]].entries()){
+ cam.position.set(x,W.terrain.heightAt(x,z)+3,z);cam.lookAt(x+Math.sin(yaw)*20,cam.position.y-1,z+Math.cos(yaw)*20);cam.updateMatrixWorld(true);T.player.setPosition(x,z,0,W.terrain);for(let i=0;i<100;i++){W.update(0,T.game.state,T.player.group.position,T.settings,11,cam,false);W.prepareGrass(R,0);}W.foliage.strength.value=0;W.sway.uTime.value=0;W.foliage.wind.uniforms.uGrassTime.value=0;W.sky.cloudTime=0;
+ R.shadowMap.autoUpdate=true;T.renderWorld();T.renderWorld();R.shadowMap.autoUpdate=false;const hash=await digest(),row={pose:[x,cam.position.y,z,yaw],modes:{}};
+ for(const mode of ['native','before','after','restored']){layers.forEach((l,i)=>l.trimFadedTail=mode==='native'||mode==='restored'?native[i]:methods[mode]);W.update(0,T.game.state,T.player.group.position,T.settings,11,cam,false);T.renderWorld();R.info.reset();T.grade.time=0;T.grade.waterTime=0;T.renderWorld();const gl=R.getContext();if(gl.getError()||gl.isContextLost())throw Error('Invalid capture');images[index+'-'+mode]=R.domElement.toDataURL();row.modes[mode]={draws:R.info.render.calls,triangles:R.info.render.triangles,grass:G.stats(),buffersSha256:await digest()};if(row.modes[mode].buffersSha256!==hash)throw Error('Grass buffers changed');}
+ const cpu={before:[],after:[]};for(let round=0;round<6;round++)for(const mode of round%2?['after','before']:['before','after']){layers.forEach(l=>l.trimFadedTail=methods[mode]);for(let warm=0;warm<4;warm++)for(const l of layers)l.update(cam.position,{remaining:0});for(let sample=0;sample<10;sample++){const start=performance.now();for(let repeat=0;repeat<16;repeat++)for(const l of layers)l.update(cam.position,{remaining:0});cpu[mode].push((performance.now()-start)/16);}}row.grassUpdateCpuMs=Object.fromEntries(Object.entries(cpu).map(([mode,values])=>{const sorted=[...values].sort((a,b)=>a-b);return[mode,{average:values.reduce((a,b)=>a+b,0)/values.length,p95:sorted[Math.ceil(sorted.length*.95)-1],samples:values.length,scope:'Two settled native layer updates per call; excludes generation, rendering and whole-frame CPU.'}];}));rows.push(row);
+ }}finally{layers.forEach((l,i)=>l.trimFadedTail=native[i]);}
+ return{build:await fetch('version.json').then(r=>r.json()),samples:T.grade.target.samples,rows,images};`);
+ for(const[k,v]of Object.entries(report.images))fs.writeFileSync(path.join(out,k+'.png'),Buffer.from(v.split(',')[1],'base64'));delete report.images;
+ for(const[i,row]of report.rows.entries()){
+  const pixels=Object.fromEntries(await Promise.all(['native','before','after','restored'].map(async m=>[m,await sharp(path.join(out,i+'-'+m+'.png')).ensureAlpha().raw().toBuffer()])));
+  row.identicalPixels=pixels.before.equals(pixels.after);row.nativeRestored=pixels.native.equals(pixels.restored);row.nativeMatchesExpected=pixels.native.equals(pixels[args.native??'before']);let min=255,max=0;for(let p=0;p<pixels.before.length;p+=4)for(let k=0;k<3;k++){min=Math.min(min,pixels.before[p+k]);max=Math.max(max,pixels.before[p+k]);}row.nonblank=max-min>8;
+  assert(row.identicalPixels&&row.nativeRestored&&row.nativeMatchesExpected&&row.nonblank,'Pixel/control failure');assert(row.modes.after.triangles<=row.modes.before.triangles,'Triangle regression');
+ }
+ report.errors=page.console().filter(s=>s.startsWith('[error]')||s.startsWith('[exception]'));assert.deepEqual(report.errors,[]);assert(report.rows.some(r=>r.modes.after.triangles<r.modes.before.triangles),'No saved triangles');report.methodSha256=createHash('sha256').update(methods.after).digest('hex');report.complete=true;report.scope='Native frozen High/MSAA4 world; source-exact baseline/candidate tail methods, per-pass camera callbacks intact. Grass buffers hashed unchanged. No shader, density, placement or styling changes. Software counts/pixels, not hardware frame times.';fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}finally{page.close();}
