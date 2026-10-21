@@ -22,15 +22,13 @@ import { fileURLToPath } from 'node:url';
 import * as THREE from 'three';
 import sharp from 'sharp';
 import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
-import { generateBark } from './lib/bark.mjs';
+import { generateBark, generateBirchBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
-import { growOak, trunkRadiusAt, OAK } from './lib/skeleton.mjs';
+import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH } from './lib/skeleton.mjs';
 import { MeshBuilder, addTube, addRoots, addSkirt, windLevel } from './lib/mesh.mjs';
 import { leafCandidates, placeClusters, clusterCards, bakeCrown } from './lib/leaves.mjs';
 import { writeGlb } from './lib/glb.mjs';
 
-/** The one file that carries the oaks' images: the bark and leaf atlas do not depend on the seed. */
-const IMAGE_FILE = 'hero-oak-near.glb';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2), arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
@@ -42,13 +40,33 @@ const TRUNK_PROFILES = {
 };
 Object.assign(OAK, TRUNK_PROFILES[arg('--name', 'hero-oak')] ?? {});
 const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 'public/models/flora/hero'));
-const name = arg('--name', 'hero-oak');
+const name = arg('--name', 'hero-oak'), species = arg('--species', 'oak');
 
 const LODS = {
   near: { trunk: 12, limb: 8, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
   mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1750, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
+
+// Birch wood is thin: fewer sides, no buttress roots (the trunk's own flare makes its foot); its crown is airier, so its
+// clusters are fewer and smaller.
+const BIRCH_LODS = {
+  // The game rebuilds the near crown at its own card count; these clusters only say where the clumps go.
+  near: { trunk: 10, limb: 6, bough: 4, twig: 3, root: 0, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 900, cards: 3, cardRows: 1, sizeScale: 0.8, skirtSeg: 0 },
+  mid: { trunk: 8, limb: 5, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1300, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
+  far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 180, cards: 3, cardRows: 1, sizeScale: 1.8, skirtSeg: 0 },
+};
+// Birch bark keeps a neutral tint and little moss, a light grey rather than chalk white: whiter bark flickered against the
+// foliage swaying in front of it (A160). Its foot is dark for a metre or two; its limbs and twigs are greyer than its stem.
+const BIRCH_PALETTE = { warm: [0.76, 0.75, 0.73], moss: 0.25, level: { 1: 0.7, 2: 0.6, 3: 0.45 }, foot: (y, n) => lerp(0.1, 1, smoothstep(1.0, 2.8, y + 1.6 * (n - 0.5))) };
+// Each generated species: skeleton, trunk radius, bark, levels of detail and the one file that carries its images (the bark
+// and leaf atlas do not depend on the seed, so every other file of the species names that one and borrows them).
+const SPECIES = {
+  oak: { grow: (s) => growOak(s), radiusAt: (y) => trunkRadiusAt(y, OAK), bark: () => generateBark(2048, 7), lods: LODS, imageFile: 'hero-oak-near.glb', label: 'hero oak' },
+  birch: { grow: (s) => growBirch(s), radiusAt: (y) => birchRadiusAt(y, BIRCH), bark: () => generateBirchBark(2048, 17), lods: BIRCH_LODS, imageFile: 'hero-birch-near.glb', label: 'hero birch', palette: BIRCH_PALETTE, leaves: { fill: 0.25 }, crownShade: 0.68, normalSize: 1024 },
+};
+const SP = SPECIES[species];
+if (!SP) throw new Error(`Unknown species ${species}`);
 
 function decimate(b, stride) {
   if (stride <= 1) return b;
@@ -69,7 +87,7 @@ function shortTwig(b, keep, stride) {
 }
 
 function buildWood(sk, lod, bark, seedBase, centres = []) {
-  const P = LODS[lod], rng = makeRng(seedBase + 77), mb = new MeshBuilder(), seam = [];
+  const P = SP.lods[lod], rng = makeRng(seedBase + 77), mb = new MeshBuilder(), seam = [];
   const rootAz = []; if (P.root) { const n = rng.int(5, 7), a0 = rng() * Math.PI * 2; for (let k = 0; k < n; k++) rootAz.push(a0 + (k / n) * Math.PI * 2 + rng.range(-0.25, 0.25)); }
   const trunkShape = (r, y, ang, i, dir) => {
     if (y > 4.5) return r;
@@ -81,6 +99,9 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
   const crownShade = (p, b) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(b.isTrunk || b.level === 1 ? 0.66 : 0.45, 0.85, smoothstep(0.45, 1.0, d)); };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);
+  // A stem that runs up into its crown is in the leaves' shade there: white bark seen through the gaps between leaf cards
+  // flickered against them (A160), so the stem darkens from the crown's base up.
+  const stemPalette = SP.palette && sk.crownBase !== undefined ? { ...SP.palette, crown: (y) => lerp(1, 0.3, smoothstep(sk.crownBase - 0.3, sk.crownBase + 2.2, y)) } : SP.palette;
   for (const level of [0, 1, 2, 3]) {
     if (level === 2 && !P.boughs) continue; if (level === 3 && !P.twigs) continue;
     for (const b0 of sk.branches.filter((b) => b.level === level)) {
@@ -96,16 +117,16 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       const circ = Math.PI * 2 * b.radii[0];
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
-        sides, uTiles: trunk ? Math.max(1, Math.round(trunkRadiusAt(2, OAK) * Math.PI * 2 / 5.2)) : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
-        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3,
+        sides, uTiles: trunk ? Math.max(1, Math.round(SP.radiusAt(2) * Math.PI * 2 / 5.2)) : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
+        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3, palette: stemPalette,
       }, bark);
       seam.push(...sm);
     }
   }
   const collisionIndex = mb.idx.length;
   // Roots draw from their own stream: reshaping the crown above must not move them (tests/presentation/renderedRootSeating.test.ts).
-  if (P.root) addRoots(mb, { rootSides: P.root }, bark, makeRng(seedBase + 91), trunkRadiusAt(0.4, OAK), seam, rootAz);
-  if (P.skirtSeg) addSkirt(mb, bark, rng, trunkRadiusAt(0.0, OAK) * 0.98, P.skirtSeg);
+  if (P.root) addRoots(mb, { rootSides: P.root }, bark, makeRng(seedBase + 91), SP.radiusAt(0.4), seam, rootAz);
+  if (P.skirtSeg) addSkirt(mb, bark, rng, SP.radiusAt(0.0) * 0.98, P.skirtSeg);
   mb.computeNormals(seam);
   return { mb, collisionIndex };
 }
@@ -122,7 +143,7 @@ function segDist(p, s, tmp = new THREE.Vector3(), ab = new THREE.Vector3()) {
 }
 
 function buildLeaves(sk, lod, cands, segs, seedBase) {
-  const P = LODS[lod], rng = makeRng(seedBase + 501), mb = new MeshBuilder();
+  const P = SP.lods[lod], rng = makeRng(seedBase + 501), mb = new MeshBuilder();
   const picked = placeClusters(cands, P.clusters, rng);
   const clusters = picked.map((c) => ({ ...c, cards: [] }));
   const grid = new Map(), cell = 2.5, key = (x, y, z) => `${x},${y},${z}`;
@@ -157,7 +178,7 @@ function buildLeaves(sk, lod, cands, segs, seedBase) {
     const half = card.wid / 2, first = mb.vertexCount;
     const wind = [1, cl.branch.phase, cl.branch.parentPhase ?? 0, 1];
     // Crown shade baked as RGB (the game multiplies it into the albedo): a dark, cool inner crown rising to the full value at the rim.
-    const sh = lerp(0.56, 1, Math.pow(cl.crownAO, 0.8)) * lerp(0.9, 1, card.tint), col = [Math.round(sh * 0.93 * 255), Math.round(sh * 255), Math.round(sh * 0.96 * 255), 255];
+    const sh = lerp(SP.crownShade ?? 0.56, 1, Math.pow(cl.crownAO, 0.8)) * lerp(0.9, 1, card.tint), col = [Math.round(sh * 0.93 * 255), Math.round(sh * 255), Math.round(sh * 0.96 * 255), 255];
     for (let r = 0; r <= rows; r++) {
       const t = r / rows, bend = rows > 1 ? t : 0;
       const centre = card.base.clone().addScaledVector(card.dir, card.len * t); centre.y -= card.len * (0.16 * t * t) * (rows > 1 ? 1 : 0.5);
@@ -178,28 +199,28 @@ function buildLeaves(sk, lod, cands, segs, seedBase) {
 
 async function main() {
   const t0 = Date.now();
-  const bark = generateBark(2048, 7), leaf = generateLeafAtlas();
-  const sk = growOak(seed), segs = woodSegments(sk);
-  const cands = leafCandidates(sk, makeRng(seed + 5));
+  const bark = SP.bark(), leaf = generateLeafAtlas();
+  const sk = SP.grow(seed), segs = woodSegments(sk);
+  const cands = leafCandidates(sk, makeRng(seed + 5), SP.leaves);
   const report = { seed, lods: {} };
   const textures = [
     { name: `${name}-bark`, mimeType: 'image/webp', webp: true, sampler: 'repeat', data: await sharp(Buffer.from(bark.albedo), { raw: { width: bark.size, height: bark.size, channels: 3 } }).webp({ quality: 88, effort: 5 }).toBuffer() },
-    { name: `${name}-bark-normal`, mimeType: 'image/jpeg', sampler: 'repeat', data: await sharp(Buffer.from(bark.normal), { raw: { width: bark.size, height: bark.size, channels: 3 } }).jpeg({ quality: 90, chromaSubsampling: '4:4:4' }).toBuffer() },
+    { name: `${name}-bark-normal`, mimeType: 'image/jpeg', sampler: 'repeat', data: await (SP.normalSize ? sharp(Buffer.from(bark.normal), { raw: { width: bark.size, height: bark.size, channels: 3 } }).resize(SP.normalSize, SP.normalSize) : sharp(Buffer.from(bark.normal), { raw: { width: bark.size, height: bark.size, channels: 3 } })).jpeg({ quality: 90, chromaSubsampling: '4:4:4' }).toBuffer() },
     { name: `${name}-leaves`, mimeType: 'image/webp', webp: true, sampler: 'clamp', data: await sharp(Buffer.from(leaf.rgba), { raw: { width: leaf.size, height: leaf.size, channels: 4 } }).webp({ lossless: true, effort: 4 }).toBuffer() },
   ];
   fs.mkdirSync(outDir, { recursive: true });
   for (const lod of ['near', 'mid', 'far']) {
     const lv = buildLeaves(sk, lod, cands, segs, seed * 100 + 9);
     const { mb: wood, collisionIndex } = buildWood(sk, lod, bark, seed * 100, lv.centres);
-    const carries = `${name}-${lod}.glb` === IMAGE_FILE;
+    const carries = `${name}-${lod}.glb` === SP.imageFile;
     const materials = [
-      { name: 'Foliage | hero oak', alphaMode: 'MASK', alphaCutoff: 0.42, doubleSided: true, pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 2 } } : {}), baseColorFactor: [0.95, 1, 0.92, 1], metallicFactor: 0, roughnessFactor: 0.88 }, emissiveFactor: [0, 0, 0] },
-      { name: 'Wood | hero oak', alphaMode: 'MASK', alphaCutoff: 0.18, ...(carries ? { normalTexture: { index: 1, scale: 1 } } : {}), pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 0 } } : {}), baseColorFactor: [1, 1, 1, 1], metallicFactor: 0, roughnessFactor: 0.95 } },
+      { name: `Foliage | ${SP.label}`, alphaMode: 'MASK', alphaCutoff: 0.42, doubleSided: true, pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 2 } } : {}), baseColorFactor: [0.95, 1, 0.92, 1], metallicFactor: 0, roughnessFactor: 0.88 }, emissiveFactor: [0, 0, 0] },
+      { name: `Wood | ${SP.label}`, alphaMode: 'MASK', alphaCutoff: 0.18, ...(carries ? { normalTexture: { index: 1, scale: 1 } } : {}), pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 0 } } : {}), baseColorFactor: [1, 1, 1, 1], metallicFactor: 0, roughnessFactor: 0.95 } },
     ];
     const glb = writeGlb({
       parts: [{ name: 'Foliage', builder: lv.mb, material: 0 }, { name: 'Wood', builder: wood, material: 1, extras: { tervainWoodCollisionIndex: collisionIndex } }],
       materials, textures: carries ? textures : [],
-      assetExtras: { ...(carries ? {} : { tervainSharedImages: IMAGE_FILE }), tervainHeroTree: { generator: 'tools/tree-gen', seed, lod } },
+      assetExtras: { ...(carries ? {} : { tervainSharedImages: SP.imageFile }), tervainHeroTree: { generator: 'tools/tree-gen', ...(species === 'oak' ? {} : { species }), seed, lod } },
     });
     fs.writeFileSync(path.join(outDir, `${name}-${lod}.glb`), glb);
     report.lods[lod] = { bytes: glb.length, woodTris: wood.triangleCount, leafTris: lv.mb.triangleCount, tris: wood.triangleCount + lv.mb.triangleCount, clusters: lv.clusters, cards: lv.cards, rejectedCards: lv.rejected, verts: wood.vertexCount + lv.mb.vertexCount };
