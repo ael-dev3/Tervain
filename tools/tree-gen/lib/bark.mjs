@@ -51,16 +51,17 @@ export function generateBark(size = BARK_SIZE, seed = 7) {
       const x = u + wx, y = v + wy;
       // Deep primary furrows: borders of tall thin Worley plates (about 9 cm wide, 33 cm long at trunk scale), which
       // fork and rejoin; a few furrows fade out so neighbouring ridges interlock. Each plate has its own height.
-      const [d1, c1, id1] = wo(x, y, 34, 4), [d2, , id2] = wo2(x + 0.13, y + 0.31, 80, 9);
+      // 0.0.39: Gothic 3's oak bark is long narrow ridges, not wide plates; finer cells, three times taller than wide.
+      const [d1, c1, id1] = wo(x, y, 72, 8), [d2, , id2] = wo2(x + 0.13, y + 0.31, 150, 16);
       const fade = smoothstep(-0.25, 0.1, N(pt, x, y, 30, 5));
-      const furrowA = 1 - (1 - smoothstep(0.0, 0.3, d1)) * (0.45 + 0.55 * fade);
+      const furrowA = 1 - (1 - smoothstep(0.0, 0.2, d1)) * (0.35 + 0.45 * fade);
       const furrowB = 0.35 + 0.65 * smoothstep(0.0, 0.2, d2);
       const dome = 0.8 + 0.2 * smoothstep(0.9, 0.1, c1);
       let h = furrowA * (0.72 + 0.28 * furrowB) * dome * (0.84 + 0.16 * id1) * (0.97 + 0.03 * id2);
       h += 0.03 * N(pm, x, y, 190, 22) + 0.015 * N(pm, x, y, 380, 60) + 0.03 * N(pm, x, y, 40, 4);
       H[j * S + i] = clamp(h, 0, 1);
       tintA[j * S + i] = N(pt, u, v, 3, 3) * 0.7 + 0.5 * N(pt, u, v, 11, 9);
-      plateTone[j * S + i] = 0.8 + 0.4 * (((id1 * 7.31) % 1)); moss[j * S + i] = N(pm, u + 0.2, v, 5, 3) * 0.8 + 0.5 * N(pm, u, v + 0.4, 14, 9);
+      plateTone[j * S + i] = 0.9 + 0.2 * (((id1 * 7.31) % 1)); moss[j * S + i] = N(pm, u + 0.2, v, 5, 3) * 0.8 + 0.5 * N(pm, u, v + 0.4, 14, 9);
     }
   }
   const albedo = new Uint8Array(S * S * 3), normal = new Uint8Array(S * S * 3);
@@ -74,7 +75,7 @@ export function generateBark(size = BARK_SIZE, seed = 7) {
     // Colour from height: furrow bottoms dark brown, plates warm grey-brown, plate tops lightest; cavity occlusion in the furrows.
     const plate = smoothstep(0.1, 0.5, h), top = smoothstep(0.62, 0.95, h), tint = tintA[n];
     const grain = 1 + 0.3 * N(pm, i / S, j / S, 300, 36) + 0.2 * N(pm, i / S, j / S, 90, 11);
-    let R = lerp(40, 76, plate) + 16 * top, G = lerp(32, 68, plate) + 15 * top, B = lerp(25, 58, plate) + 12 * top;
+    let R = lerp(50, 74, plate) + 10 * top, G = lerp(42, 66, plate) + 9 * top, B = lerp(33, 56, plate) + 7 * top;
     const cavity = (0.62 + 0.38 * smoothstep(0.05, 0.55, h)) * grain;
     // Moss on plate tops in patches, pale lichen speckle on a few.
     const mossMask = smoothstep(0.1, 0.5, moss[n]) * plate * 0.6;

@@ -41,7 +41,7 @@ const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 
 const name = arg('--name', 'hero-oak');
 
 const LODS = {
-  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
+  near: { trunk: 12, limb: 8, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
   mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
@@ -99,7 +99,8 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
     }
   }
   const collisionIndex = mb.idx.length;
-  if (P.root) addRoots(mb, { rootSides: P.root }, bark, rng, trunkRadiusAt(0.4, OAK), seam, rootAz);
+  // Roots draw from their own stream: reshaping the crown above must not move them (tests/presentation/renderedRootSeating.test.ts).
+  if (P.root) addRoots(mb, { rootSides: P.root }, bark, makeRng(seedBase + 91), trunkRadiusAt(0.4, OAK), seam, rootAz);
   if (P.skirtSeg) addSkirt(mb, bark, rng, trunkRadiusAt(0.0, OAK) * 0.98, P.skirtSeg);
   mb.computeNormals(seam);
   return { mb, collisionIndex };

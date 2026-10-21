@@ -14,10 +14,11 @@ it('seats the displayed roots within the original cap without raising old seats 
   const footprint = forest.footprint('oak', 1), rendered = forest.variant('oak', 1, 'hero-oak-b');
   const buried = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([-.01, -100, -.01, .01, -100, -.01, 0, -100, .01], 3));
   const smaller: TreeVariant = { ...footprint, lods: [0, 1, 2].map(() => ({ wood: buried, leaf: null, tris: 1 })) as TreeVariant['lods'] };
+  // Each probe lies under one of hero-oak-b's buttress roots (0.0.39 regeneration: roots draw from their own stream).
   const poses = [
-    { x: -153.84126710205845, z: 50.97761472273617, s: .9997050802316516, yaw: .8799843445715542, probe: [-153.13559912615818, 46.81427792209723] },
-    { x: -121.24891903335272, z: 54.54132063213735, s: .9180886542871595, yaw: 6.223634928518714, probe: [-117.86223421234637, 56.77817936622598] },
-    { x: -149.38447409311817, z: 64.81398542076349, s: .8060178429755434, yaw: 4.413138236807198, probe: [-147.29706669746793, 67.06619155039256] },
+    { x: -153.84126710205845, z: 50.97761472273617, s: .9997050802316516, yaw: .8799843445715542, probe: [-151.6487580037162, 51.953782666118094] },
+    { x: -121.24891903335272, z: 54.54132063213735, s: .9180886542871595, yaw: 6.223634928518714, probe: [-119.17045806427006, 55.74132063213735] },
+    { x: -149.38447409311817, z: 64.81398542076349, s: .8060178429755434, yaw: 4.413138236807198, probe: [-148.4896534783514, 66.8237854275772] },
   ];
   const mesh = new THREE.Mesh(rendered.lods[0].wood!, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })), ray = new THREE.Raycaster();
   const surfaceGap = (tree: FloraTree, probe: number[]) => {

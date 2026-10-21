@@ -11,9 +11,14 @@ export const OAK = {
   trunkTop: 5.6,            // veteran oak: a short, thick bole that dissolves into the primary limbs at about this height
   trunkRadius: 0.82,        // radius at 1.5 m before the flare, metres
   flareGain: 0.55, flareDecay: 1.1,
-  limbs: 10, boughsPerLimb: [3, 5], twigsPerBough: [9, 13],
+  limbs: 6, boughsPerLimb: [4, 6], twigsPerBough: [9, 13],
+  // Boughs grow on the outer part of a limb only: its inner reach stays a clean bare arm under the leaves.
+  boughSpan: [0.45, 0.95],
   murray: [0.75, 0.8], lateral: { 1: 1.0, 2: 0.82, 3: 0.6 },
   angle: [35, 60],
+  // Gothic 3's oaks: limbs spread wide from a short bole and go crooked, turning at elbows rather than running straight.
+  limbAngle: [52, 72],      // lateral limbs, degrees from the bole
+  elbow: { 1: 0.24, 2: 0.3 },   // chance per step that a limb (1) or bough (2) turns at an elbow
   minHeight: 2.4,           // wood stays above the player slab (colliders are trunk-only)
 };
 
@@ -64,11 +69,14 @@ export function growOak(seed, P = OAK) {
     const { start, level, step, wobble, tropism, droop, length, r0, taper } = o;
     const pts = [start.clone()], d = o.dir.clone().normalize(), d0 = d.clone(), prev = d.clone();
     // Limbs and boughs: bounded turn per step, bounded drift from the launch direction and limited droop, so none hooks back or curls.
-    const bounded = level >= 1 && level <= 2, maxTurn = level === 1 ? 0.3 : 0.45, maxDrift = level === 1 ? 0.5 : 0.2, minY = level === 1 ? -0.2 : -0.45;
+    const bounded = level >= 1 && level <= 2, maxTurn = level === 1 ? 0.5 : 0.6, maxDrift = level === 1 ? 0.35 : 0.2, minY = level === 1 ? -0.3 : -0.45;
+    const elbow = P.elbow?.[level] ?? 0;
     const n = Math.max(2, Math.round(length / step)), seg = length / n;
     for (let i = 1; i <= n; i++) {
       const t = i / n, last = pts[pts.length - 1];
       d.x += rng.gauss() * wobble * 0.5; d.y += rng.gauss() * wobble * 0.3; d.z += rng.gauss() * wobble * 0.5;
+      // An elbow: the limb turns 17-32 degrees about a random axis, then carries on (bounded below, so it never hooks back).
+      if (elbow && i > 1 && rng() < elbow) d.applyAxisAngle(new THREE.Vector3(rng.gauss(), rng.gauss(), rng.gauss()).cross(d).normalize(), rng.range(0.3, 0.55));
       d.y += tropism;                                   // phototropism: shoots lean toward the light
       d.y -= droop * t * t;                             // thin ends sag under load
       const q = envelope(last);
@@ -109,12 +117,13 @@ export function growOak(seed, P = OAK) {
   trunk.finish(); branches.push(trunk);
 
   // Limbs: lateral ones peel off the upper trunk on a golden-angle spiral, then the leaders at the top.
-  const heights = [2.6, 3.0, 3.9, 4.3, 5.0, 5.4];   // staggered in three bands, a golden angle apart in azimuth
+  // A few great limbs, not a starburst: four lateral arms staggered up the bole, then the two leaders at the top.
+  const heights = [3.0, 3.9, 4.6, 5.2];
   const az0 = rng() * Math.PI * 2, golden = 2.399963;
   const limbSpecs = [];
-  heights.forEach((y, i) => limbSpecs.push({ y, az: az0 + i * golden + rng.range(-0.3, 0.3), polar: rng.range(P.angle[0] + 4, P.angle[1] - 6), top: false }));
-  limbSpecs.push({ y: P.trunkTop, az: az0 + 6 * golden, polar: rng.range(40, 52), top: true });
-  limbSpecs.push({ y: P.trunkTop, az: az0 + 6 * golden + Math.PI + rng.range(-0.4, 0.4), polar: rng.range(44, 56), top: true });
+  heights.forEach((y, i) => limbSpecs.push({ y, az: az0 + i * golden + rng.range(-0.3, 0.3), polar: rng.range(...(P.limbAngle ?? [P.angle[0] + 4, P.angle[1] - 6])), top: false }));
+  limbSpecs.push({ y: P.trunkTop, az: az0 + 4 * golden, polar: rng.range(34, 46), top: true });
+  limbSpecs.push({ y: P.trunkTop, az: az0 + 4 * golden + Math.PI + rng.range(-0.4, 0.4), polar: rng.range(38, 50), top: true });
   // Secondary stems: upright co-dominant leaders that part from the bole a little below its top.
   limbSpecs.push({ y: 4.7, az: az0 + 7 * golden, polar: rng.range(22, 30), top: true });
   limbSpecs.push({ y: 5.3, az: az0 + 8 * golden, polar: rng.range(24, 32), top: true });
@@ -130,20 +139,20 @@ export function growOak(seed, P = OAK) {
     const rho = rng.range(...P.murray) * P.lateral[1] * (spec.top ? 1.05 : 1);
     const length = spec.top ? rng.range(6, 7.5) : rng.range(7, 8.8);
     // A primary limb runs about 60 % of its reach, then forks in two that carry on to the crown edge: the veteran oak's wide, forked arms.
-    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: Math.min(f.r * rho, 0.9), taper: 0.28, level: 1, step: 1.0, wobble: 0.3, tropism: spec.top ? 0.08 : 0.06, droop: 0.06, parent: trunk, forkT: tAtY(spec.y), rMin: 0.08 });
+    const primary = grow({ start: f.p, dir, length: length * 0.6, r0: Math.min(f.r * rho, 0.9), taper: 0.28, level: 1, step: 1.0, wobble: 0.4, tropism: spec.top ? 0.08 : 0.05, droop: 0.12, parent: trunk, forkT: tAtY(spec.y), rMin: 0.08 });
     limbs.push(primary);
     const end = primary.at(1);
     for (const sgn of [-1, 1]) {
       const fd = forkDir(end.tan, (sgn < 0 ? 0 : Math.PI) + rng.range(-0.5, 0.5) + k0(spec), rng.range(24, 40));
       if (fd.y < 0.05) fd.y = 0.05; fd.normalize();
-      limbs.push(grow({ tip: true, start: end.p, dir: fd, length: length * rng.range(0.5, 0.65), r0: end.r * rng.range(...P.murray) * 1.05, taper: 0.8, level: 1, step: 1.0, wobble: 0.32, tropism: 0.06, droop: 0.08, parent: primary, forkT: 1, rMin: 0.06 }));
+      limbs.push(grow({ tip: true, start: end.p, dir: fd, length: length * rng.range(0.5, 0.65), r0: end.r * rng.range(...P.murray) * 1.05, taper: 0.66, level: 1, step: 1.0, wobble: 0.42, tropism: 0.05, droop: 0.16, parent: primary, forkT: 1, rMin: 0.06 }));
     }
   }
   // Boughs along each limb, twigs along each bough.
   for (const limb of limbs) {
     const nB = rng.int(...P.boughsPerLimb);
     for (let k = 0; k < nB; k++) {
-      const t = lerp(0.2, 0.92, (k + rng.range(0.1, 0.9)) / nB);
+      const t = lerp(...(P.boughSpan ?? [0.2, 0.92]), (k + rng.range(0.1, 0.9)) / nB);
       const f = limb.at(t), az = (k % 2 ? 1 : -1) * rng.range(0.5, 2.6) + k * 1.4;
       let dir = forkDir(f.tan, az, rng.range(...P.angle));
       if (dir.y < -0.05) dir = forkDir(f.tan, az + Math.PI, rng.range(...P.angle));
