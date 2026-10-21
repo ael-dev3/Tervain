@@ -41,3 +41,6 @@ Twenty PNGs at five fixed poses (two repeats/mode) are independently RGB-identic
 | sea | 137 / 137 | 778,895 / 778,895 | 0 |
 
 `node tools/repro-floor-sphere-native.mjs [output-directory]` with Chrome configured reproduces it. No raster suppression is active when images are drawn; an optional load-only hook must restore before capture (asserted by the tool). The unmodified compiled current-head budget receipt is recorded separately; no PASS is inferred from these source-paired pictures.
+## Compiled current-head budget
+
+Unmodified stock gate on `6619fce8be91e8ea1ecf0fa7c78446f5b9ae6062`: live **285 draws / 3,046,047 triangles / 0 errors**, candidate **285 draws / 3,046,047 triangles / 0 errors**. Two same-revision live probes and four distinct completed frames per probe/candidate; default limits, no allowances or sampler edits, no load/raster hook. [Raw receipt](budget.txt). This fixed budget placement is not a walking hardware frame-pacing test. The tiny helper CPU reduction and this budget do not establish the cause of historical live16 ~33 ms frames, heat or steady-60fps capability.
