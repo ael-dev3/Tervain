@@ -32,6 +32,8 @@ export interface CanopyOptions {
   readonly lobes?: CanopyLobes;
   /** The lobes themselves, when another detail level of the same tree already chose them (see `canopyLobes`). */
   readonly lobeShape?: readonly CanopyLobe[];
+  /** Clump radii from the wood past which a clump is dropped rather than given a twig (default `ANCHOR_DROP`). */
+  readonly anchorDrop?: number;
 }
 
 /**
@@ -494,7 +496,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
     // Only near the wood: a clump far out still gets its own twig, so leaves stay close to the branches.
     if (plan.d <= reach || plan.d <= opts.clump * ANCHOR_HOLD && touchesHeld(plan.sits)) { held.push(plan.sits); continue; }
     held.push(plan.sits);
-    if (plan.d > opts.clump * ANCHOR_DROP) { dropped++; plan.keep = []; continue; }
+    if (plan.d > opts.clump * (opts.anchorDrop ?? ANCHOR_DROP)) { dropped++; plan.keep = []; continue; }
     const from = plan.hit.clone(), viaTwig = new THREE.Vector3(), dt = onTwig(plan.sits, viaTwig);
     if (dt <= reach) continue;
     if (dt < plan.d) from.copy(viaTwig);

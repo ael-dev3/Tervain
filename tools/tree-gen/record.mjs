@@ -36,7 +36,7 @@ ledger.sources[SOURCE_ID] = {
     creator: 'Tervain project',
     terms: 'Original work of the Tervain project. Geometry, bark textures and the placeholder leaf atlas are computed by tools/tree-gen from seeded noise and algorithms written for Tervain; no third-party model, image, scan or Meshy output is an input. Rights are reserved by the project owner; LICENSE-SCOPE.md grants nothing for 3D models.',
   },
-  credit: 'Hero oaks, birches and bushes: grown and textured procedurally by Tervain (tools/tree-gen).',
+  credit: 'Hero oaks, birches, bushes and orchard trees: grown and textured procedurally by Tervain (tools/tree-gen).',
   changes: 'Generated at build time by tools/tree-gen/build.mjs (seeded; four-level branch skeleton, bark-relief tubes, buttress roots, leaf cards). Not derived from any other model.',
   rightsBoundary: 'Original Tervain procedural output. No Meshy, Community or third-party rights are involved.',
   provenance: { classification: 'tervain-original-procedural', evidence: 'The files are the deterministic output of tools/tree-gen/build.mjs (seed recorded in each file’s asset.extras); the generator and every texture it writes are original code in this repository.', creator: 'Tervain project', listingUrl: null },

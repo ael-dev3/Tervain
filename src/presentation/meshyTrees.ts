@@ -14,28 +14,33 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, type CanopyLobes, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 /**
- * Generated hero trees (tools/tree-gen): original procedural oaks, birches and bushes with a real branch skeleton. On by
- * default; `?herooak=0` is the escape hatch (the supplied trees), `?herobirch=0` and `?herobush=0` keep the supplied birches
- * or shrubs only.
+ * Generated hero trees (tools/tree-gen): original procedural oaks, birches, bushes and orchard trees with a real branch
+ * skeleton. On by default; `?herooak=0` is the escape hatch (the supplied trees), `?herobirch=0`, `?herobush=0` and
+ * `?heroorchard=0` keep the supplied birches, shrubs or orchard trees only.
  * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_OAK_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_BIRCH_IDS = ['hero-birch', 'hero-birch-b', 'hero-birch-c'] as const;
 export const HERO_BUSH_IDS = ['hero-bush', 'hero-bush-b'] as const;
-export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS] as const;
+export const HERO_ORCHARD_IDS = ['hero-apple', 'hero-pear'] as const;
+export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS, ...HERO_ORCHARD_IDS] as const;
 /** A lobed crown's wood is trimmed only beyond this share of the crown's radii (trimExposedWood). */
 const LOBED_TRIM_SHELL = 0.85;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
 /**
  * The generated family that replaces a species' supplied variants, slot for slot; a tree assigned a source explicitly keeps
- * it. The bushes repeat their first template where the supplied shrubs repeat tree-1521, so they draw as many templates (A163).
+ * it. The bushes repeat their first template where the supplied shrubs repeat tree-1521, so they draw as many templates (A163);
+ * the apple stands where the orchard repeats the wide tree-4949, the pear in the narrow tree-4815's slot (A164).
  */
-const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = { oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: [HERO_BUSH_IDS[0], HERO_BUSH_IDS[1], HERO_BUSH_IDS[0]] };
+const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = {
+  oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: [HERO_BUSH_IDS[0], HERO_BUSH_IDS[1], HERO_BUSH_IDS[0]],
+  orchard: [HERO_ORCHARD_IDS[0], HERO_ORCHARD_IDS[1], HERO_ORCHARD_IDS[0]],
+};
 /** The generated tree that stands in a species slot for this placement seed, or undefined where the species keeps its supplied trees. */
 export function heroFamilyId(species: Species, seed: number): string | undefined {
   const family = HERO_FAMILY[species]; return family?.[Math.abs(seed) % family.length];
@@ -50,12 +55,15 @@ export function heroBirchEnabled(search: string | undefined = typeof location ==
 export function heroBushEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herobush') !== '0'; } catch { return true; }
 }
+export function heroOrchardEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
+  try { return new URLSearchParams(search ?? '').get('heroorchard') !== '0'; } catch { return true; }
+}
 /** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
 function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
 const heroNoTwigs = () => heroFlag('heronotwigs');
 /** The tree ids a world loads: the supplied set, plus the generated hero trees while their flags are on. */
-export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled(), bushes = heroBushEnabled()): readonly string[] {
-  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : []), ...(bushes ? HERO_BUSH_IDS : [])] : MESHY_TREE_IDS;
+export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled(), bushes = heroBushEnabled(), orchards = heroOrchardEnabled()): readonly string[] {
+  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : []), ...(bushes ? HERO_BUSH_IDS : []), ...(orchards ? HERO_ORCHARD_IDS : [])] : MESHY_TREE_IDS;
 }
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
@@ -67,6 +75,15 @@ const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
 const CONIFER = new Set<Species>(['fir', 'shorepine']);
 /** Kinds whose trunks take the metre-scale bark detail (A133). */
 const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
+/** The generated orchard trees' crown clumps and cards, as a share of the oak's (A164). */
+const ORCHARD_CANOPY_SCALE = 0.65;
+/**
+ * An orchard crown's lobes (A164): fewer and larger than an oak's for its width, and rounder, so a pear's narrow crown is
+ * a few overlapping masses rather than a column of small puffs.
+ */
+const ORCHARD_LOBES: CanopyLobes = { perRadius: 0.7, count: [5, 7], radius: [0.42, 0.56], flat: 0.78, between: 0.06 };
+/** Clump radii from the wood past which an orchard crown drops a clump rather than growing a twig to it (A164). */
+const ORCHARD_ANCHOR_DROP = 2.5;
 /** A generated bush's leaf tint (linear): a little less green and blue, to the warmth of the meadow and the shrubs it replaces (A163). */
 const BUSH_LEAF_TINT = new THREE.Color().setRGB(1.0, 0.88, 0.73);
 /**
@@ -635,7 +652,11 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         // source sheets only say where the leaves go. Far crowns keep the source cards.
         if (exported && lod < 2 && clusters) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-          const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
+          // A164: a generated orchard tree is under half an oak's height: its clumps and cards are scaled to it.
+          const base = lod === 0 ? NEAR_CANOPY : MID_CANOPY, k = hero && species === 'orchard' ? ORCHARD_CANOPY_SCALE : 1;
+          // Its open crown shows the sky between lobes, where a long twig out to a far clump read as a bare stick: such
+          // clumps are dropped instead.
+          const shape = k === 1 ? base : { ...base, size: [base.size[0] * k, base.size[1] * k] as const, clump: base.clump * k, anchorDrop: ORCHARD_ANCHOR_DROP };
           let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
           const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
           // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
@@ -643,8 +664,8 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
           // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
           const anchor = woodAnchor(wood);
-          // Lobes are the oaks' (A159): on a birch they flickered more than its even crown (A160).
-          const lobes = hero && species === 'oak' ? CROWN_LOBES : undefined;
+          // Lobes are the oaks' (A159) and, rounder and larger, the orchard's (A164): on a birch they flickered more than its even crown (A160).
+          const lobes = hero && species === 'oak' ? CROWN_LOBES : hero && species === 'orchard' ? ORCHARD_LOBES : undefined;
           if (lobes && !lobeShape) lobeShape = canopyLobes(exported, wood, { ...shape, cards, seed, lobes });
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
