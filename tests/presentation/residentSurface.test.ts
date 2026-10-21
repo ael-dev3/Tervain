@@ -41,6 +41,26 @@ function sideAt(geometry: THREE.BufferGeometry, values: Float32Array, at: THREE.
 }
 
 describe('resident surface', () => {
+  it('yields inside the initial weld and vertex copies, before building the triangle grid', () => {
+    const geometry = new THREE.BoxGeometry(1, 2, 1, 40, 40, 40);
+    const position = geometry.getAttribute('position'), index = geometry.index!;
+    let reads = 0, copiedIndex = false;
+    const getX = position.getX.bind(position), getIndex = index.getX.bind(index);
+    const positions = vi.spyOn(position, 'getX').mockImplementation(i => { reads++; return getX(i); });
+    const indices = vi.spyOn(index, 'getX').mockImplementation(i => { copiedIndex = true; return getIndex(i); });
+    const steps = residentHiddenLayersSteps(geometry, ['hips']);
+    try {
+      for (let turns = 0; !copiedIndex; turns++) {
+        expect(turns).toBeLessThan(position.count);
+        reads = 0;
+        expect(steps.next().done).toBe(false);
+        expect(reads).toBeLessThanOrEqual(2048);
+      }
+    } finally {
+      steps.return(new Float32Array()); positions.mockRestore(); indices.mockRestore(); geometry.dispose();
+    }
+  });
+
   it('lets only the head, neck, forearms, hands and an open collar be bare skin', () => {
     const prior = residentSkinPrior(points([[2, 1.6, 1], [4, 1.0, 1], [3, 1.3, 1], [1, 1.2, 1], [1, 1.45, 1], [7, 0.6, 1], [0, 0.95, 1]]), NAMES);
     expect(prior[0]).toBe(1); expect(prior[1]).toBe(1);
