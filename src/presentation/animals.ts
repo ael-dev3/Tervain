@@ -552,14 +552,18 @@ function* buildAnimalSteps(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'qu
     basis.makeBasis(right, up, forward); animal.turn.setFromRotationMatrix(basis);
     animal.root.quaternion.slerp(animal.turn, 1 - Math.exp(-dt * 9));
     point.y = groundOf(point.x, point.z) - animal.bounds.min.y;
-    animal.root.updateMatrixWorld(true); animal.skeletons.forEach(skeleton => skeleton.update());
+    animal.root.updateMatrixWorld(true);
+    // Without CPU contact samples, Three refreshes these bones when the animal is rendered.
+    if (animal.paws.length) animal.skeletons.forEach(skeleton => skeleton.update());
     let correction = -Infinity;
     for (const paw of animal.paws) for (const index of paw.vertices) {
       paw.mesh.getVertexPosition(index, vertex).applyMatrix4(paw.mesh.matrixWorld);
       correction = Math.max(correction, groundOf(vertex.x, vertex.z) - vertex.y);
     }
-    if (Number.isFinite(correction)) point.y += THREE.MathUtils.clamp(correction, -0.06, 0.18) + 0.006;
-    animal.root.updateMatrixWorld(true);
+    if (Number.isFinite(correction)) {
+      point.y += THREE.MathUtils.clamp(correction, -0.06, 0.18) + 0.006;
+      animal.root.updateMatrixWorld(true);
+    }
   };
   // A frightened herd or pack animal carries the alarm to its own kind nearby, so a group scatters together (A70).
   const spreadAlarm = (from: AnimalInstance, position: { x: number; z: number }) => {
