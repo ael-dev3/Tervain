@@ -1,4 +1,7 @@
 {
   "retainedProfiles": 1,
-  "scope": "Disposable budget profiles after Node exit"
+  "scope": "Snapshot of reused per-PR scratch directory, not per-run leak attribution",
+  "preexistingEndpointFiles": 1,
+  "allPredateCurrentBuild": true,
+  "attribution": "The remaining endpoint file predates the current build; do not label this count a new leak from the current head."
 }

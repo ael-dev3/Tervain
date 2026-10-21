@@ -4,4 +4,4 @@ Head `0d32541b4d55730a5128c5edbb6fe650631b8f0d` on `9394371fe3d745a8e6d0f949eb1e
 
 9 focused tests and build pass. The stock compiled budget uses two same-revision live probes, four completed frames per probe, no allowances, no preload/init hook and the unchanged sampler. Candidate max draws/triangles/errors: 284 / 2956234 / 0; live 9394371: 284 / 2956234 / 0.
 
-Earlier native captures and CPU studies stay pinned to their original revisions; they were not retimed or rerendered by this rebase. This is fresh compiled budget/test evidence, not current hardware pacing or heat proof. `cleanup.json` records only disposable profiles for this run; only #765 changes cleanup.
+Earlier native captures and CPU studies stay pinned to their original revisions; they were not retimed or rerendered by this rebase. This is fresh compiled budget/test evidence, not current hardware pacing or heat proof. `cleanup.json` snapshots a reused per-PR scratch directory: its one remaining profile predates the current build and comes from the earlier run before the cleanup fix was in the base. This is not a per-run leak measurement; only #765 changes cleanup.
