@@ -29,9 +29,9 @@ Centre saving: **142 draws / 731,367 triangles** (18.2% total draws, 7.6% total 
 
 The historical 766 / 10.1M capture used a different light-focus/update sequence. This paired proof uses a coherent player/light/culling setup; it must not be presented as an exact rerun of that older counter.
 
-## Actual game-loop trace (software, not Apple hardware)
+## Original Reduced-Motion game-loop trace (software, not Apple hardware)
 
-After the fixed images, the helper restores the original simulation, presentation and render methods and records 10 completed game frames at the fixed camera through the application's PerfMeter. It also records V8 CPU sampling profiles. The first two samples include capture warm-up and are excluded from the following advisory summaries; raw samples remain intact.
+**These original 0.0.45 samples retain Reduced Motion from the shot setup (wind held still).** After the fixed images, the helper restores the original simulation, presentation and render methods and records 10 completed game frames at the fixed camera through the application's PerfMeter. It also records V8 CPU sampling profiles. The first two samples include capture warm-up and are excluded from the following advisory summaries; raw samples remain intact.
 
 - Ordinary draws/triangles agree: 330 / 5,653,317, later 331 / 5,684,605 in both runs.
 - JS CPU mean/p95 (remaining 8 frames): **66.41 / 86.10 ms before, 52.16 / 70.20 ms after**. These are short, instrumented software samples, not a statistically established CPU win.
@@ -76,3 +76,13 @@ On source head `56c9795f9a7dc7f860c1dbbc77577503ade28d14`, live `cb38978`: **284
 `play-gate: PASS 56c9795f9`
 
 Raw budget output is in `budget.log` (preview origin anonymized). The earlier gate spanning the 0.0.45→0.0.46 deployment was aborted/discarded and is not used. Tests/build logs are from the rebased current head. Native images remain the separately labelled 0.0.45 pairs.
+
+## Additional live 0.0.46 normal-wind trace
+
+`motion-0.0.46/` adds an unpaired current-live trace, revision `cb38978`, High, 640×360 DPR1, same dense-fir camera. **All 8 frames explicitly record `windStrength:1` and `reducedMotion:false`.** Simulation, presentation, wind and native post rendering run normally during these frames. A separate setup still is frozen; it is not a motion screenshot.
+
+After the first two capture warm-up samples, software-rendered intervals span **12,499.5–13,116.1 ms**, instrumented JS CPU **37.9–57.2 ms**, with up to **555 draws / 8,634,093 triangles**. GPU timer unavailable throughout. These are not a before/after CPU comparison with the Reduced-Motion traces, and do not identify the historical hardware ~33 ms stall. Per-draw counters and CPU sampling add observation overhead; no hardware/Apple-GPU pacing claim. Normal-wind reflection refreshes also make these counts different from the stationary Reduced-Motion trace.
+
+Portable read-only repro in `tools/trace-fir-motion.mjs`: run with `--url 'https://ael-dev3.github.io/Tervain/?motion=1' --frames 8 --out <output-directory>`. The software run additionally used `--skip-loading-raster true`; raster is restored before setup and frame measurements. The helper records one setup image rather than seven comparison images and records wind/settings on every completed frame.
+
+This adds evidence only. Source head and its budget receipt are unchanged.
