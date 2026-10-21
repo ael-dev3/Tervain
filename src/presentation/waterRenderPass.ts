@@ -22,6 +22,8 @@ export interface WaterRenderInputs {
   unreflected?: THREE.Object3D[];
   /** Lighten what the reflection draws (the trees' middle models, A76); returns how to put it back. */
   lighten?: () => () => void;
+  /** An initialized sun map can be reused by the reflection while its pending refresh waits for the full main view. */
+  sunShadowReady?: boolean;
 }
 
 export interface WaterUnder {
@@ -235,7 +237,7 @@ export class WaterRenderPass {
       for (let i = 0; i < unreflected.length; i++) shown[i] = unreflected[i]!.visible;
       let restoreDetail: (() => void) | null = null, hiddenDetail: THREE.Object3D[] = [];
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
-      const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;
+      const oldShadow = renderer.shadowMap.autoUpdate, oldShadowUpdate = renderer.shadowMap.needsUpdate, oldXr = renderer.xr.enabled;
       try {
         for (const mesh of input.meshes) mesh.visible = false;
         for (const object of unreflected) object.visible = false;
@@ -244,6 +246,10 @@ export class WaterRenderPass {
         renderer.autoClear = true;
         this.reflectionValid = false;
         this.reflector.getReflectionCamera(camera).layers.mask = camera.layers.mask & ~2;
+        // Reflector pauses autoUpdate, but Three still redraws for needsUpdate. Do not spend
+        // the main view's pending refresh on the reduced reflection cast list. A cold map
+        // must still initialize here before its first receivers draw (night Continue).
+        if (input.sunShadowReady) renderer.shadowMap.needsUpdate = false;
         this.reflector.onBeforeRender(renderer, scene, camera, this.reflector.geometry, this.reflector.material as THREE.Material, this.reflectionGroup);
         this.reflectionValid = true; this.reflectionAge = 0;
         this.reflectionCameraPosition.copy(this.currentCameraPosition);
@@ -255,7 +261,7 @@ export class WaterRenderPass {
         unreflected.forEach((object, i) => { object.visible = shown[i]!; });
         restoreDetail?.();
         for (const object of hiddenDetail) object.visible = true;
-        renderer.autoClear = oldAutoClear; renderer.shadowMap.autoUpdate = oldShadow; renderer.xr.enabled = oldXr;
+        renderer.autoClear = oldAutoClear; renderer.shadowMap.autoUpdate = oldShadow; renderer.shadowMap.needsUpdate = oldShadowUpdate; renderer.xr.enabled = oldXr;
         renderer.setRenderTarget(oldTarget);
       }
     }
