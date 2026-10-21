@@ -22,7 +22,7 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
   if (!wood || !p || p.count === 0 || (cutout && !uv)) return result;
   const index = leaf.index, triangles = Math.floor((index?.count ?? p.count) / 3), at = (t: number, k: number) => index ? index.getX(t * 3 + k) : t * 3 + k;
   // Each triangle's opaque coverage is its own part (a quad can touch its neighbour while its leaves do not).
-  const finePatterns = new Set<string>();
+  const finePatterns = new Map<string, number>();
   const edgeA = new THREE.Vector3(), edgeB = new THREE.Vector3();
   const N = 6, opaque = new Map<number, { box: THREE.Box3; samples: THREE.Vector3[]; triangles: number[] }>();
   const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), q = new THREE.Vector3(), opaqueAt = new Map<string, number[]>();
@@ -54,16 +54,26 @@ export function anchorLeafIslands(leaf: THREE.BufferGeometry, wood: THREE.Buffer
       if (!points.length) {
         // A collapsed triangle cannot witness foliage, or seed a miss for a later real card sharing its UVs.
         if (edgeA.subVectors(b, a).cross(edgeB.subVectors(c, a)).lengthSq() === 0) continue;
-        if (cutout.mayHaveOpaque?.(u0, t0, u1, t1, u2, t2) === false) { opaqueAt.set(key, points); continue; }
+        const hintedOpaque = cutout.mayHaveOpaque?.(u0, t0, u1, t1, u2, t2);
+        if (hintedOpaque === false) { opaqueAt.set(key, points); continue; }
         for (let i = 0; i <= 48; i++) for (let j = 0; i + j <= 48; j++) {
           const w0 = i / 48, w1 = j / 48, w2 = 1 - w0 - w1;
           if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);
         }
-        if (points.length) finePatterns.add(key);
+        if (points.length) finePatterns.set(key, 48);
+        // Match the audit's final witness search: an empty 48-grid can still miss a thin opaque needle.
+        // Refine only a positive texture hint, and cache the resolution alongside its UV pattern.
+        else if (hintedOpaque === true) {
+          for (let i = 0; i <= 192; i++) for (let j = 0; i + j <= 192; j++) {
+            const w0 = i / 192, w1 = j / 192, w2 = (192 - i - j) / 192;
+            if (cutout.alpha(w0 * u0 + w1 * u1 + w2 * u2, w0 * t0 + w1 * t1 + w2 * t2) >= cutout.cutoff) points.push(i, j);
+          }
+          if (points.length) finePatterns.set(key, 192);
+        }
       }
       opaqueAt.set(key, points);
     }
-    const fine = finePatterns.has(key), divisions = fine ? 48 : N;
+    const divisions = finePatterns.get(key) ?? N, fine = divisions !== N;
     for (let n = 0; n < points.length; n += 2) add(points[n]! / divisions, points[n + 1]! / divisions,
       1 - (points[n]! + points[n + 1]!) / divisions, fine || (points[n]! + points[n + 1]!) % 2 === 0, fine);
   }
