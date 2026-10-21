@@ -732,22 +732,30 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           }
           // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
           // the final wood (twigs included). Oaks (0.0.36) and birches (0.0.37) drop to no detached card at any scale; no
-          // card is removed.
-          if ((model === 'oak' || model === 'birch') && wood) {
-            const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE)).geometry;
+          // card is removed. A167: the orchard's middle crown too (its near crown is culled to the reach instead).
+          if ((model === 'oak' || model === 'birch' || model === 'orchard' && lod > 0) && wood) {
+            const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, model === 'orchard' ? ORCHARD_MAX_SCALE : MAX_TREE_SCALE)).geometry;
             if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
           }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        let leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         if (branch && leaf) deriveBranchLeaf(leaf, branch);
+        // A167: a far broadleaf crown keeps its source cards, but its wood keeps only trunk and limbs, so cards at the
+        // boughs' ends hung past the audit reach. They move just inside it, toward their wood (no card is removed, no
+        // triangle added), as the near and middle crowns' outer cards do (0.0.36).
+        if (clusters && wood && leaf) {
+          const seated = seatFarCards(leaf, wood, woodReachLocal(1.5, species === 'orchard' ? ORCHARD_MAX_SCALE : MAX_TREE_SCALE)).geometry;
+          if (seated !== leaf) { geometries.delete(leaf); leaf.dispose(); geometries.add(seated); leaf = seated; }
+        }
         // 0.0.37: supplied fir and palm crowns get a leader (conifers) and twigs out to the sheets and fronds past the
-        // audit reach at their largest planted scale; the near crown only, where the audit and close views look.
+        // audit reach at their largest planted scale. A167: at every level. The fir's middle and far wood stops at 20 m
+        // under needles that reach 52 m, and Low draws its middle level from the player's feet.
         const sheetScale = species === 'fir' || species === 'shorepine' ? CONIFER_MAX_SCALE : species === 'palm' ? PALM_MAX_SCALE : 0;
-        if (lod === 0 && sheetScale && wood && leaf) {
+        if (sheetScale && wood && leaf) {
           const anchored = anchorFarFoliage(leaf, wood, woodReachLocal(1.5, sheetScale), species !== 'palm').geometry;
           if (anchored !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(anchored); wood = anchored; }
         }

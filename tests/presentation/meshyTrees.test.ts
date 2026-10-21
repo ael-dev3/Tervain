@@ -108,8 +108,11 @@ describe('actual supplied Meshy tree catalog', () => {
     const ownDisposals = variant.lods.flatMap(lod => [lod.wood!, lod.leaf!]).map(geometry => vi.spyOn(geometry, 'dispose'));
     expect(forest.variant('oak', 88, 'tree-0208')).toBe(variant);
     for (const [level, lod] of variant.lods.entries()) for (const kind of ['wood', 'leaf'] as const) {
-      // A133: near and middle broadleaf crowns cut their large sheets into pieces (tested below); wood and far crowns are exact.
+      // A133: near and middle broadleaf crowns cut their large sheets into pieces (tested below); wood and far crowns keep
+      // the source topology and UVs. A167: far cards past the audit reach are seated toward their wood, so only the far
+      // crown's positions may differ, and only by those moves.
       if (kind === 'leaf' && level < 2) continue;
+      const seated = kind === 'leaf' && level === 2;
       const original = originals[level]![kind]!, prepared = lod[kind]!;
       expect(prepared).not.toBe(original.geometry);
       // The near broadleaf crown carries the exported cards first, then a second layer of the same cards (A70).
@@ -118,13 +121,15 @@ describe('actual supplied Meshy tree catalog', () => {
       const sourceIndex = original.geometry.index?.array;
       expect(Array.from(prepared.index?.array.slice(0, sourceIndex?.length) ?? [])).toEqual(Array.from(sourceIndex ?? []));
       const sourcePositions = original.geometry.getAttribute('position'), actualPositions = prepared.getAttribute('position');
-      const point = new THREE.Vector3(); let maximumError = 0;
+      const point = new THREE.Vector3(); let maximumError = 0, exact = 0, sampled = 0;
       for (let i = 0; i < sourcePositions.count; i += Math.max(1, Math.floor(sourcePositions.count / 128))) {
         point.fromBufferAttribute(sourcePositions, i).applyMatrix4(original.matrix);
         point.y -= originalBounds.min.y; point.multiplyScalar(scale);
-        maximumError = Math.max(maximumError, Math.abs(point.x - actualPositions.getX(i)), Math.abs(point.y - actualPositions.getY(i)), Math.abs(point.z - actualPositions.getZ(i)));
+        const error = Math.max(Math.abs(point.x - actualPositions.getX(i)), Math.abs(point.y - actualPositions.getY(i)), Math.abs(point.z - actualPositions.getZ(i)));
+        maximumError = Math.max(maximumError, error); sampled++; if (error < 0.00002) exact++;
       }
-      expect(maximumError).toBeLessThan(0.00002);
+      if (seated) { expect(exact / sampled).toBeGreaterThan(0.5); expect(maximumError).toBeLessThan(3); }
+      else expect(maximumError).toBeLessThan(0.00002);
     }
     forest.dispose(); forest.dispose(); for (const spy of ownDisposals) expect(spy).toHaveBeenCalledTimes(1);
     for (const spy of spies) expect(spy).not.toHaveBeenCalled();

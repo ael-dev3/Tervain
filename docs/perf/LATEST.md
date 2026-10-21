@@ -261,3 +261,10 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - GPU time at an oak pose, wind running, three alternating rounds: median 6.71 ms against 6.62 ms (rounds 6.54 to 6.72 ms on each side). Draws and triangles unchanged.
 - Correction: the walks for 0.0.42 to 0.0.45 ran with reduced motion (trees still). Re-measured with the wind, over the whole frame at 40+ levels: 0.0.42 −1.0%, 0.0.43 +1.4%, 0.0.44 −39.6% and −49.9%, 0.0.45 −8.0%.
 - Details: docs/engineering/a166-0046-branch-wind.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.47: crowns held by their wood at the middle and far levels too, 2026-10-21
+
+- Canopy audit, 337 trees, detached cards / clumps: middle 2,091 / 166 → 28 / 28; far 18,090 / 487 → 5,135 / 143 (the solitary pine's far needle planes: 5,081).
+- Triangles per template, middle / far: fir-spire +252 / +258, shorepine +42 / +60, palms +12 to +162 / +72 to +468. Every draw at the gate's pose: 240 on both; net −24,739 triangles (an off-screen oak culled by its tighter bounds).
+- High walks with the wind running, against 0.0.46: pine wood −0.5%, −0.1%, −0.3%; oaks ±0.0%.
+- Details: docs/engineering/a167-0047-lower-level-support.md. Budget gate against live on the release head: in the release PR.
