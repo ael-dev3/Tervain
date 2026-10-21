@@ -17,6 +17,8 @@ const FROM = 0.02, FULL = 0.08;
 const JAW_FORWARD = 0.55, JAW_DROP = 0.05;
 /** The column's radius about the middle of the head joint and the face marker, metres in the model. */
 const COLUMN = 0.13;
+// The authored joint order is fixed; do not search it twice for every vertex.
+const HEAD_INDEX = RESIDENT_JOINTS.indexOf('Head'), FRONT_INDEX = RESIDENT_JOINTS.indexOf('headfront');
 /** The joints that move as the skull: the neck's share of the skull comes over too, as the shoulders' does. */
 const HEAD_CHAIN = new Set(['Head', 'head_end', 'headfront']);
 
@@ -25,7 +27,7 @@ const repaired = new WeakMap<ResidentRigData, ResidentRigData>();
 
 /** The share of a vertex at bind position (x, y, z) that must follow the head joint whatever its rig weights say. */
 export function headShare(data: Pick<ResidentRigData, 'bones'>, x: number, y: number, z: number): number {
-  const head = data.bones[RESIDENT_JOINTS.indexOf('Head')]!.position, front = data.bones[RESIDENT_JOINTS.indexOf('headfront')]!.position;
+  const head = data.bones[HEAD_INDEX]!.position, front = data.bones[FRONT_INDEX]!.position;
   if (Math.hypot(x - (head[0] + front[0]) / 2, z - (head[2] + front[2]) / 2) > COLUMN) return 0;
   // The jaw and beard hang forward of the throat and lower: in the front of the column the ramp starts lower.
   const fx = front[0] - head[0], fz = front[2] - head[2], reach = Math.hypot(fx, fz) || 1;
@@ -41,6 +43,12 @@ export function headShare(data: Pick<ResidentRigData, 'bones'>, x: number, y: nu
  * it (the finger plan, the skin attributes).
  */
 export function repairHeadWeights(data: ResidentRigData, position: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): ResidentRigData {
+  const steps = repairHeadWeightsSteps(data, position);
+  for (;;) { const next = steps.next(); if (next.done) return next.value; }
+}
+
+/** Repair the same skin in bounded scans so arriving residents cannot monopolise one frame. */
+export function* repairHeadWeightsSteps(data: ResidentRigData, position: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): Generator<void, ResidentRigData, void> {
   const known = repaired.get(data);
   if (known) return known;
   if (position.count !== data.vertices) throw new Error('A resident rig does not match its model.');
@@ -49,6 +57,7 @@ export function repairHeadWeights(data: ResidentRigData, position: THREE.BufferA
   let joints: Uint8Array | null = null, weights: Uint8Array | null = null;
   const share = new Map<number, number>();
   for (let v = 0; v < data.vertices; v++) {
+    if (v > 0 && v % 512 === 0) yield;
     const t = headShare(data, position.getX(v), position.getY(v), position.getZ(v));
     if (t <= 0) continue;
     let outside = 0;
@@ -72,6 +81,9 @@ export function repairHeadWeights(data: ResidentRigData, position: THREE.BufferA
       weights[v * 4 + s] = bytes[s] ?? 0;
     }
   }
+  // Another caller may have completed this rig while this iterator was suspended.
+  const completed = repaired.get(data);
+  if (completed) return completed;
   const result = joints && weights ? { ...data, joints, weights } : data;
   repaired.set(data, result);
   return result;
