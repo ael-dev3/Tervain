@@ -569,7 +569,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
   const lastProjection = new THREE.Matrix4();
   const lastShadowFrustum = new THREE.Frustum(), shadowPlaneNormalDelta = new THREE.Vector3();
   const hasCasters = owned.some((b) => b.mesh.castShadow);
-  const frustum = new THREE.Frustum(), pv = new THREE.Matrix4(), sphere = new THREE.Sphere();
+  const frustum = new THREE.Frustum(), pv = new THREE.Matrix4();
   const fade = FOREST_FLOOR_DISTANCE[quality];
   const coverageAt = createPlanarDistanceFade(fade.start, fade.end);
   return {
@@ -604,7 +604,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
           const p = b.pieces[i]!;
           const coverage = coverageAt(p.x - f.camera.position.x, p.z - f.camera.position.z);
           if (coverage <= 0) continue;
-          sphere.copy(b.bounds[i]!);
+          const sphere = b.bounds[i]!;
           if (!frustum.intersectsSphere(sphere) && !(b.mesh.castShadow && f.shadowFrustum?.intersectsSphere(sphere))) continue;
           // These fields depend only on the patch occupying this packed slot, not the camera or fade.
           if (b.packed[count] !== i) {
