@@ -59,7 +59,7 @@ if (args['budget-url']) {
       const errors = page.console().filter((l) => l.startsWith('[error]') || l.startsWith('[exception]'));
       const calls = Math.max(...samples.map((x) => x[0])), triangles = Math.max(...samples.map((x) => x[1]));
       return { url, calls, triangles, errors, revision: version?.revision ?? null, samples, stable: true };
-    } finally { page.close?.(); }
+    } finally { await page.close?.(); }
   };
   // Live is probed twice: its own run-to-run spread (a dynamic draw can appear in one run and not the next) is the band the candidate is compared against.
   const liveA = await probe(args['budget-url']), liveB = await probe(args['budget-url']);

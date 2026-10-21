@@ -66,6 +66,41 @@ const candidates = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
+/** Resolve only once the browser has exited and its throwaway profile is removed. */
+export function browserCleanup(proc, profile, release = () => {}) {
+  let completion;
+  return () => {
+    if (completion) return completion;
+    let resolve, reject;
+    completion = new Promise((ok, fail) => { resolve = ok; reject = fail; });
+    const deadline = setTimeout(() => reject(new Error('Browser cleanup timed out')), 15000);
+    deadline.unref?.();
+    let removing = false;
+    const remove = (tries) => {
+      try {
+        fs.rmSync(profile, { recursive: true, force: true });
+        clearTimeout(deadline);
+        resolve();
+      } catch (error) {
+        if (tries > 0) setTimeout(() => remove(tries - 1), 500);
+        else { clearTimeout(deadline); reject(error); }
+      }
+    };
+    const afterExit = () => { if (!removing) { removing = true; remove(20); } };
+    proc.once('exit', afterExit);
+    try { release(); } catch { /* Still stop the browser if its connection already failed. */ }
+    try {
+      if (process.platform === 'win32' && proc.pid) spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
+      else if (proc.pid) {
+        process.kill(-proc.pid, 'SIGTERM');
+        setTimeout(() => { try { process.kill(-proc.pid, 'SIGKILL'); } catch { /* already exited */ } }, 2000);
+      }
+    } catch { /* already gone */ }
+    if (proc.exitCode !== null || proc.signalCode !== null || !proc.pid) afterExit();
+    return completion;
+  };
+}
+
 export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.1:5173/', { w = 1280, h = 720, dpr = 1, init = null, flags = [], headed = false, requestTimeoutMs = Number(process.env.CDP_TIMEOUT_MS ?? 120000) } = {}) {
   if (!Number.isFinite(dpr) || dpr <= 0 || dpr > 4) throw new Error('Invalid device pixel ratio');
   if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0) throw new Error('Invalid CDP request timeout');
@@ -80,35 +115,8 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   ];
   if (process.platform === 'win32' && headed) browserArgs.splice(4, 0, '--use-angle=d3d11');
   const proc = spawn(browser, browserArgs, { stdio: 'ignore', detached: process.platform !== 'win32' });
-  let ws, requests, cleaned = false;
-  const cleanup = () => {
-    if (cleaned) return;
-    cleaned = true;
-    try {
-      requests?.close();
-      ws?.close();
-      // On Windows killing the browser leaves its GPU and renderer children running, and the next launch then fails
-      // or shares a GPU process with them: end the whole tree.
-      if (process.platform === 'win32' && proc.pid) spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
-      else {
-        process.kill(-proc.pid, 'SIGTERM');
-        setTimeout(() => { try { process.kill(-proc.pid, 'SIGKILL'); } catch { /* already exited */ } }, 2000);
-        // Keep the grace timer alive until stubborn browser workers are stopped.
-      }
-    } catch {
-      /* already gone */
-    }
-    // Each run made a throwaway profile; remove it once the browser has let go of its files.
-    const remove = (tries) => {
-      try {
-        fs.rmSync(profile, { recursive: true, force: true });
-      } catch {
-        if (tries > 0) setTimeout(() => remove(tries - 1), 500);
-      }
-    };
-    proc.once('exit', () => remove(20));
-    if (proc.exitCode !== null || !proc.pid) remove(20);
-  };
+  let ws, requests;
+  const cleanup = browserCleanup(proc, profile, () => { requests?.close(); ws?.close(); });
   let launchFailed = false;
   proc.once('error', () => { launchFailed = true; });
   let targets = null;
@@ -128,12 +136,12 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     }
     if (!targets) await new Promise((r) => setTimeout(r, 250));
   }
-  if (!targets) { cleanup(); throw new Error('browser did not start'); }
+  if (!targets) { await cleanup(); throw new Error('browser did not start'); }
   try { ws = new WebSocket(targets.webSocketDebuggerUrl); await new Promise((res, rej) => {
     const timer = setTimeout(() => rej(new Error('browser connection timed out')), 10000);
     ws.onopen = () => { clearTimeout(timer); res(); };
     ws.onerror = () => { clearTimeout(timer); rej(new Error('browser connection failed')); };
-  }); } catch (error) { cleanup(); throw error; }
+  }); } catch (error) { await cleanup(); throw error; }
   requests = cdpRequests(message => ws.send(JSON.stringify(message)), requestTimeoutMs);
   ws.addEventListener('close', () => requests.close());
   ws.addEventListener('error', () => requests.close());
@@ -164,7 +172,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
     // Runs before any of the page's own scripts (for example, a seeded Math.random for repeatable captures).
     if (init) await send('Page.addScriptToEvaluateOnNewDocument', { source: init });
     await send('Page.navigate', { url });
-  } catch (error) { cleanup(); throw error; }
+  } catch (error) { await cleanup(); throw error; }
   const page = {
     frames,
     async eval(js) {
@@ -207,6 +215,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     await mod.default({ page });
   } finally {
-    page.close();
+    await page.close();
   }
 }

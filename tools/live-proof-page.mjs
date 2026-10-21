@@ -9,5 +9,5 @@ export async function liveProofPage(input,{quality='high',hour=19.3,headed=false
  // Resize only after the game loop is frozen: loading frames at Retina density waste software-renderer work.
  if(w!==640||h!==360||dpr!==1){await page.cdp('Emulation.setDeviceMetricsOverride',{width:w,height:h,deviceScaleFactor:dpr,mobile:false});await page.eval("window.dispatchEvent(new Event('resize'));await new Promise(requestAnimationFrame);return null;");}
  return page;
- }catch(error){page.close();throw error;}
+ }catch(error){await page.close();throw error;}
 }
