@@ -39,3 +39,10 @@ The legacy run-round fixed camera now looks inside a building; these scene image
 ## Reproduce
 
 From the candidate checkout with dependencies and Chrome configured: `node tools/repro-animal-empty-refresh-native.mjs [output-directory]`. Fetch the pinned original commit if shallow. The tool pairs both complete placement closures on actual loaded animals, asserts exact world matrices, replays rotating CPU controls, captures fixed/animated views, and saves first renders before warm-up. `npx vitest run tests/presentation/animals.test.ts tests/presentation/animalWorld.test.ts tests/presentation/animalPhysicalInputs.test.ts tests/presentation/animalBoneTexture.test.ts` (39 tests) and build pass. The new regression fails on original code (two walks versus expected one). The unmodified compiled current-head budget is supplied separately.
+## Current-head compiled budget
+
+Rebased feature head `63e62f4971180f4def4b7885b255d440d1061fcb` is based on repaired main `ca869ecd2`. Animal-placement source bytes match the captured original head `a16369fb954127dbcf113fd2ccc35b3b171c7afe` exactly (SHA-256 above). The native source-paired world was on `a3396ee14`; these images are not independent whole-world pixel comparisons of the newer main.
+
+Unmodified stock budget on the current compiled head: live 285 draws / 3,046,047 triangles / 0 errors; candidate 285 / 3,046,047 / 0. [Raw receipt](budget.txt). Two same-revision live probes, four distinct completed samples each, default limits, no sampler changes or allowances. The earlier run rejected a deployment change and produced no PASS; [discarded-run result](discarded-deployment-run.txt).
+
+The stock budget samples its fixed placement at hero (-33.4,55), not a walk-fence route. Its PASS plus these source-paired fixed views cannot establish that the historical ~33 ms hardware frames are resolved. No GPU/heat/steady-60fps claim is made. Initial CI merge-result failures were duplicate weld declarations on main, repaired in #748; this PR changes no weld code.
