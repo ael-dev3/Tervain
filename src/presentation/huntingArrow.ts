@@ -122,8 +122,15 @@ export class HuntingArrows {
     this.drift(dt, water);
     for (let i = this.lodged.length - 1; i >= 0; i--) {
       const lodged = this.lodged[i]!;
+      const previousAge = lodged.age;
       lodged.age += dt;
       if (lodged.age >= 25) { this.remove(lodged.mesh); this.lodged.splice(i, 1); continue; }
+      // Keep the initial uncullable draw for program warm-up. Once the impact settles,
+      // the zero-length trail can use its normal bounds instead of drawing off-camera for 25 seconds.
+      if (previousAge < QUIVER_SECONDS && lodged.age >= QUIVER_SECONDS) {
+        const trail = lodged.mesh.getObjectByName(ARROW_TRAIL);
+        if (trail) trail.frustumCulled = true;
+      }
       if (lodged.rest) {
         if (lodged.age >= QUIVER_SECONDS) { lodged.mesh.quaternion.copy(lodged.rest); lodged.rest = undefined; continue; }
         const amplitude = .07 * Math.exp(-lodged.age * 9) * Math.sin(lodged.age * Math.PI * 2 * 14);

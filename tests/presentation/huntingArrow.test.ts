@@ -186,3 +186,26 @@ it('applies water drag to a submerged muzzle without a fictitious surface-entry 
     } finally { arrows.dispose(); }
   }
 });
+
+describe('settled trail culling', () => {
+  for (const quiver of [true, false]) it(`warms a lodged trail before enabling ordinary bounds (quiver ${quiver})`, () => {
+    const arrows = new HuntingArrows(); arrows.quiver = quiver;
+    try {
+      const shot = arrows.launch(new THREE.Vector3(0, 3, 0), new THREE.Vector3(0, 0, 1), 38)!;
+      const trail = shot.mesh.getObjectByName(ARROW_TRAIL)!;
+      expect(trail.frustumCulled).toBe(false);
+      arrows.update(1 / 120, (_from, to) => ({ point: to.clone() }));
+      const impact = shot.mesh.position.clone();
+      arrows.update(.2, () => null);
+      expect(trail.frustumCulled).toBe(false);
+      arrows.update(.3, () => null);
+      expect(trail.frustumCulled).toBe(true);
+      expect(trail.visible).toBe(true);
+      expect(trail.scale.z).toBe(1e-4);
+      expect(shot.mesh.position.toArray()).toEqual(impact.toArray());
+      expect(arrows.lodgedCount).toBe(1);
+      arrows.update(24.5, () => null);
+      expect(arrows.lodgedCount).toBe(0);
+    } finally { arrows.dispose(); }
+  });
+});
