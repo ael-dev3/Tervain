@@ -331,7 +331,7 @@ function sharedImages(gltf: GLTF): string | null {
 
 const TEXTURE_SLOTS = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const;
 const borrowed = new WeakSet<GLTF>();
-/** Give a mid or far model the near model's textures, material by material, slot by slot (A71). */
+/** Give a model that carries no images the textures of the near model that does, material by material, slot by slot (A71). */
 function borrowTextures(near: GLTF, lod: GLTF) {
   if (!sharedImages(lod) || borrowed.has(lod)) return;
   const source = new Map<string, THREE.MeshStandardMaterial>();
@@ -345,6 +345,22 @@ function borrowTextures(near: GLTF, lod: GLTF) {
   });
   assertDecodedTreeTextures(lod, meshyTreeParts(lod));
   borrowed.add(lod);
+}
+
+/**
+ * The near model whose images a tree's models share: its own, or the one beside it that its near file names. The hero oaks
+ * draw the same bark and leaves, so only hero-oak-near carries them (A159).
+ */
+async function imageOwner(id: string, near: GLTF): Promise<GLTF> {
+  const file = sharedImages(near);
+  if (!file) return near;
+  const owner = /^(.+)-near\.glb$/.exec(file)?.[1];
+  if (!owner || owner === id || meshyTreeModelPath(owner, 'near') !== meshyTreeModelPath(id, 'near').replace(/[^/]+$/, file)) {
+    throw new Error(`Tree ${id} borrows images from a model it cannot load.`);
+  }
+  const source = await load(owner, 'near');
+  if (sharedImages(source)) throw new Error(`Tree ${id} borrows images from a model that carries none.`);
+  return source;
 }
 
 async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GLTF> {
@@ -387,7 +403,8 @@ export async function loadMeshyTrees(ids: readonly string[] = activeMeshyTreeIds
       while (active && next < selected.length) {
         const id = selected[next++]!;
         const lods = await Promise.all(MESHY_TREE_LODS.map(lod => load(id, lod)));
-        for (const lod of lods.slice(1)) borrowTextures(lods[0]!, lod);
+        const owner = await imageOwner(id, lods[0]!);
+        for (const lod of lods) if (lod !== owner) borrowTextures(owner, lod);
         result.set(id, lods as unknown as readonly [GLTF, GLTF, GLTF]);
         if (active) onProgress?.(result.size, selected.length);
       }

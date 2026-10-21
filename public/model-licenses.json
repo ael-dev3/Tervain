@@ -4,7 +4,7 @@
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
     "publicModelFiles": 131,
-    "publicModelBytes": 179795504,
+    "publicModelBytes": 176216708,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
     "hashesMatchedExistingSourceRecords": 340,
@@ -7837,8 +7837,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-b-far.glb",
-      "bytes": 140820,
-      "sha256": "e39b6f3d0ea6b19062661f3bbe64a248658045e0c1a5f6c897febbb3f65bb8f9",
+      "bytes": 137360,
+      "sha256": "8faafa4ae6cb9679ead01504d703b5d4a68c3a1aa9502208347ca32e384a243e",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7854,8 +7854,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-b-mid.glb",
-      "bytes": 1100636,
-      "sha256": "425caa35353cd2d4166a14c4248806ce9f703248d257b5730c99f7f4e9cff0dc",
+      "bytes": 909640,
+      "sha256": "5ef45ff551fe0a1e5328450555d9d5814b8121ff4036f0ef30c1afe8e4564573",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7871,8 +7871,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-b-near.glb",
-      "bytes": 3953468,
-      "sha256": "10106c8f16b512a30d42622d11df68ebf2eabb0f02351a3792284fc07f62072c",
+      "bytes": 1548964,
+      "sha256": "b78beefc5354a680fd97d29fae4a857995b4af774ceef043d9b3b75983ebe009",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7888,8 +7888,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-c-far.glb",
-      "bytes": 131392,
-      "sha256": "7a42109e1b3fd8076a6cfaec5b9ac43a57687c32e9b8cfb721d9cc99c4cedd2e",
+      "bytes": 135700,
+      "sha256": "41d730e16b52552f89f0eec53916f271d288b51320c37eb03127663c71b63820",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7905,8 +7905,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-c-mid.glb",
-      "bytes": 1001804,
-      "sha256": "95fe8e38cf7e9c9237b01cb29f16238d79cd7d1e2cb9f89ddfbbda35ee63026f",
+      "bytes": 934324,
+      "sha256": "11260abc513510d7e626ebeb2a6c9ddb813e0d926cd27eaa32dc3e5e631cc10b",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7922,8 +7922,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-c-near.glb",
-      "bytes": 3770568,
-      "sha256": "ec0aaf2699bf664d718d92c7237e293f433082f25dd5127568af86c1c0234c55",
+      "bytes": 1678868,
+      "sha256": "c9fba66e1d567f4f5e647a1dd7cd0f2f41f322e2d7fb6a1956d0016ad478ba7c",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7939,8 +7939,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-far.glb",
-      "bytes": 141572,
-      "sha256": "e76c281a44ca368f809b8a83b846c3baf9a984a554fa1614dab75cbef88e6e1f",
+      "bytes": 145864,
+      "sha256": "af6ce28174517f19c0d80b37bed4ec4f19be1fc77f2e76cfedc35dc83f8f3214",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7956,8 +7956,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-mid.glb",
-      "bytes": 1137296,
-      "sha256": "6ca378b7e47a68b7e76ff3bd2cdd3573a2bff0db756f112617930d417967be8a",
+      "bytes": 1106052,
+      "sha256": "72307a4512fbed6a8c2c54c1dfa504379e0837bc399ffbf82c163bcabdbf8545",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -7973,8 +7973,59 @@
     },
     {
       "file": "public/models/flora/hero/hero-oak-near.glb",
-      "bytes": 4007172,
-      "sha256": "11ba6e505742acbd5fed142c0be70b32af907b93c45ad461efa42da631b04fc7",
+      "bytes": 5209160,
+      "sha256": "6a15b829ace57e7ab6404460e540aa6409a1bcca4819967da5a630d432786b62",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-far.glb",
+      "bytes": 318432,
+      "sha256": "b5d56506fde47541096367105e7e17df9470a7fc1f3309cfe698a78a3368b7db",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-mid.glb",
+      "bytes": 1964464,
+      "sha256": "255d59b04ef0e1939f265ca69e6bd506400455ee76b6e566000426d1c807392b",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-pine-near.glb",
+      "bytes": 4655844,
+      "sha256": "d1a99215d8a69f35732e2d9dea64e06c9696e77b503b9f5cc5c7c60751d15ed4",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -9685,57 +9736,6 @@
         "provenanceBasis": "owner recollection, not individually verified"
       },
       "modified": true
-    },
-    {
-      "file": "public/models/flora/hero/hero-pine-far.glb",
-      "bytes": 318432,
-      "sha256": "b5d56506fde47541096367105e7e17df9470a7fc1f3309cfe698a78a3368b7db",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-pine",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
-    },
-    {
-      "file": "public/models/flora/hero/hero-pine-mid.glb",
-      "bytes": 1964464,
-      "sha256": "255d59b04ef0e1939f265ca69e6bd506400455ee76b6e566000426d1c807392b",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-pine",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
-    },
-    {
-      "file": "public/models/flora/hero/hero-pine-near.glb",
-      "bytes": 4655844,
-      "sha256": "d1a99215d8a69f35732e2d9dea64e06c9696e77b503b9f5cc5c7c60751d15ed4",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-pine",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
     }
   ],
   "proceduralGeometry": {
