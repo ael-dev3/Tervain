@@ -30,7 +30,7 @@ export function leafCandidates(sk, rng, o = {}) {
   }
   // Limb undersides: a marker hung just below each limb every ~0.8 m past its first third, so clumps wrap the lower wood seen from the ground.
   for (const b of sk.branches) {
-    if (b.level !== 1) continue;
+    if (b.level !== 1 || o.undersides === false) continue;
     for (let d = b.length * 0.35; d < b.length; d += 0.8) { const f = b.at(d / b.length); out.push({ p: f.p.clone().add(new THREE.Vector3(0, -0.5, 0)), tan: f.tan, branch: b, t: d / b.length, tip: false }); }
   }
   // The last 40 cm of every bough and limb end is wrapped in leaves: three extra tip markers around the end.

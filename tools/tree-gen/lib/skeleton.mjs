@@ -299,3 +299,85 @@ export function growBirch(seed, P = BIRCH) {
   for (const b of branches) b.parentPhase = b.parent ? b.parent.phase : 0;
   return { branches, trunk, limbs, center, envelope, seed, Rh, Rv, height: H, crownBase: yb };
 }
+
+// A bush (hazel-like, A163): many slim stems leave the ground together, fan out and arch over; their branches and twigs
+// carry the leaves on a low, wide dome that stays open underneath, so the stems show between the ground and the leaves.
+// Not a small tree: no single stem, no trunk.
+export const BUSH = {
+  height: 1.7,
+  stems: [7, 10], stemAngle: [10, 52],   // degrees from vertical, inner stems steeper
+  branchesPerStem: [3, 5], twigsPerBranch: [3, 5],
+  stemRadius: [0.016, 0.03],
+};
+
+export function bushRadiusAt(y, P = BUSH) {
+  void y; return P.stemRadius[1] * 2.2;   // the root crown the stems leave from
+}
+
+export function growBush(seed, P = BUSH) {
+  const rng = makeRng(seed), branches = [];
+  const H = P.height * rng.range(0.85, 1.15), Rh = H * rng.range(0.62, 0.8), Rv = H * 0.55;
+  const center = new THREE.Vector3(rng.range(-0.08, 0.08), H * 0.5, rng.range(-0.08, 0.08));
+  // Envelope (>1 outside): a dome, a little flattened, its lower edge lifted so the leaves leave the stems' base bare.
+  const envelope = (p) => {
+    const m = 0.82 + 0.36 * fbm3(p.x * 1.6, p.y * 1.6, p.z * 1.6, seed, 3);
+    const dx = (p.x - center.x) / (Rh * m), dz = (p.z - center.z) / (Rh * m), dy = (p.y - center.y) / (Rv * (p.y > center.y ? 1.0 : 0.8));
+    return dx * dx + dz * dz + dy * dy;
+  };
+  const newPhase = () => rng() * Math.PI * 2;
+  function grow(o) {
+    const { start, level, step, wobble, tropism, droop, length, r0, taper } = o;
+    const pts = [start.clone()], d = o.dir.clone().normalize(), prev = d.clone();
+    const n = Math.max(2, Math.round(length / step)), seg = length / n;
+    for (let i = 1; i <= n; i++) {
+      const t = i / n, last = pts[pts.length - 1];
+      d.x += rng.gauss() * wobble * 0.5; d.y += rng.gauss() * wobble * 0.3; d.z += rng.gauss() * wobble * 0.5;
+      d.y += tropism * (1 - t); d.y -= droop * t * t;
+      const q = envelope(last);
+      if (q > 0.85) { const out = last.clone().sub(center).setY(0).normalize(); d.addScaledVector(out, -0.3 * (q - 0.85)); }
+      d.normalize();
+      const turn = Math.acos(clamp(d.dot(prev), -1, 1));
+      if (turn > 0.45) d.copy(prev).lerp(d, 0.45 / turn).normalize();
+      prev.copy(d);
+      const p = last.clone().addScaledVector(d, seg);
+      if (p.y < 0.02) p.y = 0.02;
+      pts.push(p);
+      if (i > 1 && envelope(p) > 1.0) break;
+    }
+    const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.004, r0 * (1 - taper * Math.pow(i / (pts.length - 1), 0.9))));
+    radii[radii.length - 1] = 0.003;
+    const b = new Branch({ level, points: pts, radii, phase: newPhase(), parent: o.parent ?? null, forkT: o.forkT ?? 0, id: branches.length });
+    b.finish(); branches.push(b); o.parent?.children.push(b); return b;
+  }
+  // The root crown: a short stub under the ground the stems leave from (the mesher expects a level-0 stem).
+  const rootR = bushRadiusAt(0, P);
+  const trunk = new Branch({ level: 0, points: [new THREE.Vector3(0, -0.25, 0), new THREE.Vector3(0, 0.04, 0)], radii: [rootR, rootR * 0.8], phase: 0, parent: null, forkT: 0, id: 0, isTrunk: true });
+  trunk.finish(); branches.push(trunk);
+  const frame = (tan) => { const ref = Math.abs(tan.y) < 0.95 ? UP : new THREE.Vector3(1, 0, 0); const u = new THREE.Vector3().crossVectors(ref, tan).normalize(), w = new THREE.Vector3().crossVectors(tan, u); return [u, w]; };
+  const forkDir = (tan, az, polarDeg) => { const [u, w] = frame(tan), th = polarDeg * Math.PI / 180; return tan.clone().multiplyScalar(Math.cos(th)).addScaledVector(u, Math.cos(az) * Math.sin(th)).addScaledVector(w, Math.sin(az) * Math.sin(th)).normalize(); };
+  const limbs = [], nS = rng.int(...P.stems), az0 = rng() * Math.PI * 2;
+  for (let k = 0; k < nS; k++) {
+    // Stems fan from the root crown: a few steep inner ones, the rest leaning out; each leans a little off its neighbours.
+    const inner = k < 2, th = (inner ? rng.range(P.stemAngle[0], P.stemAngle[0] + 12) : rng.range(P.stemAngle[0] + 14, P.stemAngle[1])) * Math.PI / 180;
+    const az = az0 + k * 2.399963 + rng.range(-0.4, 0.4);
+    const start = new THREE.Vector3(Math.cos(az) * rootR * 0.6, 0.02, Math.sin(az) * rootR * 0.6);
+    const dir = new THREE.Vector3(Math.cos(az) * Math.sin(th), Math.cos(th), Math.sin(az) * Math.sin(th));
+    const length = H * rng.range(0.85, 1.15) * (inner ? 1.0 : 0.95);
+    limbs.push(grow({ start, dir, length, r0: rng.range(...P.stemRadius), taper: 0.75, level: 1, step: 0.16, wobble: 0.22, tropism: 0.05, droop: inner ? 0.12 : 0.32, parent: trunk, forkT: 1, rMin: 0.006 }));
+  }
+  for (const stem of limbs) {
+    const nB = rng.int(...P.branchesPerStem);
+    for (let k = 0; k < nB; k++) {
+      const t = lerp(0.35, 0.92, (k + rng.range(0.1, 0.9)) / nB), f = stem.at(t);
+      const dir = forkDir(f.tan, k * 2.1 + rng.range(-0.6, 0.6), rng.range(30, 60));
+      const branch = grow({ start: f.p, dir, length: H * rng.range(0.25, 0.45) * (1.1 - 0.4 * t), r0: Math.max(0.005, f.r * 0.7), taper: 0.7, level: 2, step: 0.12, wobble: 0.3, tropism: 0.04, droop: 0.3, parent: stem, forkT: t, rMin: 0.004 });
+      const nT = rng.int(...P.twigsPerBranch);
+      for (let m = 0; m < nT; m++) {
+        const tt = lerp(0.25, 0.95, (m + rng.range(0.15, 0.85)) / nT), g = branch.at(tt);
+        grow({ start: g.p, dir: forkDir(g.tan, m * 2.4 + rng.range(-0.5, 0.5), rng.range(30, 60)), length: H * rng.range(0.1, 0.2), r0: Math.max(0.004, g.r * 0.7), taper: 0.6, level: 3, step: 0.08, wobble: 0.35, tropism: 0.03, droop: 0.3, parent: branch, forkT: tt, rMin: 0.003 });
+      }
+    }
+  }
+  for (const b of branches) b.parentPhase = b.parent ? b.parent.phase : 0;
+  return { branches, trunk, limbs, center, envelope, seed, Rh, Rv, height: H };
+}
