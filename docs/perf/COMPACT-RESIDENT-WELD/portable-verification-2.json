@@ -1,0 +1,586 @@
+[
+  {
+    "id": "rillford-reeve",
+    "kind": "sync",
+    "vertices": 65659,
+    "arrays": {
+      "before": 21474,
+      "after": 0
+    },
+    "blocks": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 2.722037625000001
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 2.252750833333335
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 2.638983749999999
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 2.0531875833333353
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 2.775706833333331
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 2.5055447499999985
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 2.553058791666667
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 2.4443057916666695
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 2.0705153750000043
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 2.3219329999999965
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 1.930114583333335
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 2.4293820416666656
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 1.9221934583333298
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 2.490887624999999
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 2.4813010833333258
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 2.3756882083333344
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 2.4105235833333345
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 1.9181991666666722
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 2.496264041666668
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 1.9351012916666643
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 2.453477083333335
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 1.9393101666666628
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 2.5332727499999996
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 2.6191626250000013
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 2.3802504999999976
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 2.3657657083333277
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 2.1056562500000005
+      }
+    ]
+  },
+  {
+    "id": "rillford-reeve",
+    "kind": "staged",
+    "vertices": 65659,
+    "arrays": {
+      "before": 21474,
+      "after": 0
+    },
+    "blocks": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 3.1486025833333238
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 2.4119073333333367
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 3.7908421250000024
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 2.351062708333321
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 3.585256083333339
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 3.635230125000002
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 3.681104249999995
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 3.610909708333338
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 2.48055125
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 3.590759791666661
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 2.443224541666666
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 3.4579619166666666
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 2.4593125416666717
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 3.628740750000001
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 3.506405999999989
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 3.7137179583333477
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 3.473672250000012
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 2.356553958333336
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 3.3392430416666534
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 2.654265041666671
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 3.3387235416666763
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 2.276699458333345
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 3.476624708333342
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 3.4729537916666686
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 3.3799997916666484
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 3.539565625000023
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 2.3184730833333256
+      }
+    ]
+  },
+  {
+    "id": "ash-recorder",
+    "kind": "sync",
+    "vertices": 35677,
+    "arrays": {
+      "before": 17112,
+      "after": 0
+    },
+    "blocks": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 1.8185565833333612
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 1.5037735416666844
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 1.8234447500000215
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 1.4155349583333343
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 1.9488179583333551
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 1.7401282083333172
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 1.776183250000031
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 1.7853570833333379
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 1.4302976250000181
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 1.8432408333333494
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 1.418690583333311
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 1.7677117499999895
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 1.5036892499999794
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 1.7692612083333568
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 1.707186166666664
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 1.7602401249999957
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 1.697272916666672
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 1.527601041666685
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 1.6757146666666738
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 1.416829416666663
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 1.8090815416666526
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 1.4072312499999953
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 1.7534540833333192
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 1.7405054583333215
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 1.6636727916666512
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 1.6729989166666808
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 1.4682354999999916
+      }
+    ]
+  },
+  {
+    "id": "ash-recorder",
+    "kind": "staged",
+    "vertices": 35677,
+    "arrays": {
+      "before": 17112,
+      "after": 0
+    },
+    "blocks": [
+      {
+        "round": 0,
+        "mode": "before",
+        "ms": 2.2199428333333344
+      },
+      {
+        "round": 0,
+        "mode": "after",
+        "ms": 1.6271825000000035
+      },
+      {
+        "round": 0,
+        "mode": "control",
+        "ms": 2.3097608333333333
+      },
+      {
+        "round": 1,
+        "mode": "after",
+        "ms": 1.5859696666666423
+      },
+      {
+        "round": 1,
+        "mode": "control",
+        "ms": 2.342915291666676
+      },
+      {
+        "round": 1,
+        "mode": "before",
+        "ms": 2.1826345833333107
+      },
+      {
+        "round": 2,
+        "mode": "control",
+        "ms": 2.1321386666666817
+      },
+      {
+        "round": 2,
+        "mode": "before",
+        "ms": 2.614611874999999
+      },
+      {
+        "round": 2,
+        "mode": "after",
+        "ms": 1.5687153750000107
+      },
+      {
+        "round": 3,
+        "mode": "before",
+        "ms": 2.2267956250000225
+      },
+      {
+        "round": 3,
+        "mode": "after",
+        "ms": 1.710184125000031
+      },
+      {
+        "round": 3,
+        "mode": "control",
+        "ms": 2.260160583333345
+      },
+      {
+        "round": 4,
+        "mode": "after",
+        "ms": 1.7405055000000023
+      },
+      {
+        "round": 4,
+        "mode": "control",
+        "ms": 2.2587684999999738
+      },
+      {
+        "round": 4,
+        "mode": "before",
+        "ms": 2.3117461666666563
+      },
+      {
+        "round": 5,
+        "mode": "control",
+        "ms": 2.1679302916666834
+      },
+      {
+        "round": 5,
+        "mode": "before",
+        "ms": 2.1611901666666804
+      },
+      {
+        "round": 5,
+        "mode": "after",
+        "ms": 1.717963124999983
+      },
+      {
+        "round": 6,
+        "mode": "before",
+        "ms": 2.235628124999986
+      },
+      {
+        "round": 6,
+        "mode": "after",
+        "ms": 1.768787208333303
+      },
+      {
+        "round": 6,
+        "mode": "control",
+        "ms": 2.2456010833333266
+      },
+      {
+        "round": 7,
+        "mode": "after",
+        "ms": 1.740399458333324
+      },
+      {
+        "round": 7,
+        "mode": "control",
+        "ms": 2.1864348333333132
+      },
+      {
+        "round": 7,
+        "mode": "before",
+        "ms": 2.1795807916666567
+      },
+      {
+        "round": 8,
+        "mode": "control",
+        "ms": 2.3605388333333317
+      },
+      {
+        "round": 8,
+        "mode": "before",
+        "ms": 2.184998958333343
+      },
+      {
+        "round": 8,
+        "mode": "after",
+        "ms": 1.617383666666645
+      }
+    ]
+  }
+]
