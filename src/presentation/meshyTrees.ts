@@ -55,6 +55,12 @@ const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
 const CONIFER = new Set<Species>(['fir', 'shorepine']);
 /** Kinds whose trunks take the metre-scale bark detail (A133). */
 const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
+/**
+ * Supplied trees whose own bark does not read as bark take the metre-scale oak bark at this mix, in whichever species slot
+ * they stand, at a fixed brightness (their dark source would otherwise darken it) (A162): the verdant-sentinel's atlas paints
+ * its trunk a smooth, near-black green, and tree-4815's (now an orchard tree) a flat orange.
+ */
+const SUPPLIED_BARK: Readonly<Record<string, { mix: number; macro: number }>> = { 'verdant-sentinel': { mix: 0.85, macro: 1.8 }, 'tree-4815': { mix: 0.75, macro: 1.5 } };
 /** Each detail level of a tree stays under the natural-model budget; thickening fills up to just below it. */
 const TREE_TRIANGLES = 19_800;
 /**
@@ -482,7 +488,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   const conifers = new Map<string, THREE.Texture>();
   const textures = new Map<THREE.Texture, THREE.Texture>(), materials = new Set<THREE.Material>(), geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>(), palettes = new Map<string, readonly { wood: THREE.Material | null; leaf: THREE.Material | null }[]>();
-  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species, geometry?: THREE.BufferGeometry) => {
+  const cloneMaterial = (source: THREE.MeshStandardMaterial, wood: boolean, species?: Species, geometry?: THREE.BufferGeometry, supplied?: { mix: number; macro: number }) => {
     const material = source.clone(), fields = material as unknown as Record<string, unknown>;
     for (const [key, value] of Object.entries(fields)) if ((value as THREE.Texture | null)?.isTexture) {
       const original = value as THREE.Texture;
@@ -513,10 +519,10 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
     }
     // A133: a broadleaf trunk's source atlas is soft and has no normal map, so close up it read flat and untextured. It
     // takes metre-scale triplanar oak bark with relief (the procedural trees' and pines' detail), deeper than theirs.
-    if (wood && species && BARK_DETAIL.has(species)) {
+    if (wood && species && (BARK_DETAIL.has(species) || supplied)) {
       const bark = barkTextures(species === 'dead' ? 'dead' : 'oak', 1024);
       // A134: at 0.6 the bark darkened the trunks well below the source's warm brown; 0.4 keeps its relief and warmth.
-      installBarkDetail(material, bark, { mix: 0.4, relief: 0.035 });
+      installBarkDetail(material, bark, { mix: supplied?.mix ?? 0.4, relief: 0.035, ...(supplied ? { macro: supplied.macro } : {}) });
     }
     materials.add(material); return material;
   };
@@ -576,7 +582,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry, hero ? undefined : SUPPLIED_BARK[id]) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
       // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
       // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
       // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.

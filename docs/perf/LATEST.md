@@ -210,3 +210,12 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - GPU time at the frozen grass pose, five alternating rounds: median 4.334 ms against 4.328 ms (run-to-run spread 4.30 to 4.52).
 - Draws and triangles: unchanged (a shader-only change).
 - Details: docs/engineering/a161-0041-front-lit-sward.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.42: real bark on the supplied broadleaves that had none, 2026-10-21
+
+- The verdant-sentinel (11 trees) and the orchard's tree-4815 (4 trees) take the oak bark at a high mix and a fixed brightness.
+- A real-play walk past two verdant-sentinels, against live 0.0.41:
+  - Flicker spikes of 40+ levels: −3.9% in the crown band, −1.2% over the whole frame.
+  - Spikes of 60+ levels: −10.7% over the whole frame.
+- Draws and triangles: unchanged (shading only).
+- Details: docs/engineering/a162-0042-supplied-bark.md. Budget gate against live on the release head: in the release PR.
