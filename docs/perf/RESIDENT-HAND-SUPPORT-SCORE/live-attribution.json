@@ -1,0 +1,47 @@
+{
+  "build": {
+    "version": "0.0.39",
+    "revision": "3596f1e"
+  },
+  "scope": "Published 0.0.39 CPU-profiled fixed simulation steps with presentation frozen; diagnostic wall time includes profiler/scheduling and texture uploads still occur. Not presented frames or hardware pacing. Equipped-bow control uses KeyQ (dodge), not draw/release; excluded from bow evidence.",
+  "largestWalkStep": {
+    "phase": "walk-fence",
+    "i": 52,
+    "x": -2,
+    "y": 1.4240297821147645,
+    "z": 38.66655917093158,
+    "ms": 35.19999998807907
+  },
+  "bundleSha256": "3c87597f0580d53109afa76c429cb1c8c7290b7f72f9101993da2cf84a661a25",
+  "attribution": [
+    {
+      "bundle": "assets/tervain-C7uA6R_m.js",
+      "line0": 741,
+      "column0": 29597,
+      "function": "retargetClipSteps",
+      "sampledSelfUs": 242188
+    },
+    {
+      "bundle": "assets/tervain-C7uA6R_m.js",
+      "line0": 741,
+      "column0": 33207,
+      "function": "measureSeatSteps",
+      "sampledSelfUs": 138157
+    },
+    {
+      "bundle": "assets/tervain-C7uA6R_m.js",
+      "line0": 2527,
+      "column0": 56370,
+      "function": "residentHiddenLayersSteps",
+      "sampledSelfUs": 96808
+    },
+    {
+      "bundle": "assets/tervain-C7uA6R_m.js",
+      "line0": 2656,
+      "column0": 8663,
+      "function": "residentHands",
+      "sampledSelfUs": 96518
+    }
+  ],
+  "limits": "Samples span all three diagnostic phases, including the rejected bow-input control. GC was observed, but the largest step lacks aligned stage timestamps, so it is not attributed to GC, hand scanning, or historical live16 stalls."
+}

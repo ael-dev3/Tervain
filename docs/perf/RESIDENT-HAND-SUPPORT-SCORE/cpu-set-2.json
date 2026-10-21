@@ -1,0 +1,1156 @@
+{
+  "rows": [
+    {
+      "id": "rillford-reeve",
+      "round": 0,
+      "mode": "before",
+      "ms": 9.586099999999988,
+      "maxResumeMs": 3.1696549999999206,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 0,
+      "mode": "control",
+      "ms": 9.65937000000008,
+      "maxResumeMs": 2.8574959999998555,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 0,
+      "mode": "after",
+      "ms": 5.8013599999999315,
+      "maxResumeMs": 2.2301230000000487,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 1,
+      "mode": "after",
+      "ms": 5.879987999999912,
+      "maxResumeMs": 2.3282799999999497,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 1,
+      "mode": "control",
+      "ms": 9.863827000000128,
+      "maxResumeMs": 3.00888400000008,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 1,
+      "mode": "before",
+      "ms": 9.567371999999978,
+      "maxResumeMs": 3.1099349999999504,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 2,
+      "mode": "before",
+      "ms": 9.266358999999966,
+      "maxResumeMs": 2.8451269999998203,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 2,
+      "mode": "control",
+      "ms": 9.403925000000072,
+      "maxResumeMs": 2.9743510000000697,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 2,
+      "mode": "after",
+      "ms": 5.772126999999955,
+      "maxResumeMs": 2.235680000000002,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 3,
+      "mode": "after",
+      "ms": 5.820739000000003,
+      "maxResumeMs": 2.2390459999999166,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 3,
+      "mode": "control",
+      "ms": 9.709827000000132,
+      "maxResumeMs": 2.9622529999999188,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 3,
+      "mode": "before",
+      "ms": 9.514570999999933,
+      "maxResumeMs": 3.1549620000000687,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 4,
+      "mode": "before",
+      "ms": 9.552499999999782,
+      "maxResumeMs": 2.948311999999987,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 4,
+      "mode": "control",
+      "ms": 9.250255999999808,
+      "maxResumeMs": 2.9152619999999843,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 4,
+      "mode": "after",
+      "ms": 5.766587999999956,
+      "maxResumeMs": 2.223072000000002,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 5,
+      "mode": "after",
+      "ms": 5.894720000000007,
+      "maxResumeMs": 2.2888909999999214,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 5,
+      "mode": "control",
+      "ms": 9.58642000000009,
+      "maxResumeMs": 2.8768150000000787,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 5,
+      "mode": "before",
+      "ms": 9.838209000000006,
+      "maxResumeMs": 3.07214799999997,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 6,
+      "mode": "before",
+      "ms": 9.525056999999833,
+      "maxResumeMs": 2.9819320000001426,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 6,
+      "mode": "control",
+      "ms": 9.24381500000004,
+      "maxResumeMs": 2.9026629999998477,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 6,
+      "mode": "after",
+      "ms": 5.863775000000032,
+      "maxResumeMs": 2.327007999999978,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 7,
+      "mode": "after",
+      "ms": 5.724765000000161,
+      "maxResumeMs": 2.20579500000008,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 7,
+      "mode": "control",
+      "ms": 9.844888999999966,
+      "maxResumeMs": 3.3188689999999497,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 7,
+      "mode": "before",
+      "ms": 9.573689999999942,
+      "maxResumeMs": 3.057685999999876,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 8,
+      "mode": "before",
+      "ms": 9.442064000000073,
+      "maxResumeMs": 2.969103000000132,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 8,
+      "mode": "control",
+      "ms": 9.560661999999866,
+      "maxResumeMs": 2.916003000000046,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 8,
+      "mode": "after",
+      "ms": 6.120218999999906,
+      "maxResumeMs": 2.4278489999999238,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 9,
+      "mode": "after",
+      "ms": 5.779305999999906,
+      "maxResumeMs": 2.270052000000078,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 9,
+      "mode": "control",
+      "ms": 9.585029000000077,
+      "maxResumeMs": 3.0006509999998343,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 9,
+      "mode": "before",
+      "ms": 9.587050999999974,
+      "maxResumeMs": 2.932358000000022,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 10,
+      "mode": "before",
+      "ms": 9.922444999999925,
+      "maxResumeMs": 3.327261000000135,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 10,
+      "mode": "control",
+      "ms": 9.625819000000092,
+      "maxResumeMs": 2.917135000000144,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 10,
+      "mode": "after",
+      "ms": 5.792558000000099,
+      "maxResumeMs": 2.2265370000000075,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 11,
+      "mode": "after",
+      "ms": 5.739628000000039,
+      "maxResumeMs": 2.1890399999999772,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 11,
+      "mode": "control",
+      "ms": 9.67500300000006,
+      "maxResumeMs": 2.9734300000000076,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 11,
+      "mode": "before",
+      "ms": 9.652680000000146,
+      "maxResumeMs": 3.0903849999999693,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 12,
+      "mode": "before",
+      "ms": 9.72524999999996,
+      "maxResumeMs": 3.041983000000073,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 12,
+      "mode": "control",
+      "ms": 9.984508999999889,
+      "maxResumeMs": 3.2382780000000366,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 12,
+      "mode": "after",
+      "ms": 5.899286999999958,
+      "maxResumeMs": 2.2450239999998303,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 13,
+      "mode": "after",
+      "ms": 5.852596999999832,
+      "maxResumeMs": 2.2362319999999727,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 13,
+      "mode": "control",
+      "ms": 9.704477999999881,
+      "maxResumeMs": 2.9039860000000317,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 13,
+      "mode": "before",
+      "ms": 9.76871499999993,
+      "maxResumeMs": 3.195224000000053,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 14,
+      "mode": "before",
+      "ms": 9.447190000000091,
+      "maxResumeMs": 2.9031740000000354,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 14,
+      "mode": "control",
+      "ms": 9.569955000000164,
+      "maxResumeMs": 2.9779769999997825,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 14,
+      "mode": "after",
+      "ms": 5.934391000000005,
+      "maxResumeMs": 2.2888499999999112,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 15,
+      "mode": "after",
+      "ms": 5.776603999999907,
+      "maxResumeMs": 2.216912999999977,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 15,
+      "mode": "control",
+      "ms": 9.916196000000127,
+      "maxResumeMs": 3.1811820000000353,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 15,
+      "mode": "before",
+      "ms": 9.590416000000005,
+      "maxResumeMs": 3.060069999999996,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 16,
+      "mode": "before",
+      "ms": 9.583024999999907,
+      "maxResumeMs": 2.9993489999999383,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 16,
+      "mode": "control",
+      "ms": 9.859179999999924,
+      "maxResumeMs": 3.183125000000018,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 16,
+      "mode": "after",
+      "ms": 5.820488999999952,
+      "maxResumeMs": 2.24105899999995,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 17,
+      "mode": "after",
+      "ms": 6.063754999999901,
+      "maxResumeMs": 2.481399999999894,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 17,
+      "mode": "control",
+      "ms": 9.651087999999845,
+      "maxResumeMs": 3.031917999999905,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 17,
+      "mode": "before",
+      "ms": 9.60633000000007,
+      "maxResumeMs": 2.8803800000000592,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 18,
+      "mode": "before",
+      "ms": 9.345467999999983,
+      "maxResumeMs": 2.9239850000001297,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 18,
+      "mode": "control",
+      "ms": 9.404586999999992,
+      "maxResumeMs": 2.894170000000031,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 18,
+      "mode": "after",
+      "ms": 5.79972900000007,
+      "maxResumeMs": 2.2408289999998487,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 19,
+      "mode": "after",
+      "ms": 6.03195699999992,
+      "maxResumeMs": 2.281379999999899,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 19,
+      "mode": "control",
+      "ms": 9.57375100000013,
+      "maxResumeMs": 3.004316000000017,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 19,
+      "mode": "before",
+      "ms": 9.44965400000001,
+      "maxResumeMs": 2.992768000000069,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 20,
+      "mode": "before",
+      "ms": 9.845080000000053,
+      "maxResumeMs": 3.1489839999999276,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 20,
+      "mode": "control",
+      "ms": 9.562605000000076,
+      "maxResumeMs": 3.079970000000003,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 20,
+      "mode": "after",
+      "ms": 5.81359899999984,
+      "maxResumeMs": 2.2522950000000037,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 21,
+      "mode": "after",
+      "ms": 5.742952999999943,
+      "maxResumeMs": 2.22146900000007,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 21,
+      "mode": "control",
+      "ms": 9.616326000000072,
+      "maxResumeMs": 2.939399000000094,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 21,
+      "mode": "before",
+      "ms": 10.084279000000151,
+      "maxResumeMs": 3.1981570000000374,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 22,
+      "mode": "before",
+      "ms": 9.497065999999904,
+      "maxResumeMs": 2.9328080000000227,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 22,
+      "mode": "control",
+      "ms": 9.595184000000017,
+      "maxResumeMs": 3.051616999999851,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 22,
+      "mode": "after",
+      "ms": 5.80968299999995,
+      "maxResumeMs": 2.2437130000000707,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 23,
+      "mode": "after",
+      "ms": 5.807810000000018,
+      "maxResumeMs": 2.229822000000013,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 23,
+      "mode": "control",
+      "ms": 9.973400999999967,
+      "maxResumeMs": 2.9435349999998834,
+      "turns": 9
+    },
+    {
+      "id": "rillford-reeve",
+      "round": 23,
+      "mode": "before",
+      "ms": 9.759119999999939,
+      "maxResumeMs": 3.1954639999999017,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 0,
+      "mode": "before",
+      "ms": 9.179458999999952,
+      "maxResumeMs": 2.6403490000000147,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 0,
+      "mode": "control",
+      "ms": 8.728591000000051,
+      "maxResumeMs": 2.3376740000001064,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 0,
+      "mode": "after",
+      "ms": 4.944341000000122,
+      "maxResumeMs": 1.7779129999998986,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 1,
+      "mode": "after",
+      "ms": 4.817481000000043,
+      "maxResumeMs": 1.654177000000118,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 1,
+      "mode": "control",
+      "ms": 9.121591999999964,
+      "maxResumeMs": 2.4069080000001577,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 1,
+      "mode": "before",
+      "ms": 9.092217000000119,
+      "maxResumeMs": 2.7817710000001625,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 2,
+      "mode": "before",
+      "ms": 9.031575999999859,
+      "maxResumeMs": 2.519117000000051,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 2,
+      "mode": "control",
+      "ms": 8.908862,
+      "maxResumeMs": 2.3584549999998217,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 2,
+      "mode": "after",
+      "ms": 4.827055999999629,
+      "maxResumeMs": 1.6869449999999233,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 3,
+      "mode": "after",
+      "ms": 4.855018999999629,
+      "maxResumeMs": 1.6887580000002345,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 3,
+      "mode": "control",
+      "ms": 9.014009999999871,
+      "maxResumeMs": 2.414299000000028,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 3,
+      "mode": "before",
+      "ms": 9.113448999999946,
+      "maxResumeMs": 2.5644949999996243,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 4,
+      "mode": "before",
+      "ms": 9.058958000000075,
+      "maxResumeMs": 2.5287309999998797,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 4,
+      "mode": "control",
+      "ms": 8.952678000000105,
+      "maxResumeMs": 2.611626000000342,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 4,
+      "mode": "after",
+      "ms": 5.2864770000001045,
+      "maxResumeMs": 1.9074069999996937,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 5,
+      "mode": "after",
+      "ms": 4.877210999999988,
+      "maxResumeMs": 1.723700000000008,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 5,
+      "mode": "control",
+      "ms": 15.320158999999876,
+      "maxResumeMs": 8.840779999999995,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 5,
+      "mode": "before",
+      "ms": 9.770657999999912,
+      "maxResumeMs": 2.574841000000106,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 6,
+      "mode": "before",
+      "ms": 8.921659999999974,
+      "maxResumeMs": 2.499637999999777,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 6,
+      "mode": "control",
+      "ms": 8.892386999999871,
+      "maxResumeMs": 2.4200080000000526,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 6,
+      "mode": "after",
+      "ms": 5.376533000000109,
+      "maxResumeMs": 1.9267559999998412,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 7,
+      "mode": "after",
+      "ms": 4.878813999999693,
+      "maxResumeMs": 1.6590139999998428,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 7,
+      "mode": "control",
+      "ms": 8.763754000000063,
+      "maxResumeMs": 2.4053549999998722,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 7,
+      "mode": "before",
+      "ms": 8.587978999999905,
+      "maxResumeMs": 2.184794000000238,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 8,
+      "mode": "before",
+      "ms": 8.430582999999842,
+      "maxResumeMs": 2.172766000000138,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 8,
+      "mode": "control",
+      "ms": 8.60655799999995,
+      "maxResumeMs": 2.326727000000119,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 8,
+      "mode": "after",
+      "ms": 4.835790000000088,
+      "maxResumeMs": 1.6673569999998108,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 9,
+      "mode": "after",
+      "ms": 5.242760999999973,
+      "maxResumeMs": 1.9750989999997728,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 9,
+      "mode": "control",
+      "ms": 9.102963000000273,
+      "maxResumeMs": 2.2395769999998265,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 9,
+      "mode": "before",
+      "ms": 8.515559999999823,
+      "maxResumeMs": 2.201049000000239,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 10,
+      "mode": "before",
+      "ms": 8.332726000000093,
+      "maxResumeMs": 2.2143889999997555,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 10,
+      "mode": "control",
+      "ms": 9.028981999999814,
+      "maxResumeMs": 2.179565999999795,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 10,
+      "mode": "after",
+      "ms": 4.811012000000119,
+      "maxResumeMs": 1.6694290000000365,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 11,
+      "mode": "after",
+      "ms": 4.748798000000079,
+      "maxResumeMs": 1.6237599999999475,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 11,
+      "mode": "control",
+      "ms": 8.79225600000018,
+      "maxResumeMs": 2.2283590000001823,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 11,
+      "mode": "before",
+      "ms": 8.666357000000062,
+      "maxResumeMs": 2.413187000000107,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 12,
+      "mode": "before",
+      "ms": 8.479627000000164,
+      "maxResumeMs": 2.3296919999997954,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 12,
+      "mode": "control",
+      "ms": 8.57968899999969,
+      "maxResumeMs": 2.2223690000000715,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 12,
+      "mode": "after",
+      "ms": 4.789708000000246,
+      "maxResumeMs": 1.6503670000001875,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 13,
+      "mode": "after",
+      "ms": 4.862067000000025,
+      "maxResumeMs": 1.6938230000000658,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 13,
+      "mode": "control",
+      "ms": 8.533148999999867,
+      "maxResumeMs": 2.175568000000112,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 13,
+      "mode": "before",
+      "ms": 9.628949999999804,
+      "maxResumeMs": 3.014502999999877,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 14,
+      "mode": "before",
+      "ms": 8.358945999999833,
+      "maxResumeMs": 2.163430000000062,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 14,
+      "mode": "control",
+      "ms": 8.40117999999984,
+      "maxResumeMs": 2.2370710000000145,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 14,
+      "mode": "after",
+      "ms": 5.718227000000297,
+      "maxResumeMs": 2.2770210000003317,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 15,
+      "mode": "after",
+      "ms": 5.856575000000248,
+      "maxResumeMs": 2.0962289999997665,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 15,
+      "mode": "control",
+      "ms": 8.629033000000163,
+      "maxResumeMs": 2.318202999999812,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 15,
+      "mode": "before",
+      "ms": 8.406989000000067,
+      "maxResumeMs": 2.3215190000000803,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 16,
+      "mode": "before",
+      "ms": 8.979710999999952,
+      "maxResumeMs": 2.3330559999999423,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 16,
+      "mode": "control",
+      "ms": 8.435019999999895,
+      "maxResumeMs": 2.260956999999962,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 16,
+      "mode": "after",
+      "ms": 5.023299999999836,
+      "maxResumeMs": 1.809516000000258,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 17,
+      "mode": "after",
+      "ms": 4.741565000000264,
+      "maxResumeMs": 1.632640000000265,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 17,
+      "mode": "control",
+      "ms": 8.62646900000027,
+      "maxResumeMs": 2.4324259999998503,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 17,
+      "mode": "before",
+      "ms": 9.618544000000384,
+      "maxResumeMs": 2.9406599999997525,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 18,
+      "mode": "before",
+      "ms": 8.39966800000002,
+      "maxResumeMs": 2.1677669999999125,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 18,
+      "mode": "control",
+      "ms": 8.335089000000153,
+      "maxResumeMs": 2.2891890000000785,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 18,
+      "mode": "after",
+      "ms": 4.778389999999945,
+      "maxResumeMs": 1.6514890000003106,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 19,
+      "mode": "after",
+      "ms": 4.823848999999882,
+      "maxResumeMs": 1.6270309999999881,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 19,
+      "mode": "control",
+      "ms": 8.781383000000005,
+      "maxResumeMs": 2.3853650000000926,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 19,
+      "mode": "before",
+      "ms": 8.586969000000408,
+      "maxResumeMs": 2.2174310000000332,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 20,
+      "mode": "before",
+      "ms": 8.560218999999961,
+      "maxResumeMs": 2.3239730000000236,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 20,
+      "mode": "control",
+      "ms": 8.583004000000074,
+      "maxResumeMs": 2.2756890000000567,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 20,
+      "mode": "after",
+      "ms": 4.88713400000006,
+      "maxResumeMs": 1.7002019999999902,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 21,
+      "mode": "after",
+      "ms": 4.855366000000231,
+      "maxResumeMs": 1.6467610000004242,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 21,
+      "mode": "control",
+      "ms": 8.839840999999979,
+      "maxResumeMs": 2.2802560000000085,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 21,
+      "mode": "before",
+      "ms": 8.40565499999957,
+      "maxResumeMs": 2.183039000000008,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 22,
+      "mode": "before",
+      "ms": 8.63075600000002,
+      "maxResumeMs": 2.3786740000000464,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 22,
+      "mode": "control",
+      "ms": 8.547610000000077,
+      "maxResumeMs": 2.202278000000206,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 22,
+      "mode": "after",
+      "ms": 4.746182000000317,
+      "maxResumeMs": 1.647551999999905,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 23,
+      "mode": "after",
+      "ms": 4.879112000000077,
+      "maxResumeMs": 1.6761259999998401,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 23,
+      "mode": "control",
+      "ms": 9.159392999999909,
+      "maxResumeMs": 2.2865050000000338,
+      "turns": 9
+    },
+    {
+      "id": "ash-recorder",
+      "round": 23,
+      "mode": "before",
+      "ms": 8.933110999999826,
+      "maxResumeMs": 2.3387440000001334,
+      "turns": 9
+    }
+  ]
+}

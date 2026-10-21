@@ -1,0 +1,39 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/residentHandPreparation.test.ts (2 tests | 2 failed) 1796ms
+   × avoids repeat hand-support projections while preserving rillford-reeve contacts 1014ms
+   × avoids repeat hand-support projections while preserving ash-recorder contacts 781ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/residentHandPreparation.test.ts > avoids repeat hand-support projections while preserving rillford-reeve contacts
+AssertionError: expected 1240320 to be less than 750000
+ ❯ tests/presentation/residentHandPreparation.test.ts:25:42
+     23|     expect(createHash('sha256').update(JSON.stringify(hands)).digest('…
+     24|     // A native hand scans up to 676,320 candidate/direction pairs, no…
+     25|     expect(Math.max(...counts.values())).toBeLessThan(750_000);
+       |                                          ^
+     26|     rig.root.traverse(object => {
+     27|       const mesh = object as THREE.SkinnedMesh;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/presentation/residentHandPreparation.test.ts > avoids repeat hand-support projections while preserving ash-recorder contacts
+AssertionError: expected 1352640 to be less than 750000
+ ❯ tests/presentation/residentHandPreparation.test.ts:25:42
+     23|     expect(createHash('sha256').update(JSON.stringify(hands)).digest('…
+     24|     // A native hand scans up to 676,320 candidate/direction pairs, no…
+     25|     expect(Math.max(...counts.values())).toBeLessThan(750_000);
+       |                                          ^
+     26|     rig.root.traverse(object => {
+     27|       const mesh = object as THREE.SkinnedMesh;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  05:29:25
+   Duration  2.44s (tests 76%, transform 17%, import 6%)
+
