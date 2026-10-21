@@ -1,3 +1,4 @@
+export function browserCleanup(proc: import('node:child_process').ChildProcess, profile: string, release?: () => void): () => Promise<void>;
 export function ownedDebugPort(contents: string): number | null;
 export function cdpRequests(write: (message: { id: number; method: string; params: unknown }) => void, timeoutMs?: number): {
   nextId(): number;
@@ -15,5 +16,5 @@ export function openPage(url?:string,options?:{w?:number;h?:number;dpr?:number;i
   wait(ms:number):Promise<void>;
   cdp(method:string,params?:object):Promise<any>;
   console():unknown[];
-  close():void;
+  close():Promise<void>;
 }>;
