@@ -38,3 +38,6 @@ High 640×360 DPR1, frozen time/wind, actual source-paired world with post/MSAA 
 | sea | 137 | 137 | 778,895 | 778,895 | 0 |
 
 The source wrapper runs both implementations, so no native timing claim is made from these captures. The unmodified compiled current-head budget receipt will be added separately; no PASS is inferred from source captures.
+## Current-head compiled budget
+
+Unmodified stock gate on `d0f900eeb4f765a4fe074563fe0cb321d0288534`: live and candidate both **285 draws / 3,046,047 triangles / 0 console errors**. Two same-revision live probes and four distinct completed frames per probe/candidate; default limits, no allowances or sampler edits, native rendering enabled. [Raw receipt](budget.txt). This fixed budget placement is not a walking hardware frame-pacing test and does not establish the historical live16 ~33 ms cause.
