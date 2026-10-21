@@ -1,0 +1,50 @@
+[
+  {
+    "label": "tree:0:0",
+    "AAchangedPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rawJump60Observations": 31010,
+    "rawReversal60Observations": 3587
+  },
+  {
+    "label": "tree:0:1",
+    "AAchangedPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rawJump60Observations": 52430,
+    "rawReversal60Observations": 5022
+  },
+  {
+    "label": "tree:0:2",
+    "AAchangedPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rawJump60Observations": 962,
+    "rawReversal60Observations": 28
+  }
+]
