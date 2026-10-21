@@ -67,6 +67,8 @@ export function weightedCell(weights: readonly number[], r: number): number {
 
 export const NEAR_CANOPY = { size: [0.6, 1.2], clump: 0.95, perClump: 8, cells: 2 } as const;
 export const MID_CANOPY = { size: [1.0, 1.9], clump: 1.4, perClump: 6, cells: 2 } as const;
+/** A broadleaf's far crown (A168): fewer, larger clumps of the same cards, so it reads as the nearer crowns do. */
+export const FAR_CANOPY = { size: [1.5, 2.8], clump: 2.0, perClump: 5, cells: 2 } as const;
 
 /** Small stable PRNG (mulberry32). */
 export function canopyRandom(seed: number): () => number {
@@ -754,33 +756,57 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
  * overshoot, ending `inside` of the reach. A crown's outer shell sits a little past the boughs' reach at the largest tree
  * scale (the audit's 1.5 m), and as one chained mass the shell is out of the clump snap's reach; per card the move is
  * small, so the crown keeps its layout. No card is removed; every other attribute is kept.
+ *
+ * A168: with `box`, every card is first moved back inside it, as a whole, by its overshoot on each axis; then a move
+ * toward the wood that would swing a corner out across a face stops there. A rebuilt far crown's clumps spread farther
+ * than its nearer crowns' do; the forest culls each tree by the union of its levels' bounds, so a crown held inside its
+ * nearer levels' bounds leaves that union, and what is drawn, as it was. `short` counts the cards a face stopped before
+ * they came within the reach.
  */
-export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, inside = 0.97): { geometry: THREE.BufferGeometry; moved: number } {
+export function seatFarCards(canopy: THREE.BufferGeometry, wood: THREE.BufferGeometry, reach: number, inside = 0.97, box?: THREE.Box3): { geometry: THREE.BufferGeometry; moved: number; short: number } {
   const position = canopy.getAttribute('position');
-  if (!position || !canopy.index) return { geometry: canopy, moved: 0 };
+  if (!position || !canopy.index) return { geometry: canopy, moved: 0, short: 0 };
   const anchor = woodAnchor(wood), hit = new THREE.Vector3(), nearest = new THREE.Vector3(), from = new THREE.Vector3();
+  const held = new THREE.Vector3(), at = new THREE.Vector3(), delta = new THREE.Vector3();
   const out = new Float32Array(position.count * 3);
   for (let v = 0; v < position.count; v++) { out[v * 3] = position.getX(v); out[v * 3 + 1] = position.getY(v); out[v * 3 + 2] = position.getZ(v); }
-  let moved = 0;
+  let moved = 0, short = 0;
   for (const part of components(canopy, () => {})) {
+    held.set(0, 0, 0);
+    if (box) for (let axis = 0; axis < 3; axis++) {
+      const lo = part.box.min.getComponent(axis), hi = part.box.max.getComponent(axis), min = box.min.getComponent(axis), max = box.max.getComponent(axis);
+      held.setComponent(axis, hi > max ? Math.max(max - hi, min - lo) : lo < min ? min - lo : 0);
+    }
     let distance = Infinity;
     for (const sample of part.samples) {
-      const d = anchor(sample, hit);
-      if (d < distance) { distance = d; nearest.copy(hit); from.copy(sample); }
+      const d = anchor(at.copy(sample).add(held), hit);
+      if (d < distance) { distance = d; nearest.copy(hit); from.copy(at); }
       // One supporting sample already keeps this card. Later samples cannot increase its minimum distance.
       if (distance <= reach) break;
     }
-    if (!(distance > reach) || !Number.isFinite(distance)) continue;
-    const delta = nearest.sub(from).multiplyScalar((distance - reach * inside) / distance);
+    delta.set(0, 0, 0);
+    if (distance > reach && Number.isFinite(distance)) {
+      delta.subVectors(nearest, from).multiplyScalar((distance - reach * inside) / distance);
+      let stopped = false;
+      if (box) for (let axis = 0; axis < 3; axis++) {
+        const d = delta.getComponent(axis), shift = held.getComponent(axis);
+        const lo = part.box.min.getComponent(axis) + shift + d, hi = part.box.max.getComponent(axis) + shift + d;
+        if (hi > box.max.getComponent(axis) && d > 0) { delta.setComponent(axis, Math.max(0, d - (hi - box.max.getComponent(axis)))); stopped = true; }
+        else if (lo < box.min.getComponent(axis) && d < 0) { delta.setComponent(axis, Math.min(0, d + (box.min.getComponent(axis) - lo))); stopped = true; }
+      }
+      if (stopped && from.add(delta).distanceTo(nearest) > reach) short++;
+    }
+    delta.add(held);
+    if (!delta.x && !delta.y && !delta.z) continue;
     for (const v of part.vertices ?? []) { out[v * 3] = out[v * 3]! + delta.x; out[v * 3 + 1] = out[v * 3 + 1]! + delta.y; out[v * 3 + 2] = out[v * 3 + 2]! + delta.z; }
     moved++;
   }
-  if (!moved) return { geometry: canopy, moved };
+  if (!moved) return { geometry: canopy, moved, short };
   const geometry = canopy.clone();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, seatedCards: moved };
-  return { geometry, moved };
+  return { geometry, moved, short };
 }
 
 /**

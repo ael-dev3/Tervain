@@ -268,3 +268,12 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Triangles per template, middle / far: fir-spire +252 / +258, shorepine +42 / +60, palms +12 to +162 / +72 to +468. Every draw at the gate's pose: 240 on both; net −24,739 triangles (an off-screen oak culled by its tighter bounds).
 - High walks with the wind running, against 0.0.46: pine wood −0.5%, −0.1%, −0.3%; oaks ±0.0%.
 - Details: docs/engineering/a167-0047-lower-level-support.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.48: far crowns rebuilt like the nearer ones, 2026-10-21
+
+- Far crown against middle crown, mean luma change on screen, 0.0.47 → 0.0.48: hero-oak 44.4 → 27.0, hero-oak-b 41.7 → 32.5, sentinel 51.8 → 17.3, hero-birch 34.2 → 23.9, apple 35.0 → 21.6, pear 41.3 → 21.4, tree-1505 52.6 → 27.1.
+- Triangles per template and level: unchanged (sentinel far −2). Union bounds unchanged or smaller. Every draw at the gate's pose: one far-crown shadow fewer (−892 triangles); residents' shadows vary with their timing.
+- Canopy audit, far level: 5,135 / 143 → 5,081 / 116 (the solitary pine's far needle planes remain). Near and middle unchanged.
+- Low walk replay: no pop-in event; pixels changed by each step's update 3,873 → 3,252. Low meadow walk toward the sentinels, against 0.0.47: spikes −0.1%, −0.1%, +0.0%; jumps −0.6%, −0.3%, −0.2%. High walks with the wind running, against 0.0.47: oaks +0.1%, +0.1%, +0.3%; orchard +0.1%, −0.1%, −0.3%; the same walk twice on one build differs by up to 0.3%.
+- Tree build at load: +4% (5.48 s → 5.72 s for twelve broadleaf templates, in node).
+- Details: docs/engineering/a168-0048-far-crowns.md. Budget gate against live on the release head: in the release PR.

@@ -25,6 +25,7 @@ it('converts the near validation gap and preserves the rebuilt projected shade f
     return after;
   });
   const forest=createMeshyForest(templates);
-  try{forest.variant('oak',0,'hero-oak');expect(rows).toHaveLength(2);expect(rows[0]!.gap!*canopy.MAX_TREE_SCALE).toBeCloseTo(.75,12);expect(rows[0]!.moved).toBeGreaterThan(0);expect(rows[1]).toEqual({gap:undefined,moved:0});}
+  // The near, middle and (A168) far crowns are each snapped; only the near one checks the vertical gap.
+  try{forest.variant('oak',0,'hero-oak');expect(rows).toHaveLength(3);expect(rows[0]!.gap!*canopy.MAX_TREE_SCALE).toBeCloseTo(.75,12);expect(rows[0]!.moved).toBeGreaterThan(0);expect(rows[1]).toEqual({gap:undefined,moved:0});expect(rows[2]).toEqual({gap:undefined,moved:0});}
   finally{forest.dispose();spy.mockRestore();}
 },30000);
