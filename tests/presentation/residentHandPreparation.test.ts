@@ -11,8 +11,8 @@ it.each([
 ])('avoids repeat hand-support projections while preserving %s contacts', async (id, hash) => {
   const { source, entry } = await loadResident(id), data = await loadResidentRigData(id);
   const library = residentMotionLibrary(await loadResidentMotion());
-  const counts = new Map<THREE.Vector3, number>(), dot = THREE.Vector3.prototype.dot;
-  const spy = vi.spyOn(THREE.Vector3.prototype, 'dot').mockImplementation(function(this: THREE.Vector3, direction: THREE.Vector3) {
+  const counts = new Map<THREE.Vector3Like, number>(), dot = THREE.Vector3.prototype.dot;
+  const spy = vi.spyOn(THREE.Vector3.prototype, 'dot').mockImplementation(function(this: THREE.Vector3, direction: THREE.Vector3Like) {
     counts.set(direction, (counts.get(direction) ?? 0) + 1);
     return dot.call(this, direction);
   });
