@@ -1,0 +1,82 @@
+[
+  {
+    "file": "fence-before-0.png",
+    "rgbSha256": "c147c49000e746f2538918d9c88a4090cab32f88b434454fa1eefc605af32883"
+  },
+  {
+    "file": "fence-before-1.png",
+    "rgbSha256": "c147c49000e746f2538918d9c88a4090cab32f88b434454fa1eefc605af32883"
+  },
+  {
+    "file": "fence-after-0.png",
+    "rgbSha256": "c147c49000e746f2538918d9c88a4090cab32f88b434454fa1eefc605af32883"
+  },
+  {
+    "file": "fence-after-1.png",
+    "rgbSha256": "c147c49000e746f2538918d9c88a4090cab32f88b434454fa1eefc605af32883"
+  },
+  {
+    "file": "run-round-before-0.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb"
+  },
+  {
+    "file": "run-round-before-1.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb"
+  },
+  {
+    "file": "run-round-after-0.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb"
+  },
+  {
+    "file": "run-round-after-1.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb"
+  },
+  {
+    "file": "bow-before-0.png",
+    "rgbSha256": "138bb60a736e54a2f207d7efc6b416010ed389ada181d9bb2c15994becbffe46"
+  },
+  {
+    "file": "bow-before-1.png",
+    "rgbSha256": "138bb60a736e54a2f207d7efc6b416010ed389ada181d9bb2c15994becbffe46"
+  },
+  {
+    "file": "bow-after-0.png",
+    "rgbSha256": "138bb60a736e54a2f207d7efc6b416010ed389ada181d9bb2c15994becbffe46"
+  },
+  {
+    "file": "bow-after-1.png",
+    "rgbSha256": "138bb60a736e54a2f207d7efc6b416010ed389ada181d9bb2c15994becbffe46"
+  },
+  {
+    "file": "birch-before-0.png",
+    "rgbSha256": "d1964450b1536b95e9226395c53730b7af00217bee6d60058d680ab789bd2265"
+  },
+  {
+    "file": "birch-before-1.png",
+    "rgbSha256": "d1964450b1536b95e9226395c53730b7af00217bee6d60058d680ab789bd2265"
+  },
+  {
+    "file": "birch-after-0.png",
+    "rgbSha256": "d1964450b1536b95e9226395c53730b7af00217bee6d60058d680ab789bd2265"
+  },
+  {
+    "file": "birch-after-1.png",
+    "rgbSha256": "d1964450b1536b95e9226395c53730b7af00217bee6d60058d680ab789bd2265"
+  },
+  {
+    "file": "sea-before-0.png",
+    "rgbSha256": "60dd196146e291422e2cb657e094cc4a7bf3ce56d572d0c065eeb5a3f416cdea"
+  },
+  {
+    "file": "sea-before-1.png",
+    "rgbSha256": "60dd196146e291422e2cb657e094cc4a7bf3ce56d572d0c065eeb5a3f416cdea"
+  },
+  {
+    "file": "sea-after-0.png",
+    "rgbSha256": "60dd196146e291422e2cb657e094cc4a7bf3ce56d572d0c065eeb5a3f416cdea"
+  },
+  {
+    "file": "sea-after-1.png",
+    "rgbSha256": "60dd196146e291422e2cb657e094cc4a7bf3ce56d572d0c065eeb5a3f416cdea"
+  }
+]
