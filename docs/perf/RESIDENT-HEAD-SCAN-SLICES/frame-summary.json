@@ -1,0 +1,104 @@
+{
+  "before": {
+    "walk-fence": {
+      "steps": 240,
+      "meanWallMs": 5.9858333333339635,
+      "p95WallMs": 10.299999999988358,
+      "maxWallMs": 23.099999999976717,
+      "meanThreadCpuMs": 5.6233458333333335,
+      "maxThreadCpuMs": 19.679
+    },
+    "run-round": {
+      "steps": 180,
+      "meanWallMs": 5.5988888888878545,
+      "p95WallMs": 8.700000000011642,
+      "maxWallMs": 19.900000000023283,
+      "meanThreadCpuMs": 5.585566666666667,
+      "maxThreadCpuMs": 19.925
+    },
+    "bow0-draw": {
+      "steps": 90,
+      "meanWallMs": 5.606666666667055,
+      "p95WallMs": 9.099999999976717,
+      "maxWallMs": 10.700000000011642,
+      "meanThreadCpuMs": 5.5545333333333335,
+      "maxThreadCpuMs": 10.52
+    },
+    "bow0-release": {
+      "steps": 48,
+      "meanWallMs": 4.9729166666656965,
+      "p95WallMs": 7.400000000023283,
+      "maxWallMs": 8.799999999988358,
+      "meanThreadCpuMs": 4.962354166666667,
+      "maxThreadCpuMs": 8.799
+    },
+    "bow1-draw": {
+      "steps": 90,
+      "meanWallMs": 4.562222222221964,
+      "p95WallMs": 6.399999999965075,
+      "maxWallMs": 9.5,
+      "meanThreadCpuMs": 4.560733333333333,
+      "maxThreadCpuMs": 9.543
+    },
+    "bow1-release": {
+      "steps": 48,
+      "meanWallMs": 5.081249999999272,
+      "p95WallMs": 9.700000000011642,
+      "maxWallMs": 19.70000000001164,
+      "meanThreadCpuMs": 5.0303125,
+      "maxThreadCpuMs": 19.027
+    },
+    "maxHeadSliceWallMs": 9.299999999988358
+  },
+  "after": {
+    "walk-fence": {
+      "steps": 240,
+      "meanWallMs": 5.419583333333624,
+      "p95WallMs": 9,
+      "maxWallMs": 12.5,
+      "meanThreadCpuMs": 5.367591666666667,
+      "maxThreadCpuMs": 12.613
+    },
+    "run-round": {
+      "steps": 180,
+      "meanWallMs": 5.364444444446256,
+      "p95WallMs": 9,
+      "maxWallMs": 12.300000000046566,
+      "meanThreadCpuMs": 5.31735,
+      "maxThreadCpuMs": 12.339
+    },
+    "bow0-draw": {
+      "steps": 90,
+      "meanWallMs": 5.296666666662269,
+      "p95WallMs": 7.099999999976717,
+      "maxWallMs": 9.699999999953434,
+      "meanThreadCpuMs": 5.2149222222222225,
+      "maxThreadCpuMs": 9.632
+    },
+    "bow0-release": {
+      "steps": 48,
+      "meanWallMs": 4.929166666666181,
+      "p95WallMs": 6.799999999930151,
+      "maxWallMs": 7.800000000046566,
+      "meanThreadCpuMs": 4.492729166666667,
+      "maxThreadCpuMs": 7.846
+    },
+    "bow1-draw": {
+      "steps": 90,
+      "meanWallMs": 4.761111111109818,
+      "p95WallMs": 6.400000000023283,
+      "maxWallMs": 7.400000000023283,
+      "meanThreadCpuMs": 4.641366666666666,
+      "maxThreadCpuMs": 7.345
+    },
+    "bow1-release": {
+      "steps": 48,
+      "meanWallMs": 5.39999999999903,
+      "p95WallMs": 7.700000000069849,
+      "maxWallMs": 8.20000000006985,
+      "meanThreadCpuMs": 5.0263125,
+      "maxThreadCpuMs": 7.461
+    },
+    "maxHeadSliceWallMs": 1.5
+  }
+}

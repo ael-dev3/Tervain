@@ -1,0 +1,1261 @@
+
+ RUN  v5.0.2 [repository]
+
+stdout | tests/presentation/__old-head-regression.test.ts > bounds the old synchronous repair at 512 vertex reads in its single caller resume
+{"id":"quarry-foreman","reads":35936,"limit":512}
+
+stdout | tests/presentation/__old-head-regression.test.ts > bounds the old synchronous repair at 512 vertex reads in its single caller resume
+{"id":"maintenance-worker","reads":42137,"limit":512}
+
+stdout | tests/presentation/__old-head-regression.test.ts > avoids per-vertex fixed joint lookups
+{"vertices":100,"lookups":200}
+
+ ❯ tests/presentation/__old-head-regression.test.ts (2 tests | 2 failed) 56ms
+   × bounds the old synchronous repair at 512 vertex reads in its single caller resume 50ms
+   × avoids per-vertex fixed joint lookups 5ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  07:21:56
+   Duration  237ms (transform 45%, tests 33%, import 18%, setup 3%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/__old-head-regression.test.ts > bounds the old synchronous repair at 512 vertex reads in its single caller resume
+AssertionError: expected 35936 to be less than or equal to 512
+ ❯ tests/presentation/__old-head-regression.test.ts:12:24
+     10|     repairHeadWeights(data,p);
+     11|     console.log(JSON.stringify({id,reads,limit:512}));
+     12|     expect.soft(reads).toBeLessThanOrEqual(512);
+       |                        ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/presentation/__old-head-regression.test.ts > bounds the old synchronous repair at 512 vertex reads in its single caller resume
+AssertionError: expected 42137 to be less than or equal to 512
+ ❯ tests/presentation/__old-head-regression.test.ts:12:24
+     10|     repairHeadWeights(data,p);
+     11|     console.log(JSON.stringify({id,reads,limit:512}));
+     12|     expect.soft(reads).toBeLessThanOrEqual(512);
+       |                        ^
+     13|   }
+     14| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/presentation/__old-head-regression.test.ts > avoids per-vertex fixed joint lookups
+AssertionError: expected "indexOf" to not be called at all, but actually been called 200 times
+
+Received:
+
+  1st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  2nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  3rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  4th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  5th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  6th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  7th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  8th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  9th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  10th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  11th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  12th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  13th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  14th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  15th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  16th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  17th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  18th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  19th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  20th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  21st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  22nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  23rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  24th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  25th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  26th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  27th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  28th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  29th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  30th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  31st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  32nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  33rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  34th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  35th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  36th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  37th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  38th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  39th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  40th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  41st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  42nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  43rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  44th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  45th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  46th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  47th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  48th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  49th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  50th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  51st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  52nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  53rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  54th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  55th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  56th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  57th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  58th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  59th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  60th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  61st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  62nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  63rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  64th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  65th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  66th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  67th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  68th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  69th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  70th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  71st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  72nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  73rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  74th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  75th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  76th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  77th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  78th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  79th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  80th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  81st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  82nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  83rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  84th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  85th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  86th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  87th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  88th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  89th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  90th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  91st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  92nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  93rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  94th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  95th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  96th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  97th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  98th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  99th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  100th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  101st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  102nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  103rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  104th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  105th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  106th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  107th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  108th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  109th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  110th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  111th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  112th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  113th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  114th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  115th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  116th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  117th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  118th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  119th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  120th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  121st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  122nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  123rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  124th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  125th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  126th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  127th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  128th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  129th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  130th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  131st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  132nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  133rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  134th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  135th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  136th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  137th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  138th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  139th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  140th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  141st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  142nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  143rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  144th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  145th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  146th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  147th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  148th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  149th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  150th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  151st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  152nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  153rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  154th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  155th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  156th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  157th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  158th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  159th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  160th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  161st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  162nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  163rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  164th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  165th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  166th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  167th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  168th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  169th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  170th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  171st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  172nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  173rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  174th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  175th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  176th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  177th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  178th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  179th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  180th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  181st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  182nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  183rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  184th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  185th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  186th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  187th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  188th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  189th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  190th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  191st indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  192nd indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  193rd indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  194th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  195th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  196th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  197th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  198th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+  199th indexOf call:
+
+    Array [
+      "Head",
+    ]
+
+  200th indexOf call:
+
+    Array [
+      "headfront",
+    ]
+
+
+Number of calls: 200
+
+ ❯ tests/presentation/__old-head-regression.test.ts:18:171
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+

@@ -1,0 +1,318 @@
+{
+  "baseline": "3596f1e8b",
+  "candidate": "4fa37572b1ed33c27227a3519d948b16b2364f4e",
+  "rows": [
+    {
+      "pose": {
+        "name": "forest",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 872,
+            "triangles": 12992441
+          },
+          {
+            "draws": 872,
+            "triangles": 12992441
+          }
+        ],
+        "after": [
+          {
+            "draws": 872,
+            "triangles": 12992441
+          },
+          {
+            "draws": 872,
+            "triangles": 12992441
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "fence",
+        "camera": [
+          -2,
+          4.9,
+          45.4
+        ],
+        "target": [
+          -2,
+          2,
+          39.5
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 683,
+            "triangles": 8353879
+          },
+          {
+            "draws": 683,
+            "triangles": 8353879
+          }
+        ],
+        "after": [
+          {
+            "draws": 683,
+            "triangles": 8353879
+          },
+          {
+            "draws": 683,
+            "triangles": 8353879
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "run-round",
+        "camera": [
+          -11.3,
+          4.2,
+          45.3
+        ],
+        "target": [
+          -12.3,
+          2,
+          44.8
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 267,
+            "triangles": 2701511
+          },
+          {
+            "draws": 267,
+            "triangles": 2701511
+          }
+        ],
+        "after": [
+          {
+            "draws": 267,
+            "triangles": 2701511
+          },
+          {
+            "draws": 267,
+            "triangles": 2701511
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "bow",
+        "camera": [
+          -1.5,
+          4.1,
+          45.1
+        ],
+        "target": [
+          -4,
+          2,
+          46
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 316,
+            "triangles": 3210504
+          },
+          {
+            "draws": 316,
+            "triangles": 3210504
+          }
+        ],
+        "after": [
+          {
+            "draws": 316,
+            "triangles": 3210504
+          },
+          {
+            "draws": 316,
+            "triangles": 3210504
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "village",
+        "camera": [
+          -5,
+          4,
+          -10
+        ],
+        "target": [
+          -4,
+          2,
+          -2
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 623,
+            "triangles": 6666786
+          },
+          {
+            "draws": 623,
+            "triangles": 6666786
+          }
+        ],
+        "after": [
+          {
+            "draws": 623,
+            "triangles": 6666786
+          },
+          {
+            "draws": 623,
+            "triangles": 6666786
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "One native High world compares complete old/new head-weight outputs before installation, then renders identical installed state with frozen environment. Not independent-world arrival timing or CPU timing.",
+  "setup": {
+    "pairs": [
+      {
+        "equal": true,
+        "sourceVertices": 39356,
+        "originalSyncCalls": 1,
+        "candidateYields": 76
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35677,
+        "originalSyncCalls": 1,
+        "candidateYields": 69
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35677,
+        "originalSyncCalls": 1,
+        "candidateYields": 0
+      },
+      {
+        "equal": true,
+        "sourceVertices": 44607,
+        "originalSyncCalls": 1,
+        "candidateYields": 87
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "originalSyncCalls": 1,
+        "candidateYields": 128
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "originalSyncCalls": 1,
+        "candidateYields": 27
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35936,
+        "originalSyncCalls": 1,
+        "candidateYields": 70
+      },
+      {
+        "equal": true,
+        "sourceVertices": 42137,
+        "originalSyncCalls": 1,
+        "candidateYields": 82
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39484,
+        "originalSyncCalls": 1,
+        "candidateYields": 77
+      },
+      {
+        "equal": true,
+        "sourceVertices": 37313,
+        "originalSyncCalls": 1,
+        "candidateYields": 72
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "originalSyncCalls": 1,
+        "candidateYields": 27
+      },
+      {
+        "equal": true,
+        "sourceVertices": 69044,
+        "originalSyncCalls": 1,
+        "candidateYields": 134
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39935,
+        "originalSyncCalls": 1,
+        "candidateYields": 77
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65711,
+        "originalSyncCalls": 1,
+        "candidateYields": 128
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41033,
+        "originalSyncCalls": 1,
+        "candidateYields": 80
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41761,
+        "originalSyncCalls": 1,
+        "candidateYields": 81
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "originalSyncCalls": 1,
+        "candidateYields": 128
+      },
+      {
+        "equal": true,
+        "sourceVertices": 11387,
+        "originalSyncCalls": 1,
+        "candidateYields": 22
+      }
+    ],
+    "remaining": 0
+  },
+  "errors": [],
+  "residentWarnings": [],
+  "complete": true,
+  "sourceSha256": {
+    "src/presentation/npc/headWeights.ts": "cedfd1fd0b48b9a0b04ffda4abcf467a1b5c021cf765a1d0b9755dca4989567d",
+    "src/presentation/meshynpcs.ts": "74d3dec5cb24ea9cbc456ed36bb2e4f26b21a5a0ac4f76f71786f035a9e7b12e",
+    "src/presentation/npc/residentFingers.ts": "98ff523514e3d725350505ffeaada38f18797c7548b85eeb5e09356aff38075d"
+  }
+}
