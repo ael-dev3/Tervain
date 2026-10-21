@@ -39,6 +39,27 @@ describe('peaceful animated land wildlife', () => {
     } finally { module.dispose?.(); }
   });
 
+  it('avoids the second hierarchy walk and explicit skin refresh when no sole samples are selected', () => {
+    const source = animalFixture(), skin = source.scene.children.find(o => (o as THREE.SkinnedMesh).isSkinnedMesh) as THREE.SkinnedMesh;
+    const weights = skin.geometry.getAttribute('skinWeight'), joints = skin.geometry.getAttribute('skinIndex');
+    // Match the delivered Float32 paw weight: the current contact filter selects no sole samples.
+    for (let v = 0; v < weights.count; v++) if (weights.getX(v) === 1 && joints.getX(v) !== 2) {
+      weights.setXY(v, Math.fround(0.35), 0.65); joints.setY(v, 0);
+    }
+    const module = buildAnimals({ terrain: level as unknown as Terrain, colliders: new Colliders(), quality: 'low' }, new Map([[dog.id, source]]), [dog], () => {});
+    try {
+      const root = module.movers!()[0]!;
+      let skeleton: THREE.Skeleton | undefined;
+      root.traverse(o => { if ((o as THREE.SkinnedMesh).isSkinnedMesh) skeleton = (o as THREE.SkinnedMesh).skeleton; });
+      const matrices = vi.spyOn(root, 'updateMatrixWorld'), bones = vi.spyOn(skeleton!, 'update');
+      const start = module.snapshot()[0]!;
+      module.update(0.1, frame(new THREE.Vector3(start.x, 0, start.z + 18)));
+      expect(matrices).toHaveBeenCalledTimes(1);
+      expect(bones).not.toHaveBeenCalled();
+      expect(root.matrixWorld.elements[13]).toBe(root.position.y);
+    } finally { module.dispose?.(); }
+  });
+
   it('uses all nineteen unique source models, with the seated cat retaining seated gestures', () => {
     expect(ANIMALS).toHaveLength(19); expect(new Set(ANIMALS.map(animal => animal.id)).size).toBe(19);
     expect(ANIMALS.filter(animal => animal.species === 'cat')).toHaveLength(3);
