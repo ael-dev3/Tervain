@@ -42,7 +42,7 @@ const name = arg('--name', 'hero-oak');
 
 const LODS = {
   near: { trunk: 12, limb: 8, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
-  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
+  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1750, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
 
