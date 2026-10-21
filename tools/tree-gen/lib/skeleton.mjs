@@ -406,6 +406,22 @@ export const PEAR = {
   angle: [30, 50], elbow: { 1: 0.18, 2: 0.2 },
 };
 
+// The sentinel (A165): a tall broadleaf of the moist groves, a lime's habit. A slim, straight bole clear to about a third
+// of its height carries a leader to near the top; many limbs climb it and spread into a wide, rounded, dense crown that
+// shades the ground beneath. The orchard grower at a tree's scale: longer boughs and twigs, coarser steps.
+export const SENTINEL = {
+  ...APPLE,
+  height: 16,
+  trunkTop: [4.4, 5.2], trunkRadius: 0.34, flareGain: 0.55, flareDecay: 0.8,
+  scaffolds: [11, 14], scaffoldAngle: [36, 58], leader: true,
+  crown: { rh: [4.9, 5.15], rv: [5.6, 6.0], cy: 9.8 },
+  boughsPerLimb: [5, 7], twigsPerBough: [6, 9],
+  lateral: { 1: 0.66, 2: 0.62, 3: 0.6 },
+  angle: [35, 60], elbow: { 1: 0.12, 2: 0.18 },
+  minHeight: 2.6,
+  boughLength: [2.2, 3.6], twigLength: [0.9, 1.6], stepScale: 2.2, ringStep: 0.9,
+};
+
 export function fruitRadiusAt(y, P = APPLE) {
   const t = clamp(y / P.height, 0, 1);
   return P.trunkRadius * Math.max(0.2, 1 - 0.6 * t) * (1 + P.flareGain * Math.exp(-Math.max(y, 0) / P.flareDecay));
@@ -461,7 +477,7 @@ export function growFruit(seed, P = APPLE) {
   const trunkPts = [], trunkRadii = [];
   const leanX = rng.range(-0.3, 0.3), leanZ = rng.range(-0.3, 0.3), end = P.leader ? center.y + Rv * 0.75 : top + 0.25;
   const rings = [-0.6, -0.3, 0, 0.25, 0.5, 0.8, 1.1];
-  for (let y = 1.4; y < end; y += 0.45) rings.push(y);
+  for (let y = 1.4; y < end; y += P.ringStep ?? 0.45) rings.push(y);
   rings.push(end);
   for (const y of rings) {
     const t = Math.max(0, y) / end;
@@ -483,7 +499,7 @@ export function growFruit(seed, P = APPLE) {
     const th = polar * Math.PI / 180, az = az0 + k * 2.399963 + rng.range(-0.3, 0.3);
     const dir = new THREE.Vector3(Math.cos(az) * Math.sin(th), Math.cos(th), Math.sin(az) * Math.sin(th));
     const length = (Rv + Rh) * rng.range(0.75, 0.95);
-    limbs.push(grow({ start: f.p, dir, length, r0: Math.max(0.03, f.r * rng.range(...P.murray) * P.lateral[1]), taper: 0.62, level: 1, step: 0.45, wobble: 0.3, tropism: 0.06, droop: 0.1, parent: trunk, forkT: tAtY(y), rMin: 0.02 }));
+    limbs.push(grow({ start: f.p, dir, length, r0: Math.max(0.03, f.r * rng.range(...P.murray) * P.lateral[1]), taper: 0.62, level: 1, step: 0.45 * (P.stepScale ?? 1), wobble: 0.3, tropism: 0.06, droop: 0.1, parent: trunk, forkT: tAtY(y), rMin: 0.02 }));
   }
   // Boughs along the outer limb, and one carrying the limb on past its end (seen from under the open crown, a limb that
   // stopped short read as a sawn stub); short twigs (an orchard tree's spurs) along each bough.
@@ -494,13 +510,13 @@ export function growFruit(seed, P = APPLE) {
       const dir = k < 0 ? f.tan.clone() : forkDir(f.tan, (k % 2 ? 1 : -1) * rng.range(0.6, 2.4) + k * 1.3, rng.range(...P.angle));
       if (dir.y < -0.1) { dir.y = -0.1; dir.normalize(); }
       const r0 = k < 0 ? Math.max(0.012, limb.radii[Math.max(0, limb.radii.length - 2)] * 0.9) : Math.max(0.012, f.r * rng.range(...P.murray) * P.lateral[2]);
-      const bough = grow({ start: f.p, dir, length: rng.range(1.0, 2.0) * (1.15 - 0.35 * t), r0, taper: 0.66, level: 2, step: 0.32, wobble: 0.32, tropism: 0.05, droop: 0.25, parent: limb, forkT: t, rMin: 0.008 });
+      const bough = grow({ start: f.p, dir, length: rng.range(...(P.boughLength ?? [1.0, 2.0])) * (1.15 - 0.35 * t), r0, taper: 0.66, level: 2, step: 0.32 * (P.stepScale ?? 1), wobble: 0.32, tropism: 0.05, droop: 0.25, parent: limb, forkT: t, rMin: 0.008 });
       const nT = rng.int(...P.twigsPerBough);
       for (let m = 0; m < nT; m++) {
         const tt = lerp(0.15, 0.97, (m + rng.range(0.15, 0.85)) / nT), g = bough.at(tt);
         const d2 = forkDir(g.tan, m * 2.399 + rng.range(-0.5, 0.5), rng.range(...P.angle));
         if (d2.y < -0.3) { d2.y = -0.3; d2.normalize(); }
-        grow({ start: g.p, dir: d2, length: rng.range(0.35, 0.75) * (1.1 - 0.4 * tt), r0: Math.max(0.006, g.r * 0.7), taper: 0.6, level: 3, step: 0.2, wobble: 0.35, tropism: 0.04, droop: 0.3, parent: bough, forkT: tt, rMin: 0.004 });
+        grow({ start: g.p, dir: d2, length: rng.range(...(P.twigLength ?? [0.35, 0.75])) * (1.1 - 0.4 * tt), r0: Math.max(0.006, g.r * 0.7), taper: 0.6, level: 3, step: 0.2 * (P.stepScale ?? 1), wobble: 0.35, tropism: 0.04, droop: 0.3, parent: bough, forkT: tt, rMin: 0.004 });
       }
     }
   }

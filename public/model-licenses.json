@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 152,
-    "publicModelBytes": 186168704,
+    "publicModelFiles": 155,
+    "publicModelBytes": 188165956,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 361,
+    "hashesMatchedExistingSourceRecords": 364,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer’s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis “owner recollection, not individually verified”, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero’s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source’s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
@@ -2459,7 +2459,7 @@
         "creator": "Tervain project",
         "terms": "Original work of the Tervain project. Geometry, bark textures and the placeholder leaf atlas are computed by tools/tree-gen from seeded noise and algorithms written for Tervain; no third-party model, image, scan or Meshy output is an input. Rights are reserved by the project owner; LICENSE-SCOPE.md grants nothing for 3D models."
       },
-      "credit": "Hero oaks, birches, bushes and orchard trees: grown and textured procedurally by Tervain (tools/tree-gen).",
+      "credit": "Hero oaks, birches, bushes, orchard trees and sentinels: grown and textured procedurally by Tervain (tools/tree-gen).",
       "changes": "Generated at build time by tools/tree-gen/build.mjs (seeded; four-level branch skeleton, bark-relief tubes, buttress roots, leaf cards). Not derived from any other model.",
       "rightsBoundary": "Original Tervain procedural output. No Meshy, Community or third-party rights are involved.",
       "provenance": {
@@ -8383,6 +8383,57 @@
       "file": "public/models/flora/hero/hero-pine-near.glb",
       "bytes": 4655844,
       "sha256": "d1a99215d8a69f35732e2d9dea64e06c9696e77b503b9f5cc5c7c60751d15ed4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-sentinel-far.glb",
+      "bytes": 282284,
+      "sha256": "17dfe76661a073b0d70192d098a9404c75cacb70d00ef77623b709fe31c15291",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-sentinel-mid.glb",
+      "bytes": 858640,
+      "sha256": "4767ecd3d22851789e85148d495f22418e23e2891cd20856d2ed4797a6c8d999",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-sentinel-near.glb",
+      "bytes": 856328,
+      "sha256": "8d6bb1cbd894acc433b359303996ea946fd89eab38444424c85386de8b6638f8",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
