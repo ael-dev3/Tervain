@@ -14,7 +14,7 @@ function pickCell(rng) {
 }
 
 /** Candidate attachment points along the leaf-bearing outer part of the skeleton. */
-export function leafCandidates(sk, rng) {
+export function leafCandidates(sk, rng, o = {}) {
   const out = [];
   for (const b of sk.branches) {
     if (b.level < 1) continue;
@@ -43,7 +43,7 @@ export function leafCandidates(sk, rng) {
   // game's crown pass has leaf area to place clumps in the lower and middle crown and not only along the outer limbs.
   const hosts = sk.branches.filter((b) => b.level === 1 || b.level === 2), pts = [];
   for (const b of hosts) for (let i = 0; i <= 8; i++) { const f = b.at(i / 8); pts.push({ b, t: i / 8, f }); }
-  const want = Math.round(sk.Rh * sk.Rh * 7.5);
+  const want = Math.round(sk.Rh * sk.Rh * 7.5 * (o.fill ?? 1));
   for (let k = 0, got = 0; k < want * 6 && got < want; k++) {
     const u = rng(), v = rng(), w = rng(), r = Math.cbrt(0.1 + 0.9 * u), th = v * Math.PI * 2, ph = Math.acos(2 * w - 1);
     // Squash toward the shell: radius 0.55..1 of the envelope, density rising outward.

@@ -38,7 +38,7 @@ export const windLevel = (level, t) => clamp((level + 0.75 * t) / 3.75, 0, 1);
  * sides: ring vertex count. uTiles: how often the bark tile repeats around the girth. Returns the first/last ring indices.
  */
 export function addTube(mb, branch, o, bark) {
-  const { sides, uTiles, uOff, vOff, ringStep, relief, shape, lumps = 0, seed = 1, noRelief = false, vScale = 1, crownShade = null } = o;
+  const { sides, uTiles, uOff, vOff, ringStep, relief, shape, lumps = 0, seed = 1, noRelief = false, vScale = 1, crownShade = null, palette = null } = o;
   const pts = branch.points, rad = branch.radii, n = pts.length;
   // Frames by parallel transport along the polyline.
   const tans = branch.tangents, frames = [];
@@ -72,8 +72,10 @@ export function addTube(mb, branch, o, bark) {
       // Warm brown-olive wood with moss on the upper side and the lower trunk, varying limb to limb.
       const lv = ((branch.id * 2654435761) % 1000) / 1000, mossN = fbm3(c.x * 0.9 + dir.x, c.y * 0.9, c.z * 0.9 + dir.z, seed + 11, 2);
       const moss = clamp((0.55 * clamp(dir.y, 0, 1) + (branch.isTrunk ? 0.5 * (1 - smoothstep(0.2, 3.2, y)) : 0.1) + 0.35 * (lv - 0.5)) * (0.4 + 1.2 * mossN), 0, 0.5);
-      const warm = [0.94, 0.84 + 0.03 * lv, 0.76 + 0.08 * lv], mossC = [0.76, 0.9, 0.66];
-      const tr = lerp(warm[0], mossC[0], moss), tg = lerp(warm[1], mossC[1], moss), tb = lerp(warm[2], mossC[2], moss);
+      // A palette (another species) replaces the oak's warm tint, scales its moss and may darken the trunk's foot and the thin wood.
+      const warm = palette ? palette.warm : [0.94, 0.84 + 0.03 * lv, 0.76 + 0.08 * lv], mossC = [0.76, 0.9, 0.66], mk = palette ? moss * palette.moss : moss;
+      const tone = palette ? (branch.isTrunk ? palette.foot(p.y, mossN) : palette.level[branch.level] ?? 1) : 1;
+      const tr = lerp(warm[0], mossC[0], mk) * tone, tg = lerp(warm[1], mossC[1], mk) * tone, tb = lerp(warm[2], mossC[2], mk) * tone;
       const sh = crownShade ? lerp(1, crownShade(p, branch), smoothstep(0, 1, branch.cum[i] / (1.2 + 2.5 * rad[0]))) : 1, cool = [lerp(0.82, 1, sh), 1, lerp(0.9, 1, sh)];
       const vi = mb.vertex(p, [u, v], [Math.round(ao * tr * sh * cool[0]), Math.round(ao * tg * sh * cool[1]), Math.round(ao * tb * sh * cool[2]), 255], wind, pivot, [dir.x, dir.y, dir.z]);
       if (s === 0) seam.push([vi, vi + sides]);

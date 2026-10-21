@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 131,
-    "publicModelBytes": 176216708,
+    "publicModelFiles": 140,
+    "publicModelBytes": 181983920,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 340,
+    "hashesMatchedExistingSourceRecords": 349,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer’s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis “owner recollection, not individually verified”, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero’s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source’s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
@@ -2459,7 +2459,7 @@
         "creator": "Tervain project",
         "terms": "Original work of the Tervain project. Geometry, bark textures and the placeholder leaf atlas are computed by tools/tree-gen from seeded noise and algorithms written for Tervain; no third-party model, image, scan or Meshy output is an input. Rights are reserved by the project owner; LICENSE-SCOPE.md grants nothing for 3D models."
       },
-      "credit": "Hero oak: grown and textured procedurally by Tervain (tools/tree-gen).",
+      "credit": "Hero oaks and birches: grown and textured procedurally by Tervain (tools/tree-gen).",
       "changes": "Generated at build time by tools/tree-gen/build.mjs (seeded; four-level branch skeleton, bark-relief tubes, buttress roots, leaf cards). Not derived from any other model.",
       "rightsBoundary": "Original Tervain procedural output. No Meshy, Community or third-party rights are involved.",
       "provenance": {
@@ -7834,6 +7834,159 @@
         "provenanceBasis": "owner recollection, not individually verified"
       },
       "modified": true
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-b-far.glb",
+      "bytes": 143796,
+      "sha256": "50bc5fd78c893896bffd25df5151ce9cd02f283ebc38fe648ef8490beb402856",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-b-mid.glb",
+      "bytes": 897880,
+      "sha256": "ee379af52e8afe26e49ba6ed5957b0a85ae4fd7f2a02576388fad684c14a1b09",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-b-near.glb",
+      "bytes": 692736,
+      "sha256": "fc00d7cfbf5bb7b68433641297ec2d6e69c560801d78baf1f4a1fc353a4a0da4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-c-far.glb",
+      "bytes": 149392,
+      "sha256": "06d18babfd9887664f71ebaf75e26e2fffa0aa4726954449a0c1e1fc63b29504",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-c-mid.glb",
+      "bytes": 893296,
+      "sha256": "f1fc47fcc24e9355032674bd6647ea369821d32fe10e093d73966d0e62b70a1d",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-c-near.glb",
+      "bytes": 668072,
+      "sha256": "dae76b0e7a84a95db483a63f8f1badbfb18e67ce5196355302bd5aa28d703802",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-far.glb",
+      "bytes": 146820,
+      "sha256": "49bb486c308cb21da371955750f893399b720a01cc6ec3a7ea1064f7a5168fda",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-mid.glb",
+      "bytes": 864016,
+      "sha256": "e8820ac8671d63e33fc0dc2429fd5d521ebf4541e6659a35ec30d67782af54c9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
+    },
+    {
+      "file": "public/models/flora/hero/hero-birch-near.glb",
+      "bytes": 1311204,
+      "sha256": "0bc469167bf8d6b09b96d9fe8f74141d48be38cd3a18a711575f9fa9f536b986",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "tervain-hero-oak",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "tervain-original-procedural",
+        "creator": "Tervain project"
+      },
+      "modified": false
     },
     {
       "file": "public/models/flora/hero/hero-oak-b-far.glb",

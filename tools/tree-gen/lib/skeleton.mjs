@@ -182,3 +182,120 @@ export function growOak(seed, P = OAK) {
   for (const b of branches) b.parentPhase = b.parent ? b.parent.phase : 0;
   return { branches, trunk, limbs, center, envelope, seed, Rh, Rv };
 }
+
+// Silver birch (Betula pendula): one slender stem runs nearly to the top; slim limbs climb from it, arch outward and let
+// their boughs and twigs hang (the pendula habit), so the crown is a narrow, open ovoid of hanging curtains with sky
+// between them.
+export const BIRCH = {
+  height: 16,
+  trunkRadius: 0.24,        // at 1.5 m, metres
+  flareGain: 0.55, flareDecay: 0.6,
+  crownBase: [4.6, 5.8],    // the lowest limbs: forest birches shed their lower branches
+  limbs: [11, 14], boughsPerLimb: [5, 8], twigsPerBough: [5, 9],
+  boughSpan: [0.25, 0.95],
+  murray: [0.72, 0.8], lateral: { 1: 0.66, 2: 0.62, 3: 0.6 },
+  angle: [30, 55],
+  minHeight: 2.4,
+};
+
+export function birchRadiusAt(y, P = BIRCH) {
+  const t = clamp(y / P.height, 0, 1);
+  return P.trunkRadius * Math.max(0.1, 1 - 0.9 * Math.pow(t, 1.1)) * (1 + P.flareGain * Math.exp(-Math.max(y, 0) / P.flareDecay));
+}
+
+export function growBirch(seed, P = BIRCH) {
+  const rng = makeRng(seed), branches = [];
+  const H = P.height * rng.range(0.95, 1.05), yb = rng.range(...P.crownBase);
+  const center = new THREE.Vector3(rng.range(-0.3, 0.3), yb + (H - yb) * 0.46, rng.range(-0.3, 0.3));
+  const Rh = rng.range(3.3, 4.1), Rv = (H - yb) * 0.56 + 0.5;
+  // Crown envelope (>1 outside): an ovoid, widest a little below its middle and drawn to a point at the top.
+  const widthAt = (y, m) => Rh * m * (y > center.y ? 1 - 0.62 * Math.pow((y - center.y) / Rv, 2) : 1 - 0.2 * Math.pow((y - center.y) / Rv, 2));
+  const envelope = (p) => {
+    const m = 0.8 + 0.42 * fbm3(p.x * 0.3, p.y * 0.3, p.z * 0.3, seed, 3);
+    const w = Math.max(0.3, widthAt(p.y, m)), dx = (p.x - center.x) / w, dz = (p.z - center.z) / w, dy = (p.y - center.y) / Rv;
+    return dx * dx + dz * dz + dy * dy;
+  };
+  const newPhase = () => rng() * Math.PI * 2;
+
+  // Limbs arch: they rise, then bend out and a little down along their length. Boughs and twigs hang: the droop wins
+  // over their launch angle within a few steps. No path turns back up on itself.
+  function grow(o) {
+    const { start, level, step, wobble, tropism, droop, length, r0, taper } = o;
+    const pts = [start.clone()], d = o.dir.clone().normalize(), prev = d.clone();
+    const maxTurn = level === 1 ? 0.3 : 0.45, minY = level === 1 ? -0.35 : -0.97;
+    const n = Math.max(2, Math.round(length / step)), seg = length / n;
+    for (let i = 1; i <= n; i++) {
+      const t = i / n, last = pts[pts.length - 1];
+      d.x += rng.gauss() * wobble * 0.5; d.y += rng.gauss() * wobble * 0.25; d.z += rng.gauss() * wobble * 0.5;
+      d.y += tropism * (1 - t);
+      // Boughs and twigs sag from their first step; a limb's load tells only toward its end.
+      d.y -= droop * (level >= 2 ? 0.6 + 0.4 * t : t);
+      const q = envelope(last);
+      if (level === 1 && q > 0.8) { const out = last.clone().sub(center).setY(0).normalize(); d.addScaledVector(out, -0.3 * (q - 0.8) * 2); }
+      d.normalize();
+      if (d.y < minY) { d.y = minY; d.normalize(); }
+      const turn = Math.acos(clamp(d.dot(prev), -1, 1));
+      if (turn > maxTurn) d.copy(prev).lerp(d, maxTurn / turn).normalize();
+      prev.copy(d);
+      const p = last.clone().addScaledVector(d, seg);
+      if (p.y < P.minHeight) p.y = lerp(p.y, P.minHeight, 0.8);
+      pts.push(p);
+      if (i > 2 && envelope(p) > (level === 1 ? 0.92 : 1.0)) break;
+    }
+    const radii = pts.map((_, i) => Math.max(o.rMin ?? 0.008, r0 * (1 - taper * Math.pow(i / (pts.length - 1), 0.9))));
+    radii[radii.length - 1] = level === 3 ? 0.004 : 0.008;
+    const b = new Branch({ level, points: pts, radii, phase: newPhase(), parent: o.parent ?? null, forkT: o.forkT ?? 0, id: branches.length });
+    b.finish(); branches.push(b); o.parent?.children.push(b); return b;
+  }
+
+  // Trunk: the leader runs to the top, leaning a little and wandering at low frequency.
+  const trunkPts = [], trunkRadii = [];
+  const leanX = rng.range(-0.5, 0.5), leanZ = rng.range(-0.5, 0.5);
+  // Close rings at the foot carry its dark, ragged edge (the mesher paints it per vertex).
+  const rings = [-1.2, -0.7, -0.3, 0.1, 0.4, 0.7, 1.0, 1.3, 1.6, 2.0, 2.4];
+  for (let y = 3.0; y < H - 0.4; y += 0.7) rings.push(y);
+  rings.push(H);
+  for (const y of rings) {
+    const t = Math.max(0, y) / H;
+    trunkPts.push(new THREE.Vector3(leanX * t * t + (fbm3(y * 0.3, 1, 0, seed) - 0.5) * 0.5 * t, y, leanZ * t * t + (fbm3(y * 0.3, 7, 0, seed + 3) - 0.5) * 0.5 * t));
+    trunkRadii.push(y >= H ? 0.012 : birchRadiusAt(Math.max(y, 0), { ...P, height: H }));
+  }
+  const trunk = new Branch({ level: 0, points: trunkPts, radii: trunkRadii, phase: 0, parent: null, forkT: 0, id: 0, isTrunk: true });
+  trunk.finish(); branches.push(trunk);
+
+  const frame = (tan) => { const ref = Math.abs(tan.y) < 0.95 ? UP : new THREE.Vector3(1, 0, 0); const u = new THREE.Vector3().crossVectors(ref, tan).normalize(), w = new THREE.Vector3().crossVectors(tan, u); return [u, w]; };
+  const forkDir = (tan, az, polarDeg) => { const [u, w] = frame(tan), th = polarDeg * Math.PI / 180; return tan.clone().multiplyScalar(Math.cos(th)).addScaledVector(u, Math.cos(az) * Math.sin(th)).addScaledVector(w, Math.sin(az) * Math.sin(th)).normalize(); };
+  const tAtY = (y) => { let i = 1; while (i < trunk.points.length - 1 && trunk.points[i].y < y) i++; const p0 = trunk.points[i - 1], p1 = trunk.points[i], f = clamp((y - p0.y) / Math.max(1e-6, p1.y - p0.y), 0, 1); return (trunk.cum[i - 1] + f * (trunk.cum[i] - trunk.cum[i - 1])) / trunk.length; };
+
+  // Limbs on a golden-angle spiral up the stem: low ones spread wide, high ones climb steeply and stay short.
+  const limbs = [], nL = rng.int(...P.limbs), az0 = rng() * Math.PI * 2;
+  for (let k = 0; k < nL; k++) {
+    const h = (k + rng.range(0.15, 0.85)) / nL, y = lerp(yb, H - 1.4, Math.pow(h, 0.85));
+    const f = trunk.at(tAtY(y)), polar = lerp(64, 26, h) + rng.range(-6, 6);
+    // World directions: the polar angle is taken from vertical, not from the leaning stem.
+    const th = polar * Math.PI / 180, az = az0 + k * 2.399963 + rng.range(-0.35, 0.35);
+    const dir = new THREE.Vector3(Math.cos(az) * Math.sin(th), Math.cos(th), Math.sin(az) * Math.sin(th));
+    const reach = widthAt(y, 1) * rng.range(0.85, 1.15) / Math.max(0.35, Math.sin(th));
+    const length = clamp(reach, 1.4, 6.2);
+    limbs.push(grow({ start: f.p, dir, length, r0: Math.max(0.035, f.r * rng.range(...P.murray) * P.lateral[1]), taper: 0.68, level: 1, step: 0.55, wobble: 0.16, tropism: 0.1, droop: lerp(0.16, 0.05, h), parent: trunk, forkT: tAtY(y), rMin: 0.016 }));
+  }
+  // Boughs hang from the outer limb; twigs hang from the boughs.
+  for (const limb of limbs) {
+    const nB = Math.max(2, Math.round(rng.int(...P.boughsPerLimb) * clamp(limb.length / 4.5, 0.45, 1.1)));
+    for (let k = 0; k < nB; k++) {
+      const t = lerp(...P.boughSpan, (k + rng.range(0.1, 0.9)) / nB);
+      const f = limb.at(t), az = (k % 2 ? 1 : -1) * rng.range(0.9, 2.2) + k * 1.3;
+      const dir = forkDir(f.tan, az, rng.range(...P.angle)); dir.y -= 0.55; dir.normalize();
+      const length = rng.range(1.3, 2.8) * (1.1 - 0.4 * t);
+      const bough = grow({ start: f.p, dir, length, r0: Math.max(0.012, f.r * rng.range(...P.murray) * P.lateral[2]), taper: 0.7, level: 2, step: 0.4, wobble: 0.2, tropism: 0.02, droop: 0.8, parent: limb, forkT: t, rMin: 0.009 });
+      const nT = rng.int(...P.twigsPerBough);
+      for (let m = 0; m < nT; m++) {
+        const tt = lerp(0.15, 0.95, (m + rng.range(0.15, 0.85)) / nT), g = bough.at(tt);
+        const d2 = forkDir(g.tan, m * 2.399 + rng.range(-0.5, 0.5), rng.range(...P.angle)); d2.y -= 0.6; d2.normalize();
+        grow({ start: g.p, dir: d2, length: rng.range(0.5, 1.2) * (1.05 - 0.35 * tt), r0: Math.max(0.008, g.r * 0.7), taper: 0.6, level: 3, step: 0.3, wobble: 0.22, tropism: 0, droop: 0.95, parent: bough, forkT: tt, rMin: 0.005 });
+      }
+    }
+  }
+  for (const b of branches) b.parentPhase = b.parent ? b.parent.phase : 0;
+  return { branches, trunk, limbs, center, envelope, seed, Rh, Rv, height: H, crownBase: yb };
+}

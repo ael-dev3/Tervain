@@ -101,6 +101,73 @@ export function generateBark(size = BARK_SIZE, seed = 7) {
   return { albedo, normal, height, size: S, heightSize: D, twigU };
 }
 
+/**
+ * Silver birch bark, the same outputs as generateBark: chalk-white papery bark in faint horizontal bands, scattered dark
+ * lenticels (short horizontal dashes), and a few black marks where branches were shed. The dark fissured foot of the
+ * trunk varies with height, so the mesher paints it (addTube's palette), not this tile. One tile spans about 1.5 m
+ * around a trunk and 2 m along it.
+ */
+export function generateBirchBark(size = BARK_SIZE, seed = 17) {
+  const pn = makePNoise(seed), pw = makePNoise(seed + 101), pm = makePNoise(seed + 303);
+  const S = size, H = new Float32Array(S * S), dark = new Float32Array(S * S), tone = new Float32Array(S * S);
+  const N = (f, u, v, px, py) => f(u * px, v * py, px, py);
+  const hash = (x, y, k) => { let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k + seed * 131, 2147483647); h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
+  // Lenticels: at most one dash per cell of a periodic grid, 2 to 7 cm long and a few millimetres tall.
+  const GX = 20, GY = 64;
+  const lenticel = (u, v) => {
+    const cx = Math.floor(u * GX), cy = Math.floor(v * GY); let best = 0;
+    for (let j = -1; j <= 1; j++) for (let i = -2; i <= 2; i++) {
+      const nx = cx + i, ny = cy + j, wx = ((nx % GX) + GX) % GX, wy = ((ny % GY) + GY) % GY;
+      if (hash(wx, wy, 1) > 0.36) continue;
+      const len = (0.012 + 0.035 * hash(wx, wy, 2)) * GX, thick = (0.0022 + 0.0026 * hash(wx, wy, 3)) * GY;
+      const px = nx + hash(wx, wy, 4), py = ny + hash(wx, wy, 5);
+      const dx = (u * GX - px) / (len * 0.5), dy = (v * GY - py + 0.18 * dx * dx * (hash(wx, wy, 6) - 0.5)) / (thick * 0.5);
+      const e = Math.pow(Math.pow(Math.abs(dx), 4) + Math.pow(Math.abs(dy), 2), 0.5);
+      best = Math.max(best, (1 - smoothstep(0.6, 1.0, e)) * (0.55 + 0.45 * hash(wx, wy, 7)));
+    }
+    return best;
+  };
+  for (let j = 0; j < S; j++) {
+    const v = j / S;
+    for (let i = 0; i < S; i++) {
+      const u = i / S, n = j * S + i;
+      const wx = 0.01 * N(pw, u, v, 4, 9), wy = 0.004 * N(pw, u + 0.5, v, 9, 4);
+      const x = u + wx, y = v + wy;
+      const len = lenticel(x, y);
+      // Black marks: a few broad horizontal patches with ragged edges, wider around the trunk than tall.
+      const markField = N(pn, x, y, 3, 14) * 0.75 + 0.25 * N(pn, x + 0.3, y, 11, 40);
+      const mark = smoothstep(0.3, 0.36, markField) * (0.75 + 0.25 * N(pm, x, y, 60, 120));
+      // Papery bands: faint horizontal strips of warmer or greyer white, and a fine horizontal striation.
+      const band = N(pw, u, v, 2, 26) * 0.7 + 0.3 * N(pw, u + 0.2, v, 5, 70);
+      const fine = N(pm, u, v, 40, 400) * 0.5 + 0.5 * N(pm, u, v, 120, 900);
+      dark[n] = clamp(Math.max(len, mark), 0, 1);
+      tone[n] = band;
+      H[n] = clamp(0.62 + 0.05 * band + 0.03 * fine - 0.28 * len - 0.22 * mark, 0, 1);
+    }
+  }
+  const albedo = new Uint8Array(S * S * 3), normal = new Uint8Array(S * S * 3);
+  const k = 3.2;
+  for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
+    const n = j * S + i;
+    const l = H[j * S + ((i + S - 1) % S)], r = H[j * S + ((i + 1) % S)], up = H[((j + S - 1) % S) * S + i], dn = H[((j + 1) % S) * S + i];
+    let nx = -(r - l) * k * 3.2, ny = (dn - up) * k * 3.2, nz = 1;
+    const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
+    normal[n * 3] = Math.round((nx * 0.5 + 0.5) * 255); normal[n * 3 + 1] = Math.round((ny * 0.5 + 0.5) * 255); normal[n * 3 + 2] = Math.round((nz * 0.5 + 0.5) * 255);
+    const b = tone[n], d = dark[n];
+    // Chalk white, a little warm in some bands and grey in others; lenticels and marks are a soft charcoal.
+    let R = 214 + 14 * b, G = 210 + 9 * b, B = 199 + 3 * b;
+    R = lerp(R, 54, d); G = lerp(G, 52, d); B = lerp(B, 50, d);
+    albedo[n * 3] = clamp(Math.round(R), 0, 255); albedo[n * 3 + 1] = clamp(Math.round(G), 0, 255); albedo[n * 3 + 2] = clamp(Math.round(B), 0, 255);
+  }
+  const D = 256, f = S / D, height = new Float32Array(D * D);
+  for (let j = 0; j < D; j++) for (let i = 0; i < D; i++) {
+    let s = 0; for (let b = 0; b < f; b++) for (let a = 0; a < f; a++) s += H[(j * f + b) * S + i * f + a];
+    height[j * D + i] = s / (f * f);
+  }
+  // Twigs sample the plain white: no strip of this tile is darker than another on average.
+  return { albedo, normal, height, size: S, heightSize: D, twigU: 0.5 };
+}
+
 /** Bilinear periodic lookup of the relief height (0..1) at texture coordinates (u, v). */
 export function barkHeight(bark, u, v) {
   const D = bark.heightSize, x = ((u % 1) + 1) % 1 * D, y = ((v % 1) + 1) % 1 * D;
