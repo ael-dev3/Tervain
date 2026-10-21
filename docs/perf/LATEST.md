@@ -222,11 +222,12 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 
 ## 0.0.43: generated bushes, 2026-10-21
 
-- Per template in game (wood plus leaves), supplied shrubs (tree-1521 / tree-4949) → generated (hero-bush / -b / -c): near 14,409 / 13,542 → 4,634 / 4,480 / 4,316; middle 8,508 / 7,763 → 1,910 / 1,878 / 1,778; far 2,837 / 2,404 → 578 / 586 / 556. Over the 62 shrubs as placed: near 14,199 → 4,484, middle 8,328 → 1,855, far 2,732 → 572.
-- Download: +2,153,700 bytes (nine bush files, no images: they borrow the oak's). The supplied shrubs still load, because their footprints place the bushes.
+- Per template in game (wood plus leaves), supplied shrubs (tree-1521 / tree-4949) → generated (hero-bush / -b): near 14,409 / 13,542 → 4,268 / 4,062; middle 8,508 / 7,763 → 2,106 / 2,126; far 2,837 / 2,404 → 1,220 / 1,230. Over the 62 shrubs as placed: near 14,199 → 4,218, middle 8,328 → 2,111, far 2,732 → 1,222.
+- Every draw at the budget gate's pose, one frame: 241 on live and on the candidate.
+- Download: +1,653,668 bytes (six bush files, no images: they borrow the oak's). The supplied shrubs still load, because their footprints place the bushes.
 - A real-play walk past a shrub group, against live 0.0.42:
-  - Flicker spikes of 40+ levels: −13.2% in the upper 45% of the frame, −2.0% over the whole frame.
-  - Spikes of 60+ levels: −8.4% over the whole frame.
-  - The oak's leaf colour untinted: −9.1%, +2.8% and −3.3%; not taken.
+  - Flicker spikes of 40+ levels: −11.5% in the upper 45% of the frame, −4.8% over the whole frame.
+  - Spikes of 60+ levels: −11.1% over the whole frame.
+- Not taken: a wider, lower dome (2.4 to 2.5 m across at 1.5 m, against the shrubs' 1.7 m), which drew three more draws at the gate's pose, and three bush templates, which split the shrubs' batches.
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
 - Details: docs/engineering/a163-0043-generated-bushes.md. Budget gate against live on the release head: in the release PR.

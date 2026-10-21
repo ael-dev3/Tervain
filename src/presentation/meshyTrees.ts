@@ -26,13 +26,20 @@ export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan'
  */
 export const HERO_OAK_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_BIRCH_IDS = ['hero-birch', 'hero-birch-b', 'hero-birch-c'] as const;
-export const HERO_BUSH_IDS = ['hero-bush', 'hero-bush-b', 'hero-bush-c'] as const;
+export const HERO_BUSH_IDS = ['hero-bush', 'hero-bush-b'] as const;
 export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS] as const;
 /** A lobed crown's wood is trimmed only beyond this share of the crown's radii (trimExposedWood). */
 const LOBED_TRIM_SHELL = 0.85;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
-/** The generated family that replaces a species' supplied variants; a tree assigned a source explicitly keeps it. */
-const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = { oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: HERO_BUSH_IDS };
+/**
+ * The generated family that replaces a species' supplied variants, slot for slot; a tree assigned a source explicitly keeps
+ * it. The bushes repeat their first template where the supplied shrubs repeat tree-1521, so they draw as many templates (A163).
+ */
+const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = { oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: [HERO_BUSH_IDS[0], HERO_BUSH_IDS[1], HERO_BUSH_IDS[0]] };
+/** The generated tree that stands in a species slot for this placement seed, or undefined where the species keeps its supplied trees. */
+export function heroFamilyId(species: Species, seed: number): string | undefined {
+  const family = HERO_FAMILY[species]; return family?.[Math.abs(seed) % family.length];
+}
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
@@ -557,7 +564,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // A generated family (flag-gated; its templates are loaded only then) replaces every variant of its species.
       const family = !explicit && !forceLive ? HERO_FAMILY[species] : undefined;
-      const id = family && templates.has(family[0]!) ? family[Math.abs(seed) % family.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = family && templates.has(family[0]!) ? heroFamilyId(species, seed)! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);

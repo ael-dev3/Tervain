@@ -301,11 +301,11 @@ export function growBirch(seed, P = BIRCH) {
 }
 
 // A bush (hazel-like, A163): many slim stems leave the ground together, fan out and arch over; their branches and twigs
-// carry the leaves on a low, wide dome that stays open underneath, so the stems show between the ground and the leaves.
-// Not a small tree: no single stem, no trunk.
+// carry the leaves on a rounded dome down to near the ground. Not a small tree: no single stem, no trunk. The dome is about
+// as wide as it is tall, the supplied shrubs' footprint, which placement, clearings and culling were tuned to.
 export const BUSH = {
   height: 1.7,
-  stems: [7, 10], stemAngle: [10, 52],   // degrees from vertical, inner stems steeper
+  stems: [7, 10], stemAngle: [8, 40],   // degrees from vertical, inner stems steeper
   branchesPerStem: [3, 5], twigsPerBranch: [3, 5],
   stemRadius: [0.016, 0.03],
 };
@@ -316,9 +316,9 @@ export function bushRadiusAt(y, P = BUSH) {
 
 export function growBush(seed, P = BUSH) {
   const rng = makeRng(seed), branches = [];
-  const H = P.height * rng.range(0.85, 1.15), Rh = H * rng.range(0.62, 0.8), Rv = H * 0.55;
+  const H = P.height * rng.range(0.85, 1.15), Rh = H * rng.range(0.34, 0.4), Rv = H * 0.55;
   const center = new THREE.Vector3(rng.range(-0.08, 0.08), H * 0.5, rng.range(-0.08, 0.08));
-  // Envelope (>1 outside): a dome, a little flattened, its lower edge lifted so the leaves leave the stems' base bare.
+  // Envelope (>1 outside): a rounded dome, irregular at its edge, its lower edge a little above the ground.
   const envelope = (p) => {
     const m = 0.82 + 0.36 * fbm3(p.x * 1.6, p.y * 1.6, p.z * 1.6, seed, 3);
     const dx = (p.x - center.x) / (Rh * m), dz = (p.z - center.z) / (Rh * m), dy = (p.y - center.y) / (Rv * (p.y > center.y ? 1.0 : 0.8));

@@ -3,11 +3,11 @@
   "reviewedAt": "2026-10-06",
   "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 149,
-    "publicModelBytes": 184129876,
+    "publicModelFiles": 146,
+    "publicModelBytes": 183629844,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 358,
+    "hashesMatchedExistingSourceRecords": 355,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Meshy sources are classified by recorded evidence (A73, correcting A72; A75 applies the owner's answer). 20 sources the project generated through its own Meshy API calls, with task ids recorded (the 17 furniture pieces, the 17 resident rigs, the resident motion library and the wanderer’s Meshy 7.1 body), are paid-plan Customer Output (Meshy terms, Last Updated 19 September 2026, section 3.2). 52 supplied sources are classified as Meshy Community downloads, 3D models under CC0 1.0 (section 3.3(a)), on the owner's answer of 2026-10-09 that they are probably all Community downloads: provenance basis “owner recollection, not individually verified”, creators and listing URLs not recorded. 2 supplied sources stay unresolved because repository records contradict that recollection (wanderer-historical, wanderer-animated). No commercial-clearance certificate is asserted. The animated hero’s Mixamo-named skeleton/animation content matches Meshy rigging and its animation library by public evidence and follows that source’s unresolved Meshy provenance; the Warpkeep archive has its own per-set records.",
     "meshyProvenance": {
@@ -7990,8 +7990,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-b-far.glb",
-      "bytes": 68220,
-      "sha256": "4feb4de99698cca5979ecaec28fff5ddf495626380cf53b1b57d318db0b56464",
+      "bytes": 156588,
+      "sha256": "2be3b3d03a8b0eba00f24fb8ee0a212eec42141613b1b7da874556edbbd6fe81",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8007,8 +8007,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-b-mid.glb",
-      "bytes": 206044,
-      "sha256": "f5dfbed5de6f148d94b3d4163efbb2c53f5a92a23189e2d345a60c6971fbdb0a",
+      "bytes": 247156,
+      "sha256": "049d813608bddf6c9a8d78428299df170d787c9825e0f132c28f204bf0cb96c4",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8024,59 +8024,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-b-near.glb",
-      "bytes": 444396,
-      "sha256": "973daed24507c48aa46b52103e588e646b6c88b1727d62047da8fa5d91155ffa",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-oak",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
-    },
-    {
-      "file": "public/models/flora/hero/hero-bush-c-far.glb",
-      "bytes": 66764,
-      "sha256": "315ea1af820729bf2a41b1d67d1b0d0e8d67c9ca651b19250770d6addf3d2ef7",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-oak",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
-    },
-    {
-      "file": "public/models/flora/hero/hero-bush-c-mid.glb",
-      "bytes": 198280,
-      "sha256": "03abe414d549f02737ed2d0bbbd8b13299d93b0068978450416b5980c905c4a4",
-      "embeddedCopyright": null,
-      "embeddedCcDeclaration": false,
-      "externalDependencies": [],
-      "scope": "original-game-model-catalog",
-      "sourceId": "tervain-hero-oak",
-      "license": {
-        "spdx": null,
-        "version": null,
-        "evidenceStatus": "tervain-original-procedural",
-        "creator": "Tervain project"
-      },
-      "modified": false
-    },
-    {
-      "file": "public/models/flora/hero/hero-bush-c-near.glb",
-      "bytes": 436632,
-      "sha256": "3ea33f73b960d92fa6c29168a628e4a10cd159f0a63c3fb51c13fdda7cb834e0",
+      "bytes": 410404,
+      "sha256": "38ea1ab45c2e5a8fb04d755009b2395bdbc4a680e00b08228fad847399c0640c",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8092,8 +8041,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-far.glb",
-      "bytes": 67664,
-      "sha256": "dac083f993be526035dfd64666b59677a8fff22ca4ce345ea93d6db010a98479",
+      "bytes": 155760,
+      "sha256": "e8e73a717260b240797d68939c8f288e83e9bcfc7fd2383381cc10ab877a2b98",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8109,8 +8058,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-mid.glb",
-      "bytes": 208028,
-      "sha256": "44cbf13ef64a3e7ab360b87b08e688b436c42457b9a45428d2d9fd90a95c346a",
+      "bytes": 246140,
+      "sha256": "3d180a046c6ea0e5d33f89623e88ef3a4ca5052a30cc650ccbb969e61ff06f88",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],
@@ -8126,8 +8075,8 @@
     },
     {
       "file": "public/models/flora/hero/hero-bush-near.glb",
-      "bytes": 457672,
-      "sha256": "087d64ccc280190ca4dd65e0c615ccff4680cd386df5ba6fbad13b5cc7d1f2e2",
+      "bytes": 437620,
+      "sha256": "3e3cd5ae5acf74585d78994e1ce2ee7cd494a288b2d0b28650744229ab48ce87",
       "embeddedCopyright": null,
       "embeddedCcDeclaration": false,
       "externalDependencies": [],

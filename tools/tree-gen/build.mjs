@@ -60,11 +60,12 @@ const BIRCH_LODS = {
 // Birch bark keeps a neutral tint and little moss, a light grey rather than chalk white: whiter bark flickered against the
 // foliage swaying in front of it (A160). Its foot is dark for a metre or two; its limbs and twigs are greyer than its stem.
 const BIRCH_PALETTE = { warm: [0.76, 0.75, 0.73], moss: 0.25, level: { 1: 0.7, 2: 0.6, 3: 0.45 }, foot: (y, n) => lerp(0.1, 1, smoothstep(1.0, 2.8, y + 1.6 * (n - 0.5))) };
-// A bush is small and seen close: slim stems, small leaf cards, twigs at the near level (A163).
+// A bush is small and seen close: slim stems, small leaf cards, twigs at the near level (A163). Every level keeps the near
+// cards' size, so no level's leaves reach past the near crown's outline.
 const BUSH_LODS = {
   near: { trunk: 6, limb: 5, bough: 4, twig: 3, root: 0, stride: 1, twigs: true, boughs: true, rootRings: 1, clusters: 420, cards: 3, cardRows: 1, sizeScale: 0.42, skirtSeg: 0 },
-  mid: { trunk: 4, limb: 4, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 220, cards: 3, cardRows: 1, sizeScale: 0.55, skirtSeg: 0 },
-  far: { trunk: 3, limb: 3, bough: 0, twig: 0, root: 0, stride: 3, twigs: false, boughs: false, rootRings: 1, clusters: 70, cards: 3, cardRows: 1, sizeScale: 0.85, skirtSeg: 0 },
+  mid: { trunk: 4, limb: 4, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 300, cards: 3, cardRows: 1, sizeScale: 0.45, skirtSeg: 0 },
+  far: { trunk: 3, limb: 3, bough: 0, twig: 0, root: 0, stride: 3, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 0.45, skirtSeg: 0 },
 };
 // Hazel-grey stems, a little moss, no dark foot; the thinnest wood a little darker.
 const BUSH_PALETTE = { warm: [0.62, 0.56, 0.49], moss: 0.4, level: { 1: 1, 2: 0.92, 3: 0.82 }, foot: () => 1 };
