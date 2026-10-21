@@ -201,9 +201,10 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 ## 0.0.41: the floor under near grass takes the light the blades take, 2026-10-21
 
 - Masked grass walk, four lights, against the same build without the gain:
-  - Low sun behind: jumps of 40+ levels −25.7%, of 60+ −47.5%.
+  - Low sun behind: jumps of 40+ levels −25.8%, of 60+ −47.6%.
   - Noon behind: −15.9% and −18.5%.
-  - Low sun ahead and noon toward the sun: unchanged.
+  - Low sun ahead: +0.1% and +0.1% (ground to the side, where the sun stands slightly behind).
+  - Noon toward the sun: unchanged.
 - Ground showing between near blades at a low sun behind: 44.7 → 56.4 (grass 103).
 - With the tip cap, white specks, grass pixels at 180+ and flashes stay 0 in all four lights.
 - GPU time at the frozen grass pose, five alternating rounds: median 4.334 ms against 4.328 ms (run-to-run spread 4.30 to 4.52).

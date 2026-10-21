@@ -33,13 +33,13 @@ The first try turned the floor's normal toward the viewer and 40% toward the sky
 
 ## Evidence
 
-The same masked walk, against the same build without the gain:
+The same masked walk on the release head, against the same build without the gain:
 
 | Light | Ground | Jumps 40+ | Jumps 60+ |
 | --- | ---: | ---: | ---: |
-| Low sun behind | 44.7 → 56.4 | −25.7% | −47.5% |
+| Low sun behind | 44.7 → 56.4 | −25.8% | −47.6% |
 | Noon, sun behind | 97.5 → 103.9 | −15.9% | −18.5% |
-| Low sun ahead | 48.0 → 48.0 | 0% | 0% |
+| Low sun ahead | 48.0 → 48.0 | +0.1% | +0.1% |
 | Noon, toward the sun | 83.7 → 83.7 | 0% | 0% |
 
 - With the 0.0.35 tip cap, grass pixels at 180+, near-white pixels and flashes stay 0 in all four lights.
