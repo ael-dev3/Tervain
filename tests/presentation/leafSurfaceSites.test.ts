@@ -192,3 +192,27 @@ it('keeps the last opaque texel in odd and one-dimensional masks', () => {
     } finally { material.dispose(); texture.dispose(); }
   }
 });
+
+
+it('wraps each bilinear opacity row and column once without changing alpha', () => {
+  const image = rgba([255, 37, 81, 0]), texture = map();
+  texture.image = image; texture.magFilter = THREE.LinearFilter;
+  const material = new THREE.MeshStandardMaterial({ map: texture, alphaTest: 0.42 });
+  try {
+    for (const wrapS of [THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping])
+      for (const wrapT of [THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping]) {
+        texture.wrapS = wrapS; texture.wrapT = wrapT;
+        for (const flipY of [false, true]) {
+          texture.flipY = flipY; texture.offset.set(.13, -.27); texture.repeat.set(1.3, .8); texture.rotation = .17;
+          const sampler = leafCutoutSampler(material)!;
+          for (const u of [-2.1, -.25, 0, .37, 1, 2.7]) for (const v of [-1.3, 0, .61, 1.9])
+            expect(sampler.alpha(u, v)).toBe(sampleLeafRgbaAlpha(image, u, v, texture));
+        }
+      }
+    texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+    const sampler = leafCutoutSampler(material)!;
+    const min = vi.spyOn(Math, 'min');
+    try { sampler.alpha(.3, .4); expect(min).toHaveBeenCalledTimes(4); }
+    finally { min.mockRestore(); }
+  } finally { material.dispose(); texture.dispose(); }
+});
