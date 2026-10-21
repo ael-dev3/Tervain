@@ -197,3 +197,16 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Middle against far birch at 70 m (Low switches at 64 to 96 m): crown size within 2%, mean brightness 98.9 against 98.5.
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
 - Details: docs/engineering/a160-0040-generated-birches.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.41: the floor under near grass takes the light the blades take, 2026-10-21
+
+- Masked grass walk, four lights, against the same build without the gain:
+  - Low sun behind: jumps of 40+ levels −25.8%, of 60+ −47.6%.
+  - Noon behind: −15.9% and −18.5%.
+  - Low sun ahead: +0.1% and +0.1% (ground to the side, where the sun stands slightly behind).
+  - Noon toward the sun: unchanged.
+- Ground showing between near blades at a low sun behind: 44.7 → 56.4 (grass 103).
+- With the tip cap, white specks, grass pixels at 180+ and flashes stay 0 in all four lights.
+- GPU time at the frozen grass pose, five alternating rounds: median 4.334 ms against 4.328 ms (run-to-run spread 4.30 to 4.52).
+- Draws and triangles: unchanged (a shader-only change).
+- Details: docs/engineering/a161-0041-front-lit-sward.md. Budget gate against live on the release head: in the release PR.

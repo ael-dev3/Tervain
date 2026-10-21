@@ -244,6 +244,20 @@ tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
 tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
 tRough = clamp(tRough + tStone * (0.5 - tHeight) * 0.08, 0.36, 1.0);
+// A161: with the sun behind the viewer, near grass blades show their lit faces, far brighter than the flat floor between
+// them (2.3 times at a low sun, 1.3 at noon), and blades under a pixel wide shimmer over the dark gaps. The floor under near
+// grass brightens by as much, only then (the opposition brightening of a real meadow): looking into the sun the blades are
+// no brighter than the floor, and it keeps its colour. The gain follows where the ground lies from the viewer, not where
+// the camera looks.
+#if NUM_DIR_LIGHTS > 0
+{
+  vec3 tSunW = normalize((vec4(directionalLights[0].direction, 0.0) * viewMatrix).xyz);
+  vec2 tEyeFlat = cameraPosition.xz - vWorldPos.xz, tSunFlat = tSunW.xz;
+  float tBehind = length(tEyeFlat) > 1e-4 && length(tSunFlat) > 1e-4 ? max(0.0, dot(normalize(tEyeFlat), normalize(tSunFlat))) : 0.0;
+  float tLowSun = 1.0 - smoothstep(0.15, 0.6, tSunW.y);
+  tAlb *= 1.0 + tBehind * mix(0.27, 1.3, tLowSun) * tCover * (1.0 - tFar) * step(0.0, tSunW.y);
+}
+#endif
 diffuseColor.rgb = tAlb;
 `;
 
@@ -278,6 +292,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.86, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v10-far-meadow';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v11-front-lit-sward';
   return mat;
 }
