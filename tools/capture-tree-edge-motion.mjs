@@ -2,7 +2,7 @@
 import {createHash} from 'node:crypto';import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
 import {liveProofPage} from './live-proof-page.mjs';import {treeEdgeCaptureProgram} from './tree-edge-capture-program.mjs';import {analyzeVideo} from './video-shimmer.mjs';
 export async function saveTreeEdgeCapture(capture,out) {
- fs.mkdirSync(out,{recursive:true});const metrics={};
+ fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});const metrics={};
  for(const route of ['stationary','pan']){
   const frames=capture.captures.filter(f=>f.route===route),dir=path.join(out,route);assert(frames.length>=3);fs.mkdirSync(dir,{recursive:true});
   for(const f of frames){assert.equal(f.glError,0);assert.equal(f.contextLost,false);assert(f.triangles>0);fs.writeFileSync(path.join(dir,String(f.i).padStart(4,'0')+'.png'),Buffer.from(f.png,'base64'));}
@@ -16,8 +16,9 @@ export async function saveTreeEdgeCapture(capture,out) {
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const args=Object.fromEntries(process.argv.slice(2).flatMap((a,i,v)=>a.startsWith('--')?[[a.slice(2),v[i+1]]]:[]));
+ const out=args.out??'artifacts/tree-edge-motion';fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
  if(args.quality&&!['low','medium','high'].includes(args.quality))throw Error('Invalid quality preset');
  const options={frames:Number(args.frames??24),degrees:Number(args.degrees??4),x:Number(args.x??-40),z:Number(args.z??0),hour:Number(args.hour??12)},program=treeEdgeCaptureProgram(options);
  const page=await liveProofPage(args.url??'https://ael-dev3.github.io/Tervain/',{quality:args.quality??'high',hour:options.hour,headed:args.headed==='true'});
- try{const capture=await page.eval(program);capture.route=options;const report=await saveTreeEdgeCapture(capture,args.out??'artifacts/tree-edge-motion');console.log(JSON.stringify({build:report.build,samples:report.observedSamples,assertions:report.assertions,stationary:report.metrics.stationary.summary,pan:report.metrics.pan.summary,pass:report.pass}));if(!report.pass)process.exitCode=1;}finally{page.close()}
+ try{const capture=await page.eval(program);capture.route=options;const report=await saveTreeEdgeCapture(capture,out);console.log(JSON.stringify({build:report.build,samples:report.observedSamples,assertions:report.assertions,stationary:report.metrics.stationary.summary,pan:report.metrics.pan.summary,pass:report.pass}));if(!report.pass)process.exitCode=1;}finally{page.close()}
 }
