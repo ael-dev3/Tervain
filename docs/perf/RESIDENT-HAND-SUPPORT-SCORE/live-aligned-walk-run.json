@@ -6,10 +6,12 @@
   "validation": {
     "walkRunMarkersAndProfilerClocksAligned": true,
     "bowVerified": false,
-    "bowArrowsConsumed": 0,
+    "bowArrowsConsumed": null,
     "bowRowsExcluded": true,
     "fullReplayPassed": false,
-    "postRunVersionAndConsoleValidation": "Not reached: bow-consumption assertion stopped the full replay. No zero-console-error or full-run PASS claim."
+    "postRunVersionAndConsoleValidation": "Not reached: bow-consumption assertion stopped the full replay. No zero-console-error or full-run PASS claim.",
+    "staleInventorySnapshotValue": 6,
+    "bowVerifierError": "Read a saved immutable-state snapshot; actual ammunition after dispatch was not verified. No conclusion about firing can be drawn from that value."
   },
   "slowest": [
     {
