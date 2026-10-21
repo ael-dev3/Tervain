@@ -218,8 +218,14 @@ export class HuntingArrows {
   private drift(dt: number, water?: ArrowWater) {
     for (let i = this.floating.length - 1; i >= 0; i--) {
       const f = this.floating[i]!;
+      const previousAge = f.age;
       f.age += dt;
       if (f.age >= ARROW_FLOAT_SECONDS) { this.remove(f.mesh); this.floating.splice(i, 1); continue; }
+      // Keep the initial shader warm-up interval, then cull the zero-length trail normally.
+      if (previousAge < QUIVER_SECONDS && f.age >= QUIVER_SECONDS) {
+        const trail = f.mesh.getObjectByName(ARROW_TRAIL);
+        if (trail) trail.frustumCulled = true;
+      }
       const p = f.mesh.position, w = water?.sample(p.x, p.z);
       if (!w) continue;
       const rise = 1 - Math.exp(-dt * 3);
