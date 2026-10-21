@@ -1,0 +1,9 @@
+
+ RUN  v5.0.2 [repository]
+
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  12:38:25
+   Duration  677ms (tests 73%, import 13%, transform 10%, setup 2%, worker 1%)
+

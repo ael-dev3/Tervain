@@ -1,0 +1,35 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/tools/treeMotionReceipt.test.ts (2 tests | 2 failed) 91ms
+   × invalidates a previous tree-motion PASS before a failed save run 61ms
+   × invalidates a previous tree-motion PASS before a failed cli run 29ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/tools/treeMotionReceipt.test.ts > invalidates a previous tree-motion PASS before a failed save run
+ FAIL  tests/tools/treeMotionReceipt.test.ts > invalidates a previous tree-motion PASS before a failed cli run
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/tools/treeMotionReceipt.test.ts:18:56
+     16|   expect(result.error).toBeUndefined();
+     17|   expect(result.status).not.toBe(0);
+     18|   expect(fs.existsSync(path.join(dir, 'report.json'))).toBe(false);
+       |                                                        ^
+     19|   expect(fs.readFileSync(path.join(dir, 'keep.txt'), 'utf8')).toBe('un…
+     20| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  12:12:14
+   Duration  252ms (tests 66%, transform 25%, setup 4%, import 3%, worker 2%)
+
