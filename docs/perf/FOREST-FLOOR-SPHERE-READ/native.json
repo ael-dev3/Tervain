@@ -1,0 +1,222 @@
+{
+  "baseline": "0536353b9a7aa15d2a6687da1b3687d6008aa9c3",
+  "rows": [
+    {
+      "pose": {
+        "name": "fence",
+        "camera": [
+          -2,
+          4.9,
+          45.4
+        ],
+        "target": [
+          -2,
+          2,
+          39.5
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 644,
+            "triangles": 7170911
+          },
+          {
+            "draws": 644,
+            "triangles": 7170911
+          }
+        ],
+        "after": [
+          {
+            "draws": 644,
+            "triangles": 7170911
+          },
+          {
+            "draws": 644,
+            "triangles": 7170911
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "run-round",
+        "camera": [
+          -11.3,
+          4.2,
+          45.3
+        ],
+        "target": [
+          -12.3,
+          2,
+          44.8
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 239,
+            "triangles": 2245715
+          },
+          {
+            "draws": 239,
+            "triangles": 2245715
+          }
+        ],
+        "after": [
+          {
+            "draws": 239,
+            "triangles": 2245715
+          },
+          {
+            "draws": 239,
+            "triangles": 2245715
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "bow",
+        "camera": [
+          -4,
+          3.7,
+          52
+        ],
+        "target": [
+          -4,
+          2,
+          46
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 707,
+            "triangles": 7936955
+          },
+          {
+            "draws": 707,
+            "triangles": 7936955
+          }
+        ],
+        "after": [
+          {
+            "draws": 707,
+            "triangles": 7936955
+          },
+          {
+            "draws": 707,
+            "triangles": 7936955
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "birch",
+        "camera": [
+          70.8976,
+          3.54788,
+          -19.0233
+        ],
+        "target": [
+          71.0173,
+          13.3253,
+          -39.0571
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 436,
+            "triangles": 5641032
+          },
+          {
+            "draws": 436,
+            "triangles": 5641032
+          }
+        ],
+        "after": [
+          {
+            "draws": 436,
+            "triangles": 5641032
+          },
+          {
+            "draws": 436,
+            "triangles": 5641032
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "sea",
+        "camera": [
+          -300,
+          3,
+          27
+        ],
+        "target": [
+          -330,
+          3,
+          27
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 137,
+            "triangles": 778895
+          },
+          {
+            "draws": 137,
+            "triangles": 778895
+          }
+        ],
+        "after": [
+          {
+            "draws": 137,
+            "triangles": 778895
+          },
+          {
+            "draws": 137,
+            "triangles": 778895
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "One source-paired High world; complete original/candidate floor modules receive identical native frame inputs and match all packed buffers. Each mode applies its output to the same registered native meshes; the comparison group is never added to the scene. Not native timing.",
+  "setup": {
+    "checkedUpdates": 4,
+    "before": {
+      "forestFloorPieces": 698,
+      "forestFloorDrawn": 41
+    },
+    "after": {
+      "forestFloorPieces": 698,
+      "forestFloorDrawn": 41
+    }
+  },
+  "errors": [],
+  "finalPairs": {
+    "checked": 204,
+    "before": {
+      "forestFloorPieces": 698,
+      "forestFloorDrawn": 30
+    },
+    "after": {
+      "forestFloorPieces": 698,
+      "forestFloorDrawn": 30
+    }
+  },
+  "complete": true,
+  "candidate": "6619fce8be91e8ea1ecf0fa7c78446f5b9ae6062",
+  "runtimeSha256": "464a62af0be1fb37293a450811244e705fdc50ed7a8c9e6ade186331bbfb04a5"
+}

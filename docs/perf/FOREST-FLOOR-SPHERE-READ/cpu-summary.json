@@ -1,0 +1,20 @@
+{
+  "before": {
+    "blocks": 135,
+    "updatesPerBlock": 240,
+    "meanMsPerUpdate": 0.022281445216049474,
+    "p95BlockAverageMs": 0.024635620833336702
+  },
+  "after": {
+    "blocks": 135,
+    "updatesPerBlock": 240,
+    "meanMsPerUpdate": 0.018721150555554813,
+    "p95BlockAverageMs": 0.020625183333335902
+  },
+  "control": {
+    "blocks": 135,
+    "updatesPerBlock": 240,
+    "meanMsPerUpdate": 0.020806704814814843,
+    "p95BlockAverageMs": 0.023015229166663667
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "build": {
+    "version": "0.0.38",
+    "revision": "0536353"
+  },
+  "copies": 8372,
+  "distances": 3750,
+  "groups": [
+    [
+      "    at Object.update (https://ael-dev3.github.io/Tervain/assets/tervain-CMaHGCcZ.js:1493:2670)\n    at Object.update (https://ael-dev3.github.io/Tervain/assets/world-DvjB6VYj.js:218:34011)",
+      8160
+    ],
+    [
+      "    at Sa (https://ael-dev3.github.io/Tervain/assets/world-DvjB6VYj.js:218:14667)\n    at zt (https://ael-dev3.github.io/Tervain/assets/world-DvjB6VYj.js:218:31662)",
+      109
+    ],
+    [
+      "    at xi.union (https://ael-dev3.github.io/Tervain/assets/three.module-BPv0JJVX.js:1:99407)\n    at zt (https://ael-dev3.github.io/Tervain/assets/world-DvjB6VYj.js:218:31629)",
+      103
+    ]
+  ],
+  "stats": {
+    "trees": 451,
+    "solitaryPines": 122,
+    "meshyTrees": 329,
+    "treeObstacles": 248,
+    "treesDrawn": 161,
+    "treeTris": 1924394,
+    "shadowTrees": 0,
+    "shadowTris": 0,
+    "struckLeaves": 0,
+    "forestFloorPieces": 698,
+    "forestFloorDrawn": 91,
+    "fallingLeaves": 156,
+    "fallingLeavesVisible": 26,
+    "fallingLeafTris": 1560,
+    "fallingLeafDrawnTris": 1510
+  }
+}
