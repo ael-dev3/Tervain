@@ -34,6 +34,12 @@ function bytes(seed: number): ArrayBuffer {
   return buffer;
 }
 const response = (seed: number) => new Response(bytes(seed), { headers: { 'content-type': 'model/gltf-binary' } });
+/** A model that carries no images and names the file whose images it shares (A71). */
+function borrowing(file: string): GLTF {
+  const next = model(); next.materials.forEach(material => { material.map = null; });
+  (next.gltf.parser.json as { asset?: unknown }).asset = { version: '2.0', extras: { tervainSharedImages: file } };
+  return next.gltf;
+}
 beforeEach(() => { vi.stubGlobal('document', { baseURI: 'https://example.test/Tervain/' }); vi.stubGlobal('crypto', webcrypto); });
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
@@ -83,6 +89,29 @@ describe('required tree download and rejected-parse lifecycle', () => {
     const first = await loadMeshyTrees(['loading-accepted-cache']), next = await loadMeshyTrees(['loading-accepted-cache']);
     expect(next.get('loading-accepted-cache')).toEqual(first.get('loading-accepted-cache')); expect(fetcher).toHaveBeenCalledTimes(3);
     for (const item of parsed) item.geometries.forEach(geometry => expect(geometry.dispose).not.toHaveBeenCalled());
+  });
+
+  it('lends a tree the images of the near model beside it that its files name, downloading that model once (A159)', async () => {
+    // Seeds tell the parse which file it decodes: the owner carries images, the others name a file.
+    const trees: [string, number, string | null][] = [['loading-image-owner', 121, null], ['loading-image-borrower', 120, 'loading-image-owner-near.glb'],
+      ['loading-image-stray', 122, 'hero-oak-near.glb'], ['loading-image-chain', 123, 'loading-image-borrower-near.glb']];
+    const fetcher = vi.fn(async (input: URL) => response(trees.find(([id]) => input.pathname.includes(`/${id}-`))![1])); vi.stubGlobal('fetch', fetcher);
+    const owners: ReturnType<typeof model>[] = [];
+    vi.spyOn(GLTFLoader.prototype, 'parseAsync').mockImplementation(async (buffer: string | ArrayBuffer) => {
+      const view = new DataView(buffer as ArrayBuffer), seed = view.getUint8(28 + view.getUint32(12, true));
+      const shared = trees.find(([, s]) => s === seed)![2];
+      if (shared) return borrowing(shared);
+      const next = model(); owners.push(next); return next.gltf;
+    });
+    const result = await loadMeshyTrees(['loading-image-borrower']);
+    expect(owners).toHaveLength(1); expect(fetcher).toHaveBeenCalledTimes(4);
+    for (const gltf of result.get('loading-image-borrower')!) gltf.scene.traverse(object => {
+      if ((object as THREE.Mesh).isMesh) expect(((object as THREE.Mesh).material as THREE.MeshStandardMaterial).map).toBe(owners[0]!.texture);
+    });
+    // A file outside the tree's folder, or one that itself borrows, is refused.
+    await expect(loadMeshyTrees(['loading-image-stray'])).rejects.toThrow(/cannot load/);
+    await expect(loadMeshyTrees(['loading-image-chain'])).rejects.toThrow(/carries none/);
+    expect(fetcher).toHaveBeenCalledTimes(10);
   });
 
   it('stops stale progress and new jobs after one failure while shared in-flight successful requests finish', async () => {

@@ -175,3 +175,13 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - The tree crossfade's mask leaves 0.5% of the pixels both models cover empty on the Low walk; a view-ray mask cut that by 62% but showed 14% more background through crossfading crowns, so it was not taken.
 - Grass (#700, #701), the low-sun walk (120 frames, 1470×956 at 2×) on live 0.0.37 against live 635d63d: grass pixels jumping 40+ levels between frames 29,456,223 → 28,976,361 (−1.6%), 60+ levels 14,507,146 → 14,117,684 (−2.7%), grass mean −0.7%, bright grass and flashes 0 on both.
 - Budget gate against live on the release head: in the release PR.
+
+## 0.0.39: hero oaks with real limbs and lobed crowns, 2026-10-21
+
+- Per template in game (wood plus leaves), 0.0.38 → 0.0.39: near 16,758–17,068 → 15,916–16,158; middle 10,082–11,396 → 8,984–10,858; far 1,064–1,142 → 1,058–1,130. No level grows.
+- Download: the three oaks share one set of images (bark, its normal map, leaves), carried by hero-oak-near only. Hero oak files 15,384,728 → 11,805,932 bytes; without sharing, the finer bark's normal map would have added about 1 MB to each near file.
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
+- Real-play walks toward two hero oak groups (12 s, fixed steps, wind running), same paths on both: crown-band pixels changing 40+ levels between frames −26% and −24%, 60+ −30% and −27%; crowns about 2 levels brighter where sky shows between lobes.
+- Grass, masked walk in four lights (low sun behind and ahead, noon behind and toward the sun), tip cap as shipped: grass pixels at 180+, near-white pixels and flashes 0 in all four (noon with the sun behind, cap off: 141,180 near-white). Not taken: alpha-to-coverage widening of sub-pixel blades (2 to 17% fewer blade jumps, +8% GPU at a grass pose, 3.48 → 3.77 ms) and a lighter ground under near grass (j60 −35% at low sun behind, +83% at noon toward the sun).
+- Animal sole contacts with the paw threshold made inclusive: floating moments 32 → 0, sinking over 3 cm 92 → 9, but root bobbing 0.018 → 0.394 mm a frame and the land-wildlife update 0.35–0.40 → 0.92–0.94 ms; not taken.
+- Details: docs/engineering/a159-0039-hero-oak-limbs.md. Budget gate against live on the release head: in the release PR.

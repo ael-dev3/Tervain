@@ -28,7 +28,31 @@ export interface CanopyOptions {
   readonly seed: number;
   /** Optional share of clusters taken from each atlas cell (cells x cells entries); uniform when absent. */
   readonly cellWeights?: readonly number[];
+  /** Gather the clumps into lobes around the wood's outer branch tips (0.0.39); absent, they spread evenly (A134). */
+  readonly lobes?: CanopyLobes;
+  /** The lobes themselves, when another detail level of the same tree already chose them (see `canopyLobes`). */
+  readonly lobeShape?: readonly CanopyLobe[];
 }
+
+/**
+ * A lobed crown (0.0.39): Gothic 3's broadleaf crowns are a few leafy masses hung on the main limbs, with gaps between
+ * them where the boughs show and the sky comes through; spread evenly, the clumps made one round mass. The same clumps
+ * (and cards) gather into lobes centred on the outer branch tips and the source leaves farthest apart; a few stay
+ * between them so the gaps are not clean cut.
+ */
+export interface CanopyLobes {
+  /** Lobes per unit of crown radius, and the fewest and most a crown takes. */
+  readonly perRadius: number;
+  readonly count: readonly [number, number];
+  /** Lobe radius as a share of the crown's horizontal radius. */
+  readonly radius: readonly [number, number];
+  /** Lobe height over its width: sprays, not balls. */
+  readonly flat: number;
+  /** The chance a clump between the lobes is kept. */
+  readonly between: number;
+}
+
+export const CROWN_LOBES: CanopyLobes = { perRadius: 0.7, count: [5, 8], radius: [0.24, 0.36], flat: 0.62, between: 0.04 };
 
 /** The index a draw `r` (0..1) lands on across `weights`. */
 export function weightedCell(weights: readonly number[], r: number): number {
@@ -131,9 +155,46 @@ export function branchTips(wood: THREE.BufferGeometry | null, crown: CanopyCrown
   return out;
 }
 
-/** Clump centres: branch tips first, then even (minimum-distance) samples of the source leaves. */
-function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THREE.Vector3[], count: number, spacing: number, random: () => number): THREE.Vector3[] {
-  const out = tips.slice(0, count);
+export interface CanopyLobe { readonly c: THREE.Vector3; readonly r: number; readonly ry: number }
+type Lobe = CanopyLobe;
+
+/** The lobes of a crown: centres spread as far apart as the outer branch tips and source leaves allow (farthest first). */
+function crownLobes(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THREE.Vector3[], lobes: CanopyLobes, random: () => number, areas: Float64Array): Lobe[] {
+  const R = crown.radii.x, count = THREE.MathUtils.clamp(Math.round(R * lobes.perRadius), lobes.count[0], lobes.count[1]);
+  const low = crown.centre.y - crown.radii.y * 0.45;
+  const candidates = [...tips, ...leafSamples(leaf, 160, random, areas)].filter(q => q.y >= low && depthIn(crown, q) >= 0.5 && depthIn(crown, q) <= 1.1);
+  if (!candidates.length) return [];
+  // Distances are taken across the crown's own proportions, so a tall crown does not stack its lobes in one column.
+  const gap = (a: THREE.Vector3, b: THREE.Vector3) => Math.hypot((a.x - b.x) / crown.radii.x, (a.y - b.y) / crown.radii.y, (a.z - b.z) / crown.radii.z);
+  // The first lobe crowns the tree: the highest candidate.
+  const chosen = [candidates.reduce((best, q) => (q.y > best.y ? q : best))];
+  while (chosen.length < count) {
+    let best: THREE.Vector3 | null = null, far = -1;
+    for (const q of candidates) { const d = Math.min(...chosen.map(c => gap(c, q))); if (d > far) { far = d; best = q; } }
+    if (!best || far < 0.25) break;
+    chosen.push(best);
+  }
+  return chosen.map(c => { const r = R * (lobes.radius[0] + (lobes.radius[1] - lobes.radius[0]) * random()); return { c: c.clone(), r, ry: r * lobes.flat }; });
+}
+
+/** A tree's lobes from one detail level (its near crown), to hand to its other levels so their crowns and shadows agree. */
+export function canopyLobes(leaf: THREE.BufferGeometry, wood: THREE.BufferGeometry | null, opts: CanopyOptions): CanopyLobe[] {
+  if (!opts.lobes) return [];
+  const random = canopyRandom(opts.seed ^ 0x6c6f6265), crown = canopyCrown(leaf), spacing = opts.clump * 1.1;
+  const clumps = Math.max(1, Math.round(opts.cards / (opts.perClump * 0.8)));
+  return crownLobes(leaf, crown, branchTips(wood, crown, spacing * 1.2, Math.round(clumps * 0.25)), opts.lobes, random, leafAreas(leaf));
+}
+
+/** How far into the nearest lobe a point lies: under 1 inside one. */
+const lobeDepth = (lobes: readonly Lobe[], q: THREE.Vector3) => lobes.reduce((m, l) => Math.min(m, Math.hypot((q.x - l.c.x) / l.r, (q.y - l.c.y) / l.ry, (q.z - l.c.z) / l.r)), Infinity);
+
+/** Clump centres: branch tips first, then even (minimum-distance) samples of the source leaves; with lobes, gathered into them. */
+function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THREE.Vector3[], count: number, spacing: number, random: () => number, lobes?: CanopyLobes, given?: readonly Lobe[]): THREE.Vector3[] {
+  let areas: Float64Array | undefined;
+  const shape = !lobes ? [] : given ?? crownLobes(leaf, crown, tips, lobes, random, areas ??= leafAreas(leaf));
+  // Between the lobes only a few clumps stay (`between`), so the gaps open without a clean cut edge.
+  const keeps = (q: THREE.Vector3) => !shape.length || lobeDepth(shape, q) <= 1 || random() < lobes!.between;
+  const out = tips.filter(keeps).slice(0, count);
   const cell = spacing, grid = new Map<string, THREE.Vector3[]>();
   const key = (x: number, y: number, z: number) => `${x},${y},${z}`;
   const add = (q: THREE.Vector3) => {
@@ -148,7 +209,6 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
   };
   out.forEach(add);
   // Geometry stays unchanged while spacing relaxes; build its distribution only on the first sampling round.
-  let areas: Float64Array | undefined;
   // Relax the spacing until the count is met: dense sources fill at full spacing, sparse ones closer together.
   for (let d = spacing; out.length < count && d > spacing * 0.2; d *= 0.8) {
     const samples = leafSamples(leaf, (count - out.length) * 6, random, areas ??= leafAreas(leaf));
@@ -158,6 +218,7 @@ function clumpCentres(leaf: THREE.BufferGeometry, crown: CanopyCrown, tips: THRE
       if (depthIn(crown, q) < 0.45 && random() < 0.7) continue;
       // The lowest fifth of the source crown is hanging sheet ends; the boughs and trunk show beneath the canopy.
       if (q.y < crown.centre.y - crown.radii.y * 0.6) continue;
+      if (!keeps(q)) continue;
       if (near(q, d)) continue;
       out.push(q); add(q);
     }
@@ -414,7 +475,7 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
   const hit = new THREE.Vector3(), reach = opts.clump * ANCHOR_REACH;
   let dropped = 0;
   const twigs: CanopyTwig[] = [], grown = new Set<THREE.Vector3>(), placedIn = new Set<THREE.Vector3>();
-  const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random);
+  const sources = clumpCentres(leaf, crown, tips, clumps, spacing, random, opts.lobes, opts.lobeShape);
   const plans = sources.map(source => {
     // Where the clump will sit once drawn in (below).
     const sits = source.clone().addScaledVector(clumpOutward(crown, source, new THREE.Vector3()), -opts.clump * 0.6);
@@ -525,6 +586,8 @@ export function buildCanopy(leaf: THREE.BufferGeometry, wood: THREE.BufferGeomet
       // A point in the clump, biased to its outer face; the card faces mostly out from the clump, then out and up.
       dir.copy(randomUnit(dir)).addScaledVector(out, 0.7).normalize();
       centre.copy(c).addScaledVector(dir, rc * (0.3 + 0.7 * Math.sqrt(random())));
+      // A lobed crown's clumps are sprays, wider than they are tall.
+      if (opts.lobes) centre.y = c.y + (centre.y - c.y) * opts.lobes.flat;
       n.copy(dir).multiplyScalar(0.75).addScaledVector(out, 0.35).addScaledVector(randomUnit(t1), 0.35).normalize();
       // Card basis with a random roll about its normal.
       t1.copy(Math.abs(n.y) < 0.9 ? up : out.x !== 0 || out.z !== 0 ? t2.set(out.z, 0, -out.x).normalize() : t2.set(1, 0, 0));
@@ -775,7 +838,7 @@ export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferG
  * read black against the sky. Any wood triangle above the crown's lower third whose centroid is farther than `reach`
  * from every clump-covered point is dropped.
  */
-export function trimExposedWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number): { geometry: THREE.BufferGeometry; removed: number } {
+export function trimExposedWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number, shell = 0): { geometry: THREE.BufferGeometry; removed: number } {
   const index = wood.index;
   if (!index) return { geometry: wood, removed: 0 };
   const crown = canopyCrown(canopy);
@@ -793,7 +856,9 @@ export function trimExposedWood(wood: THREE.BufferGeometry, canopy: THREE.Buffer
   for (let t = 0; t < index.count; t += 3) {
     const i0 = index.getX(t), i1 = index.getX(t + 1), i2 = index.getX(t + 2);
     const x = (p.getX(i0) + p.getX(i1) + p.getX(i2)) / 3, y = (p.getY(i0) + p.getY(i1) + p.getY(i2)) / 3, z = (p.getZ(i0) + p.getZ(i1) + p.getZ(i2)) / 3;
-    if (y > floor && !covered(x, y, z)) { removed++; continue; }
+    // A lobed crown (0.0.39) shows its limbs between the lobes: only bare wood out at its shell (`shell`, a share of the
+    // crown's radii) is cut, never a limb inside it.
+    if (y > floor && (!shell || Math.hypot((x - crown.centre.x) / crown.radii.x, (y - crown.centre.y) / crown.radii.y, (z - crown.centre.z) / crown.radii.z) > shell) && !covered(x, y, z)) { removed++; continue; }
     keep.push(i0, i1, i2);
   }
   if (!removed) return { geometry: wood, removed: 0 };

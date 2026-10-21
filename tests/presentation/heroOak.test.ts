@@ -46,6 +46,14 @@ describe('generated hero oak (tools/tree-gen)', () => {
     expect(lods.near!.json.materials.map((m: { name: string }) => m.name)).toEqual(lods.mid!.json.materials.map((m: { name: string }) => m.name));
   });
 
+  it('lends the same images to the other oaks, which draw the same bark and leaves (A159)', () => {
+    for (const id of ['hero-oak-b', 'hero-oak-c']) for (const lod of ['near', 'mid', 'far']) {
+      const glb = readGlb(`${id}-${lod}.glb`);
+      expect(glb.json.images, `${id}-${lod}`).toBeUndefined(); expect(glb.json.asset.extras.tervainSharedImages).toBe('hero-oak-near.glb');
+      expect(glb.json.materials.map((m: { name: string }) => m.name)).toEqual(lods.near!.json.materials.map((m: { name: string }) => m.name));
+    }
+  });
+
   it('stays out of the supplied-tree set unless its flag is on', () => {
     expect(MESHY_TREE_IDS as readonly string[]).not.toContain(HERO_OAK_ID);
     expect(heroOakEnabled('')).toBe(true); expect(heroOakEnabled('?herooak=0')).toBe(false); expect(heroOakEnabled('?herooak=1')).toBe(true);

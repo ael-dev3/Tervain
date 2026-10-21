@@ -5,7 +5,8 @@
  * Grows a four-level oak skeleton (skeleton.mjs), meshes it as bark-relief tubes with buttress roots and a soil skirt
  * (mesh.mjs), places leaf clusters on the twig ends (leaves.mjs) and writes three GLBs: hero-oak-near / -mid / -far.
  * Original procedural work: no third-party geometry or images. The bark and the placeholder leaf atlas are generated
- * here (bark.mjs, leafAtlas.mjs). Mid and far borrow the near file's images (asset.extras.tervainSharedImages).
+ * here (bark.mjs, leafAtlas.mjs); every oak draws the same ones, so only hero-oak-near carries them and every other file
+ * names it in asset.extras.tervainSharedImages, borrowing its images when loaded.
  *
  * Extra vertex attributes (consumed by the hierarchical-wind shader work):
  *   _WIND  vec4  x branch level weight 0 trunk .. 1 twig tip, y branch phase (0..2pi, unique per branch),
@@ -28,6 +29,9 @@ import { MeshBuilder, addTube, addRoots, addSkirt, windLevel } from './lib/mesh.
 import { leafCandidates, placeClusters, clusterCards, bakeCrown } from './lib/leaves.mjs';
 import { writeGlb } from './lib/glb.mjs';
 
+/** The one file that carries the oaks' images: the bark and leaf atlas do not depend on the seed. */
+const IMAGE_FILE = 'hero-oak-near.glb';
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const args = process.argv.slice(2), arg = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 // Each hero variant takes the trunk profile of the supplied oak it replaces (a: oak-elder, b: tree-0208, the giant, c: tree-1521), so a giant stays giant.
@@ -41,8 +45,8 @@ const seed = Number(arg('--seed', 1)), outDir = path.resolve(root, arg('--out', 
 const name = arg('--name', 'hero-oak');
 
 const LODS = {
-  near: { trunk: 12, limb: 6, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
-  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 2000, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
+  near: { trunk: 12, limb: 8, bough: 4, twig: 3, root: 8, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 3400, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
+  mid: { trunk: 10, limb: 6, bough: 4, twig: 0, root: 6, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1750, cards: 3, cardRows: 1, sizeScale: 1.25, skirtSeg: 0 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 2.2, skirtSeg: 0 },
 };
 
@@ -99,7 +103,8 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
     }
   }
   const collisionIndex = mb.idx.length;
-  if (P.root) addRoots(mb, { rootSides: P.root }, bark, rng, trunkRadiusAt(0.4, OAK), seam, rootAz);
+  // Roots draw from their own stream: reshaping the crown above must not move them (tests/presentation/renderedRootSeating.test.ts).
+  if (P.root) addRoots(mb, { rootSides: P.root }, bark, makeRng(seedBase + 91), trunkRadiusAt(0.4, OAK), seam, rootAz);
   if (P.skirtSeg) addSkirt(mb, bark, rng, trunkRadiusAt(0.0, OAK) * 0.98, P.skirtSeg);
   mb.computeNormals(seam);
   return { mb, collisionIndex };
@@ -186,7 +191,7 @@ async function main() {
   for (const lod of ['near', 'mid', 'far']) {
     const lv = buildLeaves(sk, lod, cands, segs, seed * 100 + 9);
     const { mb: wood, collisionIndex } = buildWood(sk, lod, bark, seed * 100, lv.centres);
-    const carries = lod === 'near';
+    const carries = `${name}-${lod}.glb` === IMAGE_FILE;
     const materials = [
       { name: 'Foliage | hero oak', alphaMode: 'MASK', alphaCutoff: 0.42, doubleSided: true, pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 2 } } : {}), baseColorFactor: [0.95, 1, 0.92, 1], metallicFactor: 0, roughnessFactor: 0.88 }, emissiveFactor: [0, 0, 0] },
       { name: 'Wood | hero oak', alphaMode: 'MASK', alphaCutoff: 0.18, ...(carries ? { normalTexture: { index: 1, scale: 1 } } : {}), pbrMetallicRoughness: { ...(carries ? { baseColorTexture: { index: 0 } } : {}), baseColorFactor: [1, 1, 1, 1], metallicFactor: 0, roughnessFactor: 0.95 } },
@@ -194,7 +199,7 @@ async function main() {
     const glb = writeGlb({
       parts: [{ name: 'Foliage', builder: lv.mb, material: 0 }, { name: 'Wood', builder: wood, material: 1, extras: { tervainWoodCollisionIndex: collisionIndex } }],
       materials, textures: carries ? textures : [],
-      assetExtras: { ...(carries ? {} : { tervainSharedImages: `${name}-near.glb` }), tervainHeroTree: { generator: 'tools/tree-gen', seed, lod } },
+      assetExtras: { ...(carries ? {} : { tervainSharedImages: IMAGE_FILE }), tervainHeroTree: { generator: 'tools/tree-gen', seed, lod } },
     });
     fs.writeFileSync(path.join(outDir, `${name}-${lod}.glb`), glb);
     report.lods[lod] = { bytes: glb.length, woodTris: wood.triangleCount, leafTris: lv.mb.triangleCount, tris: wood.triangleCount + lv.mb.triangleCount, clusters: lv.clusters, cards: lv.cards, rejectedCards: lv.rejected, verts: wood.vertexCount + lv.mb.vertexCount };

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { auditCanopies } from '../../src/diagnostics/canopyAudit';
-import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, ANCHOR_LIMIT, MID_CANOPY, NEAR_CANOPY } from '../../src/presentation/canopy';
+import { alphaCoverage, buildCanopy, canopyAtlas, canopyCrown, canopyLobes, downsampleCoverage, trimExposedWood, woodAnchor, growTwigs, ANCHOR_LIMIT, CROWN_LOBES, MID_CANOPY, NEAR_CANOPY, type CanopyLobe } from '../../src/presentation/canopy';
 
 /** A source crown like the Meshy exports: a few large curved sheets through a spheroid 12 m wide, 8 m tall, at y 12. */
 function sourceCrown(): THREE.BufferGeometry {
@@ -194,6 +194,74 @@ describe('cluster canopy (A134)', () => {
         worst = Math.max(worst, anchor(centre, hit));
       }
       expect(worst).toBeLessThanOrEqual(ANCHOR_LIMIT + shape.clump * 1.4 + 0.05);
+    }
+  });
+
+  /** A trunk with six boughs out to the crown's shell, like the generated hero oak's limbs. */
+  function boughs(): THREE.BufferGeometry {
+    const parts = [new THREE.CylinderGeometry(0.4, 0.6, 12, 8).translate(0, 6, 0)];
+    for (let k = 0; k < 6; k++) parts.push(new THREE.CylinderGeometry(0.08, 0.25, 7, 6).rotateZ(Math.PI / 3).translate(3, 12.5, 0).rotateY(k * Math.PI / 3));
+    let offset = 0;
+    const w = new THREE.BufferGeometry(), pos: number[] = [], idx: number[] = [];
+    for (const g of parts) { pos.push(...g.getAttribute('position').array); idx.push(...Array.from(g.index!.array, x => x + offset)); offset += g.getAttribute('position').count; }
+    w.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); w.setIndex(idx);
+    return w;
+  }
+  const cardCentres = (g: THREE.BufferGeometry) => {
+    const p = g.getAttribute('position'), out: THREE.Vector3[] = [];
+    for (let i = 0; i < p.count; i += 4) { const c = new THREE.Vector3(); for (let k = 0; k < 4; k++) c.add(new THREE.Vector3().fromBufferAttribute(p, i + k)); out.push(c.multiplyScalar(0.25)); }
+    return out;
+  };
+  const lobeDepth = (lobes: readonly CanopyLobe[], q: THREE.Vector3) => Math.min(...lobes.map(l => Math.hypot((q.x - l.c.x) / l.r, (q.y - l.c.y) / l.ry, (q.z - l.c.z) / l.r)));
+
+  it('gathers a lobed crown into a few leafy masses with gaps between them (0.0.39)', () => {
+    const leaf = sourceCrown(), w = boughs(), lobed = { ...opts, lobes: CROWN_LOBES };
+    const lobes = canopyLobes(leaf, w, lobed);
+    expect(lobes.length).toBeGreaterThanOrEqual(CROWN_LOBES.count[0]); expect(lobes.length).toBeLessThanOrEqual(CROWN_LOBES.count[1]);
+    const g = buildCanopy(leaf, w, { ...lobed, lobeShape: lobes });
+    expect(g.getAttribute('position').count).toBe(opts.cards * 4);
+    expect(buildCanopy(leaf, w, { ...lobed, lobeShape: lobes }).getAttribute('position').array).toEqual(g.getAttribute('position').array);
+    // The cards gather around the lobes: about twice the even crown's share lies within them (and a clump's own spread).
+    const share = (x: THREE.BufferGeometry) => { const c = cardCentres(x); return c.filter(q => lobeDepth(lobes, q) <= 1.6).length / c.length; };
+    expect(share(g)).toBeGreaterThan(1.5 * share(buildCanopy(leaf, w, opts)));
+    // Seen from the side the crown has open gaps where the even crown was full: its covered share drops clearly.
+    const side = (x: THREE.BufferGeometry) => {
+      const crown = canopyCrown(leaf), res = 0.25, hits = new Set<string>();
+      // Each card counted as its leaf cluster's footprint, about 0.75 m across.
+      for (const c of cardCentres(x)) for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) hits.add(`${Math.round(c.x / res) + a},${Math.round(c.y / res) + b}`);
+      let inside = 0, covered = 0;
+      for (let x0 = -crown.radii.x; x0 <= crown.radii.x; x0 += res) for (let y0 = -crown.radii.y; y0 <= crown.radii.y; y0 += res) {
+        if (Math.hypot(x0 / crown.radii.x, y0 / crown.radii.y) > 0.8) continue;
+        inside++; if (hits.has(`${Math.round((crown.centre.x + x0) / res)},${Math.round((crown.centre.y + y0) / res)}`)) covered++;
+      }
+      return covered / inside;
+    };
+    expect(side(g)).toBeLessThan(side(buildCanopy(leaf, w, opts)) - 0.03);
+  });
+
+  it("hands one tree's lobes to its other levels so their crowns and shadows agree (0.0.39)", () => {
+    const leaf = sourceCrown(), w = boughs(), lobes = canopyLobes(leaf, w, { ...opts, lobes: CROWN_LOBES });
+    const share = (x: THREE.BufferGeometry) => { const c = cardCentres(x); return c.filter(q => lobeDepth(lobes, q) <= 1.6).length / c.length; };
+    const mid = buildCanopy(leaf, w, { ...MID_CANOPY, cards: 1200, seed: 11, lobes: CROWN_LOBES, lobeShape: lobes });
+    expect(share(mid)).toBeGreaterThan(1.5 * share(buildCanopy(leaf, w, { ...MID_CANOPY, cards: 1200, seed: 11 })));
+    // Unchanged without lobes: the even crown (A134) is the default.
+    expect(buildCanopy(leaf, w, { ...opts, lobes: undefined }).getAttribute('position').array).toEqual(buildCanopy(leaf, w, opts).getAttribute('position').array);
+  });
+
+  it("trims only bare wood out at a lobed crown's shell, never a limb inside it (0.0.39)", () => {
+    const leaf = sourceCrown(), w = wood(), g = buildCanopy(leaf, w, opts);
+    const every = trimExposedWood(w, g, NEAR_CANOPY.clump * 1.6), shell = trimExposedWood(w, g, NEAR_CANOPY.clump * 1.6, 0.85);
+    // The spike 4 m out of the crown's top is cut either way.
+    expect(shell.removed).toBeGreaterThan(0);
+    expect(shell.removed).toBeLessThanOrEqual(every.removed);
+    const p = shell.geometry.getAttribute('position'), idx = shell.geometry.index!, crown = canopyCrown(g);
+    for (let t = 0; t < idx.count; t += 3) {
+      let y = 0, depth = 0;
+      for (let k = 0; k < 3; k++) y += p.getY(idx.getX(t + k)) / 3;
+      const x = [0, 1, 2].reduce((s, k) => s + p.getX(idx.getX(t + k)) / 3, 0), z = [0, 1, 2].reduce((s, k) => s + p.getZ(idx.getX(t + k)) / 3, 0);
+      depth = Math.hypot((x - crown.centre.x) / crown.radii.x, (y - crown.centre.y) / crown.radii.y, (z - crown.centre.z) / crown.radii.z);
+      // What is left above the crown's floor is inside the shell or near leaves.
+      if (y > crown.centre.y - crown.radii.y * 0.3) expect(depth <= 0.85 || every.geometry.index!.count > 0).toBe(true);
     }
   });
 

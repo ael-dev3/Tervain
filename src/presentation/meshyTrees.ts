@@ -14,7 +14,7 @@ import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
 import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -23,6 +23,8 @@ export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan'
  * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_TREE_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
+/** A lobed crown's wood is trimmed only beyond this share of the crown's radii (trimExposedWood). */
+const LOBED_TRIM_SHELL = 0.85;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
@@ -329,7 +331,7 @@ function sharedImages(gltf: GLTF): string | null {
 
 const TEXTURE_SLOTS = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const;
 const borrowed = new WeakSet<GLTF>();
-/** Give a mid or far model the near model's textures, material by material, slot by slot (A71). */
+/** Give a model that carries no images the textures of the near model that does, material by material, slot by slot (A71). */
 function borrowTextures(near: GLTF, lod: GLTF) {
   if (!sharedImages(lod) || borrowed.has(lod)) return;
   const source = new Map<string, THREE.MeshStandardMaterial>();
@@ -343,6 +345,22 @@ function borrowTextures(near: GLTF, lod: GLTF) {
   });
   assertDecodedTreeTextures(lod, meshyTreeParts(lod));
   borrowed.add(lod);
+}
+
+/**
+ * The near model whose images a tree's models share: its own, or the one beside it that its near file names. The hero oaks
+ * draw the same bark and leaves, so only hero-oak-near carries them (A159).
+ */
+async function imageOwner(id: string, near: GLTF): Promise<GLTF> {
+  const file = sharedImages(near);
+  if (!file) return near;
+  const owner = /^(.+)-near\.glb$/.exec(file)?.[1];
+  if (!owner || owner === id || meshyTreeModelPath(owner, 'near') !== meshyTreeModelPath(id, 'near').replace(/[^/]+$/, file)) {
+    throw new Error(`Tree ${id} borrows images from a model it cannot load.`);
+  }
+  const source = await load(owner, 'near');
+  if (sharedImages(source)) throw new Error(`Tree ${id} borrows images from a model that carries none.`);
+  return source;
 }
 
 async function load(id: string, lod: typeof MESHY_TREE_LODS[number]): Promise<GLTF> {
@@ -385,7 +403,8 @@ export async function loadMeshyTrees(ids: readonly string[] = activeMeshyTreeIds
       while (active && next < selected.length) {
         const id = selected[next++]!;
         const lods = await Promise.all(MESHY_TREE_LODS.map(lod => load(id, lod)));
-        for (const lod of lods.slice(1)) borrowTextures(lods[0]!, lod);
+        const owner = await imageOwner(id, lods[0]!);
+        for (const lod of lods) if (lod !== owner) borrowTextures(owner, lod);
         result.set(id, lods as unknown as readonly [GLTF, GLTF, GLTF]);
         if (active) onProgress?.(result.size, selected.length);
       }
@@ -406,12 +425,12 @@ const HEIGHT: Record<Exclude<Species, 'pine'>, number> = { oak: 18, birch: 16, f
  * trimExposedWood for the generated oak, whose index starts with the trunk and limbs (the colliders' prefix, userData.twigIndex): the
  * prefix and the rest are trimmed apart so the prefix still ends where it did.
  */
-function trimHeroWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number): THREE.BufferGeometry {
+function trimHeroWood(wood: THREE.BufferGeometry, canopy: THREE.BufferGeometry, reach: number, shell = 0): THREE.BufferGeometry {
   const split = wood.userData.twigIndex as number | undefined, index = wood.index;
-  if (!split || !index || split >= index.count) return trimExposedWood(wood, canopy, reach).geometry;
+  if (!split || !index || split >= index.count) return trimExposedWood(wood, canopy, reach, shell).geometry;
   const part = (from: number, to: number) => { const g = wood.clone(); g.setIndex(Array.from(index.array.slice(from, to))); return g; };
   const front = part(0, split), back = part(split, index.count);
-  const a = trimExposedWood(front, canopy, reach).geometry, b = trimExposedWood(back, canopy, reach).geometry;
+  const a = trimExposedWood(front, canopy, reach, shell).geometry, b = trimExposedWood(back, canopy, reach, shell).geometry;
   const merged = wood.clone();
   merged.setIndex([...Array.from(a.index!.array), ...Array.from(b.index!.array)]);
   merged.userData.twigIndex = a.index!.count;
@@ -562,6 +581,9 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         material.map = broadleafAtlas; material.color.setRGB(0.92, 1.0, 0.88);
         material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' }; material.needsUpdate = true;
       }
+      // 0.0.39: the generated hero oaks' crowns gather into lobes on their limbs, chosen once from the near crown so every
+      // level agrees. The limbs show between the lobes, so only bare wood out at the crown's shell is trimmed.
+      let lobeShape: CanopyLobe[] | undefined;
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
@@ -584,10 +606,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
           // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
           const anchor = woodAnchor(wood);
+          const lobes = hero ? CROWN_LOBES : undefined;
+          if (lobes && !lobeShape) lobeShape = canopyLobes(exported, wood, { ...shape, cards, seed, lobes });
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
-            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
-            trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15)) : trimExposedWood(wood, canopy, shape.clump * 1.6).geometry) : null;
+            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, lobes, lobeShape, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
+            const shell = lobes ? LOBED_TRIM_SHELL : 0;
+            trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15, shell)) : trimExposedWood(wood, canopy, shape.clump * 1.6, shell).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
             const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
             if (over <= 0 || attempt === 3) break;
