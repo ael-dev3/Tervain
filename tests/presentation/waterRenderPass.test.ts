@@ -43,7 +43,7 @@ function fixture() {
   const draws: Draw[] = [];
   const renderer = {
     autoClear: false,
-    shadowMap: { autoUpdate: true },
+    shadowMap: { autoUpdate: true, needsUpdate: false },
     xr: { enabled: true },
     state: { buffers: { depth: { setMask: vi.fn() } }, viewport: vi.fn() },
     getRenderTarget: vi.fn(() => target),
@@ -436,6 +436,40 @@ describe('water capture/composite orchestration', () => {
     expect(f.renderer.autoClear).toBe(false);
     expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
     expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(0);
+  });
+
+  it('leaves an initialized sun refresh for the main view, including after a reflection error', () => {
+    for (const fail of [false, true]) {
+      const f = setup(); coastalView(f); f.camera.updateMatrixWorld();
+      f.input.sunShadowReady = true; f.renderer.shadowMap.needsUpdate = true;
+      let reflectionShadows = 0, mainShadows = 0;
+      f.renderer.render.mockImplementation((scene, camera) => {
+        if (camera !== f.camera && scene === f.scene) {
+          // Three honours needsUpdate even when Reflector sets autoUpdate=false.
+          if (f.renderer.shadowMap.autoUpdate || f.renderer.shadowMap.needsUpdate) reflectionShadows++;
+          if (fail) throw new Error('reflection failed');
+        } else if (camera === f.camera && camera.layers.mask !== 2) {
+          expect(f.renderer.shadowMap.needsUpdate).toBe(true);
+          mainShadows++; f.renderer.shadowMap.needsUpdate = false;
+        }
+      });
+      if (fail) {
+        expect(f.render).toThrow('reflection failed');
+        expect(f.renderer.shadowMap.needsUpdate).toBe(true);
+      } else { f.render(); expect(mainShadows).toBe(1); }
+      expect(reflectionShadows).toBe(0);
+      expect(f.renderer.shadowMap.autoUpdate).toBe(true);
+    }
+  });
+
+  it('retains the first shadow-map initialization in a cold reflection', () => {
+    const f = setup(); coastalView(f); f.camera.updateMatrixWorld();
+    f.input.sunShadowReady = false; f.renderer.shadowMap.needsUpdate = true;
+    let pendingAtReflection = false;
+    f.renderer.render.mockImplementation((scene, camera) => {
+      if (scene === f.scene && camera !== f.camera) pendingAtReflection = f.renderer.shadowMap.needsUpdate;
+    });
+    f.render(); expect(pendingAtReflection).toBe(true);
   });
 
   it('freezes a valid planar reflection for reduced motion, refreshes after camera movement, and owns its private resources', () => {

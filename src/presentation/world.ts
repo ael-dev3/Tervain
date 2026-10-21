@@ -644,7 +644,7 @@ export class WorldScene {
       this.scene.traverse((o) => { if (o.name === 'grass-near' || o.name === 'grass-far' || o.name === 'deepwood_forest_floor') this.unreflected.push(o); });
     }
     const forest = this.modules.find((m) => m.name === 'forest')?.module as { lighterForReflection?: () => () => void } | undefined;
-    return { ...inputs, unreflected: this.unreflected, lighten: forest?.lighterForReflection };
+    return { ...inputs, unreflected: this.unreflected, lighten: forest?.lighterForReflection, sunShadowReady: this.sky.sun.shadow.map !== null };
   }
   private unreflected: THREE.Object3D[] = [];
   private unreflectedLook = 0;
