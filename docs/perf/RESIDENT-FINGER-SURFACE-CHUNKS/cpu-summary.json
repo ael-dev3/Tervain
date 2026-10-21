@@ -1,0 +1,46 @@
+{
+  "quarry-foreman": {
+    "before": {
+      "preparations": 72,
+      "meanMs": 23.404342638889066,
+      "p95Ms": 33.74976400000048,
+      "meanLargestResumeMs": 3.7012717499999925,
+      "p95LargestResumeMs": 6.255685999999969,
+      "turns": [
+        23
+      ]
+    },
+    "after": {
+      "preparations": 72,
+      "meanMs": 23.46636338888916,
+      "p95Ms": 31.797327000003406,
+      "meanLargestResumeMs": 3.437465347222237,
+      "p95LargestResumeMs": 5.663139000000001,
+      "turns": [
+        414
+      ]
+    }
+  },
+  "maintenance-worker": {
+    "before": {
+      "preparations": 72,
+      "meanMs": 16.88635836111122,
+      "p95Ms": 22.332071999998334,
+      "meanLargestResumeMs": 2.2949756666666428,
+      "p95LargestResumeMs": 4.6832650000001195,
+      "turns": [
+        34
+      ]
+    },
+    "after": {
+      "preparations": 72,
+      "meanMs": 17.499810083333898,
+      "p95Ms": 24.22755500000312,
+      "meanLargestResumeMs": 2.2397569583333103,
+      "p95LargestResumeMs": 5.060859999999593,
+      "turns": [
+        461
+      ]
+    }
+  }
+}

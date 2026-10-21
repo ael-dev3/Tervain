@@ -1,0 +1,311 @@
+{
+  "baseline": "3596f1e8b",
+  "candidate": "24ca7047fc0df138d7fa77614df02434d782b937",
+  "rows": [
+    {
+      "pose": {
+        "name": "forest",
+        "camera": [
+          -42,
+          5,
+          115
+        ],
+        "target": [
+          -56,
+          12,
+          92
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 872,
+            "triangles": 12992441
+          },
+          {
+            "draws": 872,
+            "triangles": 12992441
+          }
+        ],
+        "after": [
+          {
+            "draws": 872,
+            "triangles": 12992441
+          },
+          {
+            "draws": 872,
+            "triangles": 12992441
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "fence",
+        "camera": [
+          -2,
+          4.9,
+          45.4
+        ],
+        "target": [
+          -2,
+          2,
+          39.5
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 683,
+            "triangles": 8353879
+          },
+          {
+            "draws": 683,
+            "triangles": 8353879
+          }
+        ],
+        "after": [
+          {
+            "draws": 683,
+            "triangles": 8353879
+          },
+          {
+            "draws": 683,
+            "triangles": 8353879
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "run-round",
+        "camera": [
+          -11.3,
+          4.2,
+          45.3
+        ],
+        "target": [
+          -12.3,
+          2,
+          44.8
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 267,
+            "triangles": 2701511
+          },
+          {
+            "draws": 267,
+            "triangles": 2701511
+          }
+        ],
+        "after": [
+          {
+            "draws": 267,
+            "triangles": 2701511
+          },
+          {
+            "draws": 267,
+            "triangles": 2701511
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "bow",
+        "camera": [
+          -1.5,
+          4.1,
+          45.1
+        ],
+        "target": [
+          -4,
+          2,
+          46
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 316,
+            "triangles": 3210504
+          },
+          {
+            "draws": 316,
+            "triangles": 3210504
+          }
+        ],
+        "after": [
+          {
+            "draws": 316,
+            "triangles": 3210504
+          },
+          {
+            "draws": 316,
+            "triangles": 3210504
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    },
+    {
+      "pose": {
+        "name": "village",
+        "camera": [
+          -5,
+          4,
+          -10
+        ],
+        "target": [
+          -4,
+          2,
+          -2
+        ]
+      },
+      "modes": {
+        "before": [
+          {
+            "draws": 623,
+            "triangles": 6666786
+          },
+          {
+            "draws": 623,
+            "triangles": 6666786
+          }
+        ],
+        "after": [
+          {
+            "draws": 623,
+            "triangles": 6666786
+          },
+          {
+            "draws": 623,
+            "triangles": 6666786
+          }
+        ]
+      },
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "One native High world: both finger-plan algorithms receive the same actual preparation inputs and return identical complete contacts before installation. Proof-only dual work are not CPU/frame timing.",
+  "setup": {
+    "pairs": [
+      {
+        "equal": true,
+        "sourceVertices": 35677,
+        "beforeTurns": 22,
+        "afterTurns": 364
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39356,
+        "beforeTurns": 22,
+        "afterTurns": 431
+      },
+      {
+        "equal": true,
+        "sourceVertices": 44607,
+        "beforeTurns": 30,
+        "afterTurns": 472
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "beforeTurns": 22,
+        "afterTurns": 587
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "beforeTurns": 22,
+        "afterTurns": 146
+      },
+      {
+        "equal": true,
+        "sourceVertices": 35936,
+        "beforeTurns": 22,
+        "afterTurns": 413
+      },
+      {
+        "equal": true,
+        "sourceVertices": 42137,
+        "beforeTurns": 33,
+        "afterTurns": 460
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39484,
+        "beforeTurns": 33,
+        "afterTurns": 445
+      },
+      {
+        "equal": true,
+        "sourceVertices": 37313,
+        "beforeTurns": 22,
+        "afterTurns": 419
+      },
+      {
+        "equal": true,
+        "sourceVertices": 14001,
+        "beforeTurns": 22,
+        "afterTurns": 146
+      },
+      {
+        "equal": true,
+        "sourceVertices": 69044,
+        "beforeTurns": 22,
+        "afterTurns": 605
+      },
+      {
+        "equal": true,
+        "sourceVertices": 39935,
+        "beforeTurns": 37,
+        "afterTurns": 449
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65711,
+        "beforeTurns": 22,
+        "afterTurns": 587
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41033,
+        "beforeTurns": 22,
+        "afterTurns": 443
+      },
+      {
+        "equal": true,
+        "sourceVertices": 41761,
+        "beforeTurns": 22,
+        "afterTurns": 446
+      },
+      {
+        "equal": true,
+        "sourceVertices": 65659,
+        "beforeTurns": 22,
+        "afterTurns": 587
+      },
+      {
+        "equal": true,
+        "sourceVertices": 11387,
+        "beforeTurns": 22,
+        "afterTurns": 127
+      }
+    ],
+    "remaining": 0
+  },
+  "errors": [],
+  "residentWarnings": [],
+  "complete": true,
+  "sourceSha256": {
+    "src/presentation/meshynpcs.ts": "9683f98813285421f6c71c9569c3b9f5c39690bf1a3d92ad70199aa2212bcb54",
+    "src/presentation/npc/residentFingers.ts": "98ff523514e3d725350505ffeaada38f18797c7548b85eeb5e09356aff38075d"
+  }
+}

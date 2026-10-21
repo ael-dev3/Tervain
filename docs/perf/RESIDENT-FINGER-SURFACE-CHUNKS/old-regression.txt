@@ -1,0 +1,44 @@
+
+ RUN  v5.0.2 [repository]
+
+stdout | tests/presentation/residentFingerScheduling.test.ts > bounds surface triangle reads per resume while preserving the complete shipped finger plan
+{"id":"quarry-foreman","largest":138000,"digest":"46ad58308adb4b6af328d8cbb937904651129cc177af184a214b13cfb09cb401"}
+
+stdout | tests/presentation/residentFingerScheduling.test.ts > bounds surface triangle reads per resume while preserving the complete shipped finger plan
+{"id":"maintenance-worker","largest":137982,"digest":"cf9efbca20dc232accd55db03291458584245929667f14eba5065f8fd81cc96b"}
+
+ ❯ tests/presentation/residentFingerScheduling.test.ts (1 test | 1 failed) 198ms
+   × bounds surface triangle reads per resume while preserving the complete shipped finger plan 197ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/residentFingerScheduling.test.ts > bounds surface triangle reads per resume while preserving the complete shipped finger plan
+AssertionError: expected 138000 to be less than or equal to 1536
+ ❯ tests/presentation/residentFingerScheduling.test.ts:23:28
+     21|         .update(new Uint8Array(next.value.joints.buffer)).update(new U…
+     22|       console.log(JSON.stringify({ id, largest, digest }));
+     23|       expect.soft(largest).toBeLessThanOrEqual(1536);
+       |                            ^
+     24|       break;
+     25|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/presentation/residentFingerScheduling.test.ts > bounds surface triangle reads per resume while preserving the complete shipped finger plan
+AssertionError: expected 137982 to be less than or equal to 1536
+ ❯ tests/presentation/residentFingerScheduling.test.ts:23:28
+     21|         .update(new Uint8Array(next.value.joints.buffer)).update(new U…
+     22|       console.log(JSON.stringify({ id, largest, digest }));
+     23|       expect.soft(largest).toBeLessThanOrEqual(1536);
+       |                            ^
+     24|       break;
+     25|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:34:08
+   Duration  362ms (tests 67%, transform 20%, import 11%, setup 2%, worker 1%)
+

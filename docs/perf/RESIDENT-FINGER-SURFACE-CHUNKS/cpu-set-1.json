@@ -1,0 +1,674 @@
+[
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 26.896167000000332,
+    "maxResume": 3.9032719999999017,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 43.11807999999962,
+    "maxResume": 6.332068999999933,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 33.74976400000048,
+    "maxResume": 5.123403999999937,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 25.217084000000796,
+    "maxResume": 2.7770309999999654,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 25.446818999999778,
+    "maxResume": 4.175830999999903,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 24.41171100000031,
+    "maxResume": 2.9989739999999756,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 24.715816000000018,
+    "maxResume": 2.9736159999999927,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 21.803699999999935,
+    "maxResume": 2.4946259999999256,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 22.767951999999013,
+    "maxResume": 2.5879969999998593,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.128087999999934,
+    "maxResume": 2.5716620000000603,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.771242000000257,
+    "maxResume": 2.575437999999849,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 27.31171399999971,
+    "maxResume": 2.991894000000002,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 27.19292399999813,
+    "maxResume": 2.894365999999991,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 23.926682999999684,
+    "maxResume": 3.309529999999995,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 32.797039999999924,
+    "maxResume": 9.184342999999899,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 23.594652000002498,
+    "maxResume": 3.611844000000019,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 22.39374400000247,
+    "maxResume": 2.8029089999999997,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.936349999999948,
+    "maxResume": 2.613934999999856,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 21.02807900000016,
+    "maxResume": 2.6570200000001023,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 25.656933999999183,
+    "maxResume": 3.452355000000125,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 25.069623000001684,
+    "maxResume": 3.422508999999991,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 28.63604199999986,
+    "maxResume": 4.594318999999814,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 25.85381799999982,
+    "maxResume": 6.05651499999999,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 22.657574999998133,
+    "maxResume": 2.4977309999999306,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 23.004943999996385,
+    "maxResume": 2.5664439999998194,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 18.812179999999216,
+    "maxResume": 2.4585219999999026,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.410226000000648,
+    "maxResume": 3.3055349999999635,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 28.46080600000073,
+    "maxResume": 3.9655749999999443,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 25.660525000000007,
+    "maxResume": 2.843650000000025,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 18.25522299999966,
+    "maxResume": 2.455327000000125,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 23.675345000001016,
+    "maxResume": 8.258722000000034,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 20.229529999996885,
+    "maxResume": 2.964191999999912,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 19.01229100000046,
+    "maxResume": 2.4572400000001835,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 19.763639000000694,
+    "maxResume": 3.357723000000078,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 19.10461900000064,
+    "maxResume": 2.44972800000005,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 18.325974999995196,
+    "maxResume": 2.475977999999941,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 18.4447799999989,
+    "maxResume": 2.446584000000257,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.023609999998826,
+    "maxResume": 4.851255000000037,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 21.771600000000035,
+    "maxResume": 4.0568819999998595,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 19.160817999996198,
+    "maxResume": 2.4488969999997607,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 19.546775999999227,
+    "maxResume": 3.5024600000001556,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 19.26602400000229,
+    "maxResume": 2.4865749999999025,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 18.806444000001648,
+    "maxResume": 2.453625000000102,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 18.1940270000041,
+    "maxResume": 2.479284000000007,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 19.051733000001605,
+    "maxResume": 2.461076999999932,
+    "turns": 414
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 18.645021000001634,
+    "maxResume": 2.5256429999999455,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "before",
+    "ms": 20.379877000001215,
+    "maxResume": 2.4473950000001423,
+    "turns": 23
+  },
+  {
+    "id": "quarry-foreman",
+    "mode": "after",
+    "ms": 19.198647999999594,
+    "maxResume": 3.4631610000001274,
+    "turns": 414
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 25.29265900000337,
+    "maxResume": 1.8866540000003624,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 19.61683999999923,
+    "maxResume": 3.3243130000000747,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.57182900000089,
+    "maxResume": 1.7244500000001608,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.0472480000044,
+    "maxResume": 1.7125719999999092,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 17.180584000000636,
+    "maxResume": 1.7492960000004132,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.19910899999968,
+    "maxResume": 1.6415560000000369,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.22894499999802,
+    "maxResume": 2.52155700000003,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.841767999998865,
+    "maxResume": 1.7250810000000456,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.621599000002334,
+    "maxResume": 1.6175290000001041,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.42411600000105,
+    "maxResume": 1.6234890000000632,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.218508000000384,
+    "maxResume": 1.7771389999998064,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.715709999999945,
+    "maxResume": 1.7275140000001556,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 17.130234000005657,
+    "maxResume": 1.71654800000033,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.30369100000098,
+    "maxResume": 2.015513999999712,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 24.417010999998638,
+    "maxResume": 4.6832650000001195,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 19.136585000003834,
+    "maxResume": 2.506819999999607,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.877222999996775,
+    "maxResume": 1.6291670000000522,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 18.910617000001366,
+    "maxResume": 4.093953000000056,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 18.486632999999983,
+    "maxResume": 3.1236919999996644,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.611261000004106,
+    "maxResume": 1.6793910000001233,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.932170999997652,
+    "maxResume": 1.926010000000133,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.335770000000593,
+    "maxResume": 2.0011829999998554,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.278741999999966,
+    "maxResume": 1.6471639999999752,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 17.05236100000684,
+    "maxResume": 1.8544229999997697,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 18.18520199999375,
+    "maxResume": 2.422392999999829,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.21238499999754,
+    "maxResume": 1.5820060000000922,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 27.638253000004624,
+    "maxResume": 4.584917999999561,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.91423199999099,
+    "maxResume": 1.9133609999998953,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.56578100000661,
+    "maxResume": 1.6029670000007172,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 16.356455999997706,
+    "maxResume": 1.9448889999994208,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 17.106627000000117,
+    "maxResume": 1.9982980000004318,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.726204000003236,
+    "maxResume": 1.6358359999994718,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 17.824523999995108,
+    "maxResume": 3.4773310000000492,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 14.960829000002377,
+    "maxResume": 1.585041000000274,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 14.982879000000139,
+    "maxResume": 1.565150999999787,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 18.385999000000083,
+    "maxResume": 4.3141829999995025,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.509379999993143,
+    "maxResume": 1.6012039999995977,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.018703999997342,
+    "maxResume": 1.5646999999999025,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 17.68512400000145,
+    "maxResume": 4.363847000000533,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.549491999989186,
+    "maxResume": 1.6051809999999023,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 16.142943000017112,
+    "maxResume": 1.5846199999996315,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 18.449744999998074,
+    "maxResume": 4.982543000000078,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.312794999998005,
+    "maxResume": 1.6685559999996258,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 15.778645999992477,
+    "maxResume": 1.6302279999999882,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 18.684027000010246,
+    "maxResume": 4.71864800000003,
+    "turns": 461
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.571233999998185,
+    "maxResume": 2.0022339999995893,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "before",
+    "ms": 15.119604000002255,
+    "maxResume": 1.5892870000006951,
+    "turns": 34
+  },
+  {
+    "id": "maintenance-worker",
+    "mode": "after",
+    "ms": 18.740247999999156,
+    "maxResume": 4.757466000000022,
+    "turns": 461
+  }
+]
