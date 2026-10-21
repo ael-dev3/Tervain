@@ -1,0 +1,50 @@
+[
+  {
+    "file": "fir-overview-before-0.png",
+    "rgbSha256": "f6e08c6c256b645df421e77b2450c1ebd122a1a8319231192f90393c9035e705"
+  },
+  {
+    "file": "fir-overview-before-1.png",
+    "rgbSha256": "f6e08c6c256b645df421e77b2450c1ebd122a1a8319231192f90393c9035e705"
+  },
+  {
+    "file": "fir-overview-after-0.png",
+    "rgbSha256": "4f5655b4afa085f641b3f93ef400eee46d79c4d451ed4e582178ee311b7f0378"
+  },
+  {
+    "file": "fir-overview-after-1.png",
+    "rgbSha256": "4f5655b4afa085f641b3f93ef400eee46d79c4d451ed4e582178ee311b7f0378"
+  },
+  {
+    "file": "fence-control-before-0.png",
+    "rgbSha256": "9c4c458e77a8510f77c549e335b6db8d74114ccc9f19e68fd95aaba6eedad9d0"
+  },
+  {
+    "file": "fence-control-before-1.png",
+    "rgbSha256": "9c4c458e77a8510f77c549e335b6db8d74114ccc9f19e68fd95aaba6eedad9d0"
+  },
+  {
+    "file": "fence-control-after-0.png",
+    "rgbSha256": "9c4c458e77a8510f77c549e335b6db8d74114ccc9f19e68fd95aaba6eedad9d0"
+  },
+  {
+    "file": "fence-control-after-1.png",
+    "rgbSha256": "9c4c458e77a8510f77c549e335b6db8d74114ccc9f19e68fd95aaba6eedad9d0"
+  },
+  {
+    "file": "sea-control-before-0.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171"
+  },
+  {
+    "file": "sea-control-before-1.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171"
+  },
+  {
+    "file": "sea-control-after-0.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171"
+  },
+  {
+    "file": "sea-control-after-1.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171"
+  }
+]
