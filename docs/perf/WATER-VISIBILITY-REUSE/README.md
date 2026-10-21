@@ -42,4 +42,18 @@ The build-URL option supports a separately served baseline. It asserts live dupl
 
 ## Stock compiled-build budget
 
-Running against live; no pass is claimed yet. The final receipt will be added here after the unmodified gate completes.
+The unmodified gate completed against the compiled candidate head, with no hooks or allowances. Raw output: `budget.log`. It uses two live probes and four completed samples per probe.
+
+```text
+# Budget gate: PASS
+
+- Live (https://ael-dev3.github.io/Tervain/, revision 9cc3589): draw calls 284, triangles 2916635, console errors 0
+- Candidate (<candidate-preview>, revision 533b03491): draw calls 284, triangles 2916635, console errors 0
+- Draws not above live: yes; triangles not above live: yes; no console errors: yes; revision matches head 533b034915e77c3a402d554e17476e8e8dc14902: yes; maximum over four samples; live is the larger of two live probes
+- Not measured by the page: texture taps, shader cost, JS frame CPU. Each PR posts its own cost table; the gate does not claim them.
+- Wall-clock pacing (over-25 ms share, p95): advisory only, see docs/perf/LATEST.md (A/A band 1.7 points). Not a pass/fail condition.
+
+play-gate: PASS 533b03491
+```
+
+Software WebGL budget receipt; no hardware pacing claim.
