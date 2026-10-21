@@ -165,3 +165,13 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m): 139 → 0 detached clumps (2,384 → 0 cards); the canopy gate passes with no baseline. Birch seats like the oaks; firs gain a leader, and firs and palms gain twigs out to their far sheets and fronds. Details: docs/engineering/a157-0037-sheet-crowns.md.
 - Triangles, near crowns only: +222 per fir, +6 to +168 per palm; no added draw.
 - Budget gate against live on the release head: in the release PR.
+
+## 0.0.38: pop-in measured on live, furniture fades behind the windows, grass light, 2026-10-21
+
+- Method (the replay from #717): every step of a walk (241 steps, 31.2 m, 960×540) drawn before and after the world updates, from the same camera, so only what the update changed remains; a changed region is a channel change of 20 or more over 16 or more connected pixels. Frozen wind, sky and clocks; native post and MSAA; a positive control (forest and grass hidden) is detected first in every run.
+- Live 0.0.37, forest and grass updates, meadow and woods at High, Medium and Low: 0 changed regions in all six walks.
+- Live 635d63d, whole world (every module, shadow map redrawn each capture): High through crossfading shrubs 0, High meadow 0, Low past 30 crossfading trees 0, Medium past 70 crossfading trees and through the village 6. Of those six, three are furniture appearing behind two house windows as the walk came within range, two are the same windows when the replay first places its camera, and one is a one-pixel line on a doorstep.
+- Furniture now fades over the last 4 m of its range (25 m through the windows, 34 m through an open door) and with its door's swing. On the village route, High and Medium, live shows the three furniture regions and the doorstep line at the steps where the walk crossed a range; 0.0.38 shows none (the camera-placement pair at the first pose stays). Draws and triangles unchanged; CPU about 0.01 ms a frame more near houses; GPU 4.316 → 4.313 ms median at a village pose. Details: docs/engineering/a158-0038-pop-in-and-grass-light.md.
+- The tree crossfade's mask leaves 0.5% of the pixels both models cover empty on the Low walk; a view-ray mask cut that by 62% but showed 14% more background through crossfading crowns, so it was not taken.
+- Grass (#700, #701), the low-sun walk (120 frames, 1470×956 at 2×) on live 0.0.37 against live 635d63d: grass pixels jumping 40+ levels between frames 29,456,223 → 28,976,361 (−1.6%), 60+ levels 14,507,146 → 14,117,684 (−2.7%), grass mean −0.7%, bright grass and flashes 0 on both.
+- Budget gate against live on the release head: in the release PR.
