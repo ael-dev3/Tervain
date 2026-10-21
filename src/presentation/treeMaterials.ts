@@ -36,11 +36,12 @@ const leafCache = new Map<LeafKind, THREE.MeshStandardMaterial>();
  * keeps grain density constant on uniformly enlarged trees. Only shading changes: no vertex
  * displacement, new silhouette, sway, or collision mismatch. Textures remain the caller's resources. */
 export function installBarkDetail(material: THREE.MeshStandardMaterial, textures: Pick<BarkTextures, 'map' | 'surface'>,
-  opts: { mix?: number; relief?: number } = {}): void {
+  opts: { mix?: number; relief?: number; macro?: number } = {}): void {
   // A133: broadleaf source trunks carry only a soft baked atlas with no normal map; they take more of the metre-scale
   // bark and deeper relief.
   const mix = opts.mix ?? 0.45, relief = opts.relief ?? 0.012;
-  const variant = opts.mix === undefined && opts.relief === undefined ? '' : `-${mix.toFixed(3)}-${relief.toFixed(4)}`;
+  // `macro` (A162) fixes the bark's large-scale brightness, for a source too dark to carry it.
+  const variant = opts.mix === undefined && opts.relief === undefined && opts.macro === undefined ? '' : `-${mix.toFixed(3)}-${relief.toFixed(4)}${opts.macro === undefined ? '' : `-m${opts.macro.toFixed(3)}`}`;
   const compile = material.onBeforeCompile;
   const cacheKey = material.customProgramCacheKey;
   material.onBeforeCompile = function(shader, renderer) {
@@ -78,7 +79,7 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec3 tvBarkAlbedo = tvBarkSample(tvBarkColour, tvBarkCoordinates, tvBarkWeights).rgb;
         vec2 tvBarkReliefRoughness = tvBarkSample(tvBarkSurface, tvBarkCoordinates, tvBarkWeights).rg;
         float tvBarkClose = 1.0 - smoothstep(45.0, 100.0, length(vViewPosition));
-        float tvBarkMacro = clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 4.0, 0.65, 1.35);
+        float tvBarkMacro = ${opts.macro === undefined ? 'clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 4.0, 0.65, 1.35)' : opts.macro.toFixed(3)};
         diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, ${mix.toFixed(3)} * tvBarkClose);`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
         roughnessFactor = mix(roughnessFactor, tvBarkReliefRoughness.y, tvBarkClose);`)

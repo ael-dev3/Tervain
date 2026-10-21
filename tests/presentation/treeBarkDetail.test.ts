@@ -96,4 +96,16 @@ describe('original bark surface detail', () => {
     expect(disposed).not.toHaveBeenCalled();
     disposeTreeTextures(); disposeTreeTextures(); expect(disposed).toHaveBeenCalledTimes(1);
   });
+
+  it('takes a fixed large-scale brightness for a source too dark to carry it, under its own program key (A162)', () => {
+    const textures = barkTextures('oak', 32);
+    const derived = new THREE.MeshStandardMaterial(), fixed = new THREE.MeshStandardMaterial();
+    installBarkDetail(derived, textures, { mix: 0.85, relief: 0.035 });
+    installBarkDetail(fixed, textures, { mix: 0.85, relief: 0.035, macro: 1.8 });
+    expect(shaderOf(derived).fragmentShader).toContain('float tvBarkMacro = clamp(dot(diffuseColor.rgb');
+    expect(shaderOf(fixed).fragmentShader).toContain('float tvBarkMacro = 1.800;');
+    expect(fixed.customProgramCacheKey()).toContain('-0.850-0.0350-m1.800');
+    expect(fixed.customProgramCacheKey()).not.toBe(derived.customProgramCacheKey());
+    derived.dispose(); fixed.dispose();
+  });
 });
