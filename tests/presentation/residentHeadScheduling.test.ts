@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
-import { expect, it } from 'vitest';
-import { repairHeadWeights, repairHeadWeightsSteps } from '../../src/presentation/npc/headWeights';
+import { expect, it, vi } from 'vitest';
+import { headShare, repairHeadWeights, repairHeadWeightsSteps } from '../../src/presentation/npc/headWeights';
+import { RESIDENT_JOINTS } from '../../src/presentation/npc/residentRig';
 import { loadResident, loadResidentRigData, residentMesh } from './residentFixtures';
 
 it('limits each head-repair resume and preserves complete shipped skin weights', async () => {
@@ -48,4 +49,14 @@ it('shares the completed repair when two iterators start before either finishes'
   for (;;) { const n = first.next(); if (n.done) { a = n.value; break; } }
   for (;;) { const n = second.next(); if (n.done) { b = n.value; break; } }
   expect(b).toBe(a);
+});
+
+it('does not repeat fixed joint lookups for every sampled vertex', async () => {
+  const { source } = await loadResident('quarry-foreman'), data = await loadResidentRigData('quarry-foreman');
+  const position = residentMesh(source.scene).geometry.getAttribute('position');
+  const lookup = vi.spyOn(RESIDENT_JOINTS, 'indexOf');
+  try {
+    for (let v = 0; v < 100; v++) headShare(data, position.getX(v), position.getY(v), position.getZ(v));
+    expect(lookup).not.toHaveBeenCalled();
+  } finally { lookup.mockRestore(); }
 });
