@@ -317,7 +317,7 @@ async function runProfile(name) {
     failures.push(`run failed: ${err.message}`);
     return { name, prof, dir, failures, stats: null };
   } finally {
-    page?.close();
+    await page?.close();
   }
 }
 
