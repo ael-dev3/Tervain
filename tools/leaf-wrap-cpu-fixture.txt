@@ -1,0 +1,14 @@
+import * as THREE from 'three';
+import {it,expect} from 'vitest';
+import {writeFileSync} from 'node:fs';
+import {leafCutoutSampler as original} from '../../src/presentation/__leaf-wrap-original';
+import {leafCutoutSampler as candidate} from '../../src/presentation/leafSurfaceSites';
+it('measures paired opacity helpers only',()=>{
+const bytes=new Uint8Array(128*128*4);for(let i=0;i<bytes.length;i++)bytes[i]=(i*31+(i>>>7)*17)&255;
+const texture=new THREE.DataTexture(bytes,128,128);texture.magFilter=THREE.LinearFilter;texture.wrapS=THREE.RepeatWrapping;texture.wrapT=THREE.RepeatWrapping;texture.flipY=false;
+const material=new THREE.MeshStandardMaterial({map:texture,alphaTest:.42});const samplers={before:original(material)!,after:candidate(material)!,control:original(material)!};
+const uv=Float64Array.from({length:8192},(_,i)=>((i*113)%8191)/4096-.5);let total=0;const run=(mode:keyof typeof samplers)=>{const sample=samplers[mode];let sum=0;for(let k=0;k<16;k++)for(let i=0;i<uv.length;i+=2)sum+=sample.alpha(uv[i]!,uv[i+1]!);total+=sum;return sum;};
+for(let i=0;i<12;i++)for(const mode of ['before','after','control'] as const)run(mode);
+const rows=[];for(let pair=0;pair<30;pair++)for(const mode of (pair%2?['after','control','before']:['before','control','after']) as (keyof typeof samplers)[]){const start=performance.now(),sum=run(mode);rows.push({pair,mode,ms:performance.now()-start,sum,lookups:65536});}
+expect(rows.every(r=>r.sum===rows[0]!.sum)).toBe(true);writeFileSync(process.env.WRAP_CPU_OUT!,JSON.stringify({rows,total}));texture.dispose();material.dispose();
+});

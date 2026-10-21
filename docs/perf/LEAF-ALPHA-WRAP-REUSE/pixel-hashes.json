@@ -1,0 +1,102 @@
+[
+  {
+    "file": "fir-overview-before-0.png",
+    "rgbSha256": "a7215c6ffb4716724f4762a617ef51f662c10ab41fcbff148cbd79412f530132",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-overview-before-1.png",
+    "rgbSha256": "a7215c6ffb4716724f4762a617ef51f662c10ab41fcbff148cbd79412f530132",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-lower-before-0.png",
+    "rgbSha256": "c02921d836b9d30bfc4f3f1a293b471c0dd21507d2d9fb4fc3e2b2777b695189",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-lower-before-1.png",
+    "rgbSha256": "c02921d836b9d30bfc4f3f1a293b471c0dd21507d2d9fb4fc3e2b2777b695189",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-upper-before-0.png",
+    "rgbSha256": "a3bd4307567cb2be905176ea3e608b8df252e69c631b54d98de9db1d94751665",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-upper-before-1.png",
+    "rgbSha256": "a3bd4307567cb2be905176ea3e608b8df252e69c631b54d98de9db1d94751665",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-control-before-0.png",
+    "rgbSha256": "fe16b21f394aede750a519ca38faf288ecdbdb49e1534bb7277fe129a6a91c27",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-control-before-1.png",
+    "rgbSha256": "fe16b21f394aede750a519ca38faf288ecdbdb49e1534bb7277fe129a6a91c27",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-control-before-0.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-control-before-1.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-overview-after-0.png",
+    "rgbSha256": "a7215c6ffb4716724f4762a617ef51f662c10ab41fcbff148cbd79412f530132",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-overview-after-1.png",
+    "rgbSha256": "a7215c6ffb4716724f4762a617ef51f662c10ab41fcbff148cbd79412f530132",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-lower-after-0.png",
+    "rgbSha256": "c02921d836b9d30bfc4f3f1a293b471c0dd21507d2d9fb4fc3e2b2777b695189",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-lower-after-1.png",
+    "rgbSha256": "c02921d836b9d30bfc4f3f1a293b471c0dd21507d2d9fb4fc3e2b2777b695189",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-upper-after-0.png",
+    "rgbSha256": "a3bd4307567cb2be905176ea3e608b8df252e69c631b54d98de9db1d94751665",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fir-upper-after-1.png",
+    "rgbSha256": "a3bd4307567cb2be905176ea3e608b8df252e69c631b54d98de9db1d94751665",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-control-after-0.png",
+    "rgbSha256": "fe16b21f394aede750a519ca38faf288ecdbdb49e1534bb7277fe129a6a91c27",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-control-after-1.png",
+    "rgbSha256": "fe16b21f394aede750a519ca38faf288ecdbdb49e1534bb7277fe129a6a91c27",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-control-after-0.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-control-after-1.png",
+    "rgbSha256": "f10018a619bf7919dcb672ec8cca2887410d7e882b17dc4f2543f9665cb1f171",
+    "changedRgbPixels": 0
+  }
+]

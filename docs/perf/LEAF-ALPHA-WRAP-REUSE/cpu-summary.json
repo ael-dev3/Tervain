@@ -1,0 +1,20 @@
+{
+  "before": {
+    "blocks": 90,
+    "lookupsPerBlock": 65536,
+    "meanBlockMs": 2.9562930666666682,
+    "p95BlockMs": 3.026183000000003
+  },
+  "after": {
+    "blocks": 90,
+    "lookupsPerBlock": 65536,
+    "meanBlockMs": 1.267040255555556,
+    "p95BlockMs": 1.32492400000001
+  },
+  "control": {
+    "blocks": 90,
+    "lookupsPerBlock": 65536,
+    "meanBlockMs": 2.9605656555555515,
+    "p95BlockMs": 3.0240909999999985
+  }
+}

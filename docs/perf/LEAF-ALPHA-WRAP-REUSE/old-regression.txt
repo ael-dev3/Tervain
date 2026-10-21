@@ -1,0 +1,26 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/leafSurfaceSites.test.ts (14 tests | 1 failed) 39ms
+   × wraps each bilinear opacity row and column once without changing alpha 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/leafSurfaceSites.test.ts > wraps each bilinear opacity row and column once without changing alpha
+AssertionError: expected "min" to be called 4 times, but got 8 times
+ ❯ tests/presentation/leafSurfaceSites.test.ts:215:46
+    213|     const sampler = leafCutoutSampler(material)!;
+    214|     const min = vi.spyOn(Math, 'min');
+    215|     try { sampler.alpha(.3, .4); expect(min).toHaveBeenCalledTimes(4);…
+       |                                              ^
+    216|     finally { min.mockRestore(); }
+    217|   } finally { material.dispose(); texture.dispose(); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  04:37:31
+   Duration  188ms (transform 40%, tests 34%, import 20%, setup 4%, worker 2%)
+
