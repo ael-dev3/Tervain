@@ -327,6 +327,7 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
   const skin = RESIDENT_JOINTS.map(() => new THREE.Matrix4()), p = new THREE.Vector3(), q = new THREE.Vector3(), sum = new THREE.Vector3();
   const heights: number[] = [], depths: number[] = [], sides: number[] = [];
   const posed: THREE.Vector3[] = [];
+  const sortedHeights = new Float64Array(candidates.length);
   for (const at of moments) {
     action.time = at * clip.clip.duration;
     mixer.update(0);
@@ -347,10 +348,20 @@ export function* measureSeatSteps(clip: RetargetedClip, rest: RestPose, data: Re
       else posed.push(sum.clone());
     }
     yield;
-    posed.sort((a, b) => a.y - b.y);
-    // The seat: the lowest few centimetres of that surface.
-    const low = posed[Math.min(posed.length - 1, Math.floor(posed.length * 0.01))]!.y;
+    // Only the lowest patch needs object ordering. Native numeric sorting avoids a JS comparator
+    // over the complete skin, while sorting the retained patch preserves the original sum order.
+    let ordinary = true;
+    for (let i = 0; i < posed.length; i++) {
+      const y = posed[i]!.y;
+      sortedHeights[i] = y;
+      if (!Number.isFinite(y) || Object.is(y, -0)) ordinary = false;
+    }
+    if (ordinary) sortedHeights.sort();
+    else posed.sort((a, b) => a.y - b.y); // Preserve native comparator semantics for exceptional values.
+    const rank = Math.min(posed.length - 1, Math.floor(posed.length * 0.01));
+    const low = ordinary ? sortedHeights[rank]! : posed[rank]!.y;
     const patch = posed.filter(point => point.y <= low + 0.03);
+    if (ordinary) patch.sort((a, b) => a.y - b.y);
     heights.push(low);
     depths.push(patch.reduce((total, point) => total + point.z, 0) / Math.max(1, patch.length));
     sides.push(patch.reduce((total, point) => total + point.x, 0) / Math.max(1, patch.length));
