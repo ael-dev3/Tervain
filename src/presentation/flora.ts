@@ -338,9 +338,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         lod.leaf!.userData.leafIslands = anchorLeafIslands(lod.leaf!, lod.wood, leafCutoutSampler(leaf.material as THREE.Material), { reach: 0.6 / scale, gap: 0.7 / scale });
         // 0.0.37: the island pass can carry a chunk away from the twig that held one of its fir sheets or palm fronds
         // (meshyTrees anchorFarFoliage). Any part now past the audit reach at this template's largest planted scale gets
-        // its own twig, written into the variant's wood itself.
-        if (l === 0 && (v.species === 'fir' || v.species === 'shorepine' || v.species === 'palm')) {
-          anchorFarFoliage(lod.leaf!, lod.wood, 1.5 / (largest.get(lod.leaf!) ?? 1), false, 0.9, true);
+        // its own twig, written into the variant's wood itself. A167: at every level, as the leader is.
+        if (v.species === 'fir' || v.species === 'shorepine' || v.species === 'palm') {
+          const grown = anchorFarFoliage(lod.leaf!, lod.wood, 1.5 / (largest.get(lod.leaf!) ?? 1), false, 0.9, true);
+          // The twigs are written into the wood in place: the level's triangle count follows them.
+          if (grown.twigs) lod.tris = (lod.wood.index?.count ?? lod.wood.getAttribute('position').count) / 3 + (lod.leaf!.index?.count ?? lod.leaf!.getAttribute('position').count) / 3;
         }
       }
       for (const m of [wood, leaf]) {
