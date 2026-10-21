@@ -17,7 +17,7 @@
 ## Evidence
 
 - Close views of both slots' verdant-sentinels and an orchard tree-4815: grey-brown furrowed bark replaces the blue-black and orange trunks.
-- A real-play walk past two verdant-sentinels (12 s, fixed 1/60 s steps, wind running), against live 0.0.41:
+- A real-play walk past two verdant-sentinels (12 s, fixed 1/60 s steps; the trees stood still, the capture ran with reduced motion: corrected and re-measured with the wind in A166), against live 0.0.41:
 
 | Spikes against live 0.0.41 | Change |
 | --- | ---: |

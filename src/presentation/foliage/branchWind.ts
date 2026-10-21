@@ -130,6 +130,36 @@ export function deriveBranchWood(wood: THREE.BufferGeometry, shape: BranchShape 
   }
   wood.setAttribute('_wind', new THREE.BufferAttribute(wind, 4));
   wood.setAttribute('_pivot', new THREE.BufferAttribute(pivot, 3));
+  return woodField(px, py, pz, top, [ax, az], limbs, wind, pivot);
+}
+
+/**
+ * The field over a wood that carries its own branch data (a generated tree's `_wind` and `_pivot`, tools/tree-gen): its
+ * rebuilt crown's cards then ride the limbs the generator grew. Null without that data or without wood off the trunk.
+ */
+export function branchFieldOf(wood: THREE.BufferGeometry): BranchField | null {
+  const position = wood.getAttribute('position') as THREE.BufferAttribute | undefined;
+  const windAttr = wood.getAttribute('_wind') as THREE.BufferAttribute | undefined, pivotAttr = wood.getAttribute('_pivot') as THREE.BufferAttribute | undefined;
+  if (!position || !windAttr || !pivotAttr || position.count < 12) return null;
+  const n = position.count, px = new Float32Array(n), py = new Float32Array(n), pz = new Float32Array(n);
+  const wind = new Float32Array(n * 4), pivot = new Float32Array(n * 3), phases = new Set<number>();
+  let top = 0;
+  for (let i = 0; i < n; i++) {
+    px[i] = position.getX(i); py[i] = position.getY(i); pz[i] = position.getZ(i); top = Math.max(top, py[i]!);
+    wind[i * 4] = windAttr.getX(i); wind[i * 4 + 1] = windAttr.getY(i); wind[i * 4 + 2] = windAttr.getZ(i); wind[i * 4 + 3] = windAttr.getW(i);
+    pivot[i * 3] = pivotAttr.getX(i); pivot[i * 3 + 1] = pivotAttr.getY(i); pivot[i * 3 + 2] = pivotAttr.getZ(i);
+    if (wind[i * 4]! > TRUNK_LEVEL) phases.add(wind[i * 4 + 1]!);
+  }
+  if (!(top > 1) || !phases.size) return null;
+  let ax = 0, az = 0, base = 0;
+  for (let i = 0; i < n; i++) if (py[i]! < top * 0.06) { ax += px[i]!; az += pz[i]!; base++; }
+  if (base) { ax /= base; az /= base; }
+  return woodField(px, py, pz, top, [ax, az], phases.size, wind, pivot);
+}
+
+/** Nearest-vertex search and branch-data reads over a wood's vertices. */
+function woodField(px: Float32Array, py: Float32Array, pz: Float32Array, top: number, axis: readonly [number, number], limbs: number, wind: Float32Array, pivot: Float32Array): BranchField {
+  const n = px.length;
   // Nearest-vertex search: a dense uniform grid (counting-sorted), searched in growing shells until nothing nearer can exist.
   const cell = Math.max(0.75, top / 30);
   let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
@@ -169,7 +199,7 @@ export function deriveBranchWood(wood: THREE.BufferGeometry, shape: BranchShape 
     return best >= 0 && bd <= max * max ? best : -1;
   };
   return {
-    axis: [ax, az], height: top, limbs, nearest,
+    axis, height: top, limbs, nearest,
     position(v, out) { out.set(px[v]!, py[v]!, pz[v]!); },
     read(v, w, p) { w.set(wind[v * 4]!, wind[v * 4 + 1]!, wind[v * 4 + 2]!, wind[v * 4 + 3]!); p.set(pivot[v * 3]!, pivot[v * 3 + 1]!, pivot[v * 3 + 2]!); },
   };

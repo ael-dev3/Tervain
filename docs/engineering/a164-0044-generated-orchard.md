@@ -53,7 +53,7 @@ Per template in game (wood plus leaves):
 
 ## Evidence
 
-Two real-play walks through the orchard (12 s, fixed 1/60 s steps, wind running), against live 0.0.43:
+Two real-play walks through the orchard (12 s, fixed 1/60 s steps; the trees stood still, the capture ran with reduced motion: corrected and re-measured with the wind in A166), against live 0.0.43:
 
 | Flicker spikes | Along the rows at 11:00 | Past the pears at 15:00 |
 | --- | ---: | ---: |
