@@ -17,6 +17,8 @@ const FROM = 0.02, FULL = 0.08;
 const JAW_FORWARD = 0.55, JAW_DROP = 0.05;
 /** The column's radius about the middle of the head joint and the face marker, metres in the model. */
 const COLUMN = 0.13;
+// The authored joint order is fixed; do not search it twice for every vertex.
+const HEAD_INDEX = RESIDENT_JOINTS.indexOf('Head'), FRONT_INDEX = RESIDENT_JOINTS.indexOf('headfront');
 /** The joints that move as the skull: the neck's share of the skull comes over too, as the shoulders' does. */
 const HEAD_CHAIN = new Set(['Head', 'head_end', 'headfront']);
 
@@ -25,7 +27,7 @@ const repaired = new WeakMap<ResidentRigData, ResidentRigData>();
 
 /** The share of a vertex at bind position (x, y, z) that must follow the head joint whatever its rig weights say. */
 export function headShare(data: Pick<ResidentRigData, 'bones'>, x: number, y: number, z: number): number {
-  const head = data.bones[RESIDENT_JOINTS.indexOf('Head')]!.position, front = data.bones[RESIDENT_JOINTS.indexOf('headfront')]!.position;
+  const head = data.bones[HEAD_INDEX]!.position, front = data.bones[FRONT_INDEX]!.position;
   if (Math.hypot(x - (head[0] + front[0]) / 2, z - (head[2] + front[2]) / 2) > COLUMN) return 0;
   // The jaw and beard hang forward of the throat and lower: in the front of the column the ramp starts lower.
   const fx = front[0] - head[0], fz = front[2] - head[2], reach = Math.hypot(fx, fz) || 1;
