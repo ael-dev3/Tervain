@@ -187,13 +187,13 @@ export class WaterRenderPass {
   }
 
   private captureReflection(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera,
-    source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs) {
+    source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs, seaInView?: boolean) {
     const u = input.seaMaterial.uniforms;
     u.uWaterReflectionReady!.value = 0;
     // Only visible sea needs a planar capture; a map longitude is not a visibility boundary.
     camera.getWorldPosition(this.currentCameraPosition);
     camera.getWorldQuaternion(this.currentCameraRotation);
-    if (WaterRenderPass.captureOff || this.currentCameraPosition.y <= 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
+    if (WaterRenderPass.captureOff || this.currentCameraPosition.y <= 0.08 || !(seaInView ?? input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera)))) return;
     if (this.reflectionScene !== scene) { this.reflectionValid = false; this.reflectionScene = scene; }
     const size = input.quality === 'high' ? 512 : 384;
     if (this.reflector && this.reflector.getRenderTarget().texture.type !== source.texture.type) {
@@ -285,7 +285,15 @@ export class WaterRenderPass {
     camera.updateWorldMatrix(true, false);
     this.visibilityProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
     this.visibilityFrustum.setFromProjectionMatrix(this.visibilityProjection);
-    if (!input.meshes.some(mesh => this.waterInView(mesh, camera))) {
+    // The sea is usually first. Reuse its result for the planar capture rather than
+    // transforming/scanning its visibility boxes twice in the same unchanged view.
+    // Leave it unknown if an earlier channel short-circuits the search.
+    let seaInView: boolean | undefined;
+    if (!input.meshes.some(mesh => {
+      const visible = this.waterInView(mesh, camera);
+      if (mesh.name === 'sea') seaInView = visible;
+      return visible;
+    })) {
       // Looking inland needs one scene render, with no full-resolution copy or second water traversal. Retain
       // private targets for turning back toward the shore rather than reallocating them at every visibility change.
       input.meshes.forEach(mesh => detachWaterOptics(mesh.material));
@@ -304,7 +312,7 @@ export class WaterRenderPass {
     for (let i = 0; i < overlays.length; i++) overlayMasks[i] = overlays[i]!.layers.mask;
     try {
       camera.updateMatrixWorld();
-      this.captureReflection(renderer, scene, camera, source, dt, input);
+      this.captureReflection(renderer, scene, camera, source, dt, input, seaInView);
       input.meshes.forEach((mesh, i) => { mesh.layers.mask = (oldMask & meshMasks[i]!) !== 0 ? 2 : 0; });
       overlays.forEach((o, i) => { o.layers.mask = (oldMask & overlayMasks[i]!) !== 0 ? 2 : 0; });
       camera.layers.mask = oldMask & ~2;

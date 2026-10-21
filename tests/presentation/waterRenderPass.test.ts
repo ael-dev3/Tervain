@@ -78,6 +78,40 @@ afterEach(() => {
 });
 
 describe('water capture/composite orchestration', () => {
+  it('tests sea bounds once per view and refreshes the result after a camera turn', () => {
+    const f = setup(); coastalView(f);
+    const visible = vi.spyOn(f.pass as any, 'waterInView');
+    f.render();
+    expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])).toHaveLength(1);
+    expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(1);
+    f.camera.lookAt(-200, 3, 4); visible.mockClear(); f.draws.length = 0;
+    f.render();
+    expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])).toHaveLength(1);
+    expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(0);
+    f.camera.lookAt(-300, 0, 0); visible.mockClear(); f.draws.length = 0;
+    f.render();
+    expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])).toHaveLength(1);
+    expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(1);
+  });
+
+  it('reuses a negative sea result when a visible channel still needs the composite', () => {
+    const f = setup(), visible = vi.spyOn(f.pass as any, 'waterInView');
+    f.render();
+    expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])).toHaveLength(1);
+    expect(f.draws).toHaveLength(3);
+    expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(0);
+  });
+
+  it('still tests the sea when an earlier visible channel short-circuits the first search', () => {
+    const f = setup(); coastalView(f);
+    f.meshes[1]!.position.copy(f.meshes[0]!.position); f.meshes[1]!.rotation.copy(f.meshes[0]!.rotation);
+    f.input.meshes = [f.meshes[1]!, f.meshes[0]!];
+    const visible = vi.spyOn(f.pass as any, 'waterInView');
+    f.render();
+    expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])).toHaveLength(1);
+    expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value).toBe(1);
+  });
+
   it('does not capture shader-discarded sea while looking inland from the forest, and restores full reflection when turning west', () => {
     const f = setup(), water = new WaterSystem(new Terrain(), 'high'), sea = water.ocean;
     const previousSea = f.meshes[0]!;
