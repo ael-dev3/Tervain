@@ -49,7 +49,7 @@ describe('generated hero birch (tools/tree-gen --species birch)', () => {
       const position = attribute(glb, wood.attributes.POSITION, 3), colour = attribute(glb, wood.attributes.COLOR_0, 4);
       const red = (lo: number, hi: number) => { const v: number[] = []; for (let i = 0; i < position.length / 3; i++) { const y = position[i * 3 + 1]!; if (y >= lo && y < hi) v.push(colour[i * 4]!); } return v.reduce((s, x) => s + x, 0) / v.length; };
       expect(red(0, 0.8), id).toBeLessThan(0.3);
-      expect(red(3, 4.5), id).toBeGreaterThan(0.85);
+      expect(red(3, 4.5), id).toBeGreaterThan(0.65);
     }
   });
 

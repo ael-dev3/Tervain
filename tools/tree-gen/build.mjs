@@ -56,8 +56,9 @@ const BIRCH_LODS = {
   mid: { trunk: 8, limb: 5, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1300, cards: 3, cardRows: 1, sizeScale: 1.0, skirtSeg: 0 },
   far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 180, cards: 3, cardRows: 1, sizeScale: 1.8, skirtSeg: 0 },
 };
-// White bark keeps a neutral tint and little moss; a birch's foot is black and fissured for a metre or two, its twigs dark.
-const BIRCH_PALETTE = { warm: [0.97, 0.96, 0.94], moss: 0.25, level: { 1: 0.92, 2: 0.78, 3: 0.5 }, foot: (y, n) => lerp(0.1, 1, smoothstep(1.0, 2.8, y + 1.6 * (n - 0.5))) };
+// Birch bark keeps a neutral tint and little moss, a light grey rather than chalk white: whiter bark flickered against the
+// foliage swaying in front of it (A160). Its foot is dark for a metre or two; its limbs and twigs are greyer than its stem.
+const BIRCH_PALETTE = { warm: [0.76, 0.75, 0.73], moss: 0.25, level: { 1: 0.7, 2: 0.6, 3: 0.45 }, foot: (y, n) => lerp(0.1, 1, smoothstep(1.0, 2.8, y + 1.6 * (n - 0.5))) };
 // Each generated species: skeleton, trunk radius, bark, levels of detail and the one file that carries its images (the bark
 // and leaf atlas do not depend on the seed, so every other file of the species names that one and borrows them).
 const SPECIES = {
@@ -98,6 +99,9 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
   const crownShade = (p, b) => { const d = Math.hypot((p.x - sk.center.x) / sk.Rh, (p.y - sk.center.y) / sk.Rv, (p.z - sk.center.z) / sk.Rh); return lerp(b.isTrunk || b.level === 1 ? 0.66 : 0.45, 0.85, smoothstep(0.45, 1.0, d)); };
   const relief = (r) => clamp(0.3 * r, 0.008, 0.06);
   const sidesFor = (b) => (b.isTrunk ? P.trunk : b.level === 1 ? P.limb : b.level === 2 ? P.bough : P.twig);
+  // A stem that runs up into its crown is in the leaves' shade there: white bark seen through the gaps between leaf cards
+  // flickered against them (A160), so the stem darkens from the crown's base up.
+  const stemPalette = SP.palette && sk.crownBase !== undefined ? { ...SP.palette, crown: (y) => lerp(1, 0.3, smoothstep(sk.crownBase - 0.3, sk.crownBase + 2.2, y)) } : SP.palette;
   for (const level of [0, 1, 2, 3]) {
     if (level === 2 && !P.boughs) continue; if (level === 3 && !P.twigs) continue;
     for (const b0 of sk.branches.filter((b) => b.level === level)) {
@@ -114,7 +118,7 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       const trunk = !!b.isTrunk;
       const sm = addTube(mb, b, {
         sides, uTiles: trunk ? Math.max(1, Math.round(SP.radiusAt(2) * Math.PI * 2 / 5.2)) : level === 3 ? 0.02 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2), vScale: trunk || level === 3 ? 1 : Math.max(clamp(circ / 2.0, 0.12, 1), 0.2) / Math.max(0.05, circ / 2.0), crownShade: trunk ? null : crownShade, uOff: level === 3 ? bark.twigU : rng(), vOff: rng(), relief, seed: seedBase + b.id,
-        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3, palette: SP.palette,
+        shape: trunk ? trunkShape : null, lumps: trunk ? 0.14 : 0.05, noRelief: lod === 'far' || level === 3, palette: stemPalette,
       }, bark);
       seam.push(...sm);
     }

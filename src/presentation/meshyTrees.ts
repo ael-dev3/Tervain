@@ -77,11 +77,6 @@ export const CLUSTER_SCALE = 0.85;
 /** Cluster-canopy cards (A134): a near crown's cap, and a middle crown's share of its source triangles. */
 export const CANOPY_NEAR_CARDS = 6000;
 export const CANOPY_MID_SHARE = 1.2;
-/**
- * A generated birch's crown is open, small sprays with sky between them: it takes this share of a crown's cards, in clumps
- * this share of the usual size.
- */
-const BIRCH_CANOPY_SHARE = 0.38, BIRCH_CLUMP = 0.65;
 
 /**
  * Break the source's large leaf sheets into separate smaller cards at different depths (A133).
@@ -612,22 +607,21 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         // source sheets only say where the leaves go. Far crowns keep the source cards.
         if (exported && lod < 2 && clusters) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-          const base = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
-          const shape = hero && species === 'birch' ? { ...base, clump: base.clump * BIRCH_CLUMP, size: [base.size[0] * BIRCH_CLUMP, base.size[1] * BIRCH_CLUMP] as [number, number] } : base;
+          const shape = lod === 0 ? NEAR_CANOPY : MID_CANOPY;
           let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
-          if (hero && species === 'birch') cards = Math.round(cards * BIRCH_CANOPY_SHARE);
           const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
           // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
           // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
           // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
           const anchor = woodAnchor(wood);
+          // Lobes are the oaks' (A159): on a birch they flickered more than its even crown (A160).
           const lobes = hero && species === 'oak' ? CROWN_LOBES : undefined;
           if (lobes && !lobeShape) lobeShape = canopyLobes(exported, wood, { ...shape, cards, seed, lobes });
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
             canopy = buildCanopy(exported, wood, { ...shape, cards, seed, lobes, lobeShape, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
-            // A generated tree's limbs show inside its crown (the oak's between its lobes, the birch's between its small clumps): only bare wood out at the shell is cut.
+            // A generated tree's limbs reach well into its crown (the oak's between its lobes): only bare wood out at the shell is cut.
             const shell = hero ? LOBED_TRIM_SHELL : 0;
             trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15, shell)) : trimExposedWood(wood, canopy, shape.clump * 1.6, shell).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);

@@ -154,9 +154,10 @@ export function generateBirchBark(size = BARK_SIZE, seed = 17) {
     const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
     normal[n * 3] = Math.round((nx * 0.5 + 0.5) * 255); normal[n * 3 + 1] = Math.round((ny * 0.5 + 0.5) * 255); normal[n * 3 + 2] = Math.round((nz * 0.5 + 0.5) * 255);
     const b = tone[n], d = dark[n];
-    // Chalk white, a little warm in some bands and grey in others; lenticels and marks are a soft charcoal.
+    // Chalk white, a little warm in some bands and grey in others; lenticels and marks are mid grey (charcoal ones sparkled at
+    // a distance, A160).
     let R = 214 + 14 * b, G = 210 + 9 * b, B = 199 + 3 * b;
-    R = lerp(R, 54, d); G = lerp(G, 52, d); B = lerp(B, 50, d);
+    R = lerp(R, 96, d); G = lerp(G, 92, d); B = lerp(B, 88, d);
     albedo[n * 3] = clamp(Math.round(R), 0, 255); albedo[n * 3 + 1] = clamp(Math.round(G), 0, 255); albedo[n * 3 + 2] = clamp(Math.round(B), 0, 255);
   }
   const D = 256, f = S / D, height = new Float32Array(D * D);
