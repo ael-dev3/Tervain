@@ -243,7 +243,11 @@ export function leafCutoutSampler(material: THREE.Material): { uv: string; cutof
       if (nearest) return texel(Math.floor(x * w), Math.floor(y * h));
       x = x * w - 0.5; y = y * h - 0.5;
       const ix = Math.floor(x), iy = Math.floor(y), fx = x - ix, fy = y - iy;
-      return (texel(ix, iy) * (1 - fx) + texel(ix + 1, iy) * fx) * (1 - fy) + (texel(ix, iy + 1) * (1 - fx) + texel(ix + 1, iy + 1) * fx) * fy;
+      // Each bilinear corner shares its row and column with another corner. Wrap the four coordinates once.
+      const x0 = wrappedPixel(ix, w, ws), x1 = wrappedPixel(ix + 1, w, ws);
+      const y0 = wrappedPixel(iy, h, wt) * w, y1 = wrappedPixel(iy + 1, h, wt) * w;
+      return (data[y0 + x0]! / 255 * (1 - fx) + data[y0 + x1]! / 255 * fx) * (1 - fy)
+        + (data[y1 + x0]! / 255 * (1 - fx) + data[y1 + x1]! / 255 * fx) * fy;
     };
   });
   const first = maps[0]!, e = textureMatrix(first.texture).elements, image = first.image, texture = first.texture;
