@@ -1,0 +1,9 @@
+# Budget gate: PASS
+
+- Live (https://ael-dev3.github.io/Tervain/, revision fcfd799): draw calls 285, triangles 2965136, console errors 0
+- Candidate ([compiled candidate preview], revision c1804f6e8): draw calls 285, triangles 2965136, console errors 0
+- Draws not above live: yes; triangles not above live: yes; no console errors: yes; revision matches head c1804f6e874a9499283d83595ebcaa94313ea213: yes; maximum over four samples; live is the larger of two live probes
+- Not measured by the page: texture taps, shader cost, JS frame CPU. Each PR posts its own cost table; the gate does not claim them.
+- Wall-clock pacing (over-25 ms share, p95): advisory only, see docs/perf/LATEST.md (A/A band 1.7 points). Not a pass/fail condition.
+
+play-gate: PASS c1804f6e8

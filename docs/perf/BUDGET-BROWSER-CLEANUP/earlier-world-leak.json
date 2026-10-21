@@ -1,0 +1,9 @@
+{
+  "scope": "One stock budget command, after earlier disposable profiles were cleared and no Chrome remained active",
+  "beforeProfiles": 0,
+  "afterProfiles": 1,
+  "retainedBytes": 311428580,
+  "gateHead": "f2c9f63616e2f8a3b8e332af0737596a972ae692",
+  "exit": 1,
+  "reason": "New live geometry baseline, not cleanup error"
+}

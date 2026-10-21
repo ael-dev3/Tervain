@@ -1,0 +1,1 @@
+Budget gate: FAIL: Live budget revision changed or is unavailable (8e96a18 -> fcfd799). Retry against a single published revision.
