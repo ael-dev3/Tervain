@@ -231,3 +231,15 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Not taken: a wider, lower dome (2.4 to 2.5 m across at 1.5 m, against the shrubs' 1.7 m), which drew three more draws at the gate's pose, and three bush templates, which split the shrubs' batches.
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
 - Details: docs/engineering/a163-0043-generated-bushes.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.44: generated orchard trees, 2026-10-21
+
+- Per template in game (wood plus leaves), supplied (tree-4949 / tree-4815) → generated (hero-apple / hero-pear): near 18,970 / 19,020 → 13,134 / 13,054; middle 8,339 / 8,281 → 4,452 / 4,348; far 2,404 / 3,400 → 1,628 / 1,598. Over the 9 trees as placed: near 18,992 → 13,098, middle 8,313 → 4,406, far 2,847 → 1,615.
+- Every draw at the budget gate's pose, one frame: 241 on live and on the candidate.
+- Download: +2,538,860 bytes (six orchard files, no images: they borrow the oak's). The supplied orchard trees still load, because their footprints place the trees.
+- Two real-play walks through the orchard, against live 0.0.43 (along the rows at 11:00; past the pears at 15:00):
+  - Flicker spikes of 40+ levels: −51.2% and −48.0% in the upper 45% of the frame, −45.2% and −55.0% over the whole frame.
+  - Spikes of 60+ levels over the whole frame: −54.6% and −66.3%.
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
+- Grass, masked walk at a low sun behind: per-blade flutter damped below two pixels of width changed jumps by under 0.1%; flutter off entirely, by 1.6% to 3.0%. Not taken.
+- Details: docs/engineering/a164-0044-generated-orchard.md. Budget gate against live on the release head: in the release PR.

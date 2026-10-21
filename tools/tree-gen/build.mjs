@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Offline hero-oak generator: node tools/tree-gen/build.mjs [--seed 1] [--out public/models/flora/hero] [--stats]
- * Also grows birches and bushes: [--species oak|birch|bush] [--name hero-birch] (SPECIES below).
+ * Also grows birches, bushes and orchard trees: [--species oak|birch|bush|apple|pear] [--name hero-birch] (SPECIES below).
  *
  * Grows a four-level oak skeleton (skeleton.mjs), meshes it as bark-relief tubes with buttress roots and a soil skirt
  * (mesh.mjs), places leaf clusters on the twig ends (leaves.mjs) and writes three GLBs: hero-oak-near / -mid / -far.
@@ -25,7 +25,7 @@ import sharp from 'sharp';
 import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
 import { generateBark, generateBirchBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
-import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH, growBush, bushRadiusAt } from './lib/skeleton.mjs';
+import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH, growBush, bushRadiusAt, growFruit, fruitRadiusAt, APPLE, PEAR } from './lib/skeleton.mjs';
 import { MeshBuilder, addTube, addRoots, addSkirt, windLevel } from './lib/mesh.mjs';
 import { leafCandidates, placeClusters, clusterCards, bakeCrown } from './lib/leaves.mjs';
 import { writeGlb } from './lib/glb.mjs';
@@ -69,6 +69,16 @@ const BUSH_LODS = {
 };
 // Hazel-grey stems, a little moss, no dark foot; the thinnest wood a little darker.
 const BUSH_PALETTE = { warm: [0.62, 0.56, 0.49], moss: 0.4, level: { 1: 1, 2: 0.92, 3: 0.82 }, foot: () => 1 };
+// Orchard trees (A164) are the oak's crown at half its size: smaller cards, fewer clusters, no buttress roots. The game
+// rebuilds the near and middle crowns (the middle at 1.2 times these cards); the far crown draws its own. Every level
+// keeps the near cards' size, so no level reaches past the near crown's outline.
+const ORCHARD_LODS = {
+  near: { trunk: 10, limb: 7, bough: 4, twig: 3, root: 0, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 1100, cards: 3, cardRows: 1, sizeScale: 0.5, skirtSeg: 0 },
+  mid: { trunk: 8, limb: 5, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 700, cards: 3, cardRows: 1, sizeScale: 0.5, skirtSeg: 0 },
+  far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 300, cards: 3, cardRows: 1, sizeScale: 0.5, skirtSeg: 0 },
+};
+// Fruit-tree bark is darker and greyer than an oak's, a little mossy; its thin wood darker still.
+const ORCHARD_PALETTE = { warm: [0.62, 0.55, 0.48], moss: 0.5, level: { 1: 0.95, 2: 0.88, 3: 0.8 }, foot: () => 1 };
 // Each generated species: skeleton, trunk radius, bark, levels of detail and the one file that carries its images (the bark
 // and leaf atlas do not depend on the seed, so every other file of the species names that one and borrows them).
 const SPECIES = {
@@ -77,6 +87,9 @@ const SPECIES = {
   // Bushes draw the oaks' bark and leaves, so they borrow hero-oak-near's images and carry none (A163). Their branches reach
   // the dome's edge in leaf, so no bough is dropped for ending there.
   bush: { grow: (s) => growBush(s), radiusAt: (y) => bushRadiusAt(y), bark: () => generateBark(2048, 7), lods: BUSH_LODS, imageFile: 'hero-oak-near.glb', label: 'hero bush', palette: BUSH_PALETTE, leaves: { fill: 0, undersides: false }, crownShade: 0.62, boughEnvelope: 1.05, clusterSpacing: 0.06, cardClearance: 0.03 },
+  // Orchard trees borrow the oak's images too (A164): an apple in the wide orchard tree's slots, a pear in the narrow one's.
+  apple: { grow: (s) => growFruit(s, APPLE), radiusAt: (y) => fruitRadiusAt(y, APPLE), bark: () => generateBark(2048, 7), lods: ORCHARD_LODS, imageFile: 'hero-oak-near.glb', label: 'hero apple', palette: ORCHARD_PALETTE, leaves: { fill: 0.15 }, crownShade: 0.6, clusterSpacing: 0.1, cardClearance: 0.08 },
+  pear: { grow: (s) => growFruit(s, PEAR), radiusAt: (y) => fruitRadiusAt(y, PEAR), bark: () => generateBark(2048, 7), lods: ORCHARD_LODS, imageFile: 'hero-oak-near.glb', label: 'hero pear', palette: ORCHARD_PALETTE, leaves: { fill: 0.15 }, crownShade: 0.6, clusterSpacing: 0.1, cardClearance: 0.08 },
 };
 const SP = SPECIES[species];
 if (!SP) throw new Error(`Unknown species ${species}`);
