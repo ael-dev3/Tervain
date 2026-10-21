@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { weldExact } from './weld';
+import { weldExactSteps } from './weld';
 
 /**
  * Surfaces for the residents. The prepared models carry one soft 1536 px colour atlas and a damped normal bake, under a
@@ -91,7 +91,7 @@ export function residentHiddenLayers(geometry: THREE.BufferGeometry, jointNames:
 /** Milliseconds of hidden-layer work a step of a staged rig build takes. */
 const HIDDEN_STEP_MS = 3;
 
-/** residentHiddenLayers a part at a time (A78): the weld, then the grid and each pass, a few milliseconds a step. */
+/** Bounded weld/buffer copies, then clock-budgeted grid and visibility passes during staged resident preparation. */
 export function* residentHiddenLayersSteps(geometry: THREE.BufferGeometry, jointNames: readonly string[],
   axes: readonly ResidentAxis[] = [[new THREE.Vector3(), new THREE.Vector3(0, 2, 0)]], gap = HIDDEN_GAP): Generator<void, Float32Array, void> {
   const position = geometry.getAttribute('position'), normal = geometry.getAttribute('normal'), index = geometry.index;
@@ -103,16 +103,20 @@ export function* residentHiddenLayersSteps(geometry: THREE.BufferGeometry, joint
   let mark = performance.now(), checked = 0;
   const due = () => (++checked & 31) === 0 && performance.now() - mark > HIDDEN_STEP_MS;
   yield;
-  const { node, first } = weldExact(position);
+  const { node, first } = yield* weldExactSteps(position);
   yield;
   mark = performance.now();
   const points = first.length, triangles = index.count / 3;
   const xyz = new Float32Array(position.count * 3);
   for (let vertex = 0; vertex < position.count; vertex++) {
     xyz[vertex * 3] = position.getX(vertex); xyz[vertex * 3 + 1] = position.getY(vertex); xyz[vertex * 3 + 2] = position.getZ(vertex);
+    if ((vertex + 1) % 512 === 0) yield;
   }
   const corners = new Uint32Array(index.count);
-  for (let k = 0; k < index.count; k++) corners[k] = index.getX(k);
+  for (let k = 0; k < index.count; k++) {
+    corners[k] = index.getX(k);
+    if ((k + 1) % 512 === 0) yield;
+  }
   // Each surface point's normal (the sum over its split vertices) and whether it moves with the arms or head.
   const pointNormal = new Float32Array(points * 3), free = new Uint8Array(points);
   const limb = jointNames.map(name => name === 'armL' || name === 'elbowL' || name === 'armR' || name === 'elbowR' || name === 'head');
@@ -121,17 +125,20 @@ export function* residentHiddenLayersSteps(geometry: THREE.BufferGeometry, joint
     pointNormal[at * 3] = pointNormal[at * 3]! + normal.getX(vertex);
     pointNormal[at * 3 + 1] = pointNormal[at * 3 + 1]! + normal.getY(vertex);
     pointNormal[at * 3 + 2] = pointNormal[at * 3 + 2]! + normal.getZ(vertex);
+    if ((vertex + 1) % 512 === 0) yield;
   }
   if (joints && weights) {
     for (let vertex = 0; vertex < position.count; vertex++) {
       const share = (limb[joints.getX(vertex)] ? weights.getX(vertex) : 0) + (limb[joints.getY(vertex)] ? weights.getY(vertex) : 0)
         + (limb[joints.getZ(vertex)] ? weights.getZ(vertex) : 0) + (limb[joints.getW(vertex)] ? weights.getW(vertex) : 0);
       if (share > 0.5) free[node[vertex]!] = 1;
+      if ((vertex + 1) % 512 === 0) yield;
     }
   }
   // Triangles in a uniform grid; each ray visits only the cells it passes through.
   const cell = 0.03, cells = new Map<number, number[]>();
   const key = (x: number, y: number, z: number) => (x + 512) + (y + 512) * 1024 + (z + 512) * 1048576;
+  mark = performance.now();
   for (let t = 0; t < triangles; t++) {
     if (due()) { yield; mark = performance.now(); }
     let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
