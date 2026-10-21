@@ -250,7 +250,11 @@ export function* planResidentFingersSteps(data: ResidentRigData, position: Array
       const pieces: Set<number>[] = [], seen = new Set<number>();
       for (const n of carried) if (!seen.has(n)) { const piece = flood(surface, first, n, -Infinity); piece.forEach(m => seen.add(m)); pieces.push(piece); }
       const found = tipsOf(first);
-      const score = (piece: Set<number>) => found.filter(p => piece.has(p.node)).length * 1e6 + [...piece].filter(n => carried.includes(n)).length;
+      const score = (piece: Set<number>) => {
+        let carriedVertices = 0;
+        for (const n of piece) if (handWeight(surface.nodes[n]!, joint) >= 0.6) carriedVertices++;
+        return found.filter(p => piece.has(p.node)).length * 1e6 + carriedVertices;
+      };
       for (const piece of pieces) if (!shell.size || score(piece) > score(shell)) shell = piece;
     }
     const mostly = carried.filter(n => shell.has(n));
