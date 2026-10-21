@@ -1,0 +1,82 @@
+[
+  {
+    "file": "fir-overview-before-0.png",
+    "rgbSha256": "34e43f633a38cb918f2182730b52783d2ba33bbe6c0389c5e51f565867736532"
+  },
+  {
+    "file": "fir-overview-before-1.png",
+    "rgbSha256": "34e43f633a38cb918f2182730b52783d2ba33bbe6c0389c5e51f565867736532"
+  },
+  {
+    "file": "fir-lower-before-0.png",
+    "rgbSha256": "3db51598198e43fbbbe196a19105c23e1617a2639996f8ede6caac0a5a5e5f18"
+  },
+  {
+    "file": "fir-lower-before-1.png",
+    "rgbSha256": "3db51598198e43fbbbe196a19105c23e1617a2639996f8ede6caac0a5a5e5f18"
+  },
+  {
+    "file": "fir-upper-before-0.png",
+    "rgbSha256": "329b96e68ceb4f112fac911dd986a08e50c89d51a7fb71fa3921a9054c3191d7"
+  },
+  {
+    "file": "fir-upper-before-1.png",
+    "rgbSha256": "329b96e68ceb4f112fac911dd986a08e50c89d51a7fb71fa3921a9054c3191d7"
+  },
+  {
+    "file": "fence-control-before-0.png",
+    "rgbSha256": "9a087ce0653482e2621dba63188fa24f0f33d207a265affc1c1edb072f455c39"
+  },
+  {
+    "file": "fence-control-before-1.png",
+    "rgbSha256": "9a087ce0653482e2621dba63188fa24f0f33d207a265affc1c1edb072f455c39"
+  },
+  {
+    "file": "sea-control-before-0.png",
+    "rgbSha256": "daf691df0f88999717793b0ccccc016fdfcf1ba93fb8b8ab14f910c7ecab90cb"
+  },
+  {
+    "file": "sea-control-before-1.png",
+    "rgbSha256": "daf691df0f88999717793b0ccccc016fdfcf1ba93fb8b8ab14f910c7ecab90cb"
+  },
+  {
+    "file": "fir-overview-after-0.png",
+    "rgbSha256": "c82e47e29bc75e566e4a2e057d93a3fd9ff9c1f64e2b9ed52df889ad0609950b"
+  },
+  {
+    "file": "fir-overview-after-1.png",
+    "rgbSha256": "c82e47e29bc75e566e4a2e057d93a3fd9ff9c1f64e2b9ed52df889ad0609950b"
+  },
+  {
+    "file": "fir-lower-after-0.png",
+    "rgbSha256": "3db51598198e43fbbbe196a19105c23e1617a2639996f8ede6caac0a5a5e5f18"
+  },
+  {
+    "file": "fir-lower-after-1.png",
+    "rgbSha256": "3db51598198e43fbbbe196a19105c23e1617a2639996f8ede6caac0a5a5e5f18"
+  },
+  {
+    "file": "fir-upper-after-0.png",
+    "rgbSha256": "329b96e68ceb4f112fac911dd986a08e50c89d51a7fb71fa3921a9054c3191d7"
+  },
+  {
+    "file": "fir-upper-after-1.png",
+    "rgbSha256": "329b96e68ceb4f112fac911dd986a08e50c89d51a7fb71fa3921a9054c3191d7"
+  },
+  {
+    "file": "fence-control-after-0.png",
+    "rgbSha256": "9a087ce0653482e2621dba63188fa24f0f33d207a265affc1c1edb072f455c39"
+  },
+  {
+    "file": "fence-control-after-1.png",
+    "rgbSha256": "9a087ce0653482e2621dba63188fa24f0f33d207a265affc1c1edb072f455c39"
+  },
+  {
+    "file": "sea-control-after-0.png",
+    "rgbSha256": "daf691df0f88999717793b0ccccc016fdfcf1ba93fb8b8ab14f910c7ecab90cb"
+  },
+  {
+    "file": "sea-control-after-1.png",
+    "rgbSha256": "daf691df0f88999717793b0ccccc016fdfcf1ba93fb8b8ab14f910c7ecab90cb"
+  }
+]

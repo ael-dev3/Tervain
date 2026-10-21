@@ -1,0 +1,18 @@
+{
+  "before": {
+    "templates": 60,
+    "alphaCalls": 5062001,
+    "hintCalls": 18987,
+    "elapsedInstrumentedMs": 2399.7999999821186,
+    "moved": 525,
+    "dropped": 0
+  },
+  "after": {
+    "templates": 60,
+    "alphaCalls": 16949836,
+    "hintCalls": 18987,
+    "elapsedInstrumentedMs": 3703.499999910593,
+    "moved": 535,
+    "dropped": 0
+  }
+}

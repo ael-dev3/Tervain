@@ -1,0 +1,43 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/leafIslands.test.ts (9 tests | 1 failed) 19ms
+   × repairs and caches thin opaque witnesses missed by both 6- and 48-grids 5ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  04:03:11
+   Duration  203ms (transform 59%, import 21%, tests 15%, setup 4%, worker 2%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/leafIslands.test.ts > repairs and caches thin opaque witnesses missed by both 6- and 48-grids
+AssertionError: expected { islands: +0, moved: +0, dropped: +0 } to deeply equal { islands: 2, moved: 2, dropped: +0 }
+
+- Expected
++ Received
+
+  {
+    "dropped": 0,
+-   "islands": 2,
+-   "moved": 2,
++   "islands": 0,
++   "moved": 0,
+  }
+
+ ❯ tests/presentation/leafIslands.test.ts:100:51
+     98|     alpha: (u: number, v: number) => { calls++; return Math.hypot(u - …
+     99|   try {
+    100|     expect(anchorLeafIslands(leaf, wood, cutout)).toEqual({ islands: 2…
+       |                                                   ^
+    101|     expect(calls).toBe(28 + 1225 + 18721);
+    102|     const p = leaf.getAttribute('position');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

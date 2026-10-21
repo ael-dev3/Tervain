@@ -1,0 +1,131 @@
+{
+  "build": {
+    "version": "0.0.38",
+    "revision": "4ea5b5a"
+  },
+  "label": "tree:2:60",
+  "kind": "fir/fir-spire",
+  "matrix": [
+    -0.8569976275707671,
+    0,
+    1.9582898852072834,
+    0,
+    0,
+    2.1376024438999592,
+    0,
+    0,
+    -1.9582898852072834,
+    0,
+    -0.8569976275707671,
+    0,
+    -56.209043111652136,
+    0.4363752991179198,
+    92.63311061449349,
+    1
+  ],
+  "scale": 2.1836339238099756,
+  "rows": {
+    "before": {
+      "meta": {
+        "islands": 0,
+        "moved": 0,
+        "dropped": 0
+      },
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 3714,
+        "chunks": 13,
+        "candidates": 3,
+        "woodReach": 1.5,
+        "detachedCards": 2372,
+        "detachedClumps": 15,
+        "treesWithDetached": 1
+      },
+      "trees": [
+        {
+          "label": "tree:2:60",
+          "species": "fir",
+          "lod": 0,
+          "kind": "fir/fir-spire",
+          "missingWood": false,
+          "leafless": false,
+          "components": 3714,
+          "chunks": 13,
+          "detachedCards": 2372,
+          "detachedClumps": 15,
+          "maxWoodGap": null,
+          "candidates": [
+            {
+              "position": [
+                -61.56196898852277,
+                22.772037696904402,
+                86.89676272686623
+              ],
+              "components": 1,
+              "sampledWoodGap": null
+            },
+            {
+              "position": [
+                -51.84354561134165,
+                7.58310211569595,
+                105.93381109549998
+              ],
+              "components": 1,
+              "sampledWoodGap": null
+            },
+            {
+              "position": [
+                -46.08450312297069,
+                10.732780562833044,
+                89.13767932319443
+              ],
+              "components": 1,
+              "sampledWoodGap": null
+            }
+          ]
+        }
+      ],
+      "vertices": 5255,
+      "triangles": 5936
+    },
+    "after": {
+      "meta": {
+        "islands": 3,
+        "moved": 3,
+        "dropped": 0
+      },
+      "summary": {
+        "trees": 1,
+        "missingWood": 0,
+        "leafless": 0,
+        "components": 3714,
+        "chunks": 10,
+        "candidates": 0,
+        "woodReach": 1.5,
+        "detachedCards": 2369,
+        "detachedClumps": 12,
+        "treesWithDetached": 1
+      },
+      "trees": [
+        {
+          "label": "tree:2:60",
+          "species": "fir",
+          "lod": 0,
+          "kind": "fir/fir-spire",
+          "missingWood": false,
+          "leafless": false,
+          "components": 3714,
+          "chunks": 10,
+          "detachedCards": 2369,
+          "detachedClumps": 12,
+          "maxWoodGap": null,
+          "candidates": []
+        }
+      ],
+      "vertices": 5264,
+      "triangles": 5936
+    }
+  }
+}
