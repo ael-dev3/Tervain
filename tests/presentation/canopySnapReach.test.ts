@@ -126,3 +126,15 @@ it('grows a leader and twigs out to sheets past the reach, leaving every leaf wh
   expect(held.userData.anchoredTwigs).toBe(result.twigs);
   held.dispose(); result.geometry.dispose(); leaves.dispose(); wood.dispose();
 });
+
+it('does not build a second wood search when every foliage part is already supported', () => {
+  const wood = new THREE.BoxGeometry(2, 2, 2), leaves = new THREE.PlaneGeometry(.2, .2).translate(0, 0, 1.1);
+  const position = wood.getAttribute('position'), original = position.getX.bind(position);
+  let reads = 0;
+  position.getX = i => { reads++; return original(i); };
+  const result = anchorFarFoliage(leaves, wood, 1.5);
+  expect(result).toEqual({ geometry: wood, twigs: 0 });
+  // The contact pass visits each indexed corner once; no unused nearest-wood index reads it again.
+  expect(reads).toBe(wood.index!.count);
+  wood.dispose(); leaves.dispose();
+});

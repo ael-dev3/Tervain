@@ -747,7 +747,9 @@ export function anchorFarFoliage(leaf: THREE.BufferGeometry, wood: THREE.BufferG
   }
   const hit = new THREE.Vector3();
   for (let round = 0; round < 3; round++) {
-    const set = detachedClumpSet(leaf, grown, reach, reach), anchor = woodAnchor(grown), twigs: CanopyTwig[] = [];
+    const set = detachedClumpSet(leaf, grown, reach, reach);
+    if (!set.far.some(Boolean)) break;
+    const anchor = woodAnchor(grown), twigs: CanopyTwig[] = [];
     set.far.forEach((far, i) => {
       if (!far) return;
       let best = Infinity; const from = new THREE.Vector3(), to = new THREE.Vector3();
