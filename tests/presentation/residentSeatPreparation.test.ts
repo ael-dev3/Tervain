@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { installResidentRig, residentRestPose } from '../../src/presentation/npc/residentRig';
 import { measureSeatSteps, residentMotionLibrary, retargetClip } from '../../src/presentation/npc/residentMotion';
@@ -15,7 +15,12 @@ it.each([
   const installed = installResidentRig(mesh, data), rest = residentRestPose(installed.bones);
   const library = residentMotionLibrary(await loadResidentMotion());
   const clip = retargetClip(library.clips.get('sit.idle.m')!, library.rest, rest);
-  let reads = 0, largest = 0, turns = 0;
+  let reads = 0, largest = 0, turns = 0, largestObjectSort = 0;
+  const nativeSort = Array.prototype.sort;
+  const sorting = vi.spyOn(Array.prototype, 'sort').mockImplementation(function (this: unknown[], compare) {
+    largestObjectSort = Math.max(largestObjectSort, this.length);
+    return nativeSort.call(this, compare);
+  });
   const weights = new Proxy(data.weights, {
     get(target, key) {
       if (typeof key === 'string' && /^\d+$/.test(key)) reads++;
@@ -39,7 +44,10 @@ it.each([
     // Candidate selection and CPU skinning must yield inside a sample, rather than after a whole surface.
     expect(largest).toBeLessThanOrEqual(512 * 4);
     expect(turns).toBeGreaterThan(20);
+    // Sorting the whole 8k–13k surface holds a preparation slice past its time budget.
+    expect(largestObjectSort).toBeLessThan(1_024);
   } finally {
+    sorting.mockRestore();
     steps.return({ x: 0, y: 0, z: 0 });
     mesh.geometry.dispose(); mesh.skeleton.dispose();
   }
