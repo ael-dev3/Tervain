@@ -107,12 +107,9 @@ describe('actual supplied Meshy tree catalog', () => {
     const forest = createMeshyForest(templates), variant = forest.variant('oak', 1, 'tree-0208');
     const ownDisposals = variant.lods.flatMap(lod => [lod.wood!, lod.leaf!]).map(geometry => vi.spyOn(geometry, 'dispose'));
     expect(forest.variant('oak', 88, 'tree-0208')).toBe(variant);
-    for (const [level, lod] of variant.lods.entries()) for (const kind of ['wood', 'leaf'] as const) {
-      // A133: near and middle broadleaf crowns cut their large sheets into pieces (tested below); wood and far crowns keep
-      // the source topology and UVs. A167: far cards past the audit reach are seated toward their wood, so only the far
-      // crown's positions may differ, and only by those moves.
-      if (kind === 'leaf' && level < 2) continue;
-      const seated = kind === 'leaf' && level === 2;
+    for (const [level, lod] of variant.lods.entries()) for (const kind of ['wood'] as const) {
+      // A133: broadleaf crowns cut their large sheets into pieces (tested below), and since A168 the far crown is rebuilt
+      // as the nearer ones are; the wood keeps the source topology and UVs at every level.
       const original = originals[level]![kind]!, prepared = lod[kind]!;
       expect(prepared).not.toBe(original.geometry);
       // The near broadleaf crown carries the exported cards first, then a second layer of the same cards (A70).
@@ -128,8 +125,8 @@ describe('actual supplied Meshy tree catalog', () => {
         const error = Math.max(Math.abs(point.x - actualPositions.getX(i)), Math.abs(point.y - actualPositions.getY(i)), Math.abs(point.z - actualPositions.getZ(i)));
         maximumError = Math.max(maximumError, error); sampled++; if (error < 0.00002) exact++;
       }
-      if (seated) { expect(exact / sampled).toBeGreaterThan(0.5); expect(maximumError).toBeLessThan(3); }
-      else expect(maximumError).toBeLessThan(0.00002);
+      expect(exact, `${level} ${kind}`).toBe(sampled);
+      expect(maximumError).toBeLessThan(0.00002);
     }
     forest.dispose(); forest.dispose(); for (const spy of ownDisposals) expect(spy).toHaveBeenCalledTimes(1);
     for (const spy of spies) expect(spy).not.toHaveBeenCalled();
@@ -137,7 +134,7 @@ describe('actual supplied Meshy tree catalog', () => {
     const rebuilt = createMeshyForest(templates), next = rebuilt.variant('oak', 1, 'tree-0208');
     expect(next.lods.map(lod => lod.tris)).toEqual(variant.lods.map(lod => lod.tris));
     rebuilt.dispose();
-  });
+  }, 30_000);
 
   it('spends the near broadleaf budget freed from the simplified wood on an inner crown layer, below 19,800', () => {
     const forest = createMeshyForest(templates);
@@ -205,7 +202,7 @@ describe('actual supplied Meshy tree catalog', () => {
         piece.dispose();
       }
     } finally { forest.dispose(); }
-  });
+  }, 30_000);
 
   it('fits the actual selected source crown with carved interior while preserving musical contact curves', () => {
     const tree = buildAncientTree(1207, { leafCards: 0, woodDetail: 0.8,

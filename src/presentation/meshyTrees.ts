@@ -13,8 +13,8 @@ import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
-import { branchFieldOf, CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
-import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, type CanopyLobes, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
+import { branchFieldOf, type BranchField, CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
+import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, type CanopyLobes, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, FAR_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
@@ -132,6 +132,12 @@ export const CLUSTER_SCALE = 0.85;
 /** Cluster-canopy cards (A134): a near crown's cap, and a middle crown's share of its source triangles. */
 export const CANOPY_NEAR_CARDS = 6000;
 export const CANOPY_MID_SHARE = 1.2;
+/** A rebuilt far crown (A168) takes as many cards as its far file has, in fewer, larger clumps (FAR_CANOPY). */
+export const CANOPY_FAR_SHARE = 1.0;
+/** A generated oak's far clumps and cards, as a share of FAR_CANOPY: at that size its lobed crown read a quarter smaller than its middle one. */
+const OAK_FAR_CANOPY_SCALE = 1.45;
+/** The orchard's far clumps and cards, as a share of FAR_CANOPY: at its middle scale its narrow pear crown read a sixth larger. */
+const ORCHARD_FAR_CANOPY_SCALE = 0.55;
 
 /**
  * Break the source's large leaf sheets into separate smaller cards at different depths (A133).
@@ -143,10 +149,8 @@ export const CANOPY_MID_SHARE = 1.2;
  * becomes a loose volume of smaller cards. Seen square on the pieces still join into the same picture, so nothing opens up;
  * from any other angle they part in depth. Triangles, UVs and normals are unchanged, and small cards are left as they are.
  */
-/** A model that carries its own branch hierarchy (a hero tree) keeps its cards: they are not rebuilt as clumps. */
+/** A generated tree's model carries its own branch hierarchy (A166). */
 const hasBranchData = (geometry: THREE.BufferGeometry): boolean => !!geometry.getAttribute('_wind');
-/** Only a hero tree's far crown keeps the branch data its GLB carries; near and middle crowns are rebuilt by the crown pass and derive it. */
-const ownBranchData = (lod: number, geometry: THREE.BufferGeometry | null | undefined): boolean => lod >= 2 && !!geometry && hasBranchData(geometry);
 
 export function splitSheets(geometry: THREE.BufferGeometry, opts: { readonly minSize: number; readonly piece: number; readonly depth: number; readonly tilt: number }): THREE.BufferGeometry {
   const index = geometry.index;
@@ -638,17 +642,19 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         geometries.add(geometry); return geometry;
       };
       const clusters = BROADLEAF.has(species), materialSpecies = hero ? undefined : species;
-      const palette = decoded.map((parts, lod) => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry, hero ? undefined : SUPPLIED_BARK[id]) : null, leaf: parts.leaf && species !== 'dead' ? (clusters && lod < 2 ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
+      // A168: a broadleaf's far crown is rebuilt like its near and middle ones, so the three read alike across a crossfade
+      // (its own far cards were 5 to 25 levels darker than its middle crown, in a coarser texture, and up to 30% smaller).
+      const palette = decoded.map(parts => ({ wood: parts.wood ? cloneMaterial(parts.wood.material, true, materialSpecies, parts.wood.geometry, hero ? undefined : SUPPLIED_BARK[id]) : null, leaf: parts.leaf && species !== 'dead' ? (clusters ? clusterMaterial(parts.leaf.material) : cloneMaterial(parts.leaf.material, false, materialSpecies)) : null }));
       // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
-      // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
-      // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
+      // Its crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
+      // they take the shared foliage atlas and crown colour; the far crown too since A168.
       // A generated bush (A163) has no rebuilt crown: its own cards, with their baked shade, are drawn at every level.
-      const ownCards = (lod: number) => lod >= 2 || !clusters;
-      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && !ownCards(lod)) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
-      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && ownCards(lod)) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
-      // B12: behind ?leafatlas=1 the hero oak's cards (the same 4 x 4 cells, oak twigs picked by the atlas's own oak weights) take the real atlas.
-      const heroPads = hero ? leafAtlasInUse() : null;
-      if (heroPads) for (const [lod, entry] of palette.entries()) if (entry.leaf && ownCards(lod)) {
+      const ownCards = !clusters;
+      if (hero && !ownCards) for (const entry of palette) if (entry.leaf) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
+      if (hero && ownCards) for (const entry of palette) if (entry.leaf) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
+      // B12: behind ?leafatlas=1 a generated tree's own cards (a bush's; the same 4 x 4 cells, oak twigs picked by the atlas's own oak weights) take the real atlas.
+      const heroPads = hero && ownCards ? leafAtlasInUse() : null;
+      if (heroPads) for (const entry of palette) if (entry.leaf) {
         const material = entry.leaf as THREE.MeshStandardMaterial, cutoff = Math.max(0.05, material.alphaTest) / 1.3;
         broadleafAtlas ??= leafAtlasTexture(heroPads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas');
         material.map = broadleafAtlas; material.color.setRGB(0.92, 1.0, 0.88);
@@ -659,32 +665,42 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       // 0.0.39: the generated hero oaks' crowns gather into lobes on their limbs, chosen once from the near crown so every
       // level agrees. The limbs show between the lobes, so only bare wood out at the crown's shell is trimmed.
       let lobeShape: CanopyLobe[] | undefined;
+      // The near and middle levels' bounds, which a rebuilt far crown stays inside (A168).
+      const nearer = new THREE.Box3();
+      // The middle file's leaves and limbs, which say where a rebuilt far crown's clumps go and how they sway (A168).
+      let middleLeaves: THREE.BufferGeometry | null = null, middleField: BranchField | null = null;
       const lods = decoded.map((parts, lod) => {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
         // The shipped models carry no branch data: derive it (branchWind.ts) so the limbs sway on their own, not the crown as one.
         // A generated tree's wood carries its own (A166): its rebuilt crown reads that, so the cards ride the limbs it grew;
         // deriving refused such wood, the crown found no limbs, and the whole tree swayed as one.
-        const branch = (clusters || CONIFER.has(species)) && wood && exported && !ownBranchData(lod, exported)
+        const branch = (clusters || CONIFER.has(species)) && wood && exported
           ? (hero && hasBranchData(wood) ? branchFieldOf(wood) : deriveBranchWood(wood, clusters ? undefined : CONIFER_BRANCH)) : null;
         // A tree whose leaves found no limbs keeps the whole-crown sway: wood and leaves must agree.
         const settle = <T extends { wood: THREE.BufferGeometry | null; leaf: THREE.BufferGeometry | null }>(v: T): T => {
           if (v.wood && v.leaf && v.wood.getAttribute('_wind') && !v.leaf.getAttribute('_wind')) { v.wood.deleteAttribute('_wind'); v.wood.deleteAttribute('_pivot'); }
           return v;
         };
-        // A134: near and middle broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the
-        // source sheets only say where the leaves go. Far crowns keep the source cards.
-        if (exported && lod < 2 && clusters) {
+        // A134: broadleaf crowns are rebuilt as clumps of small leaf-cluster cards (see canopy.ts); the source sheets only say
+        // where the leaves go. A168: the far crown too, from the middle file's leaves (the crown it crossfades with), in
+        // fewer, larger clumps.
+        if (exported && clusters) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
           // A164: a generated orchard tree is under half an oak's height: its clumps and cards are scaled to it.
-          const base = lod === 0 ? NEAR_CANOPY : MID_CANOPY, k = hero && model === 'orchard' ? ORCHARD_CANOPY_SCALE : 1;
+          const base = lod === 0 ? NEAR_CANOPY : lod === 1 ? MID_CANOPY : FAR_CANOPY;
+          const k = hero && model === 'orchard' ? (lod === 2 ? ORCHARD_FAR_CANOPY_SCALE : ORCHARD_CANOPY_SCALE) : hero && model === 'oak' && lod === 2 ? OAK_FAR_CANOPY_SCALE : 1;
           // Its open crown shows the sky between lobes, where a long twig out to a far clump read as a bare stick: such
           // clumps are dropped instead.
-          const shape = k === 1 ? base : { ...base, size: [base.size[0] * k, base.size[1] * k] as const, clump: base.clump * k, anchorDrop: ORCHARD_ANCHOR_DROP };
-          let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2)) : Math.max(400, Math.round(triangles(exported) * CANOPY_MID_SHARE / 2));
+          const shape = k === 1 ? base : { ...base, size: [base.size[0] * k, base.size[1] * k] as const, clump: base.clump * k, ...(model === 'orchard' ? { anchorDrop: ORCHARD_ANCHOR_DROP } : {}) };
+          let cards = lod === 0 ? Math.min(CANOPY_NEAR_CARDS, Math.floor((TREE_TRIANGLES - triangles(wood)) / 2))
+            : Math.max(lod === 1 ? 400 : 300, Math.round(triangles(exported) * (lod === 1 ? CANOPY_MID_SHARE : CANOPY_FAR_SHARE) / 2));
           const seed = [...`${id}:${lod}`].reduce((h, ch) => Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0, 2166136261);
           // The grown twigs (below) come out of the same triangle budget: fewer leaf cards make room for them, since
           // the twig clumps cover those leaves. A few rebuilds settle it (the twig count shifts a little with the cards).
+          // A168: a rebuilt far crown keeps to its far file's own triangles, wood and twigs included: beyond 68 m every
+          // broadleaf casts its sun shadow from this level, on every preset.
+          const budget = lod === 2 ? triangles(wood) + triangles(exported) : TREE_TRIANGLES;
           let canopy!: THREE.BufferGeometry, trimmedWood = wood;
           // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
           const anchor = woodAnchor(wood);
@@ -693,21 +709,27 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           if (lobes && !lobeShape) lobeShape = canopyLobes(exported, wood, { ...shape, cards, seed, lobes });
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
-            canopy = buildCanopy(exported, wood, { ...shape, cards, seed, lobes, lobeShape, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
+            canopy = buildCanopy(lod === 2 && middleLeaves ? middleLeaves : exported, wood, { ...shape, cards, seed, lobes, lobeShape, ...(pads ? { cells: LEAF_ATLAS_GRID, cellWeights: broadleafCellWeights(species) } : {}) }, anchor);
             // A generated tree's limbs reach well into its crown (the oak's between its lobes): only bare wood out at the shell is cut.
             const shell = hero ? LOBED_TRIM_SHELL : 0;
             trimmedWood = wood ? (hero ? (heroFlag('heronotrim') ? wood : trimHeroWood(wood, canopy, shape.clump * 1.15, shell)) : trimExposedWood(wood, canopy, shape.clump * 1.6, shell).geometry) : null;
             const twigTris = twigTriangles((canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs);
-            const over = triangles(trimmedWood) + triangles(canopy) + twigTris - TREE_TRIANGLES;
+            const over = triangles(trimmedWood) + triangles(canopy) + twigTris - budget;
             if (over <= 0 || attempt === 3) break;
             canopy.dispose(); if (trimmedWood !== wood) trimmedWood?.dispose();
-            cards = Math.max(200, cards - Math.ceil(over / 2) - 25);
+            cards = Math.max(200, cards - Math.ceil(over / 2) - (lod === 2 ? 4 : 25));
           }
-          geometries.delete(exported); exported.dispose(); geometries.add(canopy);
+          geometries.delete(exported);
+          if (lod === 1) middleLeaves = exported; else exported.dispose();
+          geometries.add(canopy);
           if (wood && trimmedWood !== wood) { geometries.delete(wood); wood.dispose(); geometries.add(trimmedWood!); wood = trimmedWood; }
           // Playtest 7: the twigs out to clumps beyond the boughs' reach (after the trim, which would cut them).
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
-          if (branch) deriveBranchLeaf(canopy, branch, twigs);
+          // A168: the far crown's leaves sway as the middle crown's do, on its boughs: the far wood keeps only the limbs
+          // (an orchard tree's four to six), and the whole crown swayed on those.
+          if (lod === 1) middleField = branch;
+          const field = lod === 2 && middleField && branch ? middleField : branch;
+          if (field) deriveBranchLeaf(canopy, field, twigs);
           const graftBase = species === 'oak' && !hero && lod === 0 && twigs.length ? wood : null;
           if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, model === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); if (wood !== graftBase) wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
@@ -733,24 +755,24 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
           // the final wood (twigs included). Oaks (0.0.36) and birches (0.0.37) drop to no detached card at any scale; no
           // card is removed. A167: the orchard's middle crown too (its near crown is culled to the reach instead).
+          // A168: the far crown's wider clumps are held inside its nearer crowns' bounds as they are seated, so the tree's
+          // culling bounds (the union of its levels') and what is drawn stay as they were.
           if ((model === 'oak' || model === 'birch' || model === 'orchard' && lod > 0) && wood) {
-            const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, model === 'orchard' ? ORCHARD_MAX_SCALE : MAX_TREE_SCALE)).geometry;
+            const reach = woodReachLocal(1.5, model === 'orchard' ? ORCHARD_MAX_SCALE : MAX_TREE_SCALE);
+            const { geometry: seated, short } = seatFarCards(canopy, wood, reach, 0.97, lod === 2 ? nearer : undefined);
             if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
+            // A far card those bounds stopped short of its wood (one of the sentinel's 994) is dropped rather than left apart.
+            const kept = short ? cullDetachedCards(canopy, wood, reach).geometry : canopy;
+            if (kept !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(kept); canopy = kept; }
           }
+          if (lod < 2) for (const g of [wood, canopy]) if (g) { g.computeBoundingBox(); nearer.union(g.boundingBox!); }
           const tris = triangles(wood) + triangles(canopy);
           return settle({ wood, leaf: canopy, tris });
         }
         const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
-        let leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
+        const leaf = thicken(exported, lod === 0 && BROADLEAF.has(species) && !hero, TREE_TRIANGLES - triangles(wood) - triangles(exported));
         if (leaf && leaf !== exported) { geometries.delete(exported!); geometries.add(leaf); }
         if (branch && leaf) deriveBranchLeaf(leaf, branch);
-        // A167: a far broadleaf crown keeps its source cards, but its wood keeps only trunk and limbs, so cards at the
-        // boughs' ends hung past the audit reach. They move just inside it, toward their wood (no card is removed, no
-        // triangle added), as the near and middle crowns' outer cards do (0.0.36).
-        if (clusters && wood && leaf) {
-          const seated = seatFarCards(leaf, wood, woodReachLocal(1.5, species === 'orchard' ? ORCHARD_MAX_SCALE : MAX_TREE_SCALE)).geometry;
-          if (seated !== leaf) { geometries.delete(leaf); leaf.dispose(); geometries.add(seated); leaf = seated; }
-        }
         // 0.0.37: supplied fir and palm crowns get a leader (conifers) and twigs out to the sheets and fronds past the
         // audit reach at their largest planted scale. A167: at every level. The fir's middle and far wood stops at 20 m
         // under needles that reach 52 m, and Low draws its middle level from the player's feet.
@@ -761,6 +783,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         }
         return settle({ wood, leaf, tris: [wood, leaf].reduce((sum, geometry) => sum + (geometry ? (geometry.index?.count ?? geometry.getAttribute('position').count) / 3 : 0), 0) });
       }) as TreeVariant['lods'];
+      (middleLeaves as THREE.BufferGeometry | null)?.dispose();
       const leafSurfaceSites = lods[0].leaf && palette[0]!.leaf
         ? sampleLeafSurfaceSites(lods[0].leaf, palette[0]!.leaf as THREE.MeshStandardMaterial) : [];
       const variant: TreeVariant = { species, assetId: id, leafSurfaceSites, height, crownRadius, trunkRadius, bark: species === 'fir' || species === 'shorepine' ? 'pine' : species === 'dead' ? 'dead' : 'oak', leafTexture: 'oak', crownTexture: 'crown', lods };
