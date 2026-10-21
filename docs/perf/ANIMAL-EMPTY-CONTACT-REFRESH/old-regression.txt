@@ -1,0 +1,32 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/animalEmptyOld.proof.test.ts (23 tests | 1 failed | 22 skipped) 16ms
+   ❯ peaceful animated land wildlife (17)
+     × avoids the second hierarchy walk and explicit skin refresh when no sole samples are selected 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/animalEmptyOld.proof.test.ts > peaceful animated land wildlife > avoids the second hierarchy walk and explicit skin refresh when no sole samples are selected
+AssertionError: expected "updateMatrixWorld" to be called 1 times, but got 2 times
+ ❯ tests/presentation/animalEmptyOld.proof.test.ts:41:24
+     39|       const start = module.snapshot()[0]!;
+     40|       module.update(0.1, frame(new THREE.Vector3(start.x, 0, start.z +…
+     41|       expect(matrices).toHaveBeenCalledTimes(1);
+       |                        ^
+     42|       expect(bones).not.toHaveBeenCalled();
+     43|       expect(root.matrixWorld.elements[13]).toBe(root.position.y);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 skipped (23)
+   Start at  02:09:55
+   Duration  818ms (transform 62%, import 34%, tests 2%, setup 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

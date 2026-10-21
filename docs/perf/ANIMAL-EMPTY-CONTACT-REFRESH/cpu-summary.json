@@ -1,0 +1,20 @@
+{
+  "before": {
+    "meanMs": 0.12524074074294833,
+    "p95BlockAverageMs": 0.13374999997516474,
+    "blocks": 45,
+    "placementsPerBlock": 4560
+  },
+  "after": {
+    "meanMs": 0.05727777776066904,
+    "p95BlockAverageMs": 0.0629166666418314,
+    "blocks": 45,
+    "placementsPerBlock": 4560
+  },
+  "control": {
+    "meanMs": 0.12426851851796662,
+    "p95BlockAverageMs": 0.1375,
+    "blocks": 45,
+    "placementsPerBlock": 4560
+  }
+}

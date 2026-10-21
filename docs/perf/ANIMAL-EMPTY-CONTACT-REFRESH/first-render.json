@@ -1,0 +1,61 @@
+{
+  "rows": [
+    {
+      "name": "cat-frame0",
+      "mode": "after",
+      "draws": 624,
+      "triangles": 9590824,
+      "file": "cat-frame0-after.png"
+    },
+    {
+      "name": "cat-frame0",
+      "mode": "before",
+      "draws": 622,
+      "triangles": 9590822,
+      "file": "cat-frame0-before.png"
+    },
+    {
+      "name": "cat-frame1",
+      "mode": "before",
+      "draws": 644,
+      "triangles": 9702848,
+      "file": "cat-frame1-before.png"
+    },
+    {
+      "name": "cat-frame1",
+      "mode": "after",
+      "draws": 644,
+      "triangles": 9702848,
+      "file": "cat-frame1-after.png"
+    },
+    {
+      "name": "cat-frame2",
+      "mode": "after",
+      "draws": 644,
+      "triangles": 9702848,
+      "file": "cat-frame2-after.png"
+    },
+    {
+      "name": "cat-frame2",
+      "mode": "before",
+      "draws": 644,
+      "triangles": 9702848,
+      "file": "cat-frame2-before.png"
+    }
+  ],
+  "pairs": [
+    {
+      "name": "cat-frame0",
+      "changedRgbPixels": 0
+    },
+    {
+      "name": "cat-frame1",
+      "changedRgbPixels": 0
+    },
+    {
+      "name": "cat-frame2",
+      "changedRgbPixels": 0
+    }
+  ],
+  "scope": "First render at each newly animated cat pose, before the main harness warm-up. Candidate renders first at frames0 and2, so the original has not refreshed the new pose for it."
+}

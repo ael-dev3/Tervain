@@ -1,0 +1,192 @@
+[
+  {
+    "file": "fence-before-0.png",
+    "rgbSha256": "6c4cefddf0da25775c7239db1db834fc375cb1677fd0e858d99fd339200ab56b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-before-1.png",
+    "rgbSha256": "6c4cefddf0da25775c7239db1db834fc375cb1677fd0e858d99fd339200ab56b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-after-0.png",
+    "rgbSha256": "6c4cefddf0da25775c7239db1db834fc375cb1677fd0e858d99fd339200ab56b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "fence-after-1.png",
+    "rgbSha256": "6c4cefddf0da25775c7239db1db834fc375cb1677fd0e858d99fd339200ab56b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-before-0.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-before-1.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-after-0.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "run-round-after-1.png",
+    "rgbSha256": "f9cfcc73d5291a73bbc1ead26061e99e06d66b60276a34212dd9b9746c7ca6fb",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-before-0.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-before-1.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-after-0.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "bow-after-1.png",
+    "rgbSha256": "fa9266c9e29dfbe84a3eff6ae23bba7ec6c4a6ff1efc6d7ccb069ffbcbdbabfc",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-before-0.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-before-1.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-after-0.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "birch-after-1.png",
+    "rgbSha256": "7addaee449d662cc20a0f5a502dcbecdf7d24f4205f3eaadb76ba94793f72a0b",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-before-0.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-before-1.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-after-0.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "sea-after-1.png",
+    "rgbSha256": "3b35e3bdd174e987b3d4a9f233f4445533ce02312cd274d984acade1f70c3d92",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame0-before-0.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame0-before-1.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame0-after-0.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame0-after-1.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame1-before-0.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame1-before-1.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame1-after-0.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame1-after-1.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame2-before-0.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame2-before-1.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame2-after-0.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "cat-frame2-after-1.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame0-after.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame0-before.png",
+    "rgbSha256": "e5c2fb6ff931485a61d42cc714a4b170212dc2e7436d395eafa2bab6797d73ee",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame1-before.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame1-after.png",
+    "rgbSha256": "05a578fd9eb9484165f059427760a772688f436193e0c535ff1707169dbb0c52",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame2-after.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  },
+  {
+    "file": "first-cat-frame2-before.png",
+    "rgbSha256": "13a4c58ffd5b0c6a389f0725bb0756fa2eb336241bdba7d4760ac4d4baba3a35",
+    "changedRgbPixels": 0
+  }
+]
