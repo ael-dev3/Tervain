@@ -1,0 +1,201 @@
+{
+  "baseline": "cacffa069",
+  "rows": [],
+  "scope": "One native High world; actual wildlife placement before/after against the same terrain, animation state and root transforms. Software captures; no hardware frame-time claim.",
+  "setup": {
+    "animals": [
+      {
+        "id": "1005232739",
+        "species": "tiger",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232726",
+        "species": "lion",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005170943",
+        "species": "bear",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232657",
+        "species": "bear",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232644",
+        "species": "wolf",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232637",
+        "species": "wolf",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232631",
+        "species": "wolf",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232619",
+        "species": "cat",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232608",
+        "species": "cat",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232556",
+        "species": "cat",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232529",
+        "species": "dog",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232511",
+        "species": "dog",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232450",
+        "species": "boar",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232442",
+        "species": "boar",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005174818",
+        "species": "boar",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232424",
+        "species": "deer",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232412",
+        "species": "deer",
+        "tame": true,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232351",
+        "species": "deer",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      },
+      {
+        "id": "1005232341",
+        "species": "deer",
+        "tame": false,
+        "meshes": 0,
+        "soleVertices": 0,
+        "bones": [
+          29
+        ]
+      }
+    ]
+  },
+  "errors": [],
+  "complete": true
+}
