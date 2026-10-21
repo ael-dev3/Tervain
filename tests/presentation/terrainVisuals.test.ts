@@ -218,6 +218,23 @@ describe('close-view ground and plant detail', () => {
     } finally { material.dispose(); texture.albedo.dispose(); texture.normal.dispose(); }
   });
 
+  it('brightens the floor under near grass only where the sun stands behind the viewer (A161)', () => {
+    const texture = { albedo: new THREE.DataArrayTexture(), normal: new THREE.DataArrayTexture() } as TerrainTextures;
+    const material = createTerrainMaterial(texture);
+    try {
+      const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} } as Parameters<THREE.Material['onBeforeCompile']>[0];
+      material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+      const fragment = shader.fragmentShader, gain = fragment.indexOf('tAlb *= 1.0 + tBehind');
+      expect(gain).toBeGreaterThan(0);
+      // Front-lit only (no change looking into the sun), by the grass's cover, out to where the blades end, before the albedo is written.
+      expect(fragment).toContain('max(0.0, dot(normalize(tEyeFlat), normalize(tSunFlat)))');
+      expect(fragment.slice(gain, fragment.indexOf('\n', gain))).toContain('tCover * (1.0 - tFar)');
+      expect(gain).toBeLessThan(fragment.indexOf('diffuseColor.rgb = tAlb;'));
+      expect(fragment.lastIndexOf('#if NUM_DIR_LIGHTS > 0', gain)).toBeGreaterThan(0);
+      expect(material.customProgramCacheKey()).toBe('tervain-terrain-v11-front-lit-sward');
+    } finally { material.dispose(); texture.albedo.dispose(); texture.normal.dispose(); }
+  });
+
   it('attaches veins to grounded forest plants', () => {
     for (const plant of [buildForestFernGeometry(0), buildForestShrubGeometry(0)]) {
       const detail = plant.getAttribute('aLeafDetail');
