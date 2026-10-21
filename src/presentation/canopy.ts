@@ -631,13 +631,14 @@ export function woodReachLocal(metres: number, scale: number): number { return m
 
 /**
  * Cull (0.0.28): drop every card whose centre is farther than `reach` from the wood. Used for orchards only, where the
- * far cards hang beyond the audit reach; no card is moved.
+ * far cards hang beyond the audit reach; no card is moved. Every attribute of a kept card is kept: the branch wind data
+ * (`_wind`, `_pivot`) let each card ride its limb, and without it the whole crown swayed as one (A166).
  */
 export function cullFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vector3, hit: THREE.Vector3, max?: number) => number, reach: number): { geometry: THREE.BufferGeometry; removed: number } {
-  const position = canopy.getAttribute("position"), normal = canopy.getAttribute("normal"), uv = canopy.getAttribute("uv");
+  const position = canopy.getAttribute("position");
   const index = canopy.index;
   if (!position || !index) return { geometry: canopy, removed: 0 };
-  const cards = index.count / 6, positions: number[] = [], normals: number[] = [], uvs: number[] = [], kept: number[] = [];
+  const cards = index.count / 6, keptVertices: number[] = [], kept: number[] = [];
   const centre = new THREE.Vector3(), hit = new THREE.Vector3();
   let removed = 0;
   for (let c = 0; c < cards; c++) {
@@ -646,19 +647,16 @@ export function cullFarCards(canopy: THREE.BufferGeometry, anchor: (p: THREE.Vec
     for (let k = 0; k < 4; k++) centre.add(new THREE.Vector3().fromBufferAttribute(position, first + k));
     centre.multiplyScalar(0.25);
     if (anchor(centre, hit, reach) > reach) { removed++; continue; }
-    const base = positions.length / 3;
-    for (let k = 0; k < 4; k++) {
-      const v = first + k;
-      positions.push(position.getX(v), position.getY(v), position.getZ(v));
-      if (normal) normals.push(normal.getX(v), normal.getY(v), normal.getZ(v));
-      if (uv) uvs.push(uv.getX(v), uv.getY(v));
-    }
+    const base = keptVertices.length;
+    for (let k = 0; k < 4; k++) keptVertices.push(first + k);
     kept.push(base, base + 1, base + 2, base, base + 2, base + 3);
   }
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  if (normal) geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
-  if (uv) geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+  for (const [name, attribute] of Object.entries(canopy.attributes) as [string, THREE.BufferAttribute][]) {
+    const size = attribute.itemSize, values = new (attribute.array.constructor as Float32ArrayConstructor)(keptVertices.length * size);
+    keptVertices.forEach((v, i) => { for (let k = 0; k < size; k++) values[i * size + k] = attribute.array[v * size + k]!; });
+    geometry.setAttribute(name, new THREE.BufferAttribute(values, size, attribute.normalized));
+  }
   geometry.setIndex(kept);
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, culledCards: removed };
@@ -743,10 +741,9 @@ export function snapDetachedClumps(canopy: THREE.BufferGeometry, wood: THREE.Buf
     const residual = farClumps(set.parts, contacts, reach, verticalGap, Math.max(reach, verticalGap));
     for (const members of collect(residual.far, residual.clumpOf).values()) translate(members, true);
   }
-  const geometry = new THREE.BufferGeometry();
+  // Every other attribute is kept, the branch wind data included: without it the crown swayed as one (A166).
+  const geometry = canopy.clone();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
-  for (const name of ['normal', 'uv']) { const attr = canopy.getAttribute(name); if (attr) geometry.setAttribute(name, attr.clone()); }
-  geometry.setIndex(canopy.index.clone());
   geometry.computeBoundingBox(); geometry.computeBoundingSphere();
   geometry.userData = { ...canopy.userData, snappedClumps: moved };
   return { geometry, moved };

@@ -157,6 +157,9 @@ float tvHHash(float x) { return fract(sin(x * 12.9898 + 4.1414) * 43758.5453); }
 // Branch-wise motion: each level of the hierarchy is its own oscillator (limb, bough, twig, leaf; each quicker and
 // smaller than the one it hangs from) that turns the vertex about its segment's pivot by a small angle, so a limb moves
 // as one stiff piece and the leaves ride it. A child's pivot also rides its parent's swing, by the parent's phase.
+// A166: twigs at 0.6 of their old swing and 0.7 of its rate, leaves at 0.3 of their flutter and half its rate. Leaf
+// edges flickering at 3.5 to 6 Hz were most of a crown's (and nearly all of a pine wood's) shimmer in the wind, while
+// the limbs' and boughs' sway, the motion that reads as branches, is unchanged.
 vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
   float L = clamp(tvHW.x, 0.0, 1.0);
   float ph = tvHW.y, pp = tvHW.z;
@@ -173,21 +176,21 @@ vec3 tvHierarchy(vec3 p, vec3 o, vec2 wd, float push, float t) {
   float wt = smoothstep(0.55, 0.85, L);
   float aLimb = sin(t * tau * (0.7 + 0.5 * fa) + ph);
   float aBough = sin(t * tau * (1.3 + 0.7 * fb) + pp);
-  float aTwig = sin(t * tau * (2.2 + 1.2 * fc) + ph * 1.7 + pp);
+  float aTwig = sin(t * tau * (1.54 + 0.84 * fc) + ph * 1.7 + pp);
   float steady = 0.5 * push * uFoliageWind;
   vec3 w = vec3(0.0);
   w += (axisDown * (steady + aLimb) + wdir * aLimb * 0.35) * (0.05 * wl * mix(0.6, 1.0, gP));
   w += (axisDown * (steady + aBough) + vec3(0.0, 1.0, 0.0) * aBough * 0.4) * (0.07 * wb * mix(0.5, 1.0, gP));
-  w += (axisDown * (steady + aTwig) + wdir * aTwig * 0.5) * (0.09 * wt * mix(0.4, 1.0, turbP));
+  w += (axisDown * (steady + aTwig) + wdir * aTwig * 0.5) * (0.054 * wt * mix(0.4, 1.0, turbP));
   // Cards: each flutters about the tip of its own twig, at its own quick rate.
   // w is the flutter amplitude (0 wood, 1 a card at its twig tip); a derived card adds its own seed: w = seed + amplitude.
   float flRaw = tvHW.w;
   float fl = flRaw > 0.0 ? flRaw - ceil(flRaw) + 1.0 : 0.0;
   if (fl > 0.0) {
     float seed = tvHHash(dot(pv, vec3(12.7, 3.1, 7.9)) + (ceil(flRaw) - 1.0) * 1.37);
-    float aLeaf = sin(t * tau * (3.5 + 2.5 * seed) + seed * 40.0);
-    float aLeaf2 = sin(t * tau * (4.1 + 2.0 * fract(seed * 7.31)) + seed * 17.0);
-    w += (axisDown * aLeaf + wdir * aLeaf2 * 0.8 + vec3(0.0, 1.0, 0.0) * aLeaf2 * 0.6) * (0.22 * fl * (0.25 + 0.75 * turbP) * mix(0.35, 1.0, gP));
+    float aLeaf = sin(t * tau * (1.75 + 1.25 * seed) + seed * 40.0);
+    float aLeaf2 = sin(t * tau * (2.05 + 1.0 * fract(seed * 7.31)) + seed * 17.0);
+    w += (axisDown * aLeaf + wdir * aLeaf2 * 0.8 + vec3(0.0, 1.0, 0.0) * aLeaf2 * 0.6) * (0.066 * fl * (0.25 + 0.75 * turbP) * mix(0.35, 1.0, gP));
   }
   w *= drive * uFoliage.y;
   // A long limb (a derived one) turns through a smaller angle: its tip should not swing farther than a short limb's.

@@ -13,7 +13,7 @@ import { downloadAsset } from './assets/download';
 import { installBarkDetail } from './treeMaterials';
 import { barkTextures } from './treeTextures';
 import { leafAtlasInUse, leafAtlasTexture, leafAtlasWanted, loadLeafAtlas, broadleafCellWeights, LEAF_ATLAS_GRID } from './leafAtlas';
-import { CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
+import { branchFieldOf, CONIFER_BRANCH, deriveBranchLeaf, deriveBranchWood } from './foliage/branchWind';
 import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_LOBES, type CanopyLobe, type CanopyLobes, cullDetachedCards, cullFarCards, growTwigs, MAX_TREE_SCALE, seatFarCards, snapDetachedClumps, trimExposedWood, woodAnchor, woodReachLocal, NEAR_CANOPY, MID_CANOPY, twigTriangles, type CanopyTwig } from './canopy';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
@@ -663,7 +663,10 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         let wood = prepare(parts.wood, false);
         let exported = prepare(parts.leaf, true);
         // The shipped models carry no branch data: derive it (branchWind.ts) so the limbs sway on their own, not the crown as one.
-        const branch = (clusters || CONIFER.has(species)) && wood && exported && !ownBranchData(lod, exported) ? deriveBranchWood(wood, clusters ? undefined : CONIFER_BRANCH) : null;
+        // A generated tree's wood carries its own (A166): its rebuilt crown reads that, so the cards ride the limbs it grew;
+        // deriving refused such wood, the crown found no limbs, and the whole tree swayed as one.
+        const branch = (clusters || CONIFER.has(species)) && wood && exported && !ownBranchData(lod, exported)
+          ? (hero && hasBranchData(wood) ? branchFieldOf(wood) : deriveBranchWood(wood, clusters ? undefined : CONIFER_BRANCH)) : null;
         // A tree whose leaves found no limbs keeps the whole-crown sway: wood and leaves must agree.
         const settle = <T extends { wood: THREE.BufferGeometry | null; leaf: THREE.BufferGeometry | null }>(v: T): T => {
           if (v.wood && v.leaf && v.wood.getAttribute('_wind') && !v.leaf.getAttribute('_wind')) { v.wood.deleteAttribute('_wind'); v.wood.deleteAttribute('_pivot'); }
