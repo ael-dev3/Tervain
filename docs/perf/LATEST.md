@@ -243,3 +243,13 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
 - Grass, masked walk at a low sun behind: per-blade flutter damped below two pixels of width changed jumps by under 0.1%; flutter off entirely, by 1.6% to 3.0%. Not taken.
 - Details: docs/engineering/a164-0044-generated-orchard.md. Budget gate against live on the release head: in the release PR.
+
+## 0.0.45: the generated sentinel, 2026-10-21
+
+- Per template in game (wood plus leaves), birch slot / oak slot, verdant-sentinel → hero-sentinel: near 19,726 / 19,684 → 14,016 / 14,028; middle 12,552 / 12,570 → 8,074 / 8,074; far 9,646 / 9,646 → 2,186 / 2,186.
+- Every draw at the budget gate's pose, one frame: 241 on the 0.0.44 build, 240 on the candidate.
+- Download: +1,997,252 bytes (three files, no images). The verdant-sentinel still loads, because its footprint places the trees.
+- A real-play walk past two birch-slot sentinels, against the 0.0.44 build: flicker spikes of 40+ levels −58.9% in the upper 45% of the frame and −5.6% over the whole frame; of 60+, −10.8%. Past two oak-slot sentinels in the pine wood: −1.8%, −1.5% and −1.4%.
+- Not taken: the birches of the slot (+22.0% over the frame: the meadow lost the crowns' shade) and the oaks (+36.4%: veteran boles in a grove spaced for slim trees).
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
+- Details: docs/engineering/a165-0045-generated-sentinel.md. Budget gate against live on the release head: in the release PR.

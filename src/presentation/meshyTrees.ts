@@ -19,16 +19,18 @@ import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_L
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 /**
- * Generated hero trees (tools/tree-gen): original procedural oaks, birches, bushes and orchard trees with a real branch
- * skeleton. On by default; `?herooak=0` is the escape hatch (the supplied trees), `?herobirch=0`, `?herobush=0` and
- * `?heroorchard=0` keep the supplied birches, shrubs or orchard trees only.
+ * Generated hero trees (tools/tree-gen): original procedural oaks, birches, bushes, orchard trees and the moist groves'
+ * sentinel with a real branch skeleton. On by default; `?herooak=0` is the escape hatch (the supplied trees),
+ * `?herobirch=0`, `?herobush=0`, `?heroorchard=0` and `?herosentinel=0` keep the supplied birches, shrubs, orchard trees or
+ * verdant-sentinel only.
  * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_OAK_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_BIRCH_IDS = ['hero-birch', 'hero-birch-b', 'hero-birch-c'] as const;
 export const HERO_BUSH_IDS = ['hero-bush', 'hero-bush-b'] as const;
 export const HERO_ORCHARD_IDS = ['hero-apple', 'hero-pear'] as const;
-export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS, ...HERO_ORCHARD_IDS] as const;
+export const HERO_SENTINEL_IDS = ['hero-sentinel'] as const;
+export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS, ...HERO_ORCHARD_IDS, ...HERO_SENTINEL_IDS] as const;
 /** A lobed crown's wood is trimmed only beyond this share of the crown's radii (trimExposedWood). */
 const LOBED_TRIM_SHELL = 0.85;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
@@ -41,11 +43,24 @@ const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = {
   oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: [HERO_BUSH_IDS[0], HERO_BUSH_IDS[1], HERO_BUSH_IDS[0]],
   orchard: [HERO_ORCHARD_IDS[0], HERO_ORCHARD_IDS[1], HERO_ORCHARD_IDS[0]],
 };
+/**
+ * Supplied sources a habitat assigns by name, and the generated tree that draws them in either species slot (A165); their
+ * own footprint still places them. The verdant-sentinel's limbs read as black shards inside its crown and it cost more
+ * than the generated trees at every level (its far level alone carried 8,204 triangles of wood). Neither family of its
+ * slots could take its place: a birch's narrow crown left the grass it shaded in sun, where it shimmered, and an oak's
+ * veteran bole crowded the slim trees around it. The sentinel keeps its slim bole and wide, dense crown.
+ */
+const SUPERSEDED: Readonly<Partial<Record<string, string>>> = { 'verdant-sentinel': HERO_SENTINEL_IDS[0] };
 /** The generated tree that stands in a species slot for this placement seed, or undefined where the species keeps its supplied trees. */
 export function heroFamilyId(species: Species, seed: number): string | undefined {
   const family = HERO_FAMILY[species]; return family?.[Math.abs(seed) % family.length];
 }
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
+/** The species whose crown handling a generated model takes, whichever slot draws it (A165). */
+const HERO_MODEL: Readonly<Record<string, Species>> = Object.fromEntries([
+  ...HERO_OAK_IDS.map(id => [id, 'oak']), ...HERO_BIRCH_IDS.map(id => [id, 'birch']), ...HERO_BUSH_IDS.map(id => [id, 'shrub']),
+  ...HERO_ORCHARD_IDS.map(id => [id, 'orchard']), ...HERO_SENTINEL_IDS.map(id => [id, 'birch']),
+]);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
 }
@@ -58,12 +73,15 @@ export function heroBushEnabled(search: string | undefined = typeof location ===
 export function heroOrchardEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('heroorchard') !== '0'; } catch { return true; }
 }
+export function heroSentinelEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
+  try { return new URLSearchParams(search ?? '').get('herosentinel') !== '0'; } catch { return true; }
+}
 /** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
 function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
 const heroNoTwigs = () => heroFlag('heronotwigs');
 /** The tree ids a world loads: the supplied set, plus the generated hero trees while their flags are on. */
-export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled(), bushes = heroBushEnabled(), orchards = heroOrchardEnabled()): readonly string[] {
-  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : []), ...(bushes ? HERO_BUSH_IDS : []), ...(orchards ? HERO_ORCHARD_IDS : [])] : MESHY_TREE_IDS;
+export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled(), bushes = heroBushEnabled(), orchards = heroOrchardEnabled(), sentinels = heroSentinelEnabled()): readonly string[] {
+  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : []), ...(bushes ? HERO_BUSH_IDS : []), ...(orchards ? HERO_ORCHARD_IDS : []), ...(sentinels ? HERO_SENTINEL_IDS : [])] : MESHY_TREE_IDS;
 }
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
@@ -579,10 +597,13 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
   };
     const build = (species: Exclude<Species, 'pine'>, seed: number, explicit: string | undefined, forceLive: boolean): TreeVariant => {
       if (disposed) throw new Error('Tree resources have been disposed.');
-      // A generated family (flag-gated; its templates are loaded only then) replaces every variant of its species.
-      const family = !explicit && !forceLive ? HERO_FAMILY[species] : undefined;
-      const id = family && templates.has(family[0]!) ? heroFamilyId(species, seed)! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
-      const hero = isHeroTree(id);
+      // A generated family (flag-gated; its templates are loaded only then) replaces every variant of its species, and a
+      // generated tree replaces a supplied source a habitat assigned by name (SUPERSEDED).
+      const family = !explicit && !forceLive ? HERO_FAMILY[species] : undefined, superseding = explicit && !forceLive ? SUPERSEDED[explicit] : undefined;
+      const id = superseding && templates.has(superseding) ? superseding : family && templates.has(family[0]!) ? heroFamilyId(species, seed)! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      // How the drawn model's crown is handled follows the species it was grown as (the sentinel's as a birch's: no lobes);
+      // its size and placement follow the slot.
+      const hero = isHeroTree(id), model = HERO_MODEL[id] ?? species;
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
       const decoded = source.map(meshyTreeParts), bounds = new THREE.Box3().setFromObject(source[0].scene);
@@ -634,7 +655,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' }; material.needsUpdate = true;
       }
       // A163: a bush's oak-leaf cards lean cool against the meadow's warm grass; the shrubs they replace were yellower.
-      if (hero && species === 'shrub') for (const entry of palette) if (entry.leaf) (entry.leaf as THREE.MeshStandardMaterial).color.multiply(BUSH_LEAF_TINT);
+      if (hero && model === 'shrub') for (const entry of palette) if (entry.leaf) (entry.leaf as THREE.MeshStandardMaterial).color.multiply(BUSH_LEAF_TINT);
       // 0.0.39: the generated hero oaks' crowns gather into lobes on their limbs, chosen once from the near crown so every
       // level agrees. The limbs show between the lobes, so only bare wood out at the crown's shell is trimmed.
       let lobeShape: CanopyLobe[] | undefined;
@@ -653,7 +674,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
         if (exported && lod < 2 && clusters) {
           const triangles = (g: THREE.BufferGeometry | null) => (g ? (g.index?.count ?? g.getAttribute('position').count) / 3 : 0);
           // A164: a generated orchard tree is under half an oak's height: its clumps and cards are scaled to it.
-          const base = lod === 0 ? NEAR_CANOPY : MID_CANOPY, k = hero && species === 'orchard' ? ORCHARD_CANOPY_SCALE : 1;
+          const base = lod === 0 ? NEAR_CANOPY : MID_CANOPY, k = hero && model === 'orchard' ? ORCHARD_CANOPY_SCALE : 1;
           // Its open crown shows the sky between lobes, where a long twig out to a far clump read as a bare stick: such
           // clumps are dropped instead.
           const shape = k === 1 ? base : { ...base, size: [base.size[0] * k, base.size[1] * k] as const, clump: base.clump * k, anchorDrop: ORCHARD_ANCHOR_DROP };
@@ -665,7 +686,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // Retries change the leaf budget, not the source wood. Build its search index once; it stays local to this LOD.
           const anchor = woodAnchor(wood);
           // Lobes are the oaks' (A159) and, rounder and larger, the orchard's (A164): on a birch they flickered more than its even crown (A160).
-          const lobes = hero && species === 'oak' ? CROWN_LOBES : hero && species === 'orchard' ? ORCHARD_LOBES : undefined;
+          const lobes = hero && model === 'oak' ? CROWN_LOBES : hero && model === 'orchard' ? ORCHARD_LOBES : undefined;
           if (lobes && !lobeShape) lobeShape = canopyLobes(exported, wood, { ...shape, cards, seed, lobes });
           for (let attempt = 0; attempt < 4; attempt++) {
             const pads = leafAtlasInUse();
@@ -685,17 +706,17 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           const twigs = (canopy.userData.canopy as { twigs: CanopyTwig[] }).twigs;
           if (branch) deriveBranchLeaf(canopy, branch, twigs);
           const graftBase = species === 'oak' && !hero && lod === 0 && twigs.length ? wood : null;
-          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, species === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); if (wood !== graftBase) wood.dispose(); geometries.add(grownWood); wood = grownWood; }
+          if (wood && twigs.length && !(hero && heroNoTwigs())) { const grownWood = growTwigs(wood, twigs, model === 'birch'); if (wood.userData.twigIndex !== undefined) grownWood.userData.twigIndex = wood.userData.twigIndex; geometries.delete(wood); if (wood !== graftBase) wood.dispose(); geometries.add(grownWood); wood = grownWood; }
           // 0.0.25: a detached oak clump is moved onto its nearest branch (no card is removed), measured against the final wood.
           // 0.0.28: orchard cards beyond the audit reach are culled (no card moves).
-          if (species === 'orchard' && wood && lod === 0) {
+          if (model === 'orchard' && wood && lod === 0) {
             const culled = cullFarCards(canopy, woodAnchor(wood), 1.5).geometry;
             geometries.delete(canopy); canopy.dispose(); geometries.add(culled); canopy = culled;
             // Shared geometry must satisfy the world-metre audit even at the largest orchard instance scale.
             const checked = cullDetachedCards(canopy, wood, woodReachLocal(1.5, ORCHARD_MAX_SCALE)).geometry;
             if (checked !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(checked); canopy = checked; }
           }
-          if (species === 'oak' && wood) {
+          if (model === 'oak' && wood) {
             // Preserve the authored horizontal layout; near residual clumps can seat vertically without changing shade.
             const snapped = snapDetachedClumps(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE), 0.75, 0.9,
               lod === 0 ? woodReachLocal(0.75, MAX_TREE_SCALE) : undefined).geometry;
@@ -709,7 +730,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
           // 0.0.36: outer-shell cards still past the audit reach at the largest tree scale move just inside it, against
           // the final wood (twigs included). Oaks (0.0.36) and birches (0.0.37) drop to no detached card at any scale; no
           // card is removed.
-          if ((species === 'oak' || species === 'birch') && wood) {
+          if ((model === 'oak' || model === 'birch') && wood) {
             const seated = seatFarCards(canopy, wood, woodReachLocal(1.5, MAX_TREE_SCALE)).geometry;
             if (seated !== canopy) { geometries.delete(canopy); canopy.dispose(); geometries.add(seated); canopy = seated; }
           }

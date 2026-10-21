@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Offline hero-oak generator: node tools/tree-gen/build.mjs [--seed 1] [--out public/models/flora/hero] [--stats]
- * Also grows birches, bushes and orchard trees: [--species oak|birch|bush|apple|pear] [--name hero-birch] (SPECIES below).
+ * Also grows birches, bushes, orchard trees and the sentinel: [--species oak|birch|bush|apple|pear|sentinel] [--name hero-birch] (SPECIES below).
  *
  * Grows a four-level oak skeleton (skeleton.mjs), meshes it as bark-relief tubes with buttress roots and a soil skirt
  * (mesh.mjs), places leaf clusters on the twig ends (leaves.mjs) and writes three GLBs: hero-oak-near / -mid / -far.
@@ -25,7 +25,7 @@ import sharp from 'sharp';
 import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
 import { generateBark, generateBirchBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
-import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH, growBush, bushRadiusAt, growFruit, fruitRadiusAt, APPLE, PEAR } from './lib/skeleton.mjs';
+import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH, growBush, bushRadiusAt, growFruit, fruitRadiusAt, APPLE, PEAR, SENTINEL } from './lib/skeleton.mjs';
 import { MeshBuilder, addTube, addRoots, addSkirt, windLevel } from './lib/mesh.mjs';
 import { leafCandidates, placeClusters, clusterCards, bakeCrown } from './lib/leaves.mjs';
 import { writeGlb } from './lib/glb.mjs';
@@ -79,6 +79,15 @@ const ORCHARD_LODS = {
 };
 // Fruit-tree bark is darker and greyer than an oak's, a little mossy; its thin wood darker still.
 const ORCHARD_PALETTE = { warm: [0.62, 0.55, 0.48], moss: 0.5, level: { 1: 0.95, 2: 0.88, 3: 0.8 }, foot: () => 1 };
+// The sentinel (A165) is a birch-sized crown, wider: the game rebuilds its near and middle crowns; its far crown keeps the
+// near cards' size, so no level reaches past the near crown's outline.
+const SENTINEL_LODS = {
+  near: { trunk: 10, limb: 6, bough: 4, twig: 3, root: 0, stride: 1, twigs: false, boughs: true, rootRings: 1, clusters: 1200, cards: 3, cardRows: 1, sizeScale: 0.9, skirtSeg: 0 },
+  mid: { trunk: 8, limb: 5, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 1300, cards: 3, cardRows: 1, sizeScale: 0.9, skirtSeg: 0 },
+  far: { trunk: 5, limb: 3, bough: 0, twig: 0, root: 0, stride: 4, twigs: false, boughs: false, rootRings: 1, clusters: 400, cards: 3, cardRows: 1, sizeScale: 0.9, skirtSeg: 0 },
+};
+// A lime's bark: grey-brown, darker than a birch's (pale bark flickered behind swaying leaves, A160), a little mossy.
+const SENTINEL_PALETTE = { warm: [0.6, 0.55, 0.5], moss: 0.45, level: { 1: 0.92, 2: 0.86, 3: 0.8 }, foot: () => 1 };
 // Each generated species: skeleton, trunk radius, bark, levels of detail and the one file that carries its images (the bark
 // and leaf atlas do not depend on the seed, so every other file of the species names that one and borrows them).
 const SPECIES = {
@@ -89,6 +98,8 @@ const SPECIES = {
   bush: { grow: (s) => growBush(s), radiusAt: (y) => bushRadiusAt(y), bark: () => generateBark(2048, 7), lods: BUSH_LODS, imageFile: 'hero-oak-near.glb', label: 'hero bush', palette: BUSH_PALETTE, leaves: { fill: 0, undersides: false }, crownShade: 0.62, boughEnvelope: 1.05, clusterSpacing: 0.06, cardClearance: 0.03 },
   // Orchard trees borrow the oak's images too (A164): an apple in the wide orchard tree's slots, a pear in the narrow one's.
   apple: { grow: (s) => growFruit(s, APPLE), radiusAt: (y) => fruitRadiusAt(y, APPLE), bark: () => generateBark(2048, 7), lods: ORCHARD_LODS, imageFile: 'hero-oak-near.glb', label: 'hero apple', palette: ORCHARD_PALETTE, leaves: { fill: 0.15 }, crownShade: 0.6, clusterSpacing: 0.1, cardClearance: 0.08 },
+  // The sentinel draws the moist groves' tall broadleaf where a habitat assigns the supplied verdant-sentinel (A165).
+  sentinel: { grow: (s) => growFruit(s, SENTINEL), radiusAt: (y) => fruitRadiusAt(y, SENTINEL), bark: () => generateBark(2048, 7), lods: SENTINEL_LODS, imageFile: 'hero-oak-near.glb', label: 'hero sentinel', palette: SENTINEL_PALETTE, leaves: { fill: 0.2 }, crownShade: 0.58 },
   pear: { grow: (s) => growFruit(s, PEAR), radiusAt: (y) => fruitRadiusAt(y, PEAR), bark: () => generateBark(2048, 7), lods: ORCHARD_LODS, imageFile: 'hero-oak-near.glb', label: 'hero pear', palette: ORCHARD_PALETTE, leaves: { fill: 0.15 }, crownShade: 0.6, clusterSpacing: 0.1, cardClearance: 0.08 },
 };
 const SP = SPECIES[species];
