@@ -191,8 +191,9 @@ Not measured in this review: texture taps, shader cost, JS frame CPU (see each P
 - Per template in game (wood plus leaves), supplied birches (tree-1527 / tree-4815) → generated (hero-birch / -b / -c): near 15,920 / 19,708 → 15,164 / 14,820 / 14,264; middle 9,622 / 8,281 → 8,340 / 8,586 / 8,436; far 2,238 / 3,400 → 1,200 / 1,166 / 1,202. Averaged over the family as placed: near 17,183 → 14,749, middle 9,175 → 8,454, far 2,625 → 1,189.
 - Download: +5,767,212 bytes (nine birch files, one image set). The supplied birches still load, because their footprints place the trees.
 - Flicker on two real-play walks into birch groves, against live 0.0.39:
-  - Spikes of 40+ levels (a pixel jumps and comes back within a frame): +0.2% and +2.0% in the crown band, +0.8% and +0.9% over the whole frame.
+  - Spikes of 40+ levels (a pixel jumps and comes back within a frame): +0.2% and +2.1% in the crown band, +0.8% on both over the whole frame.
   - Spikes of 60+ levels in the crown band: +33% and +7%. These are foliage swaying across the pale trunks.
   - An open birch crown (38% of the cards) gave +56% and was not taken.
 - Middle against far birch at 70 m (Low switches at 64 to 96 m): crown size within 2%, mean brightness 98.9 against 98.5.
-- Details: docs/engineering/a160-0040-generated-birches.md. Budget gate and canopy audit on the release head: in the release PR.
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m), 337 trees: 0 detached clumps, 0 detached cards.
+- Details: docs/engineering/a160-0040-generated-birches.md. Budget gate against live on the release head: in the release PR.

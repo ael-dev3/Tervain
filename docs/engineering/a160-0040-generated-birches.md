@@ -51,8 +51,8 @@ Flicker was measured on two real-play walks into birch groves (12 s, fixed 1/60 
 
 | Measure | First walk | Second walk |
 | --- | ---: | ---: |
-| Crown band | +0.2% | +2.0% |
-| Whole frame | +0.8% | +0.9% |
+| Crown band | +0.2% | +2.1% |
+| Whole frame | +0.8% | +0.8% |
 | Crown band, jumps of 60+ levels | +33% | +7% |
 
 - The 60+ jumps are other trees' foliage swaying across the light trunks, most where pine boughs cross one: the new contrast of pale bark.
@@ -74,7 +74,7 @@ Per template in game (wood plus leaves), against the supplied birches the family
 
 ## Evidence
 
-- Canopy audit (LOD 0, gap 0.75, reach 1.5 m): see the release PR, run on its head.
+- Canopy audit (LOD 0, gap 0.75, reach 1.5 m), all 337 trees: 0 detached clumps, 0 detached cards. The 28 birches have 0 candidates.
 - Middle against far birch at 70 m (Low quality switches between them at 64 to 96 m): crown size within 2%, mean brightness 98.9 against 98.5.
 
 ## Self-score against Gothic 3
