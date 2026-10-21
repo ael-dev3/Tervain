@@ -1,0 +1,54 @@
+[
+  {
+    "resident": "rillford-reeve",
+    "modes": {
+      "before": {
+        "runs": 81,
+        "meanPreparationMs": 9.505143345679013,
+        "p95PreparationMs": 11.374865,
+        "meanLargestResumeMs": 2.23095532098765,
+        "largestResumeMs": 3.7076949999999442
+      },
+      "after": {
+        "runs": 81,
+        "meanPreparationMs": 6.151700098765428,
+        "p95PreparationMs": 7.4184830000000375,
+        "meanLargestResumeMs": 0.9724011975308628,
+        "largestResumeMs": 3.6769329999999627
+      },
+      "control": {
+        "runs": 81,
+        "meanPreparationMs": 9.431256074074083,
+        "p95PreparationMs": 11.457899999999995,
+        "meanLargestResumeMs": 2.3203661604938266,
+        "largestResumeMs": 4.4961609999999155
+      }
+    }
+  },
+  {
+    "resident": "ash-recorder",
+    "modes": {
+      "before": {
+        "runs": 81,
+        "meanPreparationMs": 6.298542493827151,
+        "p95PreparationMs": 7.69925400000011,
+        "meanLargestResumeMs": 1.523794024691364,
+        "largestResumeMs": 3.46531600000003
+      },
+      "after": {
+        "runs": 81,
+        "meanPreparationMs": 4.066035604938283,
+        "p95PreparationMs": 4.903321999999889,
+        "meanLargestResumeMs": 0.7200767160494016,
+        "largestResumeMs": 2.289162000000033
+      },
+      "control": {
+        "runs": 81,
+        "meanPreparationMs": 6.4974169382716145,
+        "p95PreparationMs": 8.619703999999956,
+        "meanLargestResumeMs": 1.699338666666661,
+        "largestResumeMs": 7.943719999999985
+      }
+    }
+  }
+]

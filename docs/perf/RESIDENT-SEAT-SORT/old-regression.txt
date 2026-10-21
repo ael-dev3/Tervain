@@ -1,0 +1,44 @@
+
+ RUN  v5.0.2 [repository]
+
+ ❯ tests/presentation/residentSeatPreparation.test.ts (2 tests | 2 failed) 168ms
+   × prepares rillford-reeve seat contacts in bounded steps without moving the measured seat 115ms
+   × prepares ash-recorder seat contacts in bounded steps without moving the measured seat 52ms
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  02:51:51
+   Duration  370ms (tests 55%, transform 31%, import 11%, setup 2%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/residentSeatPreparation.test.ts > prepares rillford-reeve seat contacts in bounded steps without moving the measured seat
+AssertionError: expected 13347 to be less than 1024
+ ❯ tests/presentation/residentSeatPreparation.test.ts:48:31
+     46|     expect(turns).toBeGreaterThan(20);
+     47|     // Sorting the whole 8k–13k surface holds a preparation slice past…
+     48|     expect(largestObjectSort).toBeLessThan(1_024);
+       |                               ^
+     49|   } finally {
+     50|     sorting.mockRestore();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/presentation/residentSeatPreparation.test.ts > prepares ash-recorder seat contacts in bounded steps without moving the measured seat
+AssertionError: expected 8488 to be less than 1024
+ ❯ tests/presentation/residentSeatPreparation.test.ts:48:31
+     46|     expect(turns).toBeGreaterThan(20);
+     47|     // Sorting the whole 8k–13k surface holds a preparation slice past…
+     48|     expect(largestObjectSort).toBeLessThan(1_024);
+       |                               ^
+     49|   } finally {
+     50|     sorting.mockRestore();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
