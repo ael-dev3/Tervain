@@ -68,3 +68,11 @@ node tools/repro-dense-fir-shadow.mjs --url <build-url> --out dense-fir-proof --
 ```
 
 Software runs used `--skip-loading-raster true` to avoid wasting raster work during loading; the helper asserts restoration before native proof. Leave it off for ordinary hardware startup traces. `--headed true` uses a headed browser. The stock budget gate is run separately without this option or any injected hooks/allowances. See `budget.log` for its exact-head result when attached.
+
+## Current-head 0.0.46 stock budget receipt
+
+On source head `56c9795f9a7dc7f860c1dbbc77577503ade28d14`, live `cb38978`: **284 draws / 2,956,234 triangles / 0 console errors**, equal candidate maxima. Two same-revision live probes and four completed samples each; original sampler/thresholds, no init hook or allowance.
+
+`play-gate: PASS 56c9795f9`
+
+Raw budget output is in `budget.log` (preview origin anonymized). The earlier gate spanning the 0.0.45→0.0.46 deployment was aborted/discarded and is not used. Tests/build logs are from the rebased current head. Native images remain the separately labelled 0.0.45 pairs.
