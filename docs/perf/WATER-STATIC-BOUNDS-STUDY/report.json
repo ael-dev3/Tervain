@@ -1,0 +1,852 @@
+{
+  "build": {
+    "version": "0.0.47",
+    "revision": "9cc3589"
+  },
+  "pieces": 533,
+  "transforms": 46779,
+  "rows": [
+    {
+      "frame": 0,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 1,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 2,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 3,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 4,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 5,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 6,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 7,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 8,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 9,
+      "visible": true,
+      "transforms": 19,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 10,
+      "visible": true,
+      "transforms": 20,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 11,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 12,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 13,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 14,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 15,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 16,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 17,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 18,
+      "visible": true,
+      "transforms": 403,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 19,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 20,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 21,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 22,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 23,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 24,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 25,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 26,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 27,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 28,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 29,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 30,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 31,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 32,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 33,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 34,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 35,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 36,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 37,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 38,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 39,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 40,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 41,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 42,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 43,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 44,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 45,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 46,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 47,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 48,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 49,
+      "visible": true,
+      "transforms": 427,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 50,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 51,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 52,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 53,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 54,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 55,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 56,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 57,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 58,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 59,
+      "visible": true,
+      "transforms": 402,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 60,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 61,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 62,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 63,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 64,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 65,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 66,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 67,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 68,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 69,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 70,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 71,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 72,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 73,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 74,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 75,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 76,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 77,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 78,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 79,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 80,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 81,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 82,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 83,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 84,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 85,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 86,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 87,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 88,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 89,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 90,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 91,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 92,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 93,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 94,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 95,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 96,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 97,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 98,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 99,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 100,
+      "visible": true,
+      "transforms": 426,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 101,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 102,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 103,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 104,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 105,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 106,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 107,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 108,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 109,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 110,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 111,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 112,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 113,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 114,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 115,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 116,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 117,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 118,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    },
+    {
+      "frame": 119,
+      "visible": true,
+      "transforms": 450,
+      "unchangedMatrix": true,
+      "unchangedLocalBounds": true
+    }
+  ],
+  "scope": "Read-only native visibility predicate on a 120-view pan. Loading raster suppressed and restored before reading; no rendered image or frame-time/heat claim. Tests repeated local-to-world bounds work, not a candidate fix.",
+  "consoleErrors": []
+}

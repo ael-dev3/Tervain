@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {liveProofPage} from '../../../tools/live-proof-page.mjs';
+const temp=fs.mkdtempSync(path.join(os.tmpdir(),'tervain-bounds-study-')),initFile=path.join(temp,'init.js'),out=process.argv[2]??'artifacts/water-static-bounds';fs.mkdirSync(out,{recursive:true});
+fs.writeFileSync(initFile,`(()=>{const saved=[];for(const proto of [globalThis.WebGLRenderingContext?.prototype,globalThis.WebGL2RenderingContext?.prototype])if(proto)for(const name of ['drawArrays','drawElements','drawArraysInstanced','drawElementsInstanced','drawRangeElements'])if(typeof proto[name]==='function'){saved.push([proto,name,proto[name]]);proto[name]=()=>{};}window.__restoreBoundsRaster=()=>{for(const[p,n,f]of saved)p[n]=f;};})();`);
+process.env.REPRO_INIT_FILE=initFile;let page;
+try{
+ page=await liveProofPage('https://ael-dev3.github.io/Tervain/',{quality:'high',hour:15});
+ const report=await page.eval(`const T=tervain,P=T.grade.waterPass,W=T.world,C=T.cam.camera,sea=W.water.ocean.mesh;T.frame=()=>{};T.present=()=>{};__restoreBoundsRaster();sea.updateWorldMatrix(true,false);const matrix=sea.matrixWorld.clone(),pieces=sea.userData.waterVisibilityBounds,original=pieces.map(b=>b.clone()),apply=P.visibilityBox.applyMatrix4;let transforms=0;P.visibilityBox.applyMatrix4=function(m){transforms++;return apply.call(this,m);};const rows=[];try{for(let i=0;i<120;i++){const yaw=-.2+i*.4/119;C.position.set(97.929,12.399,122.731);C.lookAt(C.position.x+35*Math.sin(yaw),27.58,C.position.z-35*Math.cos(yaw));C.updateMatrixWorld(true);P.visibilityProjection.multiplyMatrices(C.projectionMatrix,C.matrixWorldInverse);P.visibilityFrustum.setFromProjectionMatrix(P.visibilityProjection);const before=transforms,visible=P.waterInView(sea,C);rows.push({frame:i,visible,transforms:transforms-before,unchangedMatrix:matrix.equals(sea.matrixWorld),unchangedLocalBounds:pieces.every((b,j)=>b.equals(original[j]))});}}finally{P.visibilityBox.applyMatrix4=apply;}return{build:await fetch(new URL('version.json',document.baseURI)).then(r=>r.json()),pieces:pieces.length,transforms,rows,scope:'Read-only native visibility predicate on a 120-view pan. Loading raster suppressed and restored before reading; no rendered image or frame-time/heat claim. Tests repeated local-to-world bounds work, not a candidate fix.'};`);
+ report.consoleErrors=page.console().filter(s=>s.startsWith('[error]')||s.startsWith('[exception]'));
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));
+ console.log(JSON.stringify({build:report.build,pieces:report.pieces,transforms:report.transforms,allMatricesUnchanged:report.rows.every(r=>r.unchangedMatrix),allBoundsUnchanged:report.rows.every(r=>r.unchangedLocalBounds),errors:report.consoleErrors}));
+}finally{await page?.close();fs.rmSync(temp,{recursive:true,force:true});}
