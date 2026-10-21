@@ -1,0 +1,39 @@
+
+ RUN  v5.0.2 <repository>
+
+ ❯ tests/presentation/waterRenderPass.test.ts (39 tests | 1 failed | 38 skipped) 13ms
+   ❯ water capture/composite orchestration (34)
+     × tests sea bounds once per view and refreshes the result after a camera turn 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/presentation/waterRenderPass.test.ts > water capture/composite orchestration > tests sea bounds once per view and refreshes the result after a camera turn
+AssertionError: expected [ [ Mesh{ …(37) }, …(1) ], …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/presentation/waterRenderPass.test.ts:85:73
+     83|     const visible = vi.spyOn(f.pass as any, 'waterInView');
+     84|     f.render();
+     85|     expect(visible.mock.calls.filter(([mesh]) => mesh === f.meshes[0])…
+       |                                                                         ^
+     86|     expect(f.meshes[0]!.material.uniforms.uWaterReflectionReady!.value…
+     87|     f.camera.lookAt(-200, 3, 4); visible.mockClear(); f.draws.length =…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 38 skipped (39)
+   Start at  15:37:21
+   Duration  372ms (transform 74%, import 18%, tests 5%, setup 2%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

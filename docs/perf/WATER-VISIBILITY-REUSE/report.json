@@ -1,0 +1,296 @@
+{
+  "build": {
+    "version": "0.0.47",
+    "revision": "9cc3589"
+  },
+  "rows": [
+    {
+      "pose": [
+        97.9290386345,
+        12.3989606864,
+        122.7305845127,
+        89.9026499045,
+        27.580630589,
+        87.6012494816
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 36,
+          "draws": 588,
+          "triangles": 8434426,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 18,
+          "draws": 588,
+          "triangles": 8434426,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 36,
+          "draws": 588,
+          "triangles": 8434426,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        97.9290386345,
+        12.3989606864,
+        122.7305845127,
+        82,
+        26,
+        91
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 8,
+          "draws": 627,
+          "triangles": 10984765,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 4,
+          "draws": 627,
+          "triangles": 10984765,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 8,
+          "draws": 627,
+          "triangles": 10984765,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        97.9290386345,
+        12.3989606864,
+        122.7305845127,
+        99,
+        24,
+        85
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 852,
+          "draws": 410,
+          "triangles": 6225154,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 426,
+          "draws": 410,
+          "triangles": 6225154,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 852,
+          "draws": 410,
+          "triangles": 6225154,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        -206.956,
+        3.01,
+        11.92,
+        -200,
+        2.45,
+        11.3846
+      ],
+      "modes": {
+        "before": {
+          "queries": 3,
+          "sea": 2,
+          "boxes": 1067,
+          "draws": 354,
+          "triangles": 7018770,
+          "glError": 0
+        },
+        "after": {
+          "queries": 2,
+          "sea": 1,
+          "boxes": 534,
+          "draws": 354,
+          "triangles": 7018770,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 3,
+          "sea": 2,
+          "boxes": 1067,
+          "draws": 354,
+          "triangles": 7018770,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        -310,
+        8,
+        -40,
+        -300,
+        0,
+        -40
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 156,
+          "draws": 199,
+          "triangles": 1540715,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 78,
+          "draws": 199,
+          "triangles": 1540715,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 156,
+          "draws": 199,
+          "triangles": 1540715,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        -335,
+        8,
+        -90,
+        -325,
+        0,
+        -90
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 128,
+          "draws": 168,
+          "triangles": 1468750,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 64,
+          "draws": 168,
+          "triangles": 1468750,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 128,
+          "draws": 168,
+          "triangles": 1468750,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    },
+    {
+      "pose": [
+        -2,
+        4.9,
+        45.4,
+        -2,
+        2,
+        39.5
+      ],
+      "modes": {
+        "before": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 852,
+          "draws": 364,
+          "triangles": 5697869,
+          "glError": 0
+        },
+        "after": {
+          "queries": 1,
+          "sea": 1,
+          "boxes": 426,
+          "draws": 364,
+          "triangles": 5697869,
+          "glError": 0
+        },
+        "restored": {
+          "queries": 2,
+          "sea": 2,
+          "boxes": 852,
+          "draws": 364,
+          "triangles": 5697869,
+          "glError": 0
+        }
+      },
+      "pixels": {
+        "beforeAfter": 0,
+        "restored": 0
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "endBuild": {
+    "version": "0.0.47",
+    "revision": "9cc3589"
+  },
+  "sourceSha256": "d461de45a51947b12b21ba5dafeb5bb8c9a54a49480d62a8de2232f6bf6f2111",
+  "scope": "Published native High world, post/MSAA, seven poses. Candidate render/captureReflection methods substituted into the existing native pass; no geometry/shader/settings changes between paired images. Wind, simulation, shadow map and time held fixed. Native draw calls enabled throughout. Query/box counts measure CPU work only, not milliseconds, Mac pacing or heat.",
+  "pass": true
+}
