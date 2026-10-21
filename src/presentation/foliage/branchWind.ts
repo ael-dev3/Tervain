@@ -231,18 +231,19 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
     }
     return best;
   };
-  const cardWind = new Map<number, { w: THREE.Vector4; p: THREE.Vector3 }>();
+  // Final attributes also hold each component's shared data at its root vertex.
+  // Keep only membership, rather than two retained vectors and an object per card.
+  const cardWind = new Set<number>(), cardW = new THREE.Vector4(), cardP = new THREE.Vector3();
   let cards = 0, found = 0;
   for (let i = 0; i < n; i++) {
     const r = find(i);
-    let card = cardWind.get(r);
-    if (!card) {
+    if (!cardWind.has(r)) {
       const cnt = sum[r * 4 + 3]!;
       c.set(sum[r * 4]! / cnt, sum[r * 4 + 1]! / cnt, sum[r * 4 + 2]! / cnt);
       let vertex = field.nearest(c.x, c.y, c.z, reach);
       // A card far from any wood still rides the nearest limb, rather than standing still among moving ones.
       if (vertex < 0) vertex = field.nearest(c.x, c.y, c.z);
-      card = { w: new THREE.Vector4(), p: new THREE.Vector3() };
+      cardW.set(0, 0, 0, 1); cardP.set(0, 0, 0);
       cards++;
       if (vertex >= 0) {
         field.position(vertex, p);
@@ -250,17 +251,19 @@ export function deriveBranchLeaf(leaf: THREE.BufferGeometry, field: BranchField,
         // A card nearer a grown twig than the wood hangs from the limb that twig grows from.
         const best = twigs.length ? nearestTwig(c.x, c.y, c.z, Math.sqrt(bd)) : -1;
         if (best >= 0) { const from = twigs[best]!.from, vt = field.nearest(from.x, from.y, from.z, 3); if (vt >= 0) vertex = vt; }
-        field.read(vertex, card.w, card.p);
-        const lever = Math.max(0.5, card.p.distanceTo(c));
+        field.read(vertex, cardW, cardP);
+        const lever = Math.max(0.5, cardP.distanceTo(c));
         // The seed (1..255) names the card's own flutter; the amplitude (0..1] is scaled to the lever it turns about.
         const seed = 1 + Math.floor(hash3(c.x, c.y, c.z) * 254);
-        card.w.w = seed + Math.min(1, FLUTTER_DISPLACEMENT / lever);
-        if (card.w.x > TRUNK_LEVEL && Math.sqrt(bd) < reach) found++;
+        cardW.w = seed + Math.min(1, FLUTTER_DISPLACEMENT / lever);
+        if (cardW.x > TRUNK_LEVEL && Math.sqrt(bd) < reach) found++;
       }
-      cardWind.set(r, card);
+      wind[r * 4] = cardW.x; wind[r * 4 + 1] = cardW.y; wind[r * 4 + 2] = cardW.z; wind[r * 4 + 3] = cardW.w;
+      pivot[r * 3] = cardP.x; pivot[r * 3 + 1] = cardP.y; pivot[r * 3 + 2] = cardP.z;
+      cardWind.add(r);
     }
-    wind[i * 4] = card.w.x; wind[i * 4 + 1] = card.w.y; wind[i * 4 + 2] = card.w.z; wind[i * 4 + 3] = card.w.w;
-    pivot[i * 3] = card.p.x; pivot[i * 3 + 1] = card.p.y; pivot[i * 3 + 2] = card.p.z;
+    wind[i * 4] = wind[r * 4]!; wind[i * 4 + 1] = wind[r * 4 + 1]!; wind[i * 4 + 2] = wind[r * 4 + 2]!; wind[i * 4 + 3] = wind[r * 4 + 3]!;
+    pivot[i * 3] = pivot[r * 3]!; pivot[i * 3 + 1] = pivot[r * 3 + 1]!; pivot[i * 3 + 2] = pivot[r * 3 + 2]!;
   }
   const anchored = cards ? found / cards : 0;
   if (anchored < 0.5) return null;
