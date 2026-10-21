@@ -19,18 +19,27 @@ import { anchorFarFoliage, buildCanopy, canopyAtlasTexture, canopyLobes, CROWN_L
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
 export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 /**
- * Generated hero trees (tools/tree-gen): original procedural oaks and birches with a real branch skeleton. On by default;
- * `?herooak=0` is the escape hatch (the supplied trees), `?herobirch=0` keeps the supplied birches only.
+ * Generated hero trees (tools/tree-gen): original procedural oaks, birches and bushes with a real branch skeleton. On by
+ * default; `?herooak=0` is the escape hatch (the supplied trees), `?herobirch=0` and `?herobush=0` keep the supplied birches
+ * or shrubs only.
  * Their files live in flora/hero/ and are not part of the supplied-tree manifest.
  */
 export const HERO_OAK_IDS = ['hero-oak', 'hero-oak-b', 'hero-oak-c'] as const;
 export const HERO_BIRCH_IDS = ['hero-birch', 'hero-birch-b', 'hero-birch-c'] as const;
-export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS] as const;
+export const HERO_BUSH_IDS = ['hero-bush', 'hero-bush-b'] as const;
+export const HERO_TREE_IDS = [...HERO_OAK_IDS, ...HERO_BIRCH_IDS, ...HERO_BUSH_IDS] as const;
 /** A lobed crown's wood is trimmed only beyond this share of the crown's radii (trimExposedWood). */
 const LOBED_TRIM_SHELL = 0.85;
 export const HERO_OAK_ID = HERO_TREE_IDS[0];
-/** The generated family that replaces a species' supplied variants; a tree assigned a source explicitly keeps it. */
-const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = { oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS };
+/**
+ * The generated family that replaces a species' supplied variants, slot for slot; a tree assigned a source explicitly keeps
+ * it. The bushes repeat their first template where the supplied shrubs repeat tree-1521, so they draw as many templates (A163).
+ */
+const HERO_FAMILY: Partial<Record<Species, readonly string[]>> = { oak: HERO_OAK_IDS, birch: HERO_BIRCH_IDS, shrub: [HERO_BUSH_IDS[0], HERO_BUSH_IDS[1], HERO_BUSH_IDS[0]] };
+/** The generated tree that stands in a species slot for this placement seed, or undefined where the species keeps its supplied trees. */
+export function heroFamilyId(species: Species, seed: number): string | undefined {
+  const family = HERO_FAMILY[species]; return family?.[Math.abs(seed) % family.length];
+}
 const isHeroTree = (id: string): boolean => (HERO_TREE_IDS as readonly string[]).includes(id);
 export function heroOakEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herooak') !== '0'; } catch { return true; }
@@ -38,12 +47,15 @@ export function heroOakEnabled(search: string | undefined = typeof location === 
 export function heroBirchEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
   try { return new URLSearchParams(search ?? '').get('herobirch') !== '0'; } catch { return true; }
 }
+export function heroBushEnabled(search: string | undefined = typeof location === 'undefined' ? undefined : location.search): boolean {
+  try { return new URLSearchParams(search ?? '').get('herobush') !== '0'; } catch { return true; }
+}
 /** Debug: `?heronotwigs=1` leaves the grown twigs off the hero oak. */
 function heroFlag(name: string): boolean { try { return new URLSearchParams(location.search).get(name) === '1'; } catch { return false; } }
 const heroNoTwigs = () => heroFlag('heronotwigs');
 /** The tree ids a world loads: the supplied set, plus the generated hero trees while their flags are on. */
-export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled()): readonly string[] {
-  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : [])] : MESHY_TREE_IDS;
+export function activeMeshyTreeIds(enabled = heroOakEnabled(), birches = heroBirchEnabled(), bushes = heroBushEnabled()): readonly string[] {
+  return enabled ? [...MESHY_TREE_IDS, ...HERO_OAK_IDS, ...(birches ? HERO_BIRCH_IDS : []), ...(bushes ? HERO_BUSH_IDS : [])] : MESHY_TREE_IDS;
 }
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
@@ -55,6 +67,8 @@ const BROADLEAF = new Set<Species>(['oak', 'birch', 'orchard']);
 const CONIFER = new Set<Species>(['fir', 'shorepine']);
 /** Kinds whose trunks take the metre-scale bark detail (A133). */
 const BARK_DETAIL = new Set<Species>(['oak', 'orchard', 'shrub', 'dead']);
+/** A generated bush's leaf tint (linear): a little less green and blue, to the warmth of the meadow and the shrubs it replaces (A163). */
+const BUSH_LEAF_TINT = new THREE.Color().setRGB(1.0, 0.88, 0.73);
 /**
  * Supplied trees whose own bark does not read as bark take the metre-scale oak bark at this mix, in whichever species slot
  * they stand, at a fixed brightness (their dark source would otherwise darken it) (A162): the verdant-sentinel's atlas paints
@@ -345,14 +359,18 @@ function sharedImages(gltf: GLTF): string | null {
 
 const TEXTURE_SLOTS = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap', 'alphaMap'] as const;
 const borrowed = new WeakSet<GLTF>();
-/** Give a model that carries no images the textures of the near model that does, material by material, slot by slot (A71). */
+/**
+ * Give a model that carries no images the textures of the near model that does, material by material (matched by role,
+ * the name before its `|`: a bush borrows the oak's), slot by slot (A71).
+ */
 function borrowTextures(near: GLTF, lod: GLTF) {
   if (!sharedImages(lod) || borrowed.has(lod)) return;
   const source = new Map<string, THREE.MeshStandardMaterial>();
-  near.scene.traverse(o => { const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined; if (m && !Array.isArray(m)) source.set(m.name, m); });
+  const role = (name: string) => name.split('|')[0]!.trim().toLowerCase();
+  near.scene.traverse(o => { const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined; if (m && !Array.isArray(m)) source.set(role(m.name), m); });
   lod.scene.traverse(o => {
     const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
-    const from = m && !Array.isArray(m) ? source.get(m.name) : undefined;
+    const from = m && !Array.isArray(m) ? source.get(role(m.name)) : undefined;
     if (!m || !from) return;
     for (const slot of TEXTURE_SLOTS) if (from[slot] && !m[slot]) (m as unknown as Record<string, THREE.Texture | null>)[slot] = from[slot];
     m.needsUpdate = true;
@@ -546,7 +564,7 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       if (disposed) throw new Error('Tree resources have been disposed.');
       // A generated family (flag-gated; its templates are loaded only then) replaces every variant of its species.
       const family = !explicit && !forceLive ? HERO_FAMILY[species] : undefined;
-      const id = family && templates.has(family[0]!) ? family[Math.abs(seed) % family.length]! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
+      const id = family && templates.has(family[0]!) ? heroFamilyId(species, seed)! : meshyTreeId(species, seed, explicit), key = `${species}:${id}`;
       const hero = isHeroTree(id);
       const cached = variants.get(key); if (cached) return cached;
       const source = templates.get(id); if (!source) throw new Error(`Required tree ${id} is missing from the art catalog.`);
@@ -586,16 +604,20 @@ export function createMeshyForest(templates: MeshyTreeTemplates): MeshyForest {
       // The hero leaf cards carry the baked crown shade in vertex colour (dark cool inner crown, full value at the rim), multiplied into the albedo.
       // Its near and middle crowns go through the same cluster-canopy pass as the supplied oaks (the GLB's cards only say where leaves go), so
       // they take the shared foliage atlas and crown colour; only the far crown draws the GLB's own cards.
-      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod < 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
-      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
+      // A generated bush (A163) has no rebuilt crown: its own cards, with their baked shade, are drawn at every level.
+      const ownCards = (lod: number) => lod >= 2 || !clusters;
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && !ownCards(lod)) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = false; entry.leaf.needsUpdate = true; }
+      if (hero) for (const [lod, entry] of palette.entries()) if (entry.leaf && ownCards(lod)) { (entry.leaf as THREE.MeshStandardMaterial).vertexColors = true; entry.leaf.userData.foliageLook = { crownNormal: 0.6 }; entry.leaf.needsUpdate = true; }
       // B12: behind ?leafatlas=1 the hero oak's cards (the same 4 x 4 cells, oak twigs picked by the atlas's own oak weights) take the real atlas.
       const heroPads = hero ? leafAtlasInUse() : null;
-      if (heroPads) for (const [lod, entry] of palette.entries()) if (entry.leaf && lod >= 2) {
+      if (heroPads) for (const [lod, entry] of palette.entries()) if (entry.leaf && ownCards(lod)) {
         const material = entry.leaf as THREE.MeshStandardMaterial, cutoff = Math.max(0.05, material.alphaTest) / 1.3;
         broadleafAtlas ??= leafAtlasTexture(heroPads.broadleaf, 'broadleaf', cutoff, 'broadleaf-cluster-atlas');
         material.map = broadleafAtlas; material.color.setRGB(0.92, 1.0, 0.88);
         material.defines = { ...material.defines, TV_COVERAGE_MIPS: '' }; material.needsUpdate = true;
       }
+      // A163: a bush's oak-leaf cards lean cool against the meadow's warm grass; the shrubs they replace were yellower.
+      if (hero && species === 'shrub') for (const entry of palette) if (entry.leaf) (entry.leaf as THREE.MeshStandardMaterial).color.multiply(BUSH_LEAF_TINT);
       // 0.0.39: the generated hero oaks' crowns gather into lobes on their limbs, chosen once from the near crown so every
       // level agrees. The limbs show between the lobes, so only bare wood out at the crown's shell is trimmed.
       let lobeShape: CanopyLobe[] | undefined;

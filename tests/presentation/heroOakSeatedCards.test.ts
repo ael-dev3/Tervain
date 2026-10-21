@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterAll, beforeAll, expect, it } from 'vitest';
-import { createMeshyForest, HERO_BIRCH_IDS, HERO_TREE_IDS, type MeshyTreeTemplates } from '../../src/presentation/meshyTrees';
+import { createMeshyForest, HERO_BIRCH_IDS, HERO_BUSH_IDS, HERO_TREE_IDS, type MeshyTreeTemplates } from '../../src/presentation/meshyTrees';
 import { detachedClumpSet } from '../../src/diagnostics/canopyConnectivity';
 import { MAX_TREE_SCALE, woodReachLocal } from '../../src/presentation/canopy';
 import { meshyTreeTemplate } from './meshyTreeFixture';
@@ -15,7 +15,8 @@ afterAll(() => { for (const levels of templates?.values() ?? []) for (const gltf
 it('leaves no hero tree card past the audit reach at the largest tree scale, in the near or middle crown', () => {
   const forest = createMeshyForest(templates);
   try {
-    for (const id of HERO_TREE_IDS) for (const lod of [0, 1]) {
+    // Bushes draw their own cards (no rebuilt crown, so nothing to seat): their checks live in heroBush.test.ts.
+    for (const id of HERO_TREE_IDS.filter(id => !(HERO_BUSH_IDS as readonly string[]).includes(id))) for (const lod of [0, 1]) {
       const species = (HERO_BIRCH_IDS as readonly string[]).includes(id) ? 'birch' : 'oak';
       const { wood, leaf } = forest.variant(species, 0, id).lods[lod]!;
       const set = detachedClumpSet(leaf!, wood!, woodReachLocal(1.5, MAX_TREE_SCALE), woodReachLocal(0.75, MAX_TREE_SCALE));

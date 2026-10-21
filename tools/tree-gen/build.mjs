@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * Offline hero-oak generator: node tools/tree-gen/build.mjs [--seed 1] [--out public/models/flora/hero] [--stats]
+ * Also grows birches and bushes: [--species oak|birch|bush] [--name hero-birch] (SPECIES below).
  *
  * Grows a four-level oak skeleton (skeleton.mjs), meshes it as bark-relief tubes with buttress roots and a soil skirt
  * (mesh.mjs), places leaf clusters on the twig ends (leaves.mjs) and writes three GLBs: hero-oak-near / -mid / -far.
@@ -24,7 +25,7 @@ import sharp from 'sharp';
 import { makeRng, clamp, lerp, smoothstep } from './lib/util.mjs';
 import { generateBark, generateBirchBark } from './lib/bark.mjs';
 import { generateLeafAtlas, LEAF_ATLAS } from './lib/leafAtlas.mjs';
-import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH } from './lib/skeleton.mjs';
+import { growOak, trunkRadiusAt, OAK, growBirch, birchRadiusAt, BIRCH, growBush, bushRadiusAt } from './lib/skeleton.mjs';
 import { MeshBuilder, addTube, addRoots, addSkirt, windLevel } from './lib/mesh.mjs';
 import { leafCandidates, placeClusters, clusterCards, bakeCrown } from './lib/leaves.mjs';
 import { writeGlb } from './lib/glb.mjs';
@@ -59,11 +60,23 @@ const BIRCH_LODS = {
 // Birch bark keeps a neutral tint and little moss, a light grey rather than chalk white: whiter bark flickered against the
 // foliage swaying in front of it (A160). Its foot is dark for a metre or two; its limbs and twigs are greyer than its stem.
 const BIRCH_PALETTE = { warm: [0.76, 0.75, 0.73], moss: 0.25, level: { 1: 0.7, 2: 0.6, 3: 0.45 }, foot: (y, n) => lerp(0.1, 1, smoothstep(1.0, 2.8, y + 1.6 * (n - 0.5))) };
+// A bush is small and seen close: slim stems, small leaf cards, twigs at the near level (A163). Every level keeps the near
+// cards' size, so no level's leaves reach past the near crown's outline.
+const BUSH_LODS = {
+  near: { trunk: 6, limb: 5, bough: 4, twig: 3, root: 0, stride: 1, twigs: true, boughs: true, rootRings: 1, clusters: 420, cards: 3, cardRows: 1, sizeScale: 0.42, skirtSeg: 0 },
+  mid: { trunk: 4, limb: 4, bough: 3, twig: 0, root: 0, stride: 2, twigs: false, boughs: true, rootRings: 1, clusters: 300, cards: 3, cardRows: 1, sizeScale: 0.45, skirtSeg: 0 },
+  far: { trunk: 3, limb: 3, bough: 0, twig: 0, root: 0, stride: 3, twigs: false, boughs: false, rootRings: 1, clusters: 200, cards: 3, cardRows: 1, sizeScale: 0.45, skirtSeg: 0 },
+};
+// Hazel-grey stems, a little moss, no dark foot; the thinnest wood a little darker.
+const BUSH_PALETTE = { warm: [0.62, 0.56, 0.49], moss: 0.4, level: { 1: 1, 2: 0.92, 3: 0.82 }, foot: () => 1 };
 // Each generated species: skeleton, trunk radius, bark, levels of detail and the one file that carries its images (the bark
 // and leaf atlas do not depend on the seed, so every other file of the species names that one and borrows them).
 const SPECIES = {
   oak: { grow: (s) => growOak(s), radiusAt: (y) => trunkRadiusAt(y, OAK), bark: () => generateBark(2048, 7), lods: LODS, imageFile: 'hero-oak-near.glb', label: 'hero oak' },
   birch: { grow: (s) => growBirch(s), radiusAt: (y) => birchRadiusAt(y, BIRCH), bark: () => generateBirchBark(2048, 17), lods: BIRCH_LODS, imageFile: 'hero-birch-near.glb', label: 'hero birch', palette: BIRCH_PALETTE, leaves: { fill: 0.25 }, crownShade: 0.68, normalSize: 1024 },
+  // Bushes draw the oaks' bark and leaves, so they borrow hero-oak-near's images and carry none (A163). Their branches reach
+  // the dome's edge in leaf, so no bough is dropped for ending there.
+  bush: { grow: (s) => growBush(s), radiusAt: (y) => bushRadiusAt(y), bark: () => generateBark(2048, 7), lods: BUSH_LODS, imageFile: 'hero-oak-near.glb', label: 'hero bush', palette: BUSH_PALETTE, leaves: { fill: 0, undersides: false }, crownShade: 0.62, boughEnvelope: 1.05, clusterSpacing: 0.06, cardClearance: 0.03 },
 };
 const SP = SPECIES[species];
 if (!SP) throw new Error(`Unknown species ${species}`);
@@ -109,7 +122,7 @@ function buildWood(sk, lod, bark, seedBase, centres = []) {
       // Sprigs (twigs of twigs) only carry leaves: their wood would show as bare dark sticks between the cards.
       if (level === 3 && b0.parent?.level === 3) continue;
       // A bough is kept only while every point past its root lies in leaf cover (within 1.3 m of a clump), so no bare stick shows between the leaves.
-      if (level === 2 && sk.envelope(b0.points[b0.points.length - 1]) > 0.85) continue;
+      if (level === 2 && sk.envelope(b0.points[b0.points.length - 1]) > (SP.boughEnvelope ?? 0.85)) continue;
       if (level === 2 && !b0.points.slice(1).every((pt) => centres.some((c) => c.distanceToSquared(pt) < 1.3 * 1.3))) continue;
       if (level === 3 && !centres.some((c) => c.distanceToSquared(b0.points[b0.points.length - 1]) < 0.7 * 0.7)) continue;
       // Near twigs are one straight, shortened, pointed stick (the leaf cards that sit along them hide it): long full-length ones read as black hairlines.
@@ -144,7 +157,7 @@ function segDist(p, s, tmp = new THREE.Vector3(), ab = new THREE.Vector3()) {
 
 function buildLeaves(sk, lod, cands, segs, seedBase) {
   const P = SP.lods[lod], rng = makeRng(seedBase + 501), mb = new MeshBuilder();
-  const picked = placeClusters(cands, P.clusters, rng);
+  const picked = placeClusters(cands, P.clusters, rng, SP.clusterSpacing ?? 0.14);
   const clusters = picked.map((c) => ({ ...c, cards: [] }));
   const grid = new Map(), cell = 2.5, key = (x, y, z) => `${x},${y},${z}`;
   segs.forEach((s, i) => { for (const p of [s.a, s.b, s.a.clone().lerp(s.b, 0.5)]) { const k = key(Math.floor(p.x / cell), Math.floor(p.y / cell), Math.floor(p.z / cell)); (grid.get(k) ?? grid.set(k, []).get(k)).push(i); } });
@@ -159,7 +172,7 @@ function buildLeaves(sk, lod, cands, segs, seedBase) {
         let ok = true;
         for (const s of [0.45, 0.75, 1.0]) {
           const p = tmp.copy(card.base).addScaledVector(card.dir, card.len * s);
-          for (const i of nearWood(p, 1.2)) { const seg = segs[i]; if (seg.branch === cl.branch && s < 0.5) continue; if (segDist(p, seg) < seg.r + 0.15) { ok = false; break; } }
+          for (const i of nearWood(p, 1.2)) { const seg = segs[i]; if (seg.branch === cl.branch && s < 0.5) continue; if (segDist(p, seg) < seg.r + (SP.cardClearance ?? 0.15)) { ok = false; break; } }
           if (!ok) break;
         }
         if (ok) kept.push(card); else rejected++;
