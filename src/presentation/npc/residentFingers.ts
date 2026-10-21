@@ -118,19 +118,22 @@ interface Surface {
   neighbours: number[][];
 }
 
-/** The hand's surface: its vertices welded at seams, and which touch which. */
-function handSurface(position: ArrayLike<number>, index: ArrayLike<number>, carried: (vertex: number) => boolean, vertices: number): Surface {
+/** Weld seams and build hand adjacency in bounded scans so the arrival scheduler can check its budget. */
+function* handSurfaceSteps(position: ArrayLike<number>, index: ArrayLike<number>, carried: (vertex: number) => boolean, vertices: number): Generator<void, Surface, void> {
   const node = new Int32Array(vertices).fill(-1);
   const keys = new Map<string, number>(), nodes: number[] = [];
   for (let v = 0; v < vertices; v++) {
+    if (v > 0 && v % 512 === 0) yield;
     if (!carried(v)) continue;
     const key = `${Math.round(position[v * 3]! / WELD)},${Math.round(position[v * 3 + 1]! / WELD)},${Math.round(position[v * 3 + 2]! / WELD)}`;
     let n = keys.get(key);
     if (n === undefined) { n = nodes.length; keys.set(key, n); nodes.push(v); }
     node[v] = n;
   }
+  yield;
   const sets = nodes.map(() => new Set<number>());
   for (let t = 0; t + 2 < index.length; t += 3) {
+    if (t > 0 && t % 1536 === 0) yield;
     const a = node[index[t]!]!, b = node[index[t + 1]!]!, c = node[index[t + 2]!]!;
     if (a < 0 || b < 0 || c < 0) continue;
     sets[a]!.add(b).add(c); sets[b]!.add(a).add(c); sets[c]!.add(a).add(b);
@@ -214,7 +217,11 @@ export function planResidentFingers(data: ResidentRigData, position: ArrayLike<n
 export function* planResidentFingersSteps(data: ResidentRigData, position: ArrayLike<number>, index: ArrayLike<number>, closed: readonly FingerSide[] = []): Generator<void, ResidentFingerPlan, void> {
   const vertices = data.vertices;
   const joints = new Uint16Array(vertices * 4), weights = new Float32Array(vertices * 4);
-  for (let i = 0; i < joints.length; i++) { joints[i] = data.joints[i]!; weights[i] = data.weights[i]! / 255; }
+  for (let i = 0; i < joints.length; i++) {
+    if (i > 0 && i % 2048 === 0) yield;
+    joints[i] = data.joints[i]!; weights[i] = data.weights[i]! / 255;
+  }
+  yield;
   const handWeight = (v: number, joint: number) => {
     let w = 0;
     for (let s = 0; s < 4; s++) if (data.joints[v * 4 + s] === joint) w += data.weights[v * 4 + s]!;
@@ -224,7 +231,7 @@ export function* planResidentFingersSteps(data: ResidentRigData, position: Array
   for (const [sideIndex, side] of FINGER_SIDES.entries()) {
     const joint = HAND_INDEX[side], bone = data.bones[joint]!;
     const wrist = bone.position as Vec3;
-    const surface = handSurface(position, index, v => handWeight(v, joint) > 0.25, vertices);
+    const surface = yield* handSurfaceSteps(position, index, v => handWeight(v, joint) > 0.25, vertices);
     // A hand's plan is tens of milliseconds on a dense model: it is taken in a few steps (A80).
     yield;
     let handVertices = 0;

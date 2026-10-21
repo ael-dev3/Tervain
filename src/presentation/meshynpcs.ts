@@ -457,6 +457,7 @@ export function* createMeshyNpcRigSteps(asset: Pick<GLTF, 'scene' | 'animations'
       if (authored && !installed.bones) {
         // A skull weighted partly to the shoulders sheared off the head as they moved apart (the fisher's face).
         const data = repairHeadWeights(authored.data, skin.geometry.getAttribute('position'));
+        yield;
         const plan = settings.fingers ? yield* residentFingerPlanSteps(data, skin.geometry, RESIDENT_CLOSED_HANDS[entry.id]) : undefined;
         yield;
         const own = installResidentRig(skin, data, plan);
