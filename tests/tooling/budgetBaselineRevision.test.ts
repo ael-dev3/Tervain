@@ -20,6 +20,10 @@ export async function openPage(url) {
  if(!candidate&&second&&scenario==='missing-second')revision=null;
  if(!candidate&&scenario==='invalid')revision='unknown';
  if(candidate&&scenario==='head')revision='4444444';
+ if(candidate&&scenario==='empty-candidate')revision='';
+ if(candidate&&scenario==='short-candidate')revision='333';
+ if(candidate&&scenario==='missing-candidate')revision=null;
+ if(candidate&&scenario==='invalid-candidate')revision='unknown';
  const lower=second&&['stable-spread','changed'].includes(scenario);
  const calls=(lower?226:285)+ +(candidate&&scenario==='draw'),triangles=(lower?2414180:3061335)+ +(candidate&&scenario==='tri');
  const T={mode:'title',world:{terrain:{}},loadingEl:{classList:{contains:()=>true}},hud:{show(){}},player:{setPosition(){}},cam:{},renderer:{info:{render:{calls,triangles}}},perf:{end(){return{calls,triangles};}}};
@@ -28,7 +32,7 @@ export async function openPage(url) {
  eval:async(source)=>new Function('window','document','fetch',source)(window,document,async()=>({json:async()=>({revision})})),
  console:()=>candidate&&scenario==='console'?['[error] test']:[],close(){}};
 }`);
-    for(const scenario of ['stable','stable-spread','changed','missing-both','missing-first','missing-second','invalid','draw','tri','console','head']) {
+    for(const scenario of ['stable','stable-spread','changed','missing-both','missing-first','missing-second','invalid','draw','tri','console','head','empty-candidate','short-candidate','missing-candidate','invalid-candidate']) {
       const pass=['stable','stable-spread'].includes(scenario);
       const run=spawnSync(process.execPath,[join(dir,'play-gate.mjs'),'--url','https://candidate.invalid/','--budget-url','https://live.invalid/','--head','3333333'],
         {encoding:'utf8',timeout:10000,env:{...process.env,BUDGET_BASELINE_TEST:scenario}});
