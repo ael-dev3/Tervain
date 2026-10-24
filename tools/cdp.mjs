@@ -17,13 +17,19 @@ import { fileURLToPath } from 'node:url';
 /** Bounded protocol requests: closing Chrome or timing out must settle every awaiting check. */
 export function cdpRequests(write, timeoutMs = 120000) {
   if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('Invalid CDP request timeout');
-  let id = 0, closed = false;
+  let id = 0, closedError = null;
   const pending = new Map();
   const nextId = () => ++id;
+  const close = (error = new Error('CDP connection closed')) => {
+    if (closedError) return;
+    closedError = error;
+    for (const request of pending.values()) { clearTimeout(request.timer); request.reject(error); }
+    pending.clear();
+  };
   return {
     nextId,
     send(method, params = {}) {
-      if (closed) return Promise.reject(new Error('CDP connection closed'));
+      if (closedError) return Promise.reject(closedError);
       return new Promise((resolve, reject) => {
         const i = nextId();
         const timer = setTimeout(() => { pending.delete(i); reject(new Error(`CDP ${method} timed out`)); }, timeoutMs);
@@ -33,6 +39,12 @@ export function cdpRequests(write, timeoutMs = 120000) {
       });
     },
     reply(message) {
+      // Chromium can retain the DevTools socket after its renderer dies. No reply
+      // will complete these checks; preserve the cause rather than waiting out a capture timeout.
+      if (message.method === 'Inspector.targetCrashed') {
+        close(new Error('CDP renderer target crashed'));
+        return true;
+      }
       const request = pending.get(message.id);
       if (!request) return false;
       pending.delete(message.id); clearTimeout(request.timer);
@@ -40,11 +52,7 @@ export function cdpRequests(write, timeoutMs = 120000) {
       else request.resolve(message);
       return true;
     },
-    close() {
-      closed = true;
-      for (const request of pending.values()) { clearTimeout(request.timer); request.reject(new Error('CDP connection closed')); }
-      pending.clear();
-    },
+    close,
   };
 }
 
@@ -164,6 +172,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   };
   const send = (method, params = {}) => requests.send(method, params);
   try {
+    await send('Inspector.enable');
     await send('Runtime.enable');
     await send('Page.enable');
     await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: dpr, mobile: false });

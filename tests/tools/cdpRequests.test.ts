@@ -43,3 +43,28 @@ it('clears a request when writing to a dead socket throws', async () => {
 it('rejects invalid density before launching a browser',async()=>{
   for(const dpr of [0,-1,NaN,Infinity,5])await expect(openPage('data:text/html,density',{dpr})).rejects.toThrow('Invalid device pixel ratio');
 });
+
+it('rejects every pending check immediately when the renderer crashes with its socket still open', async () => {
+  vi.useFakeTimers();
+  const write = vi.fn(), requests = cdpRequests(write, 600000), errors: string[] = [];
+  const pending = ['Runtime.evaluate', 'Page.captureScreenshot'].map(method =>
+    requests.send(method).catch((error: Error) => { errors.push(error.message); }));
+  expect(requests.reply({ method: 'Inspector.targetCrashed', params: {} })).toBe(true);
+  await Promise.all(pending);
+  expect(errors).toEqual(['CDP renderer target crashed', 'CDP renderer target crashed']);
+  expect(vi.getTimerCount()).toBe(0);
+  await expect(requests.send('Runtime.evaluate')).rejects.toThrow('CDP renderer target crashed');
+  expect(write).toHaveBeenCalledTimes(2);
+  requests.close();
+  expect(requests.reply({ id: 1, result: {} })).toBe(false);
+  await expect(requests.send('Runtime.evaluate')).rejects.toThrow('CDP renderer target crashed');
+});
+
+it('ignores ordinary protocol events while a request is pending', async () => {
+  vi.useFakeTimers();
+  const requests = cdpRequests(() => {}), pending = requests.send('Runtime.evaluate');
+  expect(requests.reply({ method: 'Runtime.executionContextDestroyed', params: {} })).toBe(false);
+  expect(vi.getTimerCount()).toBe(1);
+  requests.reply({ id: 1, result: {} }); await pending;
+  expect(vi.getTimerCount()).toBe(0);
+});
